@@ -1,0 +1,178 @@
+- content_for :tophead do
+  .profilehead
+    %h2.logotext
+      %a{:href => "#"} SoundMelon
+    .mplayerbar
+      .logo
+        %p S
+      .playerbox
+      .headrightbox
+        = link_to "Logout" ,logout_path, :class=>"logout"
+        .icons
+          %span.name
+            = current_user.fname
+            = current_user.lname
+          .numbericon
+            %a{:href => "#"} 3
+          .numbericon
+            %a{:href => "#"} 8
+          .othericon1
+            %a{:href => "#"} 19
+          .othericon1
+            %a{:href => "#"} &euro;
+          .othericon
+            %a{:href => "#"} +
+          .clear
+      .clear
+    .headmenubar
+      .menu
+        %ul
+          %li
+            %a{:href => "#"} Social
+          %li
+            %a{:href => "#"} Store
+          %li
+            %a{:href => "#"} Social
+        .clear
+      .searchbox
+        %input.searchinput{:name => "search", :type => "text", :value => "Search"}/
+        %input.search{:name => "search", :type => "submit", :value => "Go"}/
+      .clear
+.userdashboard
+  .profilepic
+  .rightbox
+  .midbox
+    .box1
+    .box2
+.clear
+.midcontent
+  .left
+    .statusinput
+      %input.inputbox{:type => "text"}/
+      %input.postbtn{:type => "submit", :value => "Post"}/
+    .messageicon Messages
+    .msgbox
+      .msgstremitem
+        .itemcontent
+          new message
+          %br/
+          new message
+          %br/
+          new message
+          %br/
+        .righticons
+          X
+          %br/
+          reply
+          %br/
+          share
+        .clear
+      .msgstremitem
+        .itemcontent
+          new message
+          %br/
+          new message
+          %br/
+          new message
+          %br/
+        .righticons
+          X
+          %br/
+          reply
+          %br/
+          share
+        .clear
+      .msgstremitem
+        .itemcontent
+          new message
+          %br/
+          new message
+          %br/
+          new message
+          %br/
+        .righticons
+          X
+          %br/
+          reply
+          %br/
+          share
+        .clear
+    .clear
+    .dateicon May 11
+    .msgbox
+      .newsitem
+        .itemcontent
+          new message
+          %br/
+          new message
+          %br/
+          new message
+          %br/
+        .righticons
+          X
+          %br/
+          reply
+          %br/
+          share
+        .clear
+      .newsitem
+        .itemcontent
+          new message
+          %br/
+          new message
+          %br/
+          new message
+          %br/
+        .righticons
+          X
+          %br/
+          reply
+          %br/
+          share
+        .clear
+    .dateicon May 09
+    .msgbox
+      .newsitem
+        .itemcontent
+          new message
+          %br/
+        .righticons
+          X
+          %br/
+          < reply  < share
+        .clear
+      .newsitem
+        .itemcontent
+          new message
+          %br/
+          new message
+          %br/
+          new message
+          %br/
+        .righticons
+          X
+          %br/
+          reply
+          %br/
+          share
+        .clear
+      .newsitem
+        .itemcontent
+          new message
+          %br/
+          new message
+          %br/
+          new message
+          %br/
+        .righticons
+          X
+          %br/
+          reply
+          %br/
+          share
+        .clear
+    .clear
+    .readmore
+      %a{:href => "#"} Read More
+  .rightbar
+  .clear

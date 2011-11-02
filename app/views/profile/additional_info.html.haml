@@ -1,0 +1,17 @@
+- content_for :tophead do
+  #homehead
+    %h2
+      %a{:href => "#"} SoundMelon
+    = @page_type
+    Registration
+- if @confirmation_thanks
+  %p.center
+    Thanks for confirming!
+.blankbox
+  - if @user.account_type
+    = link_to "Skip", invite_band_member_path,:class=>"button right"
+  - else
+    = link_to "Skip", user_home_path,:class=>"button right"
+= render 'profile/additional_info_form'
+= render 'profile/find_friends_form'
+= render 'profile/payment_info_form'

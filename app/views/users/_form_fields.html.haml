@@ -1,0 +1,29 @@
+- if @user.errors.any?
+  .error_messages
+    %h2 Invalid user information
+    %ul
+      - for message in @user.errors.full_messages
+        %li= message
+.fields
+  %label{:for => "name"} First Name
+  = text_field :user, :fname, :class => 'textfield'
+.fields
+  %label{:for => "email"} Last Name
+  = text_field :user, :lname, :class => 'textfield'
+.fields
+  %label{:for => "website"} Email
+  = text_field :user, :email, :class => 'textfield'
+.fields
+  %label{:for => "website"} Retype Email
+  = text_field :user, :email_confirmation, :class => 'textfield'
+%br/
+.fields
+  %label{:for => "website"} Password
+  = password_field :user, :password, :class => 'textfield'
+.fields
+  %label{:for => "website"} Retype Password
+  = password_field :user, :password_confirmation, :class => 'textfield'
+.fileds
+  %label{:for => "submit"} &nbsp;
+  = submit_tag 'Join', :class => 'join'
+.clear

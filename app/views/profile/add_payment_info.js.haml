@@ -1,0 +1,8 @@
+- if @payment_info.errors.any?
+  - er_msg = "<div class='error_messages'><ul>"
+  - for message in @payment_info.errors.full_messages
+    - er_msg += "<li>" + message + "</li>"
+  - er_msg += "</ul></div>"
+  $("#payment_info").prepend("#{raw er_msg}");
+- else
+  $("#payment_info").html("Payment Info Successfully Added");

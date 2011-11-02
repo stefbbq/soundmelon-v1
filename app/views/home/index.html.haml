@@ -1,0 +1,45 @@
+- content_for :tophead do
+  #homehead
+    %h2
+      %a{:href => "#"} SoundMelon
+    Registering makes life better.
+    %a{:href => "#"} Learn Why
+.homecontent
+  .user_nav
+    - if current_user
+      Logged in as #{"#{current_user.fname} #{current_user.lname}"}
+      | #{link_to "Log out", logout_path}
+  .musicianinfo
+    %h3= link_to 'Register', musician_registration_path
+    %h2 MUSICIAN
+    blurb on why being a musician
+    %br/
+    and using this site as your
+    platform
+    %br/
+    is like eating cheesecake day in and day out
+    %br/
+    without
+    getting fat
+  .faninfo
+    %h3= link_to 'Register', fan_registration_path
+    %h2 FAN
+    blurb on why being a fan
+    %br/
+    is so very awesome
+  .clear
+  .loginbox
+    already registered? SIGN IN
+    = form_tag login_path do
+      = text_field_tag :email, params[:email], :class => 'loginfields'
+      = password_field_tag :password,nil, :class => 'loginfields'
+      = submit_tag "GO", :class => 'login'
+.homefeed
+  %h3 What's happening around you
+  .feedbox
+    Local venue show
+  .feedbox
+    Local brand
+  .feedbox
+    Popular update from local
+  .clear

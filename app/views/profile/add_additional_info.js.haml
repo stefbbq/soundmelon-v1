@@ -1,0 +1,8 @@
+- if @additional_info.errors.any?
+  - er_msg = "<div class='error_messages'><ul>"
+  - for message in @additional_info.errors.full_messages
+    - er_msg += "<li>" + message + "</li>"
+  - er_msg += "</ul></div>"
+  $("#additional_info").prepend("#{raw er_msg}");
+- else
+  $("#additional_info").html("Additional Info Successfully Added");

@@ -1,0 +1,18 @@
+.blankbox
+  %h3 additional Info
+  here you can define some extra information about your location and music tates
+#additional_info.content-box
+  = form_for(:additional_info, {:url => create_additional_info_path, :remote => true}) do |f|
+    .fields
+      %label{:for => "name"} Gender
+      = f.select :gender, [['Male',1],['female', '0']], :class => 'textfield1'
+      %span.age Age
+      = f.text_field :age, {:size => 5, :class => 'textfield'}
+    .fields
+      %label{:for => "name"} Location
+      = f.text_field :location, {:size => 40, :class => 'textfield'}
+    .fields
+      %label{:for => "name"} Favourite genere(s)
+      = f.text_field :favourite_genre, {:size => 40, :class => 'textfield'}
+      = f.submit 'Add', :class => 'button'
+    .clear

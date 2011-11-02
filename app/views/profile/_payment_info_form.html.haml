@@ -1,0 +1,23 @@
+.blankbox
+  %h3 payment information
+  if you'd like to expedite your music purchasing process, do it here!
+#payment_info.content-box
+  = form_for(:payment_info, {:url => create_payment_info_path, :remote => true}) do |f|
+    .fields
+      %label{:for => "name"} Type
+      = f.select  :card_type, [['Visa','Visa'],['Master', 'Master'],['Amex','Amex']], :class => 'textfield1'
+    .fields
+      %label{:for => "name"} Name
+      = f.text_field :name_on_card, {:size => 40, :class => 'textfield'}
+    .fields
+      %label{:for => "name"} Expiry
+      = select_month nil, {add_month_numbers: false}, {name: "payment_info[expire_month]", id: "card_month"}
+      = select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: "payment_info[expire_year]", id: "card_year"}
+    .fields
+      %label{:for => "name"} Number
+      = f.text_field :card_number, {:size => 40, :maxlength => 16, :class => 'textfield'}
+    .fields
+      %label{:for => "name"} Code
+      = f.text_field :security_code, {:size => 4,:maxlength => 4, :class => 'textfield'}
+      = f.submit 'Add', :class => 'button'
+    .clear
