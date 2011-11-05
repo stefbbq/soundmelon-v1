@@ -8,6 +8,49 @@
 //= require jquery_ujs
 //= require_tree .
 
+                $(document).ready( function(){
+   
+                  $('.delete_post').bind('ajax:before', function() {  
+                     $(this).closest("div").addClass("ajaxloadsmall");
+                     
+                  }); 
+                 
+                   $(".postsubmit").attr('disabled','disabled');
+                   $('.inputbox').keyup(function()
+                    {
+                        if($(this).val() == ''){
+                         $(".postsubmit").attr('disabled','disabled');
+                        }
+                        else
+                        {
+                          if(parseInt($(this).val().length) > 200)
+                          {
+                            $(".postsubmit").attr('disabled','disabled');
+                            $(".inputerror").html('No more than 100 charactres');
+                           }
+                           else
+                           {
+                            $(".postsubmit").removeAttr('disabled');
+                            $(".inputerror").html('');
+                           }
+                        }
+                 });
+
+
+                  
+                  $('#user_post_form').bind('ajax:before', function() {
+                    $(".postbtn").addClass("ajaxloadsmall");
+                    $(".postsubmit").hide();
+                  }); 
+                  $('#user_post_form').bind('ajax:success', function() {
+                        $(".postbtn").removeClass("ajaxloadsmall");
+                        $(".postsubmit").show();
+                  }); 
+                  
+                  
+         
+  
+})
 
 function remove_fields (link) {
   $(link).siblings("input[type=hidden]:first").attr('value', '1');

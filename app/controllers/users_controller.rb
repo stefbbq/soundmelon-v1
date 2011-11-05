@@ -2,6 +2,15 @@ class UsersController < ApplicationController
   before_filter :require_login, :except => [:fan_new, :musician_new, :activate]
   before_filter :logged_in_user, :only => ['fan_new', 'musician_new', :activate]  
   def index
+    #@user_posts = UserPost
+    #@user_post_dates = UserPost.where("user_id = (?) or  post like (?)",current_user.id,"%@"+current_user.fname+" %").order("created_at desc").group("date(created_at)")
+    @user_posts    = UserPost.listing current_user, params[:page]
+    @user_post_dates = @user_posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+     
+      next_page           = @user_posts.next_page
+      @load_more_path =  next_page ?  more_post_path(next_page) : nil
+      #render @next_user_posts
+    #raise @user_post_dates.inspect
     
   end
   

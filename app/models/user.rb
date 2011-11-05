@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :user_posts
+  has_many :user_posts, :order => "created_at desc"
   has_one :band_user
   has_one :additional_info
   has_one :payment_info

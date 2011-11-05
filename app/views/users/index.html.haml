@@ -47,132 +47,16 @@
 .clear
 .midcontent
   .left
-    .statusinput
-      %input.inputbox{:type => "text"}/
-      %input.postbtn{:type => "submit", :value => "Post"}/
-    .messageicon Messages
-    .msgbox
-      .msgstremitem
-        .itemcontent
-          new message
-          %br/
-          new message
-          %br/
-          new message
-          %br/
-        .righticons
-          X
-          %br/
-          reply
-          %br/
-          share
-        .clear
-      .msgstremitem
-        .itemcontent
-          new message
-          %br/
-          new message
-          %br/
-          new message
-          %br/
-        .righticons
-          X
-          %br/
-          reply
-          %br/
-          share
-        .clear
-      .msgstremitem
-        .itemcontent
-          new message
-          %br/
-          new message
-          %br/
-          new message
-          %br/
-        .righticons
-          X
-          %br/
-          reply
-          %br/
-          share
-        .clear
-    .clear
-    .dateicon May 11
-    .msgbox
-      .newsitem
-        .itemcontent
-          new message
-          %br/
-          new message
-          %br/
-          new message
-          %br/
-        .righticons
-          X
-          %br/
-          reply
-          %br/
-          share
-        .clear
-      .newsitem
-        .itemcontent
-          new message
-          %br/
-          new message
-          %br/
-          new message
-          %br/
-        .righticons
-          X
-          %br/
-          reply
-          %br/
-          share
-        .clear
-    .dateicon May 09
-    .msgbox
-      .newsitem
-        .itemcontent
-          new message
-          %br/
-        .righticons
-          X
-          %br/
-          < reply  < share
-        .clear
-      .newsitem
-        .itemcontent
-          new message
-          %br/
-          new message
-          %br/
-          new message
-          %br/
-        .righticons
-          X
-          %br/
-          reply
-          %br/
-          share
-        .clear
-      .newsitem
-        .itemcontent
-          new message
-          %br/
-          new message
-          %br/
-          new message
-          %br/
-        .righticons
-          X
-          %br/
-          reply
-          %br/
-          share
-        .clear
-    .clear
-    .readmore
-      %a{:href => "#"} Read More
+    = render "user_posts/form"
+    .user_posts
+      -@user_post_dates.each do |date,user_post|
+        .dateicon 
+          = date.to_date.strftime("%b %d")
+        = render user_post      
+    .clear 
+    -if @load_more_path
+      .readmore
+        =link_to("Read more", @load_more_path ,:remote => true)
+         
   .rightbar
   .clear

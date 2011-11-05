@@ -40,8 +40,9 @@ class ProfileController < ApplicationController
     if request.post?
       
       @band=Band.find(current_user.band_user.band_id)
-      raise params.inspect
+      #raise params.inspect
       @band.update_attributes(params[:band])
+      redirect_to user_home_url
     else
      @band = Band.new
      @band_invitations = @band.band_invitations.build

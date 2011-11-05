@@ -46,6 +46,13 @@ $input-bg-color:#666;
 .green{ font-size:2*$size; color:#1AD327;
         a{ color:#1AD327;}
       }
+.ajaxloadsmall{
+float:right;
+background:url("ajax-loader.gif")  no-repeat;
+height:10px;
+width:20px;
+;
+}
 .fields
     {   label {padding-top:4px; float:left; width:200px; color:#fff; text-align:right; font-size:2*$size;}
       .textfield{ @include rounded-corner; border:solid #4D4D4D 2px; padding:2px; background:#323232; color:#fff;  margin:3px 0 0 20px;  height:20px;}
@@ -133,10 +140,18 @@ margin:0 auto;
                     margin:0 auto;
                     width:95%;
                     background:#4D4D4D;
-                                  .inputbox{ background:#202020;height:40px;width:90%; border:solid #4D4D4D 2px;}
-                                  .postbtn{background:#4D4D4D;height:44px; border:none;font-weight:bold;}
+                                  .inputbox{ color:#fff; float:left;background:#202020; height:40px;width:90%; border:solid #4D4D4D 2px;}
+                                  .postbtn{
+                                  height:40px;
+                                  width:8%;
+                                  float:left;
+                                  input{
+                                  margin-top:10px;
+                                  background:#4D4D4D;font-size:17px; border:none;font-weight:bold;}}
+                                
+                                 .inputerror{color:#2A0D17;  font-size:11px;}
                                 }
-                    .messageicon{margin:50px 0 0 -60px; background:#48260E; width:80px; float:left;
+                    .messageicon{margin:30px 0 0 -60px; background:#48260E; width:80px; float:left;
                        text-align:center;
                        font-weight:bold;
   -webkit-transform:rotate(270deg);
@@ -147,7 +162,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
   
                         }
                         .dateicon{
-                        margin:50px 0 0 -60px; background:#4D4D4D; width:80px; float:left;
+                        margin:30px 0 20px -60px; background:#4D4D4D; width:80px; float:left;
                        text-align:center;
                        font-weight:bold;
                   -webkit-transform:rotate(270deg);
@@ -179,9 +194,11 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
                     }
                     .readmore{
                     width:95%;
-                    margin:0 auto;
+                    margin:20px auto;
                     text-align:right;
-                    a{padding:5px; background:#4D4D4D; font-weignt:bold; text-decoration:none;}
+                    a{
+                    
+                    padding:5px; background:#4D4D4D; font-weignt:bold; text-decoration:none;}
                     }
                     
                     }

@@ -1,4 +1,5 @@
 Soundmelon::Application.routes.draw do
+  
   get "profile/additional_info"
 
   get 'logout' => 'sessions#destroy', :as => 'logout'
@@ -11,6 +12,9 @@ Soundmelon::Application.routes.draw do
   post 'add/payment_info' => 'profile#add_payment_info', :as => 'create_payment_info'
   match "invite/bandmates" => "profile#invite_bandmates" ,:as => "invite_band_member"
   
+  resources :user_posts
+  match 'user_posts/more(/:page)'   =>'user_posts#index', :as =>:more_post
+
   #get 'fan/sign_up/message' => 'users#fan_signup_sucessful_info', :as => successful_fan_signup
   #get 'musician/sign_up/message' => 'users#musician_signup_sucessful_info', :as => successful_musician_signup
   
