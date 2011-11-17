@@ -1,0 +1,5 @@
+$('#msg_item_<%= @message.id %>').html('');
+<% @messages.each do |message| %> 
+  $('#msg_item_<%= @message.id %>').append('<%= message.body %><br />  by <strong><%= message.sent_messageable.fname %></strong> <small>about an <%= time_ago_in_words(message.created_at) %> ago</small><br/> <hr />');
+<%end%>
+setTimeout('$(document).trigger(\"close.facebox\")',1000);

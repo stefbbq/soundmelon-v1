@@ -1,0 +1,40 @@
+.msgbox{:id=>"message_box_#{message.id}"}
+  .avatar
+  -if message.opened
+    .msgstremitem
+      .itemcontent{:id=>"msg_item_#{message.id}"}
+        = message.body
+        %br
+        by
+        %strong
+        =  message.sent_messageable.fname 
+        about an #{time_ago_in_words(message.created_at)} ago
+      .righticons
+        
+        = link_to "Destroy(X)" ,message_path(message),:remote=>:true,:method=>:delete, :class =>"ajaxload"
+        %br
+        = link_to "Reply" ,message_path(message),:remote=>:true ,:class=>"ajaxload"
+        %br
+        = link_to "View" ,message_path(message),:remote=>:true, :class=>"ajaxload" 
+        
+      .clear
+  -else
+    .msgstremitem-unread
+      .itemcontent{:id=>"msg_item_#{message.id}"}
+        = message.body
+        %br
+        by
+        %strong
+        =  message.sent_messageable.fname 
+        about an #{time_ago_in_words(message.created_at)} ago
+      .righticons
+        = link_to "Destroy(X)" ,message_path(message),:remote=>:true,:method=>:delete, :class =>"ajaxload"
+        
+        
+        %br
+        = link_to "View" ,message_path(message),:remote=>:true, :class=>"ajaxload" 
+        %br
+        reply
+      .clear
+  .clear
+

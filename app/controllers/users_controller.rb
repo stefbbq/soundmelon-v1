@@ -6,11 +6,14 @@ class UsersController < ApplicationController
     #@user_post_dates = UserPost.where("user_id = (?) or  post like (?)",current_user.id,"%@"+current_user.fname+" %").order("created_at desc").group("date(created_at)")
     @user_posts    = UserPost.listing current_user, params[:page]
     @user_post_dates = @user_posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+    
      
       next_page           = @user_posts.next_page
       @load_more_path =  next_page ?  more_post_path(next_page) : nil
       #render @next_user_posts
     #raise @user_post_dates.inspect
+    
+    @messages = current_user.received_messages.limit(3)
     
   end
   

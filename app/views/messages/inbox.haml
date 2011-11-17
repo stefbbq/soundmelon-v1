@@ -54,7 +54,7 @@
       .right
         .inbox#inbox
           -#foractive use inputactive
-          =link_to("Inbox", user_inbox_path, :class=>"inbox")
+          =link_to("Inbox", {} ,:remote => true,:class=>"inbox")
           .inboxnum
             = current_user.received_messages.unread.count
           .clear 
@@ -66,17 +66,6 @@
       Messages
     -@messages.each do |message|
       = render :partial => "messages/message",:locals => {:message => message}
-    .user_posts
-      -@user_post_dates.each do |date,user_post|
-        .dateicon 
-          = date.to_date.strftime("%b %d")
-        = render user_post      
-    .clear
-    -if !@load_more_path.nil?
-      
-      .readmore
-      
-        =link_to("Read more", @load_more_path ,:remote => true)
          
   .rightbar
   .clear

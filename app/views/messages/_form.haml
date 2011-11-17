@@ -1,0 +1,7 @@
+=form_tag  messages_path,:id => 'send_msg_form',:class=>"ajaxopen", :method=>:post,  :remote => :true do |f|
+  %h2
+    Type your message here to send message
+    = hidden_field_tag :to,@to
+    = text_area_tag :body,'',{:class=>'inputbox',:rows=>5,:cols=>50 ,:maxlength => 200}
+    %br 
+    %input{:name => 'send', :id=>'send_message_btn', :type => 'submit', :value => 'Send' ,:class=>'right button clear'}

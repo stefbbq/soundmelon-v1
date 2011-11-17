@@ -7,19 +7,19 @@ $columns: 14;
 $container-size: 950px;
 $margin: 2px;
 $padding:2px;
-$border-radius:0px;
+$border-radius:5px;
 $page-width:70%;
 $box-color: #1A1A1A;
 $size: .64em;
 $input-bg-color:#666;
 @mixin rounded($radius){  
-                          -moz-border-radius: 0;
+                          -moz-border-radius: $border-radius;
                           -webkit-border-radius: $radius;
                            border-radius: $radius;;
                         }
 
 @mixin rounded-corner{ @include rounded($border-radius); }
-@mixin roundedbox($w,$h,$c){   width:$w;  height:$h;  background-color:$c;}
+@mixin roundedbox($w,$h,$c){@include rounded-corner;   width:$w;  height:$h;  background-color:$c;}
 
 
 @mixin box($w,$h,$c){ width:$w; height:$h;  background-color:$c;}
@@ -29,7 +29,7 @@ $input-bg-color:#666;
       }
  h1{font-size: 28px;  color: #000; }
  h3,h2{color:#CCCCCC; font-size:20px; margin:0;}
- a{color: #fff}
+ a{color: #fff;text-decoration:none;}
  a:hover {color: #fff;  text-decoration: none;}
 .clear{clear:both;}
 .center{ text-align:center;}
@@ -41,7 +41,33 @@ $input-bg-color:#666;
     }
 .right{float:right;}
 .left{float:left;}
+.hide{display:none;}
+.show{display:block;}
+strong{color:#F8F9F7;}
+#facebox{
 
+color:#000;
+.shaded{color:#776B6B;}
+h2{font-size:13px;color:#000;}
+h1{font-size:2*$size;color:#000;}
+        .button{@include rounded-corner;  margin:3px 10px;   padding:5px 20px;     background:#004E97;
+            color:#fff;  border:none;  font-weight:bold;
+            text-decoration:none;}
+.fields
+    {   
+       label {
+    
+       width:35%;
+       padding-top:4px; float:left;  color:#000; text-align:right; font-size:1.8*$size;}
+      .textfield{
+    
+       width:200px; float:left;  @include rounded-corner; border:solid #4D4D4D 2px; padding:2px; background:#323232; color:#fff;  height:20px;}
+      select{   width:200px; float:left;  @include rounded-corner; border:solid #4D4D4D 2px; padding:2px; background:#323232; color:#fff;  height:20px;
+              option{ padding:2px;}
+            }
+    }
+
+}
 .age{font-size:2*$size;color:#fff;}
 .green{ font-size:2*$size; color:#1AD327;
         a{ color:#1AD327;}
@@ -113,10 +139,13 @@ margin:0 auto;
             } //homecontent end
           
          .homefeed
-               {  color:#FFF;  padding:4*$padding 5*$padding;  background: #262626; text-align:center;
+               {  
+               margin:0 auto;
+               color:#FFF;  padding:4*$padding 5*$padding;  background: #262626; text-align:center;
                   .feedbox
-                    { text-align:center;  @include roundedbox(30%,150px,#3C3C3C);
-                      margin:4*$margin; padding:2*$padding; float:left;
+                    { text-align:center;  @include roundedbox(100px,40px,#3C3C3C);
+                      margin:4*$margin auto; padding:2*$padding;display: inline-block;
+
                     }
                 }// homefeed end
               
@@ -136,6 +165,38 @@ margin:0 auto;
             .midcontent
                 {  margin-top:10px;
                   .left{ margin: 0 1%; float:left; width:68%;
+                  
+                    .usercontrols{
+                    margin: 0 auto;
+                    padding:10px 0;
+                    width:95%;
+                    .left{float:left;width:50%;
+                    font-size:$size*2;
+                    .icon{padding:5px; background:#204112; color:#718668;}
+                    .iconactive{padding:5px; background:#408223;}
+                    }
+                    .right{float:right;
+                     .inbox{
+                     margin:-5px 0;
+                     font-size:$size*2;background:#332909;a{color:#686149}
+                     .inboxnum{float:right; margin-left:10px;  text-align:center;padding-top:5px;  font-size:14px;  @include box(25px,20px,#665111); @include rounded(12px);   
+                                         a{ color:#fff; text-decoration:none;}
+                     
+                    }
+                    
+                    }
+                     .inboxactive{ margin:-5px 0;font-size:$size*2;background:#665111;a{color:#fff}
+                     .inboxnum{float:right; margin-left:10px;  text-align:center;padding-top:5px;  font-size:14px;  @include box(25px,20px,#332909); @include rounded(12px);   
+                                         a{ color:#fff; text-decoration:none;}
+                     
+                    }
+                     
+                     
+                    
+                    }
+                    }
+                    }
+                  
                     .statusinput{  
                     margin:0 auto;
                     width:95%;
@@ -151,7 +212,7 @@ margin:0 auto;
                                 
                                  .inputerror{color:#2A0D17;  font-size:11px;}
                                 }
-                    .messageicon{margin:30px 0 0 -60px; background:#48260E; width:80px; float:left;
+                    .messageicon{margin:40px 0 0 -64px; background:#48260E; width:80px; float:left;
                        text-align:center;
                        font-weight:bold;
   -webkit-transform:rotate(270deg);
@@ -162,7 +223,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
   
                         }
                         .dateicon{
-                        margin:30px 0 20px -60px; background:#4D4D4D; width:80px; float:left;
+                        margin:30px 0 20px -64px; background:#4D4D4D; width:80px; float:left;
                        text-align:center;
                        font-weight:bold;
                   -webkit-transform:rotate(270deg);
@@ -174,11 +235,16 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
                         }
    
                     .msgbox{  
+                    
                     width:95%;
-                    margin:0 auto;
+                    margin:10px auto;
+                  
+                  .avatar{float:left; @include roundedbox(60px,50px,#808080);}
+                  
                   
                         .msgstremitem{
-                        margin:15px 0;
+                        
+                        margin-left:70px;
                         padding:5px;
                         background:#48260E;
                         .itemcontent{width:80%; float:left}
@@ -186,11 +252,12 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
                         }
                                          }
                     .newsitem{
-                    margin:15px 0;
-                    padding:5px;
-                    background:#4D4D4D;
-                    .itemcontent{width:80%; float:left}
-                    .righticons{float:right;width:20%; text-align:right;}
+                        
+                        margin-left:70px;
+                        padding:5px;
+                        background:#4d4d4d;
+                        .itemcontent{width:80%; float:left}
+                        .righticons{float:right;width:20%;text-align:right;}
                     }
                     .readmore{
                     width:95%;
@@ -202,7 +269,15 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
                     }
                     
                     }
-                  .rightbar{margin:0 1%; float:right; @include box(28%,300px,#4d4d4d);}
+                  .rightbar{margin:0 1%; float:right; 
+                  width:28%;
+                  .righttopbox{@include box(100%,200px,#4d4d4d); margin:15px 0;}
+                  .sendmsg{
+                  @include box(90%,"",#37120B);
+                 padding:5%;
+                 font-size:$size*2;
+                 }
+                  }
                 } // mid content end
 
        

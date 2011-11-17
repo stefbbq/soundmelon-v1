@@ -1,0 +1,14 @@
+$('#msg_item_<%= @message.id %>').html('');
+<% @messages.each do |message| %> 
+  $('#msg_item_<%= @message.id %>').append('<%= message.body %><br />  by <strong><%= message.sent_messageable.fname %></strong> <small>about an <%= time_ago_in_words(message.created_at) %> ago</small><br /><hr />');
+<%end%>
+
+var replyform  = '<%= form_tag  reply_to_message_path,:class=>"ajaxload", :method=>:post,  :remote => :true do |f| %>';
+    replyform += '<h4>Reply </h4>';
+    replyform += '<%= hidden_field_tag :id,@message.id %>';
+    replyform += '<%= text_area_tag :body,'',{:class=>"inputbox",:rows=>3,:style=>"width:100%"} %>';
+    replyform += '<%= submit_tag("Reply" ,:class=>"button right")%>'
+    replyform += '<% end %>';
+$('#msg_item_<%= @message.id %>').append(replyform);
+$('.ajaxload').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');}); 
+

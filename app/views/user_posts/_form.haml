@@ -1,5 +1,5 @@
 .statusinput
- = form_tag(user_posts_path, :remote => true, :id => 'user_post_form') do
+ = form_tag(user_posts_path, :class=>"ajaxload",:remote => true, :id => 'user_post_form') do
   = hidden_field_tag :user_id, current_user.id
   = text_area :user_post, :post,:class=>"inputbox" ,:maxlength => 200
   .postbtn

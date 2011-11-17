@@ -9,12 +9,6 @@
 //= require_tree .
 
                 $(document).ready( function(){
-   
-                  $('.delete_post').bind('ajax:before', function() {  
-                     $(this).closest("div").addClass("ajaxloadsmall");
-                     
-                  }); 
-                 
                    $(".postsubmit").attr('disabled','disabled');
                    $('.inputbox').keyup(function()
                     {
@@ -35,21 +29,67 @@
                            }
                         }
                  });
+$('.msgbox#message_text').keyup(function()
+                    {
+                        if($(this).val() == ''){
+                         $("#send_message_btn").attr('disabled','disabled');
+                        }
+                        else
+                        {
+                          if(parseInt($(this).val().length) > 200)
+                          {
+                            $("#send_message_btn").attr('disabled','disabled');
+                            //$(".inputerror").html('No more than 100 charactres');
+                           }
+                           else
+                           {
+                            $("#send_message_btn").removeAttr('disabled');
+                            //$(".inputerror").html('');
+                           }
+                        }
+                 });
+                 
 
 
-                  
-                  $('#user_post_form').bind('ajax:before', function() {
-                    $(".postbtn").addClass("ajaxloadsmall");
-                    $(".postsubmit").hide();
-                  }); 
-                  $('#user_post_form').bind('ajax:success', function() {
-                        $(".postbtn").removeClass("ajaxloadsmall");
-                        $(".postsubmit").show();
-                  }); 
-                  
-                  
-         
-  
+		  $(".ajaxload").bind('ajax:before', function() {
+		  	
+		                 jQuery.facebox($('#globalloading').html());
+		                 $(':submit').attr('disabled','disabled');
+		                  }); 
+		
+		  $(".ajaxload").bind('ajax:success', function() {
+		                 //
+		                 $(document).trigger("close.facebox");
+		                 $(':submit').removeAttr('disabled');
+		                  }); 
+		                
+          $(".ajaxopen").bind('ajax:before', function() {
+          	
+		                 jQuery.facebox($('#globalloading').html());
+		                 $(':submit').attr('disabled','disabled');
+		                  }); 
+		                  
+		       $(document).delegate('a[rel*=topup]', 'click', function(e) {
+   				$.facebox({ div: this.hash });
+   				
+
+   				
+   				
+  				$(".ajaxopen").bind({
+  					'ajax:before': function() {
+          	             			jQuery.facebox($('#globalloading').html());
+		                 			
+		                 			},
+		            'ajax:success': function() {
+          	             	//$(':submit').removeAttr('disabled');
+          	             }
+		              }); 
+	
+  e.preventDefault();
+       
+});
+           
+   
 })
 
 function remove_fields (link) {

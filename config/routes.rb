@@ -11,9 +11,22 @@ Soundmelon::Application.routes.draw do
   post 'add/additional_info' => 'profile#add_additional_info', :as => 'create_additional_info'
   post 'add/payment_info' => 'profile#add_payment_info', :as => 'create_payment_info'
   match "invite/bandmates" => "profile#invite_bandmates" ,:as => "invite_band_member"
-  
+  #get "invite/accept/:id/join" => "profile#activate_invitation" ,:as => "join_band_invitation"
+  match 'invitation/accept/:old_user/:id/join' => 'profile#activate_invitation' ,:as => 'join_band_invitation'
+  match "messages/sendmessage" => 'messages#send_message',:as=>"send_message" 
+  match 'user/profile/:id' => 'profile#user_profile',:as => 'user_profile'
+  match 'messages/inbox' => 'messages#inbox' ,:as => 'user_inbox' 
   resources :user_posts
+  resources :messages
+  match 'message/reply' => 'messages#reply' ,:as => 'reply_to_message'
   match 'user_posts/more(/:page)'   =>'user_posts#index', :as =>:more_post
+
+
+  #invitation 
+  match 'contacs/fetch' => "invite#fetch_contacts", :as => 'fetch_contacts'
+  post 'send/invitation' => "invite#send_invitation", :as => 'send_invitation'
+ 
+
 
   #get 'fan/sign_up/message' => 'users#fan_signup_sucessful_info', :as => successful_fan_signup
   #get 'musician/sign_up/message' => 'users#musician_signup_sucessful_info', :as => successful_musician_signup

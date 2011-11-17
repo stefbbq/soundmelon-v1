@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     if user
       redirect_back_or_to user_home_url, :notice => 'Logged in'
     else
-      redirect_to root_url, :alert => 'Email or password is invalid'
+      redirect_back_or_to root_url, :alert => 'Email or password is invalid'
     end
   end
   

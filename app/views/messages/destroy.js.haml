@@ -1,0 +1,4 @@
+!= if @deleted
+  != "$('#message_box_#{@message.id}').fadeOut(1000);"
+!= if !@deleted
+  != "jQuery.facebox('Hey! somthing went wrong. We will fix this problem as soon as possible');"

@@ -27,6 +27,10 @@
           = content_tag :div, msg, {:id => "flash_#{name}",:class=>"center"}
         #content
           = yield
+          .globalloading.hide{:id=>"globalloading" }
+            .center
+              =image_tag("loading.gif")
+            
         #footer
           .socialicons
             .sitem

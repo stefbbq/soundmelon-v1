@@ -47,36 +47,15 @@
 .clear
 .midcontent
   .left
-    .usercontrols
-      .left
-        =link_to("Updates", {} ,:remote => true,:class=>"icon")
-        =link_to("Updates", {} ,:remote => true,:class=>"iconactive")
-      .right
-        .inbox#inbox
-          -#foractive use inputactive
-          =link_to("Inbox", user_inbox_path, :class=>"inbox")
-          .inboxnum
-            = current_user.received_messages.unread.count
-          .clear 
-      .clear
-      %br
-    = render "user_posts/form"
-    .clear
-    .messageicon
-      Messages
-    -@messages.each do |message|
-      = render :partial => "messages/message",:locals => {:message => message}
     .user_posts
       -@user_post_dates.each do |date,user_post|
         .dateicon 
           = date.to_date.strftime("%b %d")
-        = render user_post      
-    .clear
-    -if !@load_more_path.nil?
-      
-      .readmore
-      
-        =link_to("Read more", @load_more_path ,:remote => true)
+        = render user_post
          
   .rightbar
+    .righttopbox
+    .sendmsg
+      =link_to "> Message this user",new_message_path(:id =>@user.id),:remote=>:true,:class=>"ajaxopen" 
+    
   .clear

@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  acts_as_messageable :required => :body ,:order => "created_at desc" 
   has_many :user_posts, :order => "created_at desc"
   has_one :band_user
   has_one :additional_info
