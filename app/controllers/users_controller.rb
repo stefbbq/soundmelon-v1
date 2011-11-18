@@ -18,16 +18,16 @@ class UsersController < ApplicationController
   end
   
   def fan_new
-    if request.post?
-      @user = User.new(params[:user])
-      @user.account_type = 0
-      if @user.save
-        @page_type = 'Fan'
-        render 'successful_signup_info' and return
+    if request.post?  
+        @user = User.new(params[:user])
+        @user.account_type = 0
+        if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.save
+          @page_type = 'Fan'
+          render 'successful_signup_info' and return
         #redirect_to successful_fan_signup_url, :notice => "Signed up successfully! "
-	    else
-	       render :fan_new
-      end    
+	      else
+	         render :fan_new
+        end    
     else
       @user = User.new
     end
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
         end
       end
       
-      if @user.valid? && !@errors
+      if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.valid? && !@errors
          begin
           band = Band.new  
           band_user = BandUser.new

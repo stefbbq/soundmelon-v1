@@ -23,6 +23,9 @@
 .fields
   %label{:for => "website"} Retype Password
   = password_field :user, :password_confirmation, :class => 'textfield'
+.fields
+  %label
+  = recaptcha_tags
 .fileds
   %label{:for => "submit"} &nbsp;
   = submit_tag 'Join', :class => 'join'
