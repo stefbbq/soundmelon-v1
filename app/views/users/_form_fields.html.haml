@@ -1,3 +1,9 @@
+- if params[:email]
+  - @user.email ||= params[:email]
+- if params[:fname]
+  - @user.fname ||= params[:fname]
+- if params[:lname]
+  - @user.lname ||= params[:lname]
 - if @user.errors.any?
   .error_messages
     %h2 Invalid user information

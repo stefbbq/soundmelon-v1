@@ -29,8 +29,16 @@ class InviteController < ApplicationController
   end
   
   def send_invitation
-    params[:invite_list].each do |toemail|
-      UserMailer.friend_invitation_email(toemail,current_user).deliver
+    params[:invite_list].each do |invitee_info|
+      invitee_info_arr = invitee_info.split(':$')
+      if(invitee_info_arr.size >1)
+        toemail = invitee_info_arr.first.to_s
+        invitee_full_name = invitee_info_arr.last.to_s
+      else
+        toemail = invitee_info_arr.first.to_s
+        invitee_full_name = ' '
+      end
+      UserMailer.friend_invitation_email(toemail, invitee_full_name ,current_user).deliver
     end
   end
      

@@ -33,9 +33,17 @@ class UserMailer < ActionMailer::Base
           
   end
   
-  def friend_invitation_email(toemail,user)
+  def friend_invitation_email(toemail, invitee_full_name=' ', user)
       @user = user
-      @url  = root_url
+      invitee_full_name_arr = invitee_full_name.split(' ')
+      if(invitee_full_name_arr.size >1)
+        fname = invitee_full_name_arr.first.to_s
+        lname = invitee_full_name_arr.last.to_s
+      else
+        fname = invitee_full_name_arr.first.to_s
+        lname = ''
+      end
+      @url  = fan_registration_url + "?email=#{toemail}&fname=#{fname}&lname=#{lname}"
       @toemail = toemail
       mail(
         :to => toemail,

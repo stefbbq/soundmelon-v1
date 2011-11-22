@@ -44,6 +44,8 @@ $input-bg-color:#666;
 .hide{display:none;}
 .show{display:block;}
 strong{color:#F8F9F7;}
+#contact_list{height:220px;overflow:auto;}
+.recaptcha_theme_red #recaptcha_response_field {left:-4px;}
 #facebox{
 
 color:#000;

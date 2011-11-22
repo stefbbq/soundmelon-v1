@@ -10,7 +10,7 @@ setTimeout('$(document).trigger(\"close.facebox\")',1000);
     var content = '<div id="contact_list">';
     <% @contacts.each do |name, email| %>
      
-     content += '<%=check_box_tag "invite_list[]", email %><%= email %><br />';
+     content += '<%=check_box_tag "invite_list[]", "#{email}:$#{name}"  %><%= name.blank? ? email : name %><br />';
     <% end %>
     content += '</div>Select All<input type="checkbox" name="checkall" id="checkAll" />'
      content += '<%= submit_tag "send invitation", :class => "send_invitation button right" %>'
