@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
   has_one :additional_info
   has_one :payment_info
   has_many :band_invitations
+  has_many :albums
+  has_one :profile_pic
+  
   attr_accessor :email_confirmation, :password_confirmation
   attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation
   validates :email, :presence => true
@@ -14,7 +17,7 @@ class User < ActiveRecord::Base
   validates :password, :confirmation => true      
   validates :email, :uniqueness => true
   validates :email, :confirmation => true
-  authenticates_with_sorcery!
+  authenticates_with_sorcery! 
   
   HUMANIZED_ATTRIBUTES = {
                            :fname => 'First Name',
@@ -24,4 +27,5 @@ class User < ActiveRecord::Base
   def self.human_attribute_name(attr,options={})
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end 
+
 end

@@ -16,6 +16,7 @@ class ProfileController < ApplicationController
      
    end      
   end
+  
   def additional_info
     @user = current_user
     @additional_info = @user.additional_info
@@ -48,7 +49,7 @@ class ProfileController < ApplicationController
       redirect_to root_url and return
     end
   end
-  
+    
   def invite_bandmates
      redirect_to root_url and return unless current_user.account_type
     

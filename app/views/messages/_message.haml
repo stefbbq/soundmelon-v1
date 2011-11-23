@@ -1,5 +1,6 @@
 .msgbox{:id=>"message_box_#{message.id}"}
   .avatar
+    = get_avatar_small(message.sent_messageable)
   -if message.opened
     .msgstremitem
       .itemcontent{:id=>"msg_item_#{message.id}"}

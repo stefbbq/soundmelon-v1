@@ -1,0 +1,14 @@
+- if @profile_pic.errors.any? 
+  #error_explanation
+    %h2
+      = pluralize(@profile_pic.errors.count, "error")
+      prohibited this comment from being saved:
+    %ul
+      - @profile_pic.errors.full_messages.each do |msg|
+        %li
+          = msg
+
+= form_for @profile_pic, :url => add_avatar_path, :html => { :multipart => true, :remote => true } do |f|
+  Upload Pic
+  = f.file_field :avatar
+  = f.submit "Upload"

@@ -21,6 +21,13 @@ Soundmelon::Application.routes.draw do
   match 'message/reply' => 'messages#reply' ,:as => 'reply_to_message'
   match 'user_posts/more(/:page)'   =>'user_posts#index', :as =>:more_post
 
+  #avatar
+  post 'profile/pic/add' => 'avatar#create', :as => 'add_avatar'
+  get 'profile/pic/new' => 'avatar#new', :as => 'new_avatar'
+  match 'profile/pic/crop' => 'avatar#crop', :as => 'crop_avatar'
+  match 'profile/pic/update' => 'avatar#update', :as => 'update_avatar'
+  
+ # match 'profile/pic/delete' => 'avatar#delete', :as => 'delete_avatar'
 
   #invitation 
   match 'contacs/fetch' => "invite#fetch_contacts", :as => 'fetch_contacts'

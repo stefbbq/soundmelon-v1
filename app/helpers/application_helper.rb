@@ -11,5 +11,29 @@ module ApplicationHelper
     end
     link_to_function(name, ("add_fields(this, '#{association}', '#{escape_javascript(fields)}')"))
   end
-
+  
+  def get_avatar_small(user)
+    if user.profile_pic
+      image_tag(user.profile_pic.avatar.url(:small))
+    else
+      image_tag('user_blank_small.jpg')
+    end
+  end
+  
+  def get_avatar_large(user, my_avatar = false)
+    if my_avatar
+      if user.profile_pic
+        image_tag(user.profile_pic.avatar.url(:large)) 
+      else
+        image_tag('user_blank_large.jpg') 
+      end
+    else
+      if user.profile_pic
+        image_tag(user.profile_pic.avatar.url(:large))
+      else
+        image_tag('user_blank_large.jpg')
+      end
+    end
+  end
+  
 end

@@ -16,6 +16,7 @@ gem 'acts-as-messageable'
 gem 'contacts'
 gem 'paperclip'
 gem "recaptcha", :require => "recaptcha/rails"
+gem "remotipart", "~> 1.0"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

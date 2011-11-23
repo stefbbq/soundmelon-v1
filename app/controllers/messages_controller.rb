@@ -13,10 +13,7 @@ class MessagesController < ApplicationController
   end
   
   
-  
-  
-  
-   def index
+  def index
     @messages = current_user.received_messages
     redirect_to "inbox"
   end

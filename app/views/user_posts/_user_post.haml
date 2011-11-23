@@ -1,6 +1,7 @@
 =div_for user_post do
  .msgbox
   .avatar
+   = get_avatar_small(user_post.user)
   .newsitem
    .itemcontent
     %strong

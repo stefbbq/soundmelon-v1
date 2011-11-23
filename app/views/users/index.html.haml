@@ -40,6 +40,8 @@
       .clear
 .userdashboard
   .profilepic
+    = get_avatar_large(current_user)
+    = link_to "ADD PIC", new_avatar_path, :remote=>:true,:class=>"ajaxopen"
   .rightbox
   .midbox
     .box1
