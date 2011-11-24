@@ -22,10 +22,10 @@ module ApplicationHelper
   
   def get_avatar_large(user, my_avatar = false)
     if my_avatar
-      if user.profile_pic
-        image_tag(user.profile_pic.avatar.url(:large)) 
+      if user.profile_pic(true)
+        "<div>#{link_to 'Change', new_avatar_path, :remote=>:true,:class=>'ajaxopen'} #{link_to 'Delete', delete_avatar_path, :remote=>:true}</div><div>#{image_tag(user.profile_pic.avatar.url(:large))}</div>"  
       else
-        image_tag('user_blank_large.jpg') 
+        "<div>#{link_to 'Add', new_avatar_path, :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('user_blank_large.jpg')}</div>"
       end
     else
       if user.profile_pic

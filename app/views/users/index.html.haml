@@ -1,7 +1,7 @@
 - content_for :tophead do
   .profilehead
     %h2.logotext
-      %a{:href => "#"} SoundMelon
+      %a{:href => "/"} SoundMelon
     .mplayerbar
       .logo
         %p S
@@ -10,8 +10,7 @@
         = link_to "Logout" ,logout_path, :class=>"logout"
         .icons
           %span.name
-            = current_user.fname
-            = current_user.lname
+            = link_to "#{current_user.fname} #{current_user.lname}", user_home_path
           .numbericon
             %a{:href => "#"} 3
           .numbericon
@@ -40,8 +39,7 @@
       .clear
 .userdashboard
   .profilepic
-    = get_avatar_large(current_user)
-    = link_to "ADD PIC", new_avatar_path, :remote=>:true,:class=>"ajaxopen"
+    = raw get_avatar_large(current_user, true)
   .rightbox
   .midbox
     .box1

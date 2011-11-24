@@ -1,7 +1,8 @@
 =div_for user_post do
  .msgbox
   .avatar
-   = get_avatar_small(user_post.user)
+   = link_to get_avatar_small(user_post.user), user_profile_path(user_post.user) if user_post.user != current_user
+   = link_to get_avatar_small(user_post.user), user_home_url if user_post.user == current_user
   .newsitem
    .itemcontent
     %strong

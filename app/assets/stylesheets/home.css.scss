@@ -155,7 +155,14 @@ margin:0 auto;
               .blankbox{ @include box(98%,"",""); padding:10px 20px; color:#525252;}
 
              .userdashboard
-              {   .profilepic{ @include box(33%,190px,#808080);float:left;}
+              {   .profilepic{ @include box(33%,188px,#808080);float:left;padding-top:2px;
+              a{@include rounded-corner;   padding:0px 20px;     background:#B5B5B5;
+            color:#fff;  border:none;  font-weight:bold;
+            text-decoration:none;}
+              img{max-height:155px;margin:2px;}
+              overflow:hidden;margin-left:5px;
+              text-align:center;
+              }
                   .midbox{  @include box(32%,190px,"");
                             margin:0 34% 0 34%; 
                             .box1{ @include box(100%,90px,#808080);}
@@ -241,7 +248,9 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
                     width:95%;
                     margin:10px auto;
                   
-                  .avatar{float:left; @include roundedbox(60px,50px,#808080);}
+                  .avatar{float:left; @include roundedbox(56px,56px,#808080);
+                  img{width:50px; height:50px; margin:3px;}
+                  }
                   
                   
                         .msgstremitem{

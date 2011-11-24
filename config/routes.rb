@@ -26,7 +26,7 @@ Soundmelon::Application.routes.draw do
   get 'profile/pic/new' => 'avatar#new', :as => 'new_avatar'
   match 'profile/pic/crop' => 'avatar#crop', :as => 'crop_avatar'
   match 'profile/pic/update' => 'avatar#update', :as => 'update_avatar'
-  
+  get 'profile/pic/delete' => 'avatar#delete', :as => 'delete_avatar'
  # match 'profile/pic/delete' => 'avatar#delete', :as => 'delete_avatar'
 
   #invitation 

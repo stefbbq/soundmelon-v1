@@ -28,7 +28,7 @@ class AvatarController < ApplicationController
     @profile_pic = current_user.profile_pic
     if @profile_pic.update_attributes(params[:profile_pic])
         respond_to do |format|
-          format.js {render :nothing => true and return}
+          format.js
         end     
     end
   end
@@ -40,8 +40,11 @@ class AvatarController < ApplicationController
   
   def delete
     redirect_to user_home_url and return if current_user.profile_pic.nil?
-    current_user.profile_pic.delete
-    redirect_to user_home_url and return
+    if current_user.profile_pic.delete
+      respond_to do |format|
+        format.js
+      end
+    end
   end
   
 end

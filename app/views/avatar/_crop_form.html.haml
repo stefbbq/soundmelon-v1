@@ -1,8 +1,13 @@
-= image_tag @profile_pic.avatar.url(:large), :id => 'cropbox'
-%h4 Preview
-%div{:width => '100px', :height => '100px', :overflow => 'hidden'}
-  = image_tag @profile_pic.avatar.url(:large), :id => "preview"
+:javascript
+  function update_crop(coords) {
+    var ratio = #{@profile_pic.avatar_geometry(:original).width} / #{@profile_pic.avatar_geometry(:large).width} ;
+    $("#crop_x").val(Math.round(coords.x * ratio));
+    $("#crop_y").val(Math.round(coords.y * ratio));
+    $("#crop_w").val(Math.round(coords.w * ratio));
+    $("#crop_h").val(Math.round(coords.h * ratio));
+  }
 
+= image_tag @profile_pic.avatar.url(:large), :id => 'cropbox'
 = form_for @profile_pic, :url => update_avatar_path, :html => {:method => :post, :remote => true}  do |f|
   - for attribute in [:crop_x, :crop_y, :crop_w, :crop_h]
     = f.hidden_field attribute, :id => attribute 
