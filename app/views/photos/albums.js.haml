@@ -7,7 +7,7 @@
     - @albums.each do |album|
       .album
         .album_teaser_image
-          = link_to image_tag(album.photos.first.image.url(:medium)), album_photos_path(album.name), :remote=>:true, :class=>"ajaxopen"
+          = link_to image_tag(album.photos.first.image.url(:medium), :height => '200px'), album_photos_path(album.name), :remote=>:true, :class=>"ajaxopen"
         .album_name
           %h2
             = link_to "#{album.name}(#{album.photos.count} photos)", album_photos_path(album.name), :remote=>:true, :class=>"ajaxopen"

@@ -3,6 +3,6 @@
     = "#{@album.name}(#{@album.photos.count})"
   - @album.photos.each do |photo|
     .album_photo
-      =link_to image_tag(photo.image.url(:medium)), album_photo_path(photo.id, :album_name => @album.name), :remote => true, :class => 'ajaxopen'
+      =link_to image_tag(photo.image.url(:medium), :height => '200px'), album_photo_path(photo.id, :album_name => @album.name), :remote => true, :class => 'ajaxopen'
 $('.midcontent > .left > .leftcontainer').html('#{escape_javascript album_photos} ');
 setTimeout('$(document).trigger(\"close.facebox\")',10);    
