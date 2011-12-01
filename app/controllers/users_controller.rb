@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_filter :require_login, :except => [:fan_new, :musician_new, :activate]
   before_filter :logged_in_user, :only => ['fan_new', 'musician_new', :activate]  
   def index
+    @user = current_user
     #@user_posts = UserPost
     #@user_post_dates = UserPost.where("user_id = (?) or  post like (?)",current_user.id,"%@"+current_user.fname+" %").order("created_at desc").group("date(created_at)")
     @user_posts    = UserPost.listing current_user, params[:page]
@@ -13,8 +14,11 @@ class UsersController < ApplicationController
       #render @next_user_posts
     #raise @user_post_dates.inspect
     
-    @messages = current_user.received_messages.limit(3)
-    
+    @messages = current_user.received_messages.limit(DEFAULT_NO_OF_MESSAGE_DISPLAY)
+    @following_count = current_user.following_user.count
+    @follower_count = current_user.user_followers.count
+    @following_users = current_user.following_user.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
+    @follower_users = current_user.user_followers.order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)
   end
   
   def fan_new
@@ -95,5 +99,5 @@ class UsersController < ApplicationController
       redirect_to root_url, :notice => 'Unable to activate your account. Try Again!'
     end
   end
- 
+  
 end

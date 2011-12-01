@@ -1,0 +1,20 @@
+.rightmenu{
+    ul{
+        list-style:none;
+          li{
+              margin-top:5px;
+              text-align:center;
+                a{
+                  font-weight:bold;
+                  color:#000;
+                  line-height:25px;
+                  background:#B5B5B5;
+                  display:block;
+                  text-decoration:none;
+                  &:hover{background:#fafafa;}
+                &.selected{background:#fafafa;}
+                }
+            }
+    }
+    long-list { padding-top: 5px;}
+}

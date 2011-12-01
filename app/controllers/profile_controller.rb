@@ -3,9 +3,10 @@ class ProfileController < ApplicationController
   
   
   def user_profile
+    
    #for other users
    @user = User.find(params[:id])
-   if @user
+   if @user && @user!=current_user
     @user_posts    = UserPost.listing @user, params[:page]
     @user_post_dates = @user_posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page           = @user_posts.next_page

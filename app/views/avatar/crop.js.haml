@@ -5,4 +5,4 @@
 != "$('.profilepic').html('#{escape_javascript(get_avatar_large(current_user, true))}');"
 != "jQuery.facebox('#{escape_javascript(render 'crop_form')} ' );"
 != "$('#cropbox').Jcrop({onChange: update_crop, onSelect: update_crop, setSelect: [0, 0, 300, 180], aspectRatio: 1.5});"
-!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});" 
+!= "$('form').submit(function(){($('.loader').html($('#globalloading').html()));return true; $(':submit').attr('disabled','disabled');});" 

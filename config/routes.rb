@@ -1,7 +1,14 @@
 Soundmelon::Application.routes.draw do
   
-  get "profile/additional_info"
+  get 'follow/user/:id' => 'follow#follow', :as => 'follow_user'
 
+  get 'user/(:id)/follower' => 'follow#follower', :as => 'user_follower'
+
+  get 'unfollow/user/:id' => 'follow#unfollow', :as => 'unfollow_user'
+  
+  get 'user/(:id)/following' => 'follow#following', :as => 'user_following'
+
+  get "profile/additional_info"
   get 'logout' => 'sessions#destroy', :as => 'logout'
   post 'login' => 'sessions#create', :as => 'login'
   get 'users' => 'users#index', :as => 'user_home'
@@ -29,6 +36,10 @@ Soundmelon::Application.routes.draw do
   get 'profile/pic/delete' => 'avatar#delete', :as => 'delete_avatar'
  # match 'profile/pic/delete' => 'avatar#delete', :as => 'delete_avatar'
 
+  resources :photos
+  get 'albums' => 'photos#albums', :as => 'albums'
+  get 'album/photos/:album_name' => 'photos#album_photos', :as => 'album_photos'
+  get ':album_name/photo/:id' => 'photos#show', :as => 'album_photo'
   #invitation 
   match 'contacs/fetch' => "invite#fetch_contacts", :as => 'fetch_contacts'
   post 'send/invitation' => "invite#send_invitation", :as => 'send_invitation'

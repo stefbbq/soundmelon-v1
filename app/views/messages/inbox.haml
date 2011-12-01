@@ -1,50 +1,5 @@
-- content_for :tophead do
-  .profilehead
-    %h2.logotext
-      %a{:href => "#"} SoundMelon
-    .mplayerbar
-      .logo
-        %p S
-      .playerbox
-      .headrightbox
-        = link_to "Logout" ,logout_path, :class=>"logout"
-        .icons
-          %span.name
-            = current_user.fname
-            = current_user.lname
-          .numbericon
-            %a{:href => "#"} 3
-          .numbericon
-            %a{:href => "#"} 8
-          .othericon1
-            %a{:href => "#"} 19
-          .othericon1
-            %a{:href => "#"} &euro;
-          .othericon
-            %a{:href => "#"} +
-          .clear
-      .clear
-    .headmenubar
-      .menu
-        %ul
-          %li
-            %a{:href => "#"} Social
-          %li
-            %a{:href => "#"} Store
-          %li
-            %a{:href => "#"} Social
-        .clear
-      .searchbox
-        %input.searchinput{:name => "search", :type => "text", :value => "Search"}/
-        %input.search{:name => "search", :type => "submit", :value => "Go"}/
-      .clear
-.userdashboard
-  .profilepic
-  .rightbox
-  .midbox
-    .box1
-    .box2
-.clear
+= render :partial=>"layouts/user_header_bar"
+= render :partial=>"profile/user_dash_board"
 .midcontent
   .left
     .usercontrols
@@ -52,20 +7,27 @@
         =link_to("Updates", {} ,:remote => true,:class=>"icon")
         =link_to("Updates", {} ,:remote => true,:class=>"iconactive")
       .right
-        .inbox#inbox
+        .inboxactive#inbox
           -#foractive use inputactive
-          =link_to("Inbox", {} ,:remote => true,:class=>"inbox")
+          =link_to("Inbox", user_inbox_path, :class=>"inbox")
           .inboxnum
             = current_user.received_messages.unread.count
           .clear 
       .clear
       %br
-    = render "user_posts/form"
-    .clear
-    .messageicon
-      Messages
-    -@messages.each do |message|
-      = render :partial => "messages/message",:locals => {:message => message}
-         
+      .leftcontainer
+        = render "user_posts/form"
+        .clear
+        .messageicon
+          Messages
+        -@messages.each do |message|
+          = render :partial => "messages/message",:locals => {:message => message}
+           
+        .clear
+        -if !@load_more_path.nil?
+          .readmore
+            =link_to("Read more", @load_more_path ,:remote => true,:class=>"ajaxload")
   .rightbar
-  .clear
+    = render "layouts/user_right_box"
+  .clear 
+

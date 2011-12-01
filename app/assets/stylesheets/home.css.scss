@@ -2,85 +2,33 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
-$columns: 14;
-$container-size: 950px;
-$margin: 2px;
-$padding:2px;
-$border-radius:5px;
-$page-width:948px;
-$box-color: #1A1A1A;
-$size: .64em;
-$input-bg-color:#666;
-@mixin rounded($radius){  
-                          -moz-border-radius: $border-radius;
-                          -webkit-border-radius: $radius;
-                           border-radius: $radius;;
-                        }
-
-@mixin rounded-corner{ @include rounded($border-radius); }
-@mixin roundedbox($w,$h,$c){@include rounded-corner;   width:$w;  height:$h;  background-color:$c;}
-
-
-@mixin box($w,$h,$c){ width:$w; height:$h;  background-color:$c;}
-
- body { margin: 0;  padding: 0;   background-color: #000;   font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
-        font-size: 13px;  color:#B5B5B5; 
-      }
- h1{font-size: 28px;  color: #000; }
- h3,h2{color:#CCCCCC; font-size:20px; margin:0;}
- a{color: #fff;text-decoration:none;}
- a:hover {color: #fff;  text-decoration: none;}
-.clear{clear:both;}
-.center{ text-align:center;}
-.circle{background:#fff; width: 80px; height: 80px;   -webkit-border-radius: 40px; -moz-border-radius: 40px; border-radius: 40px;}
+@import "base.css.scss";
 
 .radiolabel
     { @include rounded-corner; margin:3px 10px;
        padding:5px 10px;  height:30px;  background:#4D4D4D; color:#000; border:none; font-weight:bold;
     }
-.right{float:right;}
-.left{float:left;}
-.hide{display:none;}
-.show{display:block;}
-strong{color:#F8F9F7;}
+.circle{background:#fff; width: 80px; height: 80px;   -webkit-border-radius: 40px; -moz-border-radius: 40px; border-radius: 40px;}
+
 #contact_list{height:220px;overflow:auto;}
 .recaptcha_theme_red #recaptcha_response_field {left:-4px;}
-#facebox{
-
-color:#000;
-.shaded{color:#776B6B;}
-h2{font-size:13px;color:#000;}
-h1{font-size:2*$size;color:#000;}
-        .button{@include rounded-corner;  margin:3px 10px;   padding:5px 20px;     background:#004E97;
-            color:#fff;  border:none;  font-weight:bold;
-            text-decoration:none;}
-.fields
-    {   
-       label {
-    
-       width:35%;
-       padding-top:4px; float:left;  color:#000; text-align:right; font-size:1.8*$size;}
-      .textfield{
-    
+#facebox{ color:#000;
+          .shaded{color:#776B6B;}
+          h2{font-size:13px;color:#000;}
+          h1{font-size:2*$size;color:#000;} 
+ .fields
+    {  label { width:35%; padding-top:4px; float:left;  color:#000; text-align:right; font-size:1.8*$size;} 
+    .textfield{
        width:200px; float:left;  @include rounded-corner; border:solid #4D4D4D 2px; padding:2px; background:#323232; color:#fff;  height:20px;}
-      select{   width:200px; float:left;  @include rounded-corner; border:solid #4D4D4D 2px; padding:2px; background:#323232; color:#fff;  height:20px;
+       select{   width:200px; float:left;  @include rounded-corner; border:solid #4D4D4D 2px; padding:2px; background:#323232; color:#fff;  height:20px;
               option{ padding:2px;}
             }
+     
     }
 
 }
 .age{font-size:2*$size;color:#fff;}
-.green{ font-size:2*$size; color:#1AD327;
-        a{ color:#1AD327;}
-      }
-.ajaxloadsmall{
-float:right;
-background:url("ajax-loader.gif")  no-repeat;
-height:10px;
-width:20px;
-;
-}
+
 .fields
     {   label {padding-top:4px; float:left; width:200px; color:#fff; text-align:right; font-size:2*$size;}
       .textfield{ @include rounded-corner; border:solid #4D4D4D 2px; padding:2px; background:#323232; color:#fff;  margin:3px 0 0 20px;  height:20px;}
@@ -145,7 +93,7 @@ margin:0 auto;
                margin:0 auto;
                color:#FFF;  padding:4*$padding 5*$padding;  background: #262626; text-align:center;
                   .feedbox
-                    { text-align:center;  @include roundedbox(100px,40px,#3C3C3C);
+                    { text-align:center;  @include roundedbox(250px,100px,#3C3C3C);
                       margin:4*$margin auto; padding:2*$padding;display: inline-block;
 
                     }
@@ -185,16 +133,18 @@ margin:0 auto;
                     .iconactive{padding:5px; background:#408223;}
                     }
                     .right{float:right;
-                     .inbox{
-                     margin:-5px 0;
-                     font-size:$size*2;background:#332909;a{color:#686149}
+                     .inbox{ width:100px;
+                     
+                     font-size:$size*2;background:#332909;a{color:#fff}
                      .inboxnum{float:right; margin-left:10px;  text-align:center;padding-top:5px;  font-size:14px;  @include box(25px,20px,#665111); @include rounded(12px);   
                                          a{ color:#fff; text-decoration:none;}
                      
                     }
                     
                     }
-                     .inboxactive{ margin:-5px 0;font-size:$size*2;background:#665111;a{color:#fff}
+                     .inboxactive{
+                     width:100px;
+                      font-size:$size*2;background:#332909;a{color:#686149}
                      .inboxnum{float:right; margin-left:10px;  text-align:center;padding-top:5px;  font-size:14px;  @include box(25px,20px,#332909); @include rounded(12px);   
                                          a{ color:#fff; text-decoration:none;}
                      
@@ -303,22 +253,12 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
                  .textfield{   @include rounded-corner; border:solid #4D4D4D 2px; padding:2px; background:#323232; color:#fff;
                                margin:3px 10px;  height:20px;  width:350px;
                             }
-                  .button{  @include rounded-corner; margin:3px 10px; padding:0 20px; height:30px;  background:#4D4D4D;
-                            color:#000;     border:none;     font-weight:bold;
-                          }
+                  
+                   
                   .actions{ padding-left:70%; }
                }
-             .join
-                  {  float:right;  margin:50px 190px 0 0;   @include rounded-corner;   width:120px;
-                     height:35px;   background:#4D4D4D;    color:#000;    border:none;  font-weight:bold;
-                  }
-         }// registrationfrom end
+             }// registrationfrom end
          
-     .button
-        {   @include rounded-corner;  margin:3px 10px;   padding:0 20px;   height:30px;  background:#4D4D4D;
-            color:#000;  border:none;  font-weight:bold;
-            text-decoration:none;
-        }
      
       #footer
       {   background:$box-color;
@@ -349,7 +289,6 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
                   .headrightbox
                       {
                         font-weight:bold; float:right; @include box(48%,55px,#464646); 
-                       .logout{ float:left; text-decoration:none; @include rounded-corner; margin:5px 20px 0 10px; padding:5px 10px;  background:#909090; color:#000; border:none; font-weight:bold;}
                        .icons
                            { margin-top:10px;
                             .name{float:left; margin:0 20px;} 
@@ -375,7 +314,6 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
                   text-align:right;
                   margin:15px 1% 0 0; width:39%; float:right;
                               .searchinput{color:#D1D1D1;  font-weight:bold;font-size:16px; padding:5px; background:#515151; border:solid 2px #AEAEAE; @include rounded-corner;}
-                              .search{ background:#909090;color:#000;  font-weight:bold;font-size:16px; padding:5px;border:solid 2px #AEAEAE; @include rounded-corner;}
                             }
                }// headmenubar end
         } //profile head end

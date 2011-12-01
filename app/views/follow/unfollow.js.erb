@@ -1,0 +1,7 @@
+<% if @others %>
+  $('#follow-stats').html('<%= escape_javascript(render 'follow/follow_stats', :user => @user_to_be_unfollowed) %>');
+<% else %>
+  $('#following_<%= @user_to_be_unfollowed.id -%>').remove();
+<% end %>
+$('#facebox .content').html('Unfollowed Successfully');
+setTimeout('$(document).trigger(\"close.facebox\")',1000);

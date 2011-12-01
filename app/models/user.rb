@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
   acts_as_messageable :required => :body ,:order => "created_at desc" 
+  acts_as_followable
+  acts_as_follower
+
   has_many :user_posts, :order => "created_at desc"
   has_one :band_user
   has_one :additional_info
@@ -28,4 +31,8 @@ class User < ActiveRecord::Base
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end 
 
+  def get_full_name
+    "#{self.fname} #{self.lname}"
+  end
+  
 end

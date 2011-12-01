@@ -1,0 +1,7 @@
+= "Following: #{user.following_user.count}" 
+= "Follower: #{user.user_followers.count}" 
+<br />
+- if current_user.following?(user)
+  = link_to "Unfollow", unfollow_user_path(user.id, :others => 1), :remote => true, :class => 'ajaxopen'
+- else
+  = link_to 'Follow', follow_user_path(user.id), :remote => true, :class => 'ajaxopen' 

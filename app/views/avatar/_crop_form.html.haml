@@ -6,10 +6,11 @@
     $("#crop_w").val(Math.round(coords.w * ratio));
     $("#crop_h").val(Math.round(coords.h * ratio));
   }
-
-= image_tag @profile_pic.avatar.url(:large), :id => 'cropbox'
-= form_for @profile_pic, :url => update_avatar_path, :html => {:method => :post, :remote => true}  do |f|
-  - for attribute in [:crop_x, :crop_y, :crop_w, :crop_h]
-    = f.hidden_field attribute, :id => attribute 
-  %p
-    = f.submit "Crop"
+.center{:style=>"margin-left:20px;"}
+  .loader
+  = image_tag @profile_pic.avatar.url(:large), :id => 'cropbox'
+  = form_for @profile_pic, :url => update_avatar_path, :html => {:method => :post, :remote => true}  do |f|
+    - for attribute in [:crop_x, :crop_y, :crop_w, :crop_h]
+      = f.hidden_field attribute, :id => attribute 
+    %p
+      = f.submit "Crop" ,:class=>"button blue"

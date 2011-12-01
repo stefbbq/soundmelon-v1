@@ -9,6 +9,7 @@ class MessagesController < ApplicationController
   end
   
   def inbox
+    @user = current_user
     @messages = current_user.received_messages.reverse  
   end
   

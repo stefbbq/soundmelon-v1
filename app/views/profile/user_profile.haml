@@ -1,61 +1,18 @@
-- content_for :tophead do
-  .profilehead
-    %h2.logotext
-      %a{:href => "/"} SoundMelon
-    .mplayerbar
-      .logo
-        %p S
-      .playerbox
-      .headrightbox
-        = link_to "Logout" ,logout_path, :class=>"logout"
-        .icons
-          %span.name
-            = link_to "#{current_user.fname} #{current_user.lname}" ,user_home_path
-          .numbericon
-            %a{:href => "#"} 3
-          .numbericon
-            %a{:href => "#"} 8
-          .othericon1
-            %a{:href => "#"} 19
-          .othericon1
-            %a{:href => "#"} &euro;
-          .othericon
-            %a{:href => "#"} +
-          .clear
-      .clear
-    .headmenubar
-      .menu
-        %ul
-          %li
-            %a{:href => "#"} Social
-          %li
-            %a{:href => "#"} Store
-          %li
-            %a{:href => "#"} Social
-        .clear
-      .searchbox
-        %input.searchinput{:name => "search", :type => "text", :value => "Search"}/
-        %input.search{:name => "search", :type => "submit", :value => "Go"}/
-      .clear
-.userdashboard
-  .profilepic
-    = get_avatar_large(@user)
-  .rightbox
-  .midbox
-    .box1
-    .box2
-.clear
+= render :partial=>"layouts/user_header_bar"
+= render :partial=>"user_dash_board"
 .midcontent
   .left
-    .user_posts
-      -@user_post_dates.each do |date,user_post|
-        .dateicon 
-          = date.to_date.strftime("%b %d")
-        = render user_post
-         
+    .leftcontainer
+      .user_posts
+        -@user_post_dates.each do |date,user_post|
+          .dateicon 
+            = date.to_date.strftime("%b %d")
+          = render user_post
+           
   .rightbar
     .righttopbox
-    .sendmsg
-      =link_to "> Message this user",new_message_path(:id =>@user.id),:remote=>:true,:class=>"ajaxopen" 
-    
+      #follow-stats
+        = render 'follow/follow_stats', :user => @user
+      .sendmsg
+        =link_to "> Message this user",new_message_path(:id =>@user.id),:remote=>:true,:class=>"ajaxopen" 
   .clear

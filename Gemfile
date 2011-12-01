@@ -17,6 +17,9 @@ gem 'contacts'
 gem 'paperclip'
 gem "recaptcha", :require => "recaptcha/rails"
 gem "remotipart", "~> 1.0"
+gem 'acts_as_follower' #https://github.com/tcocca/acts_as_follower
+gem 'kaminari'
+gem 'mime-types', :require => 'mime/types'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

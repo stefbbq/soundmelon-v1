@@ -1,0 +1,17 @@
+$('.midcontent > .left > .leftcontainer').html('');
+<% following = capture do %>
+  <hr />
+  Following List
+  <hr />
+  <% @following.each do |user| %> 
+    <div id='following_<%=user.id%>'>
+      <%=  link_to get_avatar_small(user), user_profile_path(user.id) %> 
+      <%=  link_to user.get_full_name, user_profile_path(user.id) %>
+      <%=  link_to "Unfollow", unfollow_user_path(user.id), :remote => true, :class => 'ajaxopen'  %>
+    </div> 
+  <%end%>
+  <%= paginate @following, :remote => true %>
+<% end %>
+
+$('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(following) %>');
+setTimeout('$(document).trigger(\"close.facebox\")',10);

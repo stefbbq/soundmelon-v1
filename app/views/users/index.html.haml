@@ -1,55 +1,10 @@
-- content_for :tophead do
-  .profilehead
-    %h2.logotext
-      %a{:href => "/"} SoundMelon
-    .mplayerbar
-      .logo
-        %p S
-      .playerbox
-      .headrightbox
-        = link_to "Logout" ,logout_path, :class=>"logout"
-        .icons
-          %span.name
-            = link_to "#{current_user.fname} #{current_user.lname}", user_home_path
-          .numbericon
-            %a{:href => "#"} 3
-          .numbericon
-            %a{:href => "#"} 8
-          .othericon1
-            %a{:href => "#"} 19
-          .othericon1
-            %a{:href => "#"} &euro;
-          .othericon
-            %a{:href => "#"} +
-          .clear
-      .clear
-    .headmenubar
-      .menu
-        %ul
-          %li
-            %a{:href => "#"} Social
-          %li
-            %a{:href => "#"} Store
-          %li
-            %a{:href => "#"} Social
-        .clear
-      .searchbox
-        %input.searchinput{:name => "search", :type => "text", :value => "Search"}/
-        %input.search{:name => "search", :type => "submit", :value => "Go"}/
-      .clear
-.userdashboard
-  .profilepic
-    = raw get_avatar_large(current_user, true)
-  .rightbox
-  .midbox
-    .box1
-    .box2
-.clear
+= render :partial=>"layouts/user_header_bar"
+= render :partial=>"profile/user_dash_board"
 .midcontent
   .left
     .usercontrols
       .left
-        =link_to("Updates", {} ,:remote => true,:class=>"icon")
+        =link_to("Updates", user_home_path, :class=>"icon ")
         =link_to("Updates", {} ,:remote => true,:class=>"iconactive")
       .right
         .inbox#inbox
@@ -60,23 +15,22 @@
           .clear 
       .clear
       %br
-    = render "user_posts/form"
-    .clear
-    .messageicon
-      Messages
-    -@messages.each do |message|
-      = render :partial => "messages/message",:locals => {:message => message}
-    .user_posts
-      -@user_post_dates.each do |date,user_post|
-        .dateicon 
-          = date.to_date.strftime("%b %d")
-        = render user_post      
-    .clear
-    -if !@load_more_path.nil?
-      
-      .readmore
-      
-        =link_to("Read more", @load_more_path ,:remote => true)
-         
+    .leftcontainer
+      = render "user_posts/form"
+      .clear
+      .messageicon
+        Messages
+      -@messages.each do |message|
+        = render :partial => "messages/message",:locals => {:message => message}
+      .user_posts
+        -@user_post_dates.each do |date,user_post|
+          .dateicon 
+            = date.to_date.strftime("%b %d")
+          = render user_post      
+          .clear
+      -if !@load_more_path.nil?
+        .readmore
+          =link_to("Read more", @load_more_path ,:remote => true,:class=>"ajaxload")
   .rightbar
+    = render "users/user_right_box"
   .clear

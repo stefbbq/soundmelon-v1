@@ -28,31 +28,7 @@
           = content_tag :div, msg, {:id => "flash_#{name}",:class=>"center"}
         #content
           = yield
-          .globalloading.hide{:id=>"globalloading" }
-            .center
-              =image_tag("loading.gif")
-            
-        #footer
-          .socialicons
-            .sitem
-              %a{:href => "#"} t
-            .sitem
-              %a{:href => "#"} Fb
-            .clear
-          .footerlink
-            %a{:href => "#"}
-            .circle &nbsp;
-            %p Sitemap
-          .footerlink
-            %a{:href => "#"}
-            .circle &nbsp;
-            %p About
-          .footerlink
-            %a{:href => "#"}
-            .circle &nbsp;
-            %p Blog
-          .footerlink
-            %a{:href => "#"}
-            .circle &nbsp;
-            %p Contact
-          .clear
+        = render :partial=>"layouts/footer"
+        .globalloading.hide{:id=>"globalloading" }
+          .center
+            =image_tag("loading.gif")

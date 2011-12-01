@@ -1,2 +1,2 @@
 != "jQuery.facebox('#{escape_javascript(render 'form')} ' );"
-!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});" 
+!= "$('form').submit(function(){($('.loader').html($('#globalloading').html()));return true; $(':submit').attr('disabled','disabled');});" 
