@@ -3,13 +3,16 @@
   != "setTimeout('$(document).trigger(\"close.facebox\")',1000);" 
 - else
   - user_albums = capture do
-    %h3 Your Albums
     - @albums.each do |album|
       .album
         .album_teaser_image
-          = link_to image_tag(album.photos.first.image.url(:medium), :height => '200px'), album_photos_path(album.name), :remote=>:true, :class=>"ajaxopen"
+          = link_to image_tag(album.photos.first.image.url(:thumb), :height => '80px'), album_photos_path(album.name), :remote=>:true, :class=>"ajaxopen"
         .album_name
-          %h2
-            = link_to "#{album.name}(#{album.photos.count} photos)", album_photos_path(album.name), :remote=>:true, :class=>"ajaxopen"
-  $('.midcontent > .left > .leftcontainer').html('#{escape_javascript user_albums}');
+          %h3
+            = link_to "#{album.name}", album_photos_path(album.name), :remote=>:true, :class=>"ajaxopen"
+           
+          = link_to "#{album.photos.count} photos", album_photos_path(album.name), :remote=>:true, :class=>"ajaxopen"
+        .clear 
+      .clear 
+  $('#right_albumbox').html('#{escape_javascript user_albums}');
   setTimeout('$(document).trigger(\"close.facebox\")',10);

@@ -2,7 +2,7 @@
     ul{
         list-style:none;
           li{
-              margin-top:5px;
+              margin:5px 0 0 0;
               text-align:center;
                 a{
                   font-weight:bold;
@@ -14,7 +14,47 @@
                   &:hover{background:#fafafa;}
                 &.selected{background:#fafafa;}
                 }
+                                
             }
     }
     long-list { padding-top: 5px;}
+
+.album{
+
+margin:5px 2px;
+background:#363636;
+.album_teaser_image{:width:80px;height:80px; img{margin-top:10px;width:60px;height:60px;} float:left;}
+.album_name{margin:10px 0 0 65px;width:160px;
+text-align:center;
+h3{font-size:14px;} 
 }
+
+a{
+                  color:#fff;
+                  line-height:20px;
+                  background:none;
+                  display:block;
+                  text-decoration:none;
+                  &:hover{color:#fafafa;background:none;}
+                &.selected{color:#fafafa;background:none;}
+}
+}
+
+#right_albumbox{background:#4D4D4D;}
+.top_fans{
+background:#4D4D4D;
+a{
+                  color:#fff;
+                  line-height:20px;
+                  background:none;
+                  display:inline-block;
+                  text-decoration:none;
+                  &:hover{color:#fafafa;background:none;}
+                &.selected{color:#fafafa;background:none;}
+img{width:60px;height:60px;border:0;margin:2px;}
+}
+}
+
+}
+
+

@@ -1,13 +1,17 @@
 $('.midcontent > .left > .leftcontainer').html('');
 <% followers = capture do %>
-  <hr />
   Follower List
   <hr />
   <% @followers.each do |user| %> 
-    <div id='follower_<%=user.id%>'>
-      <%=  link_to get_avatar_small(user), user_profile_path(user.id), :class => 'follow-img' %> 
-      <%=  link_to user.get_full_name, user_profile_path(user.id) %>
-    </div> 
+    <div id='follower_<%=user.id%>' class="followuserbox">
+    	<div class="avatar">
+      <%=  link_to get_avatar_small(user), user_profile_path(user.id), :class => 'follow-img' %>
+      </div>
+      <div class="fusercontent"> 
+      <strong><%=  link_to user.get_full_name, user_profile_path(user.id) %></strong>
+     </div>
+     <div class="clear"></div>
+   </div> 
   <%end%>
   <%= paginate @followers, :remote => true %>
 <% end %>

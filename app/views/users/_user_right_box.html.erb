@@ -1,35 +1,39 @@
 <div class="rightmenu">
-  <div >
-    <%= link_to "Following: #{@following_count}", user_following_path, :remote => true, :class => 'ajaxopen' %>
-    <div>
-      <% @following_users.each do |user| %>
-        <%=  link_to get_avatar_small(user), user_profile_path(user.id) %>
-      <% end %>
-    </div>
-  </div> 
-  
-  <div>
-    <%= link_to "Follower: #{@follower_count}", user_follower_path, :remote => true, :class => 'ajaxopen' %>
-    <div>
-      <% @follower_users.each do |user| %>
-        <%=  link_to get_avatar_small(user), user_profile_path(user.id) %>
-      <% end %>
-    </div>
-  </div>
-  <div class='clear'></div>
-  
   <ul>
     <li>
      <%=  link_to "Upload Photos", new_photo_path, :remote=>:true, :class=>"ajaxopen" %>
     </li>
     <li>
-      <%=  link_to "Photos", albums_path, :remote=>:true, :class=>"ajaxopen" %>
+      <%=  link_to "Albums", albums_path, :remote=>:true, :class=>"ajaxopen" %>
+      <div id="right_albumbox">
+      	
+      	</div>
     </li>
     <li>
       <a href="javascript:void(0)">Edit Basic info</a>
     </li>
     <li>
       <a href="javascript:void(0)" class="selected">Edit Basic info</a>
+    </li>
+    <li>
+    <!-- check if user is musician then show this menu-->
+    <%= link_to pluralize(@follower_count,'follower'), user_follower_path, :remote => true, :class => 'ajaxopen' %>
+    <div class="top_fans">
+      <% @follower_users.each do |user| %>
+        <%=  link_to get_avatar_small(@user), user_profile_path(user.id) %>
+        
+      <% end %>
+    </div>
+    </li>
+    <li>
+      <%= link_to pluralize(@following_count,'following'), user_following_path, :remote => true, :class => 'ajaxopen' %>
+    <div class="top_fans">
+      <% @following_users.each do |user| %>
+        	<%=  link_to get_avatar_small(user), user_profile_path(user.id) %>
+         
+      <% end %>
+    </div>
+  
     </li> 
   </ul>
 </div>
