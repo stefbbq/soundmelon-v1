@@ -1,5 +1,7 @@
 Soundmelon::Application.routes.draw do
   
+  get  "search/index"
+
   get 'follow/user/:id' => 'follow#follow', :as => 'follow_user'
 
   get 'user/(:id)/follower' => 'follow#follower', :as => 'user_follower'

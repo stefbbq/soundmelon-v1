@@ -34,6 +34,7 @@
             %a{:href => "#"} Social
         .clear
       .searchbox
-        %input.searchinput{:name => "search", :type => "text", :value => "Search"}/
-        %input.search{:name => "search", :type => "submit", :value => "Go"}/
+        =form_tag( {:controller =>'search', :action => 'index'}, :method => "get") do
+          %input.searchinput{:name => "q", :type => "text", :value => "Search"}/
+          %input.search{:name => "search", :type => "submit", :value => "Go"}/
       .clear

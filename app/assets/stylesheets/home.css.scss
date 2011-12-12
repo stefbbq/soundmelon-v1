@@ -320,3 +320,40 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
         
         
    } // #page end
+
+
+.users_header, .bands_header {background-color:green; padding:5px; min-height:20px; margin-top:5px;}
+#results {
+     color: #fff;
+    .row {
+        min-height: 98px;
+        padding: 10px;
+        border-bottom: 1px solid #cfcfcf;
+        &:last-child { border: none; }
+        img { border: solid 1px #cecece; float: left; }
+        .action { float: right; }
+        .info {
+            color: #666;
+            width: 610px;
+            font-size: 1.6em;
+            float: left;
+            margin-left: 10px;
+
+            h3 {
+                color: #fff;
+                margin: 0px;
+                display: inline;
+            }
+
+            .verified {
+                background: url(certified.png) no-repeat left center transparent;
+                color: #6c6c6c;
+                font-size: 0.8em;
+                height: 22px;
+                line-height: 22px;
+                padding-left: 25px;
+                margin-top: 6px;
+            }
+        }
+    }
+}

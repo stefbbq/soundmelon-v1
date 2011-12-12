@@ -1,0 +1,35 @@
+<%  @user = current_user %>
+<%= render :partial=>"layouts/user_header_bar" %>
+<%= render :partial=>"profile/user_dash_board" %>
+
+<div id="results">
+  <%  if !@user_search_results.results.blank? %>
+  <div class="users_header"><h3>USERS</h3></div>
+  <% @user_search_results.results.each do |user| %>
+   <div class="row" >      
+     <%=  link_to get_avatar_medium(user), user_profile_path(user) if user != current_user %>
+     <%= link_to get_avatar_medium(user), user_home_url if user == current_user %>
+     <!-- RESULT INFO -->
+     <div class="info">
+       <h3><%=  "#{user.fname} #{user.lname}" %></h3>   
+     </div>
+     <div class="clear"></div>
+     <!-- END RESULT INFO -->
+  </div>
+<%  end %>
+  <% end %>
+<%  if !@band_search_results.results.blank? %>
+  <div class="bands_header"><h3>BANDS</h3></div>
+  <% @band_search_results.results.each do |band| %>
+   <div class="row" >      
+     <%=image_tag('user_blank_large.jpg')%>
+     <!-- RESULT INFO -->
+     <div class="info">
+       <h3><%=  "#{band.name} (#{band.genre})" %></h3>   
+     </div>
+     <div class="clear"></div>
+     <!-- END RESULT INFO -->
+  </div>
+<%  end %>
+<%  end %>
+</div>

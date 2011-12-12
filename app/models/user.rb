@@ -22,6 +22,12 @@ class User < ActiveRecord::Base
   validates :email, :confirmation => true
   authenticates_with_sorcery! 
   
+  searchable do
+    text :fname
+    text :lname
+    string :activation_state
+  end
+  
   HUMANIZED_ATTRIBUTES = {
                            :fname => 'First Name',
                            :lname => 'Last Name'

@@ -20,6 +20,14 @@ module ApplicationHelper
     end
   end
   
+  def get_avatar_medium(user)
+    if user.profile_pic
+      image_tag(user.profile_pic.avatar.url(:medium))
+    else
+      image_tag('user_blank_large.jpg')
+    end
+  end
+  
   def get_avatar_large(user, my_avatar = false)
     my_avatar = true if current_user.id == user.id
     if my_avatar
