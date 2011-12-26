@@ -1,0 +1,15 @@
+$('.midcontent > .left > .leftcontainer').html('');
+- band_members = capture do
+  Band Members
+  %hr
+  - @band_members.each do |user| 
+    .band-member
+      .avatar
+        = link_to get_avatar_medium(user), user_profile_path(user.id)
+      .user-name 
+        %strong
+          = link_to user.get_full_name, user_profile_path(user.id)
+      .clear
+ 
+$('.midcontent > .left > .leftcontainer').html('#{escape_javascript(band_members)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);

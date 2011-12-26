@@ -1,14 +1,27 @@
 $('#msg_item_<%= @message.id %>').html('');
-<% @messages.each do |message| %> 
-  $('#msg_item_<%= @message.id %>').append('<%= message.body %><br />  by <strong><%= link_to "#{message.sent_messageable.fname}  #{message.sent_messageable.lname}", user_profile_path(message.sent_messageable) %> </strong> <small>about an <%= time_ago_in_words(message.created_at) %> ago</small><br /><hr />');
-<%end%>
+<% all_messages = capture do %>
+  <% @messages.each do |message| %> 
+    <%= message.body %>
+    <br />  by 
+    <strong>
+      <%= link_to "#{message.sent_messageable.fname}  #{message.sent_messageable.lname}", user_profile_path(message.sent_messageable) %> 
+    </strong>
+    <small>
+      about an <%= time_ago_in_words(message.created_at) %> ago
+    </small>
+    <br /><hr />
+  <%end%>
+<% end %>  
 
-var replyform  = '<%= form_tag  reply_to_message_path,:class=>"ajaxload", :method=>:post,  :remote => :true do |f| %>';
-    replyform += '<h4>Reply </h4>';
-    replyform += '<%= hidden_field_tag :id,@message.id %>';
-    replyform += '<%= text_area_tag :body,'',{:class=>"inputbox",:rows=>3,:style=>"width:100%"} %>';
-    replyform += '<%= submit_tag("Reply" ,:class=>"button yellow right")%>'
-    replyform += '<% end %>';
-$('#msg_item_<%= @message.id %>').append(replyform);
+<% reply_form = capture do %>  
+  <%= form_tag  reply_to_message_path,:class=>"ajaxload", :method=>:post,  :remote => :true do |f| %>
+    <h4>Reply </h4>
+    <%= hidden_field_tag :id,@message.id %>
+    <%= text_area_tag :body,'',{:class=>"inputbox",:rows=>3,:style=>"width:100%"} %>
+    <%= submit_tag("Reply" ,:class=>"button yellow right") %>
+  <%  end %>
+<% end %>
+$('#msg_item_<%= @message.id %>').append("<%=  escape_javascript(all_messages) %>");
+$('#msg_item_<%= @message.id %>').append("<%=  escape_javascript(reply_form) %>");
 $('.ajaxload').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());}); 
 

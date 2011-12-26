@@ -1,0 +1,20 @@
+$('.midcontent > .left > .leftcontainer').html('');
+- edit_form = capture do 
+  .content-box#band-edit
+    #update-msg
+    - if @band.errors.any? 
+      #error_explanation
+        %h2
+          = pluralize(@band.errors.count, "error")
+          prohibited this image from being saved:
+        %ul
+          - @band.errors.full_messages.each do |msg|
+            %li
+              = msg
+    .loader
+    = form_for @band, :url => update_band_path(@band.id), :html => {:multipart => true, :remote => true, :class => 'band-form' } do |f|
+      = render :partial => 'form_fields', :locals =>{:f => f}
+      
+$('.midcontent > .left > .leftcontainer').html('#{escape_javascript(edit_form)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+

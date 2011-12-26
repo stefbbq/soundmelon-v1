@@ -44,5 +44,30 @@ module ApplicationHelper
       end
     end
   end
+
+  def get_band_logo_small(band)
+    if band.logo_content_type.nil?
+      image_tag('band_logo_blank_small.jpg')
+    else
+      image_tag(band.logo.url(:small))
+    end  
+  end
+  
+  def get_band_logo_medium(band)
+     if band.logo_content_type.nil?
+      image_tag('band_logo_blank_medium.jpg')
+    else
+      image_tag(band.logo.url(:medium))
+    end  
+  end
+  
+  def get_band_logo_large(band)
+    if band.logo_content_type.nil?
+      image_tag('band_logo_blank_large.jpg')
+    else
+      image_tag(band.logo.url(:large))
+    end   
+  end
+
   
 end

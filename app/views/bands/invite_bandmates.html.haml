@@ -1,0 +1,14 @@
+.blankbox
+  %h3 Invite bandmates
+  invite other people to join 
+  = @band.name
+.content-box
+  .registrationform
+    = form_for @band, :url=> send_bandmates_invitation_path(:band_name => @band.name), :method=>:post do |f|
+      = f.fields_for :band_invitations do |band_invitation|
+        = render :partial => 'band_invitation_fields', :locals => {:f => band_invitation}
+      %span.radiolabel
+        = link_to_add_fields "Add another", f, :band_invitations
+      .right
+        = f.submit("Send Invitations" ,:class=>"button")
+      .clear

@@ -1,0 +1,35 @@
+.band-dashboard
+  .band-logo
+    =get_band_logo_large(@band)
+  .band-stats
+    .quick-band-info
+      %span{:class => 'band-name'}
+        = @band.name
+      %span{:class => 'band-genre'}
+        = "(Consist of #{pluralize(@band_members_count, 'band members')})"
+      %br
+      %span{:class => 'band-genre' }
+        = "Genre: #{@band.genre}"
+      %br
+      %span{:class => 'band-desc'}
+        278 mentions in last 48 hrs
+        %br
+        118 songs in store played 2000 times
+        %br
+        17 albums have been brought 100 times
+    .sales-trend
+      %br
+      %br
+      %br
+      Sales trend graph will come here
+    .total-plays
+      %br
+      %br
+      %br
+      Total plays graph will come here
+  .clear
+  .band-short-bio
+    = simple_format(truncate(@band.bio, :length => 200, :omission => '... (read more)'))
+    .band-bio
+      = simple_format(@band.bio)
+.clear

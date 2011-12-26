@@ -6,10 +6,54 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require jquery.remotipart
 //= require_tree .
 
                 $(document).ready( function(){
+                  $('.auto_search_complete').autocomplete({
+                    minLength: 3,
+                    delay: 600,
+                    source: function(request, response) {
+                    $.ajax({
+                      url: "autocomplete/suggestions.js",
+                      dataType: "json",
+                      data: {term: request.term},
+                      success: function( data ) {
+                        response( data );
+                      }
+                    });
+                  }          
+                });
+                
+                $('.location_auto_search_complete').autocomplete({
+                    minLength: 3,
+                    delay: 600,
+                    source: function(request, response) {
+                    $.ajax({
+                      url: "<%= location_autocomplete_suggestions_url %>",
+                      dataType: "json",
+                      data: {term: request.term},
+                      success: function( data ) {
+                        response( data );
+                      }
+                    });
+                  }          
+                });
+                
+                $('[data-validate]').blur(function() {
+                  $this = $(this);
+                  $.get($this.data('validate'), {
+                    band_name: $this.val()
+                  }).success(function() {
+                   $('.bandname_available').html('');
+                }).error(function() {
+                  $('.bandname_available').html('This band name is not available');
+              });
+            });
+
+
+                   
                    $(".postsubmit").attr('disabled','disabled');
                    $('.inputbox').keyup(function()
                     {

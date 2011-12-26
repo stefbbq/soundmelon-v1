@@ -65,6 +65,7 @@ class UsersController < ApplicationController
           
             band_user.user_id = @user.id
             band_user.band_id = band.id
+            band_user.access_level = 1
             band_user.save!
             @page_type = 'Musician'
             render 'successful_signup_info' and return
@@ -80,8 +81,7 @@ class UsersController < ApplicationController
       @user = User.new
     end
   end
-  
-  
+    
   def activate
     if @user = User.load_from_activation_token(params[:id])
       session[:user_id] = @user.id if @user.activate!

@@ -1,0 +1,19 @@
+<% genres = Genre.all %>
+<script>
+$("#additional_info_favourite_genre").tokenInput([
+                <% genres.each do |genre| %>
+                  {id: '<%=genre.name%>', name: '<%=genre.name%>'},
+                <% end %>
+            ],{
+                theme: "facebook",
+                <% unless @additional_info.nil? %>
+                <% unless  @additional_info.favourite_genre.blank?  %>
+                   prePopulate: [
+                   <% @additional_info.favourite_genre.split(',').each do |cur_genre| %>
+                    {id: '<%=cur_genre%>', name: '<%=cur_genre%>'},
+                   <% end %>
+                  ]
+               <% end %> 
+               <%  end %>   
+            });
+</script>

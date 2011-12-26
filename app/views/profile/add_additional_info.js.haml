@@ -1,8 +1,14 @@
+$(".error_messages").remove('');
 - if @additional_info.errors.any?
   - er_msg = "<div class='error_messages'><ul>"
   - for message in @additional_info.errors.full_messages
     - er_msg += "<li>" + message + "</li>"
   - er_msg += "</ul></div>"
+  $("#additional-info-msg").html('');
   $("#additional_info").prepend("#{raw er_msg}");
 - else
-  $("#additional_info").html("Additional Info Successfully Added");
+  $(".error_messages").remove('');
+  - if @additional_info_update
+    $("#additional-info-msg").html("Additional Info Successfully Updated");
+  - else
+    $("#additional_info").prepend("<div id='additional-info-msg'>Additional Info Successfully Added</div>");

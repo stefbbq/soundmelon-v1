@@ -5,4 +5,7 @@
   - er_msg += "</ul></div>"
   $("#payment_info").prepend("#{raw er_msg}");
 - else
-  $("#payment_info").html("Payment Info Successfully Added");
+  - if @payment_info_update
+    $("#payment-info-msg").html("Payment Info Successfully Updated");
+  - else
+    $("#payment_info").prepend("Payment Info Successfully Added");

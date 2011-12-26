@@ -1,0 +1,8 @@
+- band_album_photos = capture do
+  %h3
+    = "Photos in #{@band_album.name} album  : #{@band_album.band_photos.count}"
+  - @band_album.band_photos.each do |photo|
+    .album_photo
+      =link_to image_tag(photo.image.url(:medium), :width => '196px'), band_album_photo_path(photo.id, :band_album_name => @band_album.name, :band_name => @band.name), :remote => true, :class => 'ajaxopen'
+$('.midcontent > .left > .leftcontainer').html('#{escape_javascript band_album_photos} ');
+setTimeout('$(document).trigger(\"close.facebox\")',10);    

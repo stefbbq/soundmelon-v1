@@ -1,0 +1,55 @@
+<div id="additional_info" class="ontent-box" >
+  <%= form_for(:additional_info, {:url => create_additional_info_path, :remote => true, :class => 'ajaxopen'}) do |f| %>
+  <div class="fields">
+    <label for="name">Gender</label>
+    <%= f.select :gender, [['Male',1],['female', '0']], :class => 'textfield1' %>
+    <span class="age"> Age
+      <%= f.text_field :age, {:size => 5, :class => 'textfield'} %>
+    </span>
+  </div>
+  <div class="fields">
+    <label for="name">Location</label>
+    <%= f.text_field :location, {:size => 40, :class => 'textfield location_auto_search_complete'} %>
+  </div>
+  <div class="fields">
+      <label for="name">Favourite genere(s)</label>
+      <%= f.text_field :favourite_genre, {:size => 40, :class => 'textfield'} %>
+      <%=  f.submit 'Update', :class => 'button' %>
+  </div>
+  <div class="clear"></div>
+  <% end %>
+</div>
+<% genres = Genre.all %>
+<script>
+$('.location_auto_search_complete').autocomplete({
+  minLength: 3,
+  delay: 600,
+  source: function(request, response) {
+    $.ajax({
+      url: "<%= location_autocomplete_suggestions_url %>",
+      dataType: "json",
+      data: {term: request.term},
+      success: function( data ) {
+        response( data );
+      }
+    });
+  }          
+});
+
+      $("#additional_info_favourite_genre").tokenInput([
+                <% genres.each do |genre| %>
+                  {id: '<%=genre.name%>', name: '<%=genre.name%>'},
+                <% end %>
+            ],{
+                theme: "facebook",
+                <% unless @additional_info.nil? %>
+                <% unless @additional_info.favourite_genre.blank?  %>
+                   prePopulate: [
+                   <% @additional_info.favourite_genre.split(',').each do |cur_genre| %>
+                    {id: '<%=cur_genre%>', name: '<%=cur_genre%>'},
+                   <% end %>
+                  ]
+               <% end %>  
+               <% end %>
+            });
+</script>

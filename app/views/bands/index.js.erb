@@ -1,0 +1,30 @@
+$('.midcontent > .left > .leftcontainer').html('');
+<% content = capture do %>
+  <% if @bands.blank? %>
+    You are not a part of any band.
+  <% else %>
+    <div class='bands'>
+      select a band from the list below to administer
+      <br /><hr />
+      <% @bands.each do |band| %> 
+        <div class='band'>
+          <div class='band-logo-sml'>
+             <%= get_band_logo_medium(band)  %>
+          </div>
+          <div class='band-info'>
+            <span class="band-name"><%=band.name%></span><br />
+            <span class="band-genre">(<%= band.genre%>)</span><br />
+            <span class="other-info"> Fan #,Album #, Songs #</span><br />
+            <span class="band-access">
+              <%=link_to 'access>>>', manage_band_path(:band_name => band.name),:class=>'button' %> 
+            </span>
+          </div>
+        </div>
+        <hr />
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+$('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(content) %>');
+setTimeout('$(document).trigger(\"close.facebox\")',10);

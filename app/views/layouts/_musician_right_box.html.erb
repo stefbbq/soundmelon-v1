@@ -1,0 +1,31 @@
+<div class="rightmenu">
+  <ul>
+    <li>
+     <%=  link_to "Upload Photos", new_band_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen" %>
+    </li>
+    <li>
+      <%=  link_to "Albums", band_albums_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen" %>
+      <div id="right_albumbox">
+      	
+      	</div>
+    </li>
+    <li>
+      <%= link_to 'Edit Profile' , edit_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen' %>
+    </li>
+    <li>
+      <%= link_to 'Edit Tour Dates', {}, :remote => true, :class => 'ajaxopen' %>
+    </li>
+    <li>
+      <%= link_to 'Edit Music Store', {}, :remote => true, :class => 'ajaxopen' %>
+    </li>
+    <li>
+      <%= link_to 'Access Analytics', {}, :remote => true, :class => 'ajaxopen' %>
+    </li>
+    <li>
+      <%= link_to 'Band Members', band_members_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen' %>
+    </li>
+    <li>
+       <%=  link_to "Invite Bandmates", bandmates_invitation_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen" %>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,5 @@
+- data = []
+- @locations.each do |user_loc|
+  - data << {"label" => "#{user_loc.location}", "value" => "#{user_loc.location}" }
+
+= raw data.to_json

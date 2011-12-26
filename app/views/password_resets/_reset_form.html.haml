@@ -1,0 +1,6 @@
+.loader
+Type your email address to reset your password
+= form_tag password_resets_path, :remote => true, :class => 'ajaxopen' do
+  Email
+  = text_field_tag :email
+  = submit_tag "submit",:class=>"button blue"

@@ -34,6 +34,7 @@
       = text_field_tag :email, params[:email], :class => 'loginfields'
       = password_field_tag :password,nil, :class => 'loginfields'
       = submit_tag "GO", :class => 'login'
+    = link_to 'Forget password?', password_resets_path, :remote => true, :class => 'ajaxopen'
 .homefeed
   %h3 What's happening around you
   .feedbox

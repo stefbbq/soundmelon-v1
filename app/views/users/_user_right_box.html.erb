@@ -10,10 +10,13 @@
       	</div>
     </li>
     <li>
-      <a href="javascript:void(0)">Edit Basic info</a>
+      <%= link_to 'Edit Profile' , user_profile_edit_path, :remote => true, :class => 'ajaxopen' %>
     </li>
     <li>
-      <a href="javascript:void(0)" class="selected">Edit Basic info</a>
+      <%= link_to 'Edit Payment Info', edit_payment_info_path, :remote => true, :class => 'ajaxopen' %>
+    </li>
+    <li>
+      <%= link_to 'Access Musicians', associated_band_path, :remote => true, :class => 'ajaxopen' %>
     </li>
     <li>
     <!-- check if user is musician then show this menu-->

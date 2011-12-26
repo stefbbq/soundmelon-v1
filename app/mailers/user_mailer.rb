@@ -9,6 +9,14 @@ class UserMailer < ActionMailer::Base
       :subject => "Thanks for signing up"
     )
   end
+  
+  def reset_password_email(user)
+    @user = user
+    @url  = "#{root_url}/password_resets/#{user.reset_password_token}/edit"
+    mail(:to => user.email,
+         :subject => "Your password reset request")
+  end
+
 
   def activation_success_email(user)
     @user = user
@@ -20,10 +28,11 @@ class UserMailer < ActionMailer::Base
   end
   
   def mate_invitation_email(band_invitation)
-      @band_invitation  = band_invitation
-      @user             = User.find(band_invitation.user_id)
-      @new_user_url              = join_band_invitation_url(band_invitation.token,:old_user=>0)
-      @old_user_url              = join_band_invitation_url(band_invitation.token,:old_user=>1)
+      @band_invitation = band_invitation
+      @user = User.find(band_invitation.user_id)
+      @band = Band.find(@band_invitation.band_id)
+      @new_user_url = join_band_invitation_url(band_invitation.token, :old_user => 0 )
+      @old_user_url = join_band_invitation_url(band_invitation.token, :old_user => 1 )
       
       mail(
         :to => band_invitation.email,

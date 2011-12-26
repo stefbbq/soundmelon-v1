@@ -1,0 +1,54 @@
+- content_for :tophead do
+  .profilehead
+    .logo
+      %h2.logotext
+        %a{:href => "/"} SoundMelon
+    .switch
+      %span{:class => 'adminstrating-info'}
+        = "#{current_user.get_full_name} administaring #{@band.name}"
+      .associated-bands
+        .switch-button
+          Switch
+        .switch-lists
+          %ul
+            %li
+              = link_to 'Switch back to yourself', user_home_path
+            - @other_bands.each do |band|
+              %li
+                = link_to "Access #{band.name}", manage_band_path(:band_name => band.name)
+            %li
+              = link_to 'Logout', logout_path
+    .clear
+    .mplayerbar
+      .logo
+        %p S
+      .playerbox
+      .headrightbox
+        .icons
+          .numbericon
+            %a{:href => "#"} 3
+          .numbericon
+            %a{:href => "#"} 8
+          .othericon1
+            %a{:href => "#"} 19
+          .othericon1
+            %a{:href => "#"} &euro;
+          .othericon
+            %a{:href => "#"} +
+          .clear
+      .clear
+    .headmenubar
+      .menu
+        %ul
+          %li
+            %a{:href => "#"} Marquee
+          %li
+            %a{:href => "#"} Social
+          %li
+            %a{:href => "#"} Venues
+        .clear
+      .searchbox
+        =form_tag( {:controller =>'search', :action => 'index'}, :method => "get") do
+          %input.auto_search_complete{:name => "q", :type => "text", :class => 'searchinput'}/
+          %input.search{:name => "search", :type => "submit", :value => "Go" }/
+      .clear

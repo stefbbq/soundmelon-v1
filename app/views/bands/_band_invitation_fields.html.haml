@@ -1,0 +1,14 @@
+.fields
+  %label{:for => "name"} email
+  = f.text_field :email,:class=>"textfield"
+  %br/
+  %br/
+  \&nbsp;&nbsp;
+  %label{:for => "email"} &nbsp;
+  = f.radio_button(:access_level, "1", {:checked => true})
+  %span.radiolabel Admin
+  = f.radio_button( :access_level, "0")
+  %span.radiolabel Limited
+  = link_to_remove_fields "remove", f
+%hr
+.clear

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111127154809) do
+ActiveRecord::Schema.define(:version => 20111222073659) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -30,12 +30,31 @@ ActiveRecord::Schema.define(:version => 20111127154809) do
     t.datetime "updated_at"
   end
 
+  create_table "band_albums", :force => true do |t|
+    t.integer  "band_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "band_invitations", :force => true do |t|
     t.integer  "band_id"
     t.integer  "user_id"
     t.string   "email"
     t.string   "token"
     t.boolean  "access_level", :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "band_photos", :force => true do |t|
+    t.integer  "band_album_id"
+    t.integer  "user_id"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -54,6 +73,14 @@ ActiveRecord::Schema.define(:version => 20111127154809) do
     t.string   "genre"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.text     "bio"
+    t.string   "location"
+    t.string   "band_logo_url"
+    t.string   "website"
   end
 
   create_table "follows", :force => true do |t|
@@ -68,6 +95,13 @@ ActiveRecord::Schema.define(:version => 20111127154809) do
 
   add_index "follows", ["followable_id", "followable_type"], :name => "fk_followables"
   add_index "follows", ["follower_id", "follower_type"], :name => "fk_follows"
+
+  create_table "genres", :force => true do |t|
+    t.string   "name"
+    t.integer  "parent_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "messages", :force => true do |t|
     t.string   "topic"

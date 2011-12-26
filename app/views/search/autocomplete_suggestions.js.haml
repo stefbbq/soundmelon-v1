@@ -1,0 +1,8 @@
+- data = []
+- @users.each do |user|
+  - data << {"label" => "#{user.get_full_name}", "value" => "#{user.get_full_name}" }
+- @band_names.each do |band_name|
+  - data << {"label" => "#{band_name}", "value" => "#{band_name}" }
+- @band_genres.each do |band_genre|
+  - data << {"label" => "#{band_genre}", "value" => "#{band_genre}" }
+= raw data.to_json

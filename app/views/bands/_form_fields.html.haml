@@ -1,0 +1,21 @@
+.fields
+  %label{:for => "name"} band name
+  = f.text_field :name, :class => 'textfield'
+.fields
+  %label{:for => "name"} Location
+  = f.text_field :location, :class => 'textfield'
+.fields
+  %label{:for => "name"} Genre(s)
+  = f.text_field :genre, :class => 'textfield'
+.fields
+  %label{:for => "name"} Biography
+  = f.text_area :bio, :rows => 5, :cols => 50, :class => 'text-area-field'
+.fields
+  %label{:for => "name"} Official Website
+  = f.text_field :website, :class => 'textfield'
+.fields
+  %label{:for => "name"} Upload New Band Logo:
+  = f.file_field :logo, :class => 'file-field'
+.fields          
+  = f.submit 'Update', :class => 'button right'
+.clear

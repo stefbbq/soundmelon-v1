@@ -1,0 +1,12 @@
+<%=form_for :user, :url => update_basic_info_path, :html => {:remote => true, :class => 'ajaxopen'}  do |f| %>
+  <div class="fields">
+   <label for="name">First Name</label>
+    <%= f.text_field :fname, :class => 'textfield' %>
+  </div>
+  <div class="fields">
+   <label for="name">Last Name</label>
+    <%= f.text_field :lname, :class => 'textfield' %>
+  </div>
+  <%= submit_tag 'Update', :class => 'button'  %>
+
+<% end %>

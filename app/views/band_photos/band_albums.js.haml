@@ -1,0 +1,18 @@
+- if @band_albums.blank?
+  != "$('#facebox .content').html('Has not uploaded any photos by band admin');"
+  != "setTimeout('$(document).trigger(\"close.facebox\")',1000);" 
+- else
+  - band_albums = capture do
+    - @band_albums.each do |band_album|
+      .album
+        .album_teaser_image
+          = link_to image_tag(band_album.band_photos.first.image.url(:thumb), :height => '80px'), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
+        .album_name
+          %h3
+            = link_to "#{band_album.name}", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
+           
+          = link_to "#{pluralize(band_album.band_photos.count, 'photo')}", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
+        .clear 
+      .clear 
+  $('#right_albumbox').html('#{escape_javascript band_albums}');
+  setTimeout('$(document).trigger(\"close.facebox\")',10);

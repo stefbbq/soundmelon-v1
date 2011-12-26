@@ -27,10 +27,16 @@ class ProfileController < ApplicationController
 
   def add_additional_info
     if request.xhr?
-      redirect_to root_url and return unless current_user.additional_info.nil?
-      @additional_info = current_user.build_additional_info(params[:additional_info])
-      respond_to do |format| 
+      #redirect_to root_url and return unless current_user.additional_info.nil?
+      if current_user.additional_info.nil?
+        @additional_info = current_user.build_additional_info(params[:additional_info])
         @additional_info.save
+      else
+        @additional_info_update = true
+        @additional_info = current_user.additional_info
+         @additional_info.update_attributes(params[:additional_info])
+      end
+      respond_to do |format| 
         format.js          
       end
     else
@@ -40,10 +46,15 @@ class ProfileController < ApplicationController
   
   def add_payment_info
     if request.xhr?
-      redirect_to root_url and return unless current_user.payment_info.nil?
-      @payment_info = current_user.build_payment_info(params[:payment_info])
-      respond_to do |format|
+      if current_user.payment_info.nil?
+        @payment_info = current_user.build_payment_info(params[:payment_info])
         @payment_info.save
+      else
+        @payment_info = current_user.payment_info
+        @payment_info.update_attributes(params[:payment_info])
+        @payment_info_update = true
+      end
+      respond_to do |format|
         format.js
       end
     else
@@ -52,18 +63,15 @@ class ProfileController < ApplicationController
   end
     
   def invite_bandmates
-     redirect_to root_url and return unless current_user.account_type
+    redirect_to root_url and return unless current_user.account_type
     
     if request.post?
-      
-      @band=Band.find(current_user.band_user.band_id)
-      #raise params.inspect
+      @band = current_user.bands.first
       @band.update_attributes(params[:band])
-      redirect_to user_home_url
+      redirect_to user_home_url and return
     else
      @band = Band.new
      @band_invitations = @band.band_invitations.build
-      
     end
   end
   
@@ -86,5 +94,82 @@ class ProfileController < ApplicationController
       redirect_to user_home_url ,:error => "Undefined invitation token" and return
     end
   end
+ 
+  def edit_profile
+    if request.xhr?
+      begin
+        @user = current_user
+        @additional_info = current_user.additional_info
+        respond_to do |format|
+          format.js and return
+        end
+      rescue
+        render :nothing => true and return   
+      end
+    else
+      redirect_to user_home_url and return
+    end
+  end
   
+  def update_basic_info
+    if request.xhr?
+      begin
+        if params[:user][:fname].blank? || params[:user][:fname].blank?
+          @msg = 'First Name and Last Name cannot be blank'
+        else
+          current_user.fname = params[:user][:fname]
+          current_user.lname = params[:user][:lname]
+          if current_user.save
+            @msg = 'Basic info updated successfully'
+          else
+            @msg = 'Something went wrong. Try again'
+          end
+        end
+        respond_to do |format|
+          format.js and return
+        end
+      rescue
+        render :nothing => true and return   
+      end
+    else
+      redirect_to user_home_url and return
+    end
+  end
+  
+  def update_password
+    if request.xhr?
+      begin
+        if params[:old_password].blank?
+          @msg = 'Old password do not match'
+        elsif params[:user][:password].blank? || params[:user][:password_confirmation].blank?
+          @msg = 'New password cannot be blank'
+        elsif params[:user][:password] != params[:user][:password_confirmation]
+          @msg = 'New password do not match'
+        elsif !login(current_user.email, params[:old_password])
+          @msg = 'Old password do not match'    
+        else
+         if current_user.change_password!(params[:user][:password])
+            @msg = 'Password updated successfully'
+          else
+            @msg = 'Something went wrong. Try again'
+          end
+        end
+        respond_to do |format|
+          format.js and return
+        end
+      rescue
+        render :nothing => true and return   
+      end
+    else
+      redirect_to user_home_url and return
+    end   
+  end
+  
+  def update_payment_info
+     if request.xhr?
+       @payment_info = current_user.payment_info
+     else
+       redirect_to user_home_url and return
+     end
+  end
 end

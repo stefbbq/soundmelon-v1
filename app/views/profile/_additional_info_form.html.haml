@@ -10,9 +10,10 @@
       = f.text_field :age, {:size => 5, :class => 'textfield'}
     .fields
       %label{:for => "name"} Location
-      = f.text_field :location, {:size => 40, :class => 'textfield'}
+      = f.text_field :location, {:size => 40, :class => 'textfield location_auto_search_complete'}
     .fields
       %label{:for => "name"} Favourite genere(s)
       = f.text_field :favourite_genre, {:size => 40, :class => 'textfield'}
       = f.submit 'Add', :class => 'button'
     .clear
+= render :partial => 'profile/facebox_style_autocomplete_for_genre'

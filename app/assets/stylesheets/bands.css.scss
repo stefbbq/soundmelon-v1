@@ -1,0 +1,78 @@
+// Place all the styles related to the Bands controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.logo{float:left;}
+.switch{float:right;}
+.adminstrating-info{font-size: 16px;}
+.band-logo{
+  float:left; 
+  background-color: gray;
+  margin-right: 25px;
+  min-height:236px;
+  max-height:236px;
+  overflow:hidden;
+}
+.quick-band-info{margin-top:10px;}
+.band-short-bio{color:#ffffff;float:left; background-color: gray;margin-top:10px;width:95%; padding-left:20px; font-size:14px;}
+.band-short-bio:hover > .band-bio{display:block;}
+.band-bio{display:none;z-index:1;position:absolute;background-color:#ffffff;padding:3px;color:black;margin-top:2px;font-weight:normal;font-size:12px;}
+.sales-trend{color:#ffffff;float:left; background-color: gray;margin-top:30px; min-height:105px;max-height:105px; margin-right:10px; min-width:270px;max-widhth:270px;text-align:center}
+.total-plays{color:#ffffff;float:left; background-color: gray;margin-top:30px; min-height:105px;max-height:105px; margin-right:10px; min-width:270px;max-widhth:270px;text-align:center}
+.band-name{font-size:30px; font-weight:bold;}
+.band-genre{font-style: italic; font-size:15px; font-weight:bold;}
+.band-desc{font-style: italic; font-size:14px;}
+.band-stats{}
+.switch-button {
+  -moz-border-radius: 4px 4px 4px 4px;
+  background: none repeat scroll 0 0 #4D4D4D;
+  color: #FFFFFF;
+  cursor: default;
+  display: inline-block;
+  font-size: 1.2em;
+  height: 30px;
+  line-height: 30px;
+  min-width: 100px;
+  margin:5px;
+  text-align: center;
+  text-shadow: 0 -1px 0 #398C04;
+}
+.associated-bands:hover > .switch-lists{display:block;}
+.switch-lists{display:none; z-index:1;position:absolute;background-color:#ffffff;padding:3px;color:black;margin-top:2px; margin-right:5px;}
+.switch-lists > ul {
+    font-size: 12px;
+    margin: 0;
+    list-style:none;
+    padding: 0px;
+}
+.switch-lists > ul > li{}
+.switch-lists > ul > li > a{color:black;font-weight:bold;border-bottom: 1px solid #ccc;}
+.associated-bands{float:right;}
+.band-logo-sml{
+  float:left; 
+  background-color: gray;
+  margin-right: 25px;
+  min-height:100px; 
+  min-width:100px;
+}
+.band{ min-height:120px; }
+.band-access{float:right}
+.right{float: right; margin-right:105px;margin-top:5px;}
+.file-field{
+ -moz-border-radius: 5px 5px 5px 5px;
+  background: none repeat scroll 0 0 #323232;
+  border: 2px solid #4D4D4D;
+  color: #FFFFFF;
+  margin: 3px 0 0 20px;
+  padding: 2px;
+}
+.text-area-field{
+  -moz-border-radius: 5px 5px 5px 5px;
+  background: none repeat scroll 0 0 #323232;
+  border: 2px solid #4D4D4D;
+  color: #FFFFFF;
+  margin: 3px 0 0 20px;
+  padding: 2px;
+}
+.band-member{padding:10px;}
+.band-member >.avatar{float:left; margin-left:20px;padding-right:20px;}
+.user-name{font-size:14px; font-weight:bold;}

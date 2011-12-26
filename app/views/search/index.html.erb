@@ -7,11 +7,20 @@
   <div class="users_header"><h3>USERS</h3></div>
   <% @user_search_results.results.each do |user| %>
    <div class="row" >      
-     <%=  link_to get_avatar_medium(user), user_profile_path(user) if user != current_user %>
-     <%= link_to get_avatar_medium(user), user_home_url if user == current_user %>
+     <% if user == current_user %>
+       <%= link_to get_avatar_medium(user), user_home_url %>
+     <% else %>
+       <%=  link_to get_avatar_medium(user), user_profile_path(user) %>
+     <% end %>
      <!-- RESULT INFO -->
      <div class="info">
-       <h3><%=  "#{user.fname} #{user.lname}" %></h3>   
+       <h3 >   
+         <% if user == current_user %>
+           <%= link_to user.get_full_name, user_home_url %>
+         <% else %>
+           <%=  link_to user.get_full_name, user_profile_path(user) %>
+         <% end %>
+       </h3> 
      </div>
      <div class="clear"></div>
      <!-- END RESULT INFO -->
@@ -22,7 +31,7 @@
   <div class="bands_header"><h3>BANDS</h3></div>
   <% @band_search_results.results.each do |band| %>
    <div class="row" >      
-     <%=image_tag('user_blank_large.jpg')%>
+     <%=get_band_logo_medium(band)%>
      <!-- RESULT INFO -->
      <div class="info">
        <h3><%=  "#{band.name} (#{band.genre})" %></h3>   

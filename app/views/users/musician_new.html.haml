@@ -17,7 +17,8 @@
     .registrationform
       .fields
         %label{:for => "name"} Band Name
-        = text_field_tag :band_name, nil, :class => 'textfield'
+        = text_field_tag :band_name, nil, :class => 'textfield', :'data-validate' => check_bandname_url
+        .bandname_available
       .fields
         %label{:for => "email"} Genre
         = text_field_tag :genre, nil, :class => 'textfield'

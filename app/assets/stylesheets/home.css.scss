@@ -81,7 +81,7 @@ margin:0 auto;
                }
               .musicianinfo{ @include box(47%,250px,$box-color); float:left; text-align: right; padding:4*$padding;}
               .faninfo{ text-align:left; float:right;  @include box(47%,250px,$box-color);  padding:4*$padding; }
-              .loginbox
+              .loginbox, .loginbox a
                   { font-size:2*$size;  color:#1AD327;  text-align:center;   clear:both; margin-top:10px;
                     .loginfields{ @include rounded-corner;  background-color:#808080; padding:10px;  border:none;  color:#000;}
                     .login{ @include rounded-corner; padding:5*$padding 10*$padding ;  background-color: #1AD327; border:none; }
