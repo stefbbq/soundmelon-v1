@@ -2,19 +2,12 @@ class UsersController < ApplicationController
   before_filter :require_login, :except => [:fan_new, :musician_new, :activate]
   before_filter :logged_in_user, :only => ['fan_new', 'musician_new', :activate]  
   def index
-    @user = current_user
-    #@user_posts = UserPost
-    #@user_post_dates = UserPost.where("user_id = (?) or  post like (?)",current_user.id,"%@"+current_user.fname+" %").order("created_at desc").group("date(created_at)")
-    @user_posts    = UserPost.listing current_user, params[:page]
-    @user_post_dates = @user_posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-    
-     
-      next_page           = @user_posts.next_page
-      @load_more_path =  next_page ?  more_post_path(next_page) : nil
-      #render @next_user_posts
-    #raise @user_post_dates.inspect
-    
-    @messages = current_user.received_messages.limit(DEFAULT_NO_OF_MESSAGE_DISPLAY)
+    @user = current_user 
+    @posts = current_user.find_own_as_well_as_mentioned_posts(params[:page])
+    @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}    
+    next_page = @posts.next_page
+    @load_more_path =  next_page ?  more_post_path(next_page) : nil
+    @messages = current_user.received_messages #.limit(DEFAULT_NO_OF_MESSAGE_DISPLAY)
     @following_count = current_user.following_user.count
     @follower_count = current_user.user_followers.count
     @following_users = current_user.following_user.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
@@ -60,6 +53,7 @@ class UsersController < ApplicationController
           BandUser.transaction do
             @user.save!
             band.name = params[:band_name].strip
+            band.mention_name = params[:band_mention_name].strip
             band.genre = params[:genre].strip
             band.save!
           

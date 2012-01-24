@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111222073659) do
+ActiveRecord::Schema.define(:version => 20120117171436) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20111222073659) do
     t.string   "location"
     t.string   "band_logo_url"
     t.string   "website"
+    t.string   "mention_name"
   end
 
   create_table "follows", :force => true do |t|
@@ -99,6 +100,15 @@ ActiveRecord::Schema.define(:version => 20111222073659) do
   create_table "genres", :force => true do |t|
     t.string   "name"
     t.integer  "parent_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mentioned_posts", :force => true do |t|
+    t.integer  "post_id"
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -145,6 +155,16 @@ ActiveRecord::Schema.define(:version => 20111222073659) do
     t.datetime "image_updated_at"
   end
 
+  create_table "posts", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.string   "msg"
+    t.integer  "parent_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "is_deleted", :default => false
+  end
+
   create_table "profile_pics", :force => true do |t|
     t.integer  "user_id",             :null => false
     t.datetime "created_at"
@@ -154,6 +174,32 @@ ActiveRecord::Schema.define(:version => 20111222073659) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.integer  "userid"
+  end
+
+  create_table "song_albums", :force => true do |t|
+    t.integer  "band_id"
+    t.integer  "user_id"
+    t.string   "album_name"
+    t.string   "cover_img_file_name"
+    t.string   "cover_img_content_type"
+    t.integer  "cover_img_file_size"
+    t.datetime "cover_img_updated_at"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "songs", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "song_album_id"
+    t.text     "description"
+    t.string   "song_file_name"
+    t.string   "song_content_type"
+    t.integer  "song_file_size"
+    t.datetime "song_updated_at"
+    t.integer  "total_played",      :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_posts", :force => true do |t|
@@ -182,6 +228,7 @@ ActiveRecord::Schema.define(:version => 20111222073659) do
     t.datetime "last_login_at"
     t.datetime "last_logout_at"
     t.datetime "last_activity_at"
+    t.string   "mention_name"
   end
 
   add_index "users", ["activation_token"], :name => "index_users_on_activation_token"

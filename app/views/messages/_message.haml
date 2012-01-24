@@ -1,8 +1,8 @@
 .msgbox{:id=>"message_box_#{message.id}"}
   .avatar
-    = link_to get_avatar_small(message.sent_messageable), user_profile_path(message.sent_messageable) if message.sent_messageable != current_user
-    = link_to get_avatar_small(message.sent_messageable), user_home_url if message.sent_messageable == current_user
-  
+    = link_to get_avatar_small(message.sent_messageable), user_profile_path(message.sent_messageable) if message.sent_messageable_type == 'User' && message.sent_messageable != current_user
+    = link_to get_avatar_small(message.sent_messageable), user_home_url if message.sent_messageable_type == 'User' && message.sent_messageable == current_user
+    = get_band_logo_small(message.sent_messageable) if message.sent_messageable_type == 'Band'
   -if message.opened
     .msgstremitem
       .itemcontent{:id=>"msg_item_#{message.id}"}
@@ -10,15 +10,24 @@
         %br
         by
         %strong
-        =  message.sent_messageable.fname 
+        - if message.sent_messageable_type == 'User'
+          =  message.sent_messageable.fname 
+        - else
+          = message.sent_messageable.mention_name
+
         about an #{time_ago_in_words(message.created_at)} ago
       .righticons
         
         = link_to "Destroy(X)" ,message_path(message),:remote=>:true,:method=>:delete, :class =>"ajaxload"
         %br
-        = link_to "Reply" ,message_path(message),:remote=>:true ,:class=>"ajaxload"
-        %br
-        = link_to "View" ,message_path(message),:remote=>:true, :class=>"ajaxload" 
+        - if band
+          = link_to "Reply" ,band_message_path(message, :band_id => band.id),:remote=>:true ,:class=>"ajaxload"
+          %br
+          = link_to "View" ,message_path(message, :band_id => band.id),:remote=>:true, :class=>"ajaxload"
+        - else
+          = link_to "Reply" ,message_path(message),:remote=>:true ,:class=>"ajaxload"
+          %br
+          = link_to "View" ,message_path(message),:remote=>:true, :class=>"ajaxload" 
         
       .clear
   -else
@@ -28,7 +37,7 @@
         %br
         by
         %strong
-        =  message.sent_messageable.fname 
+        =  message.sent_messageable_type == 'User' ? message.sent_messageable.fname : message.sent_messageable.mention_name 
         about an #{time_ago_in_words(message.created_at)} ago
       .righticons
         = link_to "Destroy(X)" ,message_path(message),:remote=>:true,:method=>:delete, :class =>"ajaxload"

@@ -1,4 +1,4 @@
 != "$('#user_post_form')[0].reset();"
-!= "$('.user_posts').prepend('#{escape_javascript(render(@user_post))}');"
+!= "$('.user_posts').prepend('#{escape_javascript(render 'user_posts/post', :post => @post)}');"
 //!= "$('.user_posts').prepend('<div class=\"dateicon\" id= \"#{user_post.id}\">#{@user_post.created_at.strftime("%b %d")}</div>');"
 != "$('.postsubmit').attr('disabled','disabled');"

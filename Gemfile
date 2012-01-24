@@ -23,6 +23,8 @@ gem 'mime-types', :require => 'mime/types'
 gem 'sunspot_rails'
 gem 'sunspot_solr'  # optional pre-packaged Solr distribution for use in development
 gem 'progress_bar'
+gem "activerecord-import", ">= 0.2.0"
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

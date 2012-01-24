@@ -9,8 +9,13 @@ class BandsController < ApplicationController
     begin
       @band = Band.where(:name => params[:band_name]).includes(:band_members).first
       if current_user.is_admin_of_band?(@band)
+         @messages = @band.received_messages #.limit(DEFAULT_NO_OF_MESSAGE_DISPLAY)
          @band_members_count = @band.band_members.count
          @other_bands = current_user.admin_bands_except(@band)
+         @posts = @band.find_own_as_well_as_mentioned_posts(params[:page])
+         @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}    
+         next_page = @posts.next_page
+         @load_more_path =  next_page ?  more_post_path(next_page) : nil
       else
         logger.error "#User with username:{current_user.get_full_name} and user id #{current_user.id} tried to adminster band with band id: #{@band.id} which he is not a admin" 
         redirect_to user_home_url, :notice => 'Your action has been reported to admin' and return
@@ -114,6 +119,36 @@ class BandsController < ApplicationController
   end
   respond_to do |format|
     format.js {render :action => 'invite_bandmates' and return}
+  end
+  
+  def follow_band
+    begin
+      @band = Band.where(:name => params[:band_name]).first
+      current_user.follow(@band)  unless current_user.following?(@band)
+    rescue
+      render :nothing => true and return
+    end
+  end
+  
+  def send_message
+    begin
+      to_band = Band.find(params[:id])
+      if current_user.send_message(to_band, :body => params[:body])
+      else
+        # though body is empty, let the bogus user feel msg is sent   
+      end
+    rescue
+      render :nothing => true and return
+    end
+  end
+  
+  def new_message
+    begin
+      @band = Band.find(params[:id]) 
+      @message = ActsAsMessageable::Message.new
+    rescue
+      render :nothing => true and return
+    end
   end
   
 end

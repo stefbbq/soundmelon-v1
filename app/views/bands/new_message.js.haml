@@ -1,0 +1,3 @@
+!= "jQuery.facebox('#{escape_javascript(render 'msg_form')} ' );"
+!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});" 
+   

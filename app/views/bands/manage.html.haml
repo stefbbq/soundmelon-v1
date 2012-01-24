@@ -16,6 +16,21 @@
       .clear
       %br
     .leftcontainer
+      = render "user_posts/form"
+      .clear
+      .messageicon
+        Messages
+      -@messages.each do |message|
+        = render :partial => "messages/message",:locals => {:message => message, :band => @band}
+      .user_posts
+        -@posts_order_by_dates.each do |date, posts|
+          .dateicon 
+            = date.to_date.strftime("%b %d")
+          = render 'user_posts/user_post', :posts => posts      
+          .clear
+      -if !@load_more_path.nil?
+        .readmore
+          =link_to("Read more", @load_more_path ,:remote => true,:class=>"ajaxload")
   .rightbar
     = render "layouts/musician_right_box"
   .clear

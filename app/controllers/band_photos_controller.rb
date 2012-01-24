@@ -2,7 +2,7 @@ class BandPhotosController < ApplicationController
   before_filter :require_login
   
   def index
-    @photos = Photos.all
+    #@photos = Photos.all
   end
   
   def show
@@ -89,7 +89,7 @@ class BandPhotosController < ApplicationController
   
   private 
   def coerce(params)
-    if params[:photo].nil? 
+    if params[:band_photo].nil? 
       h = Hash.new 
       h[:band_photo] = Hash.new  
       h[:band_photo][:image] = params[:Filedata] 

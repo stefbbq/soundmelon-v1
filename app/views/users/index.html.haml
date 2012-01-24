@@ -21,12 +21,12 @@
       .messageicon
         Messages
       -@messages.each do |message|
-        = render :partial => "messages/message",:locals => {:message => message}
+        = render :partial => "messages/message",:locals => {:message => message, :band => false}
       .user_posts
-        -@user_post_dates.each do |date,user_post|
+        -@posts_order_by_dates.each do |date, posts|
           .dateicon 
             = date.to_date.strftime("%b %d")
-          = render user_post      
+          = render 'user_posts/user_post', :posts => posts      
           .clear
       -if !@load_more_path.nil?
         .readmore

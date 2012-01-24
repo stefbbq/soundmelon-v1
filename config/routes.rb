@@ -29,7 +29,12 @@ Soundmelon::Application.routes.draw do
   match 'user/profile/:id' => 'profile#user_profile',:as => 'user_profile'
   match 'messages/inbox' => 'messages#inbox' ,:as => 'user_inbox' 
   resources :user_posts
+  match 'post/:id/reply/(:band_id)' => 'user_posts#new_reply', :as => 'new_post_reply'
+  match 'post/reply' => 'user_posts#reply', :as => 'post_reply'
+ 
+  match 'messages/:id/band/:band_id' => 'messages#show', :as => 'band_message' 
   resources :messages
+ 
   match 'message/reply' => 'messages#reply' ,:as => 'reply_to_message'
   match 'user_posts/more(/:page)'   =>'user_posts#index', :as => :more_post
   match 'edit/profile' => 'profile#edit_profile', :as => 'user_profile_edit'
@@ -75,8 +80,20 @@ Soundmelon::Application.routes.draw do
   get ':band_name/album/photos/:band_album_name' => 'band_photos#band_album_photos', :as => 'band_album_photos'
   get ':band_name/:band_album_name/photo/:id' => 'band_photos#show', :as => 'band_album_photo'
   
-  
+  #band song albums and songs
+  get ':band_name/song/album/new' => 'band_song_album#new', :as => 'new_band_song_album'
+  get ':band_name/song/albums' => 'band_song_album#band_song_albums', :as => 'band_song_albums'
+  get ':band_name/album/songs/:song_album_name' => 'band_song_album#album_songs', :as => 'band_album_songs'
+  get ':band_name/:song_album_name/download/song/:id' => 'band_photos#download', :as => 'band_album_song_download'
+  get ':band_name/:song_album_name/edit' => 'band_song_album#edit_song_album', :as => 'edit_band_song_album'
   root :to => 'home#index'
+  
+  #follow band
+  get ':band_name/become/fan' => 'bands#follow_band', :as => 'follow_band'
+  
+  #message band
+  get ':band_name/message/new' => 'bands#new_message', :as => 'band_new_message'
+  match ':band_name/message/create' => 'bands#send_message', :as => 'band_send_message'
   
   match ':controller(/:action(/:id(.:format)))'
 end

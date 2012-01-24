@@ -1,0 +1,36 @@
+-if @band
+ - self_owner = post.band_id == @band.id ? true : false
+- else
+ - self_owner = post.user == current_user ? true : false
+- item_div_class = self_owner ? 'newsitem' : 'newsitem_mentioned'
+= div_for post do
+ .msgbox
+  .avatar
+   - if !post.user_id.nil?
+    = link_to get_avatar_small(post.user), user_profile_path(post.user) if !self_owner
+    = link_to get_avatar_small(post.user), user_home_url if self_owner
+   - elsif !post.band_id.nil?
+    = get_band_logo_small(post.band)
+  %div{:class => item_div_class}
+   .itemcontent
+    %strong
+     -if self_owner
+      You
+     -elsif !post.user.nil?
+      = post.user.fname
+     -elsif !post.band.nil?
+      = post.band.name
+    wrote this about an #{time_ago_in_words(post.created_at)} ago 
+    %br
+    = post.msg
+   .righticons
+    = link_to 'X', user_post_path(post), :method => :delete, :title=>"Remove", :class => "delete_post ajaxload", :remote => true if self_owner
+    %br
+    share 
+    %br
+    - if @band
+     = link_to 'Reply', new_post_reply_path(post, :band_id => @band.id), :class => "ajaxopen", :remote => true
+    -else
+     = link_to 'Reply', new_post_reply_path(post), :class => "ajaxopen", :remote => true
+   .clear
+  .clear

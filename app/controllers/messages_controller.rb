@@ -1,8 +1,6 @@
 class MessagesController < ApplicationController
   before_filter :require_login
   
-  
-  
   def send_message
     @to_user = User.find(params[:receiver_id])
     current_user.send_message(@to_user,{:body=>params[:message_text]})
@@ -24,9 +22,19 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @message = current_user.messages.with_id(params[:id]).first
-    @message.update_attribute("opened",true)
-    @messages = @message.conversation
+    begin
+      if params[:band_id].present?
+        @band = Band.where(:id => params[:band_id]).first
+        raise unless current_user.is_admin_of_band?(@band)
+        @message = @band.messages.with_id(params[:id]).first  
+      else
+        @message = current_user.messages.with_id(params[:id]).first
+      end
+      @message.update_attribute("opened",true)
+      @messages = @message.conversation
+    rescue
+      render :nothing => true
+    end
   end
 
   def destroy
@@ -52,18 +60,20 @@ class MessagesController < ApplicationController
  def reply
    begin
      @msg = ActsAsMessageable::Message.find(params[:id])
-     if current_user.id == @msg.sent_messageable_id || current_user.id == @msg.received_messageable_id
+     if params[:band_id].present?
+       band = Band.where(:id => params[:band_id]).first
+       raise unless current_user.is_admin_of_band?(band)
+       if band.id == @msg.sent_messageable_id || band.id == @msg.received_messageable_id
+         band.reply_to(@msg,:body=>params[:body])
+       end
+     else current_user.id == @msg.sent_messageable_id || current_user.id == @msg.received_messageable_id
        current_user.reply_to(@msg,:body=>params[:body])
-     else
-      # render :nothing => true and return
      end
-   rescue ActiveRecord::RecordNotFound
-     #render :nothing => true and return
+   rescue 
+     render :nothing => true and return
    end
-    @message = @msg
-    @messages = @message.conversation
-    
+   @message = @msg
+   @messages = @message.conversation
  end
-  
   
 end

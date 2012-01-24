@@ -1,0 +1,19 @@
+- if @song_albums.blank?
+  != "$('#facebox .content').html('Has not uploaded any song albums by band admin');"
+  != "setTimeout('$(document).trigger(\"close.facebox\")',1000);" 
+- else
+  - song_albums = capture do
+    - @song_albums.each do |song_album|
+      .album
+        .album_teaser_image
+          = link_to image_tag(song_album.cover_img.url(:thumb), :height => '80px'), band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+          = link_to 'Edit', edit_band_song_album_path(:band_name => @band.name, :song_album_name => song_album.album_name ), :remote => true, :class => 'ajaxopen'
+        .album_name
+          %h3
+            = link_to "#{song_album.album_name}", band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+           
+          = link_to "#{pluralize(song_album.songs.count, 'song')}", band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+        .clear 
+      .clear 
+  $('#right_song_albumbox').html('#{escape_javascript song_albums}');
+  setTimeout('$(document).trigger(\"close.facebox\")',10);

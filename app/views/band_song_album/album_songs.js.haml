@@ -1,0 +1,12 @@
+- song_album_songs = capture do
+  %h3
+    = image_tag @song_album.cover_img.url(:medium)
+    = "#{@song_album.album_name} : #{@song_album.songs.count}"
+    =link_to 'Edit', edit_band_song_album_path(:band_name => @song_album.band.name, :song_album_name => @song_album.album_name ), :remote => true, :class => 'ajaxopen'
+  - @song_album.songs.each do |song|
+    .song_album_songs
+      = "#{song.song_file_name}(#{number_to_human_size(song.song_file_size)})"
+      %audio{:controls => "controls"}
+        %source{:src => "#{song.song.url}", :type => "audio/mp3"} 
+$('.midcontent > .left > .leftcontainer').html('#{escape_javascript song_album_songs}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);    
