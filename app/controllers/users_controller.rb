@@ -51,10 +51,17 @@ class UsersController < ApplicationController
           band = Band.new  
           band_user = BandUser.new
           BandUser.transaction do
-            @user.save!
+            
             band.name = params[:band_name].strip
             band.mention_name = params[:band_mention_name].strip
             band.genre = params[:genre].strip
+            unless band.valid?
+              band.errors.messages.each do |key, value|
+                @error_msg << key + ' ' + value
+              end
+              raise
+            end
+            @user.save!
             band.save!
           
             band_user.user_id = @user.id

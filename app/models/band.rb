@@ -1,5 +1,5 @@
 class Band < ActiveRecord::Base
-  before_save :sanitize_mention_name
+    before_validation :sanitize_mention_name
   
   acts_as_messageable :required => :body ,:order => "created_at desc" 
   has_many :band_users, :dependent => :destroy
@@ -21,7 +21,7 @@ class Band < ActiveRecord::Base
   
   validates :name, :presence => true
   validates :name, :uniqueness => true
-  validates :email, :uniqueness => true
+  validates :mention_name, :uniqueness => true
 
   searchable do
     text :genre

@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  before_save :sanitize_mention_name
+  before_validation :sanitize_mention_name
   
   acts_as_messageable :required => :body ,:order => "created_at desc" 
   acts_as_followable
