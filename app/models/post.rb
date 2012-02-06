@@ -8,7 +8,7 @@ class Post < ActiveRecord::Base
   # default its being called from current user wall. If current user is replying as a band then second argument would be false  
   def owner_as_well_as_all_mentioned_users_and_bands_except(user_or_band_id, user = true)
     participating_users_and_bands = []
-    if user && !self.user_id.blank? && !user_or_band_id == self.user_id 
+    if user && !self.user_id.blank? && user_or_band_id != self.user_id 
       participating_users_and_bands << self.user.mention_name
     elsif !user && !self.band_id.blank? && !user_or_band_id == self.band_id  
       participating_users_and_bands << self.band.mention_name

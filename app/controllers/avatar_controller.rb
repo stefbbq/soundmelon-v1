@@ -24,7 +24,6 @@ class AvatarController < ApplicationController
   end
   
   def update
-    #redirect_to user_home_url and return if current_user.profile_pic.nil?
     @profile_pic = current_user.profile_pic
     if @profile_pic.update_attributes(params[:profile_pic])
         respond_to do |format|
@@ -34,7 +33,6 @@ class AvatarController < ApplicationController
   end
   
   def crop
-    #redirect_to user_home_url and return if current_user.profile_pic.nil?
     @profile_pic = current_user.profile_pic
   end
   
@@ -46,5 +44,4 @@ class AvatarController < ApplicationController
       end
     end
   end
-  
 end

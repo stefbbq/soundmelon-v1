@@ -23,7 +23,7 @@
     <%= link_to pluralize(@follower_count,'follower'), user_follower_path, :remote => true, :class => 'ajaxopen' %>
     <div class="top_fans">
       <% @follower_users.each do |user| %>
-        <%=  link_to get_avatar_small(@user), user_profile_path(user.id) %>
+        <%=  link_to get_avatar_small(user), user_profile_path(user.id) %>
         
       <% end %>
     </div>
