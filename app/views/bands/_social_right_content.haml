@@ -1,0 +1,11 @@
+.rightbar
+  .rightmenu
+    %ul
+      %li
+        =link_to "> Message #{@band.name}", band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen" 
+      %li
+        - unless current_user.following?(@band)
+          =  link_to "Become Fan of this Band", follow_band_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
+      %li
+        = link_to 'Band Members', band_members_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen'
+.clear

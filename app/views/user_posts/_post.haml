@@ -1,3 +1,4 @@
+- hide_thread_link ||= false
 -if @band
  - self_owner = post.band_id == @band.id ? true : false
 - else
@@ -11,7 +12,7 @@
     = link_to get_avatar_small(post.user), user_home_url if self_owner
    - elsif !post.band_id.nil?
     = get_band_logo_small(post.band)
-  %div{:class => item_div_class}
+  %div{:class => 'newsitem'}
    .itemcontent
     %strong
      -if self_owner
@@ -23,14 +24,15 @@
     wrote this about an #{time_ago_in_words(post.created_at)} ago 
     %br
     = post.msg
+    %br
+    - if post.ancestry && !hide_thread_link
+     = link_to 'expand thread', get_post_threads_path(post), :remote => true, :class => 'ajaxload' 
    .righticons
     = link_to 'X', user_post_path(post), :method => :delete, :title=>"Remove", :class => "delete_post ajaxload", :remote => true if self_owner
     %br
-    share 
-    %br
-    - if @band
+    - if @band && !self_owner
      = link_to 'Reply', new_post_reply_path(post, :band_id => @band.id), :class => "ajaxopen", :remote => true
-    -else
+    -elsif !self_owner
      = link_to 'Reply', new_post_reply_path(post), :class => "ajaxopen", :remote => true
    .clear
   .clear

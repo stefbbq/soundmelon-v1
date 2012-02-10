@@ -2,6 +2,7 @@ class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :band
   has_many :mentioned_posts
+  has_ancestry
   
   after_save :check_and_save_mentioned_in_post
   

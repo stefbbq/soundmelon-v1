@@ -1,0 +1,11 @@
+<% social_content = capture do %>
+  <div class ="midcontent">
+    <div class ="left">
+      <%= render 'social_left_content' %>
+    </div>
+    <%= render 'social_right_content' %>  
+  </div>  
+<% end %>
+$('.midcontent').html('<%= escape_javascript social_content -%>');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+

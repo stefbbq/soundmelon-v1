@@ -31,10 +31,10 @@
   <div class="bands_header"><h3>BANDS</h3></div>
   <% @band_search_results.results.each do |band| %>
    <div class="row" >      
-     <%=get_band_logo_medium(band)%>
+     <%=link_to get_band_logo_medium(band), show_band_path(band.name) %>
      <!-- RESULT INFO -->
      <div class="info">
-       <h3><%=  "#{band.name} (#{band.genre})" %></h3>   
+       <h3><%=link_to  "#{band.name} (#{band.genre})", show_band_path(band.name) %></h3>   
      </div>
      <div class="clear"></div>
      <!-- END RESULT INFO -->

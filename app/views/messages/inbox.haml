@@ -16,7 +16,6 @@
       .clear
       %br
       .leftcontainer
-        = render "user_posts/form"
         .clear
         .messageicon
           Messages
@@ -28,6 +27,6 @@
           .readmore
             =link_to("Read more", @load_more_path ,:remote => true,:class=>"ajaxload")
   .rightbar
-    = render "layouts/user_right_box"
+    = render "users/user_right_box"
   .clear 
 

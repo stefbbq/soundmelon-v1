@@ -4,33 +4,19 @@
   .left
     .usercontrols
       .left
-        =link_to("Updates", user_home_path, :class=>"icon ")
-        =link_to("Updates", {} ,:remote => true,:class=>"iconactive")
+        = link_to "Latest", user_home_path, :class=>"iconactive ajaxload", :remote => true
+        = link_to "Mentioned", mentioned_path ,:remote => true, :class=>"iconactive ajaxload"
       .right
         .inbox#inbox
           -#foractive use inputactive
-          =link_to("Inbox", user_inbox_path, :class=>"inbox")
+          =link_to "Inbox", user_inbox_path, :class=>"inbox iconactive ajaxload", :remote => true
           .inboxnum
             = current_user.received_messages.unread.count
           .clear 
       .clear
       %br
     .leftcontainer
-      = render "user_posts/form"
-      .clear
-      .messageicon
-        Messages
-      -@messages.each do |message|
-        = render :partial => "messages/message",:locals => {:message => message, :band => false}
-      .user_posts
-        -@posts_order_by_dates.each do |date, posts|
-          .dateicon 
-            = date.to_date.strftime("%b %d")
-          = render 'user_posts/user_post', :posts => posts      
-          .clear
-      -if !@load_more_path.nil?
-        .readmore
-          =link_to("Read more", @load_more_path ,:remote => true,:class=>"ajaxload")
+      = render "shared/home_page_posts"
   .rightbar
     = render "users/user_right_box"
   .clear

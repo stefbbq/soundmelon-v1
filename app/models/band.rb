@@ -1,5 +1,5 @@
 class Band < ActiveRecord::Base
-    before_validation :sanitize_mention_name
+  before_validation :sanitize_mention_name
   
   acts_as_messageable :required => :body ,:order => "created_at desc" 
   has_many :band_users, :dependent => :destroy
@@ -8,7 +8,8 @@ class Band < ActiveRecord::Base
   has_many :band_invitations, :dependent => :destroy
   has_many :song_albums
   has_many :posts
-  has_many :mention_posts
+  has_many :mentioned_posts
+  has_many :songs, :through => :song_albums
 
   acts_as_followable
   
@@ -48,6 +49,18 @@ class Band < ActiveRecord::Base
     else
       return false
     end
+  end
+  
+  def mention_count
+    self.mentioned_posts.where('band_id = ? and created_at >= ?', self.id, MENTION_COUNT_FOR_LAST_N_HOURS.hours.from_now).count
+  end
+  
+  def song_albums_count
+    self.song_albums.count
+  end
+  
+  def songs_count
+    self.songs.count
   end
   
 end

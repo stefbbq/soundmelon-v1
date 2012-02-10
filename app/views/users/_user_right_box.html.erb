@@ -1,12 +1,12 @@
 <div class="rightmenu">
   <ul>
     <li>
-     <%=  link_to "Upload Photos", new_photo_path, :remote=>:true, :class=>"ajaxopen" %>
+     <%#=  link_to "Upload Photos", new_photo_path, :remote=>:true, :class=>"ajaxopen" %>
     </li>
     <li>
-      <%=  link_to "Albums", albums_path, :remote=>:true, :class=>"ajaxopen" %>
+      <%#=  link_to "Albums", albums_path, :remote=>:true, :class=>"ajaxopen" %>
       <div id="right_albumbox">
-      	
+
       	</div>
     </li>
     <li>
@@ -24,7 +24,7 @@
     <div class="top_fans">
       <% @follower_users.each do |user| %>
         <%=  link_to get_avatar_small(user), user_profile_path(user.id) %>
-        
+
       <% end %>
     </div>
     </li>
@@ -33,10 +33,11 @@
     <div class="top_fans">
       <% @following_users.each do |user| %>
         	<%=  link_to get_avatar_small(user), user_profile_path(user.id) %>
-         
+
       <% end %>
     </div>
-  
-    </li> 
+
+    </li>
   </ul>
 </div>
+

@@ -63,6 +63,33 @@ class BandsController < ApplicationController
     end    
   end
   
+  def show
+    @band = Band.where(:name => params[:band_name]).includes(:band_members).first
+    @band_members_count = @band.band_members.count
+    @is_admin_of_band = current_user.is_admin_of_band?(@band)
+  end
+  
+  def social
+    if request.xhr?
+      @band = Band.where(:name => params[:band_name]).includes(:band_members).first
+      @posts = @band.find_own_as_well_as_mentioned_posts(params[:page])
+      @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}    
+      next_page = @posts.next_page
+      @load_more_path =  next_page ?  more_post_path(next_page) : nil
+    else
+      redirect_to root_url and return
+    end
+  end
+  
+  def store
+    if request.xhr?
+      @band = Band.where(:name => params[:band_name]).includes(:band_members).first
+      
+    else
+      redirect_to root_url and return
+    end
+  end
+  
   def members
     begin
       @band = Band.where(:name => params[:band_name]).includes(:band_members).first

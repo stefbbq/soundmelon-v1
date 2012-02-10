@@ -31,6 +31,8 @@ Soundmelon::Application.routes.draw do
   resources :user_posts
   match 'post/:id/reply/(:band_id)' => 'user_posts#new_reply', :as => 'new_post_reply'
   match 'post/reply' => 'user_posts#reply', :as => 'post_reply'
+  get 'post/:id/threads' => 'user_posts#post_threads', :as => 'get_post_threads'
+  get 'mentioned/posts' => 'user_posts#mentioned', :as => 'mentioned'
  
   match 'messages/:id/band/:band_id' => 'messages#show', :as => 'band_message' 
   resources :messages
@@ -72,7 +74,11 @@ Soundmelon::Application.routes.draw do
   match 'update/band/:id' => 'bands#update', :as => 'update_band'
   get ':band_name/members' => 'bands#members', :as => 'band_members'
   get ':band_name/bandmates/inivtation' => 'bands#invite_bandmates', :as => 'bandmates_invitation'
+  get ':band_name' => 'bands#show', :as => 'show_band'
+  get ':band_name/social' => 'bands#social', :as => 'band_social'
+  get ':band_name/store' => 'bands#store', :as => 'band_store'
   match ':band_name/bandmates/send/inviation' => 'bands#send_bandmates_invitation', :as => 'send_bandmates_invitation'
+  
   
   resources :album_photos
   get ':band_name/album/new' => 'band_photos#new', :as => 'new_band_album'

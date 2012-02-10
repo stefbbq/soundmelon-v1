@@ -12,11 +12,11 @@
         = "Genre: #{@band.genre}"
       %br
       %span{:class => 'band-desc'}
-        278 mentions in last 48 hrs
+        = " #{pluralize(@band.mention_count, 'mentions')} in last #{MENTION_COUNT_FOR_LAST_N_HOURS} hrs"
         %br
-        118 songs in store played 2000 times
+        = "#{@band.song_albums_count} songs in store played 2000 times"
         %br
-        17 albums have been brought 100 times
+        = "#{@band.songs_count} albums have been brought 100 times"
     .sales-trend
       %br
       %br

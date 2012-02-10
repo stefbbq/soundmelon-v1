@@ -1,0 +1,9 @@
+<% all_posts = capture do %>
+  <div class ="post-threads-wrapper" >
+    <% @posts.each do |post| %>
+      <%= render 'user_posts/post', :post => post, :hide_thread_link => true   %>
+    <% end %>
+  </div>
+<% end %>
+$('#post_<%= @post.id -%>').replaceWith("<%=escape_javascript all_posts -%>");
+setTimeout('$(document).trigger(\"close.facebox\")',10)

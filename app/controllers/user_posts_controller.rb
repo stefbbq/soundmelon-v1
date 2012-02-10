@@ -107,4 +107,27 @@ class UserPostsController < ApplicationController
     end  
   end
   
+  def post_threads
+    if request.xhr?
+      @post = Post.where(:id => params[:id]).first
+      @posts = @post.path
+      respond_to do |format|
+        format.js {render :layout => false}
+      end
+    else
+      redirect_to root_url and return
+    end
+  end
+  
+  def mentioned
+    if request.xhr?
+      @posts = current_user.mentioned_posts(params[:page])
+      @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+      next_page = @posts.next_page
+      @load_more_path = next_page ? more_post_path(next_page) : nil
+    else
+      redirect_to root_url and return
+    end
+  end
+  
 end

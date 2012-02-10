@@ -7,7 +7,7 @@ class ProfileController < ApplicationController
    #for other users
    @user = User.find(params[:id])
    if @user && @user!=current_user
-    @posts    =  @user.find_own_as_well_as_mentioned_posts(params[:page])
+    @posts    =  @user.find_own_as_well_as_following_user_posts(params[:page])
     @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page           = @posts.next_page
       @load_more_path =  next_page ?  more_post_path(next_page) : nil
