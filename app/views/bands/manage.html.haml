@@ -4,24 +4,23 @@
   .left
     .usercontrols
       .left
-        =link_to("Buzz", nil, :class=>"icon ")
-        =link_to("Custom Updates", {} ,:remote => true,:class=>"iconactive")
+        =link_to("Buzz", manage_band_path(:band_name => @band.name), :remote => true,:class=>"iconactive")
       .right
         .inbox#inbox
-          -#foractive use inputactive
-          =link_to("Inbox", {}, :class=>"inbox")
+          = link_to "Inbox", band_inbox_path(:band_name => @band.name), :class=>"inbox iconactive ajaxload", :remote => true
           .inboxnum
-            = 2
+            = @band.received_messages.unread.count
           .clear 
       .clear
       %br
     .leftcontainer
-      = render "user_posts/form"
+      = render "bulletin_form"
       .clear
-      .messageicon
-        Messages
-      -@messages.each do |message|
-        = render :partial => "messages/message",:locals => {:message => message, :band => @band}
+      .bulletinsicon
+        - unless @bulletins.blank?
+          Bulletins
+      .band-bulletins
+        = render 'user_posts/user_post', :posts => @bulletins
       .user_posts
         -@posts_order_by_dates.each do |date, posts|
           .dateicon 

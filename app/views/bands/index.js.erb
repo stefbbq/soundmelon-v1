@@ -1,7 +1,7 @@
 $('.midcontent > .left > .leftcontainer').html('');
 <% content = capture do %>
   <% if @bands.blank? %>
-    You have no musician profiles. <%= link_to 'create one?', '#' %>
+    You have no musician profiles. <%= link_to 'create one?', new_band_path, :class => 'ajaxopen', :remote => true %>
   <% else %>
     <div class='bands'>
       select a band from the list below to administer

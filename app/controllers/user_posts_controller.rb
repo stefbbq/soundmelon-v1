@@ -24,6 +24,7 @@ class UserPostsController < ApplicationController
       end
     else  
       @post = current_user.posts.build(params[:post])
+      @post.is_bulletin = false
     end 
     
     if @post.save

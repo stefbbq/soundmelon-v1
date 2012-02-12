@@ -148,3 +148,14 @@ function add_fields(link, association, content) {
   var regexp = new RegExp("new_" + association, "g")
   $(link).parent().before(content.replace(regexp, new_id));
 }
+
+function hide_parent_posts(div_id) {
+    $(div_id).siblings().hide();
+    $('.thread_expand').show();
+}
+
+function show_parent_posts(div_id) {
+    $(div_id).siblings().show();
+    $('.thread_expand').hide();
+    $('.thread_collapse').show();
+}

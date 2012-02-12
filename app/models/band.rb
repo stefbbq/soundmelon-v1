@@ -10,6 +10,7 @@ class Band < ActiveRecord::Base
   has_many :posts
   has_many :mentioned_posts
   has_many :songs, :through => :song_albums
+  
 
   acts_as_followable
   
@@ -40,7 +41,7 @@ class Band < ActiveRecord::Base
   end
   
   def find_own_as_well_as_mentioned_posts page=1   
-    Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.band_id = :band_id or (posts.band_id = :band_id and posts.is_deleted = :is_deleted)',  :band_id => self.id, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => 10)
+    Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.band_id = :band_id or (posts.band_id = :band_id) and posts.is_deleted = :is_deleted and posts.is_bulletin = false',  :band_id => self.id, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => 10)
   end
   
   def is_part_of_post? post
@@ -61,6 +62,10 @@ class Band < ActiveRecord::Base
   
   def songs_count
     self.songs.count
+  end
+  
+  def bulletins page=1
+    Post.where(:band_id => self.id, :is_bulletin => true, :is_deleted => false).order('created_at desc').paginate(:page => page, :per_page => 10)
   end
   
 end

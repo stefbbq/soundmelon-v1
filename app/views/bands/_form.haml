@@ -1,0 +1,15 @@
+= band_form = capture do 
+  .content-box#band-edit
+    #update-msg
+    - if @band.errors.any? 
+      #error_explanation
+        %h2
+          = pluralize(@band.errors.count, "error")
+          prohibited this image from being saved:
+        %ul
+          - @band.errors.full_messages.each do |msg|
+            %li
+              = msg
+    .loader
+    = form_for @band, :url => action_url, :html => {:multipart => true, :remote => true, :class => 'band-form' } do |f|
+      = render :partial => 'form_fields', :locals =>{:f => f}

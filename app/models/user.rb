@@ -90,8 +90,9 @@ class User < ActiveRecord::Base
   def find_own_as_well_as_following_user_posts page=1
     user_as_well_as_following_users_id = [self.id]
     self.following_users.map{|follow|  user_as_well_as_following_users_id << follow.id}
-    self.following_bands.map{|band|  user_as_well_as_following_users_id << band.id}
-    Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.band_id in (:current_user_as_well_as_following_users_id)  and posts.is_deleted = :is_deleted)', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => 10)
+    user_following_band_ids = []
+    self.following_bands.map{|band|  user_following_band_ids << band.id}
+    Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.band_id in (:user_following_band_ids))  and posts.is_deleted = :is_deleted and is_bulletin = false', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :user_following_band_ids => user_following_band_ids, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => 10)
   end
   
   def is_part_of_post? post

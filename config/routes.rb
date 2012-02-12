@@ -27,7 +27,8 @@ Soundmelon::Application.routes.draw do
   match 'invitation/accept/:old_user/:id/join' => 'profile#activate_invitation' ,:as => 'join_band_invitation'
   match "messages/sendmessage" => 'messages#send_message',:as=>"send_message" 
   match 'user/profile/:id' => 'profile#user_profile',:as => 'user_profile'
-  match 'messages/inbox' => 'messages#inbox' ,:as => 'user_inbox' 
+  match 'messages/inbox' => 'messages#inbox' ,:as => 'user_inbox'
+  get ':band_name/messages/inbox' => 'messages#inbox' ,:as => 'band_inbox'
   resources :user_posts
   match 'post/:id/reply/(:band_id)' => 'user_posts#new_reply', :as => 'new_post_reply'
   match 'post/reply' => 'user_posts#reply', :as => 'post_reply'
@@ -69,6 +70,8 @@ Soundmelon::Application.routes.draw do
   
   
   get 'user/bands' => 'bands#index', :as => 'associated_band'
+  get 'user/new/band' => 'bands#new', :as => 'new_band'
+  post 'user/create/band' => 'bands#create', :as => 'create_band'
   get 'manage/band/:band_name' => 'bands#manage', :as => 'manage_band'
   get 'edit/band/:band_name' => 'bands#edit', :as => 'edit_band'
   match 'update/band/:id' => 'bands#update', :as => 'update_band'

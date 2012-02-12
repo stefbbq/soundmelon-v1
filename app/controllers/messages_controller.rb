@@ -7,13 +7,26 @@ class MessagesController < ApplicationController
   end
   
   def inbox
-    @user = current_user
-    @messages = current_user.received_messages.reverse
+    begin
+      @user = current_user
+      if params[:band_name]
+        band = Band.where(:name => params[:band_name]).first
+        if current_user.is_admin_of_band?(band)
+          @messages = band.received_messages.reverse
+        else
+          @messages = []
+        end
+      else
+        @messages = current_user.received_messages.reverse
+      end
+    rescue
+      render :nothing => true
+    end
   end
   
   
   def index
-    @messages = current_user.received_messages
+    #@messages = current_user.received_messages
     redirect_to "inbox"
   end
 

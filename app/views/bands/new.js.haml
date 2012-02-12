@@ -1,0 +1,3 @@
+$('.midcontent > .left > .leftcontainer').html('');
+$('.midcontent > .left > .leftcontainer').html('#{escape_javascript(render 'form', :action_url => create_band_path)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);

@@ -14,17 +14,17 @@ module ApplicationHelper
   
   def get_avatar_small(user)
     if user.profile_pic
-      image_tag(user.profile_pic.avatar.url(:small))
+      image_tag(user.profile_pic.avatar.url(:small), :alt=>'')
     else
-      image_tag('user_blank_small.jpg')
+      image_tag('user_blank_small.jpg', :alt=>'')
     end
   end
   
   def get_avatar_medium(user)
     if user.profile_pic
-      image_tag(user.profile_pic.avatar.url(:medium))
+      image_tag(user.profile_pic.avatar.url(:medium), :alt=>'')
     else
-      image_tag('user_blank_large.jpg')
+      image_tag('user_blank_large.jpg', :alt=>'')
     end
   end
   
@@ -38,34 +38,34 @@ module ApplicationHelper
       end
     else
       if user.profile_pic
-        image_tag(user.profile_pic.avatar.url(:large))
+        image_tag(user.profile_pic.avatar.url(:large), :alt=>'')
       else
-        image_tag('user_blank_large.jpg')
+        image_tag('user_blank_large.jpg', :alt=>'')
       end
     end
   end
 
   def get_band_logo_small(band)
     if band.logo_content_type.nil?
-      image_tag('band_logo_blank_small.jpg')
+      image_tag('band_logo_blank_small.jpg', :alt=>'')
     else
-      image_tag(band.logo.url(:small))
+      image_tag(band.logo.url(:small), :alt=>'')
     end  
   end
   
   def get_band_logo_medium(band)
      if band.logo_content_type.nil?
-      image_tag('band_logo_blank_medium.jpg')
+      image_tag('band_logo_blank_medium.jpg', :alt=>'')
     else
-      image_tag(band.logo.url(:medium))
+      image_tag(band.logo.url(:medium), :alt=>'')
     end  
   end
   
   def get_band_logo_large(band)
     if band.logo_content_type.nil?
-      image_tag('band_logo_blank_large.jpg')
+      image_tag('band_logo_blank_large.jpg', :alt=>'')
     else
-      image_tag(band.logo.url(:large))
+      image_tag(band.logo.url(:large), :alt=>'')
     end   
   end
 

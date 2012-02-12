@@ -76,3 +76,12 @@
 .band-member{padding:10px;}
 .band-member >.avatar{float:left; margin-left:20px;padding-right:20px;}
 .user-name{font-size:14px; font-weight:bold;}
+.bulletinsicon {
+    -moz-transform: rotate(270deg);
+    background: none repeat scroll 0 0 #48260E;
+    float: left;
+    font-weight: bold;
+    margin: 40px 0 0 -64px;
+    text-align: center;
+    width: 80px;
+}

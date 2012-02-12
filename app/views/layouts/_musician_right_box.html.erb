@@ -1,14 +1,6 @@
 <div class="rightmenu">
   <ul>
     <li>
-      <%=link_to "> Message #{@band.name}", band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen" %>
-    </li>
-    <li>
-      <% unless current_user.following?(@band) %>
-        <%=  link_to "Become Fan of this Band", follow_band_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen" %>
-      <% end %>
-    </li>
-    <li>
      <%=  link_to "Upload Photos", new_band_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen" %>
     </li>
     <li>

@@ -9,10 +9,11 @@ class BandsController < ApplicationController
     begin
       @band = Band.where(:name => params[:band_name]).includes(:band_members).first
       if current_user.is_admin_of_band?(@band)
-         @messages = @band.received_messages #.limit(DEFAULT_NO_OF_MESSAGE_DISPLAY)
+         #@messages = @band.received_messages #.limit(DEFAULT_NO_OF_MESSAGE_DISPLAY)
          @band_members_count = @band.band_members.count
          @other_bands = current_user.admin_bands_except(@band)
          @posts = @band.find_own_as_well_as_mentioned_posts(params[:page])
+         @bulletins = @band.bulletins
          @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}    
          next_page = @posts.next_page
          @load_more_path =  next_page ?  more_post_path(next_page) : nil
@@ -22,6 +23,25 @@ class BandsController < ApplicationController
       end
     rescue
       redirect_to user_home_url, :notice => 'Something went wrong! Try Again' and return
+    end
+  end
+  
+  def new
+    @band = Band.new
+  end
+  
+  def create
+    @band = current_user.bands.build(params[:band])
+    band_user = current_user.band_users.new
+
+    if @band.save
+      band_user.band_id = @band.id
+      band_user.access_level = 1
+      band_user.save
+      @bands = current_user.bands
+      render :action => 'index', :format => 'js' and return
+    else
+      render :action => 'new' and return
     end
   end
   
