@@ -1,4 +1,15 @@
 = render :partial=>"shared/musician_header_bar_public"
 = render :partial=>"layouts/musician_dash_board"
 .midcontent
-  = render 'news'
+  = #render 'news'
+
+:javascript
+  $(document).ready(function(){
+  $.ajax({
+  url: '#{band_social_path}',
+  data: {band_name: '#{@band.name}'},
+  type:'get',
+  success: function(response){
+  }
+  });
+  });
