@@ -88,6 +88,12 @@ Soundmelon::Application.routes.draw do
   get ':band_name/albums' => 'band_photos#band_albums', :as => 'band_albums'
   get ':band_name/album/photos/:band_album_name' => 'band_photos#band_album_photos', :as => 'band_album_photos'
   get ':band_name/:band_album_name/photo/:id' => 'band_photos#show', :as => 'band_album_photo'
+  get ':band_name/:band_album_name/photos/add' => 'band_photos#add', :as => 'add_photos_to_album'
+  get ':band_name/edit/:band_album_name' => 'band_photos#edit', :as => 'edit_album'
+  match ':band_name/delete/:band_album_name' => 'band_photos#destroy_album', :as => 'delete_album' 
+  get ':band_name/:album_name/photo/:id/edit' => 'band_photos#edit' , :as => 'edit_photo'
+  get ':band_name/:album_name/photo/:id/delete' => 'band_photos#destroy' , :as => 'delete_photo'
+  match ':band_name/:album_name/photo/:id/update' => 'band_photos#update',  :as => 'update_band_photo'
   
   #band song albums and songs
   get ':band_name/song/album/new' => 'band_song_album#new', :as => 'new_band_song_album'

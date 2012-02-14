@@ -1,0 +1,14 @@
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
+.sass-cache/
+Gemfile.new
+log/*
+nbproject/*
+public/assets/*
+publicassets/*
+publicimages/*
+solr/*
+Gemfile.lock
+solr/data/*

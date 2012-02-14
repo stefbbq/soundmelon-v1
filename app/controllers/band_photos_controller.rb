@@ -57,9 +57,7 @@ class BandPhotosController < ApplicationController
    end   
   end
 
-  def destroy
-
-  end
+  
   
   def band_albums
    begin
@@ -85,6 +83,111 @@ class BandPhotosController < ApplicationController
    rescue
      render :nothing => true and return
    end   
+  end
+  
+  def add
+    if request.xhr?
+      begin
+        @band = Band.where(:name => params[:band_name]).first
+        @band_album = BandAlbum.where(:name => params[:band_album_name], :band_id => @band.id).first
+        if current_user.is_admin_of_band?(@band)
+          @band_photo = BandPhoto.new
+        else
+         # render :nothing => true and return
+        end
+        render :action => 'new', :format => 'js' and return
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(params[:band_name]) and return
+    end
+  end
+  
+#  def edit
+#    if request.xhr?
+#      begin
+#        @band = Band.where(:name => params[:band_name]).first
+#        @band_album = BandAlbum.where(:name => params[:band_album_name], :band_id => @band.id).includes(:band_photos).first
+#        unless current_user.is_admin_of_band?(@band)
+#          render :nothing => true and return
+#        end
+#      rescue
+#        render :nothing => true and return
+#      end
+#    else
+#      redirect_to show_band_url(params[:band_name]) and return
+#    end
+#  end
+  
+  def destroy_album
+    if request.xhr?
+      begin
+        @band = Band.where(:name => params[:band_name]).first
+        @band_album = BandAlbum.where(:name => params[:band_album_name], :band_id => @band.id).includes(:band_photos).first
+        unless current_user.is_admin_of_band?(@band)
+          render :nothing => true and return
+        end
+        @is_deleted = true if @band_album.delete
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(params[:band_name]) and return
+    end
+  end
+  
+  def edit
+    if request.xhr?
+      begin
+        @band = Band.where(:name => params[:band_name]).first
+        @band_album = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first
+        @band_photo = BandPhoto.where(:band_album_id => @band_album.id, :id => params[:id]).first
+        unless current_user.is_admin_of_band?(@band)
+          render :nothing => true and return
+        end
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(params[:band_name]) and return
+    end  
+  end
+  
+  def update
+    if request.xhr?
+      begin
+        @band = Band.where(:name => params[:band_name]).first
+        @band_album = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first
+        @band_photo = BandPhoto.where(:band_album_id => @band_album.id, :id => params[:id]).first
+        unless current_user.is_admin_of_band?(@band)
+          render :nothing => true and return
+        end
+        @band_photo.update_attributes(params[:band_photo])
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(params[:band_name]) and return
+    end
+  end
+  
+  def destroy
+    if request.xhr?
+      begin
+        @band = Band.where(:name => params[:band_name]).first
+        @band_album = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first
+        @band_photo = BandPhoto.where(:band_album_id => @band_album.id, :id => params[:id]).first
+        unless current_user.is_admin_of_band?(@band)
+          render :nothing => true and return
+        end
+        @band_photo.delete
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(params[:band_name]) and return
+    end
   end
   
   private 

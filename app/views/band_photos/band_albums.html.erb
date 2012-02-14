@@ -5,7 +5,7 @@
   <% @band_albums.each do |band_album| %>
   <div class="album" style="margin:2px; background:#363636;">
     <div class="album_teaser_image" style="width:80px;float:left;" >
-      <% link_to image_tag(band_album.photos.first.image.url(:small)), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name)  %>
+      <% link_to image_tag(band_album.band_photos.first.image.url(:small)), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name)  %>
     </div>
     <div class="album_name" style="float:right;">
       <h2>

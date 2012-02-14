@@ -1,2 +1,6 @@
-!= "jQuery.facebox('#{escape_javascript(image_tag @photo.image.url(:large))} ');"
+- content = capture do
+  = image_tag @photo.image.url(:large)
+  %br
+  = @photo.caption
+!= "jQuery.facebox('#{escape_javascript(content)} ');"
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"

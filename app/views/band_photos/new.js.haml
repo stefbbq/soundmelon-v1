@@ -6,7 +6,10 @@
     = hidden_field_tag :band_name, @band.name 
     Album Name:
     %p
-      =text_field_tag :album_name
+      - if @band_album
+        = text_field_tag :album_name, @band_album.name, :disabled => true 
+      - else
+        = text_field_tag :album_name
     Choose File to Upload
     %p
       = f.file_field :image

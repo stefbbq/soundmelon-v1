@@ -14,7 +14,11 @@ $('.midcontent > .left > .leftcontainer').html('');
           <div class='band-info'>
             <span class="band-name"><%=band.name%></span><br />
             <span class="band-genre">(<%= band.genre%>)</span><br />
-            <span class="other-info"> Fan #,Album #, Songs #</span><br />
+            <span class="other-info"> 
+              Fan #<%=band.followers_count -%>, 
+              Album #<%=band.song_albums_count -%>,  
+              Songs #<%=band.songs_count -%>
+            </span><br />
             <span class="band-access">
               <%=link_to 'access>>>', manage_band_path(:band_name => band.name),:class=>'button' %>
             </span>

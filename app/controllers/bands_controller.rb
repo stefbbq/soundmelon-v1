@@ -2,7 +2,7 @@ class BandsController < ApplicationController
   before_filter :require_login
   
   def index
-    @bands = current_user.bands
+    @bands = current_user.bands.includes(:song_albums, :songs)
   end
   
   def manage
