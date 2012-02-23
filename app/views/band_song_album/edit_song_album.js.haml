@@ -3,10 +3,11 @@
     = image_tag @song_album.cover_img.url(:medium)
     = "#{@song_album.album_name} : #{@song_album.songs.count}"
   - @song_album.songs.each do |song|
-    .song_album_songs
-      = "#{song.song_file_name}(#{number_to_human_size(song.song_file_size)})"
-      %audio{:controls => "controls"}
-        %source{:src => "#{song.song.url}", :type => "audio/mp3"}
+    - unless song.new_record?
+      .song_album_songs
+        = "#{song.song_file_name}(#{number_to_human_size(song.song_file_size)})"
+        %audio{:controls => "controls"}
+          %source{:src => "#{song.song.url}", :type => "audio/mp3"}
   = form_for @song_album, :url => {:action => 'update_song_album' , :id => @song_album.id, :band_name => @song_album.band.name}, :html => {:multipart => true, :remote => true } do |f|
     Album Name:
     = f.text_field :album_name
@@ -15,8 +16,11 @@
     =f.file_field :cover_img
     %br
     = f.fields_for :songs do |song_field|
-      Upload Song: 
-      = song_field.file_field :song
+      - if song_field.object.new_record?
+        Upload Song: 
+        = song_field.file_field :song
+      - else
+        - song_field.file_field :song   
       %br 
     = f.submit "Save", :disable_with => 'Saving...', :class => 'button blue' 
 $('.midcontent > .left > .leftcontainer').html('#{escape_javascript song_album_songs}');

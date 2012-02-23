@@ -4,8 +4,10 @@ class Song < ActiveRecord::Base
     
   has_attached_file :song, 
     :url => "/assets/bands/song/album/:id/:style/:normalized_attachment_file_name"
-      
-  #validates_attachment_content_type :image, :content_type => ['audio/mp4', 'audio/m4v', 'audio/f4v', 'audio/mov', '[audio/mpeg]','audio/mpeg', 'audio/mp3'] 
+  
+  validates_attachment_content_type :song,
+  :content_type => [ 'audio/mpeg', 'audio/x-mpeg', 'audio/mp3', 'audio/x-mp3', 'audio/mpeg3', 'audio/x-mpeg3', 'audio/mpg', 'audio/x-mpg', 'audio/x-mpegaudio', 'application/octet-stream' ]
+     
   validates_attachment_size :song, :less_than => 15.megabytes
   validates_attachment_presence :song 
   

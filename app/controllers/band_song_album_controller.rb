@@ -92,7 +92,7 @@ class BandSongAlbumController < ApplicationController
       @band = Band.where(:name => params[:band_name]).first
       if current_user.is_member_of_band?(@band)
         @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
-        2.times { @song_album.songs.build }
+        5.times { @song_album.songs.build }
       else
         render :noting => true and return
       end
@@ -107,6 +107,7 @@ class BandSongAlbumController < ApplicationController
       if current_user.is_member_of_band?(@band)
         @song_album = SongAlbum.where('band_id = ? and id = ?', @band.id, params[:id]).first
         @song_album.update_attributes(params[:song_album])
+        @song_album = SongAlbum.where('band_id = ? and id = ?', @band.id, params[:id]).first
         render :action => 'album_songs' and return
       else
         render :noting => true and return
