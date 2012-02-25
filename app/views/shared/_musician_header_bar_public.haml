@@ -27,8 +27,6 @@
       .menu
         %ul
           %li
-            = #link_to 'News', show_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxload iconactive'
-          %li
             = link_to 'Social', band_social_path(:band_name => @band.name), :remote => true, :class => 'ajaxload iconactive'
           %li
             = link_to 'Store', band_store_path(:band_name => @band.name), :remote => true, :class => 'ajaxload iconactive'

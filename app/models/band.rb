@@ -1,7 +1,7 @@
 class Band < ActiveRecord::Base
   before_validation :sanitize_mention_name
   
-  acts_as_messageable :required => :body ,:order => "created_at desc" 
+  acts_as_messageable :required => :body, :order => "created_at desc" 
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user
   has_many :band_albums
@@ -41,7 +41,15 @@ class Band < ActiveRecord::Base
   end
   
   def find_own_as_well_as_mentioned_posts page=1   
-    Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.band_id = :band_id or (posts.band_id = :band_id) and posts.is_deleted = :is_deleted and posts.is_bulletin = false',  :band_id => self.id, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => 10)
+    post_ids = []
+    posts = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.band_id = :band_id or (posts.band_id = :band_id) and posts.is_deleted = :is_deleted and posts.is_bulletin = false',  :band_id => self.id, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
+    mark_mentioned_post_as_read post_ids
+    mark_replies_post_as_read post_ids
+    return posts
+  end
+  
+  def find_own_posts page=1   
+    Post.where('band_id = :band_id and is_deleted = :is_deleted',  :band_id => self.id, :is_deleted => false).order('created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE)
   end
   
   def is_part_of_post? post
@@ -65,7 +73,64 @@ class Band < ActiveRecord::Base
   end
   
   def bulletins page=1
-    Post.where(:band_id => self.id, :is_bulletin => true, :is_deleted => false).order('created_at desc').paginate(:page => page, :per_page => 10)
+    Post.where(:band_id => self.id, :is_bulletin => true, :is_deleted => false).order('created_at desc').paginate(:page => page, :per_page => POST_PER_PAGE)
   end
+  
+  def inbox page=1
+    self.received_messages.paginate(:page => page, :per_page => MESSAGES_PER_PAGE)
+  end
+  
+  def mentioned_in_posts page=1
+    post_ids = []
+    posts = Post.joins(:mentioned_posts).where('mentioned_posts.band_id = ?',  self.id).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
+    mark_mentioned_post_as_read post_ids
+    return posts
+  end
+  
+  def unread_mentioned_post_count
+    MentionedPost.where(:band_id => self.id, :status => UNREAD).count
+  end
+  
+  def unread_post_replies_count
+    unread_post_replies.count
+  end
+  
+  def replies_post page=1
+    replies_post_ids = []
+    ancestry_post_ids = []
+    Post.where('ancestry is not null and is_deleted = ?', false).map do |post| 
+      replies_post_ids << post.id
+      ancestry_post_ids << post.ancestry
+    end
+    parent_posts = Post.where(:id => ancestry_post_ids, :band_id => self.id).map{|post| post.id}
+    post_ids=[]
+    posts = Post.where(:id => replies_post_ids, :ancestry => parent_posts).order('created_at desc').paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
+    mark_replies_post_as_read post_ids
+    return posts
+  end
+  
+  protected
+  def mark_mentioned_post_as_read post_ids
+     MentionedPost.where(:post_id => post_ids, :band_id => self.id).update_all(:status => READ)
+  end
+  
+  def mark_replies_post_as_read post_ids
+    unread_replies_post_ids = unread_post_replies.map{|post| post.id}
+    post_need_to_be_marked_as_read = post_ids & unread_replies_post_ids
+    Post.where(:id => post_need_to_be_marked_as_read).update_all(:is_read => READ)
+  end
+  
+  def unread_post_replies
+    replies_post_ids = []
+    ancestry_post_ids = []
+    Post.where('ancestry is not null and is_read = ? and is_deleted = ?', UNREAD, false).map do |post| 
+      replies_post_ids << post.id
+      ancestry_post_ids << post.ancestry
+    end
+    parent_posts = Post.where(:id => ancestry_post_ids, :band_id => self.id).map{|post| post.id}
+    Post.where(:id => replies_post_ids, :ancestry => parent_posts, :is_read => UNREAD)
+    #Post.joins('INNER JOIN posts as c').where('posts.id = c.ancestry and c.ancestry is not null and c.is_read = ? and posts.user_id = ?', UNREAD, self.id)
+  end
+  
   
 end

@@ -10,14 +10,37 @@
       	</div>
     </li>
     <li>
-      <%= link_to 'Edit Profile' , user_profile_edit_path, :remote => true, :class => 'ajaxopen' %>
+      <%= link_to 'edit profile information' , user_profile_edit_path, :remote => true, :class => 'ajaxopen' %>
     </li>
     <li>
-      <%= link_to 'Edit Payment Info', edit_payment_info_path, :remote => true, :class => 'ajaxopen' %>
+      <%#= link_to 'Edit Payment Info', edit_payment_info_path, :remote => true, :class => 'ajaxopen' %>
     </li>
     <li>
-      <%= link_to 'Access Musicians', associated_band_path, :remote => true, :class => 'ajaxopen' %>
+      <%= link_to 'access musician profiles', associated_band_path, :remote => true, :class => 'ajaxopen' %>
     </li>
+    
+    <li>
+       <%= link_to "following #{pluralize(@following_count,'artist')}", user_following_artists_path, :remote => true, :class => 'ajaxopen' %>
+    <div class="top_fans">
+      <% @following_artists.each do |band| %>
+        	<%=  link_to get_band_logo_small(band), show_band_path(:band_name => band.name) %>
+
+      <% end %>
+    </div>
+
+    </li>
+    
+     <li>
+       <%= link_to "following #{pluralize(@following_count,'fan')}", user_following_path, :remote => true, :class => 'ajaxopen' %>
+    <div class="top_fans">
+      <% @following_users.each do |user| %>
+        	<%=  link_to get_avatar_small(user), user_profile_path(user.id) %>
+
+      <% end %>
+    </div>
+
+    </li>
+    
     <li>
     <!-- check if user is musician then show this menu-->
     <%= link_to pluralize(@follower_count,'follower'), user_follower_path, :remote => true, :class => 'ajaxopen' %>
@@ -28,16 +51,6 @@
       <% end %>
     </div>
     </li>
-    <li>
-      <%= link_to pluralize(@following_count,'following'), user_following_path, :remote => true, :class => 'ajaxopen' %>
-    <div class="top_fans">
-      <% @following_users.each do |user| %>
-        	<%=  link_to get_avatar_small(user), user_profile_path(user.id) %>
-
-      <% end %>
-    </div>
-
-    </li>
+   
   </ul>
 </div>
-

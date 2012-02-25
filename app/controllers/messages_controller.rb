@@ -12,12 +12,19 @@ class MessagesController < ApplicationController
       if params[:band_name]
         band = Band.where(:name => params[:band_name]).first
         if current_user.is_admin_of_band?(band)
-          @messages = band.received_messages.reverse
+          @messages = band.inbox(params[:page])
         else
           @messages = []
+          next_page = nil
         end
       else
-        @messages = current_user.received_messages.reverse
+        @messages = current_user.inbox(params[:page])
+      end
+      next_page ||= @messages.next_page
+      if band
+        @load_more_path =  next_page ?  more_inbox_messages_path(:band_name => band.name, :page => next_page) : nil
+      else
+        @load_more_path =  next_page ?  more_inbox_messages_path(:page => next_page) : nil
       end
     rescue
       render :nothing => true
@@ -26,8 +33,24 @@ class MessagesController < ApplicationController
   
   
   def index
-    #@messages = current_user.received_messages
-    redirect_to "inbox"
+    redirect_to inbox_url and return unless request.xhr?
+    if params[:band_name]
+        band = Band.where(:name => params[:band_name]).first
+        if current_user.is_admin_of_band?(band)
+          @messages = band.inbox(params[:page])
+        else
+          @messages = []
+          next_page = nil
+        end
+      else
+        @messages = current_user.inbox(params[:page])
+      end
+      next_page ||= @messages.next_page
+      if band
+        @load_more_path =  next_page ?  more_inbox_messages_path(:band_name => band.name, :page => next_page) : nil
+      else
+        @load_more_path =  next_page ?  more_inbox_messages_path(:page => next_page) : nil
+      end
   end
 
   def outbox

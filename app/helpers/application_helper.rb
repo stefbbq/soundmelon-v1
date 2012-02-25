@@ -68,6 +68,24 @@ module ApplicationHelper
       image_tag(band.logo.url(:large), :alt=>'')
     end   
   end
-
+  
+  def genre_atuofill
+    genres = Genre.all
+    avail_genre = ''
+    genres.each do |genre|
+      avail_genre += "{id: '#{genre.name}', name: '#{genre.name}'},"
+    end
+    return avail_genre
+  end
+  
+  def genre_prepopullate genre
+    pre_popullate_genre = ''
+    unless genre.nil?
+      genre.split(',').each do |cur_genre|
+        pre_popullate_genre += "{id: '#{cur_genre}', name: '#{cur_genre}'},"
+      end
+    end
+    return pre_popullate_genre
+  end
   
 end

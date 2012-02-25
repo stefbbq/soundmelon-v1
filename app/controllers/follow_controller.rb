@@ -74,4 +74,24 @@ class FollowController < ApplicationController
     end
   end
   
+  def following_artists
+    if request.xhr?
+      begin
+        if params[:id]
+          user = User.find(params[:id])
+          @following_artists = user.following_bands.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
+        else  
+          @following_artists = current_user.following_bands.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
+        end
+        respond_to do |format|
+          format.js  and return
+        end
+      rescue 
+       render :nothing => true and return
+      end    
+    else
+      redirect_to user_home_url and return
+    end
+  end
+  
 end

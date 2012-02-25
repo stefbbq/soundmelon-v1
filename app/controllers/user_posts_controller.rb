@@ -2,11 +2,28 @@ class UserPostsController < ApplicationController
   before_filter :require_login
   
   def index
-    @posts = current_user.find_own_as_well_as_mentioned_posts(params[:page])
+    if params[:type]
+      if params[:type] == 'mentioned'
+         @posts = current_user.mentioned_posts(params[:page])
+      else
+        @posts = current_user.replies_post(params[:page])
+      end
+    elsif params[:id]
+      user = User.find params[:id]
+      @posts = user.find_own_posts(params[:page])
+    else
+      @posts = current_user.find_own_as_well_as_following_user_posts(params[:page])
+    end
     @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
     if request.xhr?
       next_page           = @posts.next_page
-      @load_more_path =  next_page ?  more_post_path(next_page) : nil
+      if params[:type]
+        @load_more_path =  next_page ?  more_post_path(:page => next_page, :type => params[:type]) : nil
+      elsif params[:id]
+        @load_more_path =  next_page ?  user_more_post_path(user, :page => next_page) : nil
+      else
+        @load_more_path =  next_page ?  more_post_path(:page => next_page) : nil
+      end
     end
   end
   
@@ -125,7 +142,18 @@ class UserPostsController < ApplicationController
       @posts = current_user.mentioned_posts(params[:page])
       @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page = @posts.next_page
-      @load_more_path = next_page ? more_post_path(next_page) : nil
+      @load_more_path = next_page ? more_post_path(next_page, :type=>'mentioned') : nil
+    else
+      redirect_to root_url and return
+    end
+  end
+  
+  def replies
+    if request.xhr?
+      @posts = current_user.replies_post(params[:page])
+      @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+      next_page = @posts.next_page
+      @load_more_path = next_page ? more_post_path(next_page, :type=>'replies') : nil
     else
       redirect_to root_url and return
     end

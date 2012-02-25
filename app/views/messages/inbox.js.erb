@@ -1,14 +1,12 @@
 <% messages = capture do %>
   <div class='messages-wrapper'>
-    <% @messages.each do |message| %>
-      <%= render "messages/message", :message => message %>
-    <% end %>
+    <%= render "messages/message", :messages => @messages %>
   </div>
   <div class='clear'></div>
-  <% if !@load_more_path.nil? %>
-  <div class='.readmore'>
-    <%=  link_to "Read more", @load_more_path , :remote => true, :class=>"ajaxload" %>
-  </div>
+  <% unless @load_more_path.nil? %>
+    <div class='readmore'>
+      <%=  link_to "Read more", @load_more_path , :remote => true, :class=>"ajaxload" %>
+    </div>
   <% end %>
 <% end %>
 $('.midcontent > .left > .leftcontainer').html('<%= escape_javascript messages -%>');

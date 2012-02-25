@@ -16,7 +16,7 @@
                     delay: 600,
                     source: function(request, response) {
                     $.ajax({
-                      url: "autocomplete/suggestions.js",
+                      url: "/autocomplete/suggestions.js",
                       dataType: "json",
                       data: {term: request.term},
                       success: function( data ) {

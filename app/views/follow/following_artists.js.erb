@@ -1,0 +1,21 @@
+$('.midcontent > .left > .leftcontainer').html('');
+<% following = capture do %>
+  
+  Following Fans List
+  <hr />
+  <% @following_artists.each do |band| %> 
+    <div id='following_<%=band.id%>' class="followuserbox">
+    		<div class="avatar">
+      <%=  link_to get_band_logo_small(band), show_band_path(:band_name => band.name), :class => 'follow-img' %>
+      </div>
+      <div class="fusercontent"> 
+      <%=  link_to band.name, show_band_path(:band_name => band.name) %>
+     </div>
+     <div class="clear"></div>
+   </div> 
+  <%end%>
+  <%= paginate @following_artists, :remote => true %>
+<% end %>
+
+$('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(following) %>');
+setTimeout('$(document).trigger(\"close.facebox\")',10);

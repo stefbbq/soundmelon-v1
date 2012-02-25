@@ -1,35 +1,22 @@
 = render :partial=>"layouts/musician_header_bar"
 = render :partial=>"layouts/musician_dash_board"
 .midcontent
-  .left
+  .left 
     .usercontrols
       .left
-        =link_to("Buzz", manage_band_path(:band_name => @band.name), :remote => true,:class=>"iconactive")
+        =link_to("latest", manage_band_path(:band_name => @band.name), :remote => true,:class=>"iconactive")
+        = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies',band_replies_post_path(:band_name => @band.name) ,:remote => true, :class=>"iconactive ajaxload"
+        = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions', band_mentions_post_path(:band_name => @band.name) ,:remote => true, :class=>"iconactive ajaxload" 
       .right
         .inbox#inbox
-          = link_to "Inbox", band_inbox_path(:band_name => @band.name), :class=>"inbox iconactive ajaxload", :remote => true
+          = link_to "messages", band_inbox_path(:band_name => @band.name), :class=>"inbox iconactive ajaxload", :remote => true
           .inboxnum
-            = @band.received_messages.unread.count
+            = @unread_messages_count
           .clear 
       .clear
       %br
     .leftcontainer
-      = render "bulletin_form"
-      .clear
-      .bulletinsicon
-        - unless @bulletins.blank?
-          Bulletins
-      .band-bulletins
-        = render 'user_posts/user_post', :posts => @bulletins
-      .user_posts
-        -@posts_order_by_dates.each do |date, posts|
-          .dateicon 
-            = date.to_date.strftime("%b %d")
-          = render 'user_posts/user_post', :posts => posts      
-          .clear
-      -if !@load_more_path.nil?
-        .readmore
-          =link_to("Read more", @load_more_path ,:remote => true,:class=>"ajaxload")
+      = render "bands/posts"
   .rightbar
     = render "layouts/musician_right_box"
   .clear

@@ -37,3 +37,15 @@
   .content-box
     .registrationform
       = render 'form_fields'
+
+:javascript
+  $(document).ready(function() {
+    $("#genre").tokenInput(
+      [
+      #{genre_atuofill}
+      ],
+      {
+        theme: "facebook"
+      }
+    );
+  });
