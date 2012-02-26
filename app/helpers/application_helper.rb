@@ -88,4 +88,25 @@ module ApplicationHelper
     return pre_popullate_genre
   end
   
+  def user_mention_lists(user)
+    auto_mention_list = ''
+    mention_list_arr = []
+    user.following_user.select('mention_name').map{|user_following| mention_list_arr << user_following.mention_name}
+    user.user_followers.select('mention_name').map{|follower_user| mention_list_arr << follower_user.mention_name}
+    user.following_band.select('mention_name').map{|band_following| mention_list_arr << band_following.mention_name}
+    mention_list_arr.uniq.each do |mentioner|
+      auto_mention_list += "{name: '#{mentioner}'},"
+    end
+    return auto_mention_list
+  end
+  
+  def band_follower_mention_lists band
+    auto_mention_list = ''
+    mention_list_arr = []
+    band.user_followers.select('mention_name').map{|follower_user| mention_list_arr << follower_user.mention_name}
+    mention_list_arr.uniq.each do |mentioner|
+      auto_mention_list += "{name: '#{mentioner}'},"
+    end
+    return auto_mention_list
+  end
 end

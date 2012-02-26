@@ -3,8 +3,31 @@
   = hidden_field_tag :parent_post_id, @parent_post.id
   - if @band
    = hidden_field_tag :band_id, @band.id
-  = text_area :post, :msg, :class=>"inputbox" ,:maxlength => 200, :cols => 50, :rows => 10
+  = text_area :post, :msg, :class=>"inputbox mention" ,:maxlength => 200, :cols => 50, :rows => 10
   .postbtn
    = submit_tag('Post',:class=>"button blue right")
   .clear
   %span.inputerror
+
+:javascript
+$(function () {
+  $('textarea.mention').mentionsInput({
+    onDataRequest:function (mode, query, callback) {
+      var data = [
+      #{user_mention_lists current_user}
+      ];
+      data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+      callback.call(this, data);
+    }
+  });
+  $('.get-syntax-text').click(function() {
+    $('textarea.mention').mentionsInput('val', function(text) {
+      alert(text);
+    });
+  });
+  $('.get-mentions').click(function() {
+    $('textarea.mention').mentionsInput('getMentions', function(data) {
+      alert(JSON.stringify(data));
+    });
+  }) ;
+});

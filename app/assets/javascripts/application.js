@@ -8,6 +8,10 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require jquery.remotipart
+//= require underscore-min
+//= require jquery.mentionsInput
+//= require jquery.events.input
+//= require jquery.elastic
 //= require_tree .
 
                 $(document).ready( function(){

@@ -2,8 +2,31 @@
  = form_tag(user_posts_path, :class=>"ajaxload",:remote => true, :id => 'user_post_form') do
   - if @band
    = hidden_field_tag :band_id, @band.id
-  = text_area :post, :msg, :class=>"inputbox" ,:maxlength => 200
+  = text_area :post, :msg, :class=>"inputbox mention" ,:maxlength => 200
   .postbtn
    = submit_tag('Post',:class=>"postsubmit")
   .clear
   %span.inputerror
+
+:javascript
+$(function () {
+  $('textarea.mention').mentionsInput({
+    onDataRequest:function (mode, query, callback) {
+      var data = [
+      #{user_mention_lists current_user}
+      ];
+      data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+      callback.call(this, data);
+    }
+  });
+  $('.get-syntax-text').click(function() {
+    $('textarea.mention').mentionsInput('val', function(text) {
+      alert(text);
+    });
+  });
+  $('.get-mentions').click(function() {
+    $('textarea.mention').mentionsInput('getMentions', function(data) {
+      alert(JSON.stringify(data));
+    });
+  }) ;
+});
