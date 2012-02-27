@@ -24,4 +24,6 @@
       %br 
     = f.submit "Save", :disable_with => 'Saving...', :class => 'button blue' 
 $('.midcontent > .left > .leftcontainer').html('#{escape_javascript song_album_songs}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);    
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('div').removeClass('active');
+$('#musicbox .band-box-header').addClass('active');     

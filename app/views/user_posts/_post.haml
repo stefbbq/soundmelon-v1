@@ -15,18 +15,20 @@
   %div{:class => 'newsitem'}
    .itemcontent
     %strong
-     -if self_owner
+     -if !post.band.nil?
+      = post.band.name
+     -elsif self_owner
       You
      -elsif !post.user.nil?
       = post.user.fname
-     -elsif !post.band.nil?
-      = post.band.name
     wrote this about an #{time_ago_in_words(post.created_at)} ago 
     %br
     = post.msg
     %br
     - if post.ancestry && !hide_thread_link
-     = link_to 'expand thread', get_post_threads_path(post), :remote => true, :class => 'ajaxload' 
+     %br
+     %span{:class => 'thread_expand'}
+      = link_to 'expand conversation thread', get_post_threads_path(post), :remote => true, :class => 'ajaxload' 
    .righticons
     = link_to 'X', user_post_path(post), :method => :delete, :title=>"Remove", :class => "delete_post ajaxload", :remote => true if self_owner
     %br

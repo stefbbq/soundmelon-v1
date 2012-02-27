@@ -4,9 +4,9 @@ class Band < ActiveRecord::Base
   acts_as_messageable :required => :body, :order => "created_at desc" 
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user
-  has_many :band_albums
+  has_many :band_albums, :order => 'created_at desc'
   has_many :band_invitations, :dependent => :destroy
-  has_many :song_albums
+  has_many :song_albums, :order => 'created_at desc'
   has_many :posts
   has_many :mentioned_posts
   has_many :songs, :through => :song_albums
@@ -109,6 +109,21 @@ class Band < ActiveRecord::Base
     return posts
   end
   
+  def limited_band_albums(n=3)
+    self.band_albums.limit(n)
+  end
+  
+  def limited_song_albums(n=3)
+    self.song_albums.limit(n)
+  end
+  
+  def limited_band_members(n=4)
+     self.band_members.limit(n)
+  end
+  
+  def limited_band_follower(n=4)
+    self.user_followers.order('created_at desc').limit(n)
+  end
   protected
   def mark_mentioned_post_as_read post_ids
      MentionedPost.where(:post_id => post_ids, :band_id => self.id).update_all(:status => READ)

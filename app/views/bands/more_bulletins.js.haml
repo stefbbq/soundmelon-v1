@@ -1,4 +1,4 @@
 != "$('.band-bulletins').append('#{escape_javascript(render 'user_posts/user_post', :posts => @bulletins)}');"
 != "$('#bulletin-readmore a').attr('href','#{@load_more_bulletins_path}');"
-=if @load_more_bulletins_path.nil?
+-if @load_more_bulletins_path.nil?
   != "$('#bulletin-readmore a').hide();"

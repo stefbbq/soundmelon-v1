@@ -50,6 +50,7 @@ Soundmelon::Application.routes.draw do
   match 'user/:id/posts/more/:page'   =>'user_posts#index', :as => :user_more_post
   match ':band_name/bulletins/more/:page' =>'bands#more_bulletins', :as => :band_more_bulletins
   match ':band_name/(:type)/posts/more/:page' =>'bands#more_posts', :as => :band_more_posts
+  get ':band_name/fans' => 'bands#fans', :as => :band_fans
   
   match 'edit/profile' => 'profile#edit_profile', :as => 'user_profile_edit'
   match 'update/basic/profile' => 'profile#update_basic_info', :as => 'update_basic_info'

@@ -1,0 +1,13 @@
+.usercontrols
+  .left
+    =link_to("latest", manage_band_path(:band_name => @band.name), :remote => true,:class=>"iconactive")
+    = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies',band_replies_post_path(:band_name => @band.name) ,:remote => true, :class=>"iconactive ajaxload"
+    = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions', band_mentions_post_path(:band_name => @band.name) ,:remote => true, :class=>"iconactive ajaxload" 
+  .right
+    .inbox#inbox
+      = link_to "messages", band_inbox_path(:band_name => @band.name), :class=>"inbox iconactive ajaxload", :remote => true
+      .inboxnum
+        = @unread_messages_count
+      .clear 
+    .clear
+  %br

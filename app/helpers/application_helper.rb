@@ -109,4 +109,21 @@ module ApplicationHelper
     end
     return auto_mention_list
   end
+  
+  def get_album_cover_image(song_album, type='small')
+    if song_album.cover_img_content_type.nil?
+      image_tag('no-image.png', :alt=>'')
+    else
+      image_tag(song_album.cover_img.url(type), :alt=>'')
+    end  
+  end
+  
+  def get_band_photo_album_teaser_photo(band_photo_album, type='thumb')
+    if band_photo_album.band_photos.first.blank? || band_photo_album.band_photos.first.image_content_type.nil?
+      image_tag('no-image.png', :alt=>'')
+    else
+      image_tag(band_photo_album.band_photos.first.image.url(type), :alt=>'')
+    end  
+  end
+  
 end

@@ -20,14 +20,4 @@ $(function () {
       callback.call(this, data);
     }
   });
-  $('.get-syntax-text').click(function() {
-    $('textarea.mention').mentionsInput('val', function(text) {
-      alert(text);
-    });
-  });
-  $('.get-mentions').click(function() {
-    $('textarea.mention').mentionsInput('getMentions', function(data) {
-      alert(JSON.stringify(data));
-    });
-  }) ;
 });

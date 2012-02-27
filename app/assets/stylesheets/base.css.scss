@@ -82,4 +82,27 @@ strong{color:#F8F9F7;}
 .album_name {}
 .follow-img img{padding:2px;}
 .edit-info{padding:10px;}
-.post-threads-wrapper{background-color:#c0deed; padding:5px; margin:15px;}
+.post-threads-wrapper{
+ border: 0.5px solid #303030;
+ margin-bottom:5px;
+ //background-color:#a9a9a9; 
+ //padding:5px; 
+ //margin:15px;
+  .thread_expand, .thread_collapse{
+    -moz-border-radius: 15px 15px 15px 15px;
+    background: none repeat scroll 0 0 #212121;
+    margin-bottom: 5px;
+    margin-left: 88px;
+    padding: 4px;
+    text-align: center;
+    width: 185px;
+  }
+}
+.thread_expand{
+    -moz-border-radius: 15px 15px 15px 15px;
+    background: none repeat scroll 0 0 #212121;
+    margin-bottom: 10px;
+    padding: 4px;
+    text-align: center;
+    width: 185px;
+  }

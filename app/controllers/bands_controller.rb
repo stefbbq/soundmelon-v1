@@ -18,10 +18,18 @@ class BandsController < ApplicationController
          @load_more_bulletins_path  = bulletin_next_page ? band_more_bulletins_path(:band_name => @band.name, :page => bulletin_next_page) : nil 
          next_page = @posts.next_page
          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => 'latest') : nil
-         unless request.xhr?
+         @unread_mentioned_count = @band.unread_mentioned_post_count
+         @unread_post_replies_count = @band.unread_post_replies_count
+         @unread_messages_count = @band.received_messages.unread.count 
+        unless request.xhr?
            @unread_mentioned_count = @band.unread_mentioned_post_count
            @unread_post_replies_count = @band.unread_post_replies_count
            @unread_messages_count = @band.received_messages.unread.count
+           @song_albums = @band.limited_song_albums
+           @photo_albums = @band.limited_band_albums
+           @band_artists = @band.limited_band_members
+           @band_fans_count = @band.followers_count
+           @band_fans = @band.limited_band_follower  
          end
       else
         logger.error "#User with username:{current_user.get_full_name} and user id #{current_user.id} tried to adminster band with band id: #{@band.id} which he is not a admin" 
@@ -106,7 +114,7 @@ class BandsController < ApplicationController
     bulletin_next_page = @bulletins.next_page
     @load_more_bulletins_path  = bulletin_next_page ? band_more_bulletins_path(:band_name => @band.name, :page => bulletin_next_page) : nil 
     next_page = @posts.next_page
-    @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page) : nil
+    @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => 'general') : nil
   end
   
   def store
@@ -225,24 +233,22 @@ class BandsController < ApplicationController
     if request.xhr?
       begin
         @band = Band.where(:name => params[:band_name]).first
-        if params[:type] && current_user.is_admin_of_band?(@band)
-         if params[:type]
+        if params[:type] && params[:type] == 'general'
+          @posts = @band.find_own_posts(params[:page])
+          next_page = @posts.next_page
+          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page) : nil
+        elsif params[:type] && current_user.is_admin_of_band?(@band)
            if params[:type] == 'replies'
              @posts = @band.replies_post(params[:page])  
            elsif params[:type] == 'mentions'
              @posts = @band.mentioned_in_posts(params[:page])
            else  
              @posts = @band.find_own_as_well_as_mentioned_posts(params[:page])
-           end
-         end
-         #@posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")} 
+           end 
          next_page = @posts.next_page
          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => params[:type]) : nil
         else
-          @posts = @band.find_own_posts(params[:page])
-          next_page = @posts.next_page
-          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page) : nil      
-          #render :nothing => true and return
+          render :nothing => true and return
         end
        rescue
         render :nothing => true and return 
@@ -261,6 +267,9 @@ class BandsController < ApplicationController
          @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
          next_page = @posts.next_page
          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => 'mentions') : nil
+         @unread_mentioned_count = @band.unread_mentioned_post_count
+         @unread_post_replies_count = @band.unread_post_replies_count
+         @unread_messages_count = @band.received_messages.unread.count
         else
           render :nothing => true and return
         end
@@ -281,6 +290,9 @@ class BandsController < ApplicationController
          @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
          next_page = @posts.next_page
          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => 'replies') : nil
+         @unread_mentioned_count = @band.unread_mentioned_post_count
+         @unread_post_replies_count = @band.unread_post_replies_count
+         @unread_messages_count = @band.received_messages.unread.count
         else
           render :nothing => true and return
         end
@@ -290,6 +302,15 @@ class BandsController < ApplicationController
     else
       redirect_to user_home_url, :notice => 'Something went wrong! Try Again' and return
     end    
+  end
+  
+  def fans
+    if request.xhr?
+      band = Band.where(:name => params[:band_name]).first
+      @band_fans = band.user_followers
+    else
+      redirect_to user_home_url, :notice => 'Something went wrong! Try Again' and return
+    end
   end
   
 end

@@ -1,8 +1,8 @@
 $('.midcontent > .left > .leftcontainer').html('');
-- band_members = capture do
-  Band Members
+- band_fans = capture do
+  Fans
   %hr
-  - @band_members.each do |user| 
+  - @band_fans.each do |user| 
     .band-member
       .avatar
         = link_to get_avatar_medium(user), user_profile_path(user.id)
@@ -11,7 +11,7 @@ $('.midcontent > .left > .leftcontainer').html('');
           = link_to user.get_full_name, user_profile_path(user.id)
       .clear
  
-$('.midcontent > .left > .leftcontainer').html('#{escape_javascript(band_members)}');
+$('.midcontent > .left > .leftcontainer').html('#{escape_javascript(band_fans)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
-$('#artistbox .band-box-header').addClass('active'); 
+$('#fanbox .band-box-header').addClass('active'); 

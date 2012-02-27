@@ -7,7 +7,7 @@ class BandPhoto < ActiveRecord::Base
     :styles => { 
       :large => "800x800>", 
       :medium => "300x300>", 
-      :thumb => "100x100#"
+      :thumb => "35x35#"
     }
       
   #validates_attachment_content_type :image, :content_type => ['image/jpeg', 'image/png', 'image/jpg'] 

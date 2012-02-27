@@ -20,7 +20,7 @@
     </li>
     
     <li>
-       <%= link_to "following #{pluralize(@following_count,'artist')}", user_following_artists_path, :remote => true, :class => 'ajaxopen' %>
+       <%= link_to "following #{pluralize(@following_artist_count,'artist')}", user_following_artists_path, :remote => true, :class => 'ajaxopen' %>
     <div class="top_fans">
       <% @following_artists.each do |band| %>
         	<%=  link_to get_band_logo_small(band), show_band_path(:band_name => band.name) %>

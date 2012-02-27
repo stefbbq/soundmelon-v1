@@ -127,6 +127,7 @@ margin:0 auto;
                     margin: 0 auto;
                     padding:10px 0;
                     width:95%;
+                    margin-bottom:10px;
                     .left{float:left;width:50%;
                     font-size:$size*2;
                     .icon{padding:5px; background:#204112; color:#718668;}
@@ -216,7 +217,9 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
                         
                         margin-left:70px;
                         padding:5px;
-                        background:#4d4d4d;
+                        border-bottom: 0.5px solid #303030;
+                        margin-bottom:5px;
+
                         .itemcontent{width:80%; float:left}
                         .righticons{float:right;width:20%;text-align:right;}
                     }

@@ -4,4 +4,6 @@
   - @band_album.band_photos.each do |photo|
     = render 'band_photo', :photo => photo
 $('.midcontent > .left > .leftcontainer').html('#{escape_javascript band_album_photos} ');
-setTimeout('$(document).trigger(\"close.facebox\")',10);    
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('div').removeClass('active');
+$('#photobox .band-box-header').addClass('active');    

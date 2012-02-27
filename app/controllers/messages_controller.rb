@@ -12,7 +12,7 @@ class MessagesController < ApplicationController
       if params[:band_name]
         band = Band.where(:name => params[:band_name]).first
         if current_user.is_admin_of_band?(band)
-          @messages = band.inbox(params[:page])
+          @messages = band.inbox(params[:page])  
         else
           @messages = []
           next_page = nil

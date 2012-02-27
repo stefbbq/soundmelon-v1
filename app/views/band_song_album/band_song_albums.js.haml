@@ -14,6 +14,8 @@
            
           = link_to "#{pluralize(song_album.songs.count, 'song')}", band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
         .clear 
-      .clear 
-  $('#right_song_albumbox').html('#{escape_javascript song_albums}');
+      .clear
+  $('.midcontent > .left > .leftcontainer').html('#{escape_javascript song_albums}'); 
   setTimeout('$(document).trigger(\"close.facebox\")',10);
+  $('div').removeClass('active');
+  $('#musicbox .band-box-header').addClass('active');   
