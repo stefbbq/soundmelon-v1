@@ -3,3 +3,5 @@ $('.midcontent > .left > .leftcontainer').append('<%= escape_javascript(render '
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
 $('#msg-feeds .band-box-header').addClass('active');
+$('a').removeClass('highlight');
+$('#latest').addClass('highlight');

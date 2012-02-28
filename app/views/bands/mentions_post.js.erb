@@ -1,3 +1,5 @@
 $('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(render 'bands/post_msg_header') -%>');
 $('.midcontent > .left > .leftcontainer').append('<%= escape_javascript(render 'bands/posts') -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('a').removeClass('highlight');
+$('#mentions').addClass('highlight');

@@ -249,6 +249,10 @@ ul{
             font-size:$size*2;
             .icon{padding:5px; background:#204112; color:#718668;}
             .iconactive{padding:5px; background:#408223;}
+            .highlight{
+              background: none repeat scroll 0 0 #EF502F;
+              padding:5px;
+            }
           }
           .right{
             float:right;
