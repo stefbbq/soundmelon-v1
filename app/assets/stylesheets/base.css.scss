@@ -24,6 +24,7 @@ html, body {
   font-size: 13px;  
   color:#B5B5B5; 
   background-color: #000;
+  background-image:url('background.jpg');
 }
 img { 
   border: none; 
@@ -101,5 +102,15 @@ h3,h2{color:#CCCCCC; font-size:20px; margin:0;}
   .socialicons{
     margin-top:-50px;
     float:right;
+  }
+}
+.site-logo{float:left;}
+.loggedin-info{
+  text-align:right;
+  padding-right:10px;
+  padding-top:12px;
+  .user-info{
+    font-size: 12px;
+    font-size:15px;
   }
 }

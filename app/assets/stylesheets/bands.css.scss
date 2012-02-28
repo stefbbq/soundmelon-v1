@@ -12,7 +12,7 @@
   max-height:236px;
   overflow:hidden;
 }
-.quick-band-info{margin-top:10px;}
+.quick-band-info{margin-top:55px;}
 .band-short-bio{color:#ffffff;float:left; background-color: #212121;margin-top:10px;width:95%; padding-left:20px; font-size:14px;}
 .band-short-bio:hover > .band-bio{display:block;}
 .band-bio{display:none;z-index:1;position:absolute;background-color:#ffffff;padding:3px;color:black;margin-top:2px;font-weight:normal;font-size:12px;}
@@ -37,7 +37,7 @@
   text-shadow: 0 -1px 0 #398C04;
 }
 .associated-bands:hover > .switch-lists{display:block;}
-.switch-lists{display:none; z-index:1;position:absolute;background-color:#ffffff;padding:3px;color:black;margin-top:2px; margin-right:5px;}
+.switch-lists{display:none; z-index:1;position:absolute;background-color:#212121;padding:3px;color:black;margin-top:2px; margin-right:5px;}
 .switch-lists > ul {
   font-size: 12px;
   margin: 0;
@@ -45,8 +45,8 @@
   padding: 0px;
 }
 .switch-lists > ul > li{}
-.switch-lists > ul > li > a{color:black;font-weight:bold;border-bottom: 1px solid #ccc;}
-.associated-bands{float:right;}
+.switch-lists > ul > li > a{color:#b5b5b5;font-weight:bold;border-bottom: 1px solid #ccc;}
+.associated-bands{float:right; margin-top:-8px;padding-right:70px;}
 .band-logo-sml{
   float:left; 
   background-color: #212121;

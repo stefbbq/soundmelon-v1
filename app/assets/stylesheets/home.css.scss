@@ -144,6 +144,7 @@ ul{
   }
   #content {
     //position:relative;
+    margin-top:40px;
     min-height:250px;
     background-color: #000000;
     .homecontent{
@@ -437,7 +438,7 @@ ul{
     .footerlink{ 
       float:left;
       text-align:center;
-      width:24%;
+      width:100%;
       .circle{margin:auto; background:#939393;}
       p{ margin-top:20px; color:#939393;font-weight:bold;}
     }
