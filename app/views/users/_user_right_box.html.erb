@@ -1,56 +1,84 @@
 <div class="rightmenu">
-  <ul>
-    <li>
-     <%#=  link_to "Upload Photos", new_photo_path, :remote=>:true, :class=>"ajaxopen" %>
-    </li>
-    <li>
-      <%#=  link_to "Albums", albums_path, :remote=>:true, :class=>"ajaxopen" %>
-      <div id="right_albumbox">
-
-      	</div>
-    </li>
-    <li>
-      <%= link_to 'edit profile information' , user_profile_edit_path, :remote => true, :class => 'ajaxopen' %>
-    </li>
-    <li>
-      <%#= link_to 'Edit Payment Info', edit_payment_info_path, :remote => true, :class => 'ajaxopen' %>
-    </li>
-    <li>
-      <%= link_to 'access musician profiles', associated_band_path, :remote => true, :class => 'ajaxopen' %>
-    </li>
-    
-    <li>
-       <%= link_to "following #{pluralize(@following_artist_count,'artist')}", user_following_artists_path, :remote => true, :class => 'ajaxopen' %>
-    <div class="top_fans">
-      <% @following_artists.each do |band| %>
-        	<%=  link_to get_band_logo_small(band), show_band_path(:band_name => band.name) %>
-
-      <% end %>
+  <div id='msg-feeds'>
+    <div class='band-box-header active'>
+      <%= link_to 'news feed & messages', user_home_path, :class=>"iconactive ajaxload", :remote => true %>
     </div>
-
-    </li>
-    
-     <li>
-       <%= link_to "following #{pluralize(@following_count,'fan')}", user_following_path, :remote => true, :class => 'ajaxopen' %>
-    <div class="top_fans">
-      <% @following_users.each do |user| %>
-        	<%=  link_to get_avatar_small(user), user_profile_path(user.id) %>
-
-      <% end %>
+  </div>
+  
+  <div id='profile-info'>
+    <div class='band-box-header'>
+      <%= link_to 'edit profile information', user_profile_edit_path, :remote => true, :class => 'ajaxopen'   %>
     </div>
-
-    </li>
-    
-    <li>
-    <!-- check if user is musician then show this menu-->
-    <%= link_to pluralize(@follower_count,'follower'), user_follower_path, :remote => true, :class => 'ajaxopen' %>
-    <div class="top_fans">
-      <% @follower_users.each do |user| %>
-        <%=  link_to get_avatar_small(user), user_profile_path(user.id) %>
-
-      <% end %>
+  </div>
+  
+  <div id='musician-access'>
+    <div class='band-box-header'>
+      <%= link_to 'access musician profiles', associated_band_path, :remote => true, :class => 'ajaxopen'  %>
     </div>
-    </li>
-   
-  </ul>
+  </div>
+  
+  <div id='artistbox' class='box-wrapper'>
+    <div class='band-box-header'>
+      following 
+      <span class='artist-count'>
+        <%= pluralize(@following_artist_count, 'artist')  %>
+      </span> 
+      <br />
+      <%=  link_to "see all", user_following_artists_path, :remote=>:true, :class=>"small-font ajaxopen" %>
+    </div>
+    <div class="band-box-content">
+      <div>
+        <% @following_artists.each do |band| %>
+          <div class='artist-avatar'>
+            <%=link_to get_band_logo_small(band), show_band_path(:band_name => band.name) %>
+          </div>
+        <% end %>
+      </div>
+      <div class='clear'></div>
+    </div>
+  </div>
+  <div class='clear'></div>
+  
+  <div id='followingbox' class='box-wrapper'>
+    <div class='band-box-header'>
+      following 
+      <span class='artist-count'>
+        <%= pluralize(@following_count,'fan')  %>
+      </span> 
+      <br />
+      <%=  link_to "see all", user_following_path, :remote=>:true, :class=>"small-font ajaxopen" %>
+    </div>
+    <div class="band-box-content">
+      <div>
+        <% @following_users.each do |fan_following| %>
+          <div class='artist-avatar'>
+            <%=link_to get_avatar_small(fan_following), user_profile_path(fan_following) %>
+          </div>
+        <% end %>
+      </div>
+      <div class='clear'></div>
+    </div>
+  </div>
+  <div class='clear'></div>
+
+  <div id='followerbox' class='box-wrapper'>
+    <div class='band-box-header'>
+      <span class='artist-count'>
+        <%= pluralize(@follower_count,'follower')  %>
+      </span> 
+      <br />
+      <%=  link_to "see all", user_follower_path, :remote=>:true, :class=>"small-font ajaxopen" %>
+    </div>
+    <div class="band-box-content">
+      <div>
+        <% @follower_users.each do |fan_follower| %>
+          <div class='artist-avatar'>
+            <%=link_to get_avatar_small(fan_follower), user_profile_path(fan_follower) %>
+          </div>
+        <% end %>
+      </div>
+      <div class='clear'></div>
+    </div>
+  </div>
+  <div class='clear'></div>
 </div>

@@ -2,22 +2,23 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import "base.css.scss";
- .followuserbox{  
-                    
-                    width:100%;
-                    margin:10px auto;
-                  
-                  .avatar{float:left; @include roundedbox(56px,56px,#435F64);
-                  img{width:50px; height:50px; margin:1px;}
-                  }
-                  
-                  
-                        .fusercontent{
-                        min-height:45px;     
-                        margin-left:57px;
-                        padding:5px;
-                        background:#435F64;
-                        .itemcontent{width:100%; float:left}
-                        
-                        }
-                                         }
+.followuserbox{  
+  width:100%;
+  margin:10px auto;
+  
+  .avatar{
+    float:left; @include roundedbox(56px,56px,#212121);
+    img{
+      width:50px; 
+      height:50px; 
+      margin:1px;
+    }
+  }
+  .fusercontent{
+    min-height:45px;     
+    margin-left:57px;
+    padding:5px;
+    .itemcontent{width:100%; float:left}
+    border-bottom: 0.5px solid #303030;
+  }
+}

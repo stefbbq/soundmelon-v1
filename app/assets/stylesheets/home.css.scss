@@ -103,8 +103,8 @@ margin:0 auto;
               .blankbox{ @include box(98%,"",""); padding:10px 20px; color:#525252;}
 
              .userdashboard
-              {   .profilepic{ @include box(33%,188px,#808080);float:left;padding-top:2px;
-              a{@include rounded-corner;   padding:0px 20px;     background:#B5B5B5;
+              {   .profilepic{ @include box(33%,188px,#212121);float:left;padding-top:2px;
+              a{@include rounded-corner;   padding:0px 20px;     background:#515151;
             color:#fff;  border:none;  font-weight:bold;
             text-decoration:none;}
               img{max-height:155px;margin:2px;}
@@ -113,10 +113,10 @@ margin:0 auto;
               }
                   .midbox{  @include box(32%,190px,"");
                             margin:0 34% 0 34%; 
-                            .box1{ @include box(100%,90px,#808080);}
-                            .box2{margin-top:10px; @include box(100%,90px,#808080);}
+                            .box1{ @include box(100%,90px,#212121);}
+                            .box2{margin-top:10px; @include box(100%,90px,#212121);}
                           }
-                  .rightbox{  float:right; @include box(33%,190px,#808080);}
+                  .rightbox{  float:right; @include box(33%,190px,#212121);}
               } //user dashboard end
           
             .midcontent
@@ -295,10 +295,10 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
               {   .logo{ @include box(40px,40px,#515151);   @include rounded(20px);     margin:10px;    float:left;   text-align:center;
                           p{font-size:35px;margin:0;}
                         } 
-                  .playerbox{ float:left; @include box(45%,55px,#464646);}
+                  .playerbox{ float:left; @include box(45%,55px,#212121);}
                   .headrightbox
                       {
-                        font-weight:bold; float:right; @include box(48%,55px,#464646); 
+                        font-weight:bold; float:right; @include box(48%,55px,#212121); 
                        .icons
                            { margin-top:10px;
                             .name{float:left; margin:0 20px;} 

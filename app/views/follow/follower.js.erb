@@ -1,7 +1,5 @@
 $('.midcontent > .left > .leftcontainer').html('');
 <% followers = capture do %>
-  Follower List
-  <hr />
   <% @followers.each do |user| %> 
     <div id='follower_<%=user.id%>' class="followuserbox">
     	<div class="avatar">
@@ -18,3 +16,5 @@ $('.midcontent > .left > .leftcontainer').html('');
 
 $('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(followers) %>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('div').removeClass('active');
+$('#followerbox .band-box-header').addClass('active');

@@ -1,2 +1,5 @@
-$('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(render 'shared/home_page_posts') -%>');
+$('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(render 'users/post_msg_header') -%>');
+$('.midcontent > .left > .leftcontainer').append('<%= escape_javascript(render 'shared/home_page_posts') -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('div').removeClass('active');
+$('#msg-feeds .band-box-header').addClass('active');

@@ -32,4 +32,5 @@ $('.midcontent > .left > .leftcontainer').html('');
 
 $('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(content) %>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-
+$('div').removeClass('active');
+$('#musician-access .band-box-header').addClass('active');

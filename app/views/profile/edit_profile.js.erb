@@ -22,4 +22,6 @@ $('.midcontent > .left > .leftcontainer').html('');
 
 $('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(edit_profile_forms) %>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('div').removeClass('active');
+$('#profile-info .band-box-header').addClass('active');
 

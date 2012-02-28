@@ -143,6 +143,9 @@ class UserPostsController < ApplicationController
       @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page = @posts.next_page
       @load_more_path = next_page ? more_post_path(next_page, :type=>'mentioned') : nil
+      @unread_mentioned_count = current_user.unread_mentioned_post_count
+      @unread_post_replies_count = current_user.unread_post_replies_count
+      @unread_messages_count = current_user.received_messages.unread.count
     else
       redirect_to root_url and return
     end
@@ -154,6 +157,9 @@ class UserPostsController < ApplicationController
       @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page = @posts.next_page
       @load_more_path = next_page ? more_post_path(next_page, :type=>'replies') : nil
+      @unread_mentioned_count = current_user.unread_mentioned_post_count
+      @unread_post_replies_count = current_user.unread_post_replies_count
+      @unread_messages_count = current_user.received_messages.unread.count
     else
       redirect_to root_url and return
     end

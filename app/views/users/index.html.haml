@@ -2,22 +2,8 @@
 = render :partial=>"profile/user_dash_board"
 .midcontent
   .left
-    .usercontrols
-      .left
-        = link_to "latest", user_home_path, :class=>"iconactive ajaxload", :remote => true
-        = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies', replies_path ,:remote => true, :class=>"iconactive ajaxload"
-        = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions', mentioned_path ,:remote => true, :class=>"iconactive ajaxload"
-
-      .right
-        .inbox#inbox
-          -#foractive use inputactive
-          =link_to "messages", user_inbox_path, :class=>"inbox iconactive ajaxload", :remote => true
-          .inboxnum
-            = @unread_messages_count
-          .clear 
-      .clear
-      %br
     .leftcontainer
+      = render 'users/post_msg_header'
       = render "shared/home_page_posts"
   .rightbar
     = render "users/user_right_box"

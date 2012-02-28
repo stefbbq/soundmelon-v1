@@ -7,16 +7,16 @@ class UsersController < ApplicationController
     @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}    
     next_page = @posts.next_page
     @load_more_path =  next_page ?  more_post_path(:page => next_page) : nil
+    @unread_mentioned_count = current_user.unread_mentioned_post_count
+    @unread_post_replies_count = current_user.unread_post_replies_count
+    @unread_messages_count = current_user.received_messages.unread.count
     unless request.xhr?
       @following_artist_count = current_user.following_band.count
       @following_count = current_user.following_user.count
       @follower_count = current_user.user_followers.count
       @following_artists = current_user.following_band.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
       @following_users = current_user.following_user.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
-      @follower_users = current_user.user_followers.order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)
-      @unread_mentioned_count = current_user.unread_mentioned_post_count
-      @unread_post_replies_count = current_user.unread_post_replies_count
-      @unread_messages_count = current_user.received_messages.unread.count
+      @follower_users = current_user.user_followers.order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)  
     end
   end
   
