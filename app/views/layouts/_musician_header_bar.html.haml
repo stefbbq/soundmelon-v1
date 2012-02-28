@@ -25,6 +25,15 @@
       .clear
     .headmenubar
       .menu
+        %ul
+          %li
+            %a{:href => "#"} marquee
+          %li
+            %a{:href => "#"} social
+          %li
+            %a{:href => "#"} venues
+          %li
+            %a{:href => "#"} classified
         .clear
       .searchbox
         =form_tag( {:controller =>'search', :action => 'index'}, :method => "get") do
