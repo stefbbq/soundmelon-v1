@@ -4,8 +4,7 @@
 @import "base.css.scss";
 .followuserbox{  
   width:100%;
-  margin:10px auto;
-  
+  margin:10px auto; 
   .avatar{
     float:left; @include roundedbox(56px,56px,#212121);
     img{
@@ -19,6 +18,7 @@
     margin-left:57px;
     padding:5px;
     .itemcontent{width:100%; float:left}
+    a{color:#a7a7a7;}
     border-bottom: 0.5px solid #303030;
   }
 }

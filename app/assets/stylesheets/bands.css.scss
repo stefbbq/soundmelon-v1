@@ -39,10 +39,10 @@
 .associated-bands:hover > .switch-lists{display:block;}
 .switch-lists{display:none; z-index:1;position:absolute;background-color:#ffffff;padding:3px;color:black;margin-top:2px; margin-right:5px;}
 .switch-lists > ul {
-    font-size: 12px;
-    margin: 0;
-    list-style:none;
-    padding: 0px;
+  font-size: 12px;
+  margin: 0;
+  list-style:none;
+  padding: 0px;
 }
 .switch-lists > ul > li{}
 .switch-lists > ul > li > a{color:black;font-weight:bold;border-bottom: 1px solid #ccc;}
@@ -77,13 +77,13 @@
 .band-member >.avatar{float:left; margin-left:20px;padding-right:20px;}
 .user-name{font-size:14px; font-weight:bold;}
 .bulletinsicon {
-    -moz-transform: rotate(270deg);
-    background: none repeat scroll 0 0 #48260E;
-    float: left;
-    font-weight: bold;
-    margin: 40px 0 0 -64px;
-    text-align: center;
-    width: 80px;
+  -moz-transform: rotate(270deg);
+  background: none repeat scroll 0 0 #48260E;
+  float: left;
+  font-weight: bold;
+  margin: 40px 0 0 -64px;
+  text-align: center;
+  width: 80px;
 }
 .band-box-header{
   marging-top:5px;
@@ -134,5 +134,4 @@
     background:none repeat scroll 0 0 #ef502f;
     a{color:#000;}
   }
-  
 }

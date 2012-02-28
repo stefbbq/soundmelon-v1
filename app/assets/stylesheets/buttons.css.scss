@@ -1,92 +1,108 @@
 @import "base.css.scss";
 
 .button {
-    display: inline-block;
-    background:#4D4D4D;
-    height: 30px;
-    color: #fff;
-    line-height: 30px;
+  display: inline-block;
+  background:#4D4D4D;
+  height: 30px;
+  color: #fff;
+  line-height: 30px;
+  font-size: 1.2em;
+  @include rounded( 4px );
+  padding: 0px 8px;
+  border: solid 1px #fff;
+  text-shadow: 0px -1px 0px #398c04;
+  min-width: 100px;
+  text-align: center;
+  cursor: default;
+  &:hover { 
+    background: #B5B5B5;
+    text-decoration: none;
+    box-shadow: 0px 0px 6px #999;
+  }
+  &.pressed {
+    box-shadow: 2px 2px 2px #333 inset;
+    -moz-box-shadow: 2px 2px 2px #333 inset;
+    -webkit-box-shadow: 2px 2px 2px #333 inset;
+    border-color: #333;
+  }
+  &.small {
     font-size: 1.2em;
-    @include rounded( 4px );
-    padding: 0px 8px;
-    border: solid 1px #fff;
-    text-shadow: 0px -1px 0px #398c04;
-    min-width: 100px;
-    text-align: center;
-    cursor: default;
-
-    &:hover { 
-        background: #B5B5B5;
-        text-decoration: none;
-        box-shadow: 0px 0px 6px #999;
-    }
-
-    &.pressed {
-        box-shadow: 2px 2px 2px #333 inset;
-        -moz-box-shadow: 2px 2px 2px #333 inset;
-        -webkit-box-shadow: 2px 2px 2px #333 inset;
-        border-color: #333;
-    }
-
+    background: #4D4D4D;
+    height: 25px;
+    line-height: 25px;
+    min-width: 130px;
+    &:hover { background: #B5B5B5; }
+  }
+  &.yellow {
+    background:#B5B5B5; 
+    border: solid 1px #e1ad33;
+    text-shadow: 0px -1px 0px #e1ad33;        
+    &:hover { background:#B5B5B5}
     &.small {
-        font-size: 1.2em;
-        background: #4D4D4D;
-        height: 25px;
-        line-height: 25px;
-        min-width: 130px;
-        &:hover { background: #B5B5B5; }
+      font-size: 1.2em;
+      background:#B5B5B5; 
+      height: 30px;
+      line-height: 30px;
+      min-width: 130px;
+      &:hover { background:#B5B5B5;}
     }
-
-    &.yellow {
-        background:#B5B5B5; 
-        border: solid 1px #e1ad33;
-        text-shadow: 0px -1px 0px #e1ad33;        
-        &:hover { background:#B5B5B5 
-         }
-        &.small {
-            font-size: 1.2em;
-            background:#B5B5B5; 
-            height: 30px;
-            line-height: 30px;
-            min-width: 130px;
-            &:hover { background:#B5B5B5; 
-             }
-        }
-    }
-    &.blue {
-        background:#004E97 ;
-        height: 27px;
-        line-height: 27px;
-        border: solid 1px #286b92;
-        text-shadow: 0px -1px 0px #286b92;
-        font-size: 1.3em;
-        min-width: 100px;
-        &:hover { background: #004E90 ; }
-    }
-    
-    &.gray {
-        background: #004E97;
-        height: 27px;
-        line-height: 27px;
-        border: solid 1px #b2b2b2;
-        text-shadow: 0px -1px 0px #888888;
-        font-size: 1.3em;
-        min-width: 100px;
-        color: #b2b2b2;
-        &:hover { background: #B5B5B5 }
-    }
+  }
+  &.blue {
+    background:#004E97 ;
+    height: 27px;
+    line-height: 27px;
+    border: solid 1px #286b92;
+    text-shadow: 0px -1px 0px #286b92;
+    font-size: 1.3em;
+    min-width: 100px;
+    &:hover { background: #004E90 ; }
+  }
+  &.gray {
+    background: #004E97;
+    height: 27px;
+    line-height: 27px;
+    border: solid 1px #b2b2b2;
+    text-shadow: 0px -1px 0px #888888;
+    font-size: 1.3em;
+    min-width: 100px;
+    color: #b2b2b2;
+    &:hover { background: #B5B5B5 }
+  }
 }
 
- .logout{ float:left; text-decoration:none; @include rounded-corner; margin:5px 20px 0 10px; padding:5px 10px;  background:#909090; color:#000; border:none; font-weight:bold;
- &:hover{background:#B5B5B5;}
+.logout{
+  float:left; 
+  text-decoration:none;
+  @include rounded-corner;
+  margin:5px 20px 0 10px;
+  padding:5px 10px;
+  background:#909090;
+  color:#000;
+  border:none;
+  font-weight:bold;
+  &:hover{background:#B5B5B5;}
  }
- .search{ background:#909090;color:#000;  font-weight:bold;font-size:16px; padding:5px;border:solid 2px #AEAEAE; @include rounded-corner;
- &:hover{background: #B5B5B5;}
- }
+ 
+.search{ 
+  background:#909090;
+  color:#000;
+  font-weight:bold;
+  font-size:16px;
+  padding:5px;
+  border:solid 2px #AEAEAE;
+  @include rounded-corner;
+  &:hover{background: #B5B5B5;}
+}
                       
-   .join
-                  {  float:right;  margin:50px 190px 0 0;   @include rounded-corner;   width:120px;
-                     height:35px;   background:#4D4D4D;    color:#000;    border:none;  font-weight:bold;
-                  &:hover{background:#B5B5B5;}
-                  }
-      
+.join{
+  float:right;
+  margin:50px 190px 0 0;
+  @include rounded-corner;
+  width:120px;
+  height:35px;
+  background:#4D4D4D;
+  color:#000;
+  border:none;
+  font-weight:bold;
+  &:hover{background:#B5B5B5;}
+}      
