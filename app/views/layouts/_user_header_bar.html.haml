@@ -3,7 +3,7 @@
     .site-logo
       %h2.logotext
         %a{:href => "/"}
-        = image_tag 'logo.png'
+          = image_tag 'logo.png'
     .loggedin-info
       = WELCOME_MSG
       = link_to "#{current_user.fname} #{current_user.lname}", user_home_path, :class => 'user-info'
@@ -19,3 +19,4 @@
           %input.auto_search_complete{:name => "q", :type => "text", :class => 'searchinput'}/
           %input.search{:name => "search", :type => "submit", :value => "Go" }/
       .clear
+
