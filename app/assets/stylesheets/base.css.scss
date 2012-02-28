@@ -82,6 +82,7 @@ h3,h2{color:#CCCCCC; font-size:20px; margin:0;}
   //margin:15px;
   .thread_expand, .thread_collapse{
     -moz-border-radius: 15px 15px 15px 15px;
+    border-radius:15px;
     background: none repeat scroll 0 0 #212121;
     margin-bottom: 5px;
     margin-left: 88px;
@@ -92,6 +93,7 @@ h3,h2{color:#CCCCCC; font-size:20px; margin:0;}
 }
 .thread_expand{
   -moz-border-radius: 15px 15px 15px 15px;
+  border-radius:15px;
   background: none repeat scroll 0 0 #212121;
   margin-bottom: 10px;
   padding: 4px;

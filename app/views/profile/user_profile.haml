@@ -3,20 +3,7 @@
 .midcontent
   .left
     .leftcontainer
-      .user_posts
-        -@posts_order_by_dates.each do |date, posts|
-          .dateicon 
-            = date.to_date.strftime("%b %d")
-          = render 'user_posts/user_post', :posts => posts      
-          .clear
-      -if !@load_more_path.nil?
-        .readmore
-          =link_to("Read more", @load_more_path ,:remote => true,:class=>"ajaxload")
-           
+      = render 'user_post_public'           
   .rightbar
-    .righttopbox
-      #follow-stats
-        = render 'follow/follow_stats', :user => @user
-      .sendmsg
-        =link_to "> Message this user",new_message_path(:id =>@user.id),:remote=>:true,:class=>"ajaxopen" 
+    = render 'profile/user_right_bar_public'
   .clear
