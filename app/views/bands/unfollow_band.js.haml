@@ -1,0 +1,6 @@
+!= "jQuery.facebox('musician unfollowed successfully' );"
+!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
+- follow_content = capture do
+  = link_to 'follow this musician', follow_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen'
+!= "$('#follow-unfollow .band-box-header').html('#{escape_javascript follow_content}');"
+setTimeout('$(document).trigger(\"close.facebox\")',1000); 

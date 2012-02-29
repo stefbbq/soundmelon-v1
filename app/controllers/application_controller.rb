@@ -1,13 +1,13 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :http_basic_authenticate
+  #before_filter :http_basic_authenticate
 
   private
-  
+
   def not_authenticated
     redirect_to root_url, :alert => "First login to access this page."
   end
-  
+
   def logged_in_user
     redirect_to user_home_url and return if current_user
   end
@@ -18,5 +18,6 @@ class ApplicationController < ActionController::Base
       username == "mustang" && password == "must@ngs0undm3l0n"
     end
   end
-  
+
 end
+

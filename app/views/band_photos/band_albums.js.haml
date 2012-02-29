@@ -12,8 +12,8 @@
             = link_to "#{band_album.name}", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
            
           = link_to "#{pluralize(band_album.band_photos.count, 'photo')}", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
-          = link_to 'Add More Photos', add_photos_to_album_path(:band_name => @band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
-          = link_to 'Delete Album', delete_album_path(:band_name => @band.name, :band_album_name => band_album.name), :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen" 
+          = link_to 'Add More Photos', add_photos_to_album_path(:band_name => @band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen" if @is_admin_of_band
+          = link_to 'Delete Album', delete_album_path(:band_name => @band.name, :band_album_name => band_album.name), :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen" if @is_admin_of_band  
         .clear 
       .clear 
   $('.midcontent > .left > .leftcontainer').html('#{escape_javascript band_albums} ');

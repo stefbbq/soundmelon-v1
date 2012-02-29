@@ -6,8 +6,8 @@
     - @song_albums.each do |song_album|
       .album
         .album_teaser_image
-          = link_to image_tag(song_album.cover_img.url(:thumb), :height => '80px'), band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
-          = link_to 'Edit', edit_band_song_album_path(:band_name => @band.name, :song_album_name => song_album.album_name ), :remote => true, :class => 'ajaxopen'
+          = link_to get_album_cover_image(song_album, 'medium'), band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+          = link_to 'Edit', edit_band_song_album_path(:band_name => @band.name, :song_album_name => song_album.album_name ), :remote => true, :class => 'ajaxopen' if @is_admin_of_band
         .album_name
           %h3
             = link_to "#{song_album.album_name}", band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"

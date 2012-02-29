@@ -116,7 +116,9 @@ Soundmelon::Application.routes.draw do
   root :to => 'home#index'
   
   #follow band
-  get ':band_name/become/fan' => 'bands#follow_band', :as => 'follow_band'
+  get 'follow/:band_name' => 'bands#follow_band', :as => 'follow_band'
+  get 'unfollow/:band_name' => 'bands#unfollow_band', :as => 'unfollow_band'
+  
   
   #message band
   get ':band_name/message/new' => 'bands#new_message', :as => 'band_new_message'

@@ -64,11 +64,8 @@ class BandSongAlbumController < ApplicationController
   def band_song_albums
    begin
      @band = Band.where(:name => params[:band_name]).first
-     if current_user.is_member_of_band?(@band)
-       @song_albums = @band.song_albums.includes(:songs)
-     else
-       render :noting => true and return
-     end
+     @is_admin_of_band = current_user.is_member_of_band?(@band)
+     @song_albums = @band.song_albums.includes(:songs)
    rescue
      render :nothing => true and return
    end
@@ -77,11 +74,8 @@ class BandSongAlbumController < ApplicationController
   def album_songs
    begin
      @band = Band.where(:name => params[:band_name]).first
-     if current_user.is_member_of_band?(@band)
-       @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
-     else
-       render :noting => true and return
-     end
+     @is_admin_of_band = current_user.is_member_of_band?(@band)
+     @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
    rescue
      render :nothing => true and return
    end   

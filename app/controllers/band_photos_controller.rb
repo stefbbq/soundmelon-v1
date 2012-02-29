@@ -8,13 +8,8 @@ class BandPhotosController < ApplicationController
   def show
     begin
       @band = Band.where(:name => params[:band_name]).first
-      if current_user.is_member_of_band?(@band)
-        @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).first
-        @photo = BandPhoto.find(params[:id])
-        render :nothing => true and return unless @photo.band_album_id == @band_album.id
-      else
-        render :noting => true and return
-      end
+      @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).first
+      @photo = BandPhoto.find(params[:id])
     rescue
       render :nothing => true and return
     end       
@@ -62,11 +57,8 @@ class BandPhotosController < ApplicationController
   def band_albums
    begin
      @band = Band.where(:name => params[:band_name]).first
-     if current_user.is_member_of_band?(@band)
-       @band_albums = @band.band_albums.includes('band_photos')
-     else
-       render :noting => true and return
-     end
+     @is_admin_of_band = current_user.is_member_of_band?(@band)
+     @band_albums = @band.band_albums.includes('band_photos')
    rescue
      render :nothing => true and return
    end
@@ -75,11 +67,8 @@ class BandPhotosController < ApplicationController
   def band_album_photos
    begin
      @band = Band.where(:name => params[:band_name]).first
-     if current_user.is_member_of_band?(@band)
-       @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
-     else
-       render :noting => true and return
-     end
+     @is_admin_of_band = current_user.is_member_of_band?(@band)
+     @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
    rescue
      render :nothing => true and return
    end   
@@ -158,6 +147,7 @@ class BandPhotosController < ApplicationController
     if request.xhr?
       begin
         @band = Band.where(:name => params[:band_name]).first
+        @is_admin_of_band = current_user.is_member_of_band?(@band)
         @band_album = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first
         @band_photo = BandPhoto.where(:band_album_id => @band_album.id, :id => params[:id]).first
         unless current_user.is_admin_of_band?(@band)

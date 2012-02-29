@@ -1,5 +1,5 @@
 - hide_thread_link ||= false
--if @band
+-if @band && @is_admin_of_band
  - self_owner = post.band_id == @band.id ? true : false
 - else
  - self_owner = post.user == current_user ? true : false
