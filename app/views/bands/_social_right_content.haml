@@ -3,6 +3,9 @@
     #user-post
       .band-box-header.active 
         = link_to 'posts of this musician', show_band_path(:band_name => @band.name), :remote => 'true', :class => 'ajaxopen'
+    - if @is_admin_of_band
+      .band-box-header
+        = link_to 'administer musician', manage_band_path(:band_name => @band.name)
     #follow-unfollow
       .band-box-header
         - if current_user.following?(@band)

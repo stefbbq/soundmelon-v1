@@ -10,19 +10,29 @@ class MessagesController < ApplicationController
     begin
       @user = current_user
       if params[:band_name]
-        band = Band.where(:name => params[:band_name]).first
-        if current_user.is_admin_of_band?(band)
-          @messages = band.inbox(params[:page])  
+        
+        @band = Band.where(:name => params[:band_name]).first
+        unless request.xhr?
+          redirect_to show_band_url(:band_name => @band.name) and return 
+        end
+        if current_user.is_admin_of_band?(@band)
+          @unread_mentioned_count = @band.unread_mentioned_post_count
+          @unread_post_replies_count = @band.unread_post_replies_count
+          @unread_messages_count = @band.received_messages.unread.count
+          @messages = @band.inbox(params[:page])  
         else
           @messages = []
           next_page = nil
         end
       else
+        get_user_associated_objects
+        #TODO: not get called automatically so calling explicitly. Need to investigate
+        messages_and_posts_count 
         @messages = current_user.inbox(params[:page])
       end
       next_page ||= @messages.next_page
-      if band
-        @load_more_path =  next_page ?  more_inbox_messages_path(:band_name => band.name, :page => next_page) : nil
+      if @band
+        @load_more_path =  next_page ?  more_inbox_messages_path(:band_name => @band.name, :page => next_page) : nil
       else
         @load_more_path =  next_page ?  more_inbox_messages_path(:page => next_page) : nil
       end

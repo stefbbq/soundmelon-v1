@@ -4,6 +4,11 @@
       <%= link_to 'news feed & messages' , manage_band_path(:band_name => @band.name), :remote => true,:class=>"iconactive" %>
     </div>
   </div>
+  <div id='musician-public-view'>
+    <div class='band-box-header'>
+      <%= link_to 'view as public' , show_band_path(:band_name => @band.name) %>
+    </div>
+  </div>
   <div id='profile-info'>
     <div class='band-box-header'>
       <%= link_to 'edit profile information' , edit_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen' %>

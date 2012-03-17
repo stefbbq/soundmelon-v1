@@ -22,9 +22,6 @@ class BandsController < ApplicationController
          @unread_post_replies_count = @band.unread_post_replies_count
          @unread_messages_count = @band.received_messages.unread.count 
         unless request.xhr?
-           @unread_mentioned_count = @band.unread_mentioned_post_count
-           @unread_post_replies_count = @band.unread_post_replies_count
-           @unread_messages_count = @band.received_messages.unread.count
            @song_albums = @band.limited_song_albums
            @photo_albums = @band.limited_band_albums
            @band_artists = @band.limited_band_members

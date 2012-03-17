@@ -11,12 +11,7 @@ class UsersController < ApplicationController
     @unread_post_replies_count = current_user.unread_post_replies_count
     @unread_messages_count = current_user.received_messages.unread.count
     unless request.xhr?
-      @following_artist_count = current_user.following_band.count
-      @following_count = current_user.following_user.count
-      @follower_count = current_user.user_followers.count
-      @following_artists = current_user.following_band.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
-      @following_users = current_user.following_user.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
-      @follower_users = current_user.user_followers.order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)  
+      get_user_associated_objects  
     end
   end
   

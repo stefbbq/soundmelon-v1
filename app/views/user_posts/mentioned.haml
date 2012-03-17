@@ -4,10 +4,10 @@
   .left
     .leftcontainer
       = render 'users/post_msg_header'
-      = render 'messages/inbox_messages', :messages => @messages
+      = render "shared/home_page_posts"
   .rightbar
     = render "users/user_right_box"
   .clear
 :javascript
   $('a').removeClass('highlight');
-  $('#messages').addClass('highlight');
+  $('#mentions').addClass('highlight');

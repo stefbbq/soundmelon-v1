@@ -1,7 +1,8 @@
 class Band < ActiveRecord::Base
-  before_validation :sanitize_mention_name
   
   acts_as_messageable :required => :body, :order => "created_at desc" 
+  acts_as_followable
+  
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user
   has_many :band_albums, :order => 'created_at desc'
@@ -12,8 +13,6 @@ class Band < ActiveRecord::Base
   has_many :songs, :through => :song_albums
   
 
-  acts_as_followable
-  
   accepts_nested_attributes_for :band_invitations , :reject_if => proc { |attributes| attributes['email'].blank? }
   has_attached_file :logo, 
     :styles => { :small => '50x50#', :medium => '100x100>', :large => '350x180>' },
@@ -25,6 +24,8 @@ class Band < ActiveRecord::Base
   validates :name, :uniqueness => true
   validates :mention_name, :uniqueness => true
 
+  before_validation :sanitize_mention_name
+  
   searchable do
     text :genre
     text :name
@@ -36,15 +37,16 @@ class Band < ActiveRecord::Base
   
   def sanitize_mention_name
     unless self.mention_name.blank?
-      self.mention_name = self.mention_name.strip =~ /^@/ ? self.mention_name : "@#{self.mention_name}"  
+      self.mention_name = "@#{self.mention_name.parameterize}"
+      self.mention_name = nil if self.mention_name.size == 1
     end  
   end
   
   def find_own_as_well_as_mentioned_posts page=1   
     post_ids = []
     posts = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.band_id = :band_id or (posts.band_id = :band_id) and posts.is_deleted = :is_deleted and posts.is_bulletin = false',  :band_id => self.id, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
-    mark_mentioned_post_as_read post_ids
-    mark_replies_post_as_read post_ids
+    #mark_mentioned_post_as_read post_ids
+    #mark_replies_post_as_read post_ids
     return posts
   end
   

@@ -60,7 +60,8 @@ class FollowController < ApplicationController
         if params[:id]
           user = User.find(params[:id])
           @following = user.following_users.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-        else  
+        else
+          @current_user_following = true
           @following = current_user.following_users.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
         end
         respond_to do |format|
@@ -80,7 +81,8 @@ class FollowController < ApplicationController
         if params[:id]
           user = User.find(params[:id])
           @following_artists = user.following_bands.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-        else  
+        else
+          @current_user_following = true
           @following_artists = current_user.following_bands.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
         end
         respond_to do |format|

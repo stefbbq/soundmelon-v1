@@ -1,13 +1,9 @@
-<% messages = capture do %>
-  <div class='messages-wrapper'>
-    <%= render "messages/message", :messages => @messages %>
-  </div>
-  <div class='clear'></div>
-  <% unless @load_more_path.nil? %>
-    <div class='readmore'>
-      <%=  link_to "Read more", @load_more_path , :remote => true, :class=>"ajaxload" %>
-    </div>
-  <% end %>
+<% if @band %>
+  $('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(render 'bands/post_msg_header') -%>');
+<% else %>
+  $('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(render 'users/post_msg_header') -%>');
 <% end %>
-$('.midcontent > .left > .leftcontainer').html('<%= escape_javascript messages -%>');
+  $('.midcontent > .left > .leftcontainer').append('<%= escape_javascript(render 'messages/inbox_messages', :messages => @messages) -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);  
+$('a').removeClass('highlight');
+$('#messages').addClass('highlight');

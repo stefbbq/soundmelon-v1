@@ -1,14 +1,10 @@
 class User < ActiveRecord::Base
-  before_validation :sanitize_mention_name
+  authenticates_with_sorcery!
+  
   
   acts_as_messageable :required => :body #,:order => "created_at desc" 
   acts_as_followable
   acts_as_follower
-  
-  validates :email, :presence => true
-  validates :fname, :presence => true
-  validates :lname, :presence => true
-  validates :mention_name, :uniqueness => true
   
   has_many :user_posts, :order => "created_at desc"
   #has_one :band_user
@@ -27,13 +23,18 @@ class User < ActiveRecord::Base
   has_many :mention_posts
   
   attr_accessor :email_confirmation, :password_confirmation
-  attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation
+  attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :tac, :mention_name
   
+  validates :email, :presence => true
+  validates :fname, :presence => true
+  validates :lname, :presence => true
+  validates :mention_name, :uniqueness => true
   validates :password, :presence => true, :on => :create 
   validates :password, :confirmation => true      
   validates :email, :uniqueness => true
   validates :email, :confirmation => true
-  authenticates_with_sorcery! 
+  validates :tac, :acceptance => true
+  before_validation :sanitize_mention_name 
   
   searchable do
     text :fname
@@ -43,7 +44,8 @@ class User < ActiveRecord::Base
   
   HUMANIZED_ATTRIBUTES = {
                            :fname => 'First Name',
-                           :lname => 'Last Name'
+                           :lname => 'Last Name',
+                           :tac => 'Terms and Condition'
                          }
 
   def self.human_attribute_name(attr,options={})
@@ -56,7 +58,8 @@ class User < ActiveRecord::Base
 
   def sanitize_mention_name
     unless self.mention_name.blank?
-      self.mention_name = self.mention_name.strip =~ /^@/ ? self.mention_name : "@#{self.mention_name}"  
+      self.mention_name = "@#{self.mention_name.parameterize}"
+      self.mention_name = nil if self.mention_name.size == 1
     end  
   end
   
@@ -98,8 +101,8 @@ class User < ActiveRecord::Base
     self.following_bands.map{|band|  user_following_band_ids << band.id}
     post_ids=[]
     posts = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.band_id in (:user_following_band_ids))  and posts.is_deleted = :is_deleted and is_bulletin = false', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :user_following_band_ids => user_following_band_ids, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
-    mark_mentioned_post_as_read post_ids
-    mark_replies_post_as_read post_ids
+    #mark_mentioned_post_as_read post_ids
+    #mark_replies_post_as_read post_ids
     return posts
   end
   

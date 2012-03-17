@@ -32,7 +32,15 @@ module ApplicationHelper
     my_avatar = true if current_user.id == user.id
     if my_avatar
       if user.profile_pic(true)
-        raw "<div>#{link_to 'Change', new_avatar_path, :remote=>:true,:class=>'ajaxopen'} #{link_to 'Delete', delete_avatar_path, :remote=>:true}</div><div>#{image_tag(user.profile_pic.avatar.url(:large))}</div>"  
+        edit_delete_links_and_img_str = '<div>'
+        edit_delete_links_and_img_str += link_to 'edit', crop_avatar_path, :remote=>:true,:class=>'ajaxopen'
+        edit_delete_links_and_img_str += link_to 'change', new_avatar_path, :remote=>:true,:class=>'ajaxopen'
+        edit_delete_links_and_img_str += link_to 'delete', delete_avatar_path, :remote=>:true
+        edit_delete_links_and_img_str += '</div>'
+        edit_delete_links_and_img_str += '<div>'
+        edit_delete_links_and_img_str += image_tag(user.profile_pic.avatar.url(:large))
+        edit_delete_links_and_img_str += '</div>' 
+        raw edit_delete_links_and_img_str  
       else
         raw "<div>#{link_to 'Add', new_avatar_path, :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('user_blank_large.jpg')}</div>"
       end

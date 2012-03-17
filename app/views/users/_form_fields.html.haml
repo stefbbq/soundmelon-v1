@@ -33,6 +33,10 @@
   %label{:for => "website"} Retype Password
   = password_field :user, :password_confirmation, :class => 'textfield'
 .fields
+  %label{:for => "website"} I agree
+  = check_box :user, :tac
+%br
+.fields
   %label
   = recaptcha_tags
 .fileds

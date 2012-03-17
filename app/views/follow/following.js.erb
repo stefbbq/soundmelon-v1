@@ -7,7 +7,7 @@ $('.midcontent > .left > .leftcontainer').html('');
       </div>
       <div class="fusercontent"> 
       <%=  link_to user.get_full_name, user_profile_path(user.id) %>
-      <%=  link_to "Unfollow", unfollow_user_path(user.id), :remote => true, :class => 'ajaxopen right'  %>
+      <%=  link_to "Unfollow", unfollow_user_path(user.id), :remote => true, :class => 'ajaxopen right' if @current_user_following %>
      </div>
      <div class="clear"></div>
    </div> 
