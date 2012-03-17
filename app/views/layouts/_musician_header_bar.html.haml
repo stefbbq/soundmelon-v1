@@ -3,7 +3,7 @@
     .site-logo
       %h2.logotext
         %a{:href => "/"}
-        = image_tag 'logo.png'
+          = image_tag 'logo.png'
     .loggedin-info
       = link_to "#{current_user.fname} #{current_user.lname}", user_home_path, :class => 'user-info'
       administrating
