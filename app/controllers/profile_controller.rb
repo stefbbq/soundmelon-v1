@@ -3,7 +3,7 @@ class ProfileController < ApplicationController
   
   
   def user_profile
-    
+   messages_and_posts_count 
    #for other users
    @user = User.find(params[:id])
    if @user #&& @user!=current_user

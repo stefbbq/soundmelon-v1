@@ -100,6 +100,14 @@ $(document).ready( function(){
 		  }); 
 	   e.preventDefault();
   });
+  
+  $('.left #latest, .left #replies, .left #mentions, #inbox #messages').live('click', function() {
+    history.pushState(null, "", this.href);
+    return false
+  });
+  $(window).bind("popstate", function(){
+    $.getScript(location.href);    
+  });
 });
 
 function remove_fields (link) {
