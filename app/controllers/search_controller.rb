@@ -2,6 +2,7 @@ class SearchController < ApplicationController
   before_filter :require_login, :except => [:check_bandname]
   
   def index
+    messages_and_posts_count
     @user_search_results = Sunspot.search User do |query| 
       query.keywords params[:q]
       query.with :activation_state, 'active'
