@@ -12,4 +12,6 @@
 //= require jquery.mentionsInput
 //= require jquery.events.input
 //= require jquery.elastic
+//= require jquery.jplayer.min
 //= require_tree .
+

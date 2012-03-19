@@ -19,9 +19,9 @@
               %li
                 = link_to "Access #{band.name}", manage_band_path(:band_name => band.name)
       = link_to "Logout", logout_path, :class=>"logout"
- 
+
     .mplayerbar
-      = image_tag 'music_box.png', :width => '700px'
+      =# image_tag 'music_box.png', :width => '700px'
     .new-alerts
       - unread_mentioned_count = current_user.unread_mentioned_post_count
       - unread_post_replies_count = current_user.unread_post_replies_count
@@ -31,7 +31,7 @@
       = link_to unread_mentioned_count, mentioned_path
       = link_to image_tag('mention-icon.png'), mentioned_path
       = link_to unread_messages_count, user_inbox_path
-      = link_to image_tag('message-icon.png'), user_inbox_path  
+      = link_to image_tag('message-icon.png'), user_inbox_path
       .clear
     .headmenubar
       .menu
@@ -50,3 +50,4 @@
           %input.auto_search_complete{:name => "q", :type => "text", :class => 'searchinput'}/
           %input.search{:name => "search", :type => "submit", :value => "Go" }/
       .clear
+

@@ -118,3 +118,32 @@ h3,h2{color:#CCCCCC; font-size:20px; margin:0;}
 }
 .mplayerbar{float:left;}
 .new-alerts{background: none repeat scroll 0 0 #1b1b1b; padding-top:40px; padding-bottom:5px; font-weight:bold; font-size:14px;}
+.album {
+   width: 100%;
+   background: #212121;
+   margin: 3px;
+  .album_info_wrapper{
+    background: #4d4d4d; 
+    .album_teaser_image{
+      float: left;
+    } 
+    .album_info{
+      .album_name {font-size:20px; float:left; padding-top:5px; padding-left:30px;}
+      .album_controls{float:right;}
+    }
+  }
+  .additional_info{
+    .song_stats{font-size:14px; float:left; padding-left: 50px; padding-top:5px;}
+    .thread_expand{
+      -moz-border-radius: 10px 10px 10px 10px;
+      border-radius: 10px;
+      background: none repeat scroll 0 0 #4d4d4d;
+      margin-bottom: 5px;
+      margin-left: 88px;
+      padding: 4px;
+      text-align: center;
+      width: 185px;
+      float: right;
+    }
+  }
+}
