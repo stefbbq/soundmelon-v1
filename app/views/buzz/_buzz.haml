@@ -1,0 +1,9 @@
+.buzz_header
+  - if @song_album
+    = "#{@song_album.album_name} buzz"
+  - else
+    = "#{@song.song_name_without_extension} buzz"
+.buzz_form
+  = render 'buzz_form'
+.posts
+  = render 'user_posts/user_post', :posts => @buzzes

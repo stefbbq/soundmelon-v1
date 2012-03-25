@@ -94,6 +94,7 @@ class MessagesController < ApplicationController
   end
 
   def new
+    redirect_to user_profile_url(params[:id]) and return unless request.xhr?
     @to = params[:id] 
     @message = ActsAsMessageable::Message.new
   end

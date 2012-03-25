@@ -21,6 +21,7 @@ class BandSongAlbumController < ApplicationController
 #  end
 
   def new
+    redirect_to  show_band_url(:band_name => params[:band_name]) and return unless request.xhr?
     @band = Band.where(:name => params[:band_name]).first
     if current_user.is_admin_of_band?(@band)
       @song = Song.new
@@ -58,10 +59,11 @@ class BandSongAlbumController < ApplicationController
   end
 
   def destroy
-
+   
   end
   
   def band_song_albums
+   redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
    begin
      @band = Band.where(:name => params[:band_name]).first
      @is_admin_of_band = current_user.is_member_of_band?(@band)
@@ -72,16 +74,21 @@ class BandSongAlbumController < ApplicationController
   end
   
   def album_songs
-   begin
-     @band = Band.where(:name => params[:band_name]).first
-     @is_admin_of_band = current_user.is_member_of_band?(@band)
-     @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
-   rescue
-     render :nothing => true and return
-   end   
+   if request.xhr?
+     begin
+       @band = Band.where(:name => params[:band_name]).first
+       @is_admin_of_band = current_user.is_member_of_band?(@band)
+       @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
+     rescue
+       render :nothing => true and return
+     end
+   else
+     redirect_to show_band_path(:band_name => params[:band_name]) and return
+   end
   end
   
   def edit_song_album
+    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
     begin
       @band = Band.where(:name => params[:band_name]).first
       if current_user.is_member_of_band?(@band)
@@ -102,10 +109,20 @@ class BandSongAlbumController < ApplicationController
         @song_album = SongAlbum.where('band_id = ? and id = ?', @band.id, params[:id]).first
         @song_album.update_attributes(params[:song_album])
         @song_album = SongAlbum.where('band_id = ? and id = ?', @band.id, params[:id]).first
-        render :action => 'album_songs' and return
+        5.times { @song_album.songs.build }
+        render :action => 'edit_song_album' and return
       else
         render :noting => true and return
       end
+    rescue
+      render :nothing => true and return
+    end
+  end
+  
+  def download
+    begin
+     song = Song.find(params[:id])    
+     send_file song.song.path, :disposition => 'inline'
     rescue
       render :nothing => true and return
     end

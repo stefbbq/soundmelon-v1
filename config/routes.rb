@@ -124,5 +124,20 @@ Soundmelon::Application.routes.draw do
   get ':band_name/message/new' => 'bands#new_message', :as => 'band_new_message'
   match ':band_name/message/create' => 'bands#send_message', :as => 'band_send_message'
   
+  #album and song buzz
+  get ':album_name/:id/buzz' => 'buzz#album_buzz', :as => 'album_buzz'
+  get 'buzz/:id' => 'buzz#song_buzz', :as => 'song_buzz'
+  #get ':song_name/:id/buzz' => 'buzz#song_buzz', :as => 'song_buzz'
+  match ':album_name/:id/buzz/create' => 'buzz#album_buzz_post', :as => 'album_buzz_post'
+  match 'buzz/:id/create' => 'buzz#song_buzz_post', :as => 'song_buzz_post'
+  #match ':song_name/:id/buzz/create' => 'buzz#song_buzz_post', :as => 'song_buzz_post' 
+  
+  #song download
+  get ':song_name/:id/download' => 'band_song_album#download', :as => 'download_song'
+  
+  #playlist
+  get 'playlist/:song_name/:id/add' => 'playlists#add', :as => 'add_to_playlist'
+  get 'playlist/:song_name/:id/remove' => 'playlists#remove', :as => 'remove_from_playlist'
+  get 'playlist/:id/add' => 'playlists#add_all_songs_of_album', :as => 'add_album_to_playlist'
   match ':controller(/:action(/:id(.:format)))'
 end

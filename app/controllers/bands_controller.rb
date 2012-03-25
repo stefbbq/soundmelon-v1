@@ -2,7 +2,11 @@ class BandsController < ApplicationController
   before_filter :require_login
   
   def index
-    @bands = current_user.bands.includes(:song_albums, :songs)
+    if request.xhr?
+      @bands = current_user.bands.includes(:song_albums, :songs)
+    else
+      redirect_to root_url and return
+    end
   end
   
   def manage
@@ -131,24 +135,23 @@ class BandsController < ApplicationController
   end
   
   def members
-    begin
-      @band = Band.where(:name => params[:band_name]).includes(:band_members).first
-      if current_user.is_admin_of_band?(@band)
-         @band_members = @band.band_members
-      else
-        logger.error "#User with username:{current_user.get_full_name} and user id #{current_user.id} tried to access band members of band with band id: #{@band.id} which he is not a admin" 
-        redirect_to user_home_url, :notice => 'Your action has been reported to admin' and return
+    if request.xhr?
+      begin
+        @band = Band.where(:name => params[:band_name]).includes(:band_members).first
+        @band_members = @band.band_members
+        respond_to do |format|
+          format.js
+        end
+      rescue
+        render :nothing => true and return
       end
-    rescue
-      redirect_to user_home_url, :notice => 'Something went wrong! Try Again' and return
+    else
+      redirect_to show_band_url(:band_name => params[:band_name]) and return
     end
-    respond_to do |format|
-      format.html
-      format.js
-    end    
   end
   
   def invite_bandmates
+    redirect_to show_band_url(:band_name => params[:band_name]) and return unless request.xhr?
     begin
       @band = Band.where(:name => params[:band_name]).first
       if current_user.is_admin_of_band?(@band)
@@ -166,7 +169,8 @@ class BandsController < ApplicationController
     end
   end
   
-  def send_bandmates_invitation 
+  def send_bandmates_invitation
+    
     begin
       @band = Band.where(:name => params[:band_name]).first
       if current_user.is_admin_of_band?(@band)
@@ -189,41 +193,57 @@ class BandsController < ApplicationController
   end
   
   def follow_band
-    begin
-      @band = Band.where(:name => params[:band_name]).first
-      current_user.follow(@band)  unless current_user.following?(@band)
-    rescue
-      render :nothing => true and return
+    if request.xhr? 
+      begin
+        @band = Band.where(:name => params[:band_name]).first
+        current_user.follow(@band)  unless current_user.following?(@band)
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(:band_name => params[:band_name]) and return
     end
   end
   
   def unfollow_band
-    begin
-      @band = Band.where(:name => params[:band_name]).first
-      current_user.stop_following(@band)  if current_user.following?(@band)
-    rescue
-      render :nothing => true and return
+    if request.xhr?
+      begin
+        @band = Band.where(:name => params[:band_name]).first
+        current_user.stop_following(@band)  if current_user.following?(@band)
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(:band_name => params[:band_name]) and return
     end
   end
   
   def send_message
-    begin
-      to_band = Band.find(params[:id])
-      if current_user.send_message(to_band, :body => params[:body])
-      else
-        # though body is empty, let the bogus user feel msg is sent   
+    if request.xhr?
+      begin
+        to_band = Band.find(params[:id])
+        if current_user.send_message(to_band, :body => params[:body])
+        else
+          # though body is empty, let the bogus user feel msg is sent   
+        end
+      rescue
+        render :nothing => true and return
       end
-    rescue
-      render :nothing => true and return
+    else
+      redirect_to root_url and return
     end
   end
   
   def new_message
-    begin
-      @band = Band.find(params[:id]) 
-      @message = ActsAsMessageable::Message.new
-    rescue
-      render :nothing => true and return
+    if request.xhr?
+      begin
+        @band = Band.find(params[:id]) 
+        @message = ActsAsMessageable::Message.new
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to root_url and return
     end
   end
   
@@ -322,7 +342,7 @@ class BandsController < ApplicationController
       band = Band.where(:name => params[:band_name]).first
       @band_fans = band.user_followers
     else
-      redirect_to user_home_url, :notice => 'Something went wrong! Try Again' and return
+      redirect_to show_band_url(:band_name => params[:band_name])
     end
   end
   

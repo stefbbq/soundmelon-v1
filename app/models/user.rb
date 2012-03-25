@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   has_many :song_albums
   has_many :posts
   has_many :mention_posts
+  has_many :playlists
   
   attr_accessor :email_confirmation, :password_confirmation
   attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :tac, :mention_name

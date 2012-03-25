@@ -12,6 +12,9 @@ class ApplicationController < ActionController::Base
     @following_artists = current_user.following_band.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
     @following_users = current_user.following_user.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
     @follower_users = current_user.user_followers.order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)
+    @playlist_songs = current_user.playlists
+    @playlist_songs_id = @playlist_songs.map{|playlist_song| playlist_song.song_id}
+    
     @user ||= current_user
   end
 

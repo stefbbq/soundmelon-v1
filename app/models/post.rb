@@ -1,6 +1,8 @@
 class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :band
+  belongs_to :song_album
+  belongs_to :song
   has_many :mentioned_posts
   has_ancestry
   
@@ -39,6 +41,30 @@ class Post < ActiveRecord::Base
       end
     end
     return participating_users_and_bands 
+  end
+  
+  def self.album_buzz_for(song_album_id)
+    Post.where(:song_album_id => song_album_id).order('created_at desc')
+  end
+  
+  def self.song_buzz_for(song_id)
+    Post.where(:song_id => song_id).order('created_at desc')
+  end
+  
+  def self.create_song_album_buzz_by(user_id, params)
+    Post.create(
+      :song_album_id => params[:id],
+      :user_id => user_id,
+      :msg => params[:msg]
+    )
+  end
+  
+  def self.create_song_buzz_by(user_id, params)
+    Post.create(
+      :song_id => params[:id],
+      :user_id => user_id,
+      :msg => params[:msg]
+    )
   end
   
   protected

@@ -1,12 +1,24 @@
 - song_album_songs = capture do
-  %h3
-    = image_tag @song_album.cover_img.url(:medium)
-    = "#{@song_album.album_name} : #{@song_album.songs.count}"
-    =link_to 'Edit', edit_band_song_album_path(:band_name => @song_album.band.name, :song_album_name => @song_album.album_name ), :remote => true, :class => 'ajaxopen' if @is_admin_of_band
   - @song_album.songs.each do |song|
-    .song_album_songs
-      = "#{song.song_file_name}(#{number_to_human_size(song.song_file_size)})"
-      %audio{:controls => "controls"}
-        %source{:src => "#{song.song.url}", :type => "audio/mp3"} 
-$('.midcontent > .left > .leftcontainer').html('#{escape_javascript song_album_songs}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);    
+    .song[song]
+      .song-title
+        = song.song_file_name
+      .song-controls 
+        = link_to image_tag('download-icon.png'), download_song_path(song, :song_name => song.song_name_without_extension)
+        = link_to image_tag('play-icon.png'), '#'
+        = link_to image_tag('queue-icon.png'), add_to_playlist_path(song, :song_name => song.song_name_without_extension), :remote => true, :class => 'ajaxopen'
+        = link_to image_tag('buzz-icon.png'), song_buzz_path(song), :remote => true, :class => 'ajaxopen'
+      .clear
+    .clear 
+- hide_show_songs = capture do
+  .thread_collapse
+    %a{:href => "javascript:void(0);", :onclick => "hide_songs('#song_album_#{@song_album.id}')"}
+      collapse
+  .thread_expand{:style => "display:none"}
+    %a{ :href => "javascript:void(0);", :onclick => "show_songs('#song_album_#{@song_album.id}')"}
+      expand
+
+$('#song_album_#{@song_album.id} .additional_info .thread_expand').replaceWith('#{escape_javascript hide_show_songs}');
+$('#song_album_#{@song_album.id}').append('#{escape_javascript song_album_songs}');
+setTimeout('$(document).trigger(\"close.facebox\")',10)
+    

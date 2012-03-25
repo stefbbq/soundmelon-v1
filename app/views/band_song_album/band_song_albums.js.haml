@@ -14,11 +14,11 @@
             .album_name
               = link_to "#{song_album.album_name}", band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
             .album_controls
-              = link_to image_tag('download-icon.png')
-              = link_to image_tag('play-icon.png')
-              = link_to image_tag('queue-icon.png')
-              = link_to image_tag('buzz-icon.png')
-        .clear
+              = link_to image_tag('download-icon.png'), '#'
+              = link_to image_tag('play-icon.png'), '#'
+              = link_to image_tag('queue-icon.png'), add_album_to_playlist_path(song_album), :remote => true, :class => 'ajaxopen'
+              = link_to image_tag('buzz-icon.png'), album_buzz_path(song_album, :album_name => song_album.album_name), :remote => true, :class => 'ajaxopen'
+          .clear
         .additional_info
           .song_stats
             = pluralize(song_album.songs.count, 'song')

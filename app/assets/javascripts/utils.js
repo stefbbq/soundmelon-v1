@@ -131,3 +131,15 @@ function show_parent_posts(div_id) {
   $(div_id).siblings('.thread_expand').hide();
   $('.thread_collapse').show();
 }
+
+function hide_songs(div_id){
+  $(div_id).children('.song').hide();
+  $(div_id).find('.thread_collapse').hide();
+  $(div_id).find('.thread_expand').show(); 
+}
+
+function show_songs(div_id){
+  $(div_id).children('.song').show();
+  $(div_id).find('.thread_expand').hide();
+  $(div_id).find('.thread_collapse').show();    
+}

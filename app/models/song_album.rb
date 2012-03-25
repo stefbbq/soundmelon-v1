@@ -2,6 +2,8 @@ class SongAlbum < ActiveRecord::Base
   belongs_to :user
   belongs_to :band
   has_many :songs
+  has_many :posts
+  
   accepts_nested_attributes_for :songs, :reject_if => proc { |attributes| attributes['song'].blank?}
   
   has_attached_file :cover_img, 

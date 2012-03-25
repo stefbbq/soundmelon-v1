@@ -1,13 +1,13 @@
 - song_album_songs = capture do
   %h3
-    = image_tag @song_album.cover_img.url(:medium)
-    = "#{@song_album.album_name} : #{@song_album.songs.count}"
+    = get_album_cover_image(@song_album, 'medium')
+    %br
+    = "#{@song_album.album_name} : #{@song_album.songs.count} songs"
   - @song_album.songs.each do |song|
     - unless song.new_record?
       .song_album_songs
         = "#{song.song_file_name}(#{number_to_human_size(song.song_file_size)})"
-        %audio{:controls => "controls"}
-          %source{:src => "#{song.song.url}", :type => "audio/mp3"}
+      %br  
   = form_for @song_album, :url => {:action => 'update_song_album' , :id => @song_album.id, :band_name => @song_album.band.name}, :html => {:multipart => true, :remote => true } do |f|
     Album Name:
     = f.text_field :album_name
@@ -19,9 +19,10 @@
       - if song_field.object.new_record?
         Upload Song: 
         = song_field.file_field :song
+        %br
       - else
-        - song_field.file_field :song   
-      %br 
+        %div{:style => 'display:none;'} 
+          - song_field.file_field :song   
     = f.submit "Save", :disable_with => 'Saving...', :class => 'button blue' 
 $('.midcontent > .left > .leftcontainer').html('#{escape_javascript song_album_songs}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);

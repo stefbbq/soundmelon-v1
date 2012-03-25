@@ -1,7 +1,9 @@
 class Song < ActiveRecord::Base
   belongs_to :user
   belongs_to :song_album
-    
+  has_many :posts
+  has_many :playlists
+  
   has_attached_file :song, 
     :url => "/assets/bands/song/album/:id/:style/:normalized_attachment_file_name"
   
@@ -17,6 +19,10 @@ class Song < ActiveRecord::Base
   
   def normalized_attachment_file_name
     "#{self.song_file_name.gsub( /[^a-zA-Z0-9_\.]/, '_')}"
+  end
+  
+  def song_name_without_extension
+    self.song_file_name.gsub(/\..*/,'')
   end
   
   private

@@ -16,6 +16,7 @@ class BandPhotosController < ApplicationController
   end
 
   def new
+    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
     @band = Band.where(:name => params[:band_name]).first
     if current_user.is_admin_of_band?(@band)
       @band_photo = BandPhoto.new
@@ -55,6 +56,7 @@ class BandPhotosController < ApplicationController
   
   
   def band_albums
+   redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
    begin
      @band = Band.where(:name => params[:band_name]).first
      @is_admin_of_band = current_user.is_member_of_band?(@band)
@@ -65,6 +67,7 @@ class BandPhotosController < ApplicationController
   end
   
   def band_album_photos
+   redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr? 
    begin
      @band = Band.where(:name => params[:band_name]).first
      @is_admin_of_band = current_user.is_member_of_band?(@band)
