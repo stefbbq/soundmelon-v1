@@ -13,6 +13,4 @@ solr/*
 Gemfile.lock
 solr/data/*
 config/database.yml
-config/database.yml
-
 config/.DS_Store
