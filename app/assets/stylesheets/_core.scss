@@ -1,0 +1,29 @@
+//contains all generic elements
+
+@import 'vars';
+
+html, body {
+  padding: 0px;
+  margin: 0px;
+  font-family: arial, verdana, tahoma;
+  font-size: 13px;  
+  color:#B5B5B5; 
+	background: $footer-bg-color;
+}
+img { 
+  border: none; 
+  vertical-align: middle;
+}
+ul {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: #fff;
+  &:hover { text-decoration: underline; }
+}
+strong{color:#F8F9F7;}
+h1{font-size: 28px;  color: #000; }
+h3,h2{color:#CCCCCC; font-size:20px; margin:0;}

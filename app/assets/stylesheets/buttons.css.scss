@@ -1,13 +1,16 @@
-@import "base.css.scss";
+@import 'compass/css3';
+@import 'vars';
+@import 'base';
 
 .button {
+  @include border-radius($border-radius);
   display: inline-block;
   background:#4D4D4D;
   height: 30px;
   color: #fff;
   line-height: 30px;
   font-size: 1.2em;
-  @include rounded( 4px );
+
   padding: 0px 8px;
   border: solid 1px #fff;
   text-shadow: 0px -1px 0px #398c04;
@@ -71,9 +74,8 @@
 }
 
 .logout{
-  //float:left; 
+  @include border-radius($border-radius);
   text-decoration:none;
-  @include rounded-corner;
   margin:5px 20px 0 10px;
   padding:5px 10px;
   background:#909090;
@@ -84,20 +86,21 @@
  }
  
 .search{ 
+	@include border-radius($border-radius);
   background:#909090;
   color:#000;
   font-weight:bold;
   font-size:16px;
   padding:5px;
   border:solid 2px #AEAEAE;
-  @include rounded-corner;
+
   &:hover{background: #B5B5B5;}
 }
                       
 .join{
+	@include border-radius($border-radius);
   float:right;
   margin:50px 190px 0 0;
-  @include rounded-corner;
   width:120px;
   height:35px;
   background:#4D4D4D;

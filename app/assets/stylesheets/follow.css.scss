@@ -1,12 +1,14 @@
-// Place all the styles related to the Follow controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-@import "base.css.scss";
+//follow
+@import 'compass/css3';
+@import 'vars';
+@import 'base';
+
 .followuserbox{  
   width:100%;
   margin:10px auto; 
   .avatar{
-    float:left; @include roundedbox(56px,56px,#212121);
+		@include border-radius($border-radius);
+    float:left;
     img{
       width:50px; 
       height:50px; 

@@ -1,0 +1,14 @@
+//collection of custom mixins
+
+//box
+@mixin roundedbox($w,$h,$c){
+	@include border-radius($border-radius);   
+	width:$w;
+	height:$h;
+	background-color:$c;
+}
+@mixin box($w,$h,$c) {
+	width:$w;
+	height:$h;
+	background-color:$c; 
+}

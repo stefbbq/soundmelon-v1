@@ -16,17 +16,17 @@
       				});
 
   %body
-    #pagebox
-      #page
-        #headercontainer
+    #base-container
+      #page-container
+        #page
           #header
-            = yield(:tophead)
-        - flash.each do |name, msg|
-          = content_tag :div, msg, {:id => "flash_#{name}",:class=>"center"}
-        #content
-          = yield
-        = render :partial=>"layouts/footer"
-        .globalloading.hide{:id=>"globalloading" }
-          .center
-            =image_tag("loading.gif")
-
+            %div
+              = yield(:tophead)
+          - flash.each do |name, msg|
+            = content_tag :div, msg, {:id => "flash_#{name}",:class=>"center"}
+          #content
+            = yield
+      = render :partial=>"bricks/footer"
+      .globalloading.hide{:id=>"globalloading" }
+        .center
+          =image_tag("loading.gif")
