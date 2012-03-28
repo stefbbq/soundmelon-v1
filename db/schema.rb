@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120117171436) do
+ActiveRecord::Schema.define(:version => 20120325153112) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20120117171436) do
     t.datetime "image_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "caption"
   end
 
   create_table "band_users", :force => true do |t|
@@ -155,15 +156,28 @@ ActiveRecord::Schema.define(:version => 20120117171436) do
     t.datetime "image_updated_at"
   end
 
+  create_table "playlists", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "song_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "posts", :force => true do |t|
     t.integer  "user_id"
     t.integer  "band_id"
     t.string   "msg"
-    t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_deleted", :default => false
+    t.boolean  "is_deleted",    :default => false
+    t.string   "ancestry"
+    t.boolean  "is_bulletin",   :default => false
+    t.boolean  "is_read",       :default => false
+    t.integer  "song_album_id"
+    t.integer  "song_id"
   end
+
+  add_index "posts", ["ancestry"], :name => "index_posts_on_ancestry"
 
   create_table "profile_pics", :force => true do |t|
     t.integer  "user_id",             :null => false

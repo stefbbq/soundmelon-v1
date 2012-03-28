@@ -1,4 +1,4 @@
-//contains links and persista (logo, background, footer, etc)
+//contains links and persistant elements (logo, background, footer, etc)
 
 @import 'compass/css3'; //compass css3 mixins
 @import 'core'; //basic settings
@@ -116,8 +116,9 @@ ul{
   padding:10px;
   li { margin:2px 10px; color:#E84067;}
 }
-	
-//page
+
+//
+//page, page content
 #page-container {
 	background: url(base-bg.jpg) top center no-repeat;
 	width: 100%;
@@ -126,10 +127,10 @@ ul{
 #page {
 	@include border-radius(0px 0px $border-radius $border-radius);
 	@include box-shadow(rgba(black, .3), 0px, 1px, 6px);
+	background: $page-bg-color;
   margin: 0 auto;
 	width: $page-width;
 	position: relative;
-  background: #000;
 
 	//
 	//header
@@ -155,7 +156,10 @@ ul{
 			
 			//player and alerts
 			.middle-bar {
-				.mplayerbar {float: left;}
+				.mplayerbar {
+					float: left;
+					.jp-title {display: none;}
+				}
 				.alerts {float: right;}
 			}
 			
@@ -306,18 +310,23 @@ ul{
       }
       .rightbox{  float:right; @include box(33%,190px,#212121);}
     } //user dashboard end
-    .midcontent{
+
+		//
+		//social content
+    .midcontent {
+			background: url(base-page-bg-shaded.jpg) top center no-repeat;
       margin-top:10px;
-      .left{
+
+      .left {
         margin: 0 1%;
         float:left;
         width:68%;
-        .usercontrols{
+        .usercontrols {
           margin: 0 auto;
           padding:10px 0;
           width:95%;
           margin-bottom:10px;
-          .left{
+          .left {
             float:left;
             width:50%;
             font-size:$size*2;
@@ -328,21 +337,22 @@ ul{
               padding:5px;
             }
           }
-          .right{
+          .right {
             float:right;
-            .inbox{ 
+            .inbox { 
               width:135px;
               font-size:$size*2;
               background:#332909;
               a{color:#fff}
-              .inboxnum{
+
+              .inboxnum {
+                @include box(25px,20px,#665111);
+                @include border-radius(12px);
                 float:right;
                 margin-left:10px;
                 text-align:center;
                 padding-top:5px;
                 font-size:14px;
-                @include box(25px,20px,#665111);
-                @include border-radius(12px);   
                 a{ color:#fff; text-decoration:none;}
               }
             }
@@ -364,7 +374,10 @@ ul{
             }
           }
         }
-        .statusinput{  
+
+				//
+				//status update form
+        .statusinput {  
           margin:0 auto;
           width:95%;
           background:#4D4D4D;
@@ -458,7 +471,10 @@ ul{
           }
         }
       }
-      .rightbar{
+
+			//
+			//sidebar
+      .right{
         margin:0 1%;
         float:right; 
         width:28%;
@@ -469,8 +485,11 @@ ul{
           font-size:$size*2;
         }
       }
-    } // mid content end
-  } // content end
+    }
+  }
+
+	//
+	//registartion form
   .registrationform{
     margin:0 auto;
     color:$input-bg-color;
@@ -495,7 +514,7 @@ ul{
       }
       .actions{ padding-left:70%; }
     }
-  }// registrationfrom end
+  } //registartion form end
 
 
 

@@ -1,11 +1,11 @@
-= render :partial=>"layouts/user_header_bar"
+= render :partial=>"bricks/user_header_bar"
 = render :partial=>"profile/user_dash_board"
 .midcontent
   .left
     .leftcontainer
       = render 'users/post_msg_header'
       = render "shared/home_page_posts"
-  .rightbar
+  .right
     = render "users/user_right_box"
   .clear
 :javascript

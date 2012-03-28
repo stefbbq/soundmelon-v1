@@ -16,7 +16,7 @@ module ApplicationHelper
     if user.profile_pic
       image_tag(user.profile_pic.avatar.url(:small), :alt=>'')
     else
-      image_tag('user_blank_small.jpg', :alt=>'')
+      image_tag('fan-defaults-photo-thumbnail.png', :alt=>'')
     end
   end
   
@@ -24,7 +24,7 @@ module ApplicationHelper
     if user.profile_pic
       image_tag(user.profile_pic.avatar.url(:medium), :alt=>'')
     else
-      image_tag('user_blank_large.jpg', :alt=>'')
+      image_tag('fan-defaults-photo-profile.png', :alt=>'')
     end
   end
   
@@ -42,20 +42,20 @@ module ApplicationHelper
         edit_delete_links_and_img_str += '</div>' 
         raw edit_delete_links_and_img_str  
       else
-        raw "<div>#{link_to 'Add', new_avatar_path, :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('user_blank_large.jpg')}</div>"
+        raw "<div>#{link_to 'Add', new_avatar_path, :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('fan-defaults-photo-profile.jpg')}</div>"
       end
     else
       if user.profile_pic
         image_tag(user.profile_pic.avatar.url(:large), :alt=>'')
       else
-        image_tag('user_blank_large.jpg', :alt=>'')
+        image_tag('fan-defaults-photo-profile.png', :alt=>'')
       end
     end
   end
 
   def get_band_logo_small(band)
     if band.logo_content_type.nil?
-      image_tag('band_logo_blank_small.jpg', :alt=>'')
+      image_tag('artist-defaults-photo-thumbnail.jpg', :alt=>'')
     else
       image_tag(band.logo.url(:small), :alt=>'')
     end  
@@ -63,7 +63,7 @@ module ApplicationHelper
   
   def get_band_logo_medium(band)
      if band.logo_content_type.nil?
-      image_tag('band_logo_blank_medium.jpg', :alt=>'')
+      image_tag('artist-defaults-photo-profile.jpg', :alt=>'')
     else
       image_tag(band.logo.url(:medium), :alt=>'')
     end  
@@ -71,7 +71,7 @@ module ApplicationHelper
   
   def get_band_logo_large(band)
     if band.logo_content_type.nil?
-      image_tag('band_logo_blank_large.jpg', :alt=>'')
+      image_tag('artist-defaults-photo-thumbnail.jpg', :alt=>'')
     else
       image_tag(band.logo.url(:large), :alt=>'')
     end   
