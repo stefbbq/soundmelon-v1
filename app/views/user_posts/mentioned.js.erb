@@ -1,5 +1,5 @@
-$('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(render 'users/post_msg_header') -%>');
-$('.midcontent > .left > .leftcontainer').append('<%= escape_javascript(render 'shared/home_page_posts') -%>');
+$('.left').html('<%= escape_javascript(render 'users/post_msg_header') -%>');
+$('.left').append('<%= escape_javascript(render 'shared/home_page_posts') -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('a').removeClass('highlight');
 $('#mentions').addClass('highlight');

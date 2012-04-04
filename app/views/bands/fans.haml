@@ -1,4 +1,4 @@
-$('.midcontent > .left > .leftcontainer').html('');
+$('.left').html('');
 - band_fans = capture do
   Fans
   %hr
@@ -11,7 +11,7 @@ $('.midcontent > .left > .leftcontainer').html('');
           = link_to user.get_full_name, user_profile_path(user.id)
       .clear
  
-$('.midcontent > .left > .leftcontainer').html('#{escape_javascript(band_fans)}');
+$('.left').html('#{escape_javascript(band_fans)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
 $('#fanbox .band-box-header').addClass('active'); 

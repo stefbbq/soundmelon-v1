@@ -1,4 +1,4 @@
-$('.midcontent > .left > .leftcontainer').html('');
+$('.left > .leftcontainer').html('');
 - band_invitation_form = capture do 
   .blankbox
     %h3 
@@ -30,5 +30,5 @@ $('.midcontent > .left > .leftcontainer').html('');
           = f.submit("Send Invitations" ,:class=>"button")
   .clear
 
-!="$('.midcontent > .left > .leftcontainer').html('#{escape_javascript(band_invitation_form)}');"
+!="$('.left > .leftcontainer').html('#{escape_javascript(band_invitation_form)}');"
 setTimeout('$(document).trigger(\"close.facebox\")',10);

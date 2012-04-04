@@ -1,9 +1,9 @@
 <% if @band %>
-  $('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(render 'bands/post_msg_header') -%>');
+  $('.left').html('<%= escape_javascript(render 'bands/post_msg_header') -%>');
 <% else %>
-  $('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(render 'users/post_msg_header') -%>');
+  $('.left').html('<%= escape_javascript(render 'users/post_msg_header') -%>');
 <% end %>
-  $('.midcontent > .left > .leftcontainer').append('<%= escape_javascript(render 'messages/inbox_messages', :messages => @messages) -%>');
+  $('.left').append('<%= escape_javascript(render 'messages/inbox_messages', :messages => @messages) -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);  
 $('a').removeClass('highlight');
 $('#messages').addClass('highlight');

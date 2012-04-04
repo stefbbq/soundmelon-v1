@@ -1,0 +1,96 @@
+//splash/login page
+
+@import 'compass/utilities/sprites/sprite-img';
+@import 'compass/css3';
+@import 'vars';
+
+//
+//login fields
+.login {
+	float: right; 
+	margin: 10px 10px 0 0;
+	width: 530px; 
+	
+	div, h3 {
+		float: left;
+	}
+	
+	h3 {
+		margin: 10px 10px 0 0;
+	}
+	
+	.field {
+		background: none;
+		border: none;
+		border-bottom: 1px solid $line-color;
+		color: $text-color;
+		font-size: $input-font-size;
+		outline: none;
+		width: 175px;
+		height: 20px;
+		margin: 5px 5px 0 0;		
+		float: left;
+		
+		&:focus {
+			background: $input-bg-active-color;
+		}
+	}
+	
+	.exec-login {
+		border: none;
+		cursor: pointer;
+		padding: 0px;
+		float: left;
+		@include sprite-img("sprites-32.png", 1);
+	}
+	
+	#password-reset {
+		margin-left: 315px;
+		font-size: $font-size-minor;
+		color: $text-faded-color;
+	}
+}
+
+//
+//logo
+.logo { 
+  text-align:center;
+	width: 100%;
+
+	img {
+		margin-top: 30px;
+		margin-left: 10px;
+	}
+
+  h2 { 
+		margin: 15px 0 30px 0;
+  }
+}
+
+//
+//content
+.register {
+	margin-top:100px;
+	
+	//temp
+	h2{font-size:12px;  color:#1AD327; }
+	h3{
+	  color:#1AD327;
+	  font-size:16px;
+	  font-weight:normal;
+	  a{color:#1AD327;text-decoration:none;}
+	}
+	.musicianinfo{ 
+	 	  float:left;
+	  text-align:right;
+		width:200px;
+		margin-left: 200px;
+
+	}
+	.faninfo{ 
+	  text-align:left; 
+	  float:right;
+		width:200px;  
+		margin-right: 200px;
+	}
+}

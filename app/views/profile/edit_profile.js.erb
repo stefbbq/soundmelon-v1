@@ -1,4 +1,4 @@
-$('.midcontent > .left > .leftcontainer').html('');
+$('.left').html('');
 <% edit_profile_forms = capture do %>
   <div id='basic-info' class='content-box'>
     <h3>Basic Info</h3>
@@ -20,7 +20,7 @@ $('.midcontent > .left > .leftcontainer').html('');
   </div>  
 <% end %>
 
-$('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(edit_profile_forms) %>');
+$('.left').html('<%= escape_javascript(edit_profile_forms) %>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
 $('#profile-info .band-box-header').addClass('active');

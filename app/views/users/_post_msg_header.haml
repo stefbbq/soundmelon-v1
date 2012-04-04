@@ -1,15 +1,10 @@
 .usercontrols
-  .left
-    = link_to "latest", user_home_path, :class => "iconactive highlight ajaxload", :id => 'latest', :remote => true
-    = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies', replies_path ,:remote => true, :class=>"iconactive ajaxload", :id => 'replies'
-    = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions', mentioned_path ,:remote => true, :class=>"iconactive ajaxload", :id => 'mentions'
-
-  .right
-    .inbox#inbox
-      -#foractive use inputactive
-      =link_to "messages", user_inbox_path, :class=>"inbox iconactive ajaxload", :remote => true, :id => 'messages'
-      .inboxnum
-        = @unread_messages_count
-      .clear 
-  .clear
+  = link_to "latest", user_home_path, :class => "iconactive highlight ajaxload", :id => 'latest', :remote => true
+  = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies', replies_path ,:remote => true, :class=>"iconactive ajaxload", :id => 'replies'
+  = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions', mentioned_path ,:remote => true, :class=>"iconactive ajaxload", :id => 'mentions'
+  .inbox#inbox
+    -#foractive use inputactive
+    =link_to "messages", user_inbox_path, :class=>"inbox iconactive ajaxload", :remote => true, :id => 'messages'
+    .inboxnum
+      = @unread_messages_count
   %br

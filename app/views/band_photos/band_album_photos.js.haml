@@ -3,7 +3,7 @@
     = "Photos in #{@band_album.name} album  : #{@band_album.band_photos.count}"
   - @band_album.band_photos.each do |photo|
     = render 'band_photo', :photo => photo
-$('.midcontent > .left > .leftcontainer').html('#{escape_javascript band_album_photos} ');
+$('.left').html('#{escape_javascript band_album_photos} ');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
-$('#photobox .band-box-header').addClass('active');    
+$('#photobox .band-box-header').addClass('active');

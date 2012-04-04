@@ -2,12 +2,14 @@
 
 @import 'vars';
 
+//generic
 html, body {
   padding: 0px;
   margin: 0px;
-  font-family: arial, verdana, tahoma;
+  font-family: "Trebuchet MS", arial, verdana, tahoma;
   font-size: 13px;  
-  color:#B5B5B5; 
+	font-weight: normal;
+  color: $text-color; 
 	background: $footer-bg-color;
 }
 img { 
@@ -24,6 +26,17 @@ a {
   color: #fff;
   &:hover { text-decoration: underline; }
 }
-strong{color:#F8F9F7;}
-h1{font-size: 28px;  color: #000; }
-h3,h2{color:#CCCCCC; font-size:20px; margin:0;}
+
+//headings
+h1 {
+	font-size: 24px;
+	font-weight: normal;
+}
+h2 {
+	font-size: 18px; 
+	font-weight: normal;	
+}
+h3 {
+	font-size: 14px;
+	font-weight: normal;
+}

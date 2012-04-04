@@ -1,4 +1,4 @@
-$('.midcontent > .left > .leftcontainer').html('');
+$('.left').html('');
 <% following = capture do %>
   <% @following_artists.each do |band| %> 
     <div id='following_<%=band.id%>' class="followuserbox">
@@ -14,7 +14,7 @@ $('.midcontent > .left > .leftcontainer').html('');
   <%= paginate @following_artists, :remote => true %>
 <% end %>
 
-$('.midcontent > .left > .leftcontainer').html('<%= escape_javascript(following) %>');
+$('.left').html('<%= escape_javascript(following) %>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
 $('#artistbox .band-box-header').addClass('active');

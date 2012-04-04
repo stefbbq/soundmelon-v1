@@ -1,47 +1,24 @@
 - content_for :tophead do
-  #homehead
-    %h2
-      %a{:href => "#"}
-        = image_tag 'logo.png'
-    Registering makes life better.
-    %a{:href => "#"} Learn Why
-.homecontent
+  .header
+    .login
+      %h3
+        Already registered?
+      = form_tag login_path do
+        = text_field_tag :email, params[:email], :class => "field"
+        = password_field_tag :password,nil, :class => "field"
+        = submit_tag "", :class => 'exec-login'
+      = link_to 'Forgot your password?', password_resets_path, :remote => true, :class => 'ajaxopen', :id => 'password-reset'
+    .logo
+      = image_tag 'base-logo-big.png'
+      %h2
+        Growing the music radio missed.
+.register
   .user_nav
     - if current_user
       Logged in as #{"#{current_user.fname} #{current_user.lname}"}
       | #{link_to "Log out", logout_path}
   .musicianinfo
-    %h3= link_to 'Register', musician_registration_path
-    %h2 MUSICIAN
-    blurb on why being a musician
-    %br/
-    and using this site as your
-    platform
-    %br/
-    is like eating cheesecake day in and day out
-    %br/
-    without
-    getting fat
+    %h3= link_to 'Register (as an artist)', musician_registration_path
   .faninfo
-    %h3= link_to 'Register', fan_registration_path
-    %h2 FAN
-    blurb on why being a fan
-    %br/
-    is so very awesome
-  .clear
-  .loginbox
-    already registered? SIGN IN
-    = form_tag login_path do
-      = text_field_tag :email, params[:email], :class => 'loginfields'
-      = password_field_tag :password,nil, :class => 'loginfields'
-      = submit_tag "GO", :class => 'login'
-    = link_to 'Forget password?', password_resets_path, :remote => true, :class => 'ajaxopen'
-.homefeed
-  %h3 What's happening around you
-  .feedbox
-    Local venue show
-  .feedbox
-    Local brand
-  .feedbox
-    Popular update from local
+    %h3= link_to 'Register (as a fan)', fan_registration_path
   .clear
