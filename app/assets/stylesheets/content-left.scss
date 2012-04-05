@@ -1,0 +1,106 @@
+//news feed, status updates, posts and other content pages
+
+@import 'mixins';
+@import 'vars';
+@import 'compass/css3';
+
+.left {
+  width:600px;
+
+	//status update form
+	.statusinput {  
+	  margin:0 auto;
+	  width:95%;
+	  background:#4D4D4D;
+	  .inputbox{
+	    color:#fff;
+	    float:left;
+	    background:#202020;
+	    height:40px;
+	    width:89%;
+	    border:solid #4D4D4D 2px;
+	    padding:3px;
+	  }
+	  .postbtn{
+	    height:40px;
+	    width:8%;
+	    float:left;
+	    input{
+	      margin-top:10px;
+	      background:#4D4D4D;
+	      font-size:17px;
+	      border:none;
+	      font-weight:bold;
+	    }
+	  }
+	  .inputerror{color:#2A0D17;  font-size:11px;}
+	}
+	
+	//controls
+	  .messageicon{
+	    margin:40px 0 0 -64px;
+	    background:#48260E;
+	    width:80px;
+	    float:left;
+	    text-align:center;
+	    font-weight:bold;
+	    -webkit-transform:rotate(270deg);
+	    -moz-transform:rotate(270deg);
+	    -o-transform: rotate(270deg);
+	    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
+	  }
+	  .dateicon{
+	    margin:30px 0 20px -64px; 
+	    background:#4D4D4D; 
+	    width:80px; 
+	    float:left;
+	    text-align:center;
+	    font-weight:bold;
+	    -webkit-transform:rotate(270deg);
+	    -moz-transform:rotate(270deg);
+	    -o-transform: rotate(270deg);
+	    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
+	  }
+	  .msgbox{  
+	    width:95%;
+	    margin:10px auto;
+	    .avatar{
+	      float:left; 
+	      @include roundedbox(56px,56px,#808080);
+	      img{width:50px; height:50px; margin:3px;}
+	    }
+	    .msgstremitem{
+	      margin-left:70px;
+	      padding:5px;
+	      background:#48260E;
+	      .itemcontent{width:80%; float:left}
+	      .righticons{float:right;width:20%;text-align:right;}
+	    }
+	  }
+	  .newsitem{
+	    margin-left:70px;
+	    padding:5px;
+	    border-bottom: 1.5px solid #303030;
+	    margin-bottom:5px;
+	    .itemcontent{width:80%; float:left}
+	    .righticons{float:right;width:20%;text-align:right;}
+	  }
+	  .newsitem_mentioned{    
+	    margin-left:70px;
+	    padding:5px;
+	    background:#DC143C;
+	    .itemcontent{width:80%; float:left}
+	    .righticons{float:right;width:20%;text-align:right;}
+	  }
+	  .readmore{
+	    width:95%;
+	    margin:20px auto;
+	    text-align:right;
+	    a{
+	      padding:5px; 
+	      background:#4D4D4D;
+	      font-weignt:bold;
+	      text-decoration:none;
+	    }
+  }
+}

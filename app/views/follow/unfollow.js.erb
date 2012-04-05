@@ -7,5 +7,5 @@ var selector = "#following_<%= @user_to_be_unfollowed.id -%>";
 if ($(selector).length){
    $(selector).remove();
 } else {
-  $('#follow-unfollow .band-box-header').html('<%=escape_javascript follow_content %>');
+  $('#follow-unfollow .selection-box').html('<%=escape_javascript follow_content %>');
 }

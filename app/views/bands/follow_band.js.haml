@@ -2,5 +2,5 @@
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
 - unfollow_content = capture do
   = link_to 'unfollow this musician', unfollow_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen'
-!= "$('#follow-unfollow .band-box-header').html('#{escape_javascript unfollow_content}');"
+!= "$('#follow-unfollow .selection-box').html('#{escape_javascript unfollow_content}');"
 setTimeout('$(document).trigger(\"close.facebox\")',1000);

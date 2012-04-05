@@ -3,4 +3,4 @@ setTimeout('$(document).trigger(\"close.facebox\")',1000);
 <% unfollow_content = capture do %>
   <%= link_to 'unfollow this user', unfollow_user_path(@user_to_be_followed, :others => 1), :remote => true, :class => 'ajaxopen' %>
 <% end %>
-$('#follow-unfollow .band-box-header').html('<%=escape_javascript unfollow_content %>'); 
+$('#follow-unfollow .selection-box').html('<%=escape_javascript unfollow_content %>'); 

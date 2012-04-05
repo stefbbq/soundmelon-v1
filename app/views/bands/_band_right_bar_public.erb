@@ -1,13 +1,13 @@
-<div class="rightmenu">
+<div class="items">
   
   <div id='user-post'>
-    <div class='band-box-header active'>
+    <div class='selection-box active'>
       <%= link_to 'posts of this user', user_profile_path(@user),:remote=>:true,:class=>"ajaxopen"  %>
     </div>
   </div>
   
   <div id='follow-unfollow'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       <%  if current_user.following?(@user) %>
         <%= link_to 'unfollow this user', unfollow_user_path(@user, :others => 1), :remote => true, :class => 'ajaxopen'  %>
       <% else %>
@@ -17,13 +17,13 @@
   </div>
   
   <div id='msg-user'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       <%= link_to '> message this user', new_message_path(:id =>@user.id),:remote=>:true,:class=>"ajaxopen"  %>
     </div>
   </div>
   
   <div id='artistbox' class='box-wrapper'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       following 
       <span class='artist-count'>
         <%= pluralize(@following_artist_count, 'artist')  %>
@@ -45,7 +45,7 @@
   <div class='clear'></div>
   
   <div id='followingbox' class='box-wrapper'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       following 
       <span class='artist-count'>
         <%= pluralize(@following_count,'fan')  %>
@@ -67,7 +67,7 @@
   <div class='clear'></div>
 
   <div id='followerbox' class='box-wrapper'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       <span class='artist-count'>
         <%= pluralize(@follower_count,'follower')  %>
       </span> 
@@ -88,7 +88,7 @@
   <div class='clear'></div>
 </div>
 <%#*.rightbar%>
-  <%#*.rightmenu%>
+  <%#*.items%>
     %u#l
       %l#i
         <%#*=link_to "> Message #{@band.name}", band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen"%> 
@@ -102,16 +102,16 @@
 
 
 .rightbar
-  .rightmenu
+  .items
     #user-post
-      .band-box-header active 
+      .selection-box active 
     #follow-unfollow
-      .band-box-header
+      .selection-box
     #msg-user
-      .band-box-header
+      .selection-box
         = link_to '> message this musician',{},:remote=>:true,:class=>"ajaxopen"
     .box-wrapper#artistbox
-      .band-box-header
+      .selection-box
         following 
         %span{:class => 'artist-count'}
           count

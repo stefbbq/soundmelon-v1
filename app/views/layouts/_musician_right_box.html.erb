@@ -1,21 +1,21 @@
-<div class="rightmenu">
+<div class="items">
    <div id='msg-feeds'>
-    <div class='band-box-header active'>
+    <div class='selection-box active'>
       <%= link_to 'news feed & messages' , manage_band_path(:band_name => @band.name), :remote => true,:class=>"iconactive" %>
     </div>
   </div>
   <div id='musician-public-view'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       <%= link_to 'view as public' , show_band_path(:band_name => @band.name) %>
     </div>
   </div>
   <div id='profile-info'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       <%= link_to 'edit profile information' , edit_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen' %>
     </div>
   </div>
   <div id='musicbox' class='box-wrapper'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       music box 
       <span class='add_more'>
         <%=  link_to image_tag('add.png'), new_band_song_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen" %>
@@ -39,7 +39,7 @@
   </div>
   
   <div id='photobox' class='box-wrapper'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       photos 
       <span class='add_more'>
         <%=  link_to image_tag('add.png'), new_band_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen" %>
@@ -64,7 +64,7 @@
   </div>
   
   <div id='artistbox' class='box-wrapper'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       connected to 
       <span class='artist-count'>
         <%= pluralize(@band_members_count, 'artist')  %>
@@ -86,7 +86,7 @@
   <div class='clear'></div>
   
   <div id='fanbox' class='box-wrapper'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       <span class='artist-count'>
         <%= pluralize(@band_fans_count, 'fan')  %>
       </span> 
@@ -107,7 +107,7 @@
   <div class='clear'></div>
   
   <div id='invite-bandmates'>
-    <div class='band-box-header'>
+    <div class='selection-box'>
       <%= link_to 'invite bandmates' , bandmates_invitation_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen' %>
     </div>
   </div>

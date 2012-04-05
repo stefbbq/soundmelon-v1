@@ -2,6 +2,6 @@ $('.left').html('<%= escape_javascript(render 'bands/post_msg_header') -%>');
 $('.left').append('<%= escape_javascript(render 'bands/posts') -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
-$('#msg-feeds .band-box-header').addClass('active');
+$('#msg-feeds .selection-box').addClass('active');
 $('a').removeClass('highlight');
 $('#latest').addClass('highlight');

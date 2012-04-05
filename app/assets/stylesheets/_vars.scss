@@ -1,11 +1,12 @@
 //contains global variables
 
-//sizes
+//base
 $page-width: 956px;
 $page-footer-extension: 25px;
 $base-footer-height: 223px;
 $base-footer-content-width: 980px;
 
+//misc
 $columns: 14;
 $container-size: 950px;
 $margin: 2px;
@@ -14,6 +15,11 @@ $border-radius: 6px;
 $radius: 5px;
 $size: .64em;
 $font-size-minor: 12px;
+
+//right
+$right-item-border-radius: 4px;
+$right-item-font-size: 15px;
+$right-item-font-color: #ccc;
 
 //global colors
 $main-bg-color: #c3c3c3;

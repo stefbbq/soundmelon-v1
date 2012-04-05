@@ -1,7 +1,7 @@
 $('.left').html('<%= escape_javascript(render 'users/post_msg_header') -%>');
 $('.left').append('<%= escape_javascript(render 'shared/home_page_posts') -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('div').removeClass('active');
-$('#msg-feeds .band-box-header').addClass('active');
+$('a').removeClass('active');
+$('#feed-msg').addClass('active');
 $('a').removeClass('highlight');
 $('#latest').addClass('highlight');
