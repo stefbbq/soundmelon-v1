@@ -3,17 +3,17 @@
  - self_owner = post.band_id == @band.id ? true : false
 - else
  - self_owner = post.user == current_user ? true : false
-- item_div_class = self_owner ? 'newsitem' : 'newsitem_mentioned'
+- item_div_class = self_owner ? 'content' : 'content_mentioned'
 = div_for post do
- .msgbox
-  .avatar
-   - if !post.user_id.nil?
-    = link_to get_avatar_small(post.user), user_profile_path(post.user) if !self_owner
-    = link_to get_avatar_small(post.user), user_home_url if self_owner
-   - elsif !post.band_id.nil?
-    = get_band_logo_small(post.band)
-  %div{:class => 'newsitem'}
-   .itemcontent
+ .avatar
+  - if !post.user_id.nil?
+   = link_to get_avatar_small(post.user), user_profile_path(post.user) if !self_owner
+   = link_to get_avatar_small(post.user), user_home_url if self_owner
+  - elsif !post.band_id.nil?
+   = get_band_logo_small(post.band)
+ %div{:class => 'content'}
+  .post-header
+   .title
     %strong
      -if !post.band.nil?
       = post.band.name
@@ -21,20 +21,19 @@
       You
      -elsif !post.user.nil?
       = post.user.fname
-    wrote this about an #{time_ago_in_words(post.created_at)} ago 
-    %br
-    = post.msg
-    %br
-    - if post.ancestry && !hide_thread_link
-     %br
-     %span{:class => 'thread_expand'}
-      = link_to 'expand conversation thread', get_post_threads_path(post), :remote => true, :class => 'ajaxload' 
-   .righticons
+    wrote this #{time_ago_in_words(post.created_at)} ago 
+   .functions
     = link_to 'X', user_post_path(post), :method => :delete, :title=>"Remove", :class => "delete_post ajaxload", :remote => true if self_owner
     %br
     - if @band && !self_owner
      = link_to 'Reply', new_post_reply_path(post, :band_id => @band.id), :class => "ajaxopen", :remote => true
     -elsif !self_owner
      = link_to 'Reply', new_post_reply_path(post), :class => "ajaxopen", :remote => true
-   .clear
-  .clear
+  .post-body
+   = post.msg
+  %br
+  - if post.ancestry && !hide_thread_link
+   %br
+   %span{:class => 'thread_expand'}
+    = link_to 'expand conversation thread', get_post_threads_path(post), :remote => true, :class => 'ajaxload' 
+ .clear

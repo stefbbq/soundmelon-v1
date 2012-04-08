@@ -57,7 +57,7 @@ $(document).ready( function(){
     }
   });
   
-  $('.msgbox#message_text').keyup(function(){
+  $('.container#message_text').keyup(function(){
     if($(this).val() == ''){
       $("#send_message_btn").attr('disabled','disabled');
     }

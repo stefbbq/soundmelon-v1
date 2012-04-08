@@ -16,8 +16,14 @@ $radius: 5px;
 $size: .64em;
 $font-size-minor: 12px;
 
+//generic
+$detail-border-radius: 4px;
+$avatar-border-radius: 4px;
+
+//left
+$left-usercontrol-item-height: 24px;
+
 //right
-$right-item-border-radius: 4px;
 $right-item-font-size: 15px;
 $right-item-font-color: #ccc;
 
@@ -29,6 +35,8 @@ $page-bg-color: #131313;
 $line-color: #888;
 $text-color: #aaa;
 $text-faded-color: #555;
+$artist-active-color: #cf3005;
+$fan-active-color: #e0b600;
 
 //input
 $input-font-size: 14px;

@@ -5,102 +5,171 @@
 @import 'compass/css3';
 
 .left {
-  width:600px;
+	padding: 25px 8px 0 25px;
+  width: 630px;
 
 	//status update form
 	.statusinput {  
-	  margin:0 auto;
-	  width:95%;
-	  background:#4D4D4D;
-	  .inputbox{
-	    color:#fff;
-	    float:left;
-	    background:#202020;
-	    height:40px;
-	    width:89%;
-	    border:solid #4D4D4D 2px;
-	    padding:3px;
+		@include border-radius($border-radius);
+	  margin: 0 auto;
+	
+	  .inputbox {
+	    color: #fff;
+	    float: left;
+	  	background: rgba(black, .7);
+	    height: 24px;
+	    border: solid #4D4D4D 2px;
+	    padding: 3px;
 	  }
-	  .postbtn{
-	    height:40px;
-	    width:8%;
-	    float:left;
-	    input{
-	      margin-top:10px;
-	      background:#4D4D4D;
-	      font-size:17px;
-	      border:none;
-	      font-weight:bold;
-	    }
+	  .post-btn {
+	    @include default-button;
+			float:right;
+			margin: 4px 0 0 0;
+			height: 24px;
+			opacity: .5;
 	  }
-	  .inputerror{color:#2A0D17;  font-size:11px;}
+	  .inputerror {
+			color: #2A0D17;
+			font-size: 11px;
+		}
+	}
+	
+	//header controls
+	.usercontrols {
+		overflow: hidden; 
+		margin-top: 16px;
+		
+		a {
+			@include default-button;
+			display: block;
+			float: left;
+			margin-right: 5px;
+		}
+		
+		#messages {
+			float: right;
+			margin-right: 0px;
+		}
+		
+		//active
+		> .active {
+			@include single-text-shadow(rgba(white, .5), 0px, 1px, 0px);
+			border: none;
+			color: black;
+		}
 	}
 	
 	//controls
-	  .messageicon{
-	    margin:40px 0 0 -64px;
-	    background:#48260E;
-	    width:80px;
-	    float:left;
-	    text-align:center;
-	    font-weight:bold;
-	    -webkit-transform:rotate(270deg);
-	    -moz-transform:rotate(270deg);
-	    -o-transform: rotate(270deg);
-	    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
-	  }
-	  .dateicon{
-	    margin:30px 0 20px -64px; 
-	    background:#4D4D4D; 
-	    width:80px; 
-	    float:left;
-	    text-align:center;
-	    font-weight:bold;
-	    -webkit-transform:rotate(270deg);
-	    -moz-transform:rotate(270deg);
-	    -o-transform: rotate(270deg);
-	    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
-	  }
-	  .msgbox{  
-	    width:95%;
-	    margin:10px auto;
-	    .avatar{
-	      float:left; 
-	      @include roundedbox(56px,56px,#808080);
-	      img{width:50px; height:50px; margin:3px;}
-	    }
-	    .msgstremitem{
-	      margin-left:70px;
-	      padding:5px;
-	      background:#48260E;
-	      .itemcontent{width:80%; float:left}
-	      .righticons{float:right;width:20%;text-align:right;}
-	    }
-	  }
-	  .newsitem{
-	    margin-left:70px;
-	    padding:5px;
-	    border-bottom: 1.5px solid #303030;
-	    margin-bottom:5px;
-	    .itemcontent{width:80%; float:left}
-	    .righticons{float:right;width:20%;text-align:right;}
-	  }
-	  .newsitem_mentioned{    
-	    margin-left:70px;
-	    padding:5px;
-	    background:#DC143C;
-	    .itemcontent{width:80%; float:left}
-	    .righticons{float:right;width:20%;text-align:right;}
-	  }
-	  .readmore{
-	    width:95%;
-	    margin:20px auto;
-	    text-align:right;
-	    a{
-	      padding:5px; 
-	      background:#4D4D4D;
-	      font-weignt:bold;
-	      text-decoration:none;
-	    }
+	.messageicon {
+    margin:40px 0 0 -64px;
+    background:#48260E;
+    width:80px;
+    float:left;
+    text-align:center;
+    font-weight:bold;
+    -webkit-transform:rotate(270deg);
+    -moz-transform:rotate(270deg);
+    -o-transform: rotate(270deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
+  }
+
+	//date
+  .date {
+		background: url(base-feed-date.png);
+		position: absolute;
+    margin: 25px 0 20px -64px;
+    width: 80px;
+		height: 30px;
+    float: left;
+    text-align: right;
+		color: $text-faded-color;
+		//font-size: 18px;
+    font-weight: bold;
+    -webkit-transform:rotate(270deg);
+    -moz-transform:rotate(270deg);
+    -o-transform: rotate(270deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
+
+		> div {
+			margin: 6px 4px 0 0;
+		}
+
+		h1, h2 {
+			display: inline;
+			font-family: Arial;
+			text-transform: uppercase;
+		}		
+		h1 {
+			font-size: 15px;
+			font-weight: bold;			
+		}
+		h2 {
+			font-size: 22px;
+		}
+  }
+
+	//post
+  .post {  
+    margin: 10px auto;
+		padding-bottom: 10px;
+		border-bottom: 1px dashed rgba(white, .1);
+
+    .avatar {
+      float: left; 
+      img { 
+				@include border-radius($border-radius);
+				width: 50px; 
+				height: 50px; 
+			}
+    }
+
+		.content {
+			padding: 0px; 
+			margin-left: 4px;
+			float: left;
+			width: 575px;
+			
+			.post-header {
+				font-size: 13px;
+				
+				.title {
+					strong {color: white;}
+				}
+				.functions {
+					float: right; 
+				}
+			}
+			.post-body {
+				margin-top: 2px;
+				font-size: 11px;
+			}
+		}
+
+    .righticons{ 
+			display: none;
+			float: right;
+			width: 20%;
+			text-align: right;
+    }
+  }
+
+  .content_mentioned {
+    margin-left: 52px;
+    padding: 5px;
+    background: #DC143C;
+    .itemcontent{ width:80%; float:left}
+    .righticons{ float:right;width:20%;text-align:right; }
+  }
+	
+	//read more button
+  .readmore {
+    margin: 30px auto 20px auto;
+    text-align: center;
+    a {
+			@include default-button;
+			padding: 4px 30px;
+			opacity: .4;
+      text-decoration: none;
+    }
   }
 }

@@ -1,0 +1,14 @@
+$('.left').html('');
+- followers = capture do
+  - @followers.each do |user|
+    .followuserbox{:id => "follower_#{user.id}"}
+      .avatar
+        = link_to get_avatar_small(user), user_profile_path(user.id), :class => 'follow-img'
+      .fusercontent
+        %strong= link_to user.get_full_name, user_profile_path(user.id)
+      .clear
+  = paginate @followers, :remote => true
+$('.left').html('#{escape_javascript(followers)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('div').removeClass('active');
+$('#followerbox .selection-box').addClass('active');

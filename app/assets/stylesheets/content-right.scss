@@ -7,26 +7,25 @@
 .right {
 	@include box-shadow(rgba(black, .3), -3px, 0px, 5px);
   float: right; 
-  width: 275px;
+  width: 250px;
+	padding: 25px 25px 0 8px;
 	background: rgba(white, .05);
 	border-left: 1px solid rgba(white, .1);
 	height: 100%;
 	
 	.items {
-		margin: 25px 25px 0 8px;
+		> div, a {
+			margin-bottom: 8px;
+		}
 		
 		//selection
-		> .selection-box {
-			@include linear-gradient(#393939, #313131);
-			@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
-			@include border-radius($right-item-border-radius);
-			margin-bottom: 8px;
-			padding: 15px 0px 5px 5px;
-			width: 240px;
+		.selection-box {
+			@include default-button;
+			padding: 15px 0px 5px 8px;
+			width: 237px;
 			clear: both;
 			display: block;
 			font-size: $right-item-font-size;
-			color: $right-item-font-color;
 			
 			&:hover {
 				text-decoration: none;
@@ -42,57 +41,103 @@
 		
 		//active
 		> .active {
-			@include linear-gradient(#ebc108, #a67c00);
 			@include single-text-shadow(rgba(white, .5), 0px, 1px, 0px);
 			border: none;
 			color: black;
 		}
-	  
+		
+	  //collection
+		.collection {
+			@include border-radius(0 0 $detail-border-radius $detail-border-radius);
+			background: rgba(white, .05);
+			padding: 8px 0 8px 8px;
+			width: 237px;
+		  text-align: left;
+		  color: #a7a7a7;
+		
+		  .album-cover-image {
+		    padding: 2px;
+		  }
+		  .song-album {
+		     border-bottom: 0.5px solid #303030;
+		     margin-bottom: 2px;
+		  }
+		  .artist-avatar {
+		    float: left; 
+		    padding-left: 3px; 
+		    padding-right: 3px;
+		  }
+		}
 	
 	  long-list { 
 			padding-top: 5px}
 		
 			//albums
 		  .album {
-		    margin:5px 2px;
-		    background:#363636;
-		    .album_teaser_image{
-		      width:80px;
-		      height:80px; 
-		      img{margin-top:10px;width:60px;height:60px;}
-		      float:left;
+		    margin: 5px 2px;
+		    background: #363636;
+		    .album_teaser_image {
+		      width: 80px;
+		      height: 80px; 
+		      img {
+						margin-top: 10px;
+						width: 60px;
+						height: 60px;
+					}
+		      float: left;
 		    }
-		    .album_name{
-		      margin:10px 0 0 65px;
-		      width:160px;
-		      text-align:center;
-		      h3{font-size:14px;} 
+		    .album_name {
+		      margin: 10px 0 0 65px;
+		      width: 160px;
+		      text-align: center;
+		      h3 {
+						font-size: 14px;
+					} 
 		    }
 		    a{
-		      color:#fff;
-		      line-height:20px;
-		      background:none;
-		      display:block;
-		      text-decoration:none;
-		      &:hover{color:#fafafa;background:none;}
-		      &.selected{color:#fafafa;background:none;}
+		      color: #fff;
+		      line-height: 20px;
+		      background: none;
+		      display: block;
+		      text-decoration: none;
+		      &:hover{ 
+						color: #fafafa; 
+						background: none; 
+					}
+		      &.selected{ 
+						color: #fafafa; 
+						background: none; 
+					}
 		    }
 		  }
 	
-		  #right_albumbox{background:#4D4D4D;}
+		  #right_albumbox{
+				background: #4D4D4D;
+			}
 	
 			//fans
 		  .top_fans{
-		    background:#4D4D4D;
-		    a{
-		      color:#fff;
-		      line-height:20px;
-		      background:none;
-		      display:inline-block;
-		      text-decoration:none;
-		      &:hover{color:#fafafa;background:none;}
-		      &.selected{color:#fafafa;background:none;}
-		      img{width:60px;height:60px;border:0;margin:2px;}
+		    background: #4D4D4D;
+		    a {
+		      color: #fff;
+		      line-height: 20px;
+		      background: none;
+		      display: inline-block;
+		      text-decoration: none;
+		      &:hover {
+						color: #fafafa;
+						background: none;
+					}
+		      &.selected{
+						color: #fafafa;
+						background: none;
+					}
+		      img{
+						width: 60px;
+						height: 60px;
+						border: 0;
+						margin: 2px;
+					}
 		    }
 		  }
 		}

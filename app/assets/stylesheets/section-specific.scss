@@ -1,0 +1,13 @@
+//elements with specific fan, artist, venue or classfieds treatments
+
+@import 'mixins';
+@import 'vars';
+
+//
+//buttons
+.button-fill-fan {
+	@include linear-gradient-important($fan-active-color, darken($fan-active-color, 18));
+}
+.button-fill-artist {
+	@include linear-gradient-important($artist-active-color, darken($artist-active-color, 18));
+}

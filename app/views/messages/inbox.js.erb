@@ -5,5 +5,5 @@
 <% end %>
   $('.left').append('<%= escape_javascript(render 'messages/inbox_messages', :messages => @messages) -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);  
-$('a').removeClass('highlight');
-$('#messages').addClass('highlight');
+$('.left a').removeClass('active').removeClass('button-fill-fan');
+$('#messages').addClass('active').addClass('button-fill-fan');

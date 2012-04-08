@@ -1,4 +1,4 @@
-//contains links and persistant elements (logo, background, footer, etc)
+//contains links and persistant/reusable elements (logo, background, footer, etc)
 
 @import 'compass/css3'; //compass css3 mixins
 @import 'vars'; //global variables
@@ -351,11 +351,10 @@ ul{
            a{ color:#000; text-decoration:none;}
          }
        }
-     }  // headrightbox end  
-   } // mplayer end
-   
-  } //profile head end
-} // #page end
+     }
+   }   
+  }
+}
 
 .users_header, .bands_header {background:none repeat scroll 0 0 #EF502F; padding:5px; min-height:20px; margin-top:5px;}
 #results {
@@ -379,7 +378,7 @@ ul{
         display: inline;
       }
       .verified {
-        background: url(certified.png) no-repeat left center transparent;
+        //button-border-radius(certified.png) no-repeat left center transparent;
         color: #6c6c6c;
         font-size: 0.8em;
         height: 22px;
@@ -416,4 +415,3 @@ ul{
 		}
 	}
 }
-

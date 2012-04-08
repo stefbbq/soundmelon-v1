@@ -11,7 +11,7 @@
     =link_to("Read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
 .user_posts
   -@posts_order_by_dates.each do |date, posts|
-    .dateicon 
+    .date 
       = date.to_date.strftime("%b %d")
     = render 'user_posts/user_post', :posts => posts      
     .clear

@@ -1,7 +1,8 @@
-$('.left').html('<%= escape_javascript(render 'users/post_msg_header') -%>');
+$('.left').html('<%= escape_javascript(render 'user_posts/form') -%>');
+$('.left').append('<%= escape_javascript(render 'users/post_msg_header') -%>');
 $('.left').append('<%= escape_javascript(render 'shared/home_page_posts') -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('a').removeClass('active');
-$('#feed-msg').addClass('active');
-$('a').removeClass('highlight');
-$('#latest').addClass('highlight');
+$('.selection-box').removeClass('active').removeClass('button-fill-fan');
+$('#feed-msg').addClass('active').addClass('button-fill-fan');
+$('.left a').removeClass('active').removeClass('button-fill-fan');
+$('#latest').addClass('active').addClass('button-fill-fan');

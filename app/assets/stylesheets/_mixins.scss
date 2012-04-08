@@ -1,4 +1,21 @@
-//collection of custom mixins
+//collection of custom mixins and reusable styles
+
+//reusable styles
+@mixin default-button {
+	@include linear-gradient(#393939, #313131);
+	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
+	@include border-radius($detail-border-radius);
+	border: none;
+	padding: 4px 5px;	
+	font-size: 14px;
+	color: $right-item-font-color;
+	
+	&:hover {
+		@include linear-gradient(#555, #444);
+		text-decoration: none;
+		cursor: pointer;
+	}
+}
 
 //box
 @mixin roundedbox($w,$h,$c){
@@ -22,3 +39,10 @@
 	background-image: -o-linear-gradient($colora, $colorb); /* Opera 11.10 */
 }
 
+@mixin linear-gradient-important($colora, $colorb){
+ 	background-image: -moz-linear-gradient($colora, $colorb) !important; /* FF 3.6+ */  
+	background-image: -ms-linear-gradient($colora, $colorb) !important; /* IE10 */  
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $colora), color-stop(100%, $colorb)) !important; /* Safari 4+, Chrome 2+ */  
+	background-image: -webkit-linear-gradient($colora, $colorb) !important; /* Safari 5.1+, Chrome 10+ */  
+	background-image: -o-linear-gradient($colora, $colorb) !important; /* Opera 11.10 */
+}

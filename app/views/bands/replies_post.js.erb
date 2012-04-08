@@ -1,5 +1,5 @@
 $('.left').html('<%= escape_javascript(render 'bands/post_msg_header') -%>');
 $('.left').append('<%= escape_javascript(render 'bands/posts') -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('a').removeClass('highlight');
-$('#replies').addClass('highlight');
+$('.left a').removeClass('active').removeClass('button-fill-artist');
+$('#replies').addClass('active').addClass('button-fill-artist');
