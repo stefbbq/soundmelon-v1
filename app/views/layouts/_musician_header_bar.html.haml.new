@@ -1,0 +1,43 @@
+- content_for :tophead do
+  .profilehead
+    .site-logo
+      %h2.logotext
+        %a{:href => "/"}
+        = image_tag 'logo.png'
+    .loggedin-info
+      = link_to "#{current_user.fname} #{current_user.lname}", user_home_path, :class => 'user-info'
+      administrating
+      =link_to @band.name, show_band_path(:band_name => @band.name), :class => 'user-info'
+      .associated-bands
+        .logout
+          Switch
+        .switch-lists
+          %ul
+            %li
+              = link_to 'Switch back to yourself', user_home_path
+            - @other_bands.each do |band|
+              %li
+                = link_to "Access #{band.name}", manage_band_path(:band_name => band.name)
+      = link_to "Logout", logout_path, :class=>"logout"
+
+    .mplayerbar
+      %div#jpId
+      .clear
+    .headmenubar
+      .menu
+        %ul
+          %li
+            %a{:href => "#"} marquee
+          %li
+            %a{:href => "#"} social
+          %li
+            %a{:href => "#"} venues
+          %li
+            %a{:href => "#"} classified
+        .clear
+      .searchbox
+        =form_tag( {:controller =>'search', :action => 'index'}, :method => "get") do
+          %input.auto_search_complete{:name => "q", :type => "text", :class => 'searchinput'}/
+          %input.search{:name => "search", :type => "submit", :value => "Go" }/
+      .clear
+

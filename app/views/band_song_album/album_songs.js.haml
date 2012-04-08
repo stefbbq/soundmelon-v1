@@ -5,20 +5,22 @@
         = song.song_file_name
       .song-controls 
         = link_to image_tag('download-icon.png'), download_song_path(song, :song_name => song.song_name_without_extension)
-        = link_to image_tag('play-icon.png'), '#'
+        = link_to image_tag('play-icon.png'), 'javascript:void(0);', :onclick =>"play_music('#{song.song_name_without_extension}','#{song.song}');"
         = link_to image_tag('queue-icon.png'), add_to_playlist_path(song, :song_name => song.song_name_without_extension), :remote => true, :class => 'ajaxopen'
         = link_to image_tag('buzz-icon.png'), song_buzz_path(song), :remote => true, :class => 'ajaxopen'
       .clear
-    .clear 
+    .clear
+  .song
+    .song-title
+      = link_to "add new", add_song_to_album_path(:band_name =>@song_album.band.name, :song_album_name => @song_album.album_name), :remote=>:true, :class=>"ajaxopen", :title =>"add new song"
 - hide_show_songs = capture do
   .thread_collapse
     %a{:href => "javascript:void(0);", :onclick => "hide_songs('#song_album_#{@song_album.id}')"}
       collapse
   .thread_expand{:style => "display:none"}
     %a{ :href => "javascript:void(0);", :onclick => "show_songs('#song_album_#{@song_album.id}')"}
-      expand
+      expand  
 
 $('#song_album_#{@song_album.id} .additional_info .thread_expand').replaceWith('#{escape_javascript hide_show_songs}');
 $('#song_album_#{@song_album.id}').append('#{escape_javascript song_album_songs}');
-setTimeout('$(document).trigger(\"close.facebox\")',10)
-    
+setTimeout('$(document).trigger(\"close.facebox\")',10);

@@ -105,6 +105,7 @@ Soundmelon::Application.routes.draw do
   match ':band_name/delete/:band_album_name' => 'band_photos#destroy_album', :as => 'delete_album' 
   get ':band_name/:album_name/photo/:id/edit' => 'band_photos#edit' , :as => 'edit_photo'
   get ':band_name/:album_name/photo/:id/delete' => 'band_photos#destroy' , :as => 'delete_photo'
+  get ':band_name/:album_name/public' => 'band_album#disable_enable_band_album', :as => 'disable_enable_band_album'  
   match ':band_name/:album_name/photo/:id/update' => 'band_photos#update',  :as => 'update_band_photo'
   
   #band song albums and songs
@@ -112,6 +113,11 @@ Soundmelon::Application.routes.draw do
   get ':band_name/song/albums' => 'band_song_album#band_song_albums', :as => 'band_song_albums'
   get ':band_name/album/songs/:song_album_name' => 'band_song_album#album_songs', :as => 'band_album_songs'
   get ':band_name/:song_album_name/download/song/:id' => 'band_photos#download', :as => 'band_album_song_download'
+  get ':band_name/:song_album_name/public' => 'band_song_album#disable_enable_song_album', :as => 'disable_enable_band_song_album'
+  get ':band_name/:song_album_name/remove' => 'band_song_album#remove_song_album', :as => 'remove_band_song_album'
+  get ':band_name/:song_album_name/add_song' => 'band_song_album#add_song_to_album', :as => 'add_song_to_album'
+  get ':band_name/set_featured' => 'band_song_album#albums_for_featured_list', :as => 'popup_for_feature_albums'
+  get ':band_name/:song_album_name/featured' => 'band_song_album#make_song_album_featured', :as => 'make_song_album_featured'
   get ':band_name/:song_album_name/edit' => 'band_song_album#edit_song_album', :as => 'edit_band_song_album'
   root :to => 'home#index'
   
@@ -125,6 +131,7 @@ Soundmelon::Application.routes.draw do
   match ':band_name/message/create' => 'bands#send_message', :as => 'band_send_message'
   
   #album and song buzz
+  get ':album_name/:id/photo_album_buzz' => 'buzz#band_photo_album_buzz', :as => 'band_album_buzz'
   get ':album_name/:id/buzz' => 'buzz#album_buzz', :as => 'album_buzz'
   get 'buzz/:id' => 'buzz#song_buzz', :as => 'song_buzz'
   #get ':song_name/:id/buzz' => 'buzz#song_buzz', :as => 'song_buzz'

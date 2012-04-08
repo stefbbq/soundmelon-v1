@@ -118,11 +118,11 @@ module ApplicationHelper
     return auto_mention_list
   end
   
-  def get_album_cover_image(song_album, type='small')
+  def get_album_cover_image(song_album, type='small', width=nil, height=nil)
     if song_album.cover_img_content_type.nil?
       image_tag('no-image.png', :alt=>'')
     else
-      image_tag(song_album.cover_img.url(type), :alt=>'')
+      (width.nil? and height.nil?) ? image_tag(song_album.cover_img.url(type), :alt=>'aa') : image_tag(song_album.cover_img.url(type), :width =>width,:height=>height, :alt=>'')
     end  
   end
   

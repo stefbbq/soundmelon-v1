@@ -1,5 +1,5 @@
 <div class="items">
-   <div id='msg-feeds'>
+  <div id='msg-feeds'>
     <div class='selection-box active'>
       <%= link_to 'news feed & messages' , manage_band_path(:band_name => @band.name), :remote => true,:class=>"iconactive" %>
     </div>
@@ -21,23 +21,26 @@
         <%=  link_to image_tag('add.png'), new_band_song_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen" %>
       </span>
       <% unless @song_albums.blank? %>
-        <br />
+        <!--br />
         <%=  link_to "see all", band_song_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen" %>
+        <--->
       <% end %>
+      <br/>
+      <%=  link_to "edit music", band_song_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen" %>
     </div>
     <div class="band-box-content">
       <% @song_albums.each do |song_album| %>
         <div class='song-album' id="song_album_<%=song_album.id -%>">
           <%=link_to image_tag('add.png'), edit_band_song_album_path(:band_name => @band.name, :song_album_name => song_album.album_name ), :remote => true, :class => 'ajaxopen'  %>
           <span class='album-cover-image'>
-             <%=link_to get_album_cover_image(song_album), band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen" %>
+            <%=link_to get_album_cover_image(song_album), band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen" %>
           </span>
           <%=link_to song_album.album_name, band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen" %>
         </div>
-      <% end %>   
+      <% end %>
     </div>
   </div>
-  
+
   <div id='photobox' class='box-wrapper'>
     <div class='selection-box'>
       photos 
@@ -47,22 +50,25 @@
       <% unless @photo_albums.blank? %>
         <br />
         <%=  link_to "see all", band_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen" %>
+        <br/>
+        <%=  link_to "edit photos", band_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen" %>
       <% end %>
     </div>
+
     <div class="band-box-content">
       <% @photo_albums.each do |band_photo_album| %>
-      <div class='song-album' id="band_album_<%=band_photo_album.id%>">
+        <div class='song-album' id="band_album_<%=band_photo_album.id%>">
           <%=link_to image_tag('add.png'), add_photos_to_album_path(:band_name => @band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen" %>
           <span class='album-cover-image'>
-             <%=link_to get_band_photo_album_teaser_photo(band_photo_album), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen" %>
+            <%=link_to get_band_photo_album_teaser_photo(band_photo_album), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen" %>
           </span>
           <%=link_to band_photo_album.name, band_album_photos_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen" %>
           <%= link_to image_tag('remove.png'), delete_album_path(:band_name => @band.name, :band_album_name => band_photo_album.name), :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen" %>
         </div>
-      <% end %>   
+      <% end %>
     </div>
   </div>
-  
+
   <div id='artistbox' class='box-wrapper'>
     <div class='selection-box'>
       connected to 
@@ -84,7 +90,7 @@
     </div>
   </div>
   <div class='clear'></div>
-  
+
   <div id='fanbox' class='box-wrapper'>
     <div class='selection-box'>
       <span class='artist-count'>
@@ -105,7 +111,7 @@
     </div>
   </div>
   <div class='clear'></div>
-  
+
   <div id='invite-bandmates'>
     <div class='selection-box'>
       <%= link_to 'invite bandmates' , bandmates_invitation_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen' %>

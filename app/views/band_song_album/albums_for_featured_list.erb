@@ -1,0 +1,16 @@
+
+<% unless @status %>
+  Sorry, there was an error!
+<% else %>
+  <div style="color:black;border: 2px solid blue;padding:5px;width:90%;">
+    <% if @song_albums.empty? %>
+      All song albums are featured!
+    <% else %>
+      List of Albums <hr/>
+      <% for album in @song_albums %>
+        <%= link_to album.album_name, make_song_album_featured_path(:band_name =>album.band.name, :song_album_name =>album.album_name), :remote=>:true, :class=>"ajaxopen", :style=>'color:red;font-size:14px;' %><br/>
+      <% end %>
+    <% end %>
+
+  </div>
+<% end %>

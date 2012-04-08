@@ -8,7 +8,7 @@
         = link_to "Logout", logout_path, :class=>"logout"
     .middle-bar
       .mplayerbar
-        = render 'layouts/player'
+        = render 'layouts/player'        
       .alerts
         = link_to @unread_post_replies_count, replies_path
         = link_to image_tag('reply-icon.png'), replies_path

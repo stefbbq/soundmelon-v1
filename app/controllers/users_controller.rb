@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_login, :except => [:fan_new, :musician_new, :activate]
   before_filter :logged_in_user, :only => ['fan_new', 'musician_new', :activate]  
+
   def index
     @user = current_user 
     @posts = current_user.find_own_as_well_as_following_user_posts(params[:page])
@@ -9,7 +10,8 @@ class UsersController < ApplicationController
     @load_more_path =  next_page ?  more_post_path(:page => next_page) : nil
     @unread_mentioned_count = current_user.unread_mentioned_post_count
     @unread_post_replies_count = current_user.unread_post_replies_count
-    @unread_messages_count = current_user.received_messages.unread.count
+    @unread_messages_count        = current_user.received_messages.unread.count
+    @song_items                               = current_user.find_radio_feature_playlist_songs
     unless request.xhr?
       get_user_associated_objects  
     end
@@ -17,15 +19,15 @@ class UsersController < ApplicationController
   
   def fan_new
     if request.post?  
-        @user = User.new(params[:user])
-        @user.account_type = 0
-        if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.save
-          @page_type = 'Fan'
-          render 'successful_signup_info' and return
+      @user = User.new(params[:user])
+      @user.account_type = 0
+      if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.save
+        @page_type = 'Fan'
+        render 'successful_signup_info' and return
         #redirect_to successful_fan_signup_url, :notice => "Signed up successfully! "
-	      else
-	         render :fan_new
-        end    
+      else
+        render :fan_new
+      end
     else
       @user = User.new
     end
@@ -38,7 +40,7 @@ class UsersController < ApplicationController
       @user = User.new(params[:user])
       @user.account_type = 1
       if !params[:band_name] || !params[:genre]
-         redirect_to root_url and return      
+        redirect_to root_url and return
       else  
         if params[:band_name].blank? || params[:genre].blank?
           @errors = true
@@ -48,7 +50,7 @@ class UsersController < ApplicationController
       end
       
       if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.valid? && !@errors
-         begin
+        begin
           band = Band.new  
           band_user = BandUser.new
           BandUser.transaction do
@@ -72,12 +74,12 @@ class UsersController < ApplicationController
             @page_type = 'Musician'
             render 'successful_signup_info' and return
           end
-         rescue
-           render :musician_new
-         end
-          #redirect_to successful_musician_signup_url, :notice => "Signed up successfully!"
+        rescue
+          render :musician_new
+        end
+        #redirect_to successful_musician_signup_url, :notice => "Signed up successfully!"
 	    else
-	       render :musician_new
+        render :musician_new
       end    
     else
       @user = User.new

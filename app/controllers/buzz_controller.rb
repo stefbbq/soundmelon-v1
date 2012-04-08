@@ -26,6 +26,20 @@ class BuzzController < ApplicationController
       redirect_to root_url and return
     end
   end
+
+  def band_photo_album_buzz
+    if request.xhr?
+      begin
+        @photo_album = BandAlbum.find(params[:id])
+        @buzzes            = Post.album_buzz_for(@photo_album.id)
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to root_url and return
+    end
+  end
+
  
   def album_buzz_post 
     if request.xhr?

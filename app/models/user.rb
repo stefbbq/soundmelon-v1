@@ -148,6 +148,18 @@ class User < ActiveRecord::Base
     return posts
   end
   
+  def find_radio_feature_playlist_songs(number_of_songs = 5)    
+    song_items            = []
+    ad_info                        = self.additional_info
+    bands                          = ad_info ? Band.find_all_by_genre(ad_info.favourite_genre) : []
+    albums_with_featured_genre = bands.map{|b| b.song_albums }.flatten
+    for album in albums_with_featured_genre
+          song_items << album.songs
+    end
+    # if empty
+    song_items = Song.all(:limit =>number_of_songs) # if playlist_songs.empty?
+    song_items.flatten
+  end
   
   protected
   def mark_mentioned_post_as_read post_ids

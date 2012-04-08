@@ -1,9 +1,17 @@
 - band_album_photos = capture do
   %h3
-    = "Photos in #{@band_album.name} album  : #{@band_album.band_photos.count}"
-  - @band_album.band_photos.each do |photo|
-    = render 'band_photo', :photo => photo
-$('.left').html('#{escape_javascript band_album_photos} ');
+    = "Photos in '#{@band_album.name}'"
+  .photo_gallery
+    - @band_album.band_photos.each do |photo|
+      = render 'band_photo', :photo => photo
+    .album_photo
+      = link_to image_tag('add.png'), add_photos_to_album_path(:band_name => @band_album.band.name, :band_album_name => @band_album.name), :remote=>:true, :class=>"ajaxopen", :title =>"add new photo", :title =>'Add new photo'
+- hide_album_photos = capture do
+  %a{:href => "javascript:void(0);", :onclick => "$('#band_album_#{@band_album.id} .album_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
+    collapse
+
+$('#band_album_#{@band_album.id} .album_details').append('#{escape_javascript band_album_photos}');
+$('#expand_link_#{@band_album.id}').replaceWith('#{escape_javascript hide_album_photos}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
 $('#photobox .selection-box').addClass('active');

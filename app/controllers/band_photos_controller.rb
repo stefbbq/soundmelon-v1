@@ -31,7 +31,7 @@ class BandPhotosController < ApplicationController
       if current_user.is_admin_of_band?(@band)
         newparams = coerce(params)
         if params[:album_name].blank?
-         params[:album_name] = Time.now.strftime("%Y-%m-%d")
+          params[:album_name] = Time.now.strftime("%Y-%m-%d")
         end
         @band_album = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first || BandAlbum.create(:name=>params[:album_name], :user_id => current_user.id, :band_id => @band.id)
         @band_photo = @band_album.band_photos.build(newparams[:band_photo])
@@ -39,42 +39,40 @@ class BandPhotosController < ApplicationController
         if @band_photo.save
           flash[:notice] = "Successfully created upload."
           respond_to do |format|
-           format.html {redirect_to user_home_url and return}
-           format.json {render :json => { :result => 'success', :upload => @band_photo.image.url(:thumb), :album_name => @band_album.name } }
-         end
-       else
+            format.html {redirect_to user_home_url and return}
+            format.json {render :json => { :result => 'success', :upload => @band_photo.image.url(:thumb), :album_name => @band_album.name } }
+          end
+        else
           render :action => 'new'
-       end
-     else
-       render :nothing => true and return
-     end
-   rescue
-     render :nothing => true and return 
-   end   
+        end
+      else
+        render :nothing => true and return
+      end
+    rescue
+      render :nothing => true and return
+    end
   end
-
   
-  
-  def band_albums
-   redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
-   begin
-     @band = Band.where(:name => params[:band_name]).first
-     @is_admin_of_band = current_user.is_member_of_band?(@band)
-     @band_albums = @band.band_albums.includes('band_photos')
-   rescue
-     render :nothing => true and return
-   end
+  def band_albums    
+    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+    begin
+      @band = Band.where(:name => params[:band_name]).first
+      @is_admin_of_band = current_user.is_member_of_band?(@band)
+      @band_albums = @band.band_albums.includes('band_photos')
+    rescue
+      render :nothing => true and return
+    end
   end
   
   def band_album_photos
-   redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr? 
-   begin
-     @band = Band.where(:name => params[:band_name]).first
-     @is_admin_of_band = current_user.is_member_of_band?(@band)
-     @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
-   rescue
-     render :nothing => true and return
-   end   
+    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+    begin
+      @band = Band.where(:name => params[:band_name]).first
+      @is_admin_of_band = current_user.is_member_of_band?(@band)
+      @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
+    rescue
+      render :nothing => true and return
+    end
   end
   
   def add
@@ -85,7 +83,7 @@ class BandPhotosController < ApplicationController
         if current_user.is_admin_of_band?(@band)
           @band_photo = BandPhoto.new
         else
-         # render :nothing => true and return
+          # render :nothing => true and return
         end
         render :action => 'new', :format => 'js' and return
       rescue
@@ -96,21 +94,21 @@ class BandPhotosController < ApplicationController
     end
   end
   
-#  def edit
-#    if request.xhr?
-#      begin
-#        @band = Band.where(:name => params[:band_name]).first
-#        @band_album = BandAlbum.where(:name => params[:band_album_name], :band_id => @band.id).includes(:band_photos).first
-#        unless current_user.is_admin_of_band?(@band)
-#          render :nothing => true and return
-#        end
-#      rescue
-#        render :nothing => true and return
-#      end
-#    else
-#      redirect_to show_band_url(params[:band_name]) and return
-#    end
-#  end
+  #  def edit
+  #    if request.xhr?
+  #      begin
+  #        @band = Band.where(:name => params[:band_name]).first
+  #        @band_album = BandAlbum.where(:name => params[:band_album_name], :band_id => @band.id).includes(:band_photos).first
+  #        unless current_user.is_admin_of_band?(@band)
+  #          render :nothing => true and return
+  #        end
+  #      rescue
+  #        render :nothing => true and return
+  #      end
+  #    else
+  #      redirect_to show_band_url(params[:band_name]) and return
+  #    end
+  #  end
   
   def destroy_album
     if request.xhr?
@@ -120,7 +118,10 @@ class BandPhotosController < ApplicationController
         unless current_user.is_admin_of_band?(@band)
           render :nothing => true and return
         end
-        @is_deleted = true if @band_album.delete
+        if @band_album.delete
+          @is_deleted = true
+          @band_album.decrement!(:photo_count)
+        end
       rescue
         render :nothing => true and return
       end
@@ -174,7 +175,7 @@ class BandPhotosController < ApplicationController
         unless current_user.is_admin_of_band?(@band)
           render :nothing => true and return
         end
-        @band_photo.delete
+        @band_photo.destroy
       rescue
         render :nothing => true and return
       end
@@ -183,6 +184,18 @@ class BandPhotosController < ApplicationController
     end
   end
   
+  def disable_enable_band_album
+    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+    begin
+      @band = Band.where(:name => params[:band_name]).first
+      @is_admin_of_band = current_user.is_member_of_band?(@band)
+      @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
+    rescue
+      render :nothing => true and return
+    end   
+  end
+
+
   private 
   def coerce(params)
     if params[:band_photo].nil? 
