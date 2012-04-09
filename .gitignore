@@ -10,6 +10,7 @@ public/assets/*
 publicassets/*
 publicimages/*
 solr/*
+solr/conf/*
 Gemfile.lock
 solr/data/*
 config/database.yml
