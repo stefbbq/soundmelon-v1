@@ -1,4 +1,4 @@
-.usercontrols
+.feed-msg-menu
   = link_to "latest", manage_band_path(:band_name => @band.name), :remote => true,:class=>"iconactive highlight ajaxload", :id => 'latest'
   = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies',band_replies_post_path(:band_name => @band.name) ,:remote => true, :class=>"iconactive ajaxload", :id => 'replies'
   = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions', band_mentions_post_path(:band_name => @band.name) ,:remote => true, :class=>"iconactive ajaxload", :id => 'mentions' 

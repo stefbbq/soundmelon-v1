@@ -5,17 +5,18 @@
 @import 'mixins'; //custom mixins
 
 //misc
-.radiolabel{ 
-  @include border-radius($border-radius); margin:3px 10px;
-  padding:5px 10px; 
-  height:30px;
-  background:#4D4D4D;
-  color:#000;
-  border:none;
-  font-weight:bold;
+.radiolabel { 
+  @include border-radius($border-radius); 
+	margin: 3px 10px;
+  padding: 5px 10px; 
+  height: 30px;
+  background: #4D4D4D;
+  color: #000;
+  border: none;
+  font-weight: bold;
 }
-.circle{
-  background:#fff; 
+.circle {
+  background: #fff; 
   width: 80px; 
   height: 80px;   
   -webkit-border-radius: 40px;
@@ -23,15 +24,15 @@
   border-radius: 40px;
 }
 
-#contact_list{height:220px;overflow:auto;}
+#contact_list {height:220px;overflow:auto;}
 .recaptcha_theme_red #recaptcha_response_field {left:-4px;}
-#facebox{
+#facebox {
   color:#000;
-  .shaded{color:#776B6B;}
-  h2{font-size:13px;color:#000;}
-  h1{font-size:2*$size;color:#000;}
-  .fields{ 
-    label{ 
+  .shaded {color:#776B6B;}
+  h2 {font-size:13px;color:#000;}
+  h1 {font-size:2*$size;color:#000;}
+  .fields { 
+    label { 
       width:35%; 
       padding-top:4px; 
       float:left;  
@@ -39,7 +40,7 @@
       text-align:right;
       font-size:1.8*$size;
     } 
-    .textfield{
+    .textfield {
       width:200px; 
       float:left;  
       @include border-radius($border-radius); 
@@ -49,7 +50,7 @@
       color:#fff;  
       height:20px;
     }
-    select{   
+    select {   
       width:200px; 
       float:left;  
       @include border-radius($border-radius); 
@@ -58,13 +59,13 @@
       background:#323232; 
       color:#fff;  
       height:20px;
-      option{ padding:2px;}
+      option{ padding:2px; }
     }
   }
 }
-.age{font-size:2*$size;color:#fff;}
-.fields{   
-  label{
+.age {font-size:2*$size;color:#fff;}
+.fields {   
+  label {
     padding-top:4px; 
     float:left; 
     width:200px; 
@@ -72,7 +73,7 @@
     text-align:right; 
     font-size:2*$size;
   }
-  .textfield{ 
+  .textfield { 
     @include border-radius($border-radius);
     border:solid #4D4D4D 2px;
     padding:2px; 
@@ -81,7 +82,7 @@
     margin:3px 0 0 20px;
     height:20px;
   }
-  select{  
+  select {  
     width:227px; 
     @include border-radius($border-radius); 
     border:solid #4D4D4D 2px; 
@@ -92,7 +93,7 @@
     option{ padding:2px;}
   }
 }
-.error_messages{
+.error_messages {
   margin:0 auto;
   width: 450px;
   border: 2px solid #E84067;
@@ -107,7 +108,7 @@
     color: #000; 
   }
 }
-ul{ 
+ul { 
   font-size: 12px; 
   list-style: disc;
   margin:0; 
@@ -124,7 +125,6 @@ ul{
 	background: url(base-bg.jpg) center -100px no-repeat;
 	width: 100%;
 }
-
 #page {
 	@include border-radius(0px 0px $border-radius $border-radius);
 	@include box-shadow(rgba(black, .3), 0px, 1px, 6px);
@@ -141,28 +141,61 @@ ul{
     height: 156px;
 
     > div {
+			@include box-shadow(rgba(black, .3), 0px, 3px, 5px, 0px);
       z-index:999;
       width: $page-width;
       top:0px;
 			background: url(base-page-bg-shaded-flipped.jpg);
 		 	position:fixed;
+			border-bottom: 1px solid rgba(white, .15);
 		
 			//logo and session
 			.top-bar {
-				height: 52px;
+				height: 45px;
 				
-				.site-logo {float: left;}
-				.session {float: right;}
+				.site-logo { float: left; }
+				.session {
+					float: right;
+					margin: 20px $base-content-clear 0 0;
+					
+					#logout {
+						@include inverted-button;
+						padding: 4px 8px;
+						margin-left: 3px;
+					}
+				}
 			}
 			
-			//player and alerts
+			//player and notifications
 			.middle-bar {
 				.mplayerbar {
 					display: block;
 					float: left;
 					.jp-title {display: none;}
 				}
-				.alerts {float: right;}
+				.notifications {
+					margin-right: $base-content-clear;
+					float: right;
+					
+					> div {
+						float: left;
+						width: 50px;
+						height: 50px;
+						text-align: center;
+						font-size: 10px;
+						
+						> a {
+							@include inverted-button;
+							@include draw-circle;
+							margin: 0px auto 4px auto;
+							display: block;
+							padding: 8px;
+							text-align: center;
+							width: 14px;
+							height: 14px;
+						}
+					}				
+				}
 			}
 			
 			//menu and search
@@ -217,13 +250,16 @@ ul{
 
 		//live wall
     .live {
-			margin: 0 -8px 0 -8px;
-      
-			.profilepic	{ 
-        @include box(33%,188px,#212121);
-        float:left;
-        overflow:hidden;
-        text-align:center;
+			overflow: hidden;
+			margin: 0 -8px 0px -8px;
+			
+			.profile-image { 
+        width: 414px;
+				height: 246px;
+        float: left;
+				background: #222;
+        overflow: hidden;
+        text-align: center;
 
         a {
           @include border-radius($border-radius);
@@ -234,44 +270,43 @@ ul{
           font-weight:bold;
           text-decoration:none;
         }
-
-        img{max-height:155px;margin:2px;}
       }
-      .midbox{
-        @include box(32%,190px,"");
-        margin:0 34% 0 34%; 
-        .box1{ @include box(100%,90px,#212121);}
-        .box2{margin-top:10px; @include box(100%,90px,#212121);}
-      }
-      
+			
+			.links {
+				float: right;
+				
+				.top {
+					display: block;
+					
+					> div {
+						background: url(live/live-default-top.jpg); 
+						width: 549px;
+						height: 118px;
+					}
+				}
+				.bottom {
+					margin-top: 10px; 
+					.left {
+						background: url(live/live-default-left.jpg); 
+						width: 270px;
+						height: 118px;
+					}
+					.right {
+						background: url(live/live-default-right.jpg); 
+						width: 270px;
+						height: 118px;
+					}
+				}
+			}
     }
-
-		//
-		//social content
 		
-		//feed
-    .homefeed{  
-      margin:0 auto;
-      color:#FFF;  
-      padding:4*$padding 5*$padding;  
-      background: #262626; 
-      text-align:center;
-      .feedbox{ 
-        text-align:center;
-        @include roundedbox(250px,100px,#3C3C3C);
-        margin:4*$margin auto;
-        padding:2*$padding;
-        display: inline-block;
-      }
-    }
-
-    .content-box{@include box(98%,"",$box-color); padding:10px 1%; }
-    .blankbox{ @include box(98%,"",""); padding:10px 20px; color:#525252;}
-
+		//primary content area
     .primary {
 			background: url(base-page-bg-shaded.jpg) top center no-repeat;
-      margin-top: 10px;
+			border-top: 1px solid rgba(white, .15);
+			margin-top: 8px;
 			display: block;
+			overflow: hidden;
     }
   }
 
@@ -392,7 +427,7 @@ ul{
 
 //
 //footer
-#footer{ 
+#footer { 
   background-image: url(base-footer-bg-repeat.jpg);
 	margin-top: -$page-footer-extension;
 	
@@ -410,7 +445,7 @@ ul{
 		width: 210px;
 		height: 150px;		
 		
-		img{
+		img {
 			margin: auto;
 		}
 	}

@@ -1,5 +1,5 @@
-$('.left').html('<%= escape_javascript(render 'bands/post_msg_header') -%>');
-$('.left').append('<%= escape_javascript(render 'bands/posts') -%>');
+$('.primary .left').html('<%= escape_javascript(render 'bands/post_msg_header') -%>');
+$('.primary .left').append('<%= escape_javascript(render 'bands/posts') -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.left a').removeClass('active').removeClass('button-fill-fan');
 $('#mentions').addClass('active').addClass('button-fill-fan');

@@ -1,5 +1,5 @@
-!= "$('.left').html('');"
-!= "$('.left').html('#{escape_javascript(render 'user_post_public')}');"
+!= "$('.primary .left').html('');"
+!= "$('.primary .left').html('#{escape_javascript(render 'user_post_public')}');"
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-fan');
 $('#edit-profile').addClass('active').addClass('button-fill-fan');

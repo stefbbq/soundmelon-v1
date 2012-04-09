@@ -1,10 +1,9 @@
-= render :partial=>"shared/user_header_bar"
+= render :partial=>"bricks/user_header_bar"
 = render :partial=>"profile/user_dash_board"
 .primary
   .left
-    .left
-      = render 'users/post_msg_header'
-      = render 'messages/inbox_messages', :messages => @messages
+    = render "users/post_msg_header"
+    = render "messages/inbox_messages", :messages => @messages
   .right
     = render "users/user_right_box"
   .clear

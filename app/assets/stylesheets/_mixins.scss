@@ -1,14 +1,16 @@
 //collection of custom mixins and reusable styles
 
-//reusable styles
+@import 'vars';
+
+//oontrol styles
 @mixin default-button {
 	@include linear-gradient(#393939, #313131);
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
 	@include border-radius($detail-border-radius);
 	border: none;
 	padding: 4px 5px;	
-	font-size: 14px;
-	color: $right-item-font-color;
+	font-size: $default-button-font-size;
+	color: $default-button-font-color;
 	
 	&:hover {
 		@include linear-gradient(#555, #444);
@@ -16,6 +18,28 @@
 		cursor: pointer;
 	}
 }
+@mixin inverted-button {
+	@include linear-gradient($inverted-button-color, darken($inverted-button-color, 15));
+	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
+	@include border-radius($detail-border-radius);
+	@include text-shadow(rgba(white, .5), 0px, -1px, 0px);
+	border: none;
+	padding: 4px 5px;	
+	font-size: $default-button-font-size;
+	color: black;
+	
+	&:hover {
+		@include linear-gradient(lighten($inverted-button-color, 15), $inverted-button-color);
+		text-decoration: none;
+		cursor: pointer;
+	}
+}
+
+//shapes
+@mixin draw-circle() {
+	@include border-radius(50%);
+}
+
 
 //box
 @mixin roundedbox($w,$h,$c){

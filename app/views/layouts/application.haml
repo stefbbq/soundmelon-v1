@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title Soundmelon
+    %title SoundMelon
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = csrf_meta_tags
@@ -12,7 +12,6 @@
         					$(".circle").corner("40px");
         					$(".logo").corner("20px");
         					$(".loginfields, .login, .button,.join,.textfield,.radiolabel").corner("round");
-
       				});
        function play_music(song_title, song){$("#sm_jplayer").jPlayer("setMedia", { m4a:song }).jPlayer('play');}
        function open_popup_for_song_albums(url){$.facebox(function() {$.ajax({error: function() {$.facebox('Sorry, there was an error!');},load:function(data){},success: function(data) {$.facebox(data);},type: 'get',url: url});});}
@@ -21,8 +20,7 @@
       #page-container
         #page
           #header
-            %div
-              = yield(:tophead)
+            = yield(:tophead)
           - flash.each do |name, msg|
             = content_tag :div, msg, {:id => "flash_#{name}",:class=>"center"}
           #content

@@ -1,5 +1,6 @@
 - band_album_photos = capture do
   %h3
+<<<<<<< HEAD
     = "Photos in '#{@band_album.name}'"
   .photo_gallery
     - @band_album.band_photos.each do |photo|
@@ -12,6 +13,12 @@
 
 $('#band_album_#{@band_album.id} .album_details').append('#{escape_javascript band_album_photos}');
 $('#expand_link_#{@band_album.id}').replaceWith('#{escape_javascript hide_album_photos}');
+=======
+    = "Photos in #{@band_album.name} album  : #{@band_album.band_photos.count}"
+  - @band_album.band_photos.each do |photo|
+    = render 'band_photo', :photo => photo
+$('.primary .left').html('#{escape_javascript band_album_photos} ');
+>>>>>>> front-end updates
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
 $('#photobox .selection-box').addClass('active');

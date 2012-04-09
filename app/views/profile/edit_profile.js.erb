@@ -1,4 +1,4 @@
-$('.left').html('');
+$('.primary .left').html('');
 <% edit_profile_forms = capture do %>
   <div id='basic-info' class='content-box'>
     <h3>Basic Info</h3>
@@ -20,7 +20,7 @@ $('.left').html('');
   </div>  
 <% end %>
 
-$('.left').html('<%= escape_javascript(edit_profile_forms) %>');
+$('.primary .left').html('<%= escape_javascript(edit_profile_forms) %>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-fan');
 $('#edit-profile').addClass('active').addClass('button-fill-fan');

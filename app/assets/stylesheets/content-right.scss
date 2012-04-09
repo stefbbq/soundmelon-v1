@@ -4,11 +4,11 @@
 @import 'vars';
 @import 'compass/css3';
 
-.right {
+.primary .right {
 	@include box-shadow(rgba(black, .3), -3px, 0px, 5px);
   float: right; 
   width: 250px;
-	padding: 25px 25px 0 8px;
+	padding: 25px $base-content-clear 0 8px;
 	background: rgba(white, .05);
 	border-left: 1px solid rgba(white, .1);
 	height: 100%;

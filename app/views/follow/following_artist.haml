@@ -1,4 +1,4 @@
-$('.left').html('');
+$('.primary .left').html('');
 - following = capture do
   - @following_artists.each do |band|
     .followuserbox{:id => "following_#{band.id}"}
@@ -8,7 +8,7 @@ $('.left').html('');
         = link_to band.name, show_band_path(:band_name => band.name)
       .clear
   = paginate @following_artists, :remote => true
-$('.left').html('#{escape_javascript(following)}');
+$('.primary .left').html('#{escape_javascript(following)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
 $('#artistbox .selection-box').addClass('active');

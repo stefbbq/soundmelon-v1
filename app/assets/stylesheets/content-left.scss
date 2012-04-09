@@ -4,8 +4,8 @@
 @import 'vars';
 @import 'compass/css3';
 
-.left {
-	padding: 25px 8px 0 25px;
+.primary .left {
+	padding: 25px 8px 0 $base-content-clear;
   width: 630px;
 
 	//status update form
@@ -35,7 +35,7 @@
 	}
 	
 	//header controls
-	.usercontrols {
+	.feed-msg-menu {
 		overflow: hidden; 
 		margin-top: 16px;
 		
@@ -83,7 +83,6 @@
     float: left;
     text-align: right;
 		color: $text-faded-color;
-		//font-size: 18px;
     font-weight: bold;
     -webkit-transform:rotate(270deg);
     -moz-transform:rotate(270deg);
@@ -133,7 +132,9 @@
 				font-size: 13px;
 				
 				.title {
-					strong {color: white;}
+					strong {
+						color: white;
+					}
 				}
 				.functions {
 					float: right; 

@@ -1,4 +1,4 @@
-$('.left').html('');
+$('.primary .left').html('');
 - band_fans = capture do
   Fans
   %hr
@@ -11,7 +11,7 @@ $('.left').html('');
           = link_to user.get_full_name, user_profile_path(user.id)
       .clear
  
-$('.left').html('#{escape_javascript(band_fans)}');
+$('.primary .left').html('#{escape_javascript(band_fans)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
 $('#fanbox .selection-box').addClass('active'); 

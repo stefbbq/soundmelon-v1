@@ -20,16 +20,16 @@
     .middle-bar
       .mplayerbar
         =# image_tag 'music_box.png', :width => '700px'
-      .alerts
+      .notifications
         - unread_mentioned_count = current_user.unread_mentioned_post_count
         - unread_post_replies_count = current_user.unread_post_replies_count
         - unread_messages_count = current_user.received_messages.unread.count
-        = link_to unread_post_replies_count, replies_path
-        = link_to image_tag('reply-icon.png'), replies_path
-        = link_to unread_mentioned_count, mentioned_path
-        = link_to image_tag('mention-icon.png'), mentioned_path
-        = link_to unread_messages_count, user_inbox_path
-        = link_to image_tag('message-icon.png'), user_inbox_path
+        %div
+          = link_to unread_post_replies_count, replies_path
+        %div
+          = link_to unread_mentioned_count, mentioned_path
+        %div
+          = link_to unread_messages_count, user_inbox_path
         .clear
     .bottom-bar
       = render :partial=>"bricks/header_menu_items"

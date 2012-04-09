@@ -1,9 +1,9 @@
 <% if @band %>
-  $('.left').html('<%= escape_javascript(render 'bands/post_msg_header') -%>');
+  $('.primary .left').html('<%= escape_javascript(render 'bands/post_msg_header') -%>');
 <% else %>
-  $('.left').html('<%= escape_javascript(render 'users/post_msg_header') -%>');
+  $('.primary .left').html('<%= escape_javascript(render 'users/post_msg_header') -%>');
 <% end %>
-  $('.left').append('<%= escape_javascript(render 'messages/inbox_messages', :messages => @messages) -%>');
+  $('.primary .left').append('<%= escape_javascript(render 'messages/inbox_messages', :messages => @messages) -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);  
 $('.left a').removeClass('active').removeClass('button-fill-fan');
 $('#messages').addClass('active').addClass('button-fill-fan');

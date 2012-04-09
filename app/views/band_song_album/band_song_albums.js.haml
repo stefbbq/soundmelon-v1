@@ -55,7 +55,7 @@
             = link_to "expand", band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{song_album.id}"
         .clear 
       .clear
-  $('.left').html('#{escape_javascript song_albums}'); 
+  $('.primary .left').html('#{escape_javascript song_albums}'); 
   setTimeout('$(document).trigger(\"close.facebox\")',10);
   $('div').removeClass('active');
   $('#musicbox .selection-box').addClass('active');   

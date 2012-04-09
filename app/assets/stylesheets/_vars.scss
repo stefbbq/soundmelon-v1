@@ -5,6 +5,19 @@ $page-width: 956px;
 $page-footer-extension: 25px;
 $base-footer-height: 223px;
 $base-footer-content-width: 980px;
+$base-content-clear: 25px;
+
+//global colors
+$main-bg-color: #c3c3c3;
+$footer-bg-color: #676767;
+$box-color: #1A1A1A;
+$page-bg-color: #131313;
+$line-color: #888;
+$text-color: #aaa;
+$text-faded-color: #555;
+$artist-active-color: #cf3005;
+$fan-active-color: #ffc000;
+$inverted-button-color: #ddd;
 
 //misc
 $columns: 14;
@@ -20,25 +33,15 @@ $font-size-minor: 12px;
 $detail-border-radius: 4px;
 $avatar-border-radius: 4px;
 
+//controls
+$default-button-font-color: #ccc;
+$default-button-font-size: 14px;
+$input-font-size: 14px;
+$input-bg-color: #666;
+$input-bg-active-color: #333;
+
 //left
 $left-usercontrol-item-height: 24px;
 
 //right
 $right-item-font-size: 15px;
-$right-item-font-color: #ccc;
-
-//global colors
-$main-bg-color: #c3c3c3;
-$footer-bg-color: #676767;
-$box-color: #1A1A1A;
-$page-bg-color: #131313;
-$line-color: #888;
-$text-color: #aaa;
-$text-faded-color: #555;
-$artist-active-color: #cf3005;
-$fan-active-color: #e0b600;
-
-//input
-$input-font-size: 14px;
-$input-bg-color: #666;
-$input-bg-active-color: #333;

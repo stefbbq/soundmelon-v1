@@ -1,4 +1,4 @@
-$('.left').html('');
+$('.primary .left').html('');
 <% content = capture do %>
   <% if @bands.blank? %>
     You have no musician profiles. <%= link_to 'create one?', new_band_path, :class => 'ajaxopen', :remote => true %>
@@ -30,7 +30,7 @@ $('.left').html('');
   <% end %>
 <% end %>
 
-$('.left').html('<%= escape_javascript(content) %>');
+$('.primary .left').html('<%= escape_javascript(content) %>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('div').removeClass('active');
 $('#musician-access .selection-box').addClass('active');

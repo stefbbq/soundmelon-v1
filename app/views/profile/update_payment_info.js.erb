@@ -1,4 +1,4 @@
-$('.left').html('');
+$('.primary .left').html('');
 <% payment_info_form = capture do %>
   <div id='payment-info' class='content-box'>
      <div id="payment-info-msg"></div>
@@ -6,6 +6,6 @@ $('.left').html('');
   </div>  
 <% end %>
 
-$('.left').html('<%= escape_javascript(payment_info_form) %>');
+$('.primary .left').html('<%= escape_javascript(payment_info_form) %>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 
