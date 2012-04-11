@@ -133,5 +133,9 @@ module ApplicationHelper
       image_tag(band_photo_album.band_photos.first.image.url(type), :alt=>'')
     end  
   end
+
+  def can_admin?(band, user)
+    user.is_admin_of_band?(band)
+  end
   
 end

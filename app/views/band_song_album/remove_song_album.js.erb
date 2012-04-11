@@ -1,5 +1,7 @@
-<% if @status # album removed %>
-  alert('removed');
+<% if @status %>
+  $('#song_album_<%= @song_album.id %>').remove();
+  $('#musicbox .band-box-content #song_album_<%= @song_album.id %>').remove();  
 <% else %>
   alert('not removed');
 <% end %>
+$.facebox.close();

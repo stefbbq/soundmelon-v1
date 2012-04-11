@@ -58,8 +58,7 @@ class BandSongAlbumController < ApplicationController
     end
   end
 
-  def destroy
-   
+  def destroy   
   end
   
   def band_song_albums
@@ -73,6 +72,17 @@ class BandSongAlbumController < ApplicationController
     end
   end
   
+  def band_song_album
+    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+    begin
+      @band = Band.where(:name => params[:band_name]).first
+      @is_admin_of_band = current_user.is_member_of_band?(@band)
+      @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first      
+    rescue
+      render :nothing => true and return
+    end
+  end
+
   def album_songs
     if request.xhr?
       begin
@@ -135,7 +145,7 @@ class BandSongAlbumController < ApplicationController
         @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
       end
       if @song_album
-        @song_album.update_attributes(:disabled => !@song_album.disabled)
+        @song_album.update_attribute(:disabled,!@song_album.disabled)
       end
     rescue
       render :nothing => true and return
@@ -149,8 +159,7 @@ class BandSongAlbumController < ApplicationController
         @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
       end
       if @song_album        
-        @status = true
-        # @status = try to remove the album
+        @status = @song_album.delete
       end
     rescue
       render :nothing => true and return
@@ -178,22 +187,22 @@ class BandSongAlbumController < ApplicationController
         @song_album.update_attribute(:featured, !@song_album.featured)
         @status = true        
       end
-    rescue =>e
-      @status   = false
-      @msg      = "msg #{e.message}"
+    rescue
+      @status   = false      
     end
-  end
+  end 
   
-  private 
+  private
   def coerce(params)
-    if params[:song].nil? 
-      h = Hash.new 
-      h[:song] = Hash.new  
-      h[:song][:song] = params[:Filedata] 
+    if params[:song].nil?
+      h = Hash.new
+      h[:song] = Hash.new
+      h[:song][:song] = params[:Filedata]
       h[:song][:song].content_type = MIME::Types.type_for(h[:song][:song].original_filename).to_s
       h
-    else 
+    else
       params
-    end 
+    end
   end  
 end
+

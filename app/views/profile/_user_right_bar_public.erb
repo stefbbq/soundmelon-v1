@@ -1,11 +1,11 @@
 <div class="items">
-  
+
   <div id='user-post'>
     <div class='selection-box active'>
       <%= link_to 'posts of this user', user_profile_path(@user),:remote=>:true,:class=>"ajaxopen"  %>
     </div>
   </div>
-  
+
   <div id='follow-unfollow'>
     <div class='selection-box'>
       <%  if current_user.following?(@user) %>
@@ -15,21 +15,23 @@
       <% end %>
     </div>
   </div>
-  
+
   <div id='msg-user'>
     <div class='selection-box'>
       <%= link_to '> message this user', new_message_path(:id =>@user.id),:remote=>:true,:class=>"ajaxopen"  %>
     </div>
   </div>
-  
+
   <div id='artistbox' class='box-wrapper'>
     <div class='selection-box'>
       following 
       <span class='artist-count'>
         <%= pluralize(@following_artist_count, 'artist')  %>
-      </span> 
-      <br />
-      <%=  link_to "see all", user_following_artists_path(@user), :remote=>:true, :class=>"small-font ajaxopen" %>
+      </span>
+      <% if @following_artist_count >0 %>
+        <br />
+        <%=  link_to "see all", user_following_artists_path(@user), :remote=>:true, :class=>"small-font ajaxopen" %>
+      <% end %>
     </div>
     <div class="band-box-content">
       <div>
@@ -43,15 +45,17 @@
     </div>
   </div>
   <div class='clear'></div>
-  
+
   <div id='followingbox' class='box-wrapper'>
     <div class='selection-box'>
       following 
       <span class='artist-count'>
         <%= pluralize(@following_count,'fan')  %>
-      </span> 
-      <br />
-      <%=  link_to "see all", user_following_path(@user), :remote=>:true, :class=>"small-font ajaxopen" %>
+      </span>
+      <% if @following_count >0 %>
+        <br />
+        <%=  link_to "see all", user_following_path(@user), :remote=>:true, :class=>"small-font ajaxopen" %>
+      <% end %>
     </div>
     <div class="band-box-content">
       <div>
@@ -70,9 +74,11 @@
     <div class='selection-box'>
       <span class='artist-count'>
         <%= pluralize(@follower_count,'follower')  %>
-      </span> 
-      <br />
-      <%=  link_to "see all", user_follower_path(@user), :remote=>:true, :class=>"small-font ajaxopen" %>
+      </span>
+      <% if @follower_count >0 %>
+        <br />
+        <%=  link_to "see all", user_follower_path(@user), :remote=>:true, :class=>"small-font ajaxopen" %>
+      <% end %>
     </div>
     <div class="band-box-content">
       <div>

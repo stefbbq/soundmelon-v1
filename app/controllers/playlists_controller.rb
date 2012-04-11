@@ -28,6 +28,10 @@ class PlaylistsController < ApplicationController
       render :nothing => 'true' and return
     end
   end
+
+  def add_to_player_queue
+    @song_album = SongAlbum.where("id=?", params[:id]).includes(:songs).first
+  end
   
   private
   

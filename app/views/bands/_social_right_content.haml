@@ -25,8 +25,8 @@
         - @song_albums.each do |song_album|
           .song-album[song_album]
             %span{ :class => 'album-cover-image'}
-              =link_to get_album_cover_image(song_album), band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
-            = link_to song_album.album_name, band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"   
+              =link_to get_album_cover_image(song_album), band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+            = link_to song_album.album_name, band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
     .box-wrapper#photobox
       .selection-box
         photos 
@@ -37,15 +37,16 @@
         - @photo_albums.each do |band_photo_album|
           .song-album[band_photo_album]
             %span{:class => 'album-cover-image'}
-              = link_to get_band_photo_album_teaser_photo(band_photo_album), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
-            = link_to band_photo_album.name, band_album_photos_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
+              = link_to get_band_photo_album_teaser_photo(band_photo_album), band_album_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
+            = link_to band_photo_album.name, band_album_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
     .box-wrapper#artistbox
       .selection-box
         connected to 
         %span{ :class => 'artist-count'}
           = pluralize(@band_members_count, 'artist')
-        %br
-        =  link_to "see all", band_members_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
+        - if @band_members_count >0
+          %br
+          =  link_to "see all", band_members_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
       .band-box-content
         %div
           - @band_artists.each do |band_artist|
@@ -56,9 +57,10 @@
     .box-wrapper#fanbox
       .selection-box
         %span{ :class => 'artist-count'}
-          = pluralize(@band_fans_count, 'fan') 
-        %br
-        = link_to "see all", band_fans_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
+          = pluralize(@band_fans_count, 'fan')
+        - if @band_fans_count > 0
+          %br
+          = link_to "see all", band_fans_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
       .band-box-content
         %div
           - @band_fans.each do |band_fan|

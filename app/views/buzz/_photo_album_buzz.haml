@@ -1,0 +1,7 @@
+.buzz_header
+  - if @band_photo_album
+    = "#{@band_photo_album.name} buzz"
+  - else
+    = "#{@band_photo.caption} buzz"
+.buzz_form
+  = render 'photo_album_buzz_form'

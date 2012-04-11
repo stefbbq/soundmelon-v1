@@ -5,7 +5,7 @@ class BuzzController < ApplicationController
     if request.xhr?
       begin
         @song_album = SongAlbum.find(params[:id])
-        @buzzes = Post.album_buzz_for(@song_album.id)
+        @buzzes     = Post.album_buzz_for(@song_album.id)
       rescue
         render :nothing => true and return
       end
@@ -30,8 +30,8 @@ class BuzzController < ApplicationController
   def band_photo_album_buzz
     if request.xhr?
       begin
-        @photo_album = BandAlbum.find(params[:id])
-        @buzzes            = Post.album_buzz_for(@photo_album.id)
+        @band_photo_album     = BandAlbum.find(params[:id])
+        @photo_album_buzzes   = PhotoPost.band_album_buzz_for(@band_photo_album.id)
       rescue
         render :nothing => true and return
       end
@@ -65,6 +65,32 @@ class BuzzController < ApplicationController
     else
       redirect_to root_url and return
     end   
+  end
+
+  def band_album_buzz_post
+    if request.xhr?
+      begin
+        @song_album = BandAlbum.find(params[:id])
+        @buzz       = PhotoPost.create_band_album_buzz_by(current_user.id, params)
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to root_url and return
+    end
+  end
+
+  def photo_buzz_post
+    if request.xhr?
+      begin
+        @song_album = BandPhoto.find(params[:id])
+        @buzz = Post.create_photo_buzz_by(current_user.id, params)
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to root_url and return
+    end
   end
 
 end

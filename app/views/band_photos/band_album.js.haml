@@ -1,0 +1,34 @@
+- band_album      = @band_album
+- if band_album
+  - band_album_html = capture do
+    .album[band_album]
+      .album_info_wrapper
+        .album_teaser_image
+          = link_to image_tag(band_album.photo_count>0 ? band_album.band_photos.first.image.url(:thumb) : 'no-image.png', :height => '80px'), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
+        .album_info
+          .album_name
+            = link_to "#{band_album.name}", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
+            %br
+            Released
+            = band_album.created_at.strftime("%b %d, %Y")
+          .album_controls
+            = link_to image_tag('buzz-icon.png'), band_album_buzz_path(band_album.id, :album_name => band_album.name), :remote => true, :class => 'ajaxopen'
+        .clear
+      .additional_info
+        .photo_stat{:id =>"photo_stat_#{band_album.id}"}
+          = pluralize(band_album.photo_count, 'photo')
+        - if can_admin?(@band, current_user)
+          .album_controls{:style=>'float:left;width:50px;margin-left:150px;'}
+            = link_to band_album.disabled? ? 'enable' : 'disable', disable_enable_band_album_path(:band_name =>@band.name, :album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{band_album.id}"
+          .album_controls{:style=>'float:left;width:50px;'}
+            = link_to "remove", delete_album_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
+        .thread_expand
+          = link_to "expand", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{band_album.id}"
+        .clear
+      .album_details
+      .clear
+    .clear
+  $('.left').html('#{escape_javascript band_album_html} ');
+  setTimeout('$(document).trigger(\"close.facebox\")',10);
+  $('div').removeClass('active');
+  $('#photobox .selection-box').addClass('active');

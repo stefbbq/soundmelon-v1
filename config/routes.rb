@@ -93,39 +93,39 @@ Soundmelon::Application.routes.draw do
   get ':band_name/social' => 'bands#social', :as => 'band_social'
   get ':band_name/store' => 'bands#store', :as => 'band_store'
   match ':band_name/bandmates/send/inviation' => 'bands#send_bandmates_invitation', :as => 'send_bandmates_invitation'
-  
-  
+    
   resources :album_photos
-  get ':band_name/album/new' => 'band_photos#new', :as => 'new_band_album'
-  get ':band_name/albums' => 'band_photos#band_albums', :as => 'band_albums'
-  get ':band_name/album/photos/:band_album_name' => 'band_photos#band_album_photos', :as => 'band_album_photos'
-  get ':band_name/:band_album_name/photo/:id' => 'band_photos#show', :as => 'band_album_photo'
-  get ':band_name/:band_album_name/photos/add' => 'band_photos#add', :as => 'add_photos_to_album'
-  get ':band_name/edit/:band_album_name' => 'band_photos#edit', :as => 'edit_album'
-  match ':band_name/delete/:band_album_name' => 'band_photos#destroy_album', :as => 'delete_album' 
-  get ':band_name/:album_name/photo/:id/edit' => 'band_photos#edit' , :as => 'edit_photo'
-  get ':band_name/:album_name/photo/:id/delete' => 'band_photos#destroy' , :as => 'delete_photo'
-  get ':band_name/:album_name/public' => 'band_album#disable_enable_band_album', :as => 'disable_enable_band_album'  
+  get ':band_name/album/new'                      => 'band_photos#new', :as => 'new_band_album'
+  get ':band_name/albums'                         => 'band_photos#band_albums', :as => 'band_albums'
+  get ':band_name/:band_album_name/palbum'        => 'band_photos#band_album', :as => 'band_album'
+  get ':band_name/album/photos/:band_album_name'  => 'band_photos#band_album_photos', :as => 'band_album_photos'
+  get ':band_name/:band_album_name/photo/:id'     => 'band_photos#show', :as => 'band_album_photo'
+  get ':band_name/:band_album_name/photos/add'    => 'band_photos#add', :as => 'add_photos_to_album'
+  get ':band_name/edit/:band_album_name'          => 'band_photos#edit', :as => 'edit_album'
+  match ':band_name/delete/:band_album_name'      => 'band_photos#destroy_album', :as => 'delete_album'
+  get ':band_name/:album_name/photo/:id/edit'     => 'band_photos#edit' , :as => 'edit_photo'
+  get ':band_name/:album_name/photo/:id/delete'   => 'band_photos#destroy' , :as => 'delete_photo'
+  get ':band_name/:album_name/ppublic'            => 'band_photos#disable_enable_band_album', :as => 'disable_enable_band_album'
   match ':band_name/:album_name/photo/:id/update' => 'band_photos#update',  :as => 'update_band_photo'
   
   #band song albums and songs
-  get ':band_name/song/album/new' => 'band_song_album#new', :as => 'new_band_song_album'
-  get ':band_name/song/albums' => 'band_song_album#band_song_albums', :as => 'band_song_albums'
-  get ':band_name/album/songs/:song_album_name' => 'band_song_album#album_songs', :as => 'band_album_songs'
+  get ':band_name/song/album/new'                 => 'band_song_album#new', :as => 'new_band_song_album'
+  get ':band_name/song/albums'                    => 'band_song_album#band_song_albums', :as => 'band_song_albums'
+  get ':band_name/:song_album_name/album'         => 'band_song_album#band_song_album', :as => 'band_song_album'
+  get ':band_name/album/songs/:song_album_name'   => 'band_song_album#album_songs', :as => 'band_album_songs'
   get ':band_name/:song_album_name/download/song/:id' => 'band_photos#download', :as => 'band_album_song_download'
-  get ':band_name/:song_album_name/public' => 'band_song_album#disable_enable_song_album', :as => 'disable_enable_band_song_album'
-  get ':band_name/:song_album_name/remove' => 'band_song_album#remove_song_album', :as => 'remove_band_song_album'
-  get ':band_name/:song_album_name/add_song' => 'band_song_album#add_song_to_album', :as => 'add_song_to_album'
-  get ':band_name/set_featured' => 'band_song_album#albums_for_featured_list', :as => 'popup_for_feature_albums'
-  get ':band_name/:song_album_name/featured' => 'band_song_album#make_song_album_featured', :as => 'make_song_album_featured'
-  get ':band_name/:song_album_name/edit' => 'band_song_album#edit_song_album', :as => 'edit_band_song_album'
+  get ':band_name/:song_album_name/public'        => 'band_song_album#disable_enable_song_album', :as => 'disable_enable_band_song_album'
+  get ':band_name/:song_album_name/remove'        => 'band_song_album#remove_song_album', :as => 'remove_band_song_album'
+  get ':band_name/:song_album_name/add_song'      => 'band_song_album#add_song_to_album', :as => 'add_song_to_album'
+  get ':band_name/set_featured'                   => 'band_song_album#albums_for_featured_list', :as => 'popup_for_feature_albums'
+  get ':band_name/:song_album_name/featured'      => 'band_song_album#make_song_album_featured', :as => 'make_song_album_featured'
+  get ':band_name/:song_album_name/edit'          => 'band_song_album#edit_song_album', :as => 'edit_band_song_album'
   root :to => 'home#index'
   
   #follow band
   get 'follow/:band_name' => 'bands#follow_band', :as => 'follow_band'
   get 'unfollow/:band_name' => 'bands#unfollow_band', :as => 'unfollow_band'
-  
-  
+    
   #message band
   get ':band_name/message/new' => 'bands#new_message', :as => 'band_new_message'
   match ':band_name/message/create' => 'bands#send_message', :as => 'band_send_message'
@@ -137,14 +137,20 @@ Soundmelon::Application.routes.draw do
   #get ':song_name/:id/buzz' => 'buzz#song_buzz', :as => 'song_buzz'
   match ':album_name/:id/buzz/create' => 'buzz#album_buzz_post', :as => 'album_buzz_post'
   match 'buzz/:id/create' => 'buzz#song_buzz_post', :as => 'song_buzz_post'
+  match ':album_name/:id/photobuzz/create' => 'buzz#band_album_buzz_post', :as => 'band_album_buzz_post'
+  match 'photobuzz/:id/create' => 'buzz#band_photo_buzz_post', :as => 'band_photo_buzz_post'
+
+
+
   #match ':song_name/:id/buzz/create' => 'buzz#song_buzz_post', :as => 'song_buzz_post' 
   
   #song download
   get ':song_name/:id/download' => 'band_song_album#download', :as => 'download_song'
   
-  #playlist
+  #playlist  
   get 'playlist/:song_name/:id/add' => 'playlists#add', :as => 'add_to_playlist'
   get 'playlist/:song_name/:id/remove' => 'playlists#remove', :as => 'remove_from_playlist'
+  get 'playlistPlayer/:id/add' => 'playlists#add_to_player_queue', :as => 'add_album_to_player_playlist'
   get 'playlist/:id/add' => 'playlists#add_all_songs_of_album', :as => 'add_album_to_playlist'
   match ':controller(/:action(/:id(.:format)))'
 end

@@ -59,10 +59,9 @@
 
     $(".jp-previous").click(function() { playListPrev(); }); // Listen for Previous Track button click
     $(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click
-
      
     // Switch track
-    function playListChange(index) {
+    function playListChange(index) {      
       currentTrack = index;
       //$("#playerSongInfo").html(playList[currentTrack].artist + ' - <em>' + playList[currentTrack].title + '</em>');      
       $("#sm_jplayer").jPlayer("setMedia", { m4a:playList[currentTrack]['mp3'] }).jPlayer('play');

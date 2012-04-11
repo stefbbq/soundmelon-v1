@@ -10,9 +10,10 @@
         = link_to image_tag('buzz-icon.png'), song_buzz_path(song), :remote => true, :class => 'ajaxopen'
       .clear
     .clear
-  .song
-    .song-title
-      = link_to "add new", add_song_to_album_path(:band_name =>@song_album.band.name, :song_album_name => @song_album.album_name), :remote=>:true, :class=>"ajaxopen", :title =>"add new song"
+  - if can_admin?(@song_album.band,current_user)
+    .song
+      .song-title
+        = link_to image_tag("add.png"), edit_band_song_album_path(:band_name =>@song_album.band.name, :song_album_name => @song_album.album_name), :remote=>:true, :class=>"ajaxopen", :title =>"add new song"
 - hide_show_songs = capture do
   .thread_collapse
     %a{:href => "javascript:void(0);", :onclick => "hide_songs('#song_album_#{@song_album.id}')"}

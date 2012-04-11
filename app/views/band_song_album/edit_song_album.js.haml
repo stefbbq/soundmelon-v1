@@ -3,14 +3,19 @@
     = get_album_cover_image(@song_album, 'medium')
     %br
     = "#{@song_album.album_name} : #{@song_album.songs.count} songs"
+    %br
+    = "$#{@song_album.price}"
   - @song_album.songs.each do |song|
     - unless song.new_record?
       .song_album_songs
         = "#{song.song_file_name}(#{number_to_human_size(song.song_file_size)})"
-      %br  
+      %br
   = form_for @song_album, :url => {:action => 'update_song_album' , :id => @song_album.id, :band_name => @song_album.band.name}, :html => {:multipart => true, :remote => true } do |f|
     Album Name:
     = f.text_field :album_name
+    %br
+    Album Price:
+    = f.text_field :price
     %br
     Cover Image:
     =f.file_field :cover_img
