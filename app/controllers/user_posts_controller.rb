@@ -46,7 +46,7 @@ class UserPostsController < ApplicationController
     
     if @post.save
         respond_to do |format|
-          format.html { redirect_to user_home_path, notice: 'Successfully Posted.' }
+          format.html { redirect_to fan_home_path, notice: 'Successfully Posted.' }
           format.js {render :layout => false }
         end
     end
@@ -61,7 +61,7 @@ class UserPostsController < ApplicationController
     end
     if @post.save
       respond_to do |format|
-        format.html { redirect_to user_home_path }
+        format.html { redirect_to fan_home_path }
         format.js {render :layout => false }
       end
     end

@@ -5,7 +5,7 @@ $('#msg_item_<%= @message.id %>').html('');
     <br />  by 
     <strong>
       <%if message.sent_messageable_type == 'User' %>
-        <%= link_to "#{message.sent_messageable.fname}  #{message.sent_messageable.lname}", user_profile_path(message.sent_messageable) %> 
+        <%= link_to "#{message.sent_messageable.fname}  #{message.sent_messageable.lname}", fan_profile_path(message.sent_messageable) %> 
       <% else %>
         <%= message.sent_messageable.mention_name %> 
       <% end %>
@@ -24,7 +24,7 @@ $('#msg_item_<%= @message.id %>').html('');
     <% if @band %>
       <%= hidden_field_tag :band_id, @band.id %>
     <% end %>
-    <%= text_area_tag :body,'',{:class=>"inputbox",:rows=>3,:style=>"width:100%"} %>
+    <%= text_area_tag :body,'',{:class=>"input-box",:rows=>3,:style=>"width:100%"} %>
     <%= submit_tag("Reply" ,:class=>"button yellow right") %>
   <%  end %>
 <% end %>

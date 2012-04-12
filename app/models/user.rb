@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
-  
-  
+
   acts_as_messageable :required => :body #,:order => "created_at desc" 
   acts_as_followable
   acts_as_follower
@@ -67,7 +66,7 @@ class User < ActiveRecord::Base
   def get_full_name
     "#{self.fname} #{self.lname}"
   end
-  
+    
   def is_admin_of_band?(band) 
     admin_band_members_id_arr = band.band_members.where('band_users.access_level = 1').map{|band_member| band_member.id}
     if admin_band_members_id_arr.include?(self.id)

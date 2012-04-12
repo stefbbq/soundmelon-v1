@@ -1,0 +1,31 @@
+$('.primary .left').html('');
+- content = capture do
+  - if @bands.blank?
+    You have no musician profiles. #{link_to 'create one?', new_band_path, :class => 'ajaxopen', :remote => true}
+  - else
+    .bands
+      select a band from the list below to administer
+      %br/
+      %hr/
+      - @bands.each do |band|
+        .band
+          .band-logo-sml
+            = get_band_logo_medium(band)
+          .band-info
+            %span.band-name= band.name
+            %br/
+            %span.band-genre
+              (#{band.genre})
+            %br/
+            %span.other-info
+              Fan ##{band.followers_count},
+              Album ##{band.song_albums_count},
+              Songs ##{band.songs_count}
+            %br/
+            %span.band-access
+              = link_to 'access>>>', manage_band_path(:band_name => band.name),:class=>'button'
+        %hr/
+$('.primary .left').html('#{escape_javascript(content)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('div').removeClass('active');
+$('#musician-access .selection-box').addClass('active');

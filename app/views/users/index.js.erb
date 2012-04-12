@@ -1,8 +1,0 @@
-$('.primary .left').html('<%= escape_javascript(render 'user_posts/form') -%>');
-$('.primary .left').append('<%= escape_javascript(render 'users/post_msg_header') -%>');
-$('.primary .left').append('<%= escape_javascript(render 'shared/home_page_posts') -%>');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.selection-box').removeClass('active').removeClass('button-fill-fan');
-$('#feed-msg').addClass('active').addClass('button-fill-fan');
-$('.left a').removeClass('active').removeClass('button-fill-fan');
-$('#latest').addClass('active').addClass('button-fill-fan');

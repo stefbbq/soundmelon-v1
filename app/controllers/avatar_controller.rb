@@ -37,7 +37,7 @@ class AvatarController < ApplicationController
   end
   
   def delete
-    redirect_to user_home_url and return if current_user.profile_pic.nil?
+    redirect_to fan_home_url and return if current_user.profile_pic.nil?
     if current_user.profile_pic.delete
       respond_to do |format|
         format.js

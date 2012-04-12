@@ -143,3 +143,9 @@ function show_songs(div_id){
   $(div_id).find('.thread_expand').hide();
   $(div_id).find('.thread_collapse').show();    
 }
+
+function set_right_height(){
+  var resizeTarget = $('.primary .left');
+  var target = $('.primary .right');
+  target.css('height', resizeTarget.height());
+}

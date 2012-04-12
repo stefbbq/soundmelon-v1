@@ -4,7 +4,7 @@
       = render :partial=>"bricks/logo"
       .session
         = WELCOME_MSG
-        = link_to "#{current_user.fname} #{current_user.lname}", user_home_path, :class => 'user-info'
+        = link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class => 'user-info'
         = link_to "Logout", logout_path, :class=>"logout"
     .middle-bar
       .mplayerbar
@@ -22,7 +22,4 @@
         .clear
     .bottom-bar
       = render :partial=>"bricks/header_menu_items"
-      .searchbox
-        =form_tag( {:controller =>'search', :action => 'index'}, :method => "get") do
-          %input.auto_search_complete{:name => "q", :type => "text", :class => 'searchinput'}/
-          %input.search{:name => "search", :type => "submit", :value => "Go" }/
+      = render :partial=>"bricks/search"

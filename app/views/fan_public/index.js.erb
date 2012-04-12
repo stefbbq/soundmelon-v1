@@ -1,0 +1,4 @@
+$('.primary .left').html('<%= escape_javascript(render 'social') -%>');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.selection-box').removeClass('active').removeClass('button-fill-fan');
+$('#latest-posts').addClass('active').addClass('button-fill-fan');

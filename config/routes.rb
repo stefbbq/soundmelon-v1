@@ -1,24 +1,51 @@
 Soundmelon::Application.routes.draw do
-  
   get "bands/index"
-
-  get  "search/index"
-
-  get 'follow/user/:id' => 'follow#follow', :as => 'follow_user'
-
-  get 'user/(:id)/follower' => 'follow#follower', :as => 'user_follower'
-
-  get 'unfollow/user/:id' => 'follow#unfollow', :as => 'unfollow_user'
   
-  get 'user/(:id)/following' => 'follow#following', :as => 'user_following'
-  
-  get 'user/(:id)/following/artists' => 'follow#following_artists', :as => 'user_following_artists'
-
-  get "profile/additional_info"
+  #global
+  get "search/index"
   get 'logout' => 'sessions#destroy', :as => 'logout'
   post 'login' => 'sessions#create', :as => 'login'
-  get 'users' => 'users#index', :as => 'user_home'
-  match 'fan/registration' => 'users#fan_new', :as => 'fan_registration'
+
+  #users (fans and artists alike)
+  get 'follow/user/:id' => 'user_connections#follow', :as => 'follow_user'
+  get 'unfollow/user/:id' => 'user_connections#unfollow', :as => 'unfollow_user'
+    
+  #fan
+  get 'home' => 'fan#index', :as => 'fan_home' #home
+  get 'home/post/:id/threads' => 'user_posts#post_threads', :as => 'get_post_threads' #posts
+  get 'home/mentions' => 'user_posts#mentioned', :as => 'mentioned' #mentions
+  get 'home/replies' => 'user_posts#replies', :as => 'replies' #replies
+  match 'home/messages' => 'messages#inbox' ,:as => 'user_inbox' #messages
+
+  get 'home/(:id)/followers' => 'user_connections#followers', :as => 'fan_followers'
+  get 'home/(:id)/following' => 'user_connections#following', :as => 'fan_following'
+  get 'home/(:id)/following/artists' => 'user_connections#following_artists', :as => 'fan_following_artists'  
+  match 'home/manage' => 'fan_public#manage_profile', :as => 'manage_profile' #manage session profile
+    
+  #fan public
+  match 'fan/(:id)' => 'fan_public#index',:as => 'fan_profile'  
+  
+  #artist
+  get 'user/bands' => 'artist#pull', :as => 'associated_band'
+  get 'user/new/band' => 'artist#new', :as => 'new_band'
+  post 'user/create/band' => 'artist#create', :as => 'create_band'
+  get 'home/artist/:band_name' => 'artist#index', :as => 'manage_band'
+  get 'edit/band/:band_name' => 'artist#edit', :as => 'edit_band'
+  match 'update/band/:id' => 'artist#update', :as => 'update_band'
+  get ':band_name/members' => 'artist#members', :as => 'band_members'
+  get ':band_name/bandmates/inivtation' => 'artist#invite_bandmates', :as => 'bandmates_invitation'
+  get ':band_name' => 'artist#social', :as => 'show_band'
+  get ':band_name/social' => 'artist#social', :as => 'band_social'
+  get ':band_name/store' => 'artist#store', :as => 'band_store'
+  match ':band_name/bandmates/send/inviation' => 'artist#send_bandmates_invitation', :as => 'send_bandmates_invitation'
+
+
+
+
+
+get "profile/additional_info"
+  
+  match 'fan/registration' => 'fan#fan_new', :as => 'fan_registration'
   match 'musician/registration' => 'users#musician_new', :as => 'musician_registration'
   get 'users/:id/activate' => 'users#activate', :as => 'user_activation'
   #get 'user/reset/password' => 'password_resets#index', :as => 'password_reset'
@@ -28,18 +55,16 @@ Soundmelon::Application.routes.draw do
   #get "invite/accept/:id/join" => "profile#activate_invitation" ,:as => "join_band_invitation"
   match 'invitation/accept/:old_user/:id/join' => 'profile#activate_invitation' ,:as => 'join_band_invitation'
   match "messages/sendmessage" => 'messages#send_message',:as=>"send_message" 
-  match 'user/profile/:id' => 'profile#user_profile',:as => 'user_profile'
-  match 'messages/inbox' => 'messages#inbox' ,:as => 'user_inbox'
+
+
   get ':band_name/messages/inbox' => 'messages#inbox' ,:as => 'band_inbox'
   resources :user_posts
   match 'post/:id/reply/(:band_id)' => 'user_posts#new_reply', :as => 'new_post_reply'
   match 'post/reply' => 'user_posts#reply', :as => 'post_reply'
-  get 'post/:id/threads' => 'user_posts#post_threads', :as => 'get_post_threads'
-  get 'mentioned/posts' => 'user_posts#mentioned', :as => 'mentioned'
-  get 'replies/posts' => 'user_posts#replies', :as => 'replies'
+
   
-  get ':band_name/mentioned/posts' => 'bands#mentions_post', :as => 'band_mentions_post'
-  get ':band_name/replies/posts' => 'bands#replies_post', :as => 'band_replies_post'
+  get ':band_name/mentioned/posts' => 'artist#mentions_post', :as => 'band_mentions_post'
+  get ':band_name/replies/posts' => 'artist#replies_post', :as => 'band_replies_post'
   
   match 'messages/:id/band/:band_id' => 'messages#show', :as => 'band_message' 
   resources :messages
@@ -50,9 +75,9 @@ Soundmelon::Application.routes.draw do
   match 'user/:id/posts/more/:page'   =>'user_posts#index', :as => :user_more_post
   match ':band_name/bulletins/more/:page' =>'bands#more_bulletins', :as => :band_more_bulletins
   match ':band_name/(:type)/posts/more/:page' =>'bands#more_posts', :as => :band_more_posts
-  get ':band_name/fans' => 'bands#fans', :as => :band_fans
+  get ':band_name/fans' => 'artist#fans', :as => :band_fans
   
-  match 'edit/profile' => 'profile#edit_profile', :as => 'user_profile_edit'
+
   match 'update/basic/profile' => 'profile#update_basic_info', :as => 'update_basic_info'
   match 'update/additional/info' => 'profile#update_additional_info', :as => 'update_additional_info'
   match 'update/password' => 'profile#update_password', :as => 'update_password'
@@ -80,20 +105,6 @@ Soundmelon::Application.routes.draw do
   #get 'fan/sign_up/message' => 'users#fan_signup_sucessful_info', :as => successful_fan_signup
   #get 'musician/sign_up/message' => 'users#musician_signup_sucessful_info', :as => successful_musician_signup
   
-  
-  get 'user/bands' => 'bands#index', :as => 'associated_band'
-  get 'user/new/band' => 'bands#new', :as => 'new_band'
-  post 'user/create/band' => 'bands#create', :as => 'create_band'
-  get 'manage/band/:band_name' => 'bands#manage', :as => 'manage_band'
-  get 'edit/band/:band_name' => 'bands#edit', :as => 'edit_band'
-  match 'update/band/:id' => 'bands#update', :as => 'update_band'
-  get ':band_name/members' => 'bands#members', :as => 'band_members'
-  get ':band_name/bandmates/inivtation' => 'bands#invite_bandmates', :as => 'bandmates_invitation'
-  get ':band_name' => 'bands#social', :as => 'show_band'
-  get ':band_name/social' => 'bands#social', :as => 'band_social'
-  get ':band_name/store' => 'bands#store', :as => 'band_store'
-  match ':band_name/bandmates/send/inviation' => 'bands#send_bandmates_invitation', :as => 'send_bandmates_invitation'
-    
   resources :album_photos
   get ':band_name/album/new'                      => 'band_photos#new', :as => 'new_band_album'
   get ':band_name/albums'                         => 'band_photos#band_albums', :as => 'band_albums'

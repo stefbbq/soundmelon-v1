@@ -1,6 +1,0 @@
-=form_tag band_send_message_path(:band_name => @band.name, :id => @band.id), :id => 'send_msg_form',:class=>"ajaxopen", :method=>:post,  :remote => :true do |f|
-  %h2
-    Type your message here to send message
-    = text_area_tag :body,'',{:class=>'inputbox',:rows=>5,:cols=>50 ,:maxlength => 200}
-    %br 
-    %input{:name => 'send', :id=>'send_message_btn', :type => 'submit', :value => 'Send' ,:class=>'button blue right'}

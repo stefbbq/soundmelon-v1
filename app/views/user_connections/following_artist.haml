@@ -1,0 +1,14 @@
+$('.primary .left').html('');
+- following = capture do
+  - @following_artists.each do |band|
+    .followuserbox{:id => "following_#{band.id}"}
+      .avatar
+        = link_to get_band_logo_small(band), show_band_path(:band_name => band.name), :class => 'follow-img'
+      .fusercontent
+        = link_to band.name, show_band_path(:band_name => band.name)
+      .clear
+  = paginate @following_artists, :remote => true
+$('.primary .left').html('#{escape_javascript(following)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.selection-box').removeClass('active').removeClass('.button-fill-fan');
+$('#following_artists .selection-box').addClass('active').addClass('.button-fill-fan');

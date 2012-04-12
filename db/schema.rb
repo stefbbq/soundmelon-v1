@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120325153112) do
+ActiveRecord::Schema.define(:version => 20120407083544) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(:version => 20120325153112) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "photo_count", :default => 0
+    t.boolean  "disabled",    :default => false
   end
 
   create_table "band_invitations", :force => true do |t|
@@ -201,6 +203,10 @@ ActiveRecord::Schema.define(:version => 20120325153112) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "price",                  :default => 0.0
+    t.boolean  "disabled",               :default => false
+    t.integer  "song_count",             :default => 0
+    t.boolean  "featured",               :default => false
   end
 
   create_table "songs", :force => true do |t|

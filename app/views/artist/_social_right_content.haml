@@ -1,0 +1,71 @@
+.right
+  .items
+    #user-post
+      .selection-box.active 
+        = link_to 'posts of this musician', show_band_path(:band_name => @band.name), :remote => 'true', :class => 'ajaxopen'
+    - if @is_admin_of_band
+      .selection-box
+        = link_to 'administer musician', manage_band_path(:band_name => @band.name)
+    #follow-unfollow
+      .selection-box
+        - if current_user.following?(@band)
+          = link_to 'unfollow this musician', unfollow_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen'
+        - else
+          = link_to 'follow this muscian', follow_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen'
+    #msg-user
+      .selection-box
+        = link_to '> message this musician', band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen"
+    .box-wrapper#musicbox
+      .selection-box
+        music box 
+        - unless @song_albums.blank?
+          %br
+            = link_to "see all", band_song_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
+      .band-box-content
+        - @song_albums.each do |song_album|
+          .song-album[song_album]
+            %span{ :class => 'album-cover-image'}
+              =link_to get_album_cover_image(song_album), band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+            = link_to song_album.album_name, band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+    .box-wrapper#photobox
+      .selection-box
+        photos 
+        - unless @photo_albums.blank?
+          %br 
+          =  link_to "see all", band_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
+      .band-box-content
+        - @photo_albums.each do |band_photo_album|
+          .song-album[band_photo_album]
+            %span{:class => 'album-cover-image'}
+              = link_to get_band_photo_album_teaser_photo(band_photo_album), band_album_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
+            = link_to band_photo_album.name, band_album_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
+    .box-wrapper#artistbox
+      .selection-box
+        connected to 
+        %span{ :class => 'artist-count'}
+          = pluralize(@band_members_count, 'artist')
+        - if @band_members_count >0
+          %br
+          =  link_to "see all", band_members_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
+      .band-box-content
+        %div
+          - @band_artists.each do |band_artist|
+            .artist-avatar
+              =link_to get_avatar_small(band_artist), fan_profile_path(band_artist)
+      .clear
+    .clear
+    .box-wrapper#fanbox
+      .selection-box
+        %span{ :class => 'artist-count'}
+          = pluralize(@band_fans_count, 'fan')
+        - if @band_fans_count > 0
+          %br
+          = link_to "see all", band_fans_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
+      .band-box-content
+        %div
+          - @band_fans.each do |band_fan|
+            .artist-avatar
+              = link_to get_avatar_small(band_fan), fan_profile_path(band_fan)
+      .clear
+    .clear
+.clear

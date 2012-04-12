@@ -9,17 +9,25 @@
   width: 630px;
 
 	//status update form
-	.statusinput {  
+	.status-input {  
 		@include border-radius($border-radius);
 	  margin: 0 auto;
 	
-	  .inputbox {
-	    color: #fff;
+	  .input-box {
+	    color: $text-faded-color;
 	    float: left;
 	  	background: rgba(black, .7);
 	    height: 24px;
-	    border: solid #4D4D4D 2px;
+	    border: 2px solid $text-faded-color;
 	    padding: 3px;
+	
+			&:hover {
+				border: 2px solid darken($text-color, 20);
+			}
+			&:focus {
+				color: $text-color;
+				border: 2px solid darken($text-color, 20);
+			}			
 	  }
 	  .post-btn {
 	    @include default-button;
@@ -35,7 +43,7 @@
 	}
 	
 	//header controls
-	.feed-msg-menu {
+	.social-menu {
 		overflow: hidden; 
 		margin-top: 16px;
 		
@@ -84,8 +92,8 @@
     text-align: right;
 		color: $text-faded-color;
     font-weight: bold;
-    -webkit-transform:rotate(270deg);
-    -moz-transform:rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
     -o-transform: rotate(270deg);
     filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
 
@@ -161,6 +169,9 @@
     .itemcontent{ width:80%; float:left}
     .righticons{ float:right;width:20%;text-align:right; }
   }
+
+	//bulletin posts
+	.bulletin-posts {}
 	
 	//read more button
   .readmore {

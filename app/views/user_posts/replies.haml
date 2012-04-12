@@ -1,12 +1,12 @@
-= render :partial=>"bricks/user_header_bar"
-= render :partial=>"profile/user_dash_board"
+= render :partial=>"fan/header"
+= render :partial=>"fan/live"
 .primary
   .left
     = render "user_posts/form"
-    = render "users/post_msg_header"
-    = render "shared/home_page_posts"
+    = render "fan/social_header"
+    = render "bricks/home_page_posts"
   .right
-    = render "users/user_right_box"
+    = render "fan/right"
 :javascript
   $('.left a').removeClass('active').removeClass('button-fill-fan');
   $('#replies').addClass('active').addClass('button-fill-fan');
