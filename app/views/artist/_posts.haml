@@ -8,9 +8,9 @@
   -if !@load_more_bulletins_path.nil?
     .readmore#bulletin-readmore
       =link_to("Read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
-.user-posts
+.user_posts
   - @posts_order_by_dates.each do |date, posts|
-    .date 
+    .date{:id =>"date_#{date.split('-').join()}"}
       %div
         %h1 
           = date.to_date.strftime('%b')

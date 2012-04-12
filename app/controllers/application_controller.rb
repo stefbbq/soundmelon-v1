@@ -9,14 +9,14 @@ class ApplicationController < ActionController::Base
   protected
   
   def get_user_associated_objects
-    @following_artists = current_user.following_band.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
-    @following_artists_count = current_user.following_band.count    
-    @following_users = current_user.following_user.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
-    @following_count = current_user.following_user.count    
-    @followers_users = current_user.user_followers.order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)
-    @followers_count = current_user.user_followers.count    
-    @playlist_songs = current_user.playlists
-    @playlist_songs_id = @playlist_songs.map{|playlist_song| playlist_song.song_id}
+    @following_artists        = current_user.following_band.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
+    @following_artists_count  = current_user.following_band.count
+    @following_users          = current_user.following_user.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
+    @following_count          = current_user.following_user.count
+    @followers_users          = current_user.user_followers.order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)
+    @followers_count          = current_user.user_followers.count
+    @playlist_songs           = current_user.playlists
+    @playlist_songs_id        = @playlist_songs.map{|playlist_song| playlist_song.song_id}
     @user ||= current_user
   end
 

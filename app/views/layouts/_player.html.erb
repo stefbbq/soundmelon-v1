@@ -28,7 +28,11 @@
     </div>
     <div class="jp-playlist">
       <ul>
-        <li></li>
+        <% for i in 0..@song_items.size-1
+            song = @song_items[i]
+        %>
+          <li><a href="javascript:void(0);" onclick="playListChange(<%= i %>);"><%= song.song_name_without_extension %></a></li>
+        <% end %>
       </ul>
     </div>
     <div class="jp-no-solution">
@@ -46,7 +50,7 @@
     $("#sm_jplayer").jPlayer({
       ready: function (event) {        
         playListChange(0);
-      },``
+      },
       
       ended:function(event){        
         playListNext();
