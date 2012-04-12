@@ -1,7 +1,7 @@
 <% if @band %>
-  $('.primary .left').html('<%= escape_javascript(render 'bands/post_msg_header') -%>');
+  $('.primary .left').html('<%= escape_javascript(render 'artist/social_header') -%>');
 <% else %>
-  $('.primary .left').html('<%= escape_javascript(render 'users/post_msg_header') -%>');
+  $('.primary .left').html('<%= escape_javascript(render 'fan/social_header') -%>');
 <% end %>
   $('.primary .left').append('<%= escape_javascript(render 'messages/inbox_messages', :messages => @messages) -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);  

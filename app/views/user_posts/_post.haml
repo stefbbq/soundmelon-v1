@@ -7,8 +7,8 @@
 = div_for post do
  .avatar
   - if !post.user_id.nil?
-   = link_to get_avatar_small(post.user), user_profile_path(post.user) if !self_owner
-   = link_to get_avatar_small(post.user), user_home_url if self_owner
+   = link_to get_avatar_small(post.user), fan_profile_path(post.user) if !self_owner
+   = link_to get_avatar_small(post.user), fan_home_url if self_owner
   - elsif !post.band_id.nil?
    = get_band_logo_small(post.band)
  %div{:class => 'content'}

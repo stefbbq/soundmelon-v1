@@ -28,7 +28,7 @@ class PhotosController < ApplicationController
     if @photo.save
       flash[:notice] = "Successfully created upload."
       respond_to do |format|
-        format.html {redirect_to user_home_url and return}
+        format.html {redirect_to fan_home_url and return}
         format.json {render :json => { :result => 'success', :upload => @photo.image.url(:thumb), :album_name => @album.name } }
       end
     else

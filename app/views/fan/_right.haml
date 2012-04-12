@@ -1,0 +1,46 @@
+.items
+  = link_to 'news feed & messages', fan_home_path, :id=>'feed-msg', :class=>'button-fill-fan selection-box iconactive ajaxload active', :remote => true
+  #following_artists.box-wrapper
+    .selection-box
+      following
+      %span.artist-count
+        = pluralize(@following_artists_count, 'artist')
+      %br
+      = link_to 'see all', fan_following_artists_path, :remote=>:true, :class=>'small-font ajaxopen'
+    .collection
+      %div
+        - @following_artists.each do |band|
+          .artist-avatar
+            = link_to get_band_logo_small(band), show_band_path(:band_name => band.name)
+      .clear
+  .clear
+  #following_fans.box-wrapper
+    .selection-box
+      following
+      %span.artist-count
+        = pluralize(@following_count,'fan')
+      %br/
+      = link_to 'see all', fan_following_path, :remote=>:true, :class=>'small-font ajaxopen'
+    .collection
+      %div
+        - @following_users.each do |fan_following|
+          .artist-avatar
+            = link_to get_avatar_small(fan_following), fan_profile_path(fan_following)
+      .clear
+  .clear
+  #followers.box-wrapper
+    .selection-box
+      %span.artist-count
+        = pluralize(@followers_count,'follower')
+      %br/
+      = link_to 'see all', fan_followers_path, :remote=>:true, :class=>'small-font ajaxopen'
+    .collection
+      %div
+        - @followers_users.each do |fan_followers|
+          .artist-avatar
+            = link_to get_avatar_small(fan_followers), fan_profile_path(fan_followers)
+      .clear
+  .divider
+  = link_to 'manage your profile', manage_profile_path, :id=>'manage-profile', :remote => true, :class => 'selection-box ajaxopen'
+  = link_to 'access artist profile', associated_band_path, :id=>'access-artist', :remote => true, :class => 'selection-box ajaxopen'  
+  .clear

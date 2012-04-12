@@ -1,0 +1,23 @@
+- if !@bulletins.blank?
+  .date
+    %div
+      %h1
+        Bulletin
+  .bulletin-posts
+    = render 'user_posts/user_post', :posts => @bulletins
+  -if !@load_more_bulletins_path.nil?
+    .readmore#bulletin-readmore
+      =link_to("Read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
+.user-posts
+  - @posts_order_by_dates.each do |date, posts|
+    .date 
+      %div
+        %h1 
+          = date.to_date.strftime('%b')
+        %h2
+          = date.to_date.strftime('%d')
+    = render 'user_posts/user_post', :posts => posts
+    .clear
+-if !@load_more_path.nil?
+  .readmore
+    = link_to('read more', @load_more_path, :remote=>true, :class=>'ajaxload')    

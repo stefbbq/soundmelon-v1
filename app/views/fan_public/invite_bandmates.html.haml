@@ -1,0 +1,20 @@
+- content_for :tophead do
+  #homehead
+    %h2
+      %a{:href => "#"} SoundMelon
+    Musician Registration
+.blankbox
+  = link_to "Skip", fan_home_path,:class=>"button right"
+.blankbox
+  %h3 Invite bandmates
+  invite other people to join your band page
+.content-box
+  .registrationform
+    = form_for @band, :url=> invite_band_member_path,:method=>:post do |f|
+      = f.fields_for :band_invitations do |band_invitation|
+        = render :partial => 'band_invitation_fields', :locals => {:f => band_invitation}
+      %span.radiolabel
+        = link_to_add_fields "Add another", f, :band_invitations
+      .right
+        = f.submit("Send Invitations" ,:class=>"button")
+      .clear

@@ -4,6 +4,9 @@
 @import 'vars'; //global variables
 @import 'mixins'; //custom mixins
 
+//generic
+.dimmed {opacity: .4;}
+
 //misc
 .radiolabel { 
   @include border-radius($border-radius); 
@@ -26,6 +29,9 @@
 
 #contact_list {height:220px;overflow:auto;}
 .recaptcha_theme_red #recaptcha_response_field {left:-4px;}
+
+//
+//main overlay
 #facebox {
   color:#000;
   .shaded {color:#776B6B;}
@@ -136,170 +142,123 @@ ul {
 	//
 	//header
   #header {
-    position: relative;
+		@include box-shadow(rgba(black, .3), 0px, 3px, 5px, 0px);
+    position: fixed;
     margin: 0 auto; 
     height: 156px;
-
-    > div {
-			@include box-shadow(rgba(black, .3), 0px, 3px, 5px, 0px);
-      z-index:999;
-      width: $page-width;
-      top:0px;
-			background: url(base-page-bg-shaded-flipped.jpg);
-		 	position:fixed;
-			border-bottom: 1px solid rgba(white, .15);
-		
-			//logo and session
-			.top-bar {
-				height: 45px;
-				
-				.site-logo { float: left; }
-				.session {
-					float: right;
-					margin: 20px $base-content-clear 0 0;
-					
-					#logout {
-						@include inverted-button;
-						padding: 4px 8px;
-						margin-left: 3px;
-					}
-				}
-			}
+    z-index:999;
+    width: $page-width;
+    top:0px;
+		background: url(base-page-bg-shaded-flipped.jpg);
+		border-bottom: 1px solid rgba(white, .15);
 			
-			//player and notifications
-			.middle-bar {
-				.mplayerbar {
-					display: block;
-					float: left;
-					.jp-title {display: none;}
-				}
-				.notifications {
-					margin-right: $base-content-clear;
-					float: right;
-					
-					> div {
-						float: left;
-						width: 50px;
-						height: 50px;
-						text-align: center;
-						font-size: 10px;
-						
-						> a {
-							@include inverted-button;
-							@include draw-circle;
-							margin: 0px auto 4px auto;
-							display: block;
-							padding: 8px;
-							text-align: center;
-							width: 14px;
-							height: 14px;
-						}
-					}				
-				}
-			}
-			
-			//menu and search
-			.bottom-bar {
-				.menu {
-	        width:59%;
-	        float:left;
-	        ul {
-	         	list-style:none;
-						
-						li {
-							@include border-radius($border-radius);
-							float:left;
-							margin:5px;
-							padding:5px;
-							background:#515151;
-							
-							a {
-							  color:#D1D1D1; 
-							  text-decoration:none; 
-							  font-weight:bold;
-							  font-size:16px;
-							}
-						}
-	        }
-	      }
-	      .searchbox{  
-	        text-align:right;
-	        margin:15px 1% 0 0;
-	        width:39%;
-	        float:right;
+		> div {
+			width: 100%;
+			overflow: hidden;
+		}
 	
-	        .searchinput {
-				    @include border-radius($border-radius);
-	          color:#D1D1D1;
-	          font-weight:bold;
-	          font-size:16px;
-	          padding:5px;
-	          background:#515151;
-	          border:solid 2px #AEAEAE;
-	        }
-			  }
+		//logo and session
+		.top-bar {
+			height: 53px;
+			
+			.site-logo { float: left; }
+			.session {
+				float: right;
+				margin: 20px $base-content-clear 0 0;
+				
+				#logout {
+					@include inverted-button;
+					padding: 4px 8px;
+					margin-left: 3px;
+				}
 			}
-    }
+		}
+			
+		//player and notifications
+		.middle-bar {
+			margin-top: 5px; 
+			.mplayerbar {
+				display: block;
+				float: left;
+				.jp-title {display: none;}
+			}
+			.notifications {
+				margin: 12px ($base-content-clear - 2px) 0 0;
+				float: right;
+				
+				> div {
+					float: left;
+					height: 50px;
+					width: 50px;
+					text-align: center;
+					font-size: 10px;
+					
+					> a {
+						@include inverted-button;
+						@include draw-circle;
+						margin: 0px auto 6px auto;
+						display: block;
+						padding-top: 6px;
+						text-align: center;
+						width: 14px;
+						height: 14px;
+						font-size: 12px;
+					}
+				}				
+			}
+		}
+		
+		//menu and search
+		.bottom-bar {
+			.menu {
+				display: none;
+        width:59%;
+        float:left;
+        ul {
+         	list-style:none;
+					
+					li {
+						@include border-radius($border-radius);
+						float:left;
+						margin:5px;
+						padding:5px;
+						background:#515151;
+						
+						a {
+						  color:#D1D1D1; 
+						  text-decoration:none; 
+						  font-weight:bold;
+						  font-size:16px;
+						}
+					}
+        }
+      }
+      .search {  
+        text-align:right;
+				margin-right: $base-content-clear;
+        float:right;
+
+        .search-input {
+			    @include border-radius($border-radius);
+					background: rgba(black, .5);
+					border: 1px solid rgba(white, .2);			
+					outline: none;
+					width: 230px;
+          color: white;
+          font-weight:bold;
+          font-size:16px;
+          padding:5px;
+        }
+		  }
+		}
   }
 
 	//
 	//page content
   #content {
-    margin-top: 30px;
+    padding-top: 165px;
     min-height: 300px;
 
-		//live wall
-    .live {
-			overflow: hidden;
-			margin: 0 -8px 0px -8px;
-			
-			.profile-image { 
-        width: 414px;
-				height: 246px;
-        float: left;
-				background: #222;
-        overflow: hidden;
-        text-align: center;
-
-        a {
-          @include border-radius($border-radius);
-          padding:0px 20px;
-          background:#515151;
-          color:#fff;
-          border:none;
-          font-weight:bold;
-          text-decoration:none;
-        }
-      }
-			
-			.links {
-				float: right;
-				
-				.top {
-					display: block;
-					
-					> div {
-						background: url(live/live-default-top.jpg); 
-						width: 549px;
-						height: 118px;
-					}
-				}
-				.bottom {
-					margin-top: 10px; 
-					.left {
-						background: url(live/live-default-left.jpg); 
-						width: 270px;
-						height: 118px;
-					}
-					.right {
-						background: url(live/live-default-right.jpg); 
-						width: 270px;
-						height: 118px;
-					}
-				}
-			}
-    }
-		
 		//primary content area
     .primary {
 			background: url(base-page-bg-shaded.jpg) top center no-repeat;
@@ -336,58 +295,6 @@ ul {
       }
       .actions{ padding-left:70%; }
     }
-  }
-
-  .profilehead{
-    .mplayerbar{
-      .logo{
-      	@include box(40px,40px,#515151);
-       	@include border-radius(20px);
-       	margin:10px;
-       	float:left;
-       	text-align:center;
-       	p{font-size:35px;margin:0;}
-     	} 
-     .playerbox{ float:left; @include box(45%,55px,#212121);}
-     .headrightbox{
-       font-weight:bold;
-       float:right;
-       @include box(48%,55px,#212121); 
-       .icons{ 
-         margin-top:10px;
-         .name{float:left; margin:0 20px;} 
-         .numbericon{ 
-           float:left; 
-           margin-left:10px;
-           text-align:center;
-           font-size:17px;
-           @include box(20px,20px,#FFCB2B);
-           @include border-radius(10px);   
-           a{ color:#000; text-decoration:none;}
-         }
-         .othericon1{ 
-           color:#C2C2C2; 
-           float:left; 
-           margin-left:10px;
-           text-align:center;
-           font-size:17px;
-           @include box(20px,20px,"");
-           @include border-radius(10px);   
-           a{ color:#C2C2C2; text-decoration:none;}
-         }
-         .othericon{
-           color:#000;
-           float:left;
-           margin-left:10px;
-           text-align:center;
-           font-size:17px;
-           @include box(20px,20px,#C2C2C2);
-           @include border-radius(10px);   
-           a{ color:#000; text-decoration:none;}
-         }
-       }
-     }
-   }   
   }
 }
 

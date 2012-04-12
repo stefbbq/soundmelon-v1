@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   def create
     user = login(params[:email],params[:password])
     if user
-      redirect_back_or_to user_home_url, :notice => 'Logged in'
+      redirect_back_or_to fan_home_url
     else
       redirect_back_or_to root_url, :alert => 'Email or password is invalid'
     end
@@ -14,5 +14,4 @@ class SessionsController < ApplicationController
     logout
     redirect_to root_url, :notice => 'Logged out'
   end
-
 end

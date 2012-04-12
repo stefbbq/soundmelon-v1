@@ -1,9 +1,9 @@
-.statusinput
+.status-input
  = form_tag(post_reply_path, :class=>"ajaxopen", :remote => true, :id => 'user_post_form') do
   = hidden_field_tag :parent_post_id, @parent_post.id
   - if @band
    = hidden_field_tag :band_id, @band.id
-  = text_area :post, :msg, :class=>"inputbox mention" ,:maxlength => 200, :cols => 50, :rows => 10
+  = text_area :post, :msg, :class=>"input-box mention" ,:maxlength => 200, :cols => 50, :rows => 10
   .postbtn
    = submit_tag('Post',:class=>"button blue right")
   .clear

@@ -24,7 +24,7 @@ class InviteController < ApplicationController
         format.js and return
       end
    else
-    redirect_to user_home_url and return   
+    redirect_to fan_home_url and return   
    end
   end
   

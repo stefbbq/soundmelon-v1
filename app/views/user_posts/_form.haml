@@ -1,8 +1,8 @@
-.statusinput
+.status-input
   = form_tag(user_posts_path, :class=>"ajaxload",:remote => true, :id => 'user_post_form') do
     - if @band
       = hidden_field_tag :band_id, @band.id
-    = text_area :post, :msg, :class=>"inputbox mention" ,:maxlength => 200
+    = text_area :post, :msg, :class=>"input-box mention",:value=>"share something...",:maxlength => 200
     = submit_tag('post',:class=>"post-btn")
     .clear
   %span.inputerror
@@ -18,4 +18,7 @@ $(function () {
       callback.call(this, data);
     }
   });
+  $('.status-input .input-box').focus(function() {
+    $(this).val("");
+    });
 });
