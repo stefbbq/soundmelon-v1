@@ -1,12 +1,12 @@
 .user_posts
   -@posts_order_by_dates.each do |date, posts|
-    .date 
+    .date{:id =>"date_#{date.split('-').join()}"}
       %div
         %h1 
           = date.to_date.strftime("%b")
         %h2
           = date.to_date.strftime("%d")
-    = render 'user_posts/user_post', :posts => posts      
+    = render 'user_posts/user_post', :posts => posts
     .clear
 -if !@load_more_path.nil?
   .readmore
