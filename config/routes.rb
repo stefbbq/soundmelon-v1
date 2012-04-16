@@ -16,19 +16,20 @@ Soundmelon::Application.routes.draw do
   get 'home/mentions' => 'user_posts#mentioned', :as => 'mentioned' #mentions
   get 'home/replies' => 'user_posts#replies', :as => 'replies' #replies
   match 'home/messages' => 'messages#inbox' ,:as => 'user_inbox' #messages
-
   get 'home/(:id)/followers' => 'user_connections#followers', :as => 'fan_followers'
   get 'home/(:id)/following' => 'user_connections#following', :as => 'fan_following'
   get 'home/(:id)/following/artists' => 'user_connections#following_artists', :as => 'fan_following_artists'  
+  
+  #fan functions
+  get 'user/bands' => 'artist#pull', :as => 'associated_band'
+  get 'user/new/band' => 'artist#new', :as => 'new_band'
+  post 'user/create/band' => 'artist#create', :as => 'create_band'
   match 'home/manage' => 'fan_public#manage_profile', :as => 'manage_profile' #manage session profile
     
   #fan public
   match 'fan/(:id)' => 'fan_public#index',:as => 'fan_profile'  
   
   #artist
-  get 'user/bands' => 'artist#pull', :as => 'associated_band'
-  get 'user/new/band' => 'artist#new', :as => 'new_band'
-  post 'user/create/band' => 'artist#create', :as => 'create_band'
   get 'home/artist/:band_name' => 'artist#index', :as => 'manage_band'
   get 'edit/band/:band_name' => 'artist#edit', :as => 'edit_band'
   match 'update/band/:id' => 'artist#update', :as => 'update_band'

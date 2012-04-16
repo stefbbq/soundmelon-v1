@@ -1,0 +1,16 @@
+$('.primary .left').html('');
+- following = capture do
+  - @following.each do |user|
+    .followuserbox{:id => "following_#{user.id}"}
+      .avatar
+        = link_to get_avatar_small(user), fan_profile_path(user.id), :class => 'follow-img'
+      .fusercontent
+        = link_to user.get_full_name, fan_profile_path(user.id)
+        = link_to "Unfollow", unfollow_user_path(user.id), :remote => true, :class => 'ajaxopen right' if @current_user_following
+      .clear
+  = paginate @following, :remote => true
+$('.primary .left').html('#{escape_javascript(following)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.right .selection-box').removeClass('active').removeClass('button-fill-fan');
+$('#following_fans .selection-box').addClass('active').addClass('button-fill-fan');
+set_right_height();

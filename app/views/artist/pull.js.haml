@@ -27,5 +27,6 @@ $('.primary .left').html('');
         %hr/
 $('.primary .left').html('#{escape_javascript(content)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('div').removeClass('active');
-$('#musician-access .selection-box').addClass('active');
+$('.selection-box').removeClass('active').removeClass('button-fill-fan');
+$('#access-artist').addClass('active').addClass('button-fill-fan');
+set_right_height();

@@ -6,7 +6,7 @@
           = date.to_date.strftime('%b')
         %h2
           = date.to_date.strftime('%d')
-    = render 'user_posts/user_post', :posts => posts
+    = render 'user_posts/post_aggregate', :posts => posts
     .clear
 -if !@load_more_path.nil?
   .readmore

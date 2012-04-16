@@ -145,10 +145,10 @@ ul {
 		@include box-shadow(rgba(black, .3), 0px, 3px, 5px, 0px);
     position: fixed;
     margin: 0 auto; 
-    height: 156px;
-    z-index:999;
+    height: 153px;
+    z-index: 999;
     width: $page-width;
-    top:0px;
+    top: 0px;
 		background: url(base-page-bg-shaded-flipped.jpg);
 		border-bottom: 1px solid rgba(white, .15);
 			
@@ -183,7 +183,7 @@ ul {
 				.jp-title {display: none;}
 			}
 			.notifications {
-				margin: 12px ($base-content-clear - 2px) 0 0;
+				margin: 8px ($base-content-clear - 2px) 8px 0;
 				float: right;
 				
 				> div {
@@ -233,18 +233,20 @@ ul {
 					}
         }
       }
-      .search {  
-        text-align:right;
+      .search {
+        text-align: right;
 				margin-right: $base-content-clear;
-        float:right;
+        float: right;
 
         .search-input {
-			    @include border-radius($border-radius);
+			    @include border-radius($border-radius $border-radius 0 0);
 					background: rgba(black, .5);
-					border: 1px solid rgba(white, .2);			
+					border: 1px solid rgba(white, .2);
+					border-bottom: 1px solid $live-bg-color;
 					outline: none;
+					height: 18px;
 					width: 230px;
-          color: white;
+          color: $text-faded-color;
           font-weight:bold;
           font-size:16px;
           padding:5px;
@@ -256,7 +258,7 @@ ul {
 	//
 	//page content
   #content {
-    padding-top: 165px;
+    padding-top: 162px;
     min-height: 300px;
 
 		//primary content area
@@ -272,10 +274,10 @@ ul {
 	//
 	//registartion form
   .registrationform{
-    margin:0 auto;
-    color:$input-bg-color;
-    .fields{
-      label{ 
+    margin: 0 auto;
+    color: $input-bg-color;
+    .fields {
+      label { 
         padding-top:4px;
         float:left;
         width:40%;
@@ -283,7 +285,7 @@ ul {
         text-align:right;
         font-size:2*$size; 
       }
-      .textfield{   
+      .textfield {   
         @include border-radius($border-radius); 
         border:solid #4D4D4D 2px;
         padding:2px;
@@ -293,7 +295,7 @@ ul {
         height:20px;
         width:350px;
       }
-      .actions{ padding-left:70%; }
+      .actions { padding-left:70%; }
     }
   }
 }

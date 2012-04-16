@@ -1,0 +1,3 @@
+!= "setTimeout('$(document).trigger(\"close.facebox\")',10);"
+- if @saved_successfully 
+  != "$('.user_posts').prepend('#{escape_javascript(render 'user_posts/post', :post => @post)}');"
