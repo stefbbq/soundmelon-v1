@@ -1,4 +1,5 @@
-$('.primary .left').html('<%= escape_javascript(render 'artist/post_msg_header') -%>');
+$('.primary .left').html('<%= escape_javascript(render 'status_input') -%>');
+$('.primary .left').append('<%= escape_javascript(render 'artist/social_header') -%>');
 $('.primary .left').append('<%= escape_javascript(render 'artist/posts') -%>');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.left a').removeClass('active').removeClass('button-fill-fan');

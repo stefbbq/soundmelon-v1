@@ -1,8 +1,6 @@
 
 <% @song_items = @song_items || current_user.find_radio_feature_playlist_songs %>
-
 <div id="sm_jplayer" class="jp-jplayer"></div>
-
 <div id="jp_container_1" class="jp-audio">
   <div class="jp-type-playlist">
     <div class="jp-gui jp-interface">
@@ -29,9 +27,11 @@
     <div class="jp-playlist">
       <ul>
         <% for i in 0..@song_items.size-1
-            song = @song_items[i]
+          song = @song_items[i]
         %>
-          <li><a href="javascript:void(0);" onclick="playListChange(<%= i %>);"><%= song.song_name_without_extension %></a></li>
+          <li>
+            <a href="javascript:void(0);" class="jp-playlist-item" onclick="playListChange(<%= i %>);"><%= song.song_name_without_extension %></a>
+          </li>
         <% end %>
       </ul>
     </div>
@@ -46,43 +46,56 @@
   //<![CDATA[
   $(document).ready(function(){
     var currentTrack = 0;
-
     $("#sm_jplayer").jPlayer({
       ready: function (event) {        
         playListChange(0);
-      },
-      
+      },      
       ended:function(event){        
         playListNext();
-      },
-      
+      },      
       swfPath: "../js",
       supplied: "m4a",
       wmode: "window"
     });
 
     $(".jp-previous").click(function() { playListPrev(); }); // Listen for Previous Track button click
-    $(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click
-     
-    // Switch track
-    function playListChange(index) {      
-      currentTrack = index;
-      //$("#playerSongInfo").html(playList[currentTrack].artist + ' - <em>' + playList[currentTrack].title + '</em>');      
-      $("#sm_jplayer").jPlayer("setMedia", { m4a:playList[currentTrack]['mp3'] }).jPlayer('play');
-    }
+    $(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click     
 
-    // Play next track. If already on last track, start back at the begining
-    function playListNext() {
-      var index = (currentTrack + 1 < playList.length) ? currentTrack + 1 : 0;
-      playListChange(index);
-    }
-
-    // Play previous track. If already on first track, start back at the end
-    function playListPrev() {
-      var index = (currentTrack - 1 >= 0) ? currentTrack - 1 : playList.length-1;
-      playListChange(index);
-    }
   });
+
+  // Switch track
+  function playListChange(index) {
+    if(playList[index]){
+      currentTrack = index;
+      //$("#playerSongInfo").html(playList[currentTrack].artist + ' - <em>' + playList[currentTrack].title + '</em>');
+      $("#sm_jplayer").jPlayer("setMedia", { m4a:playList[currentTrack]['mp3'] }).jPlayer('play');
+    }      
+  }
+
+  // Play next track. If already on last track, start back at the begining
+  function playListNext() {
+    var index = (currentTrack + 1 < playList.length) ? currentTrack + 1 : 0;
+    playListChange(index);
+  }
+
+  // Play previous track. If already on first track, start back at the end
+  function playListPrev() {
+    var index = (currentTrack - 1 >= 0) ? currentTrack - 1 : playList.length-1;
+    playListChange(index);
+  }
+  // add new song item to the playlist
+  function addToPlayList(song_name, song, pos){
+    var counter = pos == '' ? playList.length-1 : pos;
+    $('.jp-playlist ul').prepend("<li> <a class='jp-playlist-item' href='javascript:void(0);' onclick='playListChange(" + counter +");'>" + song_name + "</a></li>");
+  }
+
+  function preparePlayList(){
+    $('.jp-playlist ul li').remove();
+    for(var i=0; i<playList.length;i++){
+      item = playList[i];
+      addToPlayList(item['title'], item['mp3'], i);
+    }
+  }
 
   var playList = [
 <% for i in 0..@song_items.size-1 %>

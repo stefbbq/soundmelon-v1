@@ -1,33 +1,34 @@
 - content_for :tophead do
-  .top-bar
-    = render :partial=>"bricks/logo"
-    .session
-      = WELCOME_MSG
-      = link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class=>"user-info"
-      = link_to "logout", logout_path, :id=>"logout"
-  .middle-bar
-    .mplayerbar{:style => "width: 530px; height: 60px; background: #222;"}
-      = render 'layouts/player'
-    .notifications
-      %div
-        -if @unread_post_replies_count > 0
-          = link_to @unread_post_replies_count, replies_path
-        -else
-          = link_to @unread_post_replies_count, replies_path, :class=>"dimmed"
-        replies
-      %div
-        -if @unread_mentioned_count > 0
-          = link_to @unread_mentioned_count, mentioned_path
-        -else
-          = link_to @unread_mentioned_count, mentioned_path, :class=>"dimmed"
-        mentions
-      %div
-        -if @unread_messages_count > 0
-          = link_to @unread_messages_count, user_inbox_path
-        -else
-          = link_to @unread_messages_count, user_inbox_path, :class=>"dimmed"
-        messages
-      .clear
-  .bottom-bar
-    = render :partial=>"bricks/header_menu_items"
-    = render :partial=>"bricks/search"
+  .profilehead
+    .top-bar
+      = render :partial=>"bricks/logo"
+      .session
+        = WELCOME_MSG
+        = link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class=>"user-info"
+        = link_to "logout", logout_path, :id=>"logout"
+    .middle-bar
+      .mplayerbar
+        = render 'layouts/player'
+      .notifications
+        %div
+          -if @unread_post_replies_count > 0
+            = link_to @unread_post_replies_count, replies_path
+          -else
+            = link_to @unread_post_replies_count, replies_path, :class=>"dimmed"
+          replies
+        %div
+          -if @unread_mentioned_count > 0
+            = link_to @unread_mentioned_count, mentioned_path
+          -else
+            = link_to @unread_mentioned_count, mentioned_path, :class=>"dimmed"
+          mentions
+        %div
+          -if @unread_messages_count > 0
+            = link_to @unread_messages_count, user_inbox_path
+          -else
+            = link_to @unread_messages_count, user_inbox_path, :class=>"dimmed"
+          messages
+        .clear
+    .bottom-bar
+      = render :partial=>"bricks/header_menu_items"
+      = render :partial=>"bricks/search"

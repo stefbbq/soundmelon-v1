@@ -1,8 +1,7 @@
 class SearchController < ApplicationController
   before_filter :require_login, :except => [:check_bandname]
   
-  def index
-    messages_and_posts_count
+  def index    
     @user_search_results = Sunspot.search User do |query| 
       query.keywords params[:q]
       query.with :activation_state, 'active'
@@ -11,6 +10,15 @@ class SearchController < ApplicationController
     @band_search_results = Sunspot.search Band do |query| 
       query.keywords params[:q]
     end
+
+    if request.xhr?      
+      respond_to do |format|
+        format.js
+      end
+    else
+     messages_and_posts_count
+    end
+
   end
   
   def autocomplete_suggestions
