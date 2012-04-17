@@ -6,10 +6,8 @@
       %span.add_more
         = link_to image_tag('add.png'), new_band_song_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
       - unless @song_albums.blank?
-        /
-          br />
-          <haml:loud>  link_to &quot;see all&quot;, band_song_albums_path(:band_name =&gt; @band.name), :remote=&gt;:true, :class=&gt;&quot;small-font ajaxopen&quot; </haml:loud>
-          <-
+        %br/
+        = link_to "see all", band_song_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
       %br/
       = link_to "edit music", band_song_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
     .band-box-content
@@ -17,8 +15,8 @@
         .song-album{:id => "song_album_#{song_album.id}"}
           = link_to image_tag('add.png'), edit_band_song_album_path(:band_name => @band.name, :song_album_name => song_album.album_name ), :remote => true, :class => 'ajaxopen'
           %span.album-cover-image
-            = link_to get_album_cover_image(song_album), band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
-          = link_to song_album.album_name, band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+            = link_to get_album_cover_image(song_album), band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+          = link_to song_album.album_name, band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
   #photobox.box-wrapper
     .selection-box
       photos
@@ -34,8 +32,8 @@
         .song-album{:id => "band_album_#{band_photo_album.id}"}
           = link_to image_tag('add.png'), add_photos_to_album_path(:band_name => @band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
           %span.album-cover-image
-            = link_to get_band_photo_album_teaser_photo(band_photo_album), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
-          = link_to band_photo_album.name, band_album_photos_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
+            = link_to get_band_photo_album_teaser_photo(band_photo_album), band_album_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
+          = link_to band_photo_album.name, band_album_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
           = link_to image_tag('remove.png'), delete_album_path(:band_name => @band.name, :band_album_name => band_photo_album.name), :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen"
   #artistbox.box-wrapper
     .selection-box
@@ -64,7 +62,7 @@
             = link_to get_avatar_small(band_fan), fan_profile_path(band_fan)
       .clear
   .clear
-  .divider  
+  .divider
   = link_to 'manage your profile' , edit_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box'
   = link_to 'manage bandmates' , bandmates_invitation_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box'
   

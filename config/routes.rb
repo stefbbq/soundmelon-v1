@@ -40,11 +40,7 @@ Soundmelon::Application.routes.draw do
   get ':band_name/store' => 'artist#store', :as => 'band_store'
   match ':band_name/bandmates/send/inviation' => 'artist#send_bandmates_invitation', :as => 'send_bandmates_invitation'
 
-
-
-
-
-get "profile/additional_info"
+  get "profile/additional_info"
   
   match 'fan/registration' => 'fan#fan_new', :as => 'fan_registration'
   match 'musician/registration' => 'users#musician_new', :as => 'musician_registration'
@@ -151,8 +147,6 @@ get "profile/additional_info"
   match 'buzz/:id/create' => 'buzz#song_buzz_post', :as => 'song_buzz_post'
   match ':album_name/:id/photobuzz/create' => 'buzz#band_album_buzz_post', :as => 'band_album_buzz_post'
   match 'photobuzz/:id/create' => 'buzz#band_photo_buzz_post', :as => 'band_photo_buzz_post'
-
-
 
   #match ':song_name/:id/buzz/create' => 'buzz#song_buzz_post', :as => 'song_buzz_post' 
   

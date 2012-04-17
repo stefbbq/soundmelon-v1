@@ -17,11 +17,3 @@ if(newPlayList.length>0)
     playList.push(newPlayList[i]);
   playListChange(current_length);
 }
-
-function playListChange(index) {
-  currentTrack = index;
-  //$("#playerSongInfo").html(playList[currentTrack].artist + ' - <em>' + playList[currentTrack].title + '</em>');
-  $("#sm_jplayer").jPlayer("setMedia", { m4a:playList[currentTrack]['mp3'] }).jPlayer('play');
-}
-
-

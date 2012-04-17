@@ -37,7 +37,13 @@
   text-shadow: 0 -1px 0 #398C04;
 }
 .associated-bands:hover > .switch-lists{display:block;}
-.switch-lists{display:none; z-index:1;position:absolute;background-color:#212121;padding:3px;color:black;margin-top:2px; margin-right:5px;text-align:left;}
+.switch-lists{display:none;
+    z-index:1;position:
+    absolute;background-color:#212121;
+    padding:3px;
+    color:black;
+    margin-top:2px;
+    margin-left:260px;text-align:left;}
 .switch-lists > ul {
   font-size: 12px;
   margin: 0;
@@ -46,7 +52,7 @@
 }
 .switch-lists > ul > li{}
 .switch-lists > ul > li > a{color:#b5b5b5;font-weight:bold;border-bottom: 1px solid #ccc;}
-.associated-bands{float:right; margin-top:-8px;padding-right:70px;}
+.associated-bands{float:right; margin-top:-8px;padding-right:7px;}
 .band-logo-sml{
   float:left; 
   background-color: #212121;

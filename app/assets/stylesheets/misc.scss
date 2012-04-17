@@ -57,6 +57,36 @@
   text-align: center;
   width: 185px;
 }
+.site-logo{float:left;}
+.session{
+  text-align:right;
+  padding-right:35px;
+  padding-top:33px;
+  .user-info{
+    font-size: 12px;
+    font-size:15px;
+  }
+}
+.alerts{float:left;}
+.alerts{right:20px; padding-bottom:5px; font-weight:bold; font-size:14px; width:245px;
+       ul{ display:block;
+	       li{
+
+			   float:left;
+			   text-align:center
+
+			   }
+			a{
+			   background:url(alert.jpg)no-repeat center 3px;
+			   padding:8px 11px;
+		     }
+			 h2{font-size:14px;
+			  color:#767676;
+			  margin-top:5px
+			 }
+	   }
+
+}
 .album {
    width: 100%;
    background: #212121;

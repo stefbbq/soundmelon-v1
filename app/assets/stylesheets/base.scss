@@ -9,9 +9,9 @@
 
 //misc
 .radiolabel { 
-  @include border-radius($border-radius); 
-	margin: 3px 10px;
-  padding: 5px 10px; 
+  @include border-radius($border-radius);
+  margin: 3px 10px;
+  padding: 5px 10px;
   height: 30px;
   background: #4D4D4D;
   color: #000;
@@ -19,12 +19,18 @@
   font-weight: bold;
 }
 .circle {
-  background: #fff; 
-  width: 80px; 
-  height: 80px;   
+  background: #fff;
+  width: 80px;
+  height: 80px;
   -webkit-border-radius: 40px;
   -moz-border-radius: 40px;
   border-radius: 40px;
+}
+
+.new_border{-moz-border-radius:10px 10px 0px 0px !important;
+  -webkit-border-radius:10px 10px 10px 10px !important;
+  -o-border-radius:10px 10px 10px 10px !important;
+  border-radius:10px 10px 0px 0px !important;
 }
 
 #contact_list {height:220px;overflow:auto;}
@@ -37,33 +43,33 @@
   .shaded {color:#776B6B;}
   h2 {font-size:13px;color:#000;}
   h1 {font-size:2*$size;color:#000;}
-  .fields { 
-    label { 
-      width:35%; 
-      padding-top:4px; 
-      float:left;  
+  .fields {
+    label {
+      width:35%;
+      padding-top:4px;
+      float:left;
       color:#000;
       text-align:right;
       font-size:1.8*$size;
-    } 
+    }
     .textfield {
-      width:200px; 
-      float:left;  
-      @include border-radius($border-radius); 
-      border:solid #4D4D4D 2px; 
-      padding:2px; 
-      background:#323232; 
-      color:#fff;  
+      width:200px;
+      float:left;
+      @include border-radius($border-radius);
+      border:solid #4D4D4D 2px;
+      padding:2px;
+      background:#323232;
+      color:#fff;
       height:20px;
     }
-    select {   
-      width:200px; 
-      float:left;  
-      @include border-radius($border-radius); 
-      border:solid #4D4D4D 2px; 
-      padding:2px; 
-      background:#323232; 
-      color:#fff;  
+    select {
+      width:200px;
+      float:left;
+      @include border-radius($border-radius);
+      border:solid #4D4D4D 2px;
+      padding:2px;
+      background:#323232;
+      color:#fff;
       height:20px;
       option{ padding:2px; }
     }
@@ -72,29 +78,29 @@
 .age {font-size:2*$size;color:#fff;}
 .fields {   
   label {
-    padding-top:4px; 
-    float:left; 
-    width:200px; 
-    color:#fff; 
-    text-align:right; 
+    padding-top:4px;
+    float:left;
+    width:200px;
+    color:#fff;
+    text-align:right;
     font-size:2*$size;
   }
-  .textfield { 
+  .textfield {
     @include border-radius($border-radius);
     border:solid #4D4D4D 2px;
-    padding:2px; 
-    background:#323232; 
-    color:#fff; 
+    padding:2px;
+    background:#323232;
+    color:#fff;
     margin:3px 0 0 20px;
     height:20px;
   }
-  select {  
-    width:227px; 
-    @include border-radius($border-radius); 
-    border:solid #4D4D4D 2px; 
-    background:#323232; 
-    color:#fff; 
-    margin:3px 0 0 20px;  
+  select {
+    width:227px;
+    @include border-radius($border-radius);
+    border:solid #4D4D4D 2px;
+    background:#323232;
+    color:#fff;
+    margin:3px 0 0 20px;
     height:25px;
     option{ padding:2px;}
   }
@@ -104,20 +110,20 @@
   width: 450px;
   border: 2px solid #E84067;
   padding-bottom: 0;
-  @include border-radius($border-radius); 
+  @include border-radius($border-radius);
   h2 {
-    text-align: left; 
-    padding: 5px 5px 5px 15px; 
-    font-size: 12px; 
-    margin: 0px; 
-    background: #E84067; 
-    color: #000; 
+    text-align: left;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: 0px;
+    background: #E84067;
+    color: #000;
   }
 }
 ul { 
-  font-size: 12px; 
+  font-size: 12px;
   list-style: disc;
-  margin:0; 
+  margin:0;
   padding:10px;
   li { margin:2px 10px; color:#E84067;}
 }
@@ -125,168 +131,171 @@ ul {
 //
 //main, base, page content
 #base-container {
-	background: $main-bg-color;
+  background: $main-bg-color;
 }
 #page-container {
-	background: url(base-bg.jpg) center -100px no-repeat;
-	width: 100%;
+  background: url(base-bg.jpg) center -100px no-repeat;
+  width: 100%;
 }
 #page {
-	@include border-radius(0px 0px $border-radius $border-radius);
-	@include box-shadow(rgba(black, .3), 0px, 1px, 6px);
-	background: $page-bg-color;
+  @include border-radius(0px 0px $border-radius $border-radius);
+  @include box-shadow(rgba(black, .3), 0px, 1px, 6px);
+  background: $page-bg-color;
   margin: 0 auto;
-	width: $page-width;
-	position: relative;
+  width: $page-width;
+  position: relative;
 
-	//
-	//header
+  //
+  //header
   #header {
-		@include box-shadow(rgba(black, .3), 0px, 3px, 5px, 0px);
+    @include box-shadow(rgba(black, .3), 0px, 3px, 5px, 0px);
     position: fixed;
-    margin: 0 auto; 
-    height: 153px;
+    margin: 0 auto;
+    height: 156px;
     z-index: 999;
     width: $page-width;
     top: 0px;
-		background: url(base-page-bg-shaded-flipped.jpg);
-		border-bottom: 1px solid rgba(white, .15);
-			
-		> div {
-			width: 100%;
-			overflow: hidden;
-		}
-	
-		//logo and session
-		.top-bar {
-			height: 53px;
-			
-			.site-logo { float: left; }
-			.session {
-				float: right;
-				margin: 20px $base-content-clear 0 0;
-				
-				#logout {
-					@include inverted-button;
-					padding: 4px 8px;
-					margin-left: 3px;
-				}
-			}
-		}
-			
-		//player and notifications
-		.middle-bar {
-			margin-top: 5px; 
-			.mplayerbar {
-				display: block;
-				float: left;
-				.jp-title {display: none;}
-			}
-			.notifications {
-				margin: 8px ($base-content-clear - 2px) 8px 0;
-				float: right;
-				
-				> div {
-					float: left;
-					height: 50px;
-					width: 50px;
-					text-align: center;
-					font-size: 10px;
-					
-					> a {
-						@include inverted-button;
-						@include draw-circle;
-						margin: 0px auto 6px auto;
-						display: block;
-						padding-top: 6px;
-						text-align: center;
-						width: 14px;
-						height: 14px;
-						font-size: 12px;
-					}
-				}				
-			}
-		}
-		
-		//menu and search
-		.bottom-bar {
-			.menu {
-				display: none;
+    background: url(base-page-bg-shaded-flipped.jpg);
+    border-bottom: 1px solid rgba(white, .15);
+
+    > div {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    //logo and session
+    .top-bar {
+      height: 53px;
+
+      .site-logo { float: left;width:400px; }
+      .session {
+        float: right;
+
+        #logout {
+          @include inverted-button;
+          padding: 4px 8px;
+          margin-left: 3px;
+        }
+      }
+    }
+
+    //player and notifications
+    .middle-bar {
+      margin-top: 5px;
+      .mplayerbar {
+        display: block;
+        float: left;
+        .jp-title {display: none;}
+      }
+      .notifications {
+        margin: 8px ($base-content-clear - 2px) 8px 0;
+        float: right;
+
+        > div {
+          float: left;
+          height: 50px;
+          width: 50px;
+          text-align: center;
+          font-size: 10px;
+
+          > a {
+            @include inverted-button;
+            @include draw-circle;
+            margin: 0px auto 6px auto;
+            display: block;
+            padding-top: 6px;
+            text-align: center;
+            width: 14px;
+            height: 14px;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+
+    //menu and search
+    .bottom-bar {
+      background:url(botton-bar-bg1.jpg);
+      height:34px;
+      .menu {
         width:59%;
         float:left;
         ul {
-         	list-style:none;
-					
-					li {
-						@include border-radius($border-radius);
-						float:left;
-						margin:5px;
-						padding:5px;
-						background:#515151;
-						
-						a {
-						  color:#D1D1D1; 
-						  text-decoration:none; 
-						  font-weight:bold;
-						  font-size:16px;
-						}
-					}
+          list-style:none;
+          padding:0px;
+
+          li {
+            float:left;
+            padding:0px 20px;
+            &:hover{background:url(menu_hover_bg.jpg) repeat-x;
+              @extend .new_border;
+            margin-top:-3px}
+
+            a {
+              color:#797979;
+              text-decoration:none;
+              font-size:20px;
+              font-family:"Helvetica Neue", "trebuchet MS", arial;
+              &:hover{color:#050505;}
+            }
+          }
         }
       }
-      .search {
-        text-align: right;
-				margin-right: $base-content-clear;
-        float: right;
-
-        .search-input {
-			    @include border-radius($border-radius $border-radius 0 0);
-					background: rgba(black, .5);
-					border: 1px solid rgba(white, .2);
-					border-bottom: 1px solid $live-bg-color;
-					outline: none;
-					height: 18px;
-					width: 230px;
-          color: $text-faded-color;
-          font-weight:bold;
+      .searchbox{
+        text-align:right;
+        margin:-6px 1% 0 0;
+        width:39%;
+        float:right;
+        .searchinput {
+          @extend .new_border;
+          color:#747474;
           font-size:16px;
           padding:5px;
+          background:url(search_bg.jpg) repeat-x;
+          height:18px;
+          border-left:solid 1px #404040;
+          border-right:solid 1px #404040;
+          border-top:solid 1px #404040;
+          border-bottom:solid 1px #131313;
+          width:220px;
+          margin-right:25px;
         }
-		  }
-		}
+      }
+    }
   }
 
-	//
-	//page content
+  //
+  //page content
   #content {
     padding-top: 162px;
     min-height: 300px;
 
-		//primary content area
+    //primary content area
     .primary {
-			background: url(base-page-bg-shaded.jpg) top center no-repeat;
-			border-top: 1px solid rgba(white, .15);
-			margin-top: 8px;
-			display: block;
-			overflow: hidden;
+      background: url(base-page-bg-shaded.jpg) top center no-repeat;
+      border-top: 1px solid rgba(white, .15);
+      margin-top: 8px;
+      display: block;
+      overflow: hidden;
     }
   }
 
-	//
-	//registartion form
+  //
+  //registartion form
   .registrationform{
     margin: 0 auto;
     color: $input-bg-color;
     .fields {
-      label { 
+      label {
         padding-top:4px;
         float:left;
         width:40%;
         color:#fff;
         text-align:right;
-        font-size:2*$size; 
+        font-size:2*$size;
       }
-      .textfield {   
-        @include border-radius($border-radius); 
+      .textfield {
+        @include border-radius($border-radius);
         border:solid #4D4D4D 2px;
         padding:2px;
         background:#323232;
@@ -338,24 +347,24 @@ ul {
 //footer
 #footer { 
   background-image: url(base-footer-bg-repeat.jpg);
-	margin-top: -$page-footer-extension;
-	
-	> div {
-		background-image: url(base-footer-bg.jpg);
-		width: $base-footer-content-width;
-	  height: $base-footer-height;
-		margin: auto;
-	}
-	
-	a {
-		margin: 57px 18px 0px 17px;
-		text-align: center;
-		float: left;
-		width: 210px;
-		height: 150px;		
-		
-		img {
-			margin: auto;
-		}
-	}
+  margin-top: -$page-footer-extension;
+
+  > div {
+    background-image: url(base-footer-bg.jpg);
+    width: $base-footer-content-width;
+    height: $base-footer-height;
+    margin: auto;
+  }
+
+  a {
+    margin: 57px 18px 0px 17px;
+    text-align: center;
+    float: left;
+    width: 210px;
+    height: 150px;
+
+    img {
+      margin: auto;
+    }
+  }
 }

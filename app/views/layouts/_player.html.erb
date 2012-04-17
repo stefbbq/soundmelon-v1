@@ -4,41 +4,68 @@
 <div id="sm_jplayer" class="jp-jplayer"></div>
 
 <div id="jp_container_1" class="jp-audio">
-  <div class="jp-type-playlist">
+  <div class="jp-type-single">
+    <div class="music_info">
+      <div class="img"></div>
+      <div class="track_info">
+        <span>NightWish</span>
+        <h3>Song of myself</h3>
+        <h4><span>next</span>coming next song</h4>
+        <div class="clear"></div>
+      </div>
+    </div>
     <div class="jp-gui jp-interface">
       <ul class="jp-controls">
-        <li><a href="javascript:;" class="jp-previous" tabindex="1">previous</a></li>
-        <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
-        <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+        <li><a href="javascript:;" class="jp-pre" tabindex="1">previous</a></li>
+        <li>
+          <a href="javascript:;" class="jp-play" tabindex="1">play</a>
+          <a href="javascript:;" class="jp-pause" tabindex="1">pause</a>
+        </li>
         <li><a href="javascript:;" class="jp-next" tabindex="1">next</a></li>        
-        <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
-        <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
         <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+        <li><a href="javascript:;" class="jp-rep" tabindex="1" title="Show/Hide Playlist" onclick="$('div.jp-playlist').toggle();">PlayList</a></li>
+        <li><a href="javascript:;" class="fre-board" tabindex="1">1</a></li>
+        <li><a href="javascript:;" class="fre-board1" tabindex="1">1</a></li>
+        <li><a href="javascript:;" class="fre-board2" tabindex="1">1</a></li>
+        <li><a href="javascript:;" class="fre-board3" tabindex="1">1</a></li>
+        <li><a href="javascript:;" class="fre-board4" tabindex="1">1</a></li>
+        <li><a href="javascript:;" class="fre-board5" tabindex="1">1</a></li>
+        <li><a href="javascript:;" class="fre-board6" tabindex="1">1</a></li>
+        <li><a href="javascript:;" class="fre-board7" tabindex="1">1</a></li>
+        <li><a href="javascript:;" class="fre-board8" tabindex="1">1</a></li>
+        <li><a href="javascript:;" class="jp-rep" tabindex="1" title="Show/Hide Playlist" onclick="$('div.jp-playlist').toggle();">PlayList</a></li>
       </ul>
+
       <div class="jp-progress">
         <div class="jp-seek-bar">
           <div class="jp-play-bar"></div>
         </div>
       </div>
-      <div class="jp-volume-bar">
-        <div class="jp-volume-bar-value"></div>
-      </div>
+      <!--div class="jp-time-holder">
+        <div class="jp-current-time"></div>
+        <div class="jp-duration"></div>
+      </div>      
       <div class="jp-current-time"></div>
-      <div class="jp-duration"></div>
+      <div class="jp-duration"></div-->
+      <!--div class="jp-volume-bar">
+        <div class="jp-volume-bar-value"></div>
+      </div-->
     </div>
     <div class="jp-playlist">
-      <ul>
+      <div class="pointer">
+      </div>
+      <ul>        
         <% for i in 0..@song_items.size-1
-            song = @song_items[i]
+          song = @song_items[i]
         %>
-          <li><a href="javascript:void(0);" onclick="playListChange(<%= i %>);"><%= song.song_name_without_extension %></a></li>
+          <li>
+            <a href="javascript:void(0);" onclick="playListChange(<%= i %>);"><%= song.song_name_without_extension %></a>
+            <a class="play_list_close" href="#">Close</a>
+            <a class="play_list_next" href="javascript:void(0);" onclick="playListChange(<%= i %>);">play</a>
+          </li>
         <% end %>
       </ul>
-    </div>
-    <div class="jp-no-solution">
-      <span>Update Required</span>
-      To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-    </div>
+    </div>    
   </div>
 </div>
 
@@ -49,7 +76,7 @@
 
     $("#sm_jplayer").jPlayer({
       ready: function (event) {        
-        playListChange(0);
+        playListStart();
       },
       
       ended:function(event){        
@@ -60,30 +87,38 @@
       supplied: "m4a",
       wmode: "window"
     });
-
-    $(".jp-previous").click(function() { playListPrev(); }); // Listen for Previous Track button click
-    $(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click
-     
-    // Switch track
-    function playListChange(index) {      
-      currentTrack = index;
-      //$("#playerSongInfo").html(playList[currentTrack].artist + ' - <em>' + playList[currentTrack].title + '</em>');      
-      $("#sm_jplayer").jPlayer("setMedia", { m4a:playList[currentTrack]['mp3'] }).jPlayer('play');
-    }
-
-    // Play next track. If already on last track, start back at the begining
-    function playListNext() {
-      var index = (currentTrack + 1 < playList.length) ? currentTrack + 1 : 0;
-      playListChange(index);
-    }
-
-    // Play previous track. If already on first track, start back at the end
-    function playListPrev() {
-      var index = (currentTrack - 1 >= 0) ? currentTrack - 1 : playList.length-1;
-      playListChange(index);
-    }
   });
+  $(".jp-pre").click(function() { playListPrev(); }); // Listen for Previous Track button click
+  $(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click
+  
+  function playListStart(){
+    if(playList.length>0)
+      $("#sm_jplayer").jPlayer("setMedia", { m4a:playList[0]['mp3'] });
+  }
 
+  // Switch track
+  function playListChange(index) {
+    currentTrack = index;
+    //$("#playerSongInfo").html(playList[currentTrack].artist + ' - <em>' + playList[currentTrack].title + '</em>');
+    $("#sm_jplayer").jPlayer("setMedia", { m4a:playList[currentTrack]['mp3'] }).jPlayer('play');
+  }
+
+  // Play next track. If already on last track, start back at the begining
+  function playListNext() {
+    var index = (currentTrack + 1 < playList.length) ? currentTrack + 1 : 0;
+    playListChange(index);
+  }
+
+  // Play previous track. If already on first track, start back at the end
+  function playListPrev() {
+    var index = (currentTrack - 1 >= 0) ? currentTrack - 1 : playList.length-1;
+    playListChange(index);
+  }
+
+  function play_music(song_title, song){
+    $("#sm_jplayer").jPlayer("setMedia", { m4a:song }).jPlayer('play');
+  }
+  
   var playList = [
 <% for i in 0..@song_items.size-1 %>
       {

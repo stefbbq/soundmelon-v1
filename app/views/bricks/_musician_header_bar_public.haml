@@ -13,13 +13,13 @@
         - unread_mentioned_count = current_user.unread_mentioned_post_count
         - unread_post_replies_count = current_user.unread_post_replies_count
         - unread_messages_count = current_user.received_messages.unread.count
-        = link_to unread_post_replies_count, replies_path
-        = link_to image_tag('reply-icon.png'), replies_path
-        = link_to unread_mentioned_count, mentioned_path
-        = link_to image_tag('mention-icon.png'), mentioned_path
-        = link_to unread_messages_count, user_inbox_path
-        = link_to image_tag('message-icon.png'), user_inbox_path
-        .clear
+        %div
+          = link_to unread_post_replies_count, replies_path, :class => unread_post_replies_count >0 ? '' : 'dimmed'
+        %div
+          = link_to unread_mentioned_count, mentioned_path, :class => unread_mentioned_count >0 ? '' : 'dimmed'
+        %div
+          = link_to unread_messages_count, user_inbox_path, :class => unread_messages_count >0 ? '' : 'dimmed'
+    .clear
     .bottom-bar
       = render :partial=>"bricks/header_menu_items"
       = render :partial=>"bricks/search"

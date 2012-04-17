@@ -12,15 +12,16 @@
         					$(".circle").corner("40px");
         					$(".logo").corner("20px");
         					$(".loginfields, .login, .button,.join,.textfield,.radiolabel").corner("round");
-      				});
-       function play_music(song_title, song){$("#sm_jplayer").jPlayer("setMedia", { m4a:song }).jPlayer('play');}
+      				});       
        function open_popup_for_song_albums(url){$.facebox(function() {$.ajax({error: function() {$.facebox('Sorry, there was an error!');},load:function(data){},success: function(data) {$.facebox(data);},type: 'get',url: url});});}
   %body
     #base-container
       #page-container
         #page
           #header
-            = yield(:tophead)          
+            %div
+              = yield(:tophead)
+              =# render :partial =>'bricks/header'
           #content
             = yield
       = render :partial=>"bricks/footer"
