@@ -69,7 +69,7 @@
         connected to 
         %span{ :class => 'artist-count'}
           = pluralize(band_member_count, 'artist')
-        - unless band_member_count < 0
+        - unless band_member_count < Constant::BAND_MEMBER_SHOW_LIMIT
           %br
           =  link_to "see all", band_members_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
       .collection

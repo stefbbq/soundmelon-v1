@@ -30,7 +30,8 @@
     -elsif !self_owner
      = link_to 'Reply', new_post_reply_path(post), :class => "ajaxopen", :remote => true
   .post-body
-   = post.msg
+   = post_msg_with_band_mention(post)
+   =# post.msg
   %br
   - if post.ancestry && !hide_thread_link
    %br

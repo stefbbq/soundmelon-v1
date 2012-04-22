@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
   end 
   
   def self.find_users_in_mentioned_post mentioned_name_arr
-    return where(:mention_name => mentioned_name_arr).select('DISTINCT(id)').all
+    return where(:mention_name => mentioned_name_arr).select('DISTINCT(id), mention_name').all
   end
 
   def sanitize_mention_name

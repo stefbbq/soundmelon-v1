@@ -1,3 +1,4 @@
+README
 .bundle
 db/*.sqlite3
 log/*.log
@@ -15,3 +16,4 @@ Gemfile.lock
 solr/data/*
 config/database.yml
 .DS_Store
+db/schema

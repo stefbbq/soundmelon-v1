@@ -5,7 +5,7 @@ class Post < ActiveRecord::Base
   belongs_to :song
   has_many :mentioned_posts
   has_ancestry
-  
+  before_save :update_mentioned_actors_in_post
   after_save :check_and_save_mentioned_in_post
   
   # default its being called from current user wall. If current user is replying as a band then second argument would be false  
@@ -53,27 +53,37 @@ class Post < ActiveRecord::Base
   
   def self.create_song_album_buzz_by(user_id, params)
     Post.create(
-      :song_album_id => params[:id],
-      :user_id => user_id,
-      :msg => params[:msg]
+      :song_album_id  => params[:id],
+      :user_id        => user_id,
+      :msg            => params[:msg]
     )
   end
   
   def self.create_song_buzz_by(user_id, params)
     Post.create(
-      :song_id => params[:id],
-      :user_id => user_id,
-      :msg => params[:msg]
+      :song_id        => params[:id],
+      :user_id        => user_id,
+      :msg            => params[:msg]
     )
-  end
+  end  
   
   protected
-  
+
+  def update_mentioned_actors_in_post    
+    if self.msg =~/@\w/      
+      splitted_post_msg     = self.msg.split(" ")
+      mentioned_bands       = Band.find_bands_in_mentioned_post(splitted_post_msg)
+      mentioned_users       = User.find_users_in_mentioned_post(splitted_post_msg)      
+      self.mentioned_users  = mentioned_users.map{|mu| [mu.id,mu.mention_name]}.join(',')
+      self.mentioned_bands  = mentioned_bands.map{|mb| mb.mention_name}.join(',')      
+    end
+  end
+
   def check_and_save_mentioned_in_post
     if self.msg =~/@\w/
-      splitted_post_msg = self.msg.split(" ")
-      mentioned_bands = Band.find_bands_in_mentioned_post(splitted_post_msg)
-      mentioned_users = User.find_users_in_mentioned_post(splitted_post_msg)
+      splitted_post_msg     = self.msg.split(" ")
+      mentioned_bands       = Band.find_bands_in_mentioned_post(splitted_post_msg)
+      mentioned_users       = User.find_users_in_mentioned_post(splitted_post_msg)
       MentionedPost.create_post_mentions(self, mentioned_users, mentioned_bands)
     end
   end

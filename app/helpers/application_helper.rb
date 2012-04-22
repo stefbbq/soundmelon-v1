@@ -5,8 +5,8 @@ module ApplicationHelper
   end
   
   def link_to_add_fields(name, f, association)
-    new_object = f.object.class.reflect_on_association(association).klass.new
-    fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
+    new_object  = f.object.class.reflect_on_association(association).klass.new
+    fields      = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render(association.to_s.singularize + "_fields", :f => builder)
     end
     link_to_function(name, ("add_fields(this, '#{association}', '#{escape_javascript(fields)}')"))
@@ -62,7 +62,7 @@ module ApplicationHelper
   end
   
   def get_band_logo_medium(band)
-     if band.logo_content_type.nil?
+    if band.logo_content_type.nil?
       image_tag('artist-defaults-photo-profile.jpg', :alt=>'')
     else
       image_tag(band.logo.url(:medium), :alt=>'')
@@ -78,8 +78,8 @@ module ApplicationHelper
   end
   
   def genre_atuofill
-    genres = Genre.all
-    avail_genre = ''
+    genres         = Genre.all
+    avail_genre    = ''
     genres.each do |genre|
       avail_genre += "{id: '#{genre.name}', name: '#{genre.name}'},"
     end
@@ -97,8 +97,8 @@ module ApplicationHelper
   end
   
   def user_mention_lists(user)
-    auto_mention_list = ''
-    mention_list_arr = []
+    auto_mention_list     = ''
+    mention_list_arr      = []
     user.following_user.select('mention_name').map{|user_following| mention_list_arr << user_following.mention_name}
     user.user_followers.select('mention_name').map{|follower_user| mention_list_arr << follower_user.mention_name}
     user.following_band.select('mention_name').map{|band_following| mention_list_arr << band_following.mention_name}
@@ -109,11 +109,11 @@ module ApplicationHelper
   end
   
   def band_follower_mention_lists band
-    auto_mention_list = ''
-    mention_list_arr = []
+    auto_mention_list       = ''
+    mention_list_arr        = []
     band.user_followers.select('mention_name').map{|follower_user| mention_list_arr << follower_user.mention_name}
     mention_list_arr.uniq.each do |mentioner|
-      auto_mention_list += "{name: '#{mentioner}'},"
+      auto_mention_list     += "{name: '#{mentioner}'},"
     end
     return auto_mention_list
   end
@@ -137,5 +137,30 @@ module ApplicationHelper
   def can_admin?(band, user)
     user.is_admin_of_band?(band)
   end
+
+  def post_msg_with_band_mention(post)
+    post_msg      = post.msg
+    mentioned_users = post.mentioned_users
+    mentioned_bands = post.mentioned_bands
+    unless mentioned_users.blank?
+      user_mentions = mentioned_users.split(',')
+      for i in 0..user_mentions.size-2
+        um_id   = user_mentions[i]
+        um_name = user_mentions[i+1]
+        fan_profile_link_html = "<a href='#{fan_profile_path(um_id)}'>#{um_name}</a>"
+        post_msg = post_msg.gsub(um_name, fan_profile_link_html)
+        i = i+1
+      end
+    end
+    unless mentioned_bands.blank?
+      band_mentions = post.mentioned_bands.split(',')
+
+      band_mentions.each{|mb|
+        band_profile_link_html = "<a href='#{show_band_path(mb.gsub('@',''))}'>#{mb}</a>"
+        post_msg = post_msg.gsub(mb, band_profile_link_html)
+      }
+    end    
+    post_msg.html_safe
+  end  
   
 end
