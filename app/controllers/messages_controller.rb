@@ -9,17 +9,16 @@ class MessagesController < ApplicationController
   def inbox
     begin
       @user = current_user
-      if params[:band_name]
-        
+      if params[:band_name]        
         @band = Band.where(:name => params[:band_name]).first
         unless request.xhr?
           redirect_to show_band_url(:band_name => @band.name) and return 
         end
         if current_user.is_admin_of_band?(@band)
-          @unread_mentioned_count = @band.unread_mentioned_post_count
-          @unread_post_replies_count = @band.unread_post_replies_count
-          @unread_messages_count = @band.received_messages.unread.count
-          @messages = @band.inbox(params[:page])  
+          @unread_mentioned_count     = @band.unread_mentioned_post_count
+          @unread_post_replies_count  = @band.unread_post_replies_count
+          @unread_messages_count      = @band.received_messages.unread.count
+          @messages                   = @band.inbox(params[:page])
         else
           @messages = []
           next_page = nil
@@ -45,7 +44,7 @@ class MessagesController < ApplicationController
   def index
     redirect_to inbox_url and return unless request.xhr?
     if params[:band_name]
-        band = Band.where(:name => params[:band_name]).first
+        band        = Band.where(:name => params[:band_name]).first
         if current_user.is_admin_of_band?(band)
           @messages = band.inbox(params[:page])
         else
@@ -53,9 +52,9 @@ class MessagesController < ApplicationController
           next_page = nil
         end
       else
-        @messages = current_user.inbox(params[:page])
+        @messages   = current_user.inbox(params[:page])
       end
-      next_page ||= @messages.next_page
+      next_page   ||= @messages.next_page
       if band
         @load_more_path =  next_page ?  more_inbox_messages_path(:band_name => band.name, :page => next_page) : nil
       else
@@ -70,33 +69,46 @@ class MessagesController < ApplicationController
   def show
     begin
       if params[:band_id].present?
-        @band = Band.where(:id => params[:band_id]).first
+        @band     = Band.where(:id => params[:band_id]).first
         raise unless current_user.is_admin_of_band?(@band)
-        @message = @band.messages.with_id(params[:id]).first  
+        @message  = @band.messages.with_id(params[:id]).first
       else
-        @message = current_user.messages.with_id(params[:id]).first
+        @message  = current_user.messages.with_id(params[:id]).first
       end
-      @message.update_attribute("opened",true)
-      @messages = @message.conversation
-    rescue
+      if @message
+        @message.update_attribute("opened",true)
+        @messages   = @message.conversation      
+      end
+    rescue =>e
+      logger.info "message error: #{e.message}"
       render :nothing => true
     end
   end
 
   def destroy
-    @message = current_user.messages.with_id(params[:id]).first
-    @message.update_attribute("opened",true)
-    if @message.destroy
-      @deleted = true
-    else
-      @deleted = false
-    end
+    begin
+      if params[:band_id].present?
+        @band     = Band.where(:id => params[:band_id]).first
+        raise unless current_user.is_admin_of_band?(@band)
+        @message  = @band.messages.with_id(params[:id]).first
+      else
+        @message  = current_user.messages.with_id(params[:id]).first
+      end
+      if @message
+        @deleted = @message.destroy
+      else
+        @deleted = false
+      end
+    rescue =>e
+      logger.info "message error: #{e.message}"
+      render :nothing => true
+    end    
   end
 
   def new
     redirect_to user_profile_url(params[:id]) and return unless request.xhr?
-    @to = params[:id] 
-    @message = ActsAsMessageable::Message.new
+    @to       = params[:id]
+    @message  = ActsAsMessageable::Message.new
   end
 
   def create
@@ -111,15 +123,15 @@ class MessagesController < ApplicationController
        band = Band.where(:id => params[:band_id]).first
        raise unless current_user.is_admin_of_band?(band)
        if band.id == @msg.sent_messageable_id || band.id == @msg.received_messageable_id
-         band.reply_to(@msg,:body=>params[:body])
+         @reply_msg = band.reply_to(@msg,:body=>params[:body])
        end
      else current_user.id == @msg.sent_messageable_id || current_user.id == @msg.received_messageable_id
-       current_user.reply_to(@msg,:body=>params[:body])
+        @reply_msg = current_user.reply_to(@msg,:body=>params[:body])
      end
    rescue 
      render :nothing => true and return
    end
-   @message = @msg
+   @message = @msg   
    @messages = @message.conversation
  end
   

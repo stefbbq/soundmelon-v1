@@ -36,8 +36,7 @@ class FanController < ApplicationController
 
   def musician_new 
     @error_msg = Array.new
-    if request.post?
-      
+    if request.post?      
       @user = User.new(params[:user])
       @user.account_type = 1
       if !params[:band_name] || !params[:genre]

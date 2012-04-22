@@ -1,6 +1,0 @@
-$('#msg_item_<%= @message.id %>').html('');
-<% @messages.each do |message| %> 
-  <% msg_sender = message.sent_messageable_type == 'User' ? message.sent_messageable.fname : message.sent_messageable.mention_name %>
-  $('#msg_item_<%= @message.id %>').append('<%= message.body %><br />  by <strong><%= msg_sender %></strong> <small>about an <%= time_ago_in_words(message.created_at) %> ago</small><br/> <hr />');
-<%end%>
-setTimeout('$(document).trigger(\"close.facebox\")',1000);

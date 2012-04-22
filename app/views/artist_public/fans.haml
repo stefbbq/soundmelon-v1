@@ -1,0 +1,16 @@
+$('.primary .left').html('');
+- band_fans = capture do
+  Fans
+  %hr
+  - @band_fans.each do |user| 
+    .band-member
+      .avatar
+        = link_to get_avatar_medium(user), fan_profile_path(user.id)
+      .user-name 
+        %strong
+          = link_to user.get_full_name, fan_profile_path(user.id)
+      .clear 
+$('.primary .left').html('#{escape_javascript(band_fans)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('div').removeClass('active');
+$('#fanbox .selection-box').addClass('active'); 

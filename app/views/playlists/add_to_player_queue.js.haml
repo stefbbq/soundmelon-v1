@@ -1,0 +1,17 @@
+- songs = @song_album.songs
+var newPlayList = [
+- for i in 0..songs.size-1
+  {
+    title: "#{songs[i].song_name_without_extension}",
+    mp3:"#{songs[i].song}"
+  }
+  #{","}  unless i >= songs.size-1
+];
+
+if(newPlayList.length>0)
+{
+var current_length = playList.length;
+for(var i=0;i<newPlayList.length;i++)
+playList.push(newPlayList[i]);
+playListChange(current_length);
+}

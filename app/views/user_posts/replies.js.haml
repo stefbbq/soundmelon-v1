@@ -1,0 +1,7 @@
+$('.primary .left').html('#{escape_javascript(render 'user_posts/form')}');
+$('.primary .left').append('#{escape_javascript(render 'fan/social_header')}');
+$('.primary .left').append('#{escape_javascript(render 'bricks/fan_posts')}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.left a').removeClass('active').removeClass('button-fill-fan');
+$('#replies').addClass('active').addClass('button-fill-fan');
+set_right_height();

@@ -1,6 +1,6 @@
 - if @status
   $('#facebox .content').html('Album successfully deleted');  
-  $('#photobox .band-box-content #band_album_#{@band_album.id}').remove();
+  $('#photobox .collection #band_album_#{@band_album.id}').remove();
   != "$('#band_album_#{@band_album.id}').remove();"
 - else
   jQuery.facebox("Something went wrong! Try again!");

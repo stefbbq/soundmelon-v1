@@ -1,5 +1,6 @@
+- band ||=nil
 .messages-wrapper
-  = render "messages/message", :messages => messages
+  = render "messages/message", :messages => messages, :band =>band
 .clear
 - unless @load_more_path.nil?
   .readmore

@@ -1,0 +1,12 @@
+%h3 Band Albums
+- if @song_albums.blank?
+  Has not uploaded any song albums yet 
+- else
+  - @song_albums.each do |song_album|
+    .album{:style=>"margin:2px; background:#363636;"}
+    .album_teaser_image{:style=>"width:80px;float:left;"}
+      = link_to image_tag(song_album.cover_img.url(:small)), band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name)
+      = link_to 'Edit', edit_band_song_album_path(:band_name => @band.name, :song_album_name => song_album.album_name ), :remote => true, :class => 'ajaxopen'
+    .album_name{:style=>"float:right;"}
+      %h2= link_to "#{song_album.album_name}(#{pluralize(song_album.songs.count, 'song')})", band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name)
+    .clear

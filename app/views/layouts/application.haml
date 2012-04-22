@@ -19,9 +19,11 @@
       #page-container
         #page
           #header
-            %div
-              = yield(:tophead)
-              =# render :partial =>'bricks/header'
+            - if current_user
+              = render :partial =>'bricks/user_header'
+            - else
+              %div
+                = render :partial =>'bricks/nouser_header'
           #content
             = yield
       = render :partial=>"bricks/footer"

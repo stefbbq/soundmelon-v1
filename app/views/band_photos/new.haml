@@ -1,0 +1,12 @@
+%p{:id=>'notice'}
+  = notice
+= render :partial => "uploader"
+#uploaded_images
+%h3 Upload a Photo/Photos (You can select multiple files as well)
+= form_for @band_photo, :url => {:controller => 'band_photos', :action => 'create'}, :html => {:multipart => true} do |f|
+  = hidden_filed_tag :band_name, @band.name
+  Album Name:
+  %p=text_field_tag :album_name
+  Choose File to Upload
+  %p= f.file_field :image
+  %p= f.submit "Upload"

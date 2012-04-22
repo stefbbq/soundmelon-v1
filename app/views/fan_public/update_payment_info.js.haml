@@ -1,0 +1,8 @@
+$('.primary .left').html('');
+- payment_info_form = capture do
+  .content-box#payment-info
+    #payment-info-msg
+    = render :partial => 'payment_info_form'
+$('.primary .left').html('#{escape_javascript(payment_info_form)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+

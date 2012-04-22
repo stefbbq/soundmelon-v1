@@ -127,8 +127,8 @@ class UserPostsController < ApplicationController
   
   def post_threads
     if request.xhr?
-      @post = Post.where(:id => params[:id]).first
-      @posts = @post.path
+      @post       = Post.where(:id => params[:id]).first
+      @posts      = @post.path
       respond_to do |format|
         format.js {render :layout => false}
       end
@@ -138,29 +138,119 @@ class UserPostsController < ApplicationController
   end
   
   def mentioned
-      @posts = current_user.mentioned_posts(params[:page])
-      @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-      next_page = @posts.next_page
-      @load_more_path = next_page ? more_post_path(next_page, :type=>'mentioned') : nil
-      @unread_mentioned_count = current_user.unread_mentioned_post_count
-      @unread_post_replies_count = current_user.unread_post_replies_count
-      @unread_messages_count = current_user.received_messages.unread.count
+      @posts                      = current_user.mentioned_posts(params[:page])
+      @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+      next_page                   = @posts.next_page
+      @load_more_path             = next_page ? more_post_path(next_page, :type=>'mentioned') : nil
+      @unread_mentioned_count     = current_user.unread_mentioned_post_count
+      @unread_post_replies_count  = current_user.unread_post_replies_count
+      @unread_messages_count      = current_user.received_messages.unread.count
       unless request.xhr?
         get_user_associated_objects
       end
   end
   
   def replies
-      @posts = current_user.replies_post(params[:page])
-      @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-      next_page = @posts.next_page
-      @load_more_path = next_page ? more_post_path(next_page, :type=>'replies') : nil
-      @unread_mentioned_count = current_user.unread_mentioned_post_count
-      @unread_post_replies_count = current_user.unread_post_replies_count
-      @unread_messages_count = current_user.received_messages.unread.count
+      @posts                      = current_user.replies_post(params[:page])
+      @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+      next_page                   = @posts.next_page
+      @load_more_path             = next_page ? more_post_path(next_page, :type=>'replies') : nil
+      @unread_mentioned_count     = current_user.unread_mentioned_post_count
+      @unread_post_replies_count  = current_user.unread_post_replies_count
+      @unread_messages_count      = current_user.received_messages.unread.count
       unless request.xhr?
         get_user_associated_objects
       end
   end
+
+  def more_bulletins
+    if request.xhr?
+      begin
+        @band                       = Band.where(:name => params[:band_name]).first
+        @bulletins                  = @band.bulletins(params[:page])
+        bulletin_next_page          = @bulletins.next_page
+        @load_more_bulletins_path   = bulletin_next_page ? band_more_bulletins_path(:band_name => @band.name, :page => bulletin_next_page) : nil
+      rescue
+        render :nothing => true and return
+       end
+    else
+      redirect_to root_url and return
+    end
+  end
+
+  def more_posts
+    if request.xhr?
+      begin
+        @band = Band.where(:name => params[:band_name]).first
+        if params[:type] && params[:type] == 'general'
+          @posts          = @band.find_own_posts(params[:page])
+          next_page       = @posts.next_page
+          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page) : nil
+        elsif params[:type] && current_user.is_admin_of_band?(@band)
+           if params[:type] == 'replies'
+             @posts = @band.replies_post(params[:page])
+           elsif params[:type] == 'mentions'
+             @posts = @band.mentioned_in_posts(params[:page])
+           else
+             @posts = @band.find_own_as_well_as_mentioned_posts(params[:page])
+           end
+         next_page = @posts.next_page
+         @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => params[:type]) : nil
+        else
+          render :nothing => true and return
+        end
+       rescue
+        render :nothing => true and return
+       end
+    else
+      redirect_to root_url and return
+    end
+  end
+
+  def mentions_post
+    if request.xhr?
+      begin
+        @band         = Band.where(:name => params[:band_name]).includes(:band_members).first
+        if current_user.is_admin_of_band?(@band)
+         @posts                     = @band.mentioned_in_posts(params[:page])
+         @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+         next_page                  = @posts.next_page
+         @load_more_path            =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => 'mentions') : nil
+         @unread_mentioned_count    = @band.unread_mentioned_post_count
+         @unread_post_replies_count = @band.unread_post_replies_count
+         @unread_messages_count     = @band.received_messages.unread.count
+        else
+          render :nothing => true and return
+        end
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to fan_home_url, :notice => 'Something went wrong! Try Again' and return
+    end
+  end
+
+  def replies_post
+    if request.xhr?
+      begin
+        @band = Band.where(:name => params[:band_name]).includes(:band_members).first
+        if current_user.is_admin_of_band?(@band)
+         @posts                     = @band.replies_post(params[:page])
+         @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+         next_page                  = @posts.next_page
+         @load_more_path            =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => 'replies') : nil
+         @unread_mentioned_count    = @band.unread_mentioned_post_count
+         @unread_post_replies_count = @band.unread_post_replies_count
+         @unread_messages_count     = @band.received_messages.unread.count
+        else
+          render :nothing => true and return
+        end
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to fan_home_url, :notice => 'Something went wrong! Try Again' and return
+    end
+  end 
   
 end

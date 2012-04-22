@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120407083544) do
+ActiveRecord::Schema.define(:version => 20120420170918) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -62,6 +62,21 @@ ActiveRecord::Schema.define(:version => 20120407083544) do
     t.string   "caption"
   end
 
+  create_table "band_tours", :force => true do |t|
+    t.integer  "band_id",       :null => false
+    t.date     "tour_date",     :null => false
+    t.string   "venue",         :null => false
+    t.string   "country",       :null => false
+    t.string   "ticket"
+    t.string   "ticket_status"
+    t.string   "web_page"
+    t.string   "web_page1"
+    t.string   "web_page2"
+    t.text     "more_info"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "band_users", :force => true do |t|
     t.integer  "user_id",                         :null => false
     t.integer  "band_id"
@@ -85,6 +100,8 @@ ActiveRecord::Schema.define(:version => 20120407083544) do
     t.string   "band_logo_url"
     t.string   "website"
     t.string   "mention_name"
+    t.string   "facebook_page"
+    t.string   "twitter_page"
   end
 
   create_table "follows", :force => true do |t|
@@ -144,6 +161,20 @@ ActiveRecord::Schema.define(:version => 20120407083544) do
     t.string   "expire_year"
     t.string   "card_number"
     t.string   "security_code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "photo_posts", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.string   "msg"
+    t.string   "ancestry"
+    t.boolean  "is_bulletin",   :default => false
+    t.boolean  "is_deleted",    :default => false
+    t.boolean  "is_read",       :default => false
+    t.integer  "band_album_id"
+    t.integer  "band_photo_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -249,6 +280,7 @@ ActiveRecord::Schema.define(:version => 20120407083544) do
     t.datetime "last_logout_at"
     t.datetime "last_activity_at"
     t.string   "mention_name"
+    t.text     "bio"
   end
 
   add_index "users", ["activation_token"], :name => "index_users_on_activation_token"

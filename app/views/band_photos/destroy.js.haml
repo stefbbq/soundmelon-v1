@@ -1,4 +1,4 @@
 $.facebox("deleted successfully");
-!= "$('#band_photo_#{@band_photo.id}').remove();"
-$('#photo_stat_#{@band_album.id}').html('#{pluralize(@band_photo.band_album.photo_count,'photo')}');
+!= "$('div#band_photo_#{@band_photo.id}').remove();"
+$('div#photo_stat_#{@band_album.id}').html('#{pluralize(@band_photo.band_album.photo_count,'photo')}');
 setTimeout('$(document).trigger(\"close.facebox\")',100);

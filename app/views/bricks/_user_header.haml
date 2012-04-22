@@ -1,0 +1,36 @@
+- @unread_post_replies_count   ||= current_user.unread_post_replies_count
+- @unread_mentioned_count      ||= current_user.unread_mentioned_post_count
+- @unread_messages_count       ||= current_user.received_messages.unread.count
+.profilehead
+  .top-bar
+    = render :partial=>"bricks/logo"
+    .session
+      = WELCOME_MSG
+      = link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class => 'user-info'
+      = link_to "Logout", logout_path, :class=>"button2"
+  .middle-bar
+    .mplayerbar
+      = render :partial =>'/layouts/player'
+    .notifications
+      %div
+        -if @unread_post_replies_count > 0
+          = link_to @unread_post_replies_count, replies_path
+        -else
+          = link_to @unread_post_replies_count, replies_path, :class=>"dimmed"
+        replies
+      %div
+        -if @unread_mentioned_count > 0
+          = link_to @unread_mentioned_count, mentioned_path
+        -else
+          = link_to @unread_mentioned_count, mentioned_path, :class=>"dimmed"
+        mentions
+      %div
+        -if @unread_messages_count > 0
+          = link_to @unread_messages_count, user_inbox_path
+        -else
+          = link_to @unread_messages_count, user_inbox_path, :class=>"dimmed"
+        messages
+  .clear
+  .bottom-bar
+    = render :partial=>"bricks/header_menu_items"
+    = render :partial=>"bricks/search"

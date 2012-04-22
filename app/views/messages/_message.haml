@@ -16,21 +16,18 @@
             =  message.sent_messageable.fname 
           - else
             = message.sent_messageable.mention_name
-
           about an #{time_ago_in_words(message.created_at)} ago
         .righticons
-        
-          = link_to "Destroy(X)" ,message_path(message),:remote=>:true,:method=>:delete, :class =>"ajaxload"
+          = link_to "Destroy(X)" ,band ? message_path(message, :band_id => band.id) : message_path(message), :remote=>:true,:method=>:delete, :class =>"ajaxload"
           %br
-          - if band
+          - if band            
             = link_to "Reply" ,band_message_path(message, :band_id => band.id),:remote=>:true ,:class=>"ajaxload"
             %br
             = link_to "View" ,message_path(message, :band_id => band.id),:remote=>:true, :class=>"ajaxload"
           - else
             = link_to "Reply" ,message_path(message),:remote=>:true ,:class=>"ajaxload"
             %br
-            = link_to "View" ,message_path(message),:remote=>:true, :class=>"ajaxload" 
-        
+            = link_to "View" ,message_path(message),:remote=>:true, :class=>"ajaxload"         
         .clear
     -else
       .msgstremitem-unread
@@ -42,11 +39,9 @@
           =  message.sent_messageable_type == 'User' ? message.sent_messageable.fname : message.sent_messageable.mention_name 
           about an #{time_ago_in_words(message.created_at)} ago
         .righticons
-          = link_to "Destroy(X)" ,message_path(message),:remote=>:true,:method=>:delete, :class =>"ajaxload"
-        
-        
+          = link_to "Destroy(X)" ,band ? message_path(message, :band_id => band.id) : message_path(message), :remote=>:true,:method=>:delete, :class =>"ajaxload"
           %br
-          = link_to "View" ,message_path(message),:remote=>:true, :class=>"ajaxload" 
+          = link_to "View" ,band ? message_path(message, :band_id => band.id) : message_path(message), :remote=>:true, :class=>"ajaxload"
           %br
           reply
         .clear

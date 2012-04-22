@@ -1,0 +1,5 @@
+- if @status
+  - if @band_album
+    $('a#public_view_link_#{@band_album.id}').text('#{@band_album.disabled? ? 'enable' : 'disable'}');
+- else
+  alert('There was an error!');

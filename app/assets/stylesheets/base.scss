@@ -317,7 +317,7 @@ ul {
     padding: 10px;
     border-bottom: 1px solid #cfcfcf;
     &:last-child { border: none; }
-    img { border: solid 1px #cecece; float: left; }
+    img { border: solid 1px #cecece; float: left;height:60px;width:60px; }
     .action { float: right; }
     .info {
       color: #666;

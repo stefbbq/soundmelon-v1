@@ -1,9 +1,0 @@
-<% if @band %>
-  $('.primary .left').html('<%= escape_javascript(render 'artist/social_header') -%>');
-<% else %>
-  $('.primary .left').html('<%= escape_javascript(render 'fan/social_header') -%>');
-<% end %>
-  $('.primary .left').append('<%= escape_javascript(render 'messages/inbox_messages', :messages => @messages) -%>');
-setTimeout('$(document).trigger(\"close.facebox\")',10);  
-$('.left a').removeClass('active').removeClass('button-fill-fan');
-$('#messages').addClass('active').addClass('button-fill-fan');

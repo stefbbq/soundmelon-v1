@@ -1,12 +1,12 @@
 = render :partial=>"bricks/musician_header_bar_public"
-//= render :partial=>"profile/user_dash_board"
-//.primary
-//  .left
-//    = render "users/post_msg_header"
-//    = render "messages/inbox_messages", :messages => @messages
-//  .right
-//    = render "users/user_right_box"
-//  .clear
-//:javascript
-//  $('.left a').removeClass('active').removeClass('button-fill-fan');
-//  $('#messages').addClass('active').addClass('button-fill-fan');
+=# render :partial=>"profile/user_dash_board"
+.primary
+  .left
+    =# render "users/post_msg_header"
+    = render "messages/inbox_messages", :messages => @messages
+  .right
+    =# render "users/user_right_box"
+  .clear
+:javascript
+  $('.left a').removeClass('active').removeClass('button-fill-fan');
+  $('#messages').addClass('active').addClass('button-fill-fan');

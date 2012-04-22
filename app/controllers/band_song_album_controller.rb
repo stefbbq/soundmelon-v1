@@ -45,7 +45,18 @@ class BandSongAlbumController < ApplicationController
           flash[:notice] = "Song successfully uploaded."
           respond_to do |format|
             format.html {redirect_to manage_band_url(:band_name => @band.name) and return}
-            format.json {render :json => { :result => 'success', :upload => @song.song_file_name, :album_name => @song_album.album_name } }
+            format.json {
+              render :json => {
+                :result         => 'success',
+                :upload         => @song.song_file_name,
+                :album_name     => @song_album.album_name,
+                :song_album_id  => @song_album.id,
+                :song_count_str => @song_album.song_count,
+                :image_src      => '/assets/no-image.png',
+                :add_url        => "#{add_song_to_album_path(:band_name =>@band.name, :song_album_name =>@song_album.album_name)}",
+                :album_url      => "#{band_song_album_path(:band_name =>@band.name, :song_album_name =>@song_album.album_name)}"
+              }               
+            }
           end
         else
           render :action => 'new'

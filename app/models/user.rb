@@ -9,11 +9,11 @@ class User < ActiveRecord::Base
   #has_one :band_user
   has_many :band_users
   has_many :bands, :through => :band_users
-  has_one :additional_info
-  has_one :payment_info
+  has_one  :additional_info
+  has_one  :payment_info
   has_many :band_invitations
   has_many :albums
-  has_one :profile_pic
+  has_one  :profile_pic
   has_many :band_albums
   has_many :band_photos
   has_many :songs
@@ -37,15 +37,15 @@ class User < ActiveRecord::Base
   before_validation :sanitize_mention_name 
   
   searchable do
-    text :fname
-    text :lname
-    string :activation_state
+    text    :fname
+    text    :lname
+    string  :activation_state
   end
   
   HUMANIZED_ATTRIBUTES = {
                            :fname => 'First Name',
                            :lname => 'Last Name',
-                           :tac => 'Terms and Condition'
+                           :tac   => 'Terms and Condition'
                          }
 
   def self.human_attribute_name(attr,options={})
@@ -66,6 +66,12 @@ class User < ActiveRecord::Base
   def get_full_name
     "#{self.fname} #{self.lname}"
   end
+
+  def get_full_address
+    info = self.additional_info
+    info ? info.location : ''
+  end
+
     
   def is_admin_of_band?(band) 
     admin_band_members_id_arr = band.band_members.where('band_users.access_level = 1').map{|band_member| band_member.id}

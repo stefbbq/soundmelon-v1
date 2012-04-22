@@ -17,8 +17,14 @@
   %label{:for => "name"} Official Website
   = f.text_field :website, :class => 'textfield'
 .fields
+  %label{:for => "name"} Facebook Page
+  = f.text_field :facebook_page, :class => 'textfield'
+.fields
+  %label{:for => "name"} Twitter Page
+  = f.text_field :twitter_page, :class => 'textfield'
+.fields
   %label{:for => "name"} Upload New Band Logo:
   = f.file_field :logo, :class => 'file-field'
-.fields          
+.fields
   = f.submit 'Update', :class => 'button right'
 .clear

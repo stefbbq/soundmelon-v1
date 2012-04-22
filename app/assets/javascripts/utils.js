@@ -101,6 +101,11 @@ $(document).ready( function(){
 	   e.preventDefault();
   });
   
+  $('a.backable').live('click', function(){
+    history.pushState(null, "", this.href);
+    return false;
+  });
+
   $('.left #latest, .left #replies, .left #mentions, #inbox #messages').live('click', function() {
     history.pushState(null, "", this.href);
     return false

@@ -1,0 +1,6 @@
+- if @status
+  $('#song_album_#{@song_album.id}').remove();
+  $('#musicbox .collection #song_album_#{@song_album.id}').remove();
+- else
+  alert('not removed');
+$.facebox.close();

@@ -1,9 +1,0 @@
-<p id="notice"><%= notice %></p>
-<%= render :partial => "uploader" %>
-<div id="uploaded_images"></div>
-<h3>Upload a Photo/Photos (You can select multiple files as well)</h3> 
-<%= form_for @photo, :url => {:controller => 'photos', :action => 'create'}, :html => {:multipart => true} do |f| %> 
-  Album Name:<p><%=text_field_tag :album_name %></p>
-  Choose File to Upload<p><%= f.file_field :image %> </p> 
-  <p><%= f.submit "Upload" %></p> 
-<% end %>

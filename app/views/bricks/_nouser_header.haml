@@ -1,0 +1,13 @@
+.header
+  .login
+    %h3
+      Already registered?
+    = form_tag login_path do
+      = text_field_tag :email, params[:email], :class => "field"
+      = password_field_tag :password,nil, :class => "field"
+      = submit_tag "", :class => 'exec-login'
+    = link_to 'Forgot your password?', password_resets_path, :remote => true, :class => 'ajaxopen', :id => 'password-reset'
+  .logo
+    = image_tag 'base-logo-big.png'
+    %h2
+      Growing the music radio missed.

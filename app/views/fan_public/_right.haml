@@ -1,46 +1,59 @@
+- following_artist_count = @following_artist_count
+- following_fan_count    = @following_count
+- followers_count        = @followers_count
+
 .items
   = link_to 'latest posts', fan_profile_path(@user), :id=>'latest-posts', :remote=>:true, :class=>'ajaxopen selection-box'
   #artistbox.box-wrapper
     .selection-box
       following
       %span.artist-count
-        = pluralize(@following_artist_count, 'artist')
-      - if @following_artist_count > 0
+        = pluralize(following_artist_count, 'artist')
+      - unless @following_artist_count < Constant::FOLLOWING_ARTIST_SHOW_LIMIT
         %br/
         = link_to 'see all', fan_following_artists_path(@user), :remote=>:true, :class=>'small-font ajaxopen'
-    .band-box-content
+    .collection
       %div
-        - @following_artists.each do |band|
-          .artist-avatar
-            = link_to get_band_logo_small(band), fan_following_artists_path(:band_name => band.name)
+        - if following_artist_count > 0
+          - @following_artists.each do |band|
+            .artist-avatar
+              = link_to get_band_logo_small(band), show_band_path(:band_name => band.name)
+        - else
+          = Constant::NO_FOLLOWING_MESSAGE
       .clear
   .clear
   #followingbox.box-wrapper
     .selection-box
       following
       %span.artist-count
-        = pluralize(@following_count,'fan')
-      -if @following_count > 0
+        = pluralize(following_fan_count,'fan')
+      - unless following_fan_count < Constant::FOLLOWING_FAN_SHOW_LIMIT
         %br/
         = link_to 'see all', fan_following_path(@user), :remote=>:true, :class=>'small-font ajaxopen'
-    .band-box-content
+    .collection
       %div
-        - @following_users.each do |fan_following|
-          .artist-avatar
-            = link_to get_avatar_small(fan_following), fan_profile_path(fan_following)
+        - if following_fan_count > 0
+          - @following_users.each do |fan_following|
+            .artist-avatar
+              = link_to get_avatar_small(fan_following), fan_profile_path(fan_following)
+        - else
+          = Constant::NO_FOLLOWING_MESSAGE
       .clear
   .clear
   #followerbox.box-wrapper
     .selection-box
       %span.artist-count
-        = pluralize(@followers_count,'follower')
-      - if @followers_count>0
+        = pluralize(followers_count,'follower')
+      - unless @followers_count < Constant::FOLLOWER_SHOW_LIMIT
         %br/
-        = link_to 'see all', fan_followers_path(@user), :remote=>:true, :class=>'small-font ajaxopen'
-    .band-box-content
+        = link_to 'see all', fan_followers_path, :remote=>:true, :class=>'small-font ajaxopen'
+    .collection
       %div
-        - @followers_users.each do |fan_follower|
-          .artist-avatar
-            = link_to get_avatar_small(fan_follower), fan_profile_path(fan_follower)
+        - if followers_count > 0
+          - @followers_users.each do |fan_followers|
+            .artist-avatar
+              = link_to get_avatar_small(fan_followers), fan_profile_path(fan_followers)
+        - else
+          = Constant::NO_FOLLOWER_MESSAGE
       .clear
   .clear

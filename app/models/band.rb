@@ -17,6 +17,7 @@ class Band < ActiveRecord::Base
   has_attached_file :logo, 
     :styles => { :small => '50x50#', :medium => '100x100>', :large => '350x180>' },
     :url => "/assets/images/bands/:id/:style/:basename.:extension"
+
   validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png', 'image/jpg'] 
   validates_attachment_size :logo, :less_than => 5.megabytes
   
@@ -111,22 +112,24 @@ class Band < ActiveRecord::Base
     return posts
   end
   
-  def limited_band_albums(n=3)
+  def limited_band_albums(n=Constant::BAND_PHOTO_ALBUM_SHOW_LIMIT)
     self.band_albums.limit(n)
   end
   
-  def limited_song_albums(n=3)
+  def limited_song_albums(n=Constant::BAND_SONG_ALBUM_SHOW_LIMIT)
     self.song_albums.limit(n)
   end
   
-  def limited_band_members(n=4)
+  def limited_band_members(n=Constant::BAND_MEMBER_SHOW_LIMIT)
      self.band_members.limit(n)
   end
   
-  def limited_band_follower(n=4)
+  def limited_band_follower(n=Constant::BAND_FOLLOWER_SHOW_LIMIT)
     self.user_followers.order('created_at desc').limit(n)
   end
+  
   protected
+
   def mark_mentioned_post_as_read post_ids
      MentionedPost.where(:post_id => post_ids, :band_id => self.id).update_all(:status => READ)
   end

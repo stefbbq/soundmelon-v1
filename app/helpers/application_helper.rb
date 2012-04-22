@@ -16,7 +16,7 @@ module ApplicationHelper
     if user.profile_pic
       image_tag(user.profile_pic.avatar.url(:small), :alt=>'')
     else
-      image_tag('fan-defaults-photo-thumbnail.png', :alt=>'')
+      image_tag('fan-defaults-photo-thumbnail.jpg', :alt=>'')
     end
   end
   
@@ -24,7 +24,7 @@ module ApplicationHelper
     if user.profile_pic
       image_tag(user.profile_pic.avatar.url(:medium), :alt=>'')
     else
-      image_tag('fan-defaults-photo-profile.png', :alt=>'')
+      image_tag('fan-defaults-photo-profile.jpg', :alt=>'')
     end
   end
   
@@ -48,7 +48,7 @@ module ApplicationHelper
       if user.profile_pic
         image_tag(user.profile_pic.avatar.url(:large), :alt=>'')
       else
-        image_tag('fan-defaults-photo-profile.png', :alt=>'')
+        image_tag('fan-defaults-photo-profile.jpg', :alt=>'')
       end
     end
   end

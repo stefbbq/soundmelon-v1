@@ -64,10 +64,17 @@
 		     margin-bottom: 2px;
 		  }
 		  .artist-avatar {
-		    float: left; 
+		    float: left;
 		    padding-left: 3px; 
 		    padding-right: 3px;
+        margin-top:2px;
+        img{
+						width: 35px;
+						height: 35px;
+						border: 0;						
+					}
 		  }
+
 		}
 	
 	  long-list { 

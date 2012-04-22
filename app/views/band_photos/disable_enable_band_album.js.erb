@@ -1,8 +1,0 @@
-<% if @status 
-  if @band_album
-  %>    
-    $('#public_view_link_<%= @band_album.id %>').text('<%= @band_album.disabled? ? 'enable' : 'disable' %>');
-  <% end %>
-<% else %>
-  alert('There was an error!');
-<% end %>

@@ -1,4 +1,4 @@
-$('.left > .leftcontainer').html('');
+$('.primary .left').html('');
 - band_invitation_form = capture do 
   .blankbox
     %h3 
@@ -24,11 +24,11 @@ $('.left > .leftcontainer').html('');
             = render :partial => 'band_invitation_fields', :locals => {:f => band_invitation}
           - else
             - hidden_field_tag :old_band_invitation
+        %br/
         %span.radiolabel
           = link_to_add_fields "Add another", f, :band_invitations
         .right
           = f.submit("Send Invitations" ,:class=>"button")
   .clear
-
-!="$('.left > .leftcontainer').html('#{escape_javascript(band_invitation_form)}');"
+!="$('.primary .left').html('#{escape_javascript(band_invitation_form)}');"
 setTimeout('$(document).trigger(\"close.facebox\")',10);

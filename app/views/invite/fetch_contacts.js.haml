@@ -1,0 +1,39 @@
+$('.passwordfield').val('');
+- if @error
+  $(':submit').removeAttr('disabled');
+  jQuery.facebox("#{@msg}");
+  setTimeout('$(document).trigger(\"close.facebox\")',1000);
+- else
+  - if @contacts.blank?
+    jQuery.facebox("
+    %br>/
+    You don't have contacts in your contact list.");
+  - else
+    var content = '
+    #contact_list>
+      ';
+      - @contacts.each do |name, email|
+        content += '#{check_box_tag "invite_list[]", "#{email}:$#{name}"}#{name.blank? ? email : name}
+        = succeed "';" do
+          %br/
+      content += '
+    Select All
+    %input#checkAll{:name => "checkall", :type => "checkbox"}>/
+    '
+    content += '#{submit_tag "send invitation", :class => "send_invitation button right"}'
+    jQuery.facebox('
+    %h1
+      %span.shaded Select the friends you want to invite
+    = form_tag send_invitation_path,:class=>"ajaxopen", :remote => true do
+      '+content+'
+    ');
+    $('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});
+    
+    
+    
+    
+    $(function () {
+    $('#checkAll').click(function () {
+    $(this).closest('div').find(':checkbox').attr('checked', this.checked);
+    });
+    });

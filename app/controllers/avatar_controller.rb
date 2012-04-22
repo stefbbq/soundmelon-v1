@@ -33,7 +33,11 @@ class AvatarController < ApplicationController
   end
   
   def crop
-    @profile_pic = current_user.profile_pic
+    begin
+      @profile_pic = current_user.profile_pic
+    rescue
+      @profile_pic = nil
+    end    
   end
   
   def delete

@@ -1,8 +1,0 @@
-$('.primary .left').html('<%= escape_javascript(render 'status_input') -%>');
-$('.primary .left').append('<%= escape_javascript(render 'social_header') -%>');
-$('.primary .left').append('<%= escape_javascript(render 'posts') -%>');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.selection-box').removeClass('active').removeClass('button-fill-artist');
-$('#feed-msg').addClass('active').addClass('button-fill-artist');
-$('.left a').removeClass('active').removeClass('button-fill-artist');
-$('#latest').addClass('active').addClass('button-fill-artist');

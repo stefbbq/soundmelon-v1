@@ -1,0 +1,14 @@
+=form_for :user, :url => update_basic_info_path, :html => {:remote => true, :class => 'ajaxopen'}  do |f|
+  .fields
+    %label{:for=>"name"}
+      First Name
+    = f.text_field :fname, :class => 'textfield'  
+  .fields
+    %label{:for=>"name"}
+      Last Name
+    = f.text_field :lname, :class => 'textfield'
+  .fields
+    %label{:for=>"name"}
+      Bio
+    = f.text_area :bio, :class => 'textfield', :rows =>'20', :cols =>'20'
+  = submit_tag 'Update', :class => 'button'

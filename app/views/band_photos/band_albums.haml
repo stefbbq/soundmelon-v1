@@ -1,0 +1,11 @@
+%h3 Band Albums
+- if @band_albums.blank?
+  Has not uploaded any photo yet
+- else
+  - @band_albums.each do |band_album|
+    .album{:style=>"margin:2px; background:#363636;"}
+      .album_teaser_image{:style=>"width:80px;float:left;"}
+        = link_to image_tag(band_album.band_photos.first.image.url(:small)), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name)    
+    .album_name{:style=>"float:right;"}
+      %h2= link_to "#{band_album.name}(#{pluralize(band_album.band_photos.count, 'photo')})", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name)
+    .clear
