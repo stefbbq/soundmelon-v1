@@ -31,16 +31,8 @@
     }          
   });
   $("#additional_info_favourite_genre").tokenInput(
-    [
-      - genres.each do |genre|
-        {id: '#{genre.name}', name: '#{genre.name}'},
-    ],
+    [#{genre_atuofill}],
     {
       theme: "facebook",
-      - unless @additional_info.nil?
-        - unless @additional_info.favourite_genre.blank?
-        prePopulate: [
-          - @additional_info.favourite_genre.split(',').each do |cur_genre|
-            {id: '#{cur_genre.name}', name: '#{cur_genre.name}'},
-      ]
+      prePopulate: [#{genre_prepopullate_from_addinfo(@additional_info)}]
   });

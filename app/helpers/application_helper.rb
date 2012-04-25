@@ -95,6 +95,18 @@ module ApplicationHelper
     end
     return pre_popullate_genre
   end
+
+  def genre_prepopullate_from_addinfo add_info
+    pre_popullate_genre = ''
+    unless add_info.nil?
+      unless add_info.favourite_genre.blank?
+        add_info.favourite_genre.split(',').each do |cur_genre|
+          pre_popullate_genre += "{id: '#{cur_genre}', name: '#{cur_genre}'},"
+        end
+      end
+    end
+    return pre_popullate_genre
+  end
   
   def user_mention_lists(user)
     auto_mention_list     = ''
@@ -123,7 +135,7 @@ module ApplicationHelper
       image_tag('no-image.png', :alt=>'')
     else
       (width.nil? and height.nil?) ? image_tag(song_album.cover_img.url(type), :alt=>'aa') : image_tag(song_album.cover_img.url(type), :width =>width,:height=>height, :alt=>'')
-    end  
+    end
   end
   
   def get_band_photo_album_teaser_photo(band_photo_album, type='thumb')
@@ -131,7 +143,7 @@ module ApplicationHelper
       image_tag('no-image.png', :alt=>'')
     else
       image_tag(band_photo_album.band_photos.first.image.url(type), :alt=>'')
-    end  
+    end
   end
 
   def can_admin?(band, user)
@@ -159,8 +171,8 @@ module ApplicationHelper
         band_profile_link_html = "<a href='#{show_band_path(mb.gsub('@',''))}'>#{mb}</a>"
         post_msg = post_msg.gsub(mb, band_profile_link_html)
       }
-    end    
+    end
     post_msg.html_safe
-  end  
+  end
   
 end
