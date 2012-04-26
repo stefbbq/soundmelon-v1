@@ -12,6 +12,10 @@
 	font-size: $default-button-font-size;
 	color: $default-button-font-color;
 	
+	a {
+		text-decoration: none;
+	}
+	
 	&:hover {
 		@include linear-gradient(#555, #444);
 		text-decoration: none;
@@ -61,6 +65,7 @@
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $colora), color-stop(100%, $colorb)); /* Safari 4+, Chrome 2+ */  
 	background-image: -webkit-linear-gradient($colora, $colorb); /* Safari 5.1+, Chrome 10+ */  
 	background-image: -o-linear-gradient($colora, $colorb); /* Opera 11.10 */
+	background-image: linear-gradient($colora, $colorb);
 }
 
 @mixin linear-gradient-important($colora, $colorb){
@@ -69,4 +74,5 @@
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $colora), color-stop(100%, $colorb)) !important; /* Safari 4+, Chrome 2+ */  
 	background-image: -webkit-linear-gradient($colora, $colorb) !important; /* Safari 5.1+, Chrome 10+ */  
 	background-image: -o-linear-gradient($colora, $colorb) !important; /* Opera 11.10 */
+	background-image: linear-gradient($colora, $colorb) !important;
 }

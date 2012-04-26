@@ -22,7 +22,7 @@
             = link_to band_album.disabled? ? 'enable' : 'disable', disable_enable_band_album_path(:band_name =>@band.name, :album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{band_album.id}"
           .album_controls{:style=>'float:left;width:50px;'}
             = link_to "remove", delete_album_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
-        .thread_expand
+        .toggle-thread
           = link_to "expand", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{band_album.id}"
         .clear
       .album_details

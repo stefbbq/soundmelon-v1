@@ -19,7 +19,8 @@
             .artist-avatar
               = link_to get_band_logo_small(band), show_band_path(:band_name => band.name)
         - else
-          = Constant::NO_FOLLOWING_MESSAGE
+          .message        
+            = Constant::NO_FOLLOWING_MESSAGE
       .clear
   .clear
   #following_fans.box-wrapper
@@ -37,7 +38,8 @@
             .artist-avatar
               = link_to get_avatar_small(fan_following), fan_profile_path(fan_following)
         - else
-          = Constant::NO_FOLLOWING_MESSAGE
+          .message        
+            = Constant::NO_FOLLOWING_MESSAGE
       .clear
   .clear
   #followers.box-wrapper
@@ -54,7 +56,8 @@
             .artist-avatar
               = link_to get_avatar_small(fan_followers), fan_profile_path(fan_followers)
         - else
-          = Constant::NO_FOLLOWER_MESSAGE
+          .message        
+            = Constant::NO_FOLLOWER_MESSAGE
       .clear
   .divider
   = link_to 'manage your profile', manage_profile_path, :id=>'manage-profile', :remote => true, :class => 'selection-box ajaxopen'

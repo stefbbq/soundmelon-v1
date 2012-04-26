@@ -128,25 +128,25 @@ function add_fields(link, association, content) {
 
 function hide_parent_posts(div_id) {
   $(div_id).siblings().hide();
-  $(div_id).siblings('.thread_expand').show();
+  $(div_id).siblings('.thread-expand').show();
 }
 
 function show_parent_posts(div_id) {
   $(div_id).siblings().show();
-  $(div_id).siblings('.thread_expand').hide();
-  $('.thread_collapse').show();
+  $(div_id).siblings('.thread-expand').hide();
+  $('.thread-collapse').show();
 }
 
 function hide_songs(div_id){
   $(div_id).children('.song').hide();
-  $(div_id).find('.thread_collapse').hide();
-  $(div_id).find('.thread_expand').show(); 
+  $(div_id).find('.thread-expand').hide();
+  $(div_id).find('.toggle-thread').show(); 
 }
 
 function show_songs(div_id){
   $(div_id).children('.song').show();
-  $(div_id).find('.thread_expand').hide();
-  $(div_id).find('.thread_collapse').show();    
+  $(div_id).find('.thread-expand').hide();
+  $(div_id).find('.thread-collapse').show();    
 }
 
 function set_right_height(){

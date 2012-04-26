@@ -1,4 +1,5 @@
-!= "$('.user_posts').append('#{escape_javascript(render 'user_posts/user_post', :posts => @posts)}');"
+!= "$('.user_posts').append('#{escape_javascript(render 'user_posts/post_aggregate', :posts => @posts)}');"
 != "$('.readmore a').attr('href','#{@load_more_path}');"
 -if @load_more_path.nil?
   != "$('.readmore a').hide();"
+!= "set_right_height();"  

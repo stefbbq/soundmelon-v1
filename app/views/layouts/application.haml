@@ -17,15 +17,16 @@
   %body
     #base-container
       #page-container
+        #page-top-fade
         #page
-          #header
+          #page-header
             - if current_user
               = render :partial =>'bricks/user_header'
             - else
               %div
                 = render :partial =>'bricks/nouser_header'
-          #content
-            = yield
+          #page-content
+            = yield    
       = render :partial=>"bricks/footer"
       .globalloading.hide{:id=>"globalloading" }
         .center

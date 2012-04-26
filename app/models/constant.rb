@@ -12,12 +12,11 @@ class Constant
   FOLLOWER_SHOW_LIMIT          = 4
   TOUR_DATE_SHOW_LIMIT         = 4
   
-  NO_FAN_MESSAGE               = "No Fans Yet"
-  NO_FOLLOWING_MESSAGE         = "Not Following Yet"
-  NO_FOLLOWER_MESSAGE          = "No Followers Yet"
-  NO_SONG_ALBUM_MESSAGE        = "No Songs Uploaded"
-  NO_PHOTO_ALBUM_MESSAGE       = "No Photos Uploaded"
-  NO_BAND_ARTIST_MESSAGE       = "No Band Members"
-  NO_TOUR_DATE_MESSAGE         = "No Tour Dates"
-
+  NO_FAN_MESSAGE               = "no fans yet"
+  NO_FOLLOWING_MESSAGE         = "not following anyone"
+  NO_FOLLOWER_MESSAGE          = "no followers yet"
+  NO_SONG_ALBUM_MESSAGE        = "no music yet"
+  NO_PHOTO_ALBUM_MESSAGE       = "no photos yet"
+  NO_BAND_ARTIST_MESSAGE       = "no band members"
+  NO_TOUR_DATE_MESSAGE         = "no dates set"
 end

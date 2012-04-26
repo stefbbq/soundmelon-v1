@@ -1,8 +1,8 @@
 //sidebar
 
+@import 'compass/css3';
 @import 'mixins';
 @import 'vars';
-@import 'compass/css3';
 
 .primary .right {
 	@include box-shadow(rgba(black, .3), -3px, 0px, 5px);
@@ -18,7 +18,7 @@
 		> div, a {
 			margin-bottom: 8px;
 		}
-		
+	
 		//selection
 		.selection-box {
 			@include default-button;
@@ -50,11 +50,19 @@
 	  //collection
 		.collection {
 			@include border-radius(0 0 $detail-border-radius $detail-border-radius);
-			background: rgba(white, .05);
+			background: rgba(white, .03);
 			padding: 8px 0 8px 8px;
 			width: 237px;
 		  text-align: left;
 		  color: #a7a7a7;
+		
+			//none messaging
+			.message {
+				text-align: center;
+				font-style: italic;
+				padding: 10px 8px 10px 0;
+				color: $text-faded-color;
+			}
 		
 		  .album-cover-image {
 		    padding: 2px;

@@ -26,7 +26,8 @@
               = link_to get_album_cover_image(song_album), band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
             = link_to song_album.album_name, band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
       - else
-        = Constant::NO_SONG_ALBUM_MESSAGE
+        .message
+          = Constant::NO_SONG_ALBUM_MESSAGE
   #photobox.box-wrapper
     .selection-box
       photos
@@ -47,7 +48,8 @@
             = link_to band_photo_album.name, band_album_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
             = link_to image_tag('remove.png'), delete_album_path(:band_name => @band.name, :band_album_name => band_photo_album.name), :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen"
       - else
-        = Constant::NO_PHOTO_ALBUM_MESSAGE
+        .message
+          = Constant::NO_PHOTO_ALBUM_MESSAGE
   #photobox.box-wrapper
     .selection-box
       tour dates
@@ -62,7 +64,8 @@
           .song-album[tour]
             = link_to tour.tour_date, band_tour_path(:band_name =>@band.name, :band_tour_id => tour.id), :remote=>:true, :class=>"ajaxopen"
       - else
-        = Constant::NO_TOUR_DATE_MESSAGE
+        .message
+          = Constant::NO_TOUR_DATE_MESSAGE
   #artistbox.box-wrapper
     .selection-box
       connected to
@@ -78,7 +81,8 @@
             .artist-avatar
               = link_to get_avatar_small(band_artist), fan_profile_path(band_artist)
         - else
-          = Constant::NO_BAND_ARTIST_MESSAGE
+          .message
+            = Constant::NO_BAND_ARTIST_MESSAGE
       .clear
   .clear
   #fanbox.box-wrapper
@@ -95,7 +99,8 @@
             .artist-avatar
               = link_to get_avatar_small(band_fan), fan_profile_path(band_fan)
         - else
-          = Constant::NO_FAN_MESSAGE
+          .message
+            = Constant::NO_FAN_MESSAGE
       .clear
   .clear
   .divider
