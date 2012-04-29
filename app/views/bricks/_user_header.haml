@@ -14,19 +14,19 @@
     .notifications
       %div
         -if @unread_post_replies_count > 0
-          = link_to @unread_post_replies_count, replies_path
+          = link_to @unread_post_replies_count, replies_path, :id =>'reply_count'
         -else
           = link_to @unread_post_replies_count, replies_path, :class=>"dimmed"
         replies
       %div
         -if @unread_mentioned_count > 0
-          = link_to @unread_mentioned_count, mentioned_path
+          = link_to @unread_mentioned_count, mentioned_path, :id =>'mention_count'
         -else
           = link_to @unread_mentioned_count, mentioned_path, :class=>"dimmed"
         mentions
       %div
         -if @unread_messages_count > 0
-          = link_to @unread_messages_count, user_inbox_path
+          = link_to @unread_messages_count, user_inbox_path, :id =>'message_count'
         -else
           = link_to @unread_messages_count, user_inbox_path, :class=>"dimmed"
         messages

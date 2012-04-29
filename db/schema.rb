@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120420170918) do
+ActiveRecord::Schema.define(:version => 20120424045238) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -202,12 +202,16 @@ ActiveRecord::Schema.define(:version => 20120420170918) do
     t.string   "msg"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_deleted",    :default => false
+    t.boolean  "is_deleted",         :default => false
     t.string   "ancestry"
-    t.boolean  "is_bulletin",   :default => false
-    t.boolean  "is_read",       :default => false
+    t.boolean  "is_bulletin",        :default => false
+    t.boolean  "is_read",            :default => false
     t.integer  "song_album_id"
     t.integer  "song_id"
+    t.string   "mentioned_users"
+    t.string   "mentioned_user_ids"
+    t.string   "mentioned_bands"
+    t.string   "mentioned_band_ids"
   end
 
   add_index "posts", ["ancestry"], :name => "index_posts_on_ancestry"
@@ -286,5 +290,18 @@ ActiveRecord::Schema.define(:version => 20120420170918) do
   add_index "users", ["activation_token"], :name => "index_users_on_activation_token"
   add_index "users", ["last_logout_at", "last_activity_at"], :name => "index_users_on_last_logout_at_and_last_activity_at"
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token"
+
+  create_table "votes", :force => true do |t|
+    t.integer  "votable_id"
+    t.string   "votable_type"
+    t.integer  "voter_id"
+    t.string   "voter_type"
+    t.boolean  "vote_flag"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "votes", ["votable_id", "votable_type"], :name => "index_votes_on_votable_id_and_votable_type"
+  add_index "votes", ["voter_id", "voter_type"], :name => "index_votes_on_voter_id_and_voter_type"
 
 end

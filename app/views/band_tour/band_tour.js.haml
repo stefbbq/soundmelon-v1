@@ -1,0 +1,5 @@
+- if @band_tour  
+  $('.primary .left').html('#{escape_javascript(render :partial =>'/band_tour/band_tour',:locals =>{:band_tour =>@band_tour})} ');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('div').removeClass('active');
+$('#photobox .selection-box').addClass('active');

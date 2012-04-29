@@ -37,8 +37,8 @@ module ApplicationHelper
         edit_delete_links_and_img_str += link_to 'change', new_avatar_path, :remote=>:true,:class=>'ajaxopen'
         edit_delete_links_and_img_str += link_to 'delete', delete_avatar_path, :remote=>:true
         edit_delete_links_and_img_str += '</div>'
-        edit_delete_links_and_img_str += '<div>'
-        edit_delete_links_and_img_str += image_tag(user.profile_pic.avatar.url(:large))
+        edit_delete_links_and_img_str += "<div id='pic_#{user.id}'>"
+        edit_delete_links_and_img_str += image_tag(user.profile_pic.avatar.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
         edit_delete_links_and_img_str += '</div>' 
         raw edit_delete_links_and_img_str  
       else
@@ -130,7 +130,7 @@ module ApplicationHelper
     return auto_mention_list
   end
   
-  def get_album_cover_image(song_album, type='small', width=nil, height=nil)
+  def get_album_cover_image(song_album, type='small', width=nil, height=nil)    
     if song_album.cover_img_content_type.nil?
       image_tag('no-image.png', :alt=>'')
     else

@@ -1,11 +1,11 @@
 class Photo < ActiveRecord::Base
   belongs_to :album
   has_attached_file :image, 
-    :url => "/assets/images/album/:id/:style/:basename.:extension",
+    :url    => "/assets/images/album/:id/:style/:basename.:extension",
     :styles => { 
-      :large => "800x800>", 
-      :medium => "300x300>", 
-      :thumb => "100x100#"
+      :large  => ["800x800>", :jpg],
+      :medium => ["300x300>", :jpg],
+      :thumb  => ["100x100#", :jpg]
     }
       
   #validates_attachment_content_type :image, :content_type => ['image/jpeg', 'image/png', 'image/jpg'] 

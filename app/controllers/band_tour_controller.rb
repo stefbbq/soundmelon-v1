@@ -7,9 +7,9 @@ class BandTourController < ApplicationController
 
   def show
     begin
-      @band = Band.where(:name => params[:band_name]).first
-      @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).first
-      @photo = BandPhoto.find(params[:id])
+      @band       = Band.where(:name => params[:band_name]).first
+      @band_album = BandTour.where('band_id = ? and id = ?', @band.id, params[:id]).first
+      @photo      = BandPhoto.find(params[:id])
     rescue
       render :nothing => true and return
     end
@@ -19,7 +19,7 @@ class BandTourController < ApplicationController
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
     @band = Band.where(:name => params[:band_name]).first
     if current_user.is_admin_of_band?(@band)
-      @band_photo = BandPhoto.new
+      @band_tour = BandTour.new
     else
       render :nothing => true and return
     end
@@ -29,33 +29,8 @@ class BandTourController < ApplicationController
     begin
       @band = Band.where(:name => params[:band_name]).first
       if current_user.is_admin_of_band?(@band)
-        newparams = coerce(params)
-        if params[:album_name].blank?
-          params[:album_name] = Time.now.strftime("%Y-%m-%d")
-        end
-        @band_album         = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first || BandAlbum.create(:name=>params[:album_name], :user_id => current_user.id, :band_id => @band.id)
-        @band_photo         = @band_album.band_photos.build(newparams[:band_photo])
-        @band_photo.user_id = current_user.id
-        if @band_photo.save
-          @band_album       = @band_photo.band_album
-          flash[:notice] = "Successfully created upload."
-          respond_to do |format|
-            format.html {redirect_to user_home_url and return}
-            format.json {render :json =>
-                          {
-                              :result         => 'success',
-                              :band_album_id  => @band_album.id,
-                              :photo_count_str=> @band_album.photo_count,
-                              :upload         => @band_photo.image.url(:thumb),
-                              :album_name     => @band_album.name,
-                              :image_string   => '',
-                              :image_src      => @band_album.photo_count>0 ? @band_album.band_photos.first.image.url(:thumb) : '/assets/no-image.png',
-                              :add_url        => "#{add_photos_to_album_path(:band_name =>@band.name, :band_album_name =>@band_album.name)}",
-                              :album_url      => "#{band_album_path(:band_name =>@band.name, :band_album_name =>@band_album.name)}",
-                              :delete_url     => "#{delete_album_path(:band_name =>@band.name, :band_album_name =>@band_album.name)}"
-                          }
-                        }
-          end
+        @band_tour = @band.band_tours.build(params[:band_tour])
+        if @band_tour.save
         else
           render :action => 'new'
         end
@@ -67,12 +42,43 @@ class BandTourController < ApplicationController
     end
   end
 
+  def edit
+    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+    begin
+      @band         = Band.where(:name => params[:band_name]).first
+      if current_user.is_member_of_band?(@band)
+        @band_tour = BandTour.find(params[:band_tour_id])        
+      else
+        render :noting => true and return
+      end
+    rescue
+      render :nothing => true and return
+    end
+  end
+
+  def update
+    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+    begin
+      @band         = Band.where(:name => params[:band_name]).first
+      if current_user.is_member_of_band?(@band)
+        @band_tour = BandTour.find(params[:id])
+        @band_tour.update_attributes(params[:band_tour])        
+      else        
+        render :noting => true and return
+      end
+    rescue =>exp
+      logger.info {"Error in updating :#{exp.message}"}
+      render :nothing => true and return
+    end
+  end
+
+
   def band_tours
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
     begin
-      @band = Band.where(:name => params[:band_name]).first
+      @band             = Band.where(:name => params[:band_name]).first
       @is_admin_of_band = current_user.is_member_of_band?(@band)
-      @band_albums = @band.band_albums.includes('band_photos')
+      @band_tours       = @band.band_tours
     rescue
       render :nothing => true and return
     end
@@ -81,13 +87,50 @@ class BandTourController < ApplicationController
   def band_tour
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
     begin
-      @band = Band.where(:name => params[:band_name]).first
+      @band             = Band.where(:name => params[:band_name]).first
       @is_admin_of_band = current_user.is_member_of_band?(@band)
-      @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
-      @status = true
+      @band_tour        = BandTour.find(params[:band_tour_id])
+      @status           = true
     rescue
       @status = false
       render :nothing => true and return
+    end
+  end
+
+  def band_tour_detail
+    if request.xhr?
+      begin
+        @band             = Band.where(:name => params[:band_name]).first
+        @is_admin_of_band = current_user.is_member_of_band?(@band)
+        @band_tour        = BandTour.find(params[:band_tour_id])
+      rescue
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_path(:band_name => params[:band_name]) and return
+    end
+  end
+
+  def like_dislike_band_tour
+    @band             = Band.where(:name => params[:band_name]).first
+    @band_tour        = BandTour.find(params[:band_tour_id])
+  end
+
+  def destroy_tour
+    if request.xhr?
+      begin
+        @band       = Band.where(:name => params[:band_name]).first
+        @band_tour  = BandTour.find(params[:band_tour_id])
+        unless current_user.is_admin_of_band?(@band)
+          render :nothing => true and return
+        end
+        @status = @band_tour.delete
+      rescue
+        @status = false
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(params[:band_name]) and return
     end
   end
   

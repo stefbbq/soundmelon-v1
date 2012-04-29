@@ -12,12 +12,10 @@ gem "therubyracer"
 gem 'sorcery'
 gem 'haml-rails'
 gem 'will_paginate','3.0.pre2'
-gem 'acts-as-messageable'
 gem 'contacts'
 gem 'paperclip'
 gem "recaptcha", :require => "recaptcha/rails"
 gem "remotipart", "~> 1.0"
-gem 'acts_as_follower' #https://github.com/tcocca/acts_as_follower
 gem 'kaminari'
 gem 'mime-types', :require => 'mime/types'
 gem 'sunspot_rails'
@@ -25,6 +23,9 @@ gem 'sunspot_solr'  # optional pre-packaged Solr distribution for use in develop
 gem 'progress_bar'
 gem "activerecord-import", ">= 0.2.0"
 gem 'ancestry'
+gem 'acts-as-messageable'
+gem 'acts_as_votable'
+gem 'acts_as_follower' #https://github.com/tcocca/acts_as_follower
 
 # Gems used only for assets and not required
 # in production environments by default.

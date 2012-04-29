@@ -163,20 +163,6 @@ class BandSongAlbumController < ApplicationController
     end
   end
 
-  def remove_song_album
-    begin
-      @band = Band.where(:name => params[:band_name]).first
-      if current_user.is_member_of_band?(@band)
-        @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
-      end
-      if @song_album        
-        @status = @song_album.delete
-      end
-    rescue
-      render :nothing => true and return
-    end
-  end
-
   def albums_for_featured_list    
     begin
       @band               = Band.where(:name => params[:band_name]).first

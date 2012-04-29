@@ -6,6 +6,7 @@ class Band < ActiveRecord::Base
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user
   has_many :band_albums, :order => 'created_at desc'
+  has_many :band_tours, :order =>'created_at desc'
   has_many :band_invitations, :dependent => :destroy
   has_many :song_albums, :order => 'created_at desc'
   has_many :posts
@@ -15,7 +16,11 @@ class Band < ActiveRecord::Base
 
   accepts_nested_attributes_for :band_invitations , :reject_if => proc { |attributes| attributes['email'].blank? }
   has_attached_file :logo, 
-    :styles => { :small => '50x50#', :medium => '100x100>', :large => '350x180>' },
+    :styles => { 
+      :small => ['50x50#', :jpg],
+      :medium =>['100x100>', :jpg],
+      :large => ['350x280>', :jpg]
+    },
     :url => "/assets/images/bands/:id/:style/:basename.:extension"
 
   validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png', 'image/jpg'] 
@@ -126,6 +131,10 @@ class Band < ActiveRecord::Base
   
   def limited_band_follower(n=Constant::BAND_FOLLOWER_SHOW_LIMIT)
     self.user_followers.order('created_at desc').limit(n)
+  end
+
+  def limited_band_tours(n=Constant::TOUR_DATE_SHOW_LIMIT)
+    self.band_tours.order('created_at desc').limit(n)
   end
   
   protected

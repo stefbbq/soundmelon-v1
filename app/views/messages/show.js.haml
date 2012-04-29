@@ -1,4 +1,4 @@
-$('#msg_item_#{@message.id}').html('');
+$('div#msg_item_#{@message.id}').html('');
 - all_messages = capture do
   - @messages.each do |message|
     = message.body
@@ -25,6 +25,8 @@ $('#msg_item_#{@message.id}').html('');
       = submit_tag("Reply" ,:class=>"button yellow")
 $('#msg_item_#{@message.id}').append("#{escape_javascript(all_messages)}");
 $('#msg_item_#{@message.id}').append("#{escape_javascript(reply_form)}");
+$('a#message_count').text(parseInt($('a#message_count').text()) - 1);
+$('a#msg_view_#{@message.id}').remove();
 $('.ajaxload').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());});
 setTimeout('$(document).trigger(\"close.facebox\")',10);  
 

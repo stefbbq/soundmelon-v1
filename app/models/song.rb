@@ -7,8 +7,8 @@ class Song < ActiveRecord::Base
   has_attached_file :song, 
     :url => "/assets/bands/song/album/:id/:style/:normalized_attachment_file_name"
   
-  validates_attachment_content_type :song,
-    :content_type => [ 'audio/mpeg', 'audio/x-mpeg', 'audio/mp3', 'audio/x-mp3', 'audio/mpeg3', 'audio/x-mpeg3', 'audio/mpg', 'audio/x-mpg', 'audio/x-mpegaudio', 'application/octet-stream' ]
+#  validates_attachment_content_type :song,
+#    :content_type => [ 'audio/mpeg', 'audio/x-mpeg', 'audio/mp3', 'audio/x-mp3', 'audio/mpeg3', 'audio/x-mpeg3', 'audio/mpg', 'audio/x-mpg', 'audio/x-mpegaudio', 'application/octet-stream' ]
      
   validates_attachment_size :song, :less_than => 15.megabytes
   validates_attachment_presence :song 
@@ -27,7 +27,13 @@ class Song < ActiveRecord::Base
   
   def song_name_without_extension
     self.song_file_name.gsub(/\..*/,'')
-  end 
+  end
+
+  def song_detail
+    detail      = {}
+    song_album  = self.song_album(:include =>:band)    
+    song_album ? {:album =>song_album.album_name, :band =>song_album.band.name, :band_image =>''} : {:album =>'', :band=>'', :band_image =>''}
+  end
   
 
   private

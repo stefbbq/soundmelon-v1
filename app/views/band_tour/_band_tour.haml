@@ -1,0 +1,19 @@
+.album[band_tour]
+  .album_info_wrapper
+    .album_info
+      .album_name
+        Tour Date:
+        = band_tour.tour_date.strftime("%b %d, %Y")
+      .album_controls
+    .clear
+  .additional_info
+    - if can_admin?(@band, current_user)
+      .album_controls{:style=>'float:left;width:50px;'}
+        = link_to "edit", edit_band_tour_path(:band_name =>@band.name, :band_tour_id => band_tour.id), :remote=>:true, :class=>"ajaxopen"
+        = link_to "remove", delete_band_tour_path(:band_name =>@band.name, :band_tour_id => band_tour.id), :remote=>:true, :class=>"ajaxopen"
+    .thread_expand
+      = link_to "expand", band_tour_detail_path(:band_name =>@band.name, :band_tour_id => band_tour.id), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{band_tour.id}"
+    .clear
+  .tour_details
+  .clear
+.clear

@@ -8,12 +8,12 @@ class BandPhoto < ActiveRecord::Base
   has_attached_file :image, 
     :url => "/assets/bands/album/:id/:style/:basename.:extension",
     :styles => { 
-      :large => "800x800>", 
-      :medium => "300x300>", 
-      :thumb => "35x35#"
+      :large  => ["800x800>", :jpeg],
+      :medium => ["300x300>", :jpeg],
+      :thumb  => ["35x35#", :jpeg]
     }
       
-  #validates_attachment_content_type :image, :content_type => ['image/jpeg', 'image/png', 'image/jpg'] 
+#  validates_attachment_content_type :image, :content_type => ['image/jpeg', 'image/png', 'image/jpg']
   validates_attachment_size :image, :less_than => 5.megabytes
   validates_attachment_presence :image
 

@@ -1,0 +1,19 @@
+- following_artist_count = following_artists.size
+#following_artists.box-wrapper
+  .selection-box
+    following
+    %span.artist-count
+      = pluralize(following_artist_count, 'artist')
+    - unless following_artist_count < Constant::FOLLOWING_ARTIST_SHOW_LIMIT
+      %br
+      = link_to 'see all', fan_following_artists_path, :remote=>:true, :class=>'small-font ajaxopen'
+  .collection
+    %div
+      - if following_artist_count > 0
+        - following_artists.each do |band|
+          .artist-avatar
+            = link_to get_band_logo_small(band), show_band_path(:band_name => band.name)
+      - else
+        = Constant::NO_FOLLOWING_MESSAGE
+    .clear
+.clear

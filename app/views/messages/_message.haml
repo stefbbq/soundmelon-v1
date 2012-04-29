@@ -23,7 +23,7 @@
           - if band            
             = link_to "Reply" ,band_message_path(message, :band_id => band.id),:remote=>:true ,:class=>"ajaxload"
             %br
-            = link_to "View" ,message_path(message, :band_id => band.id),:remote=>:true, :class=>"ajaxload"
+            = link_to "View" ,message_path(message, :band_id => band.id),:remote=>:true, :class=>"ajaxload", :id=>"msg_view_#{message.id}"
           - else
             = link_to "Reply" ,message_path(message),:remote=>:true ,:class=>"ajaxload"
             %br
@@ -41,7 +41,7 @@
         .righticons
           = link_to "Destroy(X)" ,band ? message_path(message, :band_id => band.id) : message_path(message), :remote=>:true,:method=>:delete, :class =>"ajaxload"
           %br
-          = link_to "View" ,band ? message_path(message, :band_id => band.id) : message_path(message), :remote=>:true, :class=>"ajaxload"
+          = link_to "View" ,band ? message_path(message, :band_id => band.id) : message_path(message), :remote=>:true, :class=>"ajaxload", :id=>"msg_view_#{message.id}"
           %br
           reply
         .clear

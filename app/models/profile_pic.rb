@@ -1,8 +1,12 @@
 class ProfilePic < ActiveRecord::Base
   belongs_to :user 
   has_attached_file :avatar, 
-    :styles => { :small => '50x50#', :medium => '100x100>', :large => '300x180>' },
-    :url => "/assets/images/avatar/:id/:style/:basename.:extension",
+    :styles     => {
+          :small    => ['50x50#',:jpg],
+          :medium   => ['100x100>',:jpg],
+          :large    => ['300x180>',:jpg]
+        },
+    :url        => "/assets/images/avatar/:id/:style/:basename.:extension",
     :processors => [:cropper]
   validates_attachment_content_type :avatar, :content_type => ['image/jpeg', 'image/png', 'image/jpg'] 
   validates_attachment_size :avatar, :less_than => 5.megabytes

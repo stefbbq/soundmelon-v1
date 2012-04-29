@@ -1,1 +1,2 @@
-!= "jQuery.facebox('#{escape_javascript(render 'edit_form')}');"
+!= "jQuery.facebox('#{escape_javascript(render '/band_photos/form')}');"
+!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
