@@ -25,41 +25,42 @@ Soundmelon::Application.routes.draw do
   get 'artist/new/band'                       => 'artist#new',                :as => :new_band
   post 'artist/create/band'                   => 'artist#create',             :as => :create_band
   match 'home/manage'                         => 'fan_public#manage_profile', :as => :manage_profile #manage session profile
-    
+  
+  
   #fan public
   match 'fan/(:id)'                           => 'fan_public#index',          :as => :fan_profile
   
   #artist
-  get 'home/artist/:band_name'                => 'artist#index',      :as => :manage_band
-  get 'edit/band/:band_name'                  => 'artist#edit',       :as => :edit_band
-  match 'update/band/:id'                     => 'artist#update',     :as => :update_band  
-  get ':band_name/bandmates/inivtation'       => 'artist#invite_bandmates', :as => :bandmates_invitation  
-  get ':band_name/social'                     => 'artist#social',     :as => :band_social
-  get ':band_name/store'                      => 'artist#store',      :as => :band_store
-  match ':band_name/bandmates/send/inviation' => 'artist#send_bandmates_invitation', :as => :send_bandmates_invitation
+  get 'home/artist/:band_name'                => 'artist#index',                    :as => :manage_band
+  get 'edit/band/:band_name'                  => 'artist#edit',                     :as => :edit_band
+  match 'update/band/:id'                     => 'artist#update',                   :as => :update_band
+  get ':band_name/bandmates/inivtation'       => 'artist#invite_bandmates',         :as =>  :bandmates_invitation
+  get ':band_name/social'                     => 'artist#social',                   :as => :band_social
+  get ':band_name/store'                      => 'artist#store',                    :as => :band_store
+  match ':band_name/bandmates/send/inviation' => 'artist#send_bandmates_invitation',:as => :send_bandmates_invitation
 
-  get "profile/additional_info"
+  get "profile/additional_info"    
   
-  match 'fan/registration'                    => 'fan#fan_new',       :as => :fan_registration
-  match 'musician/registration'               => 'fan#musician_new',:as => :musician_registration
-  get 'users/:id/activate'                    => 'fan#activate',    :as => :user_activation
-  get 'user/reset/password'                   => 'password_resets#index', :as => :password_reset
+  match 'fan/registration'                    => 'fan#fan_new',                     :as => :fan_registration
+  match 'musician/registration'               => 'fan#musician_new',                :as => :musician_registration
+  get 'users/:id/activate'                    => 'fan#activate',                    :as => :user_activation
+  get 'user/reset/password'                   => 'password_resets#index',           :as => :password_reset
   post 'add/additional_info'                  => 'fan_public#add_additional_info',  :as => :create_additional_info
   post 'add/payment_info'                     => 'fan_public#add_payment_info',     :as => :create_payment_info
   match "invite/bandmates"                    => "fan_public#invite_bandmates" ,    :as => :invite_band_member
   #get "invite/accept/:id/join" => "profile#activate_invitation" ,:as => "join_band_invitation"
-  match 'invitation/accept/:old_user/:id/join'=> 'fan_public#activate_invitation' ,:as => :join_band_invitation
-  match "messages/sendmessage"                => 'messages#send_message', :as=>:send_message
+  match 'invitation/accept/:old_user/:id/join'=> 'fan_public#activate_invitation' , :as => :join_band_invitation
+  match "messages/sendmessage"                => 'messages#send_message',           :as=>:send_message
 
-  get ':band_name/messages/inbox'             => 'messages#inbox' ,       :as => :band_inbox
+  get ':band_name/messages/inbox'             => 'messages#inbox' ,                 :as => :band_inbox
   resources :user_posts
-  match 'post/:id/reply/(:band_id)'           => 'user_posts#new_reply',  :as => :new_post_reply
-  match 'post/reply'                          => 'user_posts#reply',      :as => :post_reply
+  match 'post/:id/reply/(:band_id)'           => 'user_posts#new_reply',            :as => :new_post_reply
+  match 'post/reply'                          => 'user_posts#reply',                :as => :post_reply
   
-  get ':band_name/mentioned/posts'            => 'user_posts#mentions_post',  :as => :band_mentions_post
-  get ':band_name/replies/posts'              => 'user_posts#replies_post',   :as => :band_replies_post
+  get ':band_name/mentioned/posts'            => 'user_posts#mentions_post',        :as => :band_mentions_post
+  get ':band_name/replies/posts'              => 'user_posts#replies_post',         :as => :band_replies_post
   
-  match 'messages/:id/band/:band_id'          => 'messages#show',         :as => :band_message
+  match 'messages/:id/band/:band_id'          => 'messages#show',                   :as => :band_message
   resources :messages
  
   match 'message/reply'                       =>'messages#reply' ,        :as => :reply_to_message
@@ -100,12 +101,14 @@ Soundmelon::Application.routes.draw do
   #get 'fan/sign_up/message' => 'users#fan_signup_sucessful_info', :as => successful_fan_signup
   #get 'musician/sign_up/message' => 'users#musician_signup_sucessful_info', :as => successful_musician_signup
 
-
   # Band Tours
-  get ':band_name/tour/new'                       => 'band_tours#new',            :as => 'new_band_tour'
+  get ':band_name/tour/new'                       => 'band_tour#new',             :as => 'new_band_tour'
   get ':band_name/tours'                          => 'band_tour#band_tours',      :as => 'band_tours'
   get ':band_name/:band_tour_id/tour'             => 'band_tour#band_tour',       :as => 'band_tour'
-  
+  get ':band_name/:band_tour_id/tourdetail'       => 'band_tour#band_tour_detail',:as => 'band_tour_detail'
+  get ':band_name/tourchange/:band_tour_id'       => 'band_tour#edit',            :as => 'edit_band_tour'
+  get ':band_name/tourlike/:band_tour_id'         => 'band_tour#like_dislike_band_tour', :as => 'like_dislike_band_tour'
+  match ':band_name/tourremove/:band_tour_id'     => 'band_tour#destroy_tour',    :as => 'delete_band_tour'
 
   resources :album_photos
   get ':band_name/album/new'                      => 'band_photos#new',         :as => 'new_band_album'
@@ -116,10 +119,11 @@ Soundmelon::Application.routes.draw do
   get ':band_name/:band_album_name/photos/add'    => 'band_photos#add',         :as => 'add_photos_to_album'
   get ':band_name/edit/:band_album_name'          => 'band_photos#edit',        :as => 'edit_album'
   match ':band_name/delete/:band_album_name'      => 'band_photos#destroy_album', :as => 'delete_album'
-  get ':band_name/:album_name/photo/:id/edit'     => 'band_photos#edit' ,       :as => 'edit_photo'
+  get ':band_name/:album_name/photo/:id/edit'     => 'band_photos#edit_photo' ,       :as => 'edit_photo'
   get ':band_name/:album_name/photo/:id/delete'   => 'band_photos#destroy' ,    :as => 'delete_photo'
   get ':band_name/:album_name/ppublic'            => 'band_photos#disable_enable_band_album', :as => 'disable_enable_band_album'
   match ':band_name/:album_name/photo/:id/update' => 'band_photos#update',      :as => 'update_band_photo'
+  get ':band_name/:album_name/plike'              => 'band_photos#like_dislike',:as => 'like_band_album'
   
   #band song albums and songs
   get ':band_name/song/album/new'                 => 'band_song_album#new',               :as => 'new_band_song_album'
@@ -127,8 +131,7 @@ Soundmelon::Application.routes.draw do
   get ':band_name/:song_album_name/album'         => 'band_song_album#band_song_album',   :as => 'band_song_album'
   get ':band_name/album/songs/:song_album_name'   => 'band_song_album#album_songs',       :as => 'band_album_songs'
   get ':band_name/:song_album_name/download/song/:id' => 'band_photos#download',          :as => 'band_album_song_download'
-  get ':band_name/:song_album_name/public'        => 'band_song_album#disable_enable_song_album', :as => 'disable_enable_band_song_album'
-  get ':band_name/:song_album_name/remove'        => 'band_song_album#remove_song_album', :as => 'remove_band_song_album'
+  get ':band_name/:song_album_name/public'        => 'band_song_album#disable_enable_song_album', :as => 'disable_enable_band_song_album'  
   get ':band_name/:song_album_name/add_song'      => 'band_song_album#add_song_to_album', :as => 'add_song_to_album'
   get ':band_name/set_featured'                   => 'band_song_album#albums_for_featured_list', :as => 'popup_for_feature_albums'
   get ':band_name/:song_album_name/featured'      => 'band_song_album#make_song_album_featured', :as => 'make_song_album_featured'

@@ -1,0 +1,17 @@
+- if @band_tours.blank?
+  != "$('#facebox .content').html('Has not uploaded any photos by band admin');"
+  != "setTimeout('$(document).trigger(\"close.facebox\")',1000);" 
+- else
+  - band_tours = capture do
+    .album_list_header{:style=>'margin:3px;padding:5px;'}
+      Band Tours
+      %hr/
+      - if can_admin?(@band,current_user)
+        .add_new{:style=>'float:right;background-color:grey;height:20px;width:70px;padding-left:10px;'}
+          = link_to "add tour", new_band_tour_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
+    - @band_tours.each do |band_tour|
+      = render '/band_tour/band_tour', :band_tour =>band_tour
+  $('.primary .left').html('#{escape_javascript band_tours} ');
+  setTimeout('$(document).trigger(\"close.facebox\")',10);
+  $('div').removeClass('active');
+  $('#photobox .selection-box').addClass('active');

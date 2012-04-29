@@ -1,4 +1,6 @@
 class SongAlbum < ActiveRecord::Base
+  acts_as_votable
+  
   belongs_to :user
   belongs_to :band
   has_many :songs

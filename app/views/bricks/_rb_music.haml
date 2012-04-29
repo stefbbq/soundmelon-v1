@@ -1,0 +1,25 @@
+- is_admin ||= false
+- song_album_count = song_albums.size
+#musicbox.box-wrapper
+  .selection-box
+    music box
+    - if is_admin
+      %span.add_more
+        = link_to image_tag('add.png'), new_band_song_album_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen"
+    - unless song_album_count < Constant::BAND_SONG_ALBUM_SHOW_LIMIT
+      %br/
+      = link_to "see all", band_song_albums_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen"
+    - if is_admin
+      %br/
+      = link_to "edit music", band_song_albums_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen"
+  .collection
+    - if song_album_count > 0
+      - song_albums.each do |song_album|
+        .song-album{:id => "song_album_#{song_album.id}"}
+          - if is_admin
+            = link_to image_tag('add.png'), edit_band_song_album_path(:band_name => band.name, :song_album_name => song_album.album_name ), :remote => true, :class => 'ajaxopen'
+          %span.album-cover-image
+            = link_to get_album_cover_image(song_album), band_song_album_path(:band_name =>band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+          = link_to song_album.album_name, band_song_album_path(:band_name =>band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+    - else
+      = Constant::NO_SONG_ALBUM_MESSAGE

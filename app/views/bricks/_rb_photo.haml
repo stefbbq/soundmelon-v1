@@ -1,0 +1,27 @@
+- is_admin ||= false
+- photo_album_count = photo_albums.size
+#photobox.box-wrapper
+  .selection-box
+    photos
+    - if is_admin
+      %span.add_more
+        = link_to image_tag('add.png'), new_band_album_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen"
+    - unless photo_album_count < Constant::BAND_PHOTO_ALBUM_SHOW_LIMIT
+      %br/
+      = link_to "see all", band_albums_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen"
+    - if is_admin
+      %br/
+      = link_to "edit photos", band_albums_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen"
+  .collection
+    - if photo_album_count > 0
+      - photo_albums.each do |band_photo_album|
+        .song-album{:id => "band_album_#{band_photo_album.id}"}
+          - if is_admin
+            = link_to image_tag('add.png'), add_photos_to_album_path(:band_name => band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
+          %span.album-cover-image
+            = link_to get_band_photo_album_teaser_photo(band_photo_album), band_album_path(:band_name =>band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
+          = link_to band_photo_album.name, band_album_path(:band_name =>band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
+          - if is_admin
+            = link_to image_tag('remove.png'), delete_album_path(:band_name => band.name, :band_album_name => band_photo_album.name), :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen"
+    - else
+      = Constant::NO_PHOTO_ALBUM_MESSAGE

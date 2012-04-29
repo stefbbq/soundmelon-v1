@@ -18,6 +18,7 @@ class ArtistPublicController < ApplicationController
         @band_artists            = @band.limited_band_members
         @band_fans_count         = @band.followers_count
         @band_fans               = @band.limited_band_follower
+        @band_tours              = @band.limited_band_tours
       end
     rescue
       redirect_to fan_home_url, :notice => 'Something went wrong! Try Again' and return
@@ -56,7 +57,7 @@ class ArtistPublicController < ApplicationController
     @band_artists               = @band.limited_band_members
     @band_fans_count            = @band.followers_count
     @band_fans                  = @band.limited_band_follower
-    @band_tours                 = [] #
+    @band_tours                 = @band.limited_band_tours
   end
 
   def store

@@ -1,6 +1,6 @@
 class FanController < ApplicationController
-  before_filter :require_login, :except => [:fan_new, :musician_new, :activate]
-  before_filter :logged_in_user, :only => ['fan_new', 'musician_new', :activate]  
+  before_filter :require_login, :except => [:fan_new, :musician_new, :activate, :new]
+  before_filter :logged_in_user, :only => ['musician_new', :activate]  
 
   def index
     @user = current_user 
@@ -17,13 +17,13 @@ class FanController < ApplicationController
       get_user_associated_objects  
     end
   end
-  
+
   def fan_new
     if request.post?  
-      @user = User.new(params[:user])
-      @user.account_type = 0
+      @user               = User.new(params[:user])
+      @user.account_type  = 0
       if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.save
-        @page_type = 'Fan'
+        @page_type        = 'Fan'
         render 'successful_signup_info' and return
         #redirect_to successful_fan_signup_url, :notice => "Signed up successfully! "
       else

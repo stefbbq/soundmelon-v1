@@ -1,0 +1,18 @@
+- band_fan_count = band_fans.size
+#fanbox.box-wrapper
+  .selection-box
+    %span{ :class => 'artist-count'}
+      = pluralize(band_fan_count, 'fan')
+    - unless band_fan_count < Constant::BAND_FAN_SHOW_LIMIT
+      %br
+      = link_to "see all", band_fans_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen"
+  .collection
+    %div
+      - if band_fan_count > 0
+        - band_fans.each do |band_fan|
+          .artist-avatar
+            = link_to get_avatar_small(band_fan), fan_profile_path(band_fan)
+      - else
+        = Constant::NO_FAN_MESSAGE
+    .clear
+  .clear

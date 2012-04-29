@@ -1,108 +1,11 @@
-
-- song_album_count  = @song_albums.size
-- photo_album_count = @photo_albums.size
-- band_member_count = @band_artists.size
-- band_fan_count    = @band_fans.size
-- tour_count        = @band_tours.size
-
 .items
   = link_to 'news feed & messages', manage_band_path(:band_name => @band.name), :id=>'feed-msg', :remote => true,:class=>"iconactive selection-box"
-  #musicbox.box-wrapper
-    .selection-box
-      music box
-      %span.add_more
-        = link_to image_tag('add.png'), new_band_song_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
-      - unless song_album_count < Constant::BAND_SONG_ALBUM_SHOW_LIMIT
-        %br/
-        = link_to "see all", band_song_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
-        %br/
-        = link_to "edit music", band_song_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
-    .collection
-      - if song_album_count > 0
-        - @song_albums.each do |song_album|
-          .song-album{:id => "song_album_#{song_album.id}"}
-            = link_to image_tag('add.png'), edit_band_song_album_path(:band_name => @band.name, :song_album_name => song_album.album_name ), :remote => true, :class => 'ajaxopen'
-            %span.album-cover-image
-              = link_to get_album_cover_image(song_album), band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
-            = link_to song_album.album_name, band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
-      - else
-        .message
-          = Constant::NO_SONG_ALBUM_MESSAGE
-  #photobox.box-wrapper
-    .selection-box
-      photos
-      %span.add_more
-        = link_to image_tag('add.png'), new_band_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
-      - unless photo_album_count < Constant::BAND_PHOTO_ALBUM_SHOW_LIMIT
-        %br/
-        = link_to "see all", band_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
-        %br/
-        = link_to "edit photos", band_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
-    .collection
-      - if photo_album_count > 0
-        - @photo_albums.each do |band_photo_album|
-          .song-album{:id => "band_album_#{band_photo_album.id}"}
-            = link_to image_tag('add.png'), add_photos_to_album_path(:band_name => @band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
-            %span.album-cover-image
-              = link_to get_band_photo_album_teaser_photo(band_photo_album), band_album_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
-            = link_to band_photo_album.name, band_album_path(:band_name =>@band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen"
-            = link_to image_tag('remove.png'), delete_album_path(:band_name => @band.name, :band_album_name => band_photo_album.name), :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen"
-      - else
-        .message
-          = Constant::NO_PHOTO_ALBUM_MESSAGE
-  #photobox.box-wrapper
-    .selection-box
-      tour dates
-      %span.add_more
-        = link_to image_tag('add.png'), new_band_tour_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
-      - unless tour_count < Constant::TOUR_DATE_SHOW_LIMIT
-        %br
-        =  link_to "see all", band_albums_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
-    .collection
-      - if tour_count > 0
-        - @band_tours.each do |tour|
-          .song-album[tour]
-            = link_to tour.tour_date, band_tour_path(:band_name =>@band.name, :band_tour_id => tour.id), :remote=>:true, :class=>"ajaxopen"
-      - else
-        .message
-          = Constant::NO_TOUR_DATE_MESSAGE
-  #artistbox.box-wrapper
-    .selection-box
-      connected to
-      %span.artist-count
-        = pluralize(band_member_count, 'artist')
-      - unless band_member_count < Constant::BAND_MEMBER_SHOW_LIMIT
-        %br/
-        = link_to "see all", band_members_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
-    .collection
-      %div
-        - if band_member_count >0
-          - @band_artists.each do |band_artist|
-            .artist-avatar
-              = link_to get_avatar_small(band_artist), fan_profile_path(band_artist)
-        - else
-          .message
-            = Constant::NO_BAND_ARTIST_MESSAGE
-      .clear
-  .clear
-  #fanbox.box-wrapper
-    .selection-box
-      %span.artist-count
-        = pluralize(band_fan_count, 'fan')
-      - unless band_fan_count < Constant::BAND_FAN_SHOW_LIMIT
-        %br/
-        = link_to "see all", band_fans_path(:band_name => @band.name), :remote=>:true, :class=>"small-font ajaxopen"
-    .collection
-      %div
-        - if band_fan_count > 0
-          - @band_fans.each do |band_fan|
-            .artist-avatar
-              = link_to get_avatar_small(band_fan), fan_profile_path(band_fan)
-        - else
-          .message
-            = Constant::NO_FAN_MESSAGE
-      .clear
-  .clear
+  = render '/bricks/rb_music', :band =>@band, :song_albums =>@song_albums, :is_admin =>true
+  = render '/bricks/rb_photo', :band =>@band, :photo_albums =>@photo_albums, :is_admin =>true
+  = render '/bricks/rb_tour', :band =>@band, :band_tours =>@band_tours, :is_admin =>true
+  = render '/bricks/rb_member', :band =>@band, :band_artists =>@band_artists
+  = render '/bricks/rb_fan', :band =>@band, :band_fans =>@band_fans  
+
   .divider
   = link_to 'manage your profile' , edit_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box'
   = link_to 'manage bandmates' , bandmates_invitation_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box'

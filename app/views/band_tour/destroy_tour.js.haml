@@ -1,0 +1,9 @@
+- if @status
+  $('#facebox .content').html('Tour successfully removed');
+  $('#tourbox .collection #band_tour_#{@band_tour.id}').remove();
+  $('#band_tour_#{@band_tour.id}').remove();
+  != "$('#band_tour_#{@band_tour.id}').remove();"
+- else
+  jQuery.facebox("Something went wrong! Try again!");
+$.facebox.close();
+

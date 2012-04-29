@@ -23,7 +23,7 @@ class ArtistController < ApplicationController
            @band_artists            = @band.limited_band_members
            @band_fans_count         = @band.followers_count
            @band_fans               = @band.limited_band_follower
-           @band_tours              = []
+           @band_tours              = @band.limited_band_tours
          end
       else
         logger.error "#User with username:{current_user.get_full_name} and user id #{current_user.id} tried to adminster band with band id: #{@band.id} which he is not a admin" 

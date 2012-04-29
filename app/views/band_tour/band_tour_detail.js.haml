@@ -1,0 +1,18 @@
+- band_tour_detail = capture do
+  %hr/
+  Venue:
+  = @band_tour.venue
+  %br/
+  Country:
+  = @band_tour.country
+  %br/
+  Ticket:
+  = @band_tour.ticket
+
+- hide_tour_detail = capture do
+  %a{:href => "javascript:void(0);", :onclick => "$('div#band_tour_#{@band_tour.id} .tour_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
+    collapse
+
+$('#band_tour_#{@band_tour.id} .tour_details').html('#{escape_javascript band_tour_detail}');
+$('#expand_link_#{@band_tour.id}').replaceWith('#{escape_javascript hide_tour_detail}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);

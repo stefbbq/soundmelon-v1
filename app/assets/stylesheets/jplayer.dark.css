@@ -75,7 +75,7 @@ div.jp-video div.jp-type-playlist div.jp-interface {
   height:60px;
 }
 
-div.jp-interface ul.jp-controls {
+div.jp-interface ul.jp-controls{
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -86,6 +86,11 @@ div.jp-interface{
 }
 
 div.jp-interface ul.jp-controls a {
+  overflow: hidden;
+  position: absolute;
+  text-indent:-9999px;
+}
+div.jp-volume-bar a{
   overflow: hidden;
   position: absolute;
   text-indent:-9999px;
@@ -389,13 +394,15 @@ a.jp-unmute:hover {
   background: url(jplayer.dark.png) -19px -186px no-repeat;
 }
 
-div.jp-volume-bar {
-  background: url(jplayer.dark.png) 0 -250px repeat-x;
+div.jp-volume-bar {  
   cursor: pointer;
-  height: 5px;
-  overflow: hidden;
-  position: absolute;
-  width: 72px;
+  height: 20px;  
+  width: 72px;  
+  margin-left: 149px;
+  margin-top: -8px;
+}
+div.jp-volume-bar ul li{
+  text-decoration: none;
 }
 
 div.jp-audio div.jp-type-single div.jp-volume-bar {
@@ -628,10 +635,10 @@ div.jp-jplayer {
 }
 
 .music_info{width:240px; height:52px; float:left}
-.img{width:52px; height:52px; float:left}
+.img{width:45px; height:52px; float:left;margin-left:4px;margin-top:4px;}
 
 .track_info{width:185px; float:left}
 .track_info span{font-size:20px; color:#fff}
 .track_info h3{color:#b3b3b3; font-size:10px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; margin:0}
-.track_info h4 span{background:url(next_arrow.jpg) no-repeat left top;  padding-left:15px; font-size:10px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif}
+.track_info h4 span{background:url(next_arrow.jpg) no-repeat left top;  padding-left:15px;margin-right: 3px; font-size:10px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif}
 .track_info h4{font-size:10px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; margin:0!important}

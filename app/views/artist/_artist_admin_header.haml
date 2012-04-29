@@ -1,0 +1,14 @@
+
+= link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class => 'user-info'
+administrating
+= link_to @band.name, show_band_path(:band_name => @band.name), :class => 'user-info'
+= link_to 'Switch', 'javascript:void(0);',:id =>'switch', :class =>'button1'
+.switch-lists
+  = link_to 'Switch back to yourself', fan_home_path, :class =>'button1'
+  - @other_bands.each do |band|
+    = link_to "Access #{band.name}", manage_band_path(:band_name => band.name)
+= link_to "logout", logout_path, :class =>'button2'
+
+:javascript
+  $('#switch').hover(function(a){$('.switch-lists').show().focus();});
+  $('.switch-lists').mouseout(function(a){$('.switch-lists').hide();});

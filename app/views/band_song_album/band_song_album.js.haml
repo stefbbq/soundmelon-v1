@@ -25,9 +25,7 @@
         = pluralize(song_album.song_count, 'song')
       - if can_admin?(@band,current_user)
         .album_controls{:style=>'float:left;width:50px;margin-left:150px;'}
-          = link_to song_album.disabled? ? 'enable' : 'disable', disable_enable_band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{song_album.id}"
-        .album_controls{:style=>'float:left;width:50px;'}
-          = link_to "remove", remove_band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+          = link_to song_album.disabled? ? 'enable' : 'disable', disable_enable_band_song_album_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{song_album.id}"              
       .toggle-thread
         = link_to "expand", band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{song_album.id}"
     .clear

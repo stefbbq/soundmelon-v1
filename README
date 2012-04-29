@@ -1,0 +1,142 @@
+Anoobhuti ghaten, gahirai thaha bho,
+Chahana ghaten, swabhavik lagyo,
+Aasha pani ustai rahyo, achamma ra asahaj bho!
+
+Refactoring in Artist Controller
+...........................
+* New Artist Controller
+* 'Sending Message to Band' section moved to ArtistPublic Controller
+* 'Follow/Unfollow' code moved to ArtistPublic Controller
+* 'fans' action moved to ArtistPublic Controller
+
+
+April 20
+
+* Facebook and Twitter Page link updates for band
+
+= Music player in working condition. Doesn't require full-on design or likes/dislikes logic. Needs playlist functionality, the ability to queue/play songs from the site, etc. Definitely needs to feel like it's working, if at least simply for now.
+= Music albums in working condition. Fan can review, play, queue, etc. Artist can add/remove, rename songs, albums, etc with ease. No download functionality required.
+= Photo albums in similar working condition to music albums.
+
+
+========================================================================================================================
+Deadline : 2012 April 14
+------------------------------------
+* Player for fan as well as Musician
+* Playlist for player.
+* Milestone estimates
+* sidebar collection area (submenu items are that contains fans for example) should show "no fans yet" messaging or something like that when there are none. refer to designs - specifically artist -> tour dates for the desired effect.
+* Integrate player design provided by Uttam
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+* Enable search with Ajax
+=> Done
+* Player Functionality and Integration
+*
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+==========================================================================================================================
+Wanted to let you know that I pushed a new commit to git today.
+Made a ton of changes to the visuals but overall the most important stuff is some structural changes
+I've started to make to better organize things with the views. I'm a bit of a neat freak, so I couldn't help myself :)
+
+We should speak briefly about them in our meeting, but in short, here are a few things:
+Started consolidating the terms band, musician, artist, fan and user into the following 3 categories:
+
+* fan user type
+* artist user type
+* user a universal label for artists/fans for globally reusable elements (such as a user's post) this may evolve
+further in the future when we add venues, which will essentially just be another user type
+
+With respect to the above, I've started changing around the folder structure (and their corresponding controllers),
+and thus the following folders now exist in place of old ones:
+
+views/fan for all internal, homepage profile stuff
+views/fan_public external fan viewing views
+
+views/artist fan all internal, profile stuff when an artist is being managed
+views/artist_public currently empty, views/artist/social.haml will have to be moved here eventually as well as corresponding partials
+
+views/bricks instead of shared, all global non-user sensitive elements should go here (logo, footer, etc)
+
+I've started a convention for the major elements on a social page, the partials should be named and be in their
+respective folders like so:
+
+header music player/notfications area
+live formally the dashboard
+social_header menu items above the posts
+status_input new post form
+left social elements housed on the left side
+right sidebar
+index fan, fan_public, artist, artist_public should all have their own. They all almost do, except for artist_public still being artist/social.haml
+95% of things should work. I broke a lot making these changes, but I think I fixed them all too. We should work to remove any mention of "band" or "musician" from this point out, and make sure that the distinction between "fan" and "user" is maintained. We also need to work towards following the rest of the conventions. There are a few others I'd like to integrate too, but lets discuss. I'd be great if we can do all of our spring cleaning before the beta launch.
+
+Beyond that, I'm almost done with the stylesheets. They're already fairly well organized now, but there's still some
+work left.
+
+By the by, I'm fairly certain the registration screens are broken right now because of the changes I've made.
+But they'll need to be rebuilt partially anyway because of the new approach discussed before
+(where step 1 of fan/artist are both basically on the homepage).
+
+=========================================================================================================================
+*******************************************************************************************************************
+* Message/follow functionality is now beside their photo (in the live wall, see design for example)
+
+* Add support for artist to specify myspace, facebook and a few other links (will be clickable in live wall area as icons, design for follow)
+
+* Upload jpeg, png, convert to jpeg (decent quality), downsize to a manageable size if needed
+
+* Tour dates : Review tour dates, add/remove, etc. (spec to come)
+
+* Review albums, change titles and names, etc all in a nice and easy to use interface.
+
+*******************************************************************************************************************
+Fan/Arist profile improvements
+Music Player :
+  Working with proper design
+  Features album art to the side
+  Playlist uses universal popout style (see design. This popout style will also be used for autocomplete with a mention on the status input form among others)
+  Logic in place to learn what music the user likes. a "thumbs-up" feature should exist (will be added to design) so the user can specify if they like the current song. Between this and their genre top picks, we should be able to profile them and start to figure out what they like/dislike.
+  Logic in place to populate the playlist, ie: radio, based on users likes/dislikes
+  In-site advertising
+  The marquee, a landing page of blocks that leads a user to things we believe they'll like. using their location, their music profile, age, etc.
+
+  Live wall (a smaller version of the marquee, persistent on all pages at the top beside the users picture. refer to designs)
+  Music albums
+
+Upload flac, mp3, aac or wma; convert to mp3 and ogg (probably?) for the music player.
+Review albums, change titles and names, queue, download, etc all in a nice and easy to use interface.
+
+Downloadable songs should come with proper meta data and be organized nicely based on how the albums were organized on the site (ie: we should be able to change meta data (say a song name of an mp3) but changing it's visible name in the site album UI.
+Photo albums
+
+
+Proper back button functionality on all elements that change the page (ie:
+edit profile, access musicians area,
+looking at followers,
+the news feed,
+hitting latest at the top or mentions, etc)
+
+Revamped registration process
+Using the splash screen I had designed as an initial indicator, the 1st step of registering a fan or artist should be right on the first page.
+Add terms of service after 1st step.
+Custom pages such as the terms of service page, the contact page, the help page, etc will need to be added. It's okay if we bake in these sections in just HAML files for now, but eventually we'll need to have them controllable via. CMS as well (probably right on the page).
+Recently added pivotal bugs/features/chores
+
+
+MILESTONES
+
+Milestone, April 11th
+Music player in working condition. Doesn't require full-on design or likes/dislikes logic. Needs playlist functionality, the ability to queue/play songs from the site, etc. Definitely needs to feel like it's working, if at least simply for now.
+Music albums in working condition. Fan can review, play, queue, etc. Artist can add/remove, rename songs, albums, etc with ease. No download functionality required.
+Photo albums in similar working condition to music albums.
+Milestone, April 18th
+Music player fully designed. User "like" profiling in place. Features album art and nice pop-out style playlist.
+Music albums support uploading in all 4 formats. Downloading feature is working.
+Tour dates are working. Artist can add date/venue in a table type format. Fans can review.
+News feed is updated whenever an artist adds a music album, song, photo, tour date, etc.
+Fan/artist profile improvements
+Milestone, April 25th
+Revamped registration process
+Proper back button functionality
+Custom pages
+All current pivotal bugs/features/chores.
+=============================================================================================================================

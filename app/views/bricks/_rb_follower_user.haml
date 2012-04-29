@@ -1,0 +1,18 @@
+- followers_count = follower_users.size
+#followers.box-wrapper
+  .selection-box
+    %span.artist-count
+      = pluralize(followers_count,'follower')
+    - unless followers_count < Constant::FOLLOWER_SHOW_LIMIT
+      %br/
+      = link_to 'see all', fan_followers_path, :remote=>:true, :class=>'small-font ajaxopen'
+  .collection
+    %div
+      - if followers_count > 0
+        - follower_users.each do |fan_followers|
+          .artist-avatar
+            = link_to get_avatar_small(fan_followers), fan_profile_path(fan_followers)
+      - else
+        = Constant::NO_FOLLOWER_MESSAGE
+    .clear
+  .clear

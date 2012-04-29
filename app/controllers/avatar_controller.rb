@@ -26,9 +26,9 @@ class AvatarController < ApplicationController
   def update
     @profile_pic = current_user.profile_pic
     if @profile_pic.update_attributes(params[:profile_pic])
-        respond_to do |format|
-          format.js
-        end     
+      respond_to do |format|
+        format.js
+      end
     end
   end
   

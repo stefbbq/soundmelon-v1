@@ -1,0 +1,35 @@
+= form_for :user do |f|
+  .content-box
+    - unless @user.errors.empty?
+      .error_messages
+        %h2 Invalid Band information
+        %ul
+          - @@user.errors.full_messages.each do |msg|
+            %li= msg    
+  .blankbox
+    %br/
+    %br/
+    %span.green
+      Sign-up, it's free.
+      %a{:href => "#"} click here.
+  .content-box
+    .registrationform
+      = render 'registration-fields'
+  .registrationform
+    .fields
+      %label{:for => "name"} Band Name
+      = text_field_tag :band_name, nil, :class => 'textfield', :'data-validate' => check_bandname_url
+      .bandname_available
+    .clear
+
+:javascript
+  $(document).ready(function() {
+    $("#genre").tokenInput(
+      [
+      #{genre_atuofill}
+      ],
+      {
+        theme: "facebook"
+      }
+    );
+  });
