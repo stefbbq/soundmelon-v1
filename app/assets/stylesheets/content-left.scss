@@ -1,13 +1,15 @@
 //news feed, status updates, posts and other content pages
 
+@import 'compass/utilities/sprites/sprite-img';
+@import 'compass/css3';
 @import 'mixins';
 @import 'vars';
-@import 'compass/css3';
 
 .primary .left {
 	padding: 25px 8px 0 $base-content-clear;
   width: 630px;
 
+	//
 	//status update form
 	.status-input {  
 		@include border-radius($border-radius);
@@ -42,6 +44,7 @@
 		}
 	}
 	
+	//
 	//header controls
 	.social-menu {
 		overflow: hidden; 
@@ -67,6 +70,7 @@
 		}
 	}
 	
+	//
 	//controls
 	.messageicon {
     margin:40px 0 0 -64px;
@@ -81,13 +85,14 @@
     filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
   }
 
+	//
 	//date
   .date {
 		background: url(base-feed-date.png);
 		position: absolute;
-    margin: 25px 0 20px -64px;
-    width: 80px;
-		height: 30px;
+    margin: 39px 0 20px -60px;
+    width: 76px;
+		height: 28px;
     float: left;
     text-align: right;
 		color: $text-faded-color;
@@ -115,16 +120,29 @@
 		}
   }
 
+	//
 	//post
   .post {  
-    margin: 10px auto;
-		padding-bottom: 10px;
-		border-bottom: 1px dashed rgba(white, .1);
+		padding: 15px 0;
+		
+		&:not(:last-of-type) {
+			border-bottom: 1px dashed rgba(white, .1);	
+		}
+		
+		> div {
+			@include border-radius($border-radius / 2);
+			//background: rgba(white, .03);
+			padding: 4px;
+			margin: -4px;
+			
+			&:hover {	background: rgba(white, .06);	}
+		}
 
     .avatar {
       float: left; 
+
       img { 
-				@include border-radius($border-radius);
+				@include border-radius($border-radius / 2);
 				width: 50px; 
 				height: 50px; 
 			}
@@ -134,18 +152,41 @@
 			padding: 0px; 
 			margin-left: 4px;
 			float: left;
-			width: 575px;
-			
+			width: 567px;
+		
+			//post title and actions
 			.post-header {
+				width: 100%;
 				font-size: 13px;
+				overflow: hidden;
 				
 				.title {
+					float: left;
 					strong {
 						color: white;
 					}
 				}
-				.functions {
+				.actions {
 					float: right; 
+
+					span { color: $text-faded-color; }					
+					&:hover { 
+						span { color: $text-color; }
+						i { opacity: 1; }
+					}
+					
+					i { width: 16px; height: 16px; opacity: .5; margin: -3px 0; }
+					
+					//actions
+					.action-reply {
+						i {	@include sprite-img("sprites-16.png", 1, 1, 16px, 16px); }						
+					}
+					.action-repost {
+						i {	@include sprite-img("sprites-16.png", 2, 1, 16px, 16px); }						
+					}
+					.action-delete {
+						i {	@include sprite-img("sprites-16.png", 3, 1, 16px, 16px); }
+					}
 				}
 			}
 			.post-body {
@@ -162,7 +203,15 @@
     }
   }
 
-  .content_mentioned {
+	//post toggle thread button
+	.toggle-thread {
+		@include default-button();
+		display: inline-block;
+		margin: 10px 0 0 0;
+		a { color: $text-color; }		
+	}
+
+  .content-mentioned {
     margin-left: 52px;
     padding: 5px;
     background: #DC143C;

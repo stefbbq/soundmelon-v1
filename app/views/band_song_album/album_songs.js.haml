@@ -18,10 +18,10 @@
   .thread_collapse
     %a{:href => "javascript:void(0);", :onclick => "hide_songs('#song_album_#{@song_album.id}')"}
       collapse
-  .thread_expand{:style => "display:none"}
+  .toggle-thread{:style => "display:none"}
     %a{ :href => "javascript:void(0);", :onclick => "show_songs('#song_album_#{@song_album.id}')"}
       expand  
 
-$('#song_album_#{@song_album.id} .additional_info .thread_expand').replaceWith('#{escape_javascript hide_show_songs}');
+$('#song_album_#{@song_album.id} .additional_info .toggle-thread').replaceWith('#{escape_javascript hide_show_songs}');
 $('#song_album_#{@song_album.id}').append('#{escape_javascript song_album_songs}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);

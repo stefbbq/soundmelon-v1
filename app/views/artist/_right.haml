@@ -1,10 +1,11 @@
 .items
   = link_to 'news feed & messages', manage_band_path(:band_name => @band.name), :id=>'feed-msg', :remote => true,:class=>"iconactive selection-box"
-  = render '/bricks/rb_tour', :band =>@band, :band_tours =>@band_tours, :is_admin =>true
   = render '/bricks/rb_music', :band =>@band, :song_albums =>@song_albums, :is_admin =>true
-  = render '/bricks/rb_photo', :band =>@band, :photo_albums =>@photo_albums, :is_admin =>true  
+  = render '/bricks/rb_photo', :band =>@band, :photo_albums =>@photo_albums, :is_admin =>true
+  = render '/bricks/rb_tour', :band =>@band, :band_tours =>@band_tours, :is_admin =>true
   = render '/bricks/rb_member', :band =>@band, :band_artists =>@band_artists
   = render '/bricks/rb_fan', :band =>@band, :band_fans =>@band_fans  
+
   .divider
   = link_to 'manage your profile' , edit_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box'
   = link_to 'manage bandmates' , bandmates_invitation_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box'

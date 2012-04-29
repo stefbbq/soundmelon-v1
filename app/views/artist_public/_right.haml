@@ -15,6 +15,7 @@
     #msg-user
       .selection-box
         = link_to '> message this musician', band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen"
+
     = render '/bricks/rb_music', :band =>@band, :song_albums =>@song_albums, :is_admin =>false
     = render '/bricks/rb_photo', :band =>@band, :photo_albums =>@photo_albums, :is_admin =>false
     = render '/bricks/rb_tour', :band =>@band, :band_tours =>@band_tours, :is_admin =>false

@@ -3,38 +3,43 @@
  - self_owner = post.band_id == @band.id ? true : false
 - else
  - self_owner = post.user == current_user ? true : false
-- item_div_class = self_owner ? 'content' : 'content_mentioned'
+- item_div_class = self_owner ? 'content' : 'content-mentioned'
 = div_for post do
- .avatar
-  - if !post.user_id.nil?
-   = link_to get_avatar_small(post.user), fan_profile_path(post.user) if !self_owner
-   = link_to get_avatar_small(post.user), fan_home_url if self_owner
-  - elsif !post.band_id.nil?
-   = get_band_logo_small(post.band)
- %div{:class => 'content'}
-  .post-header
-   .title
-    %strong
-     -if !post.band.nil?
-      = post.band.name
-     -elsif self_owner
-      You
-     -elsif !post.user.nil?
-      = post.user.fname
-    wrote this #{time_ago_in_words(post.created_at)} ago 
-   .functions
-    = link_to 'X', user_post_path(post), :method => :delete, :title=>"Remove", :class => "delete_post ajaxload", :remote => true if self_owner
-    %br
-    - if @band && !self_owner
-     = link_to 'Reply', new_post_reply_path(post, :band_id => @band.id), :class => "ajaxopen", :remote => true
-    -elsif !self_owner
-     = link_to 'Reply', new_post_reply_path(post), :class => "ajaxopen", :remote => true
-  .post-body
-   = post_msg_with_band_mention(post)
-   =# post.msg
-  %br
-  - if post.ancestry && !hide_thread_link
-   %br
-   %span{:class => 'thread_expand'}
-    = link_to 'expand conversation thread', get_post_threads_path(post), :remote => true, :class => 'ajaxload' 
- .clear
+ %div 
+  .avatar
+   - if !post.user_id.nil?
+    = link_to get_avatar_small(post.user), fan_profile_path(post.user) if !self_owner
+    = link_to get_avatar_small(post.user), fan_home_url if self_owner
+   - elsif !post.band_id.nil?
+    = get_band_logo_small(post.band)
+  %div{:class => 'content'}
+   .post-header
+    .title
+     %strong
+      -if !post.band.nil?
+       = post.band.name
+      -elsif self_owner
+       You
+      -elsif !post.user.nil?
+       = post.user.fname
+     wrote this #{time_ago_in_words(post.created_at)} ago 
+    .actions
+     - if self_owner
+      = link_to user_post_path(post), :method=> :delete, :class=>'action-delete', :remove=>true do
+       %i
+       %span delete
+     - if @band && !self_owner
+      = link_to new_post_reply_path(post, :band_id => @band.id), :class=>'action-reply ajaxopen', :remote=>true do
+       %i
+       %span reply
+     -elsif !self_owner
+      = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote=>true do
+       %i
+       %span reply      
+   .post-body
+    = post_msg_with_band_mention(post)
+    =# post.msg
+  .clear
+ - if post.ancestry && !hide_thread_link
+  %span{:class => 'toggle-thread'}
+   = link_to 'expand conversation', get_post_threads_path(post), :remote => true, :class => 'ajaxload'

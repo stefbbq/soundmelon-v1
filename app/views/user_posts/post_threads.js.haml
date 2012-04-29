@@ -3,9 +3,9 @@
     - @posts.each do |post|
       = render 'user_posts/post', :post => post, :hide_thread_link => true
     %br/
-    .thread_collapse
-      %a{:href => "javascript:void(0);", :onclick => "hide_parent_posts('#post_#{@post.id}')"} collapse conversation threads
-    .thread_expand{:style => "display:none"}
-      %a{:href => "javascript:void(0);", :onclick => "show_parent_posts('#post_#{@post.id}')"} expand conversation threads
+    .thread-collapse
+      %a{:href => "javascript:void(0);", :onclick => "hide_parent_posts('#post_#{@post.id}')", :class => 'toggle-thread'} collapse conversation
+    .thread-expand{:style => "display:none"}
+      %a{:href => "javascript:void(0);", :onclick => "show_parent_posts('#post_#{@post.id}')", :class => 'toggle-thread'} expand conversation
 $('#post_#{@post.id}').replaceWith("#{escape_javascript all_posts}");
 setTimeout('$(document).trigger(\"close.facebox\")',10)

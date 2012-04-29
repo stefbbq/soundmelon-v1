@@ -7,7 +7,6 @@
         %h2
           = date.to_date.strftime('%d')
     = render 'user_posts/post_aggregate', :posts => posts
-    .clear
 -if !@load_more_path.nil?
   .readmore
     = link_to('read more', @load_more_path, :remote=>true, :class=>'ajaxload')
