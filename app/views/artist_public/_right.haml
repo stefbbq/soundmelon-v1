@@ -6,21 +6,7 @@
 
 .right
   .items
-    #user-post
-      .selection-box.active 
-        = link_to 'posts of this musician', show_band_path(:band_name => @band.name), :remote => 'true', :class => 'ajaxopen'
-    - if @is_admin_of_band
-      .selection-box
-        = link_to 'administer musician', manage_band_path(:band_name => @band.name)
-    #follow-unfollow
-      .selection-box
-        - if current_user.following?(@band)
-          = link_to 'unfollow this musician', unfollow_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen'
-        - else
-          = link_to 'follow this muscian', follow_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen'
-    #msg-user
-      .selection-box
-        = link_to '> message this musician', band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen"
+    = link_to 'latest posts', show_band_path(:band_name => @band.name), :id=>'user-posts', :remote => 'true', :class => 'ajaxopen selection-box'
     #musicbox.box-wrapper
       .selection-box
         music box 

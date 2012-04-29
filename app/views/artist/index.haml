@@ -2,9 +2,8 @@
 = render :partial=>"live"
 .primary
   .left
-    = render '/user_posts/status_input'
+    = render 'user_posts/status_input'
     = render 'social_header'
-    = render "posts"
+    = render "bricks/artist_posts"
   .right
     = render "right"
-  .clear

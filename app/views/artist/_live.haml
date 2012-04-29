@@ -8,11 +8,12 @@
           %h2
             = @band.name
         .actions
-          = link_to 'view public profile' , show_band_path(:band_name => @band.name)
+          = link_to 'view public profile', show_band_path(:band_name => @band.name)
           = link_to 'Facebook', @band.facebook_page, :target =>'_blank', :title =>"Facebook Page" unless @band.facebook_page.blank?
           = link_to 'Twitter', @band.twitter_page, :target =>'_blank', :title =>"Twitter Page" unless @band.twitter_page.blank?
       .sub-head
-        = "genre #{@band.genre}"
+        %h3 
+          = "genre #{@band.genre}"
       .description
         = "#{pluralize(@band.mention_count, 'mentions')} in last #{MENTION_COUNT_FOR_LAST_N_HOURS} hrs"
         %br
@@ -20,5 +21,5 @@
         %br
         = "#{@band.songs_count} albums have been brought 100 times"
     .bottom
-      .left
-      .right
+      .left.left-default
+      .right.right-default

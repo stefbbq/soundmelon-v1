@@ -1,5 +1,5 @@
 - if !@bulletins.blank?
-  .date
+  %date
     %div
       %h1
         Bulletin
@@ -10,7 +10,7 @@
       =link_to("read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
 .user_posts
   - @posts_order_by_dates.each do |date, posts|
-    .date{:id =>"date_#{date.split('-').join()}"}
+    %date{:id =>"date_#{date.split('-').join()}"}
       %div
         %h1 
           = date.to_date.strftime('%b')

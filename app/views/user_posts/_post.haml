@@ -41,5 +41,4 @@
     =# post.msg
   .clear
  - if post.ancestry && !hide_thread_link
-  %span{:class => 'toggle-thread'}
-   = link_to 'expand conversation', get_post_threads_path(post), :remote => true, :class => 'ajaxload'
+  = link_to 'expand conversation', get_post_threads_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread'

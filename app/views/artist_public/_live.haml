@@ -8,16 +8,19 @@
           %h2
             = @band.name
         .actions
+          - if @is_admin_of_band
+            = link_to 'administer', manage_band_path(:band_name => @band.name)
+          - if current_user.following?(@band)
+            = link_to 'unfollow', unfollow_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen'
+          - else
+            = link_to 'follow', follow_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen'
+          = link_to 'message', band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen"
           = link_to 'Facebook', @band.facebook_page, :target =>'_blank', :title =>"Facebook Page" unless @band.facebook_page.blank?
           = link_to 'Twitter', @band.twitter_page, :target =>'_blank', :title =>"Twitter Page" unless @band.twitter_page.blank?
       .sub-head
-        = "genre #{@band.genre}"
+        %h3 
+          = "genre #{@band.genre}"
       .description
-        = "#{pluralize(@band.mention_count, 'mentions')} in last #{MENTION_COUNT_FOR_LAST_N_HOURS} hrs"
-        %br
-        = "#{@band.song_albums_count} songs in store played 2000 times"
-        %br
-        = "#{@band.songs_count} albums have been brought 100 times"
     .bottom
-      .left
-      .right
+      .left.left-default
+      .right.right-default

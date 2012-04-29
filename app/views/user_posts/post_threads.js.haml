@@ -1,8 +1,7 @@
 - all_posts = capture do
   .post-threads-wrapper
-    - @posts.each do |post|
+    - @posts.reverse_each do |post|
       = render 'user_posts/post', :post => post, :hide_thread_link => true
-    %br/
     .thread-collapse
       %a{:href => "javascript:void(0);", :onclick => "hide_parent_posts('#post_#{@post.id}')", :class => 'toggle-thread'} collapse conversation
     .thread-expand{:style => "display:none"}

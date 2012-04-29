@@ -48,7 +48,8 @@
 	//header controls
 	.social-menu {
 		overflow: hidden; 
-		margin-top: 16px;
+		margin: 16px 0;
+		
 		
 		a {
 			@include default-button;
@@ -87,7 +88,8 @@
 
 	//
 	//date
-  .date {
+  date {
+		display: block;
 		background: url(base-feed-date.png);
 		position: absolute;
     margin: 39px 0 20px -60px;
@@ -97,6 +99,9 @@
     text-align: right;
 		color: $text-faded-color;
     font-weight: bold;
+		&:first-of-type { 
+			margin-top: 28px;
+		}
     -webkit-transform: rotate(270deg);
     -moz-transform: rotate(270deg);
     -o-transform: rotate(270deg);
@@ -105,6 +110,7 @@
 		> div {
 			margin: 6px 4px 0 0;
 		}
+
 
 		h1, h2 {
 			display: inline;
@@ -123,11 +129,9 @@
 	//
 	//post
   .post {  
-		padding: 15px 0;
-		
-		&:not(:last-of-type) {
-			border-bottom: 1px dashed rgba(white, .1);	
-		}
+		padding-bottom: 15px;
+		&:not(:first-of-type) { padding-top: 15px; }
+		&:not(:last-of-type) { border-bottom: 1px dashed rgba(white, .1); }
 		
 		> div {
 			@include border-radius($border-radius / 2);
@@ -152,7 +156,7 @@
 			padding: 0px; 
 			margin-left: 4px;
 			float: left;
-			width: 567px;
+			width: 571px;
 		
 			//post title and actions
 			.post-header {
@@ -169,7 +173,7 @@
 				.actions {
 					float: right; 
 
-					span { color: $text-faded-color; }					
+					span { color: $text-faded-color; }
 					&:hover { 
 						span { color: $text-color; }
 						i { opacity: 1; }

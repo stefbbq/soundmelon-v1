@@ -44,23 +44,40 @@
 			.header {
 				width: 100%;
 				height: 30px;
+				position: relative;
 				background: rgba(white, .07);
 				
 				.name {
 					float: left; 
 					
 					h2 {
-						padding: 10px 0 0 12px;					
-						margin: 0px;
+						margin: 12px 0 0 12px;
+						display: block;
 					}
 				}
 				.actions {
-					float: right;
-					margin: 20px 20px 0 0;
-					a {
-						@include inverted-button();
-					}
-				}				
+					position: absolute;
+					right: 20px;
+					top: 20px;
+					
+					a {	@include inverted-button();	}
+				}
+			}
+			
+			.sub-head {
+				clear: both;
+				
+				h3 {
+					color: $text-slight-faded-color;
+					margin: -2px 0 0 12px;
+					text-transform: uppercase;
+					display: block;
+				}
+			}
+			
+			.description {
+				margin: 9px 0 0 12px;
+				color: $text-slight-faded-color;
 			}
 		}
 		.top-default {
