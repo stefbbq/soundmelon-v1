@@ -41,7 +41,7 @@ Soundmelon::Application.routes.draw do
 
   get "profile/additional_info"    
   
-  match 'fan/registration'                    => 'fan#fan_new',                     :as => :fan_registration
+  match 'registration'                        => 'fan#fan_new',                     :as => :fan_registration
   match 'musician/registration'               => 'fan#musician_new',                :as => :musician_registration
   get 'users/:id/activate'                    => 'fan#activate',                    :as => :user_activation
   get 'user/reset/password'                   => 'password_resets#index',           :as => :password_reset
@@ -136,6 +136,8 @@ Soundmelon::Application.routes.draw do
   get ':band_name/set_featured'                   => 'band_song_album#albums_for_featured_list', :as => 'popup_for_feature_albums'
   get ':band_name/:song_album_name/featured'      => 'band_song_album#make_song_album_featured', :as => 'make_song_album_featured'
   get ':band_name/:song_album_name/edit'          => 'band_song_album#edit_song_album',   :as => 'edit_band_song_album'
+  get ':song_name/:id/like'                       => 'band_song_album#do_like_song',      :as => :like_song
+  get ':song_name/:id/dislike'                    => 'band_song_album#do_dislike_song',   :as => :dislike_song
   root :to => 'home#index'
 
   #--------------------------------------------ArtistPublic----------------------------------------------------

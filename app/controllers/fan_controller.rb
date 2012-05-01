@@ -19,12 +19,23 @@ class FanController < ApplicationController
   end
 
   def fan_new
-    if request.post?  
+    if request.post?      
       @user               = User.new(params[:user])
       @user.account_type  = 0
-      if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.save
+#      if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.save
+      if @user.save
+        band_name         = params[:band_name]
+        @band             = Band.find_by_name(band_name)
+        unless @band
+          band_user         = @user.band_users.new
+          @band             = Band.create(:name =>band_name)
+          band_user.band_id = @band.id
+          band_user.access_level  = 1
+          band_user.save
+        end
+        
         @page_type        = 'Fan'
-        render 'successful_signup_info' and return
+        render 'signup_success' and return
         #redirect_to successful_fan_signup_url, :notice => "Signed up successfully! "
       else
         render :fan_new
@@ -95,7 +106,7 @@ class FanController < ApplicationController
       else
         @page_type = 'Fan'
       end
-      render 'profile/additional_info' and return
+      render 'fan_public/additional_info' and return
       #redirect_to root_url, :notice => 'User was successfully activated.'
     else
       redirect_to root_url, :notice => 'Unable to activate your account. Try Again!'

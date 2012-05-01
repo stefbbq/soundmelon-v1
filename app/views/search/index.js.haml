@@ -1,9 +1,9 @@
 - @user = current_user
-- got_some_results = (@user_search_results.results.size>0) && (@band_search_results.results.size>0)
+- got_some_results = (@user_search_results.results.size>0) || (@band_search_results.results.size>0)
 - search_result = capture do
   - if got_some_results
     #results
-      - if !@user_search_results.results.blank?
+      - unless @user_search_results.results.blank?
         .users_header
           %h3 USERS
         - @user_search_results.results.each do |user|
@@ -20,10 +20,7 @@
                 - else
                   = link_to user.get_full_name, fan_profile_path(user)
             .clear
-      -else
-        .users_header
-          %h3 No Results
-      - if !@band_search_results.results.blank?
+      - unless @band_search_results.results.blank?
         .bands_header
           %h3 BANDS
         - @band_search_results.results.each do |band|
@@ -36,4 +33,4 @@
   - else
     %h3
     No Results Found for '#{params[:q]}'
-$('#page-content').html('#{escape_javascript(search_result)}');
+$('.primary .left').html('#{escape_javascript(search_result)}');

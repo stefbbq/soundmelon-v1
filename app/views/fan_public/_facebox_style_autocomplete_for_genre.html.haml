@@ -1,14 +1,7 @@
-- genres = Genre.all
 :javascript
-  $("#additional_info_favourite_genre").tokenInput([
-  <haml:silent>                 genres.each do |genre| 
-  </haml:silent><haml:block>                  {id: '#{genre.name}', name: '#{genre.name}'},
-  </haml:block>            ],{
-                  theme: "facebook",
-  <haml:silent>                 unless @additional_info.nil? 
-  </haml:silent><haml:block><haml:silent>                 unless  @additional_info.favourite_genre.blank?  
-  </haml:silent><haml:block>                   prePopulate: [
-  <haml:silent>                    @additional_info.favourite_genre.split(',').each do |cur_genre| 
-  </haml:silent><haml:block>                    {id: '#{cur_genre}', name: '#{cur_genre}'},
-  </haml:block>                  ]
-  </haml:block></haml:block>            });
+  $("#additional_info_favourite_genre").tokenInput(
+    [#{genre_atuofill}],
+    {
+      theme: "facebook",
+      prePopulate: [#{genre_prepopullate_from_addinfo(@additional_info)}]
+  });

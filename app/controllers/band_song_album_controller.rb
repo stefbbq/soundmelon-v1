@@ -149,6 +149,23 @@ class BandSongAlbumController < ApplicationController
     end
   end
 
+  def do_like_song
+    begin
+      @song = Song.find(params[:id])
+      @song.vote_by current_user
+    rescue
+      render :nothing => true and return
+    end
+  end
+
+  def do_dislike_song
+    begin
+      @song = Song.find(params[:id])
+    rescue
+      render :nothing => true and return
+    end
+  end
+
   def disable_enable_song_album
     begin
       @band = Band.where(:name => params[:band_name]).first

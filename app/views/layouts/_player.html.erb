@@ -1,64 +1,43 @@
 
-<% @song_items ||= current_user.find_radio_feature_playlist_songs %>
+<% @song_items ||= current_user.find_radio_feature_playlist_songs
+first_album = @song_items.first ? @song_items.first.song_album : nil
+%>
 
 <div id="sm_jplayer" class="jp-jplayer"></div>
 <div id="jp_container_1" class="jp-audio">
   <div class="jp-type-single">
     <div class="music_info">
       <div class="img">
-        <%= get_album_cover_image(@song_items.first.song_album) %>
+        <%= get_album_cover_image(first_album) if first_album %>
       </div>
       <div class="track_info">
-        <span>NightWish</span>
-        <h3>Song of myself</h3>
-        <h4><span>next</span>coming next song</h4>
+        <span></span>
+        <h3></h3>
+        <h4></h4>
         <div class="clear"></div>
       </div>
     </div>
     <div class="jp-gui jp-interface">
       <ul class="jp-controls">
-        <li><a href="javascript:;" class="jp-pre" tabindex="1">previous</a></li>
+        <li><a href="javascript:;" class="jp-pre">previous</a></li>
         <li>
-          <a href="javascript:;" class="jp-play" tabindex="1">play</a>
-          <a href="javascript:;" class="jp-pause" tabindex="1">pause</a>
+          <a href="javascript:;" class="jp-play">play</a>
+          <a href="javascript:;" class="jp-pause">pause</a>
         </li>
-        <li><a href="javascript:;" class="jp-next" tabindex="1">next</a></li>        
-        <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
-        <li><a href="javascript:;" class="fre-board" tabindex="1">1</a></li>
-        <li><a href="javascript:;" class="fre-board1" tabindex="1">1</a></li>
-        <li><a href="javascript:;" class="fre-board2" tabindex="1">1</a></li>
-        <li><a href="javascript:;" class="fre-board3" tabindex="1">1</a></li>
-        <li><a href="javascript:;" class="fre-board4" tabindex="1">1</a></li>
-        <li><a href="javascript:;" class="fre-board5" tabindex="1">1</a></li>
-        <li><a href="javascript:;" class="fre-board6" tabindex="1">1</a></li>
-        <li><a href="javascript:;" class="fre-board7" tabindex="1">1</a></li>
-        <li><a href="javascript:;" class="fre-board8" tabindex="1">1</a></li>
-        <li><a href="javascript:;" class="jp-rep" tabindex="1" title="Show/Hide Playlist" onclick="$('div.jp-playlist').toggle();">PlayList</a></li>
+        <li><a href="javascript:;" class="jp-next">next</a></li>        
+        <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>        
+        <li><a href="javascript:;" class="jp-rep" title="Show/Hide Playlist" onclick="$('div#jp-playlist').toggle();">PlayList</a></li>
+        <li><a href="javascript:;" class="jp-like" title="Like Song" id="alike" onclick="doLike();">like</a></li>
+        <!--<li><a href="javascript:;" class="jp-dislike" title="Dislike Song" id="adislike">dislike</a></li>-->
       </ul>
 
-      <div class="jp-progress"><div class="jp-seek-bar"><div class="jp-play-bar"></div></div></div>
-      <!--div class="jp-time-holder">
-        <div class="jp-current-time"></div>
-        <div class="jp-duration"></div>
-      </div>      
-      <div class="jp-current-time"></div>
-      <div class="jp-duration"></div-->
-      <!--div class="jp-volume-bar">
-        <ul>
-          <li><a href="javascript:;" class="fre-board" tabindex="1">1</a></li>
-          <li><a href="javascript:;" class="fre-board1" tabindex="1">1</a></li>
-          <li><a href="javascript:;" class="fre-board2" tabindex="1">1</a></li>
-          <li><a href="javascript:;" class="fre-board3" tabindex="1">1</a></li>
-          <li><a href="javascript:;" class="fre-board4" tabindex="1">1</a></li>
-          <li><a href="javascript:;" class="fre-board5" tabindex="1">1</a></li>
-          <li><a href="javascript:;" class="fre-board6" tabindex="1">1</a></li>
-          <li><a href="javascript:;" class="fre-board7" tabindex="1">1</a></li>
-          <li><a href="javascript:;" class="fre-board8" tabindex="1">1</a></li>
-          <li><a href="javascript:;" class="fre-board9" tabindex="1">1</a></li>
-        </ul>
-      </div-->
+      <div class="jp-progress"><div class="jp-seek-bar"><div class="jp-play-bar"></div></div></div>      
+      <div class="jp-volume-bar">
+        <div class="vol_val">1</div>        
+        <div class="vol_non">1</div>
+      </div>
     </div>
-    <div class="jp-playlist"><div class="pointer"></div><ul></ul></div>    
+    <div class="jp-playlist" id="jp-playlist"><div class="pointer"></div><ul></ul></div>
   </div>
 </div>
 
@@ -81,11 +60,12 @@
       playListChange(0, 0);
     }
   }
-  function updateTrackInfo(b,t,n,i){    
+  function updateTrackInfo(b,t,n,i,l){
     $('.track_info span').html(b);
     $('.track_info h3').html(t);    
     $('.track_info h4').html(n=='' ? '' : '<span>next</span>' + n);
     $('.musci_info .img').html(i);
+    $('a#alike').html(l);
   }
 
   // Switch track
@@ -93,7 +73,7 @@
     currentTrack = index;    
     var item     = playList[currentTrack];
     var next     = (currentTrack + 1 < playList.length) ? currentTrack + 1 : 0;
-    updateTrackInfo(item.band, item.title, playList[next].title, item.image)
+    updateTrackInfo(item.band, item.title, next==0 ? '' : playList[next].title, item.image, item.like ? 'liked' : 'like')
     if(play==1)
       player.jPlayer("setMedia", { m4a:item.mp3}).jPlayer('play');
     else
@@ -112,8 +92,8 @@
   
   function makePlayList(){        
     if(playList.length >0){
-      var liHtml;
-      for(var i=0;i<playList.length;i++){liHtml+='<li><a href="javascript:void(0);" onclick="playListChange(' + i + ');">' + playList[i]['title'] + '</a><a class="play_list_close" href="javascript:void(0);" onclick="removeListItem(' + i + ');">Close</a><a class="play_list_next" href="javascript:void(0);" onclick="playListChange(' + i + ',1);">play</a></li>';}
+      var liHtml='';      
+      for(var i=0;i<playList.length;i++){liHtml+='<li><a href="javascript:void(0);" onclick="playListChange(' + i + ');">' + playList[i]['title'] + '</a><a class="play_list_close" href="javascript:void(0);" onclick="removeListItem(' + i + ');">Close</a><a class="play_list_next" href="javascript:void(0);" onclick="playListChange(' + i + ',1);">play</a></li>';}      
       $('.jp-playlist ul').html(liHtml);      
     }
     else{player.jPlayer('stop');$('.jp-playlist ul').html('<li>Playlist is empty</li>');}
@@ -121,18 +101,25 @@
   
   function removeListItem(index){if(currentTrack == index){player.jPlayer('stop');}playList.pop(index);makePlayList();}
   
+  function doLike(){
+    var item = playList[currentTrack];
+    var url = item.title + "/" + item.i + '/like';
+    $.ajax({type: 'get',url: url, success:function(data){item.like=true;$('a#alike').html('liked');}});
+  }
+
   var playList = [
 <% for i in 0..@song_items.size-1
-    song          = @song_items[i]
-    song_detail   = song.song_detail
+  song          = @song_items[i]
+  song_detail   = song.song_detail
 %>
       {
-        i:     '<%= song.id %>',
-        title: '<%= song.song_name_without_extension  %>',
-        mp3:   '<%= song.song  %>',
-        band:  '<%= song_detail[:band]  %>',
-        album: '<%= song_detail[:album]  %>',
-        image: '<%= get_album_cover_image(song.song_album) %>'
+        i:     "<%= song.id %>",
+        title: "<%= song.song_name_without_extension  %>",
+        mp3:   "<%= song.song  %>",
+        band:  "<%= song_detail[:band]  %>",
+        album: "<%= song_detail[:album]  %>",
+        image: '<%= get_album_cover_image(song.song_album) %>',
+        like: <%= song.voted_on_by? current_user %>
       }
   <%= ","  unless i >= @song_items.size-1 %>
 <% end %>

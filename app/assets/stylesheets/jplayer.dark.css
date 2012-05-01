@@ -164,18 +164,9 @@ a.jp-next{background:url(next.jpg) 0 0 no-repeat;
           padding:5px 15px;
           left:82px
 }
-a.jp-volume-max{background:url(sound.jpg) 0 0 no-repeat; padding:5px 15px; left:118px}
-a.fre-board, a.fre-board1, a.fre-board2, a.fre-board3, a.fre-board4, a.fre-board5, a.fre-board6, a.fre-board7, a.fre-board8{-webkit-border-radius:5px; background:#1ece3a; width:4px; -moz-border-radius:5px; -o-border-radius:5px; border-radius:5px; margin-top:4px; left:156px;}
-a.fre-board7, a.fre-board8{background:#535353}
-
-a.fre-board1 {left:163px}
-a.fre-board2 {left:170px}
-a.fre-board3 {left:177px}
-a.fre-board4 {left:184px}
-a.fre-board5 {left:191px}
-a.fre-board6 {left:198px}
-a.fre-board7 {left:205px}
-a.fre-board8 {left:212px}
+a.jp-volume-max{background:url(sound.jpg) 0 0 no-repeat; padding:5px 15px; left:118px;width:1px;}
+.vol_val, .vol_non{text-indent:-9999px; margin-left:3px; -webkit-border-radius:5px; background:#1ece3a; width:4px; -moz-border-radius:5px; -o-border-radius:5px; border-radius:5px; margin-top:4px; left:156px; float: left;}
+.vol_non{background:#535353;}
 
 a.jp-rep{background:url(playlist.jpg) 0 0 no-repeat; padding:5px 15px 5px 35px;
          left:225px;
@@ -183,7 +174,18 @@ a.jp-rep{background:url(playlist.jpg) 0 0 no-repeat; padding:5px 15px 5px 35px;
          color:#777777;
          font-size:14px;
 }
-
+a.jp-like{padding:5px 15px 5px 35px;
+         left:285px;
+         text-indent:0!important;
+         color:#777777;
+         font-size:14px;
+}
+a.jp-dislike{padding:5px 15px 5px 35px;
+         left:315px;
+         text-indent:0!important;
+         color:#777777;
+         font-size:14px;
+}
 div.jp-audio div.jp-type-single a.jp-stop {
   left: 90px;
   top: 26px;
@@ -398,8 +400,7 @@ div.jp-volume-bar {
   cursor: pointer;
   height: 20px;  
   width: 72px;  
-  margin-left: 149px;
-  margin-top: -8px;
+  margin-left: 152px;
 }
 div.jp-volume-bar ul li{
   text-decoration: none;
@@ -504,6 +505,51 @@ div.jp-playlist {
   top:105px;
   padding:10px;
 }
+
+div.searchlist {
+  position:absolute;
+  z-index:1;
+  display: none;
+  width:213px;
+  background: rgb(63,76,107); /* Old browsers */
+  background: -moz-linear-gradient(top, rgb(218,218,218) 0%, rgb(192,192,192) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(218,218,218)), color-stop(100%,rgb(192,192,192))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgb(218,218,218) 0%,rgb(192,192,192) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, rgb(63,76,107) 0%,rgb(59,80,102) 100%); /* Opera11.10+ */
+  background: -ms-linear-gradient(top, rgb(63,76,107) 0%,rgb(59,80,102) 100%); /* IE10+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', endColorstr='#3b5066',GradientType=0 ); /* IE6-9 */
+  background: linear-gradient(top, rgb(63,76,107) 0%,rgb(59,80,102) 100%); /* W3C */
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -o-border-radius:10px;
+  border-radius: 10px;
+  left:690px;
+  top:175px;
+  padding:10px;
+  min-height: 100px;
+}
+
+.pointer2{
+  background:url(pointer.png) no-repeat;
+  height:13px;
+  width:21px;
+  position:absolute;
+  margin:-20px 0 0 1px;
+}
+
+.searchlist ul li{
+  margin:2px 0 2px 0;
+  text-shadow:none;
+  border-bottom:dotted 1px #979797;
+  padding-bottom:5px!important;
+  width: 100%;
+}
+.searchlist ul li a{
+  font:12px "Trebuchet MS", Arial, Helvetica, sans-serif;
+  color:#979797;
+  padding:0 4px;
+}
+
 .jp-playlist ul li{
   margin:2px 0 2px 0;
   text-shadow:none;

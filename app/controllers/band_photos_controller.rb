@@ -90,7 +90,6 @@ class BandPhotosController < ApplicationController
       render :nothing => true and return
     end
   end
-
   
   def band_album_photos
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?

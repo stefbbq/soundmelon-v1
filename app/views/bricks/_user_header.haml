@@ -13,22 +13,13 @@
       = render :partial =>'/layouts/player'
     .notifications
       %div
-        -if @unread_post_replies_count > 0
-          = link_to @unread_post_replies_count, replies_path, :id =>'reply_count'
-        -else
-          = link_to @unread_post_replies_count, replies_path, :class=>"dimmed"
+        = link_to @unread_post_replies_count, replies_path, :class=> @unread_post_replies_count > 0 ? "ajaxopen" : "dimmed ajaxopen", :id =>'reply_count'
         replies
       %div
-        -if @unread_mentioned_count > 0
-          = link_to @unread_mentioned_count, mentioned_path, :id =>'mention_count'
-        -else
-          = link_to @unread_mentioned_count, mentioned_path, :class=>"dimmed"
+        = link_to @unread_mentioned_count, mentioned_path, :class=> @unread_mentioned_count > 0 ? "ajaxopen" : "dimmed ajaxopen", :id =>'mention_count'
         mentions
       %div
-        -if @unread_messages_count > 0
-          = link_to @unread_messages_count, user_inbox_path, :id =>'message_count'
-        -else
-          = link_to @unread_messages_count, user_inbox_path, :class=>"dimmed"
+        = link_to @unread_messages_count, user_inbox_path, :class=>@unread_messages_count > 0 ? "ajaxopen" : "dimmed ajaxopen", :id =>'message_count'
         messages
   .clear
   .bottom-bar

@@ -1,8 +1,8 @@
 class SearchController < ApplicationController
-  before_filter :require_login, :except => [:check_bandname]
+  before_filter :require_login, :except => [:check_bandname, :index]
   
   def index
-    messages_and_posts_count
+#    messages_and_posts_count
     @user_search_results = Sunspot.search User do |query| 
       query.keywords params[:q]
       query.with :activation_state, 'active'
@@ -14,9 +14,9 @@ class SearchController < ApplicationController
   end
   
   def autocomplete_suggestions
-    @users = User.where("fname like :search_word or lname like :search_word", :search_word => "#{params[:term]}%").select('Distinct fname, lname').limit(10)
-    @band_names = Band.where("name like :search_word", :search_word => "#{params[:term]}%").select('Distinct name').limit(10).map{|band| band.name}
-    @band_genres = Band.where("genre like :search_word", :search_word => "#{params[:term]}%").select('Distinct genre').limit(10).map{|band| band.genre}
+    @users          = User.where("fname like :search_word or lname like :search_word", :search_word => "#{params[:term]}%").select('Distinct fname, lname').limit(10)
+    @band_names     = Band.where("name like :search_word", :search_word => "#{params[:term]}%").select('Distinct name').limit(10).map{|band| band.name}
+    @band_genres    = Band.where("genre like :search_word", :search_word => "#{params[:term]}%").select('Distinct genre').limit(10).map{|band| band.genre}
     respond_to do |format|
       format.js
     end

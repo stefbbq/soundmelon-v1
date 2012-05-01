@@ -11,7 +11,7 @@
       .album_controls{:style=>'float:left;width:50px;'}
         = link_to "edit", edit_band_tour_path(:band_name =>@band.name, :band_tour_id => band_tour.id), :remote=>:true, :class=>"ajaxopen"
         = link_to "remove", delete_band_tour_path(:band_name =>@band.name, :band_tour_id => band_tour.id), :remote=>:true, :class=>"ajaxopen"
-    .thread_expand
+    .toggle-thread
       = link_to "expand", band_tour_detail_path(:band_name =>@band.name, :band_tour_id => band_tour.id), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{band_tour.id}"
     .clear
   .tour_details

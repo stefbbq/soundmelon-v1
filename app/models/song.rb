@@ -1,4 +1,5 @@
 class Song < ActiveRecord::Base
+  acts_as_votable
   belongs_to :user
   belongs_to :song_album
   has_many :posts
