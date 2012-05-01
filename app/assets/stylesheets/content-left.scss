@@ -130,8 +130,8 @@
 	//post
   .post {  
 		padding-bottom: 15px;
-		&:not(:first-of-type) { padding-top: 15px; }
-		&:not(:last-of-type) { border-bottom: 1px dashed rgba(white, .1); }
+    border-bottom: 1px dashed rgba(white, .1);
+		&:not(:first-of-type) { padding-top: 15px; }   		
 		
 		> div {
 			@include border-radius($border-radius / 2);
@@ -141,7 +141,12 @@
 			
 			&:hover {	background: rgba(white, .06);	}
 		}
-
+    .firstpost{
+      background:green;
+      }
+    .lastpost{
+      background:grey;
+      }
     .avatar {
       float: left; 
 

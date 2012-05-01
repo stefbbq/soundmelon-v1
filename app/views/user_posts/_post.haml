@@ -1,11 +1,12 @@
 - hide_thread_link ||= false
+- divclass ||=''
 -if @band && @is_admin_of_band
  - self_owner = post.band_id == @band.id ? true : false
 - else
  - self_owner = post.user == current_user ? true : false
 - item_div_class = self_owner ? 'content' : 'content-mentioned'
 = div_for post do
- %div 
+ %div{:class=>"#{divclass}"}
   .avatar
    - if !post.user_id.nil?
     = link_to get_avatar_small(post.user), fan_profile_path(post.user) if !self_owner
@@ -37,8 +38,7 @@
        %i
        %span reply      
    .post-body
-    = post_msg_with_band_mention(post)
-    =# post.msg
+    = post_msg_with_band_mention(post)    
   .clear
  - if post.ancestry && !hide_thread_link
-  = link_to 'expand conversation', get_post_threads_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread'
+  = link_to 'expand conversation', get_post_threads_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"

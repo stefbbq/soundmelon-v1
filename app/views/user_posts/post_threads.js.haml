@@ -1,10 +1,15 @@
+- last_post  = @posts.pop
+- @posts     = @posts.reverse
+- first_post = @posts.pop
 - all_posts = capture do
-  .post-threads-wrapper
-    - @posts.reverse_each do |post|
+  .post-threads-wrapper{:id =>"post_thread_wrapper_#{last_post.id}"}
+    = render 'user_posts/post', :post => first_post, :hide_thread_link => false, :divclass =>'firstpost'
+    - @posts.each do |post|
       = render 'user_posts/post', :post => post, :hide_thread_link => true
-    .thread-collapse
-      %a{:href => "javascript:void(0);", :onclick => "hide_parent_posts('#post_#{@post.id}')", :class => 'toggle-thread'} collapse conversation
-    .thread-expand{:style => "display:none"}
-      %a{:href => "javascript:void(0);", :onclick => "show_parent_posts('#post_#{@post.id}')", :class => 'toggle-thread'} expand conversation
+  = render 'user_posts/post', :post => last_post, :hide_thread_link => false, :divclass =>'lastpost'
+- hide_show_conversation = capture do
+  %a{:href => "javascript:void(0);", :class =>'toggle-thread', :onclick => "$('#post_thread_wrapper_#{last_post.id}').toggle();$(this).html($.trim($(this).text())=='collapse conversation' ? 'expand conversation' : 'collapse conversation');"}
+    collapse conversation
 $('#post_#{@post.id}').replaceWith("#{escape_javascript all_posts}");
+$('#expand_link_#{last_post.id}').replaceWith('#{escape_javascript hide_show_conversation}');
 setTimeout('$(document).trigger(\"close.facebox\")',10)

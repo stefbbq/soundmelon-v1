@@ -1,17 +1,26 @@
 $(document).ready( function(){
-  $('.auto_search_complete').autocomplete({
+  var searchAutoComplete = $('.auto_search_complete').autocomplete({
     minLength: 3,
     delay: 600,
     source: function(request, response) {
       $.ajax({
         url: "/autocomplete/suggestions.js",
         dataType: "json",
-        data: {term: request.term},
+        data: {
+          term: request.term
+          },
         success: function( data ) {
           response( data );
         }
       });
-    }          
+    },
+    open: function(event, ui) {            
+      $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.searchlist').show();
+      $('.searchlist').show();
+    },
+    close: function(event, ui){
+      $('.searchlist').hide();
+    }
   });
                 
   $('.location_auto_search_complete').autocomplete({
@@ -21,7 +30,9 @@ $(document).ready( function(){
       $.ajax({
         url: "<%= location_autocomplete_suggestions_url %>",
         dataType: "json",
-        data: {term: request.term},
+        data: {
+          term: request.term
+          },
         success: function( data ) {
           response( data );
         }
@@ -64,60 +75,59 @@ $(document).ready( function(){
     else{
       if(parseInt($(this).val().length) > 200){
         $("#send_message_btn").attr('disabled','disabled');
-        //$(".inputerror").html('No more than 100 charactres');
+      //$(".inputerror").html('No more than 100 charactres');
       }
       else{
         $("#send_message_btn").removeAttr('disabled');
-        //$(".inputerror").html('');
+      //$(".inputerror").html('');
       }
     }
   });
                  
   $(".ajaxload").bind('ajax:before', function() {
-		  jQuery.facebox($('#globalloading').html());
-		  $(':submit').attr('disabled','disabled');
-		}); 
-		
-		$(".ajaxload").bind('ajax:success', function() {
-		  $(document).trigger("close.facebox");
-		  $(':submit').removeAttr('disabled');
-		}); 
-		                
-  $(".ajaxopen").bind('ajax:before', function() {
     jQuery.facebox($('#globalloading').html());
-		  $(':submit').attr('disabled','disabled');
-		}); 
+    $(':submit').attr('disabled','disabled');
+  });
+		
+  $(".ajaxload").bind('ajax:success', function() {
+    $(document).trigger("close.facebox");
+    $(':submit').removeAttr('disabled');
+  });
+		                
+  $("a.ajaxopen").bind('ajax:before', function() {
+    jQuery.facebox($('#globalloading').html());
+    $(':submit').attr('disabled','disabled');
+  });
 		                  
-		$(document).delegate('a[rel*=topup]', 'click', function(e) {
-    $.facebox({ div: this.hash });
-   	$(".ajaxopen").bind({
-  		  'ajax:before': function() {
+  $(document).delegate('a[rel*=topup]', 'click', function(e) {
+    $.facebox({
+      div: this.hash
+    });
+    $("a.ajaxopen").bind({
+      'ajax:before': function() {
         jQuery.facebox($('#globalloading').html());
-		    },
-		    'ajax:success': function() {
-        //$(':submit').removeAttr('disabled');
+      },
+      'ajax:success': function() {
+      //$(':submit').removeAttr('disabled');
       }
-		  }); 
-	   e.preventDefault();
+    });
+    e.preventDefault();
   });
   
   $('a.backable').live('click', function(){
-    history.pushState(null, "", this.href);
+    history.pushState({sm:true}, document.title, this.href);
     return false;
   });
-
-  $('.left #latest, .left #replies, .left #mentions, #inbox #messages').live('click', function() {
-    history.pushState(null, "", this.href);
-    return false
-  });
-  $(window).bind("popstate", function(){
-    $.getScript(location.href);    
+  
+  $(window).bind("popstate", function(event){    
+    if(event.originalEvent.state)
+      $.getScript(location.href);
   });
 });
 
 function remove_fields (link) {
   $(link).siblings("input[type=hidden]:first").attr('value', '1');
-	 $(link).parents(".fields:first").hide();
+  $(link).parents(".fields:first").hide();
 }
 
 function add_fields(link, association, content) {
@@ -149,8 +159,11 @@ function show_songs(div_id){
   $(div_id).find('.thread-collapse').show();    
 }
 
-function set_right_height(){
+function set_right_height(height){
   var resizeTarget = $('.primary .left');
   var target = $('.primary .right');
-  target.css('height', resizeTarget.height());
+  if(height)
+    target.css('height', height);
+  else
+    target.css('height', resizeTarget.height());
 }
