@@ -3,8 +3,9 @@
 - day   = @post.created_at.strftime(" %d")
 != "$('#user_post_form')[0].reset();"
 - if @post.is_bulletin
-  != "$('.band-bulletins').prepend('#{escape_javascript(render 'user_posts/post', :post => @post)}');"
+  != "if($('#bulletin_board div').length==0){$('<date id=\"bulletin_board\"><div><h1>Bulletin</h1></div></date>').insertBefore($('.bulletin-posts'));}"
+  != "$('.bulletin-posts').prepend('#{escape_javascript(render 'user_posts/post', :post => @post)}');"
 - else
-  != "if($('.user_posts #date_#{date}').length==0){$('.user_posts').prepend('<div id=\"date_#{date}\"><div><h1>#{month}</h1><h2>#{day}</h2></div> </div>');}"
+  != "if($('.user_posts #date_#{date}').length==0){$('.user_posts').prepend('<date id=\"date_#{date}\"><div><h1>#{month}</h1><h2>#{day}</h2></div></date>');}"
   != "$('#{escape_javascript(render 'user_posts/post', :post => @post)}').insertAfter($('.user_posts #date_#{date}'));"
-!= "$('.postsubmit').attr('disabled','disabled');"
+!= "$('.post-btn').attr('disabled','disabled');"

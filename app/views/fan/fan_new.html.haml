@@ -1,4 +1,4 @@
-= form_for :user do |f|  
+= form_for :user, :url=>fan_registration_path do |f|  
   .blankbox
     %br/
     %br/
@@ -8,7 +8,7 @@
       Sign-up, it's free.      
     .content-box
       .registrationform
-        = render 'registration-fields'    
+        = render '/fan/registration-fields'
 
 :javascript
   $(document).ready(function() {

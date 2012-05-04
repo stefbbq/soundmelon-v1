@@ -3,5 +3,7 @@
     = "#{@band_photo_album.name} buzz"
   - else
     = "#{@band_photo.caption} buzz"
+%hr/
+= render 'buzzlisting', :buzzes_by_date =>@buzzes_by_dates
 .buzz_form
   = render 'photo_album_buzz_form'

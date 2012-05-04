@@ -14,8 +14,9 @@ $('.primary .left').html('');
           .band-info
             %span.band-name= band.name
             %br/
-            %span.band-genre
-              (#{band.genre})
+            - unless band.genre.blank?
+              %span.band-genre
+                (#{band.genre})
             %br/
             %span.other-info
               Fan ##{band.followers_count},
@@ -23,10 +24,10 @@ $('.primary .left').html('');
               Songs ##{band.songs_count}
             %br/
             %span.band-access
-              = link_to 'access>>>', manage_band_path(:band_name => band.name),:class=>'button'
+              = link_to 'access>>>', manage_band_path(:band_name => band.name),:class=>'ajaxopen backable', :remote =>true
         %hr/
 $('.primary .left').html('#{escape_javascript(content)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-fan');
 $('#access-artist').addClass('active').addClass('button-fill-fan');
-set_right_height();
+set_right_height('1000px');

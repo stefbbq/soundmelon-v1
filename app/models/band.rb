@@ -2,7 +2,7 @@ class Band < ActiveRecord::Base
   
   acts_as_messageable :required => :body, :order => "created_at desc" 
   acts_as_followable
-  
+
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user
   has_many :band_albums, :order => 'created_at desc'
@@ -12,15 +12,17 @@ class Band < ActiveRecord::Base
   has_many :posts
   has_many :mentioned_posts
   has_many :songs, :through => :song_albums
+  has_and_belongs_to_many :genres
   
+  attr_reader :genre_tokens
 
   accepts_nested_attributes_for :band_invitations , :reject_if => proc { |attributes| attributes['email'].blank? }
   has_attached_file :logo, 
     :styles => { 
-      :small => ['50x50#', :jpg],
-      :medium =>['100x100>', :jpg],
-      :large => ['350x280>', :jpg]
-    },
+    :small => ['50x50#', :jpg],
+    :medium =>['100x100>', :jpg],
+    :large => ['350x280>', :jpg]
+  },
     :url => "/assets/images/bands/:id/:style/:basename.:extension"
 
   validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png', 'image/jpg'] 
@@ -30,11 +32,15 @@ class Band < ActiveRecord::Base
   validates :name, :uniqueness => true
   validates :mention_name, :uniqueness => true
 
-  before_validation :sanitize_mention_name
+  before_validation :sanitize_mention_name  
   
   searchable do
     text :genre
     text :name
+  end
+  
+  def genre_tokens=(ids)
+    self.genre_ids = ids.split(",")
   end
   
   def self.find_bands_in_mentioned_post mentioned_name_arr
@@ -126,7 +132,7 @@ class Band < ActiveRecord::Base
   end
   
   def limited_band_members(n=Constant::BAND_MEMBER_SHOW_LIMIT)
-     self.band_members.limit(n)
+    self.band_members.limit(n)
   end
   
   def limited_band_follower(n=Constant::BAND_FOLLOWER_SHOW_LIMIT)
@@ -140,7 +146,7 @@ class Band < ActiveRecord::Base
   protected
 
   def mark_mentioned_post_as_read post_ids
-     MentionedPost.where(:post_id => post_ids, :band_id => self.id).update_all(:status => READ)
+    MentionedPost.where(:post_id => post_ids, :band_id => self.id).update_all(:status => READ)
   end
   
   def mark_replies_post_as_read post_ids
@@ -159,7 +165,6 @@ class Band < ActiveRecord::Base
     parent_posts = Post.where(:id => ancestry_post_ids, :band_id => self.id).map{|post| post.id}
     Post.where(:id => replies_post_ids, :ancestry => parent_posts, :is_read => UNREAD)
     #Post.joins('INNER JOIN posts as c').where('posts.id = c.ancestry and c.ancestry is not null and c.is_read = ? and posts.user_id = ?', UNREAD, self.id)
-  end
-  
+  end  
   
 end

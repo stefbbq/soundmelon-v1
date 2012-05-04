@@ -103,7 +103,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   
   function doLike(){
     var item = playList[currentTrack];
-    var url = item.title + "/" + item.i + '/like';
+    var url =  '<%= request.base_url %>/' + item.title + "/" + item.i + '/like';
     $.ajax({type: 'get',url: url, success:function(data){item.like=true;$('a#alike').html('liked');}});
   }
 

@@ -7,6 +7,6 @@
   = render '/bricks/rb_fan', :band =>@band, :band_fans =>@band_fans  
 
   .divider
-  = link_to 'manage your profile' , edit_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box'
-  = link_to 'manage bandmates' , bandmates_invitation_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box'
+  = link_to 'manage your profile' , edit_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box backable'
+  = link_to 'manage bandmates' , bandmates_invitation_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box backable'
   

@@ -2,10 +2,10 @@
   .items
     #user-post
       .selection-box.active 
-        = link_to 'posts of this musician', show_band_path(:band_name => @band.name), :remote => 'true', :class => 'ajaxopen'
+        = link_to 'posts of this musician', show_band_path(:band_name => @band.name), :remote => 'true', :class => 'ajaxopen backable'
     - if @is_admin_of_band
       .selection-box
-        = link_to 'administer musician', manage_band_path(:band_name => @band.name)
+        = link_to 'administer musician', manage_band_path(:band_name => @band.name), :remote =>true, :class =>'ajaxopen backable'
     #follow-unfollow
       .selection-box
         - if current_user.following?(@band)
@@ -15,7 +15,6 @@
     #msg-user
       .selection-box
         = link_to '> message this musician', band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen"
-
     = render '/bricks/rb_music', :band =>@band, :song_albums =>@song_albums, :is_admin =>false
     = render '/bricks/rb_photo', :band =>@band, :photo_albums =>@photo_albums, :is_admin =>false
     = render '/bricks/rb_tour', :band =>@band, :band_tours =>@band_tours, :is_admin =>false

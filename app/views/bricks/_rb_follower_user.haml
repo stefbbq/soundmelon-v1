@@ -5,14 +5,14 @@
       = pluralize(followers_count,'follower')
     - unless followers_count < Constant::FOLLOWER_SHOW_LIMIT
       %br/
-      = link_to 'see all', fan_followers_path, :remote=>:true, :class=>'small-font ajaxopen'
+      = link_to 'see all', fan_followers_path, :remote=>:true, :class=>'small-font ajaxopen backable'
   .collection
-    %div
-      - if followers_count > 0
+    - if followers_count > 0
+      %div
         - follower_users.each do |fan_followers|
           .artist-avatar
-            = link_to get_avatar_small(fan_followers), fan_profile_path(fan_followers)
-      - else
-        = Constant::NO_FOLLOWER_MESSAGE
+            = link_to get_avatar_small(fan_followers), fan_profile_path(fan_followers), :class =>'ajaxopen backable', :remote =>true
+    - else
+      = Constant::NO_FOLLOWER_MESSAGE
     .clear
   .clear

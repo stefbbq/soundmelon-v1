@@ -1,4 +1,4 @@
-- song_album_songs = capture do
+- show_album_songs = capture do
   - @song_album.songs.each do |song|
     .song[song]
       .song-title
@@ -14,14 +14,9 @@
     .song
       .song-title
         = link_to image_tag("add.png"), edit_band_song_album_path(:band_name =>@song_album.band.name, :song_album_name => @song_album.album_name), :remote=>:true, :class=>"ajaxopen", :title =>"add new song"
-- hide_show_songs = capture do
-  .thread_collapse
-    %a{:href => "javascript:void(0);", :onclick => "hide_songs('#song_album_#{@song_album.id}')"}
-      collapse
-  .toggle-thread{:style => "display:none"}
-    %a{ :href => "javascript:void(0);", :onclick => "show_songs('#song_album_#{@song_album.id}')"}
-      expand  
-
-$('#song_album_#{@song_album.id} .additional_info .toggle-thread').replaceWith('#{escape_javascript hide_show_songs}');
-$('#song_album_#{@song_album.id}').append('#{escape_javascript song_album_songs}');
+- hide_album_songs = capture do
+  %a{:href => "javascript:void(0);", :onclick => "$('#song_album_#{@song_album.id} .album_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
+    collapse
+$('#song_album_#{@song_album.id} .album_details').append('#{escape_javascript show_album_songs}');
+$('#expand_link_#{@song_album.id}').replaceWith('#{escape_javascript hide_album_songs}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);

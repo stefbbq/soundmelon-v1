@@ -21,7 +21,14 @@ class User < ActiveRecord::Base
   has_many :posts
   has_many :mention_posts
   has_many :playlists
-  
+  has_many :genre_users
+  has_many :genres, :through =>:genre_users
+
+  has_many :top_genres,
+           :class_name => 'GenreUser',
+           :order      => 'liking_count',
+           :limit      => 3
+           
   attr_accessor :email_confirmation, :password_confirmation
   attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :tac, :mention_name
   
@@ -71,7 +78,6 @@ class User < ActiveRecord::Base
     info = self.additional_info
     info ? info.location : ''
   end
-
     
   def is_admin_of_band?(band) 
     admin_band_members_id_arr = band.band_members.where('band_users.access_level = 1').map{|band_member| band_member.id}
@@ -152,15 +158,17 @@ class User < ActiveRecord::Base
     mark_replies_post_as_read post_ids
     return posts
   end
-  
+
+  # user has genres(collected from user's favourite genre, genres of songs he/she liked)
+  # songs from the bands of user's top genres(top based on liking count)
   def find_radio_feature_playlist_songs(number_of_songs = 5)    
     song_items                 = []
-    ad_info                    = self.additional_info
-    bands                      = ad_info ? Band.find_all_by_genre(ad_info.favourite_genre) : []
-    albums_with_featured_genre = bands.map{|b| b.song_albums }.flatten
-    for album in albums_with_featured_genre
-          song_items << album.songs
-    end
+    user_top_genres            = Genre.find(self.top_genre_ids)    
+    bands_from_user_genres     = user_top_genres.map{|ug| ug.bands}
+    albums_of_user_genre_bands = bands_from_user_genres.flatten.map{|band| band.song_albums }.flatten
+    for album in albums_of_user_genre_bands
+      song_items << album.songs
+    end    
     # if empty
     song_items = Song.all(:limit =>number_of_songs) if song_items.empty?
     song_items.flatten

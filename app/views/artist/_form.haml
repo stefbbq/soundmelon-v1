@@ -13,17 +13,18 @@
     .loader
     = form_for @band, :url => action_url, :html => {:multipart => true, :remote => true, :class => 'band-form' } do |f|
       = render :partial => 'form_fields', :locals =>{:f => f}
+
 :javascript
-  $(document).ready(function() {
-    $("#band_genre").tokenInput(
+  $(document).ready(function() {    
+    $("#band_genre_tokens").tokenInput(
       [
-      #{genre_atuofill}
+      #{genre_atuofill_band}
       ],
       {
         theme: "facebook",
         prePopulate:
         [
-        #{genre_prepopullate @band.genre}
+        #{genre_prepopullate @band.genres}
         ]
       }
     );

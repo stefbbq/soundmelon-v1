@@ -35,7 +35,22 @@ class Song < ActiveRecord::Base
     song_album  = self.song_album(:include =>:band)    
     song_album ? {:album =>song_album.album_name, :band =>song_album.band.name, :band_image =>''} : {:album =>'', :band=>'', :band_image =>''}
   end
-  
+
+  def do_like_by user
+    song_album      = self.song_album(:include =>:band)
+    band            = song_album.band
+    genres          = band ? band.genre : []
+    genres          = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
+    GenreUser.add_genre_and_users genres, user    
+  end
+
+  def do_dislike_by user
+    song_album      = self.song_album(:include =>:band)
+    band            = song_album.band
+    genres          = band ? band.genre : []
+    genres          = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
+    GenreUser.remove_genre_and_users genres, user    
+  end
 
   private
 

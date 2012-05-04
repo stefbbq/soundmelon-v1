@@ -21,7 +21,7 @@ var DEFAULT_SETTINGS = {
     jsonContainer: null,
 
 	// Display settings
-    hintText: "Type in a search term",
+    hintText: "Start Typing",
     noResultsText: "No results",
     searchingText: "Searching...",
     deleteText: "&times;",
@@ -30,7 +30,7 @@ var DEFAULT_SETTINGS = {
 	// Tokenization settings
     tokenLimit: null,
     tokenDelimiter: ",",
-    preventDuplicates: false,
+    preventDuplicates: true,
 
 	// Output settings
     tokenValue: "id",

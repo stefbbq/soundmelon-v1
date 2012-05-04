@@ -1,0 +1,7 @@
+.buzz_header
+  - if @band_tour
+    = "'Band Tour @#{@band_tour.tour_date}' buzz"
+%hr/
+= render 'buzzlisting', :buzzes_by_date =>@buzzes_by_dates
+.buzz_form
+  = render 'tour_buzz_form'

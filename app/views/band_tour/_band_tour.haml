@@ -5,6 +5,7 @@
         Tour Date:
         = band_tour.tour_date.strftime("%b %d, %Y")
       .album_controls
+        = link_to image_tag('buzz-icon.png'), band_tour_buzz_path(@band.name, band_tour.id), :remote => true, :class => 'ajaxopen'
     .clear
   .additional_info
     - if can_admin?(@band, current_user)

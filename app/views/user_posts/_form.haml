@@ -8,17 +8,16 @@
   %span.inputerror
 
 :javascript
-$(function () {
-  $('textarea.mention').mentionsInput({
-    onDataRequest:function (mode, query, callback) {
-      var data = [
-      #{user_mention_lists current_user}
-      ];
-      data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
-      callback.call(this, data);
-    }
-  });
-  $('.status-input .input-box').focus(function() {
-    $(this).val("");
+  $(function () {
+    $('textarea.mention').mentionsInput({
+      onDataRequest:function (mode, query, callback) {
+        var data = [#{user_mention_lists current_user}];
+        data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+        callback.call(this, data);
+      }
     });
-});
+    $('.status-input .input-box').focus(function() {
+      if($(this).val()=='share something...')
+        $(this).val('');
+      });
+  });

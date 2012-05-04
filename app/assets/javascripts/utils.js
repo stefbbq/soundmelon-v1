@@ -6,38 +6,13 @@ $(document).ready( function(){
       $.ajax({
         url: "/autocomplete/suggestions.js",
         dataType: "json",
-        data: {
-          term: request.term
-          },
-        success: function( data ) {
-          response( data );
-        }
+        data: { term: request.term },
+        success: function( data ){ response( data ); }
       });
     },
-    open: function(event, ui) {            
-      $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.searchlist').show();
-      $('.searchlist').show();
-    },
-    close: function(event, ui){
-      $('.searchlist').hide();
+    open: function(event, ui) {
+      $('ul.ui-autocomplete').removeClass(' ui-menu ui-widget ui-widget-content ui-corner-all');      
     }
-  });
-                
-  $('.location_auto_search_complete').autocomplete({
-    minLength: 3,
-    delay: 600,
-    source: function(request, response) {
-      $.ajax({
-        url: "<%= location_autocomplete_suggestions_url %>",
-        dataType: "json",
-        data: {
-          term: request.term
-          },
-        success: function( data ) {
-          response( data );
-        }
-      });
-    }          
   });
                 
   $('[data-validate]').blur(function() {
@@ -47,22 +22,22 @@ $(document).ready( function(){
     }).success(function() {
       $('.bandname_available').html('');
     }).error(function() {
-      $('.bandname_available').html('This band name is not available');
+      $('.bandname_available').html('This band name is not available');      
     });
   });
 
-  $(".postsubmit").attr('disabled','disabled');
-  $('.inputbox').keyup(function() {
+  $(".post-btn").attr('disabled','disabled');
+  $('.input-box').keyup(function() {
     if($(this).val() == ''){
-      $(".postsubmit").attr('disabled','disabled');
+      $(".post-btn").attr('disabled','disabled');
     } 
     else{
       if(parseInt($(this).val().length) > 200){
-        $(".postsubmit").attr('disabled','disabled');
+        $(".post-btn").attr('disabled','disabled');
         $(".inputerror").html('No more than 100 charactres');
       }
       else{
-        $(".postsubmit").removeAttr('disabled');
+        $(".post-btn").removeAttr('disabled');
         $(".inputerror").html('');
       }
     }
@@ -115,7 +90,9 @@ $(document).ready( function(){
   });
   
   $('a.backable').live('click', function(){
-    history.pushState({sm:true}, document.title, this.href);
+    history.pushState({
+      sm:true
+    }, document.title, this.href);
     return false;
   });
   

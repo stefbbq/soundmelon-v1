@@ -1,6 +1,9 @@
+$('.live').html('#{escape_javascript(render 'live')}');
+$('.top-bar .session').html('#{escape_javascript(render '/artist/artist_admin_header')}');
 $('.primary .left').html('#{escape_javascript(render 'user_posts/form')}');
 $('.primary .left').append('#{escape_javascript(render 'social_header')}');
 $('.primary .left').append('#{escape_javascript(render 'bricks/fan_posts')}');
+$('.primary .right').html('#{escape_javascript(render 'right')}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-fan');
 $('#feed-msg').addClass('active').addClass('button-fill-fan');

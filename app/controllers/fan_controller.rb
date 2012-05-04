@@ -1,44 +1,41 @@
 class FanController < ApplicationController
   before_filter :require_login, :except => [:fan_new, :musician_new, :activate, :new]
-  before_filter :logged_in_user, :only => ['musician_new', :activate]  
+  before_filter :logged_in_user, :only  => [:musician_new, :activate]
 
-  def index
-    @user = current_user 
+  def index    
+    @user                       = current_user
     logger.debug ">>> CURRENT ID: #{@user}"
-    @posts = current_user.find_own_as_well_as_following_user_posts(params[:page])
-    @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}    
-    next_page = @posts.next_page
-    @load_more_path =  next_page ? more_post_path(:page => next_page) : nil
-    @unread_mentioned_count = current_user.unread_mentioned_post_count
-    @unread_post_replies_count = current_user.unread_post_replies_count
-    @unread_messages_count = current_user.received_messages.unread.count
-    @song_items = current_user.find_radio_feature_playlist_songs
-    unless request.xhr?
-      get_user_associated_objects  
-    end
+    @posts                      = current_user.find_own_as_well_as_following_user_posts(params[:page])
+    @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+    next_page                   = @posts.next_page
+    @load_more_path             =  next_page ? more_post_path(:page => next_page) : nil
+    @unread_mentioned_count     = current_user.unread_mentioned_post_count
+    @unread_post_replies_count  = current_user.unread_post_replies_count
+    @unread_messages_count      = current_user.received_messages.unread.count
+    @song_items                 = current_user.find_radio_feature_playlist_songs
+    get_user_associated_objects
   end
 
   def fan_new
     if request.post?      
-      @user               = User.new(params[:user])
-      @user.account_type  = 0
+      @user                     = User.new(params[:user])
+      @user.account_type        = 0
 #      if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.save
       if @user.save
-        band_name         = params[:band_name]
-        @band             = Band.find_by_name(band_name)
+        band_name               = params[:band_name]
+        @band                   = Band.find_by_name(band_name)
         unless @band
-          band_user         = @user.band_users.new
-          @band             = Band.create(:name =>band_name)
-          band_user.band_id = @band.id
-          band_user.access_level  = 1
+          band_user             = @user.band_users.new
+          @band                 = Band.create(:name =>band_name)
+          band_user.band_id     = @band.id
+          band_user.access_level= 1
           band_user.save
-        end
-        
-        @page_type        = 'Fan'
+        end        
+        @page_type              = 'Fan'
         render 'signup_success' and return
         #redirect_to successful_fan_signup_url, :notice => "Signed up successfully! "
       else
-        render :fan_new
+        render :template =>'/fan/fan_new'
       end
     else
       @user = User.new
@@ -62,12 +59,12 @@ class FanController < ApplicationController
       
       if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.valid? && !@errors
         begin
-          band = Band.new  
-          band_user = BandUser.new
+          band                = Band.new
+          band_user           = BandUser.new
           BandUser.transaction do
-            band.name = params[:band_name].strip
+            band.name         = params[:band_name].strip
             band.mention_name = params[:band_mention_name].strip
-            band.genre = params[:genre].strip
+            band.genre        = params[:genre].strip
             unless band.valid?
               band.errors.messages.each do |key, value|
                 @error_msg << key + ' ' + value
@@ -97,10 +94,10 @@ class FanController < ApplicationController
     
   def activate
     if @user = User.load_from_activation_token(params[:id])
-      session[:user_id] = @user.id if @user.activate!
-      @confirmation_thanks = true
-      @additional_info = @user.additional_info
-      @payment_info = @user.payment_info
+      session[:user_id]     = @user.id if @user.activate!
+      @confirmation_thanks  = true
+      @additional_info      = @user.additional_info
+      @payment_info         = @user.payment_info
       if @user.account_type
         @page_type = 'Musician'
       else

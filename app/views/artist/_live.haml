@@ -8,7 +8,7 @@
           %h2
             = @band.name
         .actions
-          = link_to 'view public profile', show_band_path(:band_name => @band.name)
+          = link_to 'view public profile', show_band_path(:band_name => @band.name), :remote =>true, :class =>'ajaxopen backable'
           = link_to 'Facebook', @band.facebook_page, :target =>'_blank', :title =>"Facebook Page" unless @band.facebook_page.blank?
           = link_to 'Twitter', @band.twitter_page, :target =>'_blank', :title =>"Twitter Page" unless @band.twitter_page.blank?
       .sub-head

@@ -1,0 +1,4 @@
+- unless posts.blank?
+  - posts.each do |post|
+    = render 'buzz_item', :post => post
+    %hr

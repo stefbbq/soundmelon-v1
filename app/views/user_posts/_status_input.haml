@@ -23,6 +23,7 @@ $(function () {
     }
   });
   $('.status-input .input-box').focus(function() {
-    $(this).val("");
+    if($(this).val()=='share something...')
+      $(this).val("");
   });
 });

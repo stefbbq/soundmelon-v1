@@ -4,9 +4,7 @@
   left: 0;
   z-index: 100;
   text-align: left;
-
 }
-
 
 #facebox .popup{
   position:relative;
@@ -16,8 +14,7 @@
   border-radius:5px;
   -webkit-box-shadow:0 0 18px rgba(0,0,0,0.4);
   -moz-box-shadow:0 0 18px rgba(0,0,0,0.4);
-  box-shadow:0 0 18px rgba(0,0,0,0.4);
-  
+  box-shadow:0 0 18px rgba(0,0,0,0.4);  
 }
 
 #facebox .content {
@@ -35,6 +32,10 @@
 }
 #facebox .content > p:last-child{
   margin-bottom:0;
+}
+#facebox .buzz_list{
+  height: 200px;
+  overflow: auto;  
 }
 
 #facebox .close{
@@ -80,4 +81,49 @@
 .facebox_overlayBG {
   background-color: #000;
   z-index: 99;
+}
+
+#facebox date {
+  display: block;
+  background: url(base-feed-date.png);
+  position: absolute;
+  margin: 39px 0 20px -45px;
+  width: 76px;
+  height: 28px;
+  float: left;
+  text-align: right;
+  color: #555555;
+  font-weight: bold;
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
+}
+
+#facebox date:first-of-type {
+  margin-top: 28px;
+}
+
+#facebox date > div {
+  margin: 6px 4px 0 0;
+}
+
+#facebox date h1, #facebox date h2 {
+  display: inline;
+  font-family: Arial;
+  text-transform: uppercase;
+}
+
+#facebox date h1 {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+#facebox date h2 {
+  font-size: 22px;
+}
+
+#facebox .post {
+  padding-bottom: 15px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
 }

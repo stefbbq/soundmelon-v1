@@ -14,7 +14,6 @@
       = f.text_field :favourite_genre, :size => 40, :class => 'textfield'
       = f.submit 'Update', :class => 'button'
     .clear
-- genres = Genre.all
 :javascript
   $('.location_auto_search_complete').autocomplete({
     minLength: 3,
@@ -26,13 +25,18 @@
         data: {term: request.term},
         success: function( data ) {
           response( data );
-        }
+        },
+        
       });
-    }          
+    },
+    open: function(event, ui) {
+      $('ul.ui-autocomplete').removeClass(' ui-menu ui-widget ui-widget-content ui-corner-all');
+    }
   });
   $("#additional_info_favourite_genre").tokenInput(
     [#{genre_atuofill}],
     {
+      preventDuplicates: true,
       theme: "facebook",
       prePopulate: [#{genre_prepopullate_from_addinfo(@additional_info)}]
   });

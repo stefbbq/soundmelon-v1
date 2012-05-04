@@ -1,0 +1,12 @@
+.buzz_list
+  - buzzes_by_date.each do |date, buzzes|
+    %date{:id =>"date_#{date.split('-').join()}"}
+      %div
+        %h1
+          = date.to_date.strftime('%b')
+        %h2
+          = date.to_date.strftime('%d')
+    = render 'buzz_aggregate', :posts => buzzes    
+//-if !@load_more_path.nil?
+//  .readmore
+//    = link_to('read more', @load_more_path, :remote=>true, :class=>'ajaxload')

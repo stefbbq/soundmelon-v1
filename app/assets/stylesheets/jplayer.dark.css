@@ -537,19 +537,6 @@ div.searchlist {
   margin:-20px 0 0 1px;
 }
 
-.searchlist ul li{
-  margin:2px 0 2px 0;
-  text-shadow:none;
-  border-bottom:dotted 1px #979797;
-  padding-bottom:5px!important;
-  width: 100%;
-}
-.searchlist ul li a{
-  font:12px "Trebuchet MS", Arial, Helvetica, sans-serif;
-  color:#979797;
-  padding:0 4px;
-}
-
 .jp-playlist ul li{
   margin:2px 0 2px 0;
   text-shadow:none;

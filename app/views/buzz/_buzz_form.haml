@@ -1,6 +1,8 @@
 - form_post_path = @song_album ? album_buzz_post_path(@song_album, :album_name => @song_album.album_name ) : song_buzz_post_path(@song)
+- band_id        = @song_album ? @song_album.band_id : @song.song_album.band_id
 .status-input
  = form_tag(form_post_path, :class=>"ajaxopen", :remote => true, :id => 'buzz_form') do
+  = hidden_field_tag :band_id, band_id
   = text_area_tag :msg, nil, :maxlength => 200, :cols => 50, :rows => 3
   .postbtn
    = submit_tag('Post',:class=>"button blue right")

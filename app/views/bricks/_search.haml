@@ -1,6 +1,8 @@
 .searchbox
   =form_tag( {:controller =>'search', :action => 'index'}, :method => "get", :remote =>true) do
-    %input.auto_search_complete{:value => "search", :name => "q", :type => "text", :class => 'searchinput'}
+    %input.auto_search_complete{:value => "search", :name => "q", :type => "text", :class => 'searchinput'}  
+  .searchlist
+    .pointer2 
 :javascript
   $('.searchinput').focus(function() {
     if($(this).val()=='search'){$(this).val("");}

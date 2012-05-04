@@ -3,7 +3,8 @@
     = "#{@song_album.album_name} buzz"
   - else
     = "#{@song.song_name_without_extension} buzz"
+%hr/
+= render 'buzzlisting', :buzzes_by_date =>@buzzes_by_dates
 .buzz_form
   = render 'buzz_form'
-.posts
-  =# render 'user_posts/post', :posts => @buzzes
+

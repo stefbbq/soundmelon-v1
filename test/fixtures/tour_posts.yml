@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  tour_id: 1
+  band_id: 1
+  msg: MyString
+  ancestry: MyString
+  is_bulletin: false
+  is_deleted: false
+  is_read: false
+
+two:
+  user_id: 1
+  tour_id: 1
+  band_id: 1
+  msg: MyString
+  ancestry: MyString
+  is_bulletin: false
+  is_deleted: false
+  is_read: false

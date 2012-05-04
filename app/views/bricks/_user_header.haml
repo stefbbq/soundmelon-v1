@@ -6,20 +6,20 @@
     = render :partial=>"bricks/logo"
     .session
       = WELCOME_MSG
-      = link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class => 'user-info'
+      = link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class => 'user-info ajaxopen backable', :remote =>true
       = link_to "Logout", logout_path, :class=>"button2"
   .middle-bar
     .mplayerbar
       = render :partial =>'/layouts/player'
     .notifications
       %div
-        = link_to @unread_post_replies_count, replies_path, :class=> @unread_post_replies_count > 0 ? "ajaxopen" : "dimmed ajaxopen", :id =>'reply_count'
+        = link_to @unread_post_replies_count, replies_path, :class=> @unread_post_replies_count > 0 ? "ajaxopen backable" : "dimmed ajaxopen backable", :id =>'reply_count', :remote =>true
         replies
       %div
-        = link_to @unread_mentioned_count, mentioned_path, :class=> @unread_mentioned_count > 0 ? "ajaxopen" : "dimmed ajaxopen", :id =>'mention_count'
+        = link_to @unread_mentioned_count, mentioned_path, :class=> @unread_mentioned_count > 0 ? "ajaxopen backable" : "dimmed ajaxopen backable", :id =>'mention_count', :remote =>true
         mentions
       %div
-        = link_to @unread_messages_count, user_inbox_path, :class=>@unread_messages_count > 0 ? "ajaxopen" : "dimmed ajaxopen", :id =>'message_count'
+        = link_to @unread_messages_count, user_inbox_path, :class=>@unread_messages_count > 0 ? "ajaxopen backable" : "dimmed ajaxopen backable", :id =>'message_count', :remote =>true
         messages
   .clear
   .bottom-bar

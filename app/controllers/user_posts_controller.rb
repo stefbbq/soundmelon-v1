@@ -145,6 +145,7 @@ class UserPostsController < ApplicationController
       @unread_mentioned_count     = current_user.unread_mentioned_post_count
       @unread_post_replies_count  = current_user.unread_post_replies_count
       @unread_messages_count      = current_user.received_messages.unread.count
+      @user                       ||= current_user
       unless request.xhr?
         get_user_associated_objects
       end
@@ -158,6 +159,7 @@ class UserPostsController < ApplicationController
       @unread_mentioned_count     = current_user.unread_mentioned_post_count
       @unread_post_replies_count  = current_user.unread_post_replies_count
       @unread_messages_count      = current_user.received_messages.unread.count
+      @user                       ||= current_user
       unless request.xhr?
         get_user_associated_objects
       end
@@ -194,6 +196,7 @@ class UserPostsController < ApplicationController
            else
              @posts = @band.find_own_as_well_as_mentioned_posts(params[:page])
            end
+         @is_admin_of_band = true
          next_page = @posts.next_page
          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => params[:type]) : nil
         else

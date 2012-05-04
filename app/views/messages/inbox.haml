@@ -1,11 +1,13 @@
-= render :partial=>"bricks/musician_header_bar_public"
-=# render :partial=>"profile/user_dash_board"
+= render :partial=>"fan/live"
 .primary
   .left
-    =# render "users/post_msg_header"
+    - if @band
+      = render 'artist/social_header'
+    - else
+      = render 'fan/social_header';
     = render "messages/inbox_messages", :messages => @messages
   .right
-    =# render "users/user_right_box"
+    = render "fan/right"
   .clear
 :javascript
   $('.left a').removeClass('active').removeClass('button-fill-fan');

@@ -1,5 +1,5 @@
 .social-menu
-  = link_to "latest", fan_home_path, :class => "iconactive highlight ajaxload", :id => 'latest', :remote => true
+  = link_to "latest", fan_home_path, :class => "iconactive highlight ajaxload active button-fill-fan", :id => 'latest', :remote => true
   = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies', replies_path ,:remote => true, :class=>"iconactive ajaxload", :id => 'replies'
   = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions', mentioned_path ,:remote => true, :class=>"iconactive ajaxload", :id => 'mentions'
   = link_to @unread_messages_count > 0 ? "messages #{@unread_messages_count} new" : "messages", user_inbox_path, :class=>"inbox iconactive ajaxload", :remote => true, :id => 'messages'

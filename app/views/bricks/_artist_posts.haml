@@ -1,13 +1,15 @@
 - if !@bulletins.blank?
-  %date
+  %date{:id=>'bulletin_board'}
     %div
       %h1
         Bulletin
-  .bulletin-posts
+  .bulletin-posts{:style=>'margin-bottom:25px;'}
     = render 'user_posts/post_aggregate', :posts => @bulletins
   -if !@load_more_bulletins_path.nil?
     .readmore#bulletin-readmore
       =link_to("read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
+- else
+  .bulletin-posts{:style=>'margin-bottom:25px;'}
 .user_posts
   - @posts_order_by_dates.each do |date, posts|
     %date{:id =>"date_#{date.split('-').join()}"}

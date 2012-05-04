@@ -152,6 +152,7 @@ class BandSongAlbumController < ApplicationController
   def do_like_song
     begin
       @song = Song.find(params[:id])
+      @song.do_like_by current_user
       @song.vote_by current_user
     rescue
       render :nothing => true and return
@@ -161,6 +162,7 @@ class BandSongAlbumController < ApplicationController
   def do_dislike_song
     begin
       @song = Song.find(params[:id])
+      @song.do_dislike_by current_user
     rescue
       render :nothing => true and return
     end

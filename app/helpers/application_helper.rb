@@ -85,14 +85,21 @@ module ApplicationHelper
     end
     return avail_genre
   end
-  
-  def genre_prepopullate genre
-    pre_popullate_genre = ''
-    unless genre.nil?
-      genre.split(',').each do |cur_genre|
-        pre_popullate_genre += "{id: '#{cur_genre}', name: '#{cur_genre}'},"
-      end
+
+  def genre_atuofill_band
+    genres         = Genre.all
+    avail_genre    = ''
+    genres.each do |genre|
+      avail_genre += "{id: '#{genre.id}', name: '#{genre.name}'},"
     end
+    return avail_genre
+  end
+  
+  def genre_prepopullate genres
+    pre_popullate_genre = ''
+    for genre in genres      
+      pre_popullate_genre += "{id: '#{genre.id}', name: '#{genre.name}'},"
+    end  
     return pre_popullate_genre
   end
 
@@ -130,7 +137,7 @@ module ApplicationHelper
     return auto_mention_list
   end
   
-  def get_album_cover_image(song_album, type='small', width=nil, height=nil)    
+  def get_album_cover_image(song_album, type='small', width=nil, height=nil)
     if song_album.cover_img_content_type.nil?
       image_tag('no-image.png', :alt=>'')
     else
@@ -151,15 +158,15 @@ module ApplicationHelper
   end
 
   def post_msg_with_band_mention(post)
-    post_msg      = post.msg
-    mentioned_users = post.mentioned_users
-    mentioned_bands = post.mentioned_bands
+    post_msg          = post.msg
+    mentioned_users   = post.mentioned_users
+    mentioned_bands   = post.mentioned_bands
     unless mentioned_users.blank?
-      user_mentions = mentioned_users.split(',')
+      user_mentions   = mentioned_users.split(',')
       for i in 0..user_mentions.size-2
         um_id   = user_mentions[i]
         um_name = user_mentions[i+1]
-        fan_profile_link_html = "<a href='#{fan_profile_path(um_id)}'>#{um_name}</a>"
+        fan_profile_link_html = "<a href='#{fan_profile_path(um_id)}' class='ajaxopen backable' data-remote='true'>#{um_name}</a>"
         post_msg = post_msg.gsub(um_name, fan_profile_link_html)
         i = i+1
       end
@@ -168,7 +175,7 @@ module ApplicationHelper
       band_mentions = post.mentioned_bands.split(',')
 
       band_mentions.each{|mb|
-        band_profile_link_html = "<a href='#{show_band_path(mb.gsub('@',''))}'>#{mb}</a>"
+        band_profile_link_html = "<a href='#{show_band_path(mb.gsub('@',''))}' class='ajaxopen backable' data-remote='true'>#{mb}</a>"
         post_msg = post_msg.gsub(mb, band_profile_link_html)
       }
     end

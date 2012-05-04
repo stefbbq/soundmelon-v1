@@ -142,15 +142,16 @@ Soundmelon::Application.routes.draw do
 
   #--------------------------------------------ArtistPublic----------------------------------------------------
   #follow band
-  get 'follow/:band_name'           => 'artist_public#follow_band',                :as => :follow_band
-  get 'unfollow/:band_name'         => 'artist_public#unfollow_band',              :as => :unfollow_band    
+  get 'follow/:band_name'                 => 'artist_public#follow_band',                :as => :follow_band
+  get 'unfollow/:band_name'               => 'artist_public#unfollow_band',              :as => :unfollow_band
   #message band
-  get ':band_name/message/new'      => 'artist_public#new_message',                :as => :band_new_message
-  match ':band_name/message/create' => 'artist_public#send_message',               :as => :band_send_message
-  get ':band_name/members'          => 'artist_public#members',                    :as => :band_members
-  get ':band_name'                  => 'artist_public#social',                     :as => :show_band
+  get ':band_name/message/new'            => 'artist_public#new_message',                :as => :band_new_message
+  match ':band_name/message/create'       => 'artist_public#send_message',               :as => :band_send_message
+  get ':band_name/members'                => 'artist_public#members',                    :as => :band_members
+  get ':band_name'                        => 'artist_public#social',                     :as => :show_band
   
   #album and song buzz
+  get ':band_name/:id/tbuzz'              => 'buzz#band_tour_buzz',         :as => :band_tour_buzz
   get ':album_name/:id/photo_album_buzz'  => 'buzz#band_photo_album_buzz',  :as => :band_album_buzz
   get ':album_name/:id/buzz'              => 'buzz#album_buzz',             :as => :album_buzz
   get 'buzz/:id'                          => 'buzz#song_buzz',              :as => :song_buzz
@@ -159,6 +160,7 @@ Soundmelon::Application.routes.draw do
   match 'buzz/:id/create'                 => 'buzz#song_buzz_post',         :as => :song_buzz_post
   match ':album_name/:id/photobuzz/create'=> 'buzz#band_album_buzz_post',   :as => :band_album_buzz_post
   match 'photobuzz/:id/create'            => 'buzz#band_photo_buzz_post',   :as => :band_photo_buzz_post
+  match 'tbuzz/:id/create'                => 'buzz#band_tour_buzz_post',    :as => :band_tour_buzz_post
 
   #match ':song_name/:id/buzz/create' => 'buzz#song_buzz_post', :as => 'song_buzz_post' 
   
