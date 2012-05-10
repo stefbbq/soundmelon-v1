@@ -2,7 +2,7 @@
 #followers.box-wrapper
   .selection-box
     %span.artist-count
-      = pluralize(followers_count,'follower')
+      =link_to pluralize(followers_count,'follower'), fan_followers_path, :remote =>:true, :class =>'ajaxopen backable'
     - unless followers_count < Constant::FOLLOWER_SHOW_LIMIT
       %br/
       = link_to 'see all', fan_followers_path, :remote=>:true, :class=>'small-font ajaxopen backable'

@@ -1,6 +1,6 @@
 .searchbox
-  =form_tag( {:controller =>'search', :action => 'index'}, :method => "get", :remote =>true) do
-    %input.auto_search_complete{:value => "search", :name => "q", :type => "text", :class => 'searchinput'}  
+  =form_tag( {:controller =>'search', :action => 'index'}, :method => "get", :remote =>true, :id =>'searchform') do
+    %input.auto_search_complete{:value => "search", :name => "q", :type => "text", :class => 'searchinput', :id =>'term'}
   .searchlist
     .pointer2 
 :javascript

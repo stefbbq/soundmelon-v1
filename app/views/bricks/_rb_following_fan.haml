@@ -1,7 +1,7 @@
 - following_fan_count = following_users.size
 #following_fans.box-wrapper
   .selection-box
-    following
+    = link_to "following", fan_following_path, :remote=>:true, :class=>'ajaxopen backable'
     %span.artist-count
       = pluralize(following_fan_count,'fan')
     - unless following_fan_count < Constant::FOLLOWING_FAN_SHOW_LIMIT

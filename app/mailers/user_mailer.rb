@@ -37,9 +37,7 @@ class UserMailer < ActionMailer::Base
       mail(
         :to => band_invitation.email,
         :subject => "#{@user.fname} #{@user.lname}  has invited you to join his/her band at soundmelon  "
-      )
-      
-          
+      )         
   end
   
   def friend_invitation_email(toemail, invitee_full_name=' ', user)
@@ -57,8 +55,16 @@ class UserMailer < ActionMailer::Base
       mail(
         :to => toemail,
         :subject => "#{@user.fname} #{@user.lname}  has invited you to join soundmelon  "
+      )    
+  end
+
+  def app_invitation_email(invitation, signup_url)
+      @signup_url = signup_url        
+      @toemail    = invitation.recipient_email
+      mail(
+        :to => @toemail,
+        :subject => "Signup Invitation"
       )
-    
   end
   
 end

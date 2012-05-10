@@ -2,7 +2,7 @@
 #fanbox.box-wrapper
   .selection-box
     %span{ :class => 'artist-count'}
-      = pluralize(band_fan_count, 'fan')
+      = link_to pluralize(band_fan_count, 'fan'), band_fans_path(:band_name => band.name), :remote =>:true, :class =>'ajaxopen backable'
     - unless band_fan_count < Constant::BAND_FAN_SHOW_LIMIT
       %br
       = link_to "see all", band_fans_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen backable"

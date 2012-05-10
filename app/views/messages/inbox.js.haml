@@ -1,4 +1,4 @@
-$('.live').html('#{escape_javascript(render 'fan/live')}');
+$('.live').replaceWith('#{escape_javascript(render 'fan/live')}');
 $('.top-bar .session').html('#{escape_javascript(render '/artist/artist_admin_header')}');
 - if @band  
   $('.primary .left').html('#{escape_javascript(render 'artist/social_header')}');

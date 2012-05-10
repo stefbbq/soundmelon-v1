@@ -2,24 +2,40 @@ class FanPublicController < ApplicationController
   before_filter :require_login
   
   def index
-   logger.debug ">>> ID: #{params[:id]}"
-   messages_and_posts_count 
-   #for other users
-   @user = User.find(params[:id])
-   if @user #&& @user!=current_user
-    @posts = @user.find_own_posts(params[:page])
-    @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-    next_page = @posts.next_page
-    @load_more_path = next_page ? user_more_post_path(@user, :page => next_page) : nil
-    @following_artist_count = @user.following_band.count
-    @following_count = @user.following_user.count
-    @followers_count = @user.user_followers.count
-    @following_artists = @user.following_band.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
-    @following_users = @user.following_user.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
-    @followers_users = @user.user_followers.order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)  
-   else
-     redirect_to fan_home_path, :error => "No user has been found with this user id"
-   end      
+    logger.debug ">>> ID: #{params[:id]}"
+    messages_and_posts_count
+    #for other users
+    @user = User.find(params[:id])
+    if @user #&& @user!=current_user
+      @posts = @user.find_own_posts(params[:page])
+      @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+      next_page = @posts.next_page
+      @load_more_path = next_page ? user_more_post_path(@user, :page => next_page) : nil
+      @following_artist_count = @user.following_band.count
+      @following_count = @user.following_user.count
+      @followers_count = @user.user_followers.count
+      @following_artists = @user.following_band.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
+      @following_users = @user.following_user.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
+      @followers_users = @user.user_followers.order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)
+    else
+      redirect_to fan_home_path, :error => "No user has been found with this user id"
+    end
+  end
+
+  def latest_posts
+    if request.xhr?
+      @user = User.find(params[:id])
+      if @user #&& @user!=current_user
+        @posts = @user.find_own_posts(params[:page])
+        @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+        next_page = @posts.next_page
+        @load_more_path = next_page ? user_more_post_path(@user, :page => next_page) : nil
+      else
+        render :nothing =>true and return
+      end
+    else
+      redirect_to root_url and return
+    end
   end
   
   def additional_info
@@ -73,8 +89,8 @@ class FanPublicController < ApplicationController
       @band.update_attributes(params[:band])
       redirect_to fan_home_url and return
     else
-     @band = Band.new
-     @band_invitations = @band.band_invitations.build
+      @band = Band.new
+      @band_invitations = @band.band_invitations.build
     end
   end
   
@@ -83,9 +99,9 @@ class FanPublicController < ApplicationController
       band_invitation = BandInvitation.find_by_token(params[:id])
       if band_invitation
         band_user = BandUser.new(:band_id => band_invitation.band_id,
-                               :user_id => current_user.id,
-                               :access_level => band_invitation.access_level
-                               ) 
+          :user_id => current_user.id,
+          :access_level => band_invitation.access_level
+        )
         band_user.save
         band_invitation.update_attribute(:token, nil)
         redirect_to fan_home_url, :notice => "You have successfully joined the band." and return
@@ -150,7 +166,7 @@ class FanPublicController < ApplicationController
         elsif !login(current_user.email, params[:old_password])
           @msg = 'Old password do not match'    
         else
-         if current_user.change_password!(params[:user][:password])
+          if current_user.change_password!(params[:user][:password])
             @msg = 'Password updated successfully'
           else
             @msg = 'Something went wrong. Try again'
@@ -168,10 +184,10 @@ class FanPublicController < ApplicationController
   end
   
   def update_payment_info
-     if request.xhr?
-       @payment_info = current_user.payment_info
-     else
-       redirect_to fan_home_url and return
-     end
+    if request.xhr?
+      @payment_info = current_user.payment_info
+    else
+      redirect_to fan_home_url and return
+    end
   end
 end

@@ -9,9 +9,8 @@ $('.primary .left').html('');
       .user-name 
         %strong
           = link_to user.get_full_name, fan_profile_path(user.id)
-      .clear
- 
+      .clear 
 $('.primary .left').html('#{escape_javascript(band_members)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('div').removeClass('active');
-$('#artistbox .selection-box').addClass('active'); 
+$('.active').removeClass('active').removeClass('button-fill-artist');
+$('#artistbox .selection-box').addClass('active').addClass('button-fill-artist');

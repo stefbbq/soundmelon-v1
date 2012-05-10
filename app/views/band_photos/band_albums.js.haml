@@ -12,5 +12,5 @@
       = render '/band_photos/band_photo_album', :band_album =>band_album
   $('.primary .left').html('#{escape_javascript band_albums}');
   setTimeout('$(document).trigger(\"close.facebox\")',10);
-  $('div').removeClass('active');
-  $('#photobox .selection-box').addClass('active');
+  $('.active').removeClass('active').removeClass('button-fill-artist');
+  $('#photobox .selection-box').addClass('active').addClass('button-fill-artist');

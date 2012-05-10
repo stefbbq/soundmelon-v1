@@ -30,5 +30,5 @@
         = render 'band_song_album', :song_album =>song_album
   $('.primary .left').html('#{escape_javascript song_albums}'); 
   setTimeout('$(document).trigger(\"close.facebox\")',10);
-  $('div').removeClass('active');
-  $('#musicbox .selection-box').addClass('active');   
+  $('.active').removeClass('active').removeClass('button-fill-artist');
+  $('#musicbox .selection-box').addClass('active').addClass('button-fill-artist');

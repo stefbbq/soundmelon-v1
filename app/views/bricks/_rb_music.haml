@@ -2,7 +2,7 @@
 - song_album_count = song_albums.size
 #musicbox.box-wrapper
   .selection-box
-    music box
+    = link_to "music box", band_song_albums_path(:band_name =>band.name), :remote =>:true, :class =>'ajaxopen backable'
     - if is_admin
       %span.add_more
         = link_to image_tag('add.png'), new_band_song_album_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen backable"

@@ -1,5 +1,5 @@
 $('.primary .left').html('');
 $('.primary .left').html('#{escape_javascript(render 'form', :action_url => update_band_path(@band.id))}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('div').removeClass('active');
-$('#profile-info .selection-box').addClass('active'); 
+$('.selection-box').removeClass('active').removeClass('button-fill-artist');
+$('#manage_profile').addClass('active').addClass('button-fill-artist');

@@ -1,4 +1,7 @@
 Soundmelon::Application.routes.draw do
+
+  resources :invitations
+
   get "artist/index"
   
   #global
@@ -29,7 +32,7 @@ Soundmelon::Application.routes.draw do
   
   #fan public
   match 'fan/(:id)'                           => 'fan_public#index',          :as => :fan_profile
-  
+  match 'fan/posts/:id'                       => 'fan_public#latest_posts',   :as => :fan_latest_post
   #artist
   get 'home/artist/:band_name'                => 'artist#index',                    :as => :manage_band
   get 'edit/band/:band_name'                  => 'artist#edit',                     :as => :edit_band
@@ -41,7 +44,7 @@ Soundmelon::Application.routes.draw do
 
   get "profile/additional_info"    
   
-  match 'registration'                        => 'fan#fan_new',                     :as => :fan_registration
+  match 'registration/(:invitation_token)'    => 'fan#fan_new',                     :as => :fan_registration
   match 'musician/registration'               => 'fan#musician_new',                :as => :musician_registration
   get 'users/:id/activate'                    => 'fan#activate',                    :as => :user_activation
   get 'user/reset/password'                   => 'password_resets#index',           :as => :password_reset

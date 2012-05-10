@@ -1,0 +1,4 @@
+$('.primary .left').html('#{escape_javascript(render '/bricks/fan_posts')}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.active').removeClass('active').removeClass('button-fill-fan');
+$('#latest-posts').addClass('active').addClass('button-fill-fan');

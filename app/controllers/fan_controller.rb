@@ -17,29 +17,39 @@ class FanController < ApplicationController
   end
 
   def fan_new
-    if request.post?      
-      @user                     = User.new(params[:user])
-      @user.account_type        = 0
-#      if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.save
-      if @user.save
-        band_name               = params[:band_name]
-        @band                   = Band.find_by_name(band_name)
-        unless @band
-          band_user             = @user.band_users.new
-          @band                 = Band.create(:name =>band_name)
-          band_user.band_id     = @band.id
-          band_user.access_level= 1
-          band_user.save
-        end        
-        @page_type              = 'Fan'
-        render 'signup_success' and return
-        #redirect_to successful_fan_signup_url, :notice => "Signed up successfully! "
-      else
-        render :template =>'/fan/fan_new'
-      end
+    if current_user
+      redirect_to fan_home_path
     else
-      @user = User.new
+      if request.post?
+        @user                     = User.new(params[:user])
+        @user.account_type        = 0
+        #      if verify_recaptcha(:model => @user, :message => "Captha do not match") && @user.save
+        if @user.save
+          band_name               = params[:band_name]
+          @band                   = Band.find_by_name(band_name)
+          unless @band
+            band_user             = @user.band_users.new
+            @band                 = Band.create(:name =>band_name)
+            band_user.band_id     = @band.id
+            band_user.access_level= 1
+            band_user.save
+          end
+          @page_type              = 'Fan'
+          render 'signup_success' and return
+          #redirect_to successful_fan_signup_url, :notice => "Signed up successfully! "
+        else
+          render :template =>'/fan/fan_new'
+        end
+      else
+        @user       = User.new(:invitation_token => params[:invitation_token])
+        if @user.invitation
+          @user.email               = @user.invitation.recipient_email
+          @user.email_confirmation  = @user.invitation.recipient_email
+          @is_invited               = true
+        end
+      end
     end
+    
   end
 
   def musician_new 

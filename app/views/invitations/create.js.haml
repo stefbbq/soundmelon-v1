@@ -1,0 +1,3 @@
+- message = @sent ? 'Invitation Sent. Thank You!' : 'Thank you, we will notify when we are ready!'
+$('#facebox .content').html("<span style='color:blue;font-size:15px;'>#{message}</span>");
+setTimeout('$(document).trigger(\"close.facebox\")',2000);

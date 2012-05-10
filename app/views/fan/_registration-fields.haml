@@ -1,3 +1,4 @@
+- @is_invited ||=false
 - if params[:email]
   - @user.email ||= params[:email]
 - if params[:fname]
@@ -10,6 +11,7 @@
     %ul
       - for message in @user.errors.full_messages
         %li= message
+= hidden_field_tag :invitation_token, @user.invitation_token
 .fields
   %label{:for => "name"} FIRST NAME
   = text_field :user, :fname, :class => 'textfield'
@@ -21,10 +23,10 @@
   = text_field :user, :mention_name, :class => 'textfield'
 .fields
   %label{:for => "website"} EMAIL
-  = text_field :user, :email, :class => 'textfield'
+  = text_field :user, :email, :class => 'textfield', :disabled =>@is_invited
 .fields
   %label{:for => "website"} RE-ENTER EMAIL
-  = text_field :user, :email_confirmation, :class => 'textfield'
+  = text_field :user, :email_confirmation, :class => 'textfield', :disabled =>@is_invited
 %br/
 .fields
   %label{:for => "website"} PASSWORD

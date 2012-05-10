@@ -25,12 +25,12 @@ class User < ActiveRecord::Base
   has_many :genres, :through =>:genre_users
 
   has_many :top_genres,
-           :class_name => 'GenreUser',
-           :order      => 'liking_count',
-           :limit      => 3
+    :class_name => 'GenreUser',
+    :order      => 'liking_count',
+    :limit      => 3
            
   attr_accessor :email_confirmation, :password_confirmation
-  attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :tac, :mention_name
+  attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :tac, :mention_name, :invitation_token
   
   validates :email, :presence => true
   validates :fname, :presence => true
@@ -50,10 +50,10 @@ class User < ActiveRecord::Base
   end
   
   HUMANIZED_ATTRIBUTES = {
-                           :fname => 'First Name',
-                           :lname => 'Last Name',
-                           :tac   => 'Terms and Condition'
-                         }
+    :fname => 'First Name',
+    :lname => 'Last Name',
+    :tac   => 'Terms and Condition'
+  }
 
   def self.human_attribute_name(attr,options={})
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
     if admin_band_members_id_arr.include?(self.id)
       return true
     else
-       return false
+      return false
     end
   end
   
@@ -173,10 +173,35 @@ class User < ActiveRecord::Base
     song_items = Song.all(:limit =>number_of_songs) if song_items.empty?
     song_items.flatten
   end
-  
+
+  ######### Invitation Specific Code #########################################################
+  validates :invitation_id, :presence =>true#, :message => 'is required'
+  validates_uniqueness_of :invitation_id
+
+  has_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
+  belongs_to :invitation
+
+  before_create :set_invitation_limit  
+
+  def invitation_token
+    invitation.token if invitation
+  end
+
+  def invitation_token=(token)
+    self.invitation = Invitation.find_by_token(token)
+  end
+
+  private
+
+  def set_invitation_limit
+    self.invitation_limit = 5
+  end
+
+  ######### Invitation Specific Code #########################################################
+
   protected
   def mark_mentioned_post_as_read post_ids
-     MentionedPost.where(:post_id => post_ids, :user_id => self.id).update_all(:status => READ)
+    MentionedPost.where(:post_id => post_ids, :user_id => self.id).update_all(:status => READ)
   end
   
   def mark_replies_post_as_read post_ids

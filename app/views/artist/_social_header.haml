@@ -1,6 +1,6 @@
 - default_active ||=false
 .social-menu
-  = link_to "latest", manage_band_path(:band_name => @band.name), :remote => true,:class=> default_active ? "iconactive highlight ajaxload acive button-fill-artist" : "iconactive highlight ajaxload", :id => 'latest'
-  = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies',band_replies_post_path(:band_name => @band.name) ,:remote => true, :class=>"iconactive ajaxload", :id => 'replies'
-  = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions', band_mentions_post_path(:band_name => @band.name) ,:remote => true, :class=>"iconactive ajaxload", :id => 'mentions' 
-  = link_to @unread_messages_count > 0 ? "messages #{@unread_messages_count} new" : "messages", band_inbox_path, :class=>"inbox iconactive ajaxload", :remote => true, :id => 'messages'
+  = link_to "latest", manage_band_path(:band_name => @band.name), :remote => true,:class=> default_active ? "backable iconactive highlight ajaxload acive button-fill-artist" : "backable iconactive highlight ajaxload", :id => 'latest'
+  = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies',band_replies_post_path(:band_name => @band.name) ,:remote => true, :class=>"backable iconactive ajaxload", :id => 'replies'
+  = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions', band_mentions_post_path(:band_name => @band.name) ,:remote => true, :class=>"backable iconactive ajaxload", :id => 'mentions'
+  = link_to @unread_messages_count > 0 ? "messages #{@unread_messages_count} new" : "messages", band_inbox_path, :class=>"backable inbox iconactive ajaxload", :remote => true, :id => 'messages'

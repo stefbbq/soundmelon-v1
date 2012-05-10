@@ -13,5 +13,5 @@
       = render '/band_tour/band_tour', :band_tour =>band_tour
   $('.primary .left').html('#{escape_javascript band_tours} ');
   setTimeout('$(document).trigger(\"close.facebox\")',10);
-  $('div').removeClass('active');
-  $('#photobox .selection-box').addClass('active');
+  $('.active').removeClass('active').removeClass('button-fill-artist');
+  $('#tourbox .selection-box').addClass('active').addClass('button-fill-artist');

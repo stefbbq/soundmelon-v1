@@ -1,7 +1,7 @@
 - band_member_count = band_artists.size
 #artistbox.box-wrapper
   .selection-box
-    connected to
+    = link_to "connected to", band_members_path(:band_name => band.name), :remoe=>:true, :class=>"ajaxopen backable"
     %span{ :class => 'artist-count'}
       = pluralize(band_member_count, 'artist')
     - unless band_member_count < Constant::BAND_MEMBER_SHOW_LIMIT

@@ -1,0 +1,7 @@
+- new_invitation_form = capture do
+  Soundmelon Beta Lunch Invitation!
+  %br
+  = render :partial =>'/invitations/form'
+!= "jQuery.facebox('#{escape_javascript(new_invitation_form)}');"
+!= "$('#facebox').css('top','220px').show();"
+!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   

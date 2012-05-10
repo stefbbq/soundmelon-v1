@@ -1,23 +1,33 @@
-= form_for :user, :url=>fan_registration_path do |f|  
-  .blankbox
-    %br/
-    %br/
-    %br/
-    %br/
-    %span.green{:style=>'margin-left:320px;font-size:16px;color:green'}
-      Sign-up, it's free.      
-    .content-box
-      .registrationform
-        = render '/fan/registration-fields'
+- if @user.email
+  = form_for :user, :url=>fan_registration_path do |f|
+    .blankbox
+      %br/
+      %br/
+      %br/
+      %br/
+      %span.green{:style=>'margin-left:320px;font-size:16px;color:green'}
+        Sign-up, it's free.
+      .content-box
+        .registrationform
+          = render '/fan/registration-fields'
 
-:javascript
-  $(document).ready(function() {
-    $("#genre").tokenInput(
-      [
-      #{genre_atuofill}
-      ],
-      {
-        theme: "facebook"
-      }
-    );
-  });
+  :javascript
+    $(document).ready(function() {
+      $("#genre").tokenInput(
+        [
+        #{genre_atuofill}
+        ],
+        {
+          theme: "facebook"
+        }
+      );
+    });
+- else  
+  %br
+  %br
+  %br
+  %br
+  %div{:style=>"margin:10px 50px 20px 100px;border:1px solid grey;padding:5px;"}
+    %p
+      We are currently in private beta. Please #{link_to "Request an Invitation", new_invitation_path, :remote =>true, :class =>'ajaxopen'}, and we will notify you when we are ready to accept more users.
+      
