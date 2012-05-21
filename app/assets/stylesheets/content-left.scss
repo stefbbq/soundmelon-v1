@@ -8,6 +8,7 @@
 .primary .left {
 	padding: 25px 8px 0 $base-content-clear;
   width: 630px;
+	float: left;
 
 	//
 	//status update form
@@ -129,6 +130,7 @@
 	//
 	//post
   .post {  
+		position: relative;
 		padding-bottom: 15px;
     border-bottom: 1px dashed rgba(white, .1);
 		&:not(:first-of-type) { padding-top: 15px; }   		
@@ -139,29 +141,23 @@
 			padding: 4px;
 			margin: -4px;
 			
-			&:hover {	background: rgba(white, .06);	}
-		}
-    .firstpost{
-      background:green;
-      }
-    .lastpost{
-      background:grey;
-      }
-    .avatar {
-      float: left; 
-
-      img { 
-				@include border-radius($border-radius / 2);
-				width: 50px; 
-				height: 50px; 
+			&:hover {	
+				background: rgba(white, .06);	
+				.content .actions { display: block; }
 			}
-    }
+		}
+		
+		.first-post {
+			.title span:before {
+				content: "first ";
+			}
+		}
 
 		.content {
 			padding: 0px; 
 			margin-left: 4px;
 			float: left;
-			width: 571px;
+			width: 564px;
 		
 			//post title and actions
 			.post-header {
@@ -176,7 +172,9 @@
 					}
 				}
 				.actions {
-					float: right; 
+					display: none;
+					position: absolute;
+					right: 0;
 
 					span { color: $text-faded-color; }
 					&:hover { 
@@ -211,7 +209,11 @@
 			text-align: right;
     }
   }
-
+	
+	//thread
+	.post-thread {
+		margin: 15px 0 0 12px;
+	}
 	//post toggle thread button
 	.toggle-thread {
 		@include default-button();
@@ -241,5 +243,38 @@
 			opacity: .4;
       text-decoration: none;
     }
+  }
+
+	//
+	//connections
+	.user-list {
+		display: block;
+		
+		//name, description
+		.content {
+			display: inline-block;
+			margin-left: 6px; 
+		}
+		
+		//unfollow, etc
+		.actions { 
+			float: right;
+			display: block;
+			margin-top: 14px;
+			
+			a {	@include inverted-button();	}
+		}
+	}
+
+	//
+	//generic
+	.avatar {
+    float: left; 
+
+    img { 
+			@include border-radius($border-radius / 2);
+			width: 50px; 
+			height: 50px; 
+		}
   }
 }

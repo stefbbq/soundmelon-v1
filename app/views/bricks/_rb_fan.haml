@@ -13,6 +13,5 @@
           .artist-avatar
             = link_to get_avatar_small(band_fan), fan_profile_path(band_fan), :class =>'ajaxopen backable', :remote =>true
     - else
+      .message
       = Constant::NO_FAN_MESSAGE
-    .clear
-  .clear

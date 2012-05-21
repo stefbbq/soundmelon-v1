@@ -11,7 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120424045238) do
+ActiveRecord::Schema.define(:version => 20120504115605) do
+
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
     t.boolean  "gender",          :default => true
@@ -103,6 +104,11 @@ ActiveRecord::Schema.define(:version => 20120424045238) do
     t.string   "twitter_page"
   end
 
+  create_table "bands_genres", :id => false, :force => true do |t|
+    t.integer "band_id",  :null => false
+    t.integer "genre_id", :null => false
+  end
+
   create_table "follows", :force => true do |t|
     t.integer  "followable_id",                      :null => false
     t.string   "followable_type",                    :null => false
@@ -116,9 +122,26 @@ ActiveRecord::Schema.define(:version => 20120424045238) do
   add_index "follows", ["followable_id", "followable_type"], :name => "fk_followables"
   add_index "follows", ["follower_id", "follower_type"], :name => "fk_follows"
 
+  create_table "genre_users", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "genre_id"
+    t.integer  "liking_count", :default => 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "genres", :force => true do |t|
     t.string   "name"
     t.integer  "parent_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "invitations", :force => true do |t|
+    t.integer  "sender_id"
+    t.string   "recipient_email"
+    t.string   "token"
+    t.datetime "sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -256,6 +279,19 @@ ActiveRecord::Schema.define(:version => 20120424045238) do
     t.datetime "updated_at"
   end
 
+  create_table "tour_posts", :force => true do |t|
+    t.integer  "user_id",     :null => false
+    t.integer  "tour_id",     :null => false
+    t.string   "msg",         :null => false
+    t.integer  "band_id"
+    t.string   "ancestry"
+    t.boolean  "is_bulletin"
+    t.boolean  "is_deleted"
+    t.boolean  "is_read"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "user_posts", :force => true do |t|
     t.integer  "user_id",                       :null => false
     t.string   "post"
@@ -284,6 +320,8 @@ ActiveRecord::Schema.define(:version => 20120424045238) do
     t.datetime "last_activity_at"
     t.string   "mention_name"
     t.text     "bio"
+    t.integer  "invitation_id"
+    t.integer  "invitation_limit"
   end
 
   add_index "users", ["activation_token"], :name => "index_users_on_activation_token"

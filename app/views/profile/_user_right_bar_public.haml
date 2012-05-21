@@ -22,7 +22,7 @@
     .band-box-content
       %div
         - @following_artists.each do |band|
-          .artist-avatar
+          .avatar
             = link_to get_band_logo_small(band), show_band_path(:band_name => band.name)
       .clear
   .clear
@@ -37,7 +37,7 @@
     .band-box-content
       %div
         - @following_users.each do |fan_following|
-          .artist-avatar
+          .avatar
             = link_to get_avatar_small(fan_following), user_profile_path(fan_following)
       .clear
   .clear
@@ -51,7 +51,7 @@
     .band-box-content
       %div
         - @follower_users.each do |fan_follower|
-          .artist-avatar
+          .avatar
             = link_to get_avatar_small(fan_follower), user_profile_path(fan_follower)
       .clear
   .clear

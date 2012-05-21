@@ -1,18 +1,20 @@
 - followers_count = follower_users.size
-#followers.box-wrapper
-  .selection-box
-    %span.artist-count
-      =link_to pluralize(followers_count,'follower'), fan_followers_path, :remote =>:true, :class =>'ajaxopen backable'
-    - unless followers_count < Constant::FOLLOWER_SHOW_LIMIT
-      %br/
-      = link_to 'see all', fan_followers_path, :remote=>:true, :class=>'small-font ajaxopen backable'
-  .collection
-    - if followers_count > 0
-      %div
-        - follower_users.each do |fan_followers|
-          .artist-avatar
-            = link_to get_avatar_small(fan_followers), fan_profile_path(fan_followers), :class =>'ajaxopen backable', :remote =>true
-    - else
+= link_to fan_followers_path, {:id=>'followers', :class=>'selection-box iconactive ajaxload backable', :remote => true} do
+  %span.count
+    = followers_count
+  - if followers_count > 1 || followers_count == 0 #doesn't use pluarize since that would seperate text styling from number and label
+    followers
+  - else
+    follower
+  - unless followers_count < Constant::FOLLOWER_SHOW_LIMIT
+    %br/
+    = link_to 'see all', fan_followers_path, :remote=>:true, :class=>'small-font ajaxopen backable'
+.collection
+  - if followers_count > 0
+    %div
+      - follower_users.each do |fan_followers|
+        .avatar
+          = link_to get_avatar_small(fan_followers), fan_profile_path(fan_followers), :class =>'ajaxopen backable', :remote =>true
+  - else
+    .message
       = Constant::NO_FOLLOWER_MESSAGE
-    .clear
-  .clear

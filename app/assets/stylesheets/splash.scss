@@ -69,25 +69,25 @@
 
 //
 //content
-.register {
-	margin-top:100px;
+.splash-content {
+	margin-top: 110px;
+	height: 300px;
 	
-	//temp
-	h2{font-size:12px;  color:#1AD327; }
-	h3{
-	  color:#1AD327;
-	  font-size:16px;
-	  font-weight:normal;
-	  a{color:#1AD327;text-decoration:none;}
+	.beta-note {
+		width: 400px;
+		margin: auto;
+		padding-top: 80px;
+		text-align: center;
 	}
-	.musicianinfo{ 
-	 	  float:left;
+	
+	.musicianinfo { 
+ 	  float:left;
 	  text-align:right;
 		width:200px;
 		margin-left: 200px;
-
 	}
-	.faninfo{ 
+
+	.faninfo { 
 	  text-align:left; 
 	  float:right;
 		width:200px;  

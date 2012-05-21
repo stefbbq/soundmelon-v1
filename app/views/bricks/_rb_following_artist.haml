@@ -1,19 +1,17 @@
 - following_artist_count = following_artists.size
-#following_artists.box-wrapper
-  .selection-box
-    = link_to "following", fan_following_artists_path, :remote =>:true, :class =>'ajaxopen backable'
-    %span.artist-count
-      = pluralize(following_artist_count, 'artist')
-    - unless following_artist_count < Constant::FOLLOWING_ARTIST_SHOW_LIMIT
-      %br
-      = link_to 'see all', fan_following_artists_path, :remote=>:true, :class=>'small-font ajaxopen backable'
-  .collection
-    - if following_artist_count > 0
-      %div
-        - following_artists.each do |band|
-          .artist-avatar
-            = link_to get_band_logo_small(band), show_band_path(:band_name => band.name), :class =>'ajaxopen backable', :remote =>true
-    - else
+= link_to fan_following_artists_path, {:id=>'following-artist', :class=>'selection-box iconactive ajaxload backable', :remote => true} do
+  following
+  %span.count
+    = pluralize(following_artist_count, 'artist')
+  - unless following_artist_count < Constant::FOLLOWING_ARTIST_SHOW_LIMIT
+    %br
+    = link_to 'see all', fan_following_artists_path, :remote=>:true, :class=>'small-font ajaxopen backable'
+.collection
+  - if following_artist_count > 0
+    %div
+      - following_artists.each do |band|
+        .avatar
+          = link_to get_band_logo_small(band), show_band_path(:band_name => band.name), :class =>'ajaxopen backable', :remote =>true
+  - else
+    .message
       = Constant::NO_FOLLOWING_MESSAGE
-    .clear
-.clear

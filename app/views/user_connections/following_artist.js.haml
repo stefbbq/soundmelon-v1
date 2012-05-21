@@ -1,15 +1,14 @@
 $('.primary .left').html('');
 - following = capture do
   - @following_artists.each do |band|
-    .followuserbox{:id => "following_#{band.id}"}
-      .avatar
-        = link_to get_band_logo_small(band), show_band_path(:band_name => band.name), :class => 'follow-img'
-      .fusercontent
-        = link_to band.name, show_band_path(:band_name => band.name)
-      .clear
+    .user-list{:id => "following_#{band.id}"}
+      = link_to get_band_logo_small(band), show_band_path(:band_name => band.name), :class => 'avatar'
+      .content
+        %h3= link_to band.name, show_band_path(:band_name => band.name)
+      .actions
+        = link_to "unfollow", unfollow_user_path(band.id), :remote => true, :class => 'ajaxopen' if @current_user_following
   = paginate @following_artists, :remote => true
 $('.primary .left').html('#{escape_javascript(following)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.right .selection-box').removeClass('active').removeClass('button-fill-fan');
-$('#following-artists .selection-box').addClass('active').addClass('button-fill-fan');
-set_right_height();
+$('.selection-box').removeClass('active').removeClass('button-fill-fan');
+$('#following-artist').addClass('active').addClass('button-fill-fan');

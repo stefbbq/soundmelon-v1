@@ -16,7 +16,7 @@
     overflow: hidden;
     text-align: center;
     
-    img{
+    img {
       width: 414px;
       height: 246px;
     }
@@ -89,11 +89,13 @@
 			.left {
 				width: 270px;
 				height: 118px;
+				float: left; 
 			}
 			.left-default {
 				background: url(live/live-default-left.jpg); 
 			}
 			.right {
+				float: right; 
 				width: 270px;
 				height: 118px;
 			}

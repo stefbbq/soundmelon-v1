@@ -1,19 +1,17 @@
 - following_fan_count = following_users.size
-#following_fans.box-wrapper
-  .selection-box
-    = link_to "following", fan_following_path, :remote=>:true, :class=>'ajaxopen backable'
-    %span.artist-count
-      = pluralize(following_fan_count,'fan')
-    - unless following_fan_count < Constant::FOLLOWING_FAN_SHOW_LIMIT
-      %br/
-      = link_to 'see all', fan_following_path, :remote=>:true, :class=>'small-font ajaxopen backable'
-  .collection
-    - if following_fan_count > 0
-      %div
-        - following_users.each do |fan_following|
-          .artist-avatar
-            = link_to get_avatar_small(fan_following), fan_profile_path(fan_following), :class =>'ajaxopen backable', :remote =>true
-    - else
+= link_to fan_following_path, {:id=>'following-fan', :class=>'selection-box iconactive ajaxload backable', :remote => true} do
+  following
+  %span.count
+    = pluralize(following_fan_count,'fan')
+  - unless following_fan_count < Constant::FOLLOWING_FAN_SHOW_LIMIT
+    %br/
+    = link_to 'see all', fan_following_path, :remote=>:true, :class=>'small-font ajaxopen backable'
+.collection
+  - if following_fan_count > 0
+    %div
+      - following_users.each do |fan_following|
+        .avatar
+          = link_to get_avatar_small(fan_following), fan_profile_path(fan_following), :class =>'ajaxopen backable', :remote =>true
+  - else
+    .message
       = Constant::NO_FOLLOWING_MESSAGE
-    .clear
-.clear

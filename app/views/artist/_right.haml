@@ -5,8 +5,7 @@
   = render '/bricks/rb_tour', :band =>@band, :band_tours =>@band_tours, :is_admin =>true
   = render '/bricks/rb_member', :band =>@band, :band_artists =>@band_artists
   = render '/bricks/rb_fan', :band =>@band, :band_fans =>@band_fans  
-
   .divider
   = link_to 'manage your profile' , edit_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box backable', :id =>'manage_profile'
   = link_to 'manage bandmates' , bandmates_invitation_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box backable', :id =>'invite_artist'
-  
+.fader

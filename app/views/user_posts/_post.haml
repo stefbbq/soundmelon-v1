@@ -23,7 +23,8 @@
        You
       -elsif !post.user.nil?
        = post.user.fname
-     wrote this #{time_ago_in_words(post.created_at)} ago 
+     %span
+      wrote this #{time_ago_in_words(post.created_at)} ago 
     .actions
      - if self_owner
       = link_to user_post_path(post), :method=> :delete, :class=>'action-delete', :remote=>true do
@@ -38,7 +39,7 @@
        %i
        %span reply      
    .post-body
-    = post_msg_with_band_mention(post)    
+    = post_msg_with_band_mention(post)
   .clear
  - if post.ancestry && !hide_thread_link
   = link_to 'expand conversation', get_post_threads_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"

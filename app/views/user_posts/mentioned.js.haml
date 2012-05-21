@@ -5,6 +5,5 @@ $('.primary .left').append('#{escape_javascript(render 'bricks/fan_posts')}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.left a').removeClass('active').removeClass('button-fill-fan');
 $('.primary .right a').removeClass('active').removeClass('button-fill-fan');
-$('#mentions').addClass('active').addClass('button-fill-fan');
+$('.primary #mentions').addClass('active').addClass('button-fill-fan');
 $('.primary .right a#feed-msg').addClass('active').addClass('button-fill-fan');
-set_right_height();

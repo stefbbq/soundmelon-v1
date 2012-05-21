@@ -1,4 +1,3 @@
-
 <% @song_items ||= current_user.find_radio_feature_playlist_songs
 first_album = @song_items.first ? @song_items.first.song_album : nil
 %>
@@ -6,35 +5,28 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
 <div id="sm_jplayer" class="jp-jplayer"></div>
 <div id="jp_container_1" class="jp-audio">
   <div class="jp-type-single">
-    <div class="music_info">
-      <div class="img">
-        <%= get_album_cover_image(first_album) if first_album %>
-      </div>
-      <div class="track_info">
-        <span></span>
-        <h3></h3>
-        <h4></h4>
-        <div class="clear"></div>
+    <div class="jp-gui jp-interface">
+      <div class="jp-controls">
+        <a href="javascript:;" class="jp-pre"></a>
+        <div class="play-pause">
+          <a href="javascript:;" class="jp-play"></a>
+          <a href="javascript:;" class="jp-pause"></a>
+        </div>
+        <a href="javascript:;" class="jp-next"></a>
+        <div class="jp-volume-bar">
+          <div class="vol_val">1</div>
+          <div class="vol_non">1</div>
+        </div>
       </div>
     </div>
-    <div class="jp-gui jp-interface">
-      <ul class="jp-controls">
-        <li><a href="javascript:;" class="jp-pre">previous</a></li>
-        <li>
-          <a href="javascript:;" class="jp-play">play</a>
-          <a href="javascript:;" class="jp-pause">pause</a>
-        </li>
-        <li><a href="javascript:;" class="jp-next">next</a></li>        
-        <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>        
-        <li><a href="javascript:;" class="jp-rep" title="Show/Hide Playlist" onclick="$('div#jp-playlist').toggle();">PlayList</a></li>
-        <li><a href="javascript:;" class="jp-like" title="Like Song" id="alike" onclick="doLike();">like</a></li>
-        <!--<li><a href="javascript:;" class="jp-dislike" title="Dislike Song" id="adislike">dislike</a></li>-->
-      </ul>
-
+    <div class="info">
+      <%= get_album_cover_image(first_album) if first_album %>      
+      <span class="song-title"></span>
+      <span class="artist-title"></span>
       <div class="jp-progress"><div class="jp-seek-bar"><div class="jp-play-bar"></div></div></div>      
-      <div class="jp-volume-bar">
-        <div class="vol_val">1</div>        
-        <div class="vol_non">1</div>
+      <div class="jp-additional">
+        <a href="javascript:;" class="jp-rep" title="Show/Hide Playlist" onclick="$('div#jp-playlist').toggle();">p</a>
+        <a href="javascript:;" class="jp-like" title="Like Song" id="alike" onclick="doLike();">l</a></li>
       </div>
     </div>
     <div class="jp-playlist" id="jp-playlist"><div class="pointer"></div><ul></ul></div>
@@ -61,10 +53,10 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
     }
   }
   function updateTrackInfo(b,t,n,i,l){
-    $('.track_info span').html(b);
-    $('.track_info h3').html(t);    
-    $('.track_info h4').html(n=='' ? '' : '<span>next</span>' + n);
-    $('.musci_info .img').html(i);
+    $('.info .song-title').html(t);
+    $('.info .artist-title').html(b);    
+    //$('.track_info h4').html(n=='' ? '' : '<span>next</span>' + n);
+    $('.info .img').html(i);
     $('a#alike').html(l);
   }
 

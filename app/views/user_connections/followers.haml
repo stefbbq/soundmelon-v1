@@ -1,14 +1,12 @@
 $('.primary .left').html('');
 - followers = capture do
   - @followers.each do |user|
-    .followuserbox{:id => "follower_#{user.id}"}
-      .avatar
-        = link_to get_avatar_small(user), fan_profile_path(user.id), :class => 'follow-img'
-      .fusercontent
-        %strong= link_to user.get_full_name, fan_profile_path(user.id)
-      .clear
+    .user-list{:id => "follower_#{user.id}"}
+      = link_to get_avatar_small(user), fan_profile_path(user.id), :class => 'avatar'
+      .content
+        = link_to user.get_full_name, fan_profile_path(user.id)
   = paginate @followers, :remote => true
 $('.primary .left').html('#{escape_javascript(followers)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('div').removeClass('active');
-$('#followerbox .selection-box').addClass('active');
+$('.selection-box').removeClass('active').removeClass('button-fill-fan');
+$('#followers').addClass('active').addClass('button-fill-fan');

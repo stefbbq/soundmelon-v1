@@ -11,7 +11,7 @@
     %div
       - if band_member_count >0
         - band_artists.each do |band_artist|
-          .artist-avatar
+          .avatar
             =link_to get_avatar_small(band_artist), fan_profile_path(band_artist), :class =>'ajaxopen backable', :remote =>true
       - else
         = Constant::NO_BAND_ARTIST_MESSAGE

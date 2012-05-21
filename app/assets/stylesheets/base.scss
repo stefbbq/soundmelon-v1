@@ -1,5 +1,6 @@
 //contains links and persistant/reusable elements (logo, background, footer, etc)
 
+@import 'compass/utilities/sprites/sprite-img';
 @import 'compass/css3'; //compass css3 mixins
 @import 'vars'; //global variables
 @import 'mixins'; //custom mixins
@@ -43,11 +44,10 @@
     @include box-shadow(rgba(black, .3), 0px, 3px, 5px, 0px);
     position: fixed;
     margin: 0 auto;
-    height: 156px;
     z-index: 999;
     width: $page-width;
     top: 0px;
-    background: url(base-page-bg-shaded-flipped.jpg);
+		background: url(base-page-bg-shaded-flipped.jpg) center -140px;
     border-bottom: 1px solid rgba(white, .15);
 
     > div {
@@ -55,107 +55,188 @@
       overflow: hidden;
     }
 
-    //logo and session
+    //logo, notifications and session
     .top-bar {
-      height: 53px;
+      height: 52px;
 
       .site-logo { float: left; width:400px; }
       .session {
+				height: 32px;
         float: right;
 				padding-right: $base-content-clear;
-				padding-top: 20px;				
+				padding-top: 12px;
+				
+				> a, div {
+					display: inline-block;
+				}
+				
+				//summary, welcome note
+				.summary {
+					position: relative;
+					bottom: 8px;
+				}
 
-        #logout {
+				//replies, mentions and messages
+        .notifications {
+					> a {
+						width: 32px;
+						height: 32px;
+						display: inline-block;
+						position: relative;
+						
+						span {
+							@include border-radius(0 0 4px 0);							
+							height: 10px;
+							width: 11px;
+							background: gray;
+							position: absolute;
+							right: 1px;
+							bottom: 1px;
+							font-size: 9px;
+							color: black;
+							text-align: center;
+							border-top: 1px solid rgba(black, .3);
+							border-left: 1px solid rgba(black, .3);
+						}
+						.active {
+							background: $highlight-color;
+						}
+					}	
+					#replies {
+						@include sprite-img("sprites-32.png", 2, 3);
+					}
+					#mentions {
+						@include sprite-img("sprites-32.png", 1, 3);
+					}
+					#messages {
+						@include sprite-img("sprites-32.png", 3, 3);
+					}
+				}
+				
+				//logout
+				#logout {
           @include inverted-button;
-          padding: 4px 8px;
-          margin-left: 3px;
+          padding: 4px 8px 3px 8px;
+          margin-left: 4px;
+					position: relative;
+					bottom: 7px;
         }
       }
     }
 
-    //player and notifications
-    .middle-bar {
-      margin-top: 5px;
-			height: 75px;
+    //player and search
+    .bottom-bar {
+			background: rgba(white, .1);
+			margin-top: -2px;
+			height: 60px;
+			overflow: hidden;
 
-      .mplayerbar {
+      .music-player {
+				width: ($page-width * .75) - 25;
         display: block;
         float: left;
-        .jp-title {display: none;}
+				margin-left: $base-content-clear;
+        
+				
+				//controls
+				.jp-gui { width: 250px; }
+				.jp-controls {
+					width: 250px;
+					> * {
+						padding: 0px;
+						display: inline-block;
+					}
+					.jp-pre, .jp-next { 
+						width: 32px;
+						height: 32px;
+					}
+					.jp-pre { @include sprite-img("sprites-32.png", 1, 2); margin-bottom: 3px; }
+					.jp-next { @include sprite-img("sprites-32.png", 2, 2); margin-bottom: 3px; }
+					.play-pause, .jp-play, .jp-pause {
+						width: 40px;
+						height: 40px;
+					}
+					.jp-play, .jp-pause { display: block; }
+					.jp-play { @include sprite-img("sprites-40.png", 1, 1, 40px, 40px)}
+					.jp-pause { @include sprite-img("sprites-40.png", 2, 1, 40px, 40px)}					
+				}
+				.jp-volume-bar {
+					margin: 0 0 9px 15px;
+				}
+				
+				//main info section	
+				.info {
+					@include border-radius($border-radius);
+					position: relative;
+					width: 400px;
+					height: 44px;
+					margin-top: 8px;
+					background: rgba(black, .4);
+					text-align: center;					
+					float: left;
+					
+					//album art
+					img {
+						position: absolute;
+						left: 10px;
+						top: -2px;
+						width: 50px;
+						height: 50px;
+					}
+					
+					//titles
+					.song-title { 
+						color: white; 
+						margin: -1px 0 -6px 0;
+						font-weight: normal;
+						font-size: 15px;
+						display: block;
+					}
+					.artist-title {
+						color: $text-color;
+						font-size: 11px;
+						display: block;
+					}
+					
+					//jogger
+					.jp-progress {
+						margin: 0px;
+						display: block;
+						width: 250px;
+						padding: 0;
+						margin: 1px auto;
+					}
+					
+					//playlist, like
+					.jp-additional {
+						position: absolute;
+						right: 5px;
+						top: 10px;
+					}
+				}
       }
-      .notifications {
-        margin: 8px ($base-content-clear - 2px) 8px 0;
-        float: right;
 
-        > div {
-          float: left;
-          height: 50px;
-          width: 50px;
-          text-align: center;
-          font-size: 10px;
+	    #search {
+				display: block;
+	      float: right;
+				margin: 16px $base-content-clear 0 0;		
 
-          > a {
-            @include inverted-button;
-            @include draw-circle;
-            margin: 0px auto 6px auto;
-            display: block;
-            padding-top: 6px;
-            text-align: center;
-            width: 14px;
-            height: 14px;
-            font-size: 12px;
-          }
-        }
-      }
-    }
-
-    //menu and search
-    .bottom-bar {
-      .menu {
-        width:59%;
-        float:left;
-				display: none;
-
-        ul {
-          list-style:none;
-          padding:0px;
-
-          li {
-            float:left;
-            padding:0px 20px;
-            &:hover{background:url(menu_hover_bg.jpg) repeat-x;
-            @extend .new_border;
-            margin-top:-3px}
-
-            a {
-              color:#797979;
-              text-decoration:none;
-              font-size:20px;
-              font-family:"Helvetica Neue", "trebuchet MS", arial;
-              &:hover{color:#050505;}
-            }
-          }
-        }
-      }
-      .searchbox{
-        text-align:right;
-        margin:-6px 1% 0 0;
-        width:39%;
-        float:right;
-        .searchinput {
-          @extend .new_border;
-          color:#747474;
-          font-size:16px;
-          padding:5px;
-          background:url(search_bg.jpg) repeat-x;
-          height:18px;
-          border-left:solid 1px #404040;
-          border-right:solid 1px #404040;
-          border-top:solid 1px #404040;
-          border-bottom:solid 1px #131313;
-          width:220px;
-          margin-right:25px;
-        }
+	      > input {
+					@include border-radius($border-radius);
+		    	width: 200px;
+					height: 20px;
+					padding: 4px 0 0 5px;					
+	        color: $text-faded-color;
+	        font-size:14px;
+					background: rgba(black, .3);
+	        border: solid 1px $text-faded-color;
+					outline: none;
+					
+					&:hover, &:focus {
+						color: $text-color;
+						border: solid 1px $text-color;
+					}
+	      }
       }
     }
   }
@@ -163,7 +244,7 @@
   //
   //page content
   #page-content {
-    padding-top: 150px;
+    padding-top: 104px;
     min-height: 300px;
 		z-index: 49;
 
@@ -173,7 +254,7 @@
       border-top: 1px solid rgba(white, .15);
       margin-top: 8px;
       display: block;
-      overflow: hidden;
+      overflow: auto;
     }
   }
 

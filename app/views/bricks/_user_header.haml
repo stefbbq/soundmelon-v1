@@ -5,23 +5,22 @@
   .top-bar
     = render :partial=>"bricks/logo"
     .session
-      = WELCOME_MSG
-      = link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class => 'user-info ajaxopen backable', :remote =>true
-      = link_to "Logout", logout_path, :class=>"button2"
-  .middle-bar
-    .mplayerbar
-      = render :partial =>'/layouts/player'
-    .notifications
-      %div
-        = link_to @unread_post_replies_count, replies_path, :class=> @unread_post_replies_count > 0 ? "ajaxopen backable" : "dimmed ajaxopen backable", :id =>'reply_count', :remote =>true
-        replies
-      %div
-        = link_to @unread_mentioned_count, mentioned_path, :class=> @unread_mentioned_count > 0 ? "ajaxopen backable" : "dimmed ajaxopen backable", :id =>'mention_count', :remote =>true
-        mentions
-      %div
-        = link_to @unread_messages_count, user_inbox_path, :class=>@unread_messages_count > 0 ? "ajaxopen backable" : "dimmed ajaxopen backable", :id =>'message_count', :remote =>true
-        messages
-  .clear
+      .summary
+        = WELCOME_MSG
+        = link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class => 'user-info ajaxopen backable', :remote =>true
+      .notifications
+        = link_to replies_path, {:class=> "ajaxopen backable", :id =>'replies', :remote =>true} do
+          %span{:class=> (@unread_post_replies_count > 0) ? "active" : ""}
+            = @unread_post_replies_count
+        = link_to mentioned_path, {:class=> "ajaxopen backable", :id =>'mentions', :remote =>true} do
+          %span{:class=> (@unread_mentioned_count > 0) ? "active" : ""}
+            = @unread_mentioned_count
+        = link_to user_inbox_path,  {:class=> "ajaxopen backable", :id =>'messages', :remote =>true} do
+          %span{:class=> (@unread_messages_count > 0) ? "active" : ""}
+            = @unread_messages_count
+      = link_to "logout", logout_path, :id => 'logout'
   .bottom-bar
-    = render :partial=>"bricks/header_menu_items"
-    = render :partial=>"bricks/search"
+    .music-player
+      = render :partial =>'layouts/player'
+    .search
+      = render :partial=>"bricks/search"

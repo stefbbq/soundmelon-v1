@@ -55,7 +55,7 @@
     .band-box-content
       %div
         - @band_artists.each do |band_artist|
-          .artist-avatar
+          .avatar
             = link_to get_avatar_small(band_artist), user_profile_path(band_artist)
       .clear
   .clear
@@ -69,7 +69,7 @@
     .band-box-content
       %div
         - @band_fans.each do |band_fan|
-          .artist-avatar
+          .avatar
             = link_to get_avatar_small(band_fan), user_profile_path(band_fan)
       .clear
   .clear
