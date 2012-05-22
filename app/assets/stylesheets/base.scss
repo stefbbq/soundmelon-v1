@@ -2,8 +2,8 @@
 
 @import 'compass/utilities/sprites/sprite-img';
 @import 'compass/css3'; //compass css3 mixins
-@import 'vars'; //global variables
 @import 'mixins'; //custom mixins
+@import 'vars'; //global variables
 
 //
 //main, base, page content
@@ -31,16 +31,25 @@
 }
 
 #page {
-  @include border-radius(0px 0px $border-radius $border-radius);
-  @include box-shadow(rgba(black, .3), 0px, 1px, 6px);
-  background: $page-bg-color;
   margin: 0 auto;
   width: $page-width;
   position: relative;
 
+	//
+	//splash-header
+	.splash-header {
+		background: url(base-page-bg-shaded-flipped.jpg) !important;
+		
+		h2 {
+			@include single-text-shadow(rgba(black, 1), 0px, 2px, 5px);
+			color: $text-highlight-color;
+		}
+	}
+	
   //
-  //header
+  //active header	
   #page-header {
+		@include border-radius(0 0 $border-radius $border-radius);
     @include box-shadow(rgba(black, .3), 0px, 3px, 5px, 0px);
     position: fixed;
     margin: 0 auto;
@@ -137,7 +146,6 @@
         float: left;
 				margin-left: $base-content-clear;
         
-				
 				//controls
 				.jp-gui { width: 250px; }
 				.jp-controls {
@@ -244,18 +252,24 @@
   //
   //page content
   #page-content {
-    padding-top: 104px;
+    padding-top: 111px;
     min-height: 300px;
 		z-index: 49;
 
     //primary content area
-    .primary {
-      background: url(base-page-bg-shaded.jpg) top center no-repeat;
-      border-top: 1px solid rgba(white, .15);
-      margin-top: 8px;
-      display: block;
-      overflow: auto;
-    }
+		.primary-container {
+			@include border-radius($border-radius);
+		  @include box-shadow(rgba(black, .3), 0px, 1px, 6px);
+		  background: $page-bg-color;
+			
+			.primary {
+				@include border-radius($border-radius $border-radius 0 0);				
+				background: url(base-page-bg-shaded.jpg) top center no-repeat;
+	      border-top: 1px solid rgba(white, .15);
+	      display: block;
+	      overflow: auto;
+	    }
+		}
   }
 
   //

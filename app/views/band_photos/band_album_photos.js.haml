@@ -15,5 +15,5 @@
 $('#band_album_#{@band_album.id} .album_details').html('#{escape_javascript band_album_photos}');
 $('#expand_link_#{@band_album.id}').replaceWith('#{escape_javascript hide_album_photos}');    
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('div').removeClass('active');
-$('#photobox .selection-box').addClass('active');
+$('.selection-box').removeClass('active').removeClass('button-fill-artist')
+$('#photos').addClass('active').addClass('button-fill-artist');

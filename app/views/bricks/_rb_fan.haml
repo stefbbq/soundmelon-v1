@@ -1,17 +1,11 @@
 - band_fan_count = band_fans.size
-#fanbox.box-wrapper
-  .selection-box
-    %span{ :class => 'artist-count'}
-      = link_to pluralize(band_fan_count, 'fan'), band_fans_path(:band_name => band.name), :remote =>:true, :class =>'ajaxopen backable'
-    - unless band_fan_count < Constant::BAND_FAN_SHOW_LIMIT
-      %br
-      = link_to "see all", band_fans_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen backable"
-  .collection
-    - if band_fan_count > 0
-      %div
-        - band_fans.each do |band_fan|
-          .artist-avatar
-            = link_to get_avatar_small(band_fan), fan_profile_path(band_fan), :class =>'ajaxopen backable', :remote =>true
-    - else
-      .message
-      = Constant::NO_FAN_MESSAGE
+= link_to band_fans_path(:band_name => band.name), {:remote =>:true, :class =>'ajaxopen backable selection-box'} do
+  = pluralize(band_fan_count, 'fan')
+.collection
+  - if band_fan_count > 0
+    %div
+      - band_fans.each do |band_fan|
+        .avatar
+          = link_to get_avatar_small(band_fan), fan_profile_path(band_fan), :class =>'ajaxopen backable', :remote =>true
+  - else
+    .message= Constant::NO_FAN_MESSAGE

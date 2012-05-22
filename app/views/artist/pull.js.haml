@@ -1,31 +1,23 @@
 $('.primary .left').html('');
 - content = capture do
   - if @bands.blank?
-    You have no musician profiles. #{link_to 'create one?', new_band_path, :class => 'ajaxopen', :remote => true}
+    You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_band_path, :class => 'ajaxopen', :remote => true}
   - else
-    .bands
-      select a band from the list below to administer
-      %br/
-      %hr/
-      - @bands.each do |band|
-        .band
-          .band-logo-sml
-            = get_band_logo_medium(band)
-          .band-info
-            %span.band-name= band.name
-            %br/
-            - unless band.genre.blank?
-              %span.band-genre
-                (#{band.genre})
-            %br/
-            %span.other-info
-              Fan ##{band.followers_count},
-              Album ##{band.song_albums_count},
-              Songs ##{band.songs_count}
-            %br/
-            %span.band-access
-              = link_to 'access>>>', manage_band_path(:band_name => band.name),:class=>'ajaxopen backable', :remote =>true
-        %hr/
+    - @bands.each do |band|
+      .item
+        .photo
+          = get_band_logo_medium(band)
+        .content
+          %span.band-name= band.name
+          - unless band.genre.blank?
+            %span.band-genre
+              (#{band.genre})
+          %span.other-info
+            Fan ##{band.followers_count},
+            Album ##{band.song_albums_count},
+            Songs ##{band.songs_count}
+        .actions
+          = link_to 'access', manage_band_path(:band_name => band.name),:class=>'ajaxopen backable', :remote =>true
 $('.primary .left').html('#{escape_javascript(content)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-fan');

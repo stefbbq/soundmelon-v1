@@ -5,7 +5,7 @@
 @import "hacks";
 
 // This basic method is preferred for the usual case, when positioned
-// content will not show outside the bounds of the container.
+// content will not show outside the bounds of the primary-wrapper.
 //
 // Recommendations include using this in conjunction with a width.
 // Credit: [quirksmode.org](http://www.quirksmode.org/blog/archives/2005/03/clearing_floats.html)
@@ -17,7 +17,7 @@
 // This older method from Position Is Everything called
 // [Easy Clearing](http://www.positioniseverything.net/easyclearing.html)
 // has the advantage of allowing positioned elements to hang
-// outside the bounds of the container at the expense of more tricky CSS.
+// outside the bounds of the primary-wrapper at the expense of more tricky CSS.
 @mixin legacy-pie-clearfix {
   &:after {
     content    : "\0020";

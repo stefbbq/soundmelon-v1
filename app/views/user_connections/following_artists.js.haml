@@ -1,7 +1,7 @@
 $('.primary .left').html('');
 - following = capture do
   - @following_artists.each do |band|
-    .user-list{:id => "following_#{band.id}"}
+    .item{:id => "following_#{band.id}"}
       = link_to get_band_logo_small(band), show_band_path(:band_name => band.name), :class => 'avatar'
       .content
         %h3= link_to band.name, show_band_path(:band_name => band.name)

@@ -5,13 +5,19 @@
 @import 'mixins';
 
 .live {
-	overflow: hidden;
-	margin: 15px -8px 0px -8px;
+	background: black;
+	width: $page-width - 12px;
+	margin: 0 auto;
+	display: block;
+	height: 266px;
+	position: relative;
 	
 	.profile-image { 
+		position: absolute;
+		left: -13px;
+		top: 10px;
     width: 414px;
 		height: 246px;
-    float: left;
 		background: #222;
     overflow: hidden;
     text-align: center;
@@ -23,17 +29,19 @@
     
     a {
       @include border-radius($border-radius);
-      padding:0px 20px;
-      background:#515151;
-      color:#fff;
-      border:none;
-      font-weight:bold;
-      text-decoration:none;
+      padding: 0px 20px;
+      background: #515151;
+      color: #fff;
+      border: none;
+      font-weight: bold;
+      text-decoration: none;
     }
   }
 	
 	.links {
-		float: right;
+		position: absolute;
+		right: -13px;
+		top: 10px;
 		
 		.top {
 			display: block;

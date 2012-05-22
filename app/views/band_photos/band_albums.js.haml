@@ -10,7 +10,7 @@
           = link_to "add album", new_band_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
     - @band_albums.each do |band_album|
       = render '/band_photos/band_photo_album', :band_album =>band_album
-  $('.primary .left').html('#{escape_javascript band_albums}');
-  setTimeout('$(document).trigger(\"close.facebox\")',10);
-  $('.active').removeClass('active').removeClass('button-fill-artist');
-  $('#photobox .selection-box').addClass('active').addClass('button-fill-artist');
+$('.primary .left').html('#{escape_javascript band_albums}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.selection-box').removeClass('active').removeClass('button-fill-artist')
+$('#photos').addClass('active').addClass('button-fill-artist');

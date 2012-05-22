@@ -36,14 +36,14 @@ if(jQuery)(
 					folder         : '', // The path to the upload folder
 					height         : 30, // The height of the flash button
 					width          : 110, // The width of the flash button
-					cancelImg      : 'cancel.png', // The path to the cancel image for the default file queue item container
+					cancelImg      : 'cancel.png', // The path to the cancel image for the default file queue item primary-wrapper
 					wmode          : 'opaque', // The wmode of the flash file
 					scriptAccess   : 'sameDomain', // Set to "always" to allow script access across domains
 					fileDataName   : 'Filedata', // The name of the file collection object in the backend upload script
 					method         : 'POST', // The method for sending variables to the backend upload script
 					queueSizeLimit : 999, // The maximum size of the file queue
 					simUploadLimit : 1, // The number of simultaneous uploads allowed
-					queueID        : false, // The optional ID of the queue container
+					queueID        : false, // The optional ID of the queue primary-wrapper
 					displayData    : 'percentage', // Set to "speed" to show the upload speed in the default queue item
 					onInit         : function() {}, // Function to run when uploadify is initialized
 					onSelect       : function() {}, // Function to run when a file is selected

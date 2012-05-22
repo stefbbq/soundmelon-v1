@@ -1,7 +1,7 @@
 $('.primary .left').html('');
 - following = capture do
   - @following.each do |user|
-    .user-list{:id => "following_#{user.id}"}
+    .item{:id => "following_#{user.id}"}
       = link_to get_avatar_small(user), fan_profile_path(user.id), :class => 'avatar'
       .content
         %h3= link_to user.get_full_name, fan_profile_path(user.id)

@@ -16,17 +16,22 @@
        function open_popup_for_song_albums(url){$.facebox(function() {$.ajax({error: function() {$.facebox('Sorry, there was an error!');},load:function(data){},success: function(data) {$.facebox(data);},type: 'get',url: url});});}
   %body
     #base-container
-      #page-container
-        #page-top-fade
-        #page
-          #page-header
-            - if current_user
+      - if current_user #user logged in
+        #page-container
+          #page-top-fade
+          #page
+            #page-header
               = render :partial =>'bricks/user_header'
-            - else
-              %div
-                = render :partial =>'bricks/nouser_header'
-          #page-content
-            = yield
+            #page-content
+              = yield
+      - else #no user logged in
+        #page-container{:style=>'background: none;'}
+          #page-top-fade
+          #page
+            #page-header.splash-header
+              = render :partial =>'bricks/splash_header'
+            #page-content
+              = yield
       = render :partial=>"bricks/footer"
       .globalloading.hide{:id=>"globalloading" }
         .center

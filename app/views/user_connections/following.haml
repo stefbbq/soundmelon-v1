@@ -1,13 +1,12 @@
 $('.primary .left').html('');
 - following = capture do
   - @following.each do |user|
-    .followuserbox{:id => "following_#{user.id}"}
-      .avatar
-        = link_to get_avatar_small(user), fan_profile_path(user.id), :class => 'follow-img'
-      .fusercontent
-        = link_to user.get_full_name, fan_profile_path(user.id)
-        = link_to "Unfollow", unfollow_user_path(user.id), :remote => true, :class => 'ajaxopen right' if @current_user_following
-      .clear
+    .item{:id => "following_#{user.id}"}
+      = link_to get_avatar_small(user), fan_profile_path(user.id), :class => 'avatar'
+      .content
+        %h3= link_to user.get_full_name, fan_profile_path(user.id)
+      .actions
+        = link_to "unfollow", unfollow_user_path(user.id), :remote => true, :class => 'ajaxopen right' if @current_user_following
   = paginate @following, :remote => true
 $('.primary .left').html('#{escape_javascript(following)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);

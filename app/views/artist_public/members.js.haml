@@ -12,5 +12,5 @@ $('.primary .left').html('');
       .clear 
 $('.primary .left').html('#{escape_javascript(band_members)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.active').removeClass('active').removeClass('button-fill-artist');
-$('#artistbox .selection-box').addClass('active').addClass('button-fill-artist');
+$('.selection-box').removeClass('active').removeClass('button-fill-artist');
+$('#members').addClass('active').addClass('button-fill-artist');

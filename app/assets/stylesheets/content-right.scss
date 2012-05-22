@@ -47,7 +47,7 @@
 		
 		//active
 		> .active {
-			@include single-text-shadow(rgba(white, .5), 0px, 1px, 0px);
+			@include single-text-shadow(rgba(white, .4), 0px, 1px, 0px);
 			border: none;
 			color: black;
 			
