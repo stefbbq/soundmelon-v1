@@ -22,6 +22,20 @@
 		cursor: pointer;
 	}
 }
+
+@mixin default-button-nohref {
+	@include linear-gradient(#393939, #313131);
+	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
+	@include border-radius($detail-border-radius);
+	border: none;
+	padding: 4px 5px;
+	font-size: $default-button-font-size;
+	color: $default-button-font-color;
+	a {
+		text-decoration: none;
+	}
+}
+
 @mixin inverted-button {
 	@include linear-gradient($inverted-button-color, darken($inverted-button-color, 15));
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);

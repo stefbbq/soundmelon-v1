@@ -1,8 +1,8 @@
 .items
   = link_to 'news feed & messages', fan_home_path, :id=>'feed-msg', :class=>'button-fill-fan selection-box iconactive ajaxload active backable', :remote => true
-  = render '/bricks/rb_following_artist', :following_artists =>@following_artists
-  = render '/bricks/rb_following_fan', :following_users =>@following_users
-  = render '/bricks/rb_follower_user', :follower_users  =>@followers_users
+  = render '/bricks/rb_following_artist', :following_artists =>@following_artists,:following_artist_count =>@following_artist_count, :user =>@user, :is_admin =>true
+  = render '/bricks/rb_following_fan',    :following_users   =>@following_users,  :following_fan_count    =>@following_count, :user =>@user, :is_admin =>true
+  = render '/bricks/rb_follower_user',    :follower_users    =>@followers_users,  :follower_count         =>@followers_count, :user =>@user, :is_admin =>true
   .divider
   = link_to 'manage your profile', manage_profile_path, :id=>'manage-profile', :remote => true, :class => 'selection-box ajaxopen backable'
   = link_to 'access artist profile', associated_band_path, :id=>'access-artist', :remote => true, :class => 'selection-box ajaxopen backable'

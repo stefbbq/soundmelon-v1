@@ -1,8 +1,13 @@
-- band_fan_count = band_fans.size
-= link_to band_fans_path(:band_name => band.name), {:remote =>:true, :class =>'ajaxopen backable selection-box'} do
-  = pluralize(band_fan_count, 'fan')
+- if fan_count >0
+  = link_to band_fans_path(:band_name => band.name), {:remote =>:true, :class =>'ajaxopen backable selection-box'} do
+    = pluralize(fan_count, 'fan')
+- else
+  .selection-box-nohref
+    %span.count
+      0
+    fan
 .collection
-  - if band_fan_count > 0
+  - if fan_count > 0
     %div
       - band_fans.each do |band_fan|
         .avatar

@@ -1,16 +1,19 @@
 - is_admin ||= false
-- photo_album_count = photo_albums.size
-= link_to band_albums_path(:band_name =>band.name), {:remote =>:true, :id=>'photos', :class =>'ajaxopen backable selection-box'} do
-  photos
-  - if is_admin
-    %span.add_more
-      = link_to image_tag('add.png'), new_band_album_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen backable"
-  - unless photo_album_count < Constant::BAND_PHOTO_ALBUM_SHOW_LIMIT
-    %br/
-    = link_to "see all", band_albums_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen backable"
+- if is_admin || photo_album_count > 0
+  = link_to band_albums_path(:band_name =>band.name), {:remote =>:true, :id=>'photos', :class =>'ajaxopen backable selection-box'} do
+    photos
     - if is_admin
+      %span.add_more
+        = link_to image_tag('add.png'), new_band_album_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen backable"
+    - unless photo_album_count < Constant::BAND_PHOTO_ALBUM_SHOW_LIMIT
       %br/
-      = link_to "edit photos", band_albums_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen backable"
+      = link_to "see all", band_albums_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen backable"
+      - if is_admin
+        %br/
+        = link_to "edit photos", band_albums_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen backable"
+- else
+  .selection-box-nohref
+    photos
 .collection
   - if photo_album_count > 0
     %div

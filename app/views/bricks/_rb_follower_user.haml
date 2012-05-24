@@ -1,16 +1,21 @@
-- followers_count = follower_users.size
-= link_to fan_followers_path, {:id=>'followers', :class=>'selection-box iconactive ajaxload backable', :remote => true} do
-  %span.count
-    = followers_count
-  - if followers_count > 1 || followers_count == 0 #doesn't use pluarize since that would seperate text styling from number and label
+- if follower_count > 0
+  = link_to fan_followers_path, {:id=>'followers', :class=>'selection-box iconactive ajaxload backable', :remote => true} do
+    %span.count
+      = follower_count
+    - if follower_count > 1 || follower_count == 0 #doesn't use pluarize since that would seperate text styling from number and label
+      followers
+    - else
+      follower
+    - unless follower_count < Constant::FOLLOWER_SHOW_LIMIT
+      %br/
+      = link_to 'see all', fan_followers_path, :remote=>:true, :class=>'small-font ajaxopen backable'
+- else
+  .selection-box-nohref
+    %span.count
+      0
     followers
-  - else
-    follower
-  - unless followers_count < Constant::FOLLOWER_SHOW_LIMIT
-    %br/
-    = link_to 'see all', fan_followers_path, :remote=>:true, :class=>'small-font ajaxopen backable'
 .collection
-  - if followers_count > 0
+  - if follower_count > 0
     %div
       - follower_users.each do |fan_followers|
         .avatar

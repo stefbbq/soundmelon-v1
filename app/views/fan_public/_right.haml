@@ -1,6 +1,6 @@
 .items
   = link_to 'latest posts', fan_latest_post_path(@user), :id=>'latest-posts', :remote=>:true, :class=>'ajaxopen selection-box active button-fill-fan backable'
-  = render '/bricks/rb_following_artist', :following_artists =>@following_artists
-  = render '/bricks/rb_following_fan', :following_users =>@following_users
-  = render '/bricks/rb_follower_user', :follower_users  =>@followers_users
-.fader  
+  = render '/bricks/rb_following_artist', :following_artists =>@following_artists, :following_artist_count =>@following_artist_count, :user =>@user
+  = render '/bricks/rb_following_fan',    :following_users   =>@following_users,   :following_fan_count =>@following_count, :user =>@user
+  = render '/bricks/rb_follower_user',    :follower_users    =>@followers_users,   :follower_count =>@followers_count, :user =>@user
+.fader

@@ -1,11 +1,16 @@
-- following_fan_count = following_users.size
-= link_to fan_following_path, {:id=>'following-fan', :class=>'selection-box iconactive ajaxload backable', :remote => true} do
-  following
-  %span.count
-    = pluralize(following_fan_count,'fan')
-  - unless following_fan_count < Constant::FOLLOWING_FAN_SHOW_LIMIT
-    %br/
-    = link_to 'see all', fan_following_path, :remote=>:true, :class=>'small-font ajaxopen backable'
+- if following_fan_count > 0
+  = link_to fan_following_path, {:id=>'following-fan', :class=>'selection-box iconactive ajaxload backable', :remote => true} do
+    following
+    %span.count
+      = pluralize(following_fan_count,'fan')
+    - unless following_fan_count < Constant::FOLLOWING_FAN_SHOW_LIMIT
+      %br/
+      = link_to 'see all', fan_following_path, :remote=>:true, :class=>'small-font ajaxopen backable'
+- else
+  .selection-box-nohref
+    following
+    %span.count
+      0 fan
 .collection
   - if following_fan_count > 0
     %div

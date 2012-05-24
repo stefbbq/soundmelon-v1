@@ -1,13 +1,15 @@
 - is_admin ||= false
-- tour_count = band_tours.size
-= link_to band_tours_path(:band_name =>band.name), {:remote=>:true, :id=>'shows', :class=>'ajaxopen backable selection-box'} do
-  shows
-  - if is_admin
-    %span.add_more
-      = link_to image_tag('add.png'), new_band_tour_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen"
-  - unless tour_count < Constant::TOUR_DATE_SHOW_LIMIT
-    %br
-    =  link_to "see all", band_tours_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen backable"
+- if is_admin || tour_count > 0
+  = link_to band_tours_path(:band_name =>band.name), {:remote=>:true, :id=>'shows', :class=>'ajaxopen backable selection-box'} do
+    shows
+    - if is_admin
+      %span.add_more= link_to image_tag('add.png'), new_band_tour_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen"
+    - unless tour_count < Constant::TOUR_DATE_SHOW_LIMIT
+      %br
+      =  link_to "see all", band_tours_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen backable"
+- else
+  .selection-box-nohref
+    shows
 .collection
   - if tour_count > 0
     %div

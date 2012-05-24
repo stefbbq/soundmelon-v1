@@ -1,10 +1,10 @@
 .items
   = link_to 'news feed & messages', manage_band_path(:band_name => @band.name), :id=>'feed-msg', :remote => true,:class=>"iconactive selection-box"
-  = render '/bricks/rb_music', :band =>@band, :song_albums =>@song_albums, :is_admin =>true
-  = render '/bricks/rb_photo', :band =>@band, :photo_albums =>@photo_albums, :is_admin =>true
-  = render '/bricks/rb_tour', :band =>@band, :band_tours =>@band_tours, :is_admin =>true
-  = render '/bricks/rb_member', :band =>@band, :band_artists =>@band_artists
-  = render '/bricks/rb_fan', :band =>@band, :band_fans =>@band_fans  
+  = render '/bricks/rb_music',  :song_album_count  =>@song_album_count,  :song_albums  =>@song_albums,  :is_admin =>true, :band =>@band
+  = render '/bricks/rb_photo',  :photo_album_count =>@photo_album_count, :photo_albums =>@photo_albums, :is_admin =>true, :band =>@band
+  = render '/bricks/rb_tour',   :tour_count        =>@tour_count,        :band_tours   =>@band_tours,   :is_admin =>true, :band =>@band
+  = render '/bricks/rb_member', :artist_count      =>@band_artist_count, :band_artists =>@band_artists, :band =>@band
+  = render '/bricks/rb_fan',    :fan_count         =>@band_fan_count,    :band_fans    =>@band_fans,    :band =>@band
   .divider
   = link_to 'manage your profile' , edit_band_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box backable', :id =>'manage_profile'
   = link_to 'manage bandmates' , bandmates_invitation_path(:band_name => @band.name), :remote => true, :class => 'ajaxopen selection-box backable', :id =>'invite_artist'

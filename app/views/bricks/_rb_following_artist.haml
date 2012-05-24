@@ -1,11 +1,16 @@
-- following_artist_count = following_artists.size
-= link_to fan_following_artists_path, {:id=>'following-artist', :class=>'selection-box iconactive ajaxload backable', :remote => true} do
-  following
-  %span.count
-    = pluralize(following_artist_count, 'artist')
-  - unless following_artist_count < Constant::FOLLOWING_ARTIST_SHOW_LIMIT
-    %br
-    = link_to 'see all', fan_following_artists_path, :remote=>:true, :class=>'small-font ajaxopen backable'
+- if following_artist_count > 0
+  = link_to fan_following_artists_path, {:id=>'following-artist', :class=>'selection-box iconactive ajaxload backable', :remote => true} do
+    following
+    %span.count
+      = pluralize(following_artist_count, 'artist')
+    - unless following_artist_count < Constant::FOLLOWING_ARTIST_SHOW_LIMIT
+      %br
+      = link_to 'see all', fan_following_artists_path, :remote=>:true, :class=>'small-font ajaxopen backable'
+- else
+  .selection-box-nohref
+    following
+    %span.count
+      0 artist
 .collection
   - if following_artist_count > 0
     %div

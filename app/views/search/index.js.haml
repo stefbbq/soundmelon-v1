@@ -1,5 +1,5 @@
-- @user = current_user
-- got_some_results = (@user_search_results.results.size>0) || (@band_search_results.results.size>0)
+- @user             = current_user
+- got_some_results  = (@user_search_results.results.size>0) || (@band_search_results.results.size>0)
 - search_result = capture do
   - if got_some_results
     #results
@@ -7,13 +7,22 @@
         .users_header
           %h3 USERS
         - @user_search_results.results.each do |user|
-          = render 'result_user' , :user =>user
+          - user_url = user == current_user ? fan_home_url : fan_profile_path(user)
+          = link_to get_avatar_medium(user), user_url, :class =>'ajaxopen backable', :remote =>true
+          / RESULT INFO
+          .info
+            %h3= link_to user.get_full_name, user_url , :class =>'ajaxopen backable', :remote =>true
+          .clear
       - unless @band_search_results.results.blank?
         .bands_header
           %h3 BANDS
-        - @band_search_results.results.each do |band|
-          = render 'result_user' , :band =>band
+        - @band_search_results.results.each do |band|          
+          = link_to get_band_logo_medium(band), show_band_path(band.name), :class =>'ajaxopen backable', :remote =>true
+          / RESULT INFO
+          .info
+            %h3= link_to "#{band.name} (#{band.genre})", show_band_path(band.name), :class =>'ajaxopen backable', :remote =>true
+          .clear
   - else
     %h3
     No Results Found for '#{params[:q]}'
-$('#page-content').html('#{escape_javascript(search_result)}');
+$('.primary .left').html('#{escape_javascript(search_result)}');
