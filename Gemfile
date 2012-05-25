@@ -14,6 +14,7 @@ gem 'haml-rails'
 gem 'will_paginate','3.0.pre2'
 gem 'contacts'
 gem 'paperclip'
+gem "ruby-mp3info"
 gem "recaptcha", :require => "recaptcha/rails"
 gem "remotipart", "~> 1.0"
 gem 'kaminari'
@@ -26,6 +27,9 @@ gem 'ancestry'
 gem 'acts-as-messageable'
 gem 'acts_as_votable'
 gem 'acts_as_follower' #https://github.com/tcocca/acts_as_follower
+
+gem 'delayed_job_active_record'
+gem 'daemons'
 
 # Gems used only for assets and not required
 # in production environments by default.

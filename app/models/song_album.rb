@@ -5,6 +5,8 @@ class SongAlbum < ActiveRecord::Base
   belongs_to :band
   has_many :songs
   has_many :posts
+
+  scope :published, :conditions =>["disabled = ?", false]
   
   accepts_nested_attributes_for :songs, :reject_if => proc { |attributes| attributes['song'].blank?}
   

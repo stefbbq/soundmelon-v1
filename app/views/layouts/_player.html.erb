@@ -42,7 +42,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
     player.jPlayer({
       ready: function (event) {playListStart();},      
       ended:function(event){playListNext();},      
-      swfPath: "../js",supplied: "m4a",wmode: "window"
+      swfPath: "../js",supplied: "m4a,mp3",wmode: "window"
     });
   });
   $(".jp-pre").click(function() { playListPrev(); }); // Listen for Previous Track button click
@@ -67,9 +67,9 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
     var next     = (currentTrack + 1 < playList.length) ? currentTrack + 1 : 0;
     updateTrackInfo(item.band, item.title, next==0 ? '' : playList[next].title, item.image, item.like ? 'liked' : 'like')
     if(play==1)
-      player.jPlayer("setMedia", { m4a:item.mp3}).jPlayer('play');
+      player.jPlayer("setMedia", { m4a:item.mp3, ogg:item.ogg}).jPlayer('play');
     else
-      player.jPlayer("setMedia", { m4a:item.mp3});
+      player.jPlayer("setMedia", { m4a:item.mp3, ogg:item.ogg});
   }
 
   // Play next track. If already on last track, start back at the begining
@@ -79,7 +79,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   function playListPrev() { playListChange((currentTrack - 1 >= 0) ? currentTrack - 1 : playList.length-1, 1);}
   
   function play_music(song_title, song){
-    player.jPlayer("setMedia", { m4a:song }).jPlayer('play');
+    player.jPlayer("setMedia", { m4a:song, ogg:item.ogg }).jPlayer('play');
   }
   
   function makePlayList(){        
@@ -107,7 +107,8 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
       {
         i:     "<%= song.id %>",
         title: "<%= song.song_name_without_extension  %>",
-        mp3:   "<%= song.song  %>",
+        mp3:   "<%= song.song_mp3  %>",
+        ogg:   "<%= song.song_ogg  %>",
         band:  "<%= song_detail[:band]  %>",
         album: "<%= song_detail[:album]  %>",
         image: '<%= get_album_cover_image(song.song_album) %>',
