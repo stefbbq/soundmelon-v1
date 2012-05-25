@@ -75,7 +75,7 @@ class Song < ActiveRecord::Base
   def song_ogg
     base_file_path  = self.song.url.split('/')
     base_file_path.pop
-    ogg_file_url    = (base_file_path + [self.file_name + ".ogg"]).join('/')
+    ogg_file_url    = (base_file_path + ["#{self.file_name}.ogg"]).join('/')
     ogg_file_url
   end
 
