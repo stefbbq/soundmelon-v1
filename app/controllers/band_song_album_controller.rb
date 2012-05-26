@@ -86,9 +86,11 @@ class BandSongAlbumController < ApplicationController
   def band_song_album
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
     begin
-      @band = Band.where(:name => params[:band_name]).first
+      @band             = Band.where(:name => params[:band_name]).first
       @is_admin_of_band = current_user.is_member_of_band?(@band)
-      @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first      
+      @song_album       = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
+      @song_albums      = [@song_album]
+      render :template  =>"/band_song_album/band_song_albums" and return
     rescue
       render :nothing => true and return
     end
@@ -127,9 +129,9 @@ class BandSongAlbumController < ApplicationController
     begin
       @band = Band.where(:name => params[:band_name]).first
       if current_user.is_member_of_band?(@band)
-        @song_album = SongAlbum.where('band_id = ? and id = ?', @band.id, params[:id]).first
-        @song_album.update_attributes(params[:song_album])
-        @song_album = SongAlbum.where('band_id = ? and id = ?', @band.id, params[:id]).first
+        @song_album       = SongAlbum.where('band_id = ? and id = ?', @band.id, params[:id]).first
+        @song_album.update_attributes(params[:song_album])        
+        @is_updated       = true
         5.times { @song_album.songs.build }
         render :action => 'edit_song_album' and return
       else

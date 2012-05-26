@@ -1,7 +1,0 @@
-- if @band_album
-  - band_album_html = capture do
-    = render '/band_photos/band_photo_album', :band_album =>@band_album
-$('.primary .left').html('#{escape_javascript band_album_html} ');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.selection-box').removeClass('active').removeClass('button-fill-artist')
-$('#photos').addClass('active').addClass('button-fill-artist');

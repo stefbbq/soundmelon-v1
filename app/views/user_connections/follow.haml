@@ -1,5 +1,0 @@
-$('#facebox .content').html('Followed Successfully');
-setTimeout('$(document).trigger(\"close.facebox\")',1000);
-- unfollow_content = capture do
-  = link_to 'unfollow this user', unfollow_user_path(@user_to_be_followed, :others => 1), :remote => true, :class => 'ajaxopen'
-$('#follow-unfollow .selection-box').html('#{escape_javascript unfollow_content}');

@@ -85,6 +85,8 @@ class BandPhotosController < ApplicationController
       @is_admin_of_band = current_user.is_member_of_band?(@band)
       @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
       @status = true
+      @band_albums = [@band_album]
+      render :template =>"/band_photos/band_albums" and return
     rescue
       @status = false
       render :nothing => true and return

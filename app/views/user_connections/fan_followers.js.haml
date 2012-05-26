@@ -1,0 +1,11 @@
+$('.primary .left').html('');
+- followers = capture do
+  %b #{@user.fname}'s Followers
+  %hr
+  - @followers.each do |user|    
+    = render '/user_connections/item', :user =>user
+  =# paginate @followers, :remote => true
+$('.primary .left').html('#{escape_javascript(followers)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.right .selection-box').removeClass('active').removeClass('button-fill-fan');
+$('#followers .selection-box').addClass('active').addClass('button-fill-fan');

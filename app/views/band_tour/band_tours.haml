@@ -1,11 +1,11 @@
-%h3 Band Tours
+%h3 Band Shows
 - if @band_tours.blank?
-  Has not created band tour yet.
+  Has not created band show yet.
 - else
   - @band_tours.each do |band_album|
     .album{:style=>"margin:2px; background:#363636;"}
       .album_teaser_image{:style=>"width:80px;float:left;"}
-        = link_to image_tag(band_album.band_photos.first.image.url(:small)), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name)    
+        = link_to image_tag(band_album.band_photos.first.image.url(:small)), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name)
     .album_name{:style=>"float:right;"}
       %h2= link_to "#{band_album.name}(#{pluralize(band_album.band_photos.count, 'photo')})", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name)
     .clear

@@ -1,0 +1,19 @@
+- status    = true
+- if user.instance_of?(Band)
+  - link    = show_band_path(user.name)
+  - image   = get_band_logo_small(user)
+  - name    = user.name
+- elsif user.instance_of?(User)
+  - link    = fan_profile_path(user.id)
+  - image   = get_avatar_small(user)
+  - name    = user.get_full_name
+- else
+  - status  = false
+
+- if status
+  .followuserbox{:id => "follower_#{user.id}", :style =>'margin-bottom:5px'}
+    .avatar{:style =>'margin-right:5px;'}
+      = link_to image, link, :remote =>:true, :class => 'ajaxopen backable'
+    .fusercontent
+      %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'
+    .clear

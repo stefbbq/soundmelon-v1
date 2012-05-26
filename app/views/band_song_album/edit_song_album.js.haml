@@ -1,3 +1,4 @@
+- @is_updated ||= false
 - song_album_songs = capture do
   %h3
     = get_album_cover_image(@song_album, 'medium')
@@ -5,11 +6,11 @@
     = "#{@song_album.album_name} : #{@song_album.songs.count} songs"
     %br
     = "$#{@song_album.price}"
-  - @song_album.songs.each do |song|
-    - unless song.new_record?
-      .song_album_songs
+  .song_album_songs{:style=>'border:1px grey dotted;overflow:auto;height:50px;'}
+    - @song_album.songs.each do |song|
+      - unless song.new_record?
         = "#{song.song_file_name}(#{number_to_human_size(song.song_file_size)})"
-      %br
+        %br
   = form_for @song_album, :url => {:action => 'update_song_album' , :id => @song_album.id, :band_name => @song_album.band.name}, :html => {:multipart => true, :remote => true } do |f|
     Album Name:
     = f.text_field :album_name
@@ -22,14 +23,14 @@
     %br
     = f.fields_for :songs do |song_field|
       - if song_field.object.new_record?
-        Upload Song: 
+        Upload Song:
         = song_field.file_field :song
         %br
       - else
-        %div{:style => 'display:none;'} 
-          - song_field.file_field :song   
-    = f.submit "Save", :disable_with => 'Saving...', :class => 'button blue' 
-$('.primary .left').html('#{escape_javascript song_album_songs}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('div').removeClass('active');
-$('#musicbox .selection-box').addClass('active');     
+        %div{:style => 'display:none;'}
+          - song_field.file_field :song
+    = f.submit "Save", :disable_with => 'Saving...', :class => 'button blue'
+!= "jQuery.facebox('#{escape_javascript song_album_songs}');"
+!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"
+- if @is_updated
+  != "$('.primary .left #song_album_#{@song_album.id}').replaceWith('#{escape_javascript(render 'band_song_album', :song_album => @song_album)}');"
