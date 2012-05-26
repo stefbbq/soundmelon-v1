@@ -3,5 +3,5 @@
   = render "messages/message", :messages => messages, :band =>band
 .clear
 - unless @load_more_path.nil?
-  .readmore
+  .read-more
     = link_to "Read more", @load_more_path , :remote => true, :class=>"ajaxload" 

@@ -21,30 +21,8 @@
     > div, a {
       margin-bottom: 8px;
     }
-
-    .selection-box-nohref {
-      @include default-button-nohref;
-      padding: 15px 0px 5px 8px;
-      width: $right-button-width;
-      clear: both;
-      display: block ;
-      font-size: $right-item-font-size;
-
-      &:hover {
-        text-decoration: none;
-      }
-
-      .small-font{
-        font-size: 10px;
-      }
-      .count {
-        color: white;
-        font-weight: bold;
-        font-style: italic;
-      }
-    }
-
-    //selection
+		
+   	//selection
     .selection-box {
       @include default-button;
       padding: 15px 0px 5px 8px;
@@ -65,6 +43,10 @@
         font-weight: bold;
         font-style: italic;
       }
+    }
+    .selection-box-nohref {
+      @include default-button-nohref;
+      @extend .selecton-box
     }
 
     //active

@@ -6,7 +6,7 @@
   .bulletin-posts{:style=>'margin-bottom:25px;'}
     = render 'user_posts/post_aggregate', :posts => @bulletins
   -if !@load_more_bulletins_path.nil?
-    .readmore#bulletin-readmore
+    .read-more#bulletin-readmore
       =link_to("read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
 - else
   .bulletin-posts{:style=>'margin-bottom:25px;'}
@@ -21,5 +21,5 @@
     = render 'user_posts/post_aggregate', :posts => posts
     .clear
 -if !@load_more_path.nil?
-  .readmore
+  .read-more
     = link_to('read more', @load_more_path, :remote=>true, :class=>'ajaxload')    

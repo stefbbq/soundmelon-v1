@@ -4,7 +4,7 @@
 
 //oontrol styles
 @mixin default-button {
-	@include linear-gradient(#393939, #313131);
+	@include linear-gradient(#444444, #373737);
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
 	@include border-radius($detail-border-radius);
 	border: none;

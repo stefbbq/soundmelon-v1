@@ -108,7 +108,6 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
         i:     "<%= song.id %>",
         title: "<%= song.song_name_without_extension  %>",
         mp3:   "<%= song.song_mp3  %>",
-        ogg:   "<%= song.song_ogg  %>",
         band:  "<%= song_detail[:band]  %>",
         album: "<%= song_detail[:album]  %>",
         image: '<%= get_album_cover_image(song.song_album) %>',

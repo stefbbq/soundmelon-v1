@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120504115605) do
+ActiveRecord::Schema.define(:version => 20120525044624) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -108,6 +108,22 @@ ActiveRecord::Schema.define(:version => 20120504115605) do
     t.integer "band_id",  :null => false
     t.integer "genre_id", :null => false
   end
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "follows", :force => true do |t|
     t.integer  "followable_id",                      :null => false
@@ -277,6 +293,14 @@ ActiveRecord::Schema.define(:version => 20120504115605) do
     t.integer  "total_played",      :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_processed",      :default => false
+    t.string   "file_name"
+    t.string   "title"
+    t.string   "album"
+    t.string   "artist"
+    t.string   "genre"
+    t.string   "track"
+    t.date     "year"
   end
 
   create_table "tour_posts", :force => true do |t|
