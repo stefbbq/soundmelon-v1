@@ -142,6 +142,14 @@ class Band < ActiveRecord::Base
   def limited_band_tours(n=Constant::TOUR_DATE_SHOW_LIMIT)
     self.band_tours.order('created_at desc').limit(n)
   end
+
+  def self.find_band condition_params
+    Band.where(:name => condition_params[:band_name]).first
+  end
+
+  def self.find_band_and_members condition_params
+    Band.where(:name => condition_params[:band_name]).includes(:band_members).first
+  end
   
   protected
 

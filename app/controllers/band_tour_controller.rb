@@ -91,6 +91,8 @@ class BandTourController < ApplicationController
       @is_admin_of_band = current_user.is_member_of_band?(@band)
       @band_tour        = BandTour.find(params[:band_tour_id])
       @status           = true
+      @band_tours       = [@band_tour]
+      render :template =>"/band_tour/band_tours" and return
     rescue
       @status = false
       render :nothing => true and return

@@ -1,6 +1,7 @@
 - if fan_count >0
-  = link_to band_fans_path(:band_name => band.name), {:remote =>:true, :class =>'ajaxopen backable selection-box'} do
-    = pluralize(fan_count, 'fan')
+  = link_to band_followers_path(:band_name => band.name), {:remote =>:true, :class =>'ajaxopen backable selection-box'} do
+    %span.count
+      = pluralize(fan_count, 'fan')
 - else
   .selection-box-nohref
     %span.count

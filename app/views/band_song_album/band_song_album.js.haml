@@ -1,8 +1,0 @@
-- song_album = @song_album || song_album
-- song_album_html = capture do
-  = render 'band_song_album', :song_album =>song_album
-
-$('.primary .left').html('#{escape_javascript song_album_html}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.active').removeClass('active').removeClass('button-fill-artist');
-$('#musicbox .selection-box').addClass('active').addClass('button-fill-artist');

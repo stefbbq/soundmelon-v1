@@ -1,6 +1,6 @@
 class UserConnectionsController < ApplicationController
   before_filter :require_login
-  
+
   def follow
     if request.xhr?
       begin
@@ -10,7 +10,7 @@ class UserConnectionsController < ApplicationController
           format.js and return
         end
       rescue
-         render :nothing => true and return   
+        render :nothing => true and return
       end
     else
       redirect_to fan_home_url and return
@@ -27,73 +27,106 @@ class UserConnectionsController < ApplicationController
           format.js and return
         end
       rescue
-         render :nothing => true and return   
+        render :nothing => true and return
       end
     else
       redirect_to fan_home_url and return
     end
   end
-  
-  def followers
+
+  def follow_band
     if request.xhr?
       begin
-        if params[:id]
-          user = User.find(params[:id])
-          @followers = user.user_followers.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-        else  
-          @followers = current_user.user_followers.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-        end
-        respond_to do |format|
-          format.js and return
-        end
-      rescue 
-       render :nothing => true and return
-      end    
+        @band       = Band.find_band(params)
+        current_user.follow(@band) unless current_user.following?(@band)
+      rescue
+        render :nothing => true and return
+      end
     else
-      redirect_to fan_home_url and return
+      redirect_to show_band_url(:band_name => params[:band_name]) and return
     end
   end
-  
-  def following
-    logger.debug ">>> in action: following, userConnections"
+
+  def unfollow_band
     if request.xhr?
       begin
-        if params[:id]
-          user = User.find(params[:id])
-          @following = user.following_users.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-        else
-          @current_user_following = true
-          @following = current_user.following_users.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-        end
-        respond_to do |format|
-          format.js and return
-        end
-      rescue 
-       render :nothing => true and return
-      end    
+        @band       = Band.find_band(params)
+        current_user.stop_following(@band)  if current_user.following?(@band)
+      rescue
+        render :nothing => true and return
+      end
     else
-      redirect_to fan_home_url and return
+      redirect_to show_band_url(:band_name => params[:band_name]) and return
     end
   end
+
+  def band_followers    
+    begin
+      if params[:band_name]   # band item
+        @band        = Band.find_band params
+        #          @followers  = band.user_followers.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
+        @followers   = @band.followers
+      end
+      respond_to do |format|
+        format.js and return
+        format.html and return
+      end
+    rescue =>exp
+      logger.error "Error in UserConnections#Followers : #{exp.message}"
+      render :nothing => true and return
+    end
+  end
+
+  def fan_followers    
+    begin
+      if params[:id]
+        @user            = User.find(params[:id])
+        @followers       = @user.user_followers.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
+      else
+        @user            = current_user
+        @followers       = @user.user_followers.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
+      end
+      respond_to do |format|
+        format.js and return
+        format.html and return
+      end
+    rescue =>exp
+      logger.error "Error in UserConnections#FanFollowers : #{exp.message}"
+      render :nothing => true and return
+    end
+  end
+
+  def fan_following_artists    
+    begin
+      if params[:id]
+        @user                = User.find(params[:id])
+        @following_artists   = @user.following_bands.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
+      end
+      respond_to do |format|
+        format.js and return
+        format.html and return
+      end
+    rescue =>exp
+      logger.error "Error in UserConnections#FanFollowingArtists : #{exp.message}"
+      render :nothing => true and return
+    end    
+  end
+
+  def fan_following_fans    
+    begin
+      if params[:id]
+        @user           = User.find(params[:id])
+        #          @following_fans = user.following_fans.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
+        @following_fans = @user.following_users.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
+      end
+      respond_to do |format|
+        format.js and return
+        format.html and return
+      end
+    rescue => exp
+      logger.error "Error in UserConnections#FanFollowingFans : #{exp.message}"
+      render :nothing => true and return
+    end
+  end  
   
-  def following_artists
-    if request.xhr?
-      begin
-        if params[:id]
-          user = User.find(params[:id])
-          @following_artists = user.following_bands.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-        else          
-          @current_user_following = true
-          @following_artists = current_user.following_bands.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-        end
-        respond_to do |format|
-          format.js and return
-        end
-      rescue 
-       render :nothing => true and return
-      end    
-    else
-      redirect_to fan_home_url and return
-    end
-  end
 end

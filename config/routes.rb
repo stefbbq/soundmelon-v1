@@ -9,30 +9,29 @@ Soundmelon::Application.routes.draw do
   get 'logout'                                => 'sessions#destroy',  :as => :logout
   post 'login'                                => 'sessions#create',   :as => :login
 
-  #users (fans and artists alike)
-  get 'followuser/:id'                        => 'user_connections#follow',     :as => :follow_user
-  get 'unfollowuser/:id'                      => 'user_connections#unfollow',   :as => :unfollow_user
-    
   #fan
   get 'home'                                  => 'fan#index',                   :as => :fan_home #home
   get 'home/post/:id/threads'                 => 'user_posts#post_threads',     :as => :get_post_threads #posts
   get 'home/mentions'                         => 'user_posts#mentioned',        :as => :mentioned #mentions
   get 'home/replies'                          => 'user_posts#replies',          :as => :replies #replies
   match 'home/messages'                       => 'messages#inbox',              :as => :user_inbox #messages
-  get 'home/(:id)/followers'                  => 'user_connections#followers',  :as => :fan_followers
-  get 'home/(:id)/following'                  => 'user_connections#following',  :as => :fan_following
-  get 'home/(:id)/following/artists'          => 'user_connections#following_artists', :as => :fan_following_artists
+
+  #-------------------------------------------- followings, followers, follower bands, follower fans ---------------
+  get 'home/:id/followers'                    => 'user_connections#fan_followers',          :as => :fan_followers
+  get 'artist/followers/:band_name'           => 'user_connections#band_followers',         :as => :band_followers
+  get 'fan/following/fans/:id'                => 'user_connections#fan_following_fans',     :as => :fan_following_fans # id: following items
+  get 'fan/following/artists/:id'             => 'user_connections#fan_following_artists',  :as => :fan_following_artists # id: following items
   
   #fan functions
   get 'artist/bands'                          => 'artist#pull',               :as => :associated_band
   get 'artist/new/band'                       => 'artist#new',                :as => :new_band
   post 'artist/create/band'                   => 'artist#create',             :as => :create_band
   match 'home/manage'                         => 'fan_public#manage_profile', :as => :manage_profile #manage session profile
-  
-  
+    
   #fan public
   match 'fan/(:id)'                           => 'fan_public#index',          :as => :fan_profile
   match 'fan/posts/:id'                       => 'fan_public#latest_posts',   :as => :fan_latest_post
+  
   #artist
   get 'home/artist/:band_name'                => 'artist#index',                    :as => :manage_band
   get 'edit/band/:band_name'                  => 'artist#edit',                     :as => :edit_band
@@ -71,8 +70,7 @@ Soundmelon::Application.routes.draw do
   match '(:type)/posts/more/:page'            =>'user_posts#index',       :as => :more_post
   match 'user/:id/posts/more/:page'           =>'user_posts#index',       :as => :user_more_post
   match ':band_name/bulletins/more/:page'     =>'user_posts#more_bulletins',  :as => :band_more_bulletins
-  match ':band_name/(:type)/posts/more/:page' =>'user_posts#more_posts',      :as => :band_more_posts
-  get ':band_name/fans'                       =>'artist_public#fans',     :as => :band_fans
+  match ':band_name/(:type)/posts/more/:page' =>'user_posts#more_posts',      :as => :band_more_posts  
 
   match 'update/basic/profile'          => 'fan_public#update_basic_info',      :as => 'update_basic_info'
   match 'update/additional/info'        => 'fan_public#update_additional_info', :as => 'update_additional_info'
@@ -104,14 +102,14 @@ Soundmelon::Application.routes.draw do
   #get 'fan/sign_up/message' => 'users#fan_signup_sucessful_info', :as => successful_fan_signup
   #get 'musician/sign_up/message' => 'users#musician_signup_sucessful_info', :as => successful_musician_signup
 
-  # Band Tours
-  get ':band_name/tour/new'                       => 'band_tour#new',             :as => 'new_band_tour'
-  get ':band_name/tours'                          => 'band_tour#band_tours',      :as => 'band_tours'
-  get ':band_name/:band_tour_id/tour'             => 'band_tour#band_tour',       :as => 'band_tour'
-  get ':band_name/:band_tour_id/tourdetail'       => 'band_tour#band_tour_detail',:as => 'band_tour_detail'
-  get ':band_name/tourchange/:band_tour_id'       => 'band_tour#edit',            :as => 'edit_band_tour'
-  get ':band_name/tourlike/:band_tour_id'         => 'band_tour#like_dislike_band_tour', :as => 'like_dislike_band_tour'
-  match ':band_name/tourremove/:band_tour_id'     => 'band_tour#destroy_tour',    :as => 'delete_band_tour'
+  # Band Shows
+  get ':band_name/show/new'                       => 'band_tour#new',             :as => 'new_band_tour'
+  get ':band_name/shows'                          => 'band_tour#band_tours',      :as => 'band_tours'
+  get ':band_name/:band_tour_id/show'             => 'band_tour#band_tour',       :as => 'band_tour'
+  get ':band_name/:band_tour_id/showdetail'       => 'band_tour#band_tour_detail',:as => 'band_tour_detail'
+  get ':band_name/showchange/:band_tour_id'       => 'band_tour#edit',            :as => 'edit_band_tour'
+  get ':band_name/showlike/:band_tour_id'         => 'band_tour#like_dislike_band_tour', :as => 'like_dislike_band_tour'
+  match ':band_name/showremove/:band_tour_id'     => 'band_tour#destroy_tour',    :as => 'delete_band_tour'
 
   resources :album_photos
   get ':band_name/album/new'                      => 'band_photos#new',         :as => 'new_band_album'
@@ -143,10 +141,20 @@ Soundmelon::Application.routes.draw do
   get ':song_name/:id/dislike'                    => 'band_song_album#do_dislike_song',   :as => :dislike_song
   root :to => 'home#index'
 
-  #--------------------------------------------ArtistPublic----------------------------------------------------
-  #follow band
-  get 'follow/:band_name'                 => 'artist_public#follow_band',                :as => :follow_band
-  get 'unfollow/:band_name'               => 'artist_public#unfollow_band',              :as => :unfollow_band
+  
+  #--------------------------------------------UserConnections----------------------------------------------------
+  # follow/un-follow band
+  get 'follow/artist/:band_name'          => 'user_connections#follow_band',             :as => :follow_band
+  get 'unfollow/artist/:band_name'        => 'user_connections#unfollow_band',           :as => :unfollow_band
+  
+  # follow/un-follow fan
+  get 'follow/fan/:id'                    => 'user_connections#follow',                  :as => :follow_user
+  get 'unfollow/fan/:id'                  => 'user_connections#unfollow',                :as => :unfollow_user
+  #---------------------------------------------------------------------------------------------------------------
+  #--------------------------------------------ArtistPublic-------------------------------------------------------
+#  #follow band
+#  get 'follow/:band_name'                 => 'artist_public#follow_band',                :as => :follow_band
+#  get 'unfollow/:band_name'               => 'artist_public#unfollow_band',              :as => :unfollow_band
   #message band
   get ':band_name/message/new'            => 'artist_public#new_message',                :as => :band_new_message
   match ':band_name/message/create'       => 'artist_public#send_message',               :as => :band_send_message

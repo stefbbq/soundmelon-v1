@@ -23,19 +23,16 @@ class ArtistPublicController < ApplicationController
     end
   end
 
-  def members
-    if request.xhr?
-      begin
-        @band         = Band.where(:name => params[:band_name]).includes(:band_members).first
-        @band_members = @band.band_members
-        respond_to do |format|
-          format.js
-        end
-      rescue
-        render :nothing => true and return
+  def members    
+    begin
+      @band         = Band.where(:name => params[:band_name]).includes(:band_members).first
+      @band_members = @band.band_members
+      respond_to do |format|
+        format.js
+        format.html
       end
-    else
-      redirect_to show_band_url(:band_name => params[:band_name]) and return
+    rescue
+      render :nothing => true and return
     end
   end
 
@@ -70,33 +67,6 @@ class ArtistPublicController < ApplicationController
     end
   end
 
-
-  def follow_band
-    if request.xhr?
-      begin
-        @band = Band.where(:name => params[:band_name]).first
-        current_user.follow(@band) unless current_user.following?(@band)
-      rescue
-        render :nothing => true and return
-      end
-    else
-      redirect_to show_band_url(:band_name => params[:band_name]) and return
-    end
-  end
-
-  def unfollow_band
-    if request.xhr?
-      begin
-        @band = Band.where(:name => params[:band_name]).first
-        current_user.stop_following(@band)  if current_user.following?(@band)
-      rescue
-        render :nothing => true and return
-      end
-    else
-      redirect_to show_band_url(:band_name => params[:band_name]) and return
-    end
-  end
-
   def send_message
     if request.xhr?
       begin
@@ -125,14 +95,5 @@ class ArtistPublicController < ApplicationController
       redirect_to root_url and return
     end
   end
-
-  def fans
-    if request.xhr?
-      band        = Band.where(:name => params[:band_name]).first
-      @band_fans  = band.user_followers
-    else
-      redirect_to show_band_url(:band_name => params[:band_name])
-    end
-  end
-
+  
 end

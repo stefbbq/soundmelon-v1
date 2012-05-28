@@ -20,12 +20,12 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
       </div>
     </div>
     <div class="info">
-      <%= get_album_cover_image(first_album) if first_album %>      
+      <%= get_album_cover_image(first_album) if first_album %>
       <span class="song-title"></span>
       <span class="artist-title"></span>
       <div class="jp-progress"><div class="jp-seek-bar"><div class="jp-play-bar"></div></div></div>      
       <div class="jp-additional">
-        <a href="javascript:;" class="jp-rep" title="Show/Hide Playlist" onclick="$('div#jp-playlist').toggle();">p</a>
+        <a href="javascript:;" class="jp-rep" title="Show/Hide Playlist">p</a>
         <a href="javascript:;" class="jp-like" title="Like Song" id="alike" onclick="doLike();">l</a></li>
       </div>
     </div>
@@ -35,86 +35,97 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
 
 <script type="text/javascript">  
   //<![CDATA[
-  var currentTrack = 0;
-  var player       = $("#sm_jplayer");
-  $(document).ready(function(){    
-    makePlayList();
-    player.jPlayer({
-      ready: function (event) {playListStart();},      
-      ended:function(event){playListNext();},      
-      swfPath: "../js",supplied: "m4a,mp3",wmode: "window"
-    });
+var currentTrack = 0;
+var player       = $("#sm_jplayer");
+$(document).ready(function(){
+  makePlayList();
+  player.jPlayer({
+    ready: function (event) {playListStart();},
+    ended:function(event){playListNext();},
+    swfPath: "../js",supplied: "m4a,mp3",wmode: "window"
   });
-  $(".jp-pre").click(function() { playListPrev(); }); // Listen for Previous Track button click
-  $(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click
+});
+$(".jp-pre").click(function() { playListPrev(); }); // Listen for Previous Track button click
+$(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click
   
-  function playListStart(){if(playList.length>0){
-      playListChange(0, 0);
-    }
+function playListStart(){if(playList.length>0){
+    playListChange(0, 0);
   }
-  function updateTrackInfo(b,t,n,i,l){
-    $('.info .song-title').html(t);
-    $('.info .artist-title').html(b);    
-    //$('.track_info h4').html(n=='' ? '' : '<span>next</span>' + n);
-    $('.info .img').html(i);
-    $('a#alike').html(l);
-  }
+}
+function updateTrackInfo(b,t,n,i,l){
+var url       = '<%= request.base_url %>/' + b;
+var band_html = "<a href='" + url + "' class='ajaxopen backable' data-remote='true'>" + b +"</a>";
+$('.info .artist-title').html(band_html);
+$('.info .song-title').html(t);
+$('.info .img').html(i);
+$('a#alike').html(l);
+}
 
-  // Switch track
-  function playListChange(index,play) {
-    currentTrack = index;    
-    var item     = playList[currentTrack];
-    var next     = (currentTrack + 1 < playList.length) ? currentTrack + 1 : 0;
-    updateTrackInfo(item.band, item.title, next==0 ? '' : playList[next].title, item.image, item.like ? 'liked' : 'like')
-    if(play==1)
-      player.jPlayer("setMedia", { m4a:item.mp3, ogg:item.ogg}).jPlayer('play');
-    else
-      player.jPlayer("setMedia", { m4a:item.mp3, ogg:item.ogg});
-  }
+// Switch track
+function playListChange(index,play) {
+currentTrack = index;
+var item     = playList[currentTrack];
+var next     = (currentTrack + 1 < playList.length) ? currentTrack + 1 : 0;
+updateTrackInfo(item.band, item.title, next==0 ? '' : playList[next].title, item.image, item.like ? 'liked' : 'like')
+if(play==1)
+player.jPlayer("setMedia", { m4a:item.mp3, ogg:item.ogg}).jPlayer('play');
+else
+player.jPlayer("setMedia", { m4a:item.mp3, ogg:item.ogg});
+}
 
-  // Play next track. If already on last track, start back at the begining
-  function playListNext() { playListChange((currentTrack + 1 < playList.length) ? currentTrack + 1 : 0, 1);}
+// Play next track. If already on last track, start back at the begining
+function playListNext() { playListChange((currentTrack + 1 < playList.length) ? currentTrack + 1 : 0, 1);}
 
-  // Play previous track. If already on first track, start back at the end
-  function playListPrev() { playListChange((currentTrack - 1 >= 0) ? currentTrack - 1 : playList.length-1, 1);}
+// Play previous track. If already on first track, start back at the end
+function playListPrev() { playListChange((currentTrack - 1 >= 0) ? currentTrack - 1 : playList.length-1, 1);}
   
-  function play_music(song_title, song){
-    player.jPlayer("setMedia", { m4a:song, ogg:item.ogg }).jPlayer('play');
-  }
+function play_music(song_title, song){
+player.jPlayer("setMedia", { m4a:song, ogg:item.ogg }).jPlayer('play');
+}
   
-  function makePlayList(){        
-    if(playList.length >0){
-      var liHtml='';      
-      for(var i=0;i<playList.length;i++){liHtml+='<li><a href="javascript:void(0);" onclick="playListChange(' + i + ');">' + playList[i]['title'] + '</a><a class="play_list_close" href="javascript:void(0);" onclick="removeListItem(' + i + ');">Close</a><a class="play_list_next" href="javascript:void(0);" onclick="playListChange(' + i + ',1);">play</a></li>';}      
-      $('.jp-playlist ul').html(liHtml);      
-    }
-    else{player.jPlayer('stop');$('.jp-playlist ul').html('<li>Playlist is empty</li>');}
-  }
+function makePlayList(){
+if(playList.length >0){
+var liHtml='';
+for(var i=0;i<playList.length;i++){liHtml+='<li><a href="javascript:void(0);" onclick="playListChange(' + i + ');">' + playList[i]['title'] + '</a><a class="play_list_close" href="javascript:void(0);" onclick="removeListItem(' + i + ');">Close</a><a class="play_list_next" href="javascript:void(0);" onclick="playListChange(' + i + ',1);">play</a></li>';}
+$('.jp-playlist ul').html(liHtml);
+}
+else{player.jPlayer('stop');$('.jp-playlist ul').html('<li>Playlist is empty</li>');}
+}
   
-  function removeListItem(index){if(currentTrack == index){player.jPlayer('stop');}playList.pop(index);makePlayList();}
+function removeListItem(index){if(currentTrack == index){player.jPlayer('stop');}playList.pop(index);makePlayList();}
   
-  function doLike(){
-    var item = playList[currentTrack];
-    var url =  '<%= request.base_url %>/' + item.title + "/" + item.i + '/like';
-    $.ajax({type: 'get',url: url, success:function(data){item.like=true;$('a#alike').html('liked');}});
-  }
+function doLike(){
+var item = playList[currentTrack];
+var url =  '<%= request.base_url %>/' + item.title + "/" + item.i + '/like';
+$.ajax({type: 'get',url: url, success:function(data){item.like=true;$('a#alike').html('liked');}});
+}
 
-  var playList = [
+$("a.jp-rep").click(function() {
+$('.jp-playlist').focus().show();
+});
+$("body").click(function(e) {
+var target = e.target;
+if(!($(target).is('.jp-playlist *') || target.className=='jp-rep' || target.className=='jp-playlist'))
+$(".jp-playlist").hide();
+});
+
+var playList = [
 <% for i in 0..@song_items.size-1
   song          = @song_items[i]
   song_detail   = song.song_detail
 %>
-      {
-        i:     "<%= song.id %>",
-        title: "<%= song.song_name_without_extension  %>",
-        mp3:   "<%= song.song_mp3  %>",
-        band:  "<%= song_detail[:band]  %>",
-        album: "<%= song_detail[:album]  %>",
-        image: '<%= get_album_cover_image(song.song_album) %>',
-        like: <%= song.voted_on_by? current_user %>
-      }
+  {
+  i:     "<%= song.id %>",
+  title: "<%= song.title %>",
+  mp3:   "<%= song.song_mp3  %>",
+  ogg:   "<%= song.song_ogg  %>",
+  band:  "<%= song_detail[:band]  %>",
+  album: "<%= song_detail[:album]  %>",
+  image: '<%= get_album_cover_image(song.song_album) %>',
+  like: <%= song.voted_on_by? current_user %>
+  }
   <%= ","  unless i >= @song_items.size-1 %>
 <% end %>
-  ];
-  //]]>
+];
+//]]>
 </script>
