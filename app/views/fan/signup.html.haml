@@ -1,7 +1,7 @@
 .primary-container
   .primary
     .splash-content
-      - if @user.email
+      - if @user.email        
         = form_for :user, :url=>fan_registration_path do |f|
           .blankbox
             %br/

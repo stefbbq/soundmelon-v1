@@ -1,4 +1,4 @@
-- tabs      = [:latest_post, :music, :photo, :tour, :member, :fan]
+- tabs      = [:latest_post, :music, :photo, :tour, :member, :fan, :manage_profile, :invite_bandmate]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 .items
   = link_to 'news feed & messages', 
@@ -28,6 +28,7 @@
             :artist_count       => @band_artist_count,
             :band_artists       => @band_artists,
             :band               => @band,
+            :is_admin           => true,
             :selected           => 4 == current
   = render '/bricks/rb_fan',
             :fan_count          => @band_fan_count,
@@ -36,7 +37,7 @@
             :selected           => 5 == current
   .divider
   = link_to 'manage your profile' ,
-            edit_band_path(:band_name => @band.name),
+            edit_band_path(:band_name => @band.name, :id =>@band.id),
             :remote             => true,
             :id                 => 'manage_profile',
             :class              => 6 == current ?  'ajaxopen selection-box backable button-fill-artist' : 'ajaxopen selection-box backable'

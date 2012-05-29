@@ -34,24 +34,24 @@ Soundmelon::Application.routes.draw do
   
   #artist
   get 'home/artist/:band_name'                => 'artist#index',                    :as => :manage_band
-  get 'edit/band/:band_name'                  => 'artist#edit',                     :as => :edit_band
+  get 'edit/artist/:band_name/:id'            => 'artist#edit',                     :as => :edit_band
   match 'update/band/:id'                     => 'artist#update',                   :as => :update_band
-  get ':band_name/bandmates/inivtation'       => 'artist#invite_bandmates',         :as =>  :bandmates_invitation
+  get ':band_name/bandmates/invitation'       => 'artist#invite_bandmates',         :as => :bandmates_invitation
   get ':band_name/social'                     => 'artist#social',                   :as => :band_social
   get ':band_name/store'                      => 'artist#store',                    :as => :band_store
   match ':band_name/bandmates/send/inviation' => 'artist#send_bandmates_invitation',:as => :send_bandmates_invitation
 
   get "profile/additional_info"    
   
-  match 'registration/(:invitation_token)'    => 'fan#fan_new',                     :as => :fan_registration
+  match 'registration/(:invitation_token)'    => 'fan#signup',                      :as => :fan_registration
   match 'musician/registration'               => 'fan#musician_new',                :as => :musician_registration
   get 'users/:id/activate'                    => 'fan#activate',                    :as => :user_activation
   get 'user/reset/password'                   => 'password_resets#index',           :as => :password_reset
-  post 'add/additional_info'                  => 'fan#add_additional_info',  :as => :create_additional_info
-  post 'add/payment_info'                     => 'fan#add_payment_info',     :as => :create_payment_info
-  match "invite/bandmates"                    => "fan#invite_bandmates" ,    :as => :invite_band_member
+  post 'add/additional_info'                  => 'fan#add_additional_info',         :as => :create_additional_info
+  post 'add/payment_info'                     => 'fan#add_payment_info',            :as => :create_payment_info
+  match "invite/bandmates"                    => "fan#invite_bandmates" ,           :as => :invite_band_member
   #get "invite/accept/:id/join" => "profile#activate_invitation" ,:as => "join_band_invitation"
-  match 'invitation/accept/:old_user/:id/join'=> 'fan#activate_invitation' , :as => :join_band_invitation
+  match 'invitation/accept/:old_user/:id/join'=> 'fan#activate_invitation' ,        :as => :join_band_invitation
   match "messages/sendmessage"                => 'messages#send_message',           :as=>:send_message
 
   get ':band_name/messages/inbox'             => 'messages#inbox' ,                 :as => :band_inbox

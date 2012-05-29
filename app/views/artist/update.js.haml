@@ -1,7 +1,8 @@
 alert('Band Details Successfully Updated.');
-$('#error_explanation').html('');
-$('#error_explanation').hide();
-//$('.band-form').hide();
-//$('#update-msg').html('Band Successfully Updated. This page will be now reloaded!');
+$('.live').replaceWith('#{escape_javascript(render 'live')}');
+$('.primary .right').html('#{escape_javascript(render 'right')}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-//window.setTimeout('location.reload()', 3000);
+$('.selection-box').removeClass('active').removeClass('button-fill-artist');
+$('#feed-msg').addClass('active').addClass('button-fill-artist');
+$('.left a').removeClass('active').removeClass('button-fill-artist');
+$('#latest').addClass('active').addClass('button-fill-artist');

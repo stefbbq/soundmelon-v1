@@ -10,7 +10,7 @@ class HomeController < ApplicationController
         @user.email               = @user.invitation.recipient_email
         @user.email_confirmation  = @user.invitation.recipient_email
       end      
-      render '/fan/fan_new'
+      render :template =>'/fan/signup'
     end
   end
   

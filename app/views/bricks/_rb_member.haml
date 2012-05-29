@@ -1,23 +1,25 @@
-- selected    ||=false
-- link_class  = selected ? 'selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
--if artist_count >0
-  = link_to band_members_path(:band_name => band.name), {:remote=>:true, :id=>"members", :class=>link_class} do
-    members
-    %span.count
-      = pluralize(artist_count, 'artist')
-    - unless artist_count < Constant::BAND_MEMBER_SHOW_LIMIT
-      %br
-      =  link_to "see all", band_members_path(:band_name => band.name), :remoe=>:true, :class=>"small-font ajaxopen backable"
--else
-  .selection-box-nohref
-    members
-    %span.count
-      0 artist
-.collection
-  %div
-    - if artist_count >0
-      - band_artists.each do |band_artist|
-        .avatar
-          =link_to get_avatar_small(band_artist), fan_profile_path(band_artist), :class =>'ajaxopen backable', :remote =>true
-    - else
-      .message= Constant::NO_BAND_ARTIST_MESSAGE
+- is_admin ||=false
+-if band.is_member_public? || is_admin
+  - selected    ||=false
+  - link_class  = selected ? 'selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
+  -if artist_count >0
+    = link_to band_members_path(:band_name => band.name), {:remote=>:true, :id=>"members", :class=>link_class} do
+      members
+      %span.count
+        = pluralize(artist_count, 'artist')
+      - unless artist_count < Constant::BAND_MEMBER_SHOW_LIMIT
+        %br
+        =  link_to "see all", band_members_path(:band_name => band.name), :remoe=>:true, :class=>"small-font ajaxopen backable"
+  -else
+    .selection-box-nohref
+      members
+      %span.count
+        0 artist
+  .collection
+    %div
+      - if artist_count >0
+        - band_artists.each do |band_artist|
+          .avatar
+            =link_to get_avatar_small(band_artist), fan_profile_path(band_artist), :class =>'ajaxopen backable', :remote =>true
+      - else
+        .message= Constant::NO_BAND_ARTIST_MESSAGE

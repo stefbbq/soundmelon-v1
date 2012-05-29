@@ -1,9 +1,12 @@
 .fields
-  %label{:for => "name"} band name
+  %label{:for => "name"} artist name
   = f.text_field :name, :class => 'textfield'
 .fields
-  %label{:for => "name"} band mention name
+  %label{:for => "name"} artist mention name
   = f.text_field :mention_name, :class => 'textfield'
+.fields
+  %label{:for => "name"} show artist members
+  = f.check_box :is_member_public, :class => 'textfield'
 .fields
   %label{:for => "name"} Location
   = f.text_field :location, :class => 'textfield'
@@ -23,7 +26,7 @@
   %label{:for => "name"} Twitter Page
   = f.text_field :twitter_page, :class => 'textfield'
 .fields
-  %label{:for => "name"} Upload New Band Logo:
+  %label{:for => "name"} Upload New Artist Logo:
   = f.file_field :logo, :class => 'file-field'
 .fields
   = f.submit 'Update', :class => 'button right'

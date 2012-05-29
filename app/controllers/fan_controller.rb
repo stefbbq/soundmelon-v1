@@ -1,5 +1,5 @@
 class FanController < ApplicationController
-  before_filter :require_login, :except => [:fan_new, :musician_new, :activate, :new]
+  before_filter :require_login, :except => [:signup, :musician_new, :activate, :new]
   before_filter :logged_in_user, :only  => [:musician_new, :activate]
 
   def index    
@@ -16,7 +16,7 @@ class FanController < ApplicationController
     get_user_associated_objects
   end
 
-  def fan_new
+  def signup
     if current_user
       redirect_to fan_home_path
     else
@@ -38,7 +38,7 @@ class FanController < ApplicationController
           render 'signup_success' and return
           #redirect_to successful_fan_signup_url, :notice => "Signed up successfully! "
         else
-          render :template =>'/fan/fan_new'
+          render :template =>'/fan/splash'
         end
       else
         @user       = User.new(:invitation_token => params[:invitation_token])

@@ -4,7 +4,7 @@
   = link_to 'news feed & messages',fan_home_path,
               :id                     =>'feed-msg',
               :remote                 => true,
-              :class                  => 0 == current ? 'button-fill-fan selection-box iconactive ajaxload active backable' : 'selection-box iconactive ajaxload active backable'
+              :class                  => 0 == current ? 'button-fill-fan selection-box iconactive ajaxload active backable' : 'selection-box iconactive ajaxload iconactive backable'
   = render '/bricks/rb_following_artist',
               :following_artists      => @following_artists,
               :following_artist_count => @following_artist_count,
@@ -24,10 +24,10 @@
   = link_to 'manage your profile', manage_profile_path,
             :id                       =>'manage-profile',
             :remote                   => true,
-            :class                    => 4 == current ? 'button-fill-artist selection-box ajaxopen backable' : 'selection-box ajaxopen backable'
+            :class                    => 4 == current ? 'button-fill-fan selection-box ajaxopen backable' : 'selection-box ajaxopen backable'
   = link_to 'access artist profile', associated_band_path, 
             :id                       =>'access-artist',
             :remote                   => true,
-            :class                    => 5 == current ? 'button-fill-artist selection-box ajaxopen backable' : 'selection-box ajaxopen backable'
+            :class                    => 5 == current ? 'button-fill-fan selection-box ajaxopen backable' : 'selection-box ajaxopen backable'
   = link_to 'invite friends', new_invitation_path, :id=>'invite-friends', :remote => true, :class => 'selection-box ajaxopen'
 .fader
