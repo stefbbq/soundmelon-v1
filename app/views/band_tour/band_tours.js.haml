@@ -5,13 +5,13 @@
       .add_new{:style=>'float:right;background-color:grey;height:20px;width:70px;padding-left:10px;'}
         = link_to "add show", new_band_tour_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
     %hr/
-  - if @band_tours.blank?
+  - if @band_shows.blank?
     Band has not set any shows!
   - else
-    - @band_tours.each do |band_tour|
+    - @band_shows.each do |band_tour|
       = render '/band_tour/band_tour', :band_tour =>band_tour
 
 $('.primary .left').html('#{escape_javascript band_tours} ');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.active').removeClass('active').removeClass('button-fill-artist');
-$('#tourbox .selection-box').addClass('active').addClass('button-fill-artist');
+$('.selection-box').removeClass('active').removeClass('button-fill-artist')
+$('#shows').addClass('active').addClass('button-fill-artist');

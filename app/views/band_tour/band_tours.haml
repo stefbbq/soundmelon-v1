@@ -1,11 +1,17 @@
-%h3 Band Shows
-- if @band_tours.blank?
-  Has not created band show yet.
-- else
-  - @band_tours.each do |band_album|
-    .album{:style=>"margin:2px; background:#363636;"}
-      .album_teaser_image{:style=>"width:80px;float:left;"}
-        = link_to image_tag(band_album.band_photos.first.image.url(:small)), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name)
-    .album_name{:style=>"float:right;"}
-      %h2= link_to "#{band_album.name}(#{pluralize(band_album.band_photos.count, 'photo')})", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name)
-    .clear
+= render :partial=>"/artist_public/live"
+.primary-container
+  .primary
+    .left
+      .album_list_header
+        %b Band Shows
+        - if @is_admin_of_band
+          .add_new{:style=>'float:right;background-color:grey;height:20px;width:70px;padding-left:10px;'}
+            = link_to "add show", new_band_tour_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
+        %hr/
+      - if @band_shows.blank?
+        Band has not set any shows!
+      - else
+        - @band_shows.each do |band_tour|
+          = render '/band_tour/band_tour', :band_tour =>band_tour
+    .right
+      = render "/artist_public/right", :current =>'tour'

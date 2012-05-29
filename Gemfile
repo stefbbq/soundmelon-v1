@@ -30,6 +30,7 @@ gem 'acts_as_follower' #https://github.com/tcocca/acts_as_follower
 
 gem 'delayed_job_active_record'
 gem 'daemons'
+gem 'rubyzip'
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -1,16 +1,8 @@
+- is_admin = can_admin?(@song_album.band,current_user)
 - show_album_songs = capture do
   - @song_album.songs.each do |song|
-    .song[song]
-      .song-title
-        = song.song_file_name
-      .song-controls 
-        = link_to image_tag('download-icon.png'), download_song_path(song, :song_name => song.song_name_without_extension)
-        = link_to image_tag('play-icon.png'), 'javascript:void(0);', :onclick =>"play_music('#{song.song_name_without_extension}','#{song.song}');"
-        = link_to image_tag('queue-icon.png'), add_to_playlist_path(song, :song_name => song.song_name_without_extension), :remote => true, :class => 'ajaxopen'
-        = link_to image_tag('buzz-icon.png'), song_buzz_path(song), :remote => true, :class => 'ajaxopen'
-      .clear
-    .clear
-  - if can_admin?(@song_album.band,current_user)
+    = render 'song_item', :song =>song, :accessible =>is_admin
+  - if is_admin
     .song
       .song-title
         = link_to image_tag("add.png"), edit_band_song_album_path(:band_name =>@song_album.band.name, :song_album_name => @song_album.album_name), :remote=>:true, :class=>"ajaxopen", :title =>"add new song"

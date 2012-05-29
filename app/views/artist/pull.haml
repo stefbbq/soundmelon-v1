@@ -1,0 +1,11 @@
+= render :partial=>"/fan/live"
+.primary-container
+  .primary
+    .left
+      - if @artists.blank?
+        You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_band_path, :class => 'ajaxopen', :remote => true}
+      - else
+        - @artists.each do |artist|
+          = render 'artist_item', :artist =>artist
+    .right
+      = render "/fan/right", :current =>'access_profile'

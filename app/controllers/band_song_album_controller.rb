@@ -1,25 +1,8 @@
+# Handling all the stuffs related to song and song albums
 class BandSongAlbumController < ApplicationController
   before_filter :require_login
-  
-  def index
-    # @photos = Photos.all
-  end
-  
-  #  def show
-  #    begin
-  #      @band = Band.where(:name => params[:band_name]).first
-  #      if current_user.is_member_of_band?(@band)
-  #        @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).first
-  #        @photo = BandPhoto.find(params[:id])
-  #        render :nothing => true and return unless @photo.band_album_id == @band_album.id
-  #      else
-  #        render :noting => true and return
-  #      end
-  #    rescue
-  #      render :nothing => true and return
-  #    end
-  #  end
 
+  # renders the form for new song album, :only =>ajax_request
   def new
     redirect_to  show_band_url(:band_name => params[:band_name]) and return unless request.xhr?
     @band = Band.where(:name => params[:band_name]).first
@@ -30,6 +13,7 @@ class BandSongAlbumController < ApplicationController
     end
   end
 
+  # creates the new song album
   def create
     begin
       @band = Band.where(:name => params[:band_name]).first
@@ -72,24 +56,24 @@ class BandSongAlbumController < ApplicationController
   def destroy   
   end
   
-  def band_song_albums
-    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+  def band_song_albums    
     begin
-      @band = Band.where(:name => params[:band_name]).first
-      @is_admin_of_band = current_user.is_member_of_band?(@band)
-      @song_albums = @band.song_albums.includes(:songs)
+      @band               = Band.where(:name => params[:band_name]).first
+      @is_admin_of_band   = current_user.is_member_of_band?(@band)
+      @artist_song_albums = @band.song_albums.includes(:songs)
+      get_artist_objects_for_right_column(@band)
     rescue
       render :nothing => true and return
     end
   end
   
-  def band_song_album
-    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+  def band_song_album    
     begin
-      @band             = Band.where(:name => params[:band_name]).first
-      @is_admin_of_band = current_user.is_member_of_band?(@band)
-      @song_album       = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
-      @song_albums      = [@song_album]
+      @band               = Band.where(:name => params[:band_name]).first
+      @is_admin_of_band   = current_user.is_member_of_band?(@band)
+      @song_album         = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
+      @artist_song_albums = [@song_album]
+      get_artist_objects_for_right_column(@band)
       render :template  =>"/band_song_album/band_song_albums" and return
     rescue
       render :nothing => true and return
@@ -109,7 +93,8 @@ class BandSongAlbumController < ApplicationController
       redirect_to show_band_path(:band_name => params[:band_name]) and return
     end
   end
-  
+
+  # edit form for song album, renders the pop-up to change the image and upload more songs
   def edit_song_album
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
     begin
@@ -124,10 +109,11 @@ class BandSongAlbumController < ApplicationController
       render :nothing => true and return
     end
   end
-  
+
+  # updates the song album, adding more songs, changing the cover image
   def update_song_album
     begin
-      @band = Band.where(:name => params[:band_name]).first
+      @band               = Band.where(:name => params[:band_name]).first
       if current_user.is_member_of_band?(@band)
         @song_album       = SongAlbum.where('band_id = ? and id = ?', @band.id, params[:id]).first
         @song_album.update_attributes(params[:song_album])        
@@ -141,19 +127,74 @@ class BandSongAlbumController < ApplicationController
       render :nothing => true and return
     end
   end
-  
+
+  # edit form for a single song, renders the pop-up to change the song title
+  def edit_song
+    if request.xhr?
+      begin
+        @artist           = Band.where(:name => params[:artist_name]).first
+        @song_album       = SongAlbum.where(:album_name => params[:song_album_name], :band_id => @artist.id).first
+        @song             = Song.where(:song_album_id => @song_album.id, :id => params[:id]).first
+        @is_updated       = false
+        unless current_user.is_admin_of_band?(@artist)
+          render :nothing => true and return
+        end
+      rescue =>exp
+        logger.error "Error in ArtistSongAlbum#EditSong :=> #{exp.message}"
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_artist_url(params[:artist_name]) and return
+    end
+  end
+
+  # updates the single song detail
+  def update_song
+    if request.xhr?
+      begin
+        @artist                 = Band.where(:name => params[:artist_name]).first
+        @song_album             = SongAlbum.where(:album_name => params[:song_album_name], :band_id => @artist.id).first
+        @song                   = Song.where(:song_album_id => @song_album.id, :id => params[:id]).first
+        if current_user.is_member_of_band?(@artist)
+          @song.update_attributes(params[:song])
+          @song.delay.update_metadata_to_file
+          render :action => 'edit_song' and return
+        end
+      rescue =>exp
+        logger.error "Error in BandSongAlbum#UpdateSong :=> #{exp.message}"
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_artist_url(params[:artist_name]) and return
+    end
+  end
+
+  # requested song album download
+  def download_album
+    begin      
+      @song_album              = SongAlbum.find(params[:id])      
+      zipped_album             = @song_album.songs_bundle(@song_album.songs.processed)      
+      send_file zipped_album,  :disposition => 'inline'
+    rescue =>exp
+      logger.error "Error in ArtistSongAlbum#DownloadAlubm :=> #{exp.message}"
+      render :nothing => true and return
+    end
+  end
+
+  # requested song download
   def download
     begin
-      song = Song.find(params[:id])
+      song                      = Song.find(params[:id])
       send_file song.song.path, :disposition => 'inline'
     rescue
       render :nothing => true and return
     end
   end
 
+  # song like by current user
   def do_like_song
     begin
-      @song = Song.find(params[:id])
+      @song                     = Song.find(params[:id])
       @song.do_like_by current_user
       @song.vote_by current_user
     rescue
@@ -161,9 +202,10 @@ class BandSongAlbumController < ApplicationController
     end
   end
 
+  # song dislike by current user
   def do_dislike_song
     begin
-      @song = Song.find(params[:id])
+      @song                     = Song.find(params[:id])
       @song.do_dislike_by current_user
     rescue
       render :nothing => true and return
@@ -172,9 +214,9 @@ class BandSongAlbumController < ApplicationController
 
   def disable_enable_song_album
     begin
-      @band = Band.where(:name => params[:band_name]).first
+      @band                     = Band.where(:name => params[:band_name]).first
       if current_user.is_member_of_band?(@band)
-        @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
+        @song_album             = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
       end
       if @song_album
         @song_album.update_attribute(:disabled,!@song_album.disabled)
@@ -184,6 +226,7 @@ class BandSongAlbumController < ApplicationController
     end
   end
 
+  # lists artist's song albums to choose from for setting as featured album
   def albums_for_featured_list    
     begin
       @band               = Band.where(:name => params[:band_name]).first
@@ -195,11 +238,12 @@ class BandSongAlbumController < ApplicationController
     render :layout =>false
   end
 
+  # sets the requested song album as featured album
   def make_song_album_featured
     begin
-      @band = Band.where(:name => params[:band_name]).first
+      @band               = Band.where(:name => params[:band_name]).first
       if current_user.is_member_of_band?(@band)
-        @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).first
+        @song_album       = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).first
       end
       if @song_album
         @song_album.update_attribute(:featured, !@song_album.featured)
@@ -213,10 +257,10 @@ class BandSongAlbumController < ApplicationController
   private
   def coerce(params)
     if params[:song].nil?
-      h = Hash.new
-      h[:song] = Hash.new
-      h[:song][:song] = params[:Filedata]
-      h[:song][:song].content_type = MIME::Types.type_for(h[:song][:song].original_filename).to_s
+      h                             = Hash.new
+      h[:song]                      = Hash.new
+      h[:song][:song]               = params[:Filedata]
+      h[:song][:song].content_type  = MIME::Types.type_for(h[:song][:song].original_filename).to_s
       h
     else
       params

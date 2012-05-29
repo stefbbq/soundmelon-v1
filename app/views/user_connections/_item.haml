@@ -3,10 +3,12 @@
   - link    = show_band_path(user.name)
   - image   = get_band_logo_small(user)
   - name    = user.name
+  - location = nil
 - elsif user.instance_of?(User)
   - link    = fan_profile_path(user.id)
   - image   = get_avatar_small(user)
   - name    = user.get_full_name
+  - location= user.get_full_address
 - else
   - status  = false
 
@@ -16,4 +18,7 @@
       = link_to image, link, :remote =>:true, :class => 'ajaxopen backable'
     .fusercontent
       %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'
+      %br
+      - unless location.blank?
+        #{location}
     .clear

@@ -1,0 +1,22 @@
+= render :partial=>"live"
+.primary-container
+  .primary
+    .left
+      .content-box#basic-info
+        %h3 Basic info
+        %hr/
+        #basic-info-msg
+        = render :partial => 'basic_info_form'
+      .content-box#additional-info
+        %h3 Additional Info
+        %hr/
+        #additional-info-msg
+        = render :partial => 'edit_additional_info_form'
+      .content-box#change-password
+        %h3 Change Password
+        %hr/
+        #change-password-msg
+        = render :partial => 'change_password_form'
+    .right
+      = render "right", :current =>'manage_profile'
+

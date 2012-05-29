@@ -63,9 +63,10 @@ class UserConnectionsController < ApplicationController
   def band_followers    
     begin
       if params[:band_name]   # band item
-        @band        = Band.find_band params
+        @band        = Band.find_band params        
         #          @followers  = band.user_followers.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
         @followers   = @band.followers
+        get_artist_objects_for_right_column(@band)
       end
       respond_to do |format|
         format.js and return
@@ -86,6 +87,7 @@ class UserConnectionsController < ApplicationController
         @user            = current_user
         @followers       = @user.user_followers.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
       end
+      get_fan_objects_for_right_column(@user)
       respond_to do |format|
         format.js and return
         format.html and return
@@ -102,6 +104,7 @@ class UserConnectionsController < ApplicationController
         @user                = User.find(params[:id])
         @following_artists   = @user.following_bands.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
       end
+      get_fan_objects_for_right_column(@user)
       respond_to do |format|
         format.js and return
         format.html and return
@@ -119,6 +122,7 @@ class UserConnectionsController < ApplicationController
         #          @following_fans = user.following_fans.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
         @following_fans = @user.following_users.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
       end
+      get_fan_objects_for_right_column(@user)
       respond_to do |format|
         format.js and return
         format.html and return

@@ -27,6 +27,7 @@ class ArtistPublicController < ApplicationController
     begin
       @band         = Band.where(:name => params[:band_name]).includes(:band_members).first
       @band_members = @band.band_members
+      get_artist_objects_for_right_column(@band)
       respond_to do |format|
         format.js
         format.html

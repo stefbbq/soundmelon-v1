@@ -1,10 +1,12 @@
+- selected ||=false
 - is_admin ||= false
+- link_class  = selected ? 'selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
 - if is_admin || photo_album_count > 0
-  = link_to band_albums_path(:band_name =>band.name), {:remote =>:true, :id=>'photos', :class =>'ajaxopen backable selection-box'} do
+  = link_to band_albums_path(:band_name =>band.name), {:remote =>:true, :id=>'photos', :class =>link_class} do
     photos
     - if is_admin
       %span.add_more
-        = link_to image_tag('add.png'), new_band_album_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen backable"
+        = link_to image_tag('add.png'), new_band_album_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen"
     - unless photo_album_count < Constant::BAND_PHOTO_ALBUM_SHOW_LIMIT
       %br/
       = link_to "see all", band_albums_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen backable"
@@ -14,7 +16,7 @@
 - else
   .selection-box-nohref
     photos
-.collection
+.collection{:id =>'photobox'}
   - if photo_album_count > 0
     %div
       - photo_albums.each do |band_photo_album|

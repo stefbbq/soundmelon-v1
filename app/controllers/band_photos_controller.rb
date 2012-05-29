@@ -67,25 +67,25 @@ class BandPhotosController < ApplicationController
     end
   end
   
-  def band_albums    
-    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+  def band_albums        
     begin
       @band = Band.where(:name => params[:band_name]).first
       @is_admin_of_band = current_user.is_member_of_band?(@band)
       @band_albums = @band.band_albums.includes('band_photos')
+      get_artist_objects_for_right_column(@band)
     rescue
       render :nothing => true and return
     end
   end
 
-  def band_album
-    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+  def band_album    
     begin
       @band = Band.where(:name => params[:band_name]).first
       @is_admin_of_band = current_user.is_member_of_band?(@band)
       @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
       @status = true
       @band_albums = [@band_album]
+      get_artist_objects_for_right_column(@band)
       render :template =>"/band_photos/band_albums" and return
     rescue
       @status = false

@@ -1,5 +1,7 @@
+- selected ||=false
+- link_class  = selected ? 'selection-box iconactive ajaxload button-fill-fan backable' : 'selection-box iconactive ajaxload backable'
 - if following_fan_count > 0
-  = link_to fan_following_fans_path(:id =>user.id), {:id=>'following-fan', :class=>'selection-box iconactive ajaxload backable', :remote => true} do
+  = link_to fan_following_fans_path(:id =>user.id), {:id=>'following-fan', :class=>link_class, :remote => true} do
     following
     %span.count
       = pluralize(following_fan_count,'fan')
@@ -11,7 +13,7 @@
     following
     %span.count
       0 fans
-.collection
+.collection{:id =>'followingfanbox'}
   - if following_fan_count > 0
     %div
       - following_users.each do |fan_following|

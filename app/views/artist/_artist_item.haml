@@ -1,0 +1,14 @@
+.item
+  .photo
+    = get_band_logo_medium(artist)
+  .content
+    %span.band-name= artist.name
+    - unless artist.genre.blank?
+      %span.band-genre
+        (#{artist.genre})
+    %span.other-info
+      Fan ##{artist.followers_count},
+      Album ##{artist.song_albums_count},
+      Songs ##{artist.songs_count}
+  .actions
+    = link_to 'access', manage_band_path(:band_name => artist.name),:class=>'ajaxopen backable', :remote =>true

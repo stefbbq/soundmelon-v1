@@ -1,21 +1,7 @@
 class BandTourController < ApplicationController
-    before_filter :require_login
-
-  def index
-    #@photos = Photos.all
-  end
-
-  def show
-    begin
-      @band       = Band.where(:name => params[:band_name]).first
-      @band_album = BandTour.where('band_id = ? and id = ?', @band.id, params[:id]).first
-      @photo      = BandPhoto.find(params[:id])
-    rescue
-      render :nothing => true and return
-    end
-  end
-
-  def new
+  before_filter :require_login
+  
+ def new
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
     @band = Band.where(:name => params[:band_name]).first
     if current_user.is_admin_of_band?(@band)
@@ -73,25 +59,25 @@ class BandTourController < ApplicationController
   end
 
 
-  def band_tours
-    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+  def band_tours    
     begin
       @band             = Band.where(:name => params[:band_name]).first
       @is_admin_of_band = current_user.is_member_of_band?(@band)
-      @band_tours       = @band.band_tours
+      @band_shows       = @band.band_tours
+      get_artist_objects_for_right_column(@band)
     rescue
       render :nothing => true and return
     end
   end
 
-  def band_tour
-    redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
+  def band_tour    
     begin
       @band             = Band.where(:name => params[:band_name]).first
       @is_admin_of_band = current_user.is_member_of_band?(@band)
       @band_tour        = BandTour.find(params[:band_tour_id])
       @status           = true
-      @band_tours       = [@band_tour]
+      @band_shows       = [@band_tour]
+      get_artist_objects_for_right_column(@band)
       render :template =>"/band_tour/band_tours" and return
     rescue
       @status = false

@@ -18,11 +18,13 @@ class BandPhoto < ActiveRecord::Base
   validates_attachment_presence :image
 
   def increase_photo_count
-    self.band_album.increment! :photo_count
+    album = self.band_album
+    album.increment!(:photo_count) if album
   end
-  
+
   def decrease_photo_count
-    self.band_album.decrement! :photo_count
+    album = self.band_album
+    self.band_album.decrement!(:photo_count) if album
   end
 
   # Fix the mime types. Make sure to require the mime-types gem

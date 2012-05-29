@@ -1,6 +1,4 @@
-- featured_albums_num = 7
-- current_featured_num = 0
-- if @song_albums.blank?
+- if @artist_song_albums.blank?
   != "$('#facebox .content').html('Has not uploaded any song albums by band admin');"
   != "setTimeout('$(document).trigger(\"close.facebox\")',1000);" 
 - else  
@@ -8,9 +6,8 @@
     %b Featured
     %br/
     .featured_albums{:style=>'margin:5px;padding:5px;'}      
-      - @song_albums.each do |song_album|
-        - if song_album.featured?
-          - current_featured_num = current_featured_num + 1
+      - @artist_song_albums.each do |song_album|
+        - if song_album.featured?          
           .featured_album{:id =>"#{song_album.id}_featured",:style =>'float:left;margin-left:5px;margin-right:10px;'}
             - if can_admin?(@band,current_user)
               .remove_button{:style=>'float:right;'}
@@ -27,9 +24,9 @@
           .add_new{:style=>'float:right;background-color:grey;height:20px;width:70px;padding-left:10px;'}
             = link_to "add album", new_band_song_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen", :title =>'Add new song album'
         %hr
-      - @song_albums.each do |song_album|
+      - @artist_song_albums.each do |song_album|
         = render 'band_song_album', :song_album =>song_album
 $('.primary .left').html('#{escape_javascript song_albums}'); 
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.active').removeClass('active').removeClass('button-fill-artist');
+$('.selection-box').removeClass('active').removeClass('button-fill-artist')
 $('#music').addClass('active').addClass('button-fill-artist');

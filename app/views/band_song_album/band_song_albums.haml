@@ -1,12 +1,29 @@
-%h3 Band Albums
-- if @song_albums.blank?
-  Has not uploaded any song albums yet 
-- else
-  - @song_albums.each do |song_album|
-    .album{:style=>"margin:2px; background:#363636;"}
-    .album_teaser_image{:style=>"width:80px;float:left;"}
-      = link_to image_tag(song_album.cover_img.url(:small)), band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name)
-      = link_to 'Edit', edit_band_song_album_path(:band_name => @band.name, :song_album_name => song_album.album_name ), :remote => true, :class => 'ajaxopen'
-    .album_name{:style=>"float:right;"}
-      %h2= link_to "#{song_album.album_name}(#{pluralize(song_album.songs.count, 'song')})", band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name)
-    .clear
+= render :partial=>"/artist_public/live"
+.primary-container
+  .primary
+    .left
+      %b Featured
+      %br/
+      .featured_albums{:style=>'margin:5px;padding:5px;'}
+        - @artist_song_albums.each do |song_album|
+          - if song_album.featured?
+            .featured_album{:id =>"#{song_album.id}_featured",:style =>'float:left;margin-left:5px;margin-right:10px;'}
+              - if can_admin?(@band,current_user)
+                .remove_button{:style=>'float:right;'}
+                  = link_to image_tag('remove.png'), make_song_album_featured_path(:band_name =>song_album.band.name, :song_album_name =>song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+              = link_to get_album_cover_image(song_album, 'medium', '50px', '50px'), band_album_songs_path(:band_name =>@band.name, :song_album_name => song_album.album_name), :remote=>:true, :class=>"ajaxopen"
+      - if can_admin?(@band,current_user)
+        .new_featured_album{:style=>'height:40px;width:40px;padding-left:15px;padding-top:13px;margin-top:-10px;margin-left:5px;border:1px solid blue;float:left;'}
+          = link_to image_tag('add.png'), "javascript:void(0);",  :onclick =>"open_popup_for_song_albums('#{popup_for_feature_albums_path(:band_name =>@band.name)}');", :remote=>:true, :class=>"ajaxopen", :title =>'Add Album to Featured List'
+      .clear
+      .album_lists
+        .album_list_header
+          %b Albums
+          - if can_admin?(@band,current_user)
+            .add_new{:style=>'float:right;background-color:grey;height:20px;width:70px;padding-left:10px;'}
+              = link_to "add album", new_band_song_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen", :title =>'Add new song album'
+          %hr
+        - @artist_song_albums.each do |song_album|
+          = render 'band_song_album', :song_album =>song_album
+    .right
+      = render "/artist_public/right", :current =>'music'

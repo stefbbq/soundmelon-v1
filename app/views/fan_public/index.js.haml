@@ -1,6 +1,8 @@
 $('.top-bar .session').html('#{escape_javascript(render '/artist/artist_admin_header')}');
-$('.live').html('#{escape_javascript(render 'live')}');
-$('.primary .left').html('#{escape_javascript(render '/bricks/fan_posts')}');
+if($('#page-content .live').length>0){$('.live').replaceWith('#{escape_javascript(render 'live')}');}
+else{$('#page-content').html('#{escape_javascript(render 'live')}');}
+if($('.primary .left').length>0){$('.primary .left').html('#{escape_javascript(render '/bricks/fan_posts')}'); $('.primary .right').html('#{escape_javascript(render 'right')}');}
+else{$('#page-content').append('#{escape_javascript(render 'primary_content')}');}
 $('.primary .right').html('#{escape_javascript(render 'right')}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist');

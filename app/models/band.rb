@@ -22,10 +22,11 @@ class Band < ActiveRecord::Base
     :small => ['50x50#', :jpg],
     :medium =>['100x100>', :jpg],
     :large => ['350x280>', :jpg]
-  },
-    :url => "/assets/images/bands/:id/:style/:basename.:extension"
+    },
+    :path => ":rails_root/public/sm/a/:normalized_file_name.:extension",
+    :url => "/sm/a/:normalized_file_name.:extension"    
 
-  validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png', 'image/jpg'] 
+  validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png', 'image/jpg']
   validates_attachment_size :logo, :less_than => 5.megabytes
   
   validates :name, :presence => true
@@ -39,6 +40,15 @@ class Band < ActiveRecord::Base
     text :name
   end
   
+  Paperclip.interpolates :normalized_file_name do |attachment, style|
+    attachment.instance.normalized_file_name(style)
+  end
+
+  def normalized_file_name style
+    name = "#{style}-#{self.id}"
+    "#{Digest::SHA1.hexdigest(name)}"
+  end
+
   def genre_tokens=(ids)
     self.genre_ids = ids.split(",")
   end

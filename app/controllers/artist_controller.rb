@@ -41,11 +41,9 @@ class ArtistController < ApplicationController
   end
   
   def pull
-    if request.xhr?
-      @bands = current_user.bands.includes(:song_albums, :songs)
-    else
-      redirect_to root_url and return
-    end
+    @user     = current_user
+    @artists  = current_user.bands.includes(:song_albums, :songs)
+    get_fan_objects_for_right_column(@user)
   end
   
   def create

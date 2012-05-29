@@ -33,16 +33,16 @@ module ApplicationHelper
     if my_avatar
       if user.profile_pic(true)
         edit_delete_links_and_img_str = '<div>'
-        edit_delete_links_and_img_str += link_to 'edit', crop_avatar_path, :remote=>:true,:class=>'ajaxopen'
-        edit_delete_links_and_img_str += link_to 'change', new_avatar_path, :remote=>:true,:class=>'ajaxopen'
-        edit_delete_links_and_img_str += link_to 'delete', delete_avatar_path, :remote=>:true
+        edit_delete_links_and_img_str += link_to 'edit', crop_avatar_path(user), :remote=>:true,:class=>'ajaxopen'
+        edit_delete_links_and_img_str += link_to 'change', new_avatar_path(user), :remote=>:true,:class=>'ajaxopen'
+        edit_delete_links_and_img_str += link_to 'delete', delete_avatar_path(user), :remote=>:true
         edit_delete_links_and_img_str += '</div>'
         edit_delete_links_and_img_str += "<div id='pic_#{user.id}'>"
         edit_delete_links_and_img_str += image_tag(user.profile_pic.avatar.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
-        edit_delete_links_and_img_str += '</div>' 
-        raw edit_delete_links_and_img_str  
+        edit_delete_links_and_img_str += '</div>'
+        raw edit_delete_links_and_img_str
       else
-        raw "<div>#{link_to 'Add', new_avatar_path, :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('fan-defaults-photo-profile.jpg')}</div>"
+        raw "<div>#{link_to 'Add', new_avatar_path(user), :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('fan-defaults-photo-profile.jpg')}</div>"
       end
     else
       if user.profile_pic
@@ -180,6 +180,23 @@ module ApplicationHelper
       }
     end
     post_msg.html_safe
+  end
+
+  def list_of_play_items song_album, song_list=[]
+    songs     = song_list.empty? ? song_album.songs : song_list
+    list_str  = ""
+    for i in 0..songs.size-1
+      song          = songs[i]
+      song_detail   = song.song_detail
+      hash_str      = "{"
+      hash_str      += "title: '#{song.title}', mp3:'#{song.song_mp3}', i:'#{song.id}'"
+      hash_str      += ",album:'#{song_detail[:album]}', band: '#{song_detail[:band]}', mp3:'#{song.song_mp3}', ogg: '#{song.song_ogg}'"
+      hash_str      += ",image: '#{get_album_cover_image(song.song_album)}',like:'#{song.voted_on_by?(current_user)}'"
+      hash_str      += "}"
+      list_str      += hash_str
+      list_str      +="," if i <= songs.size
+    end
+    list_str
   end
   
 end

@@ -12,5 +12,5 @@
             %strong
               = link_to user.get_full_name, fan_profile_path(user.id), :class =>'ajaxopen bacable'
           .clear
-%br
-%br
+    .right
+      = render 'right', :current =>'member'

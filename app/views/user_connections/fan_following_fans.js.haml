@@ -7,5 +7,5 @@ $('.primary .left').html('');
   = paginate @following_fans, :remote => true
 $('.primary .left').html('#{escape_javascript(following_fans)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.active').removeClass('active').removeClass('button-fill-fan');
-$('#following_fans .selection-box').addClass('active').addClass('button-fill-fan');
+$('.right .selection-box').removeClass('active').removeClass('button-fill-fan');
+$('#following-fan').addClass('active').addClass('button-fill-fan');

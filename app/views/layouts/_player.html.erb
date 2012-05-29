@@ -23,7 +23,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
       <%= get_album_cover_image(first_album) if first_album %>
       <span class="song-title"></span>
       <span class="artist-title"></span>
-      <div class="jp-progress"><div class="jp-seek-bar"><div class="jp-play-bar"></div></div></div>      
+      <div class="jp-progress"><div class="jp-seek-bar"><div class="jp-play-bar"></div></div></div>
       <div class="jp-additional">
         <a href="javascript:;" class="jp-rep" title="Show/Hide Playlist">p</a>
         <a href="javascript:;" class="jp-like" title="Like Song" id="alike" onclick="doLike();">l</a></li>
@@ -33,7 +33,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   </div>
 </div>
 
-<script type="text/javascript">  
+<script type="text/javascript">
   //<![CDATA[
 var currentTrack = 0;
 var player       = $("#sm_jplayer");
@@ -47,11 +47,8 @@ $(document).ready(function(){
 });
 $(".jp-pre").click(function() { playListPrev(); }); // Listen for Previous Track button click
 $(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click
-  
-function playListStart(){if(playList.length>0){
-    playListChange(0, 0);
-  }
-}
+
+function playListStart(){if(playList.length>0){playListChange(0, 0);}}
 function updateTrackInfo(b,t,n,i,l){
 var url       = '<%= request.base_url %>/' + b;
 var band_html = "<a href='" + url + "' class='ajaxopen backable' data-remote='true'>" + b +"</a>";
@@ -78,11 +75,11 @@ function playListNext() { playListChange((currentTrack + 1 < playList.length) ? 
 
 // Play previous track. If already on first track, start back at the end
 function playListPrev() { playListChange((currentTrack - 1 >= 0) ? currentTrack - 1 : playList.length-1, 1);}
-  
-function play_music(song_title, song){
-player.jPlayer("setMedia", { m4a:song, ogg:item.ogg }).jPlayer('play');
+
+function play_music(song_title, smp3, sogg){
+  player.jPlayer("setMedia", { m4a:smp3, ogg:sogg }).jPlayer('play');
 }
-  
+
 function makePlayList(){
 if(playList.length >0){
 var liHtml='';
@@ -91,22 +88,20 @@ $('.jp-playlist ul').html(liHtml);
 }
 else{player.jPlayer('stop');$('.jp-playlist ul').html('<li>Playlist is empty</li>');}
 }
-  
-function removeListItem(index){if(currentTrack == index){player.jPlayer('stop');}playList.pop(index);makePlayList();}
-  
+
+function removeListItem(index){if(currentTrack == index){player.jPlayer('stop');}playList.splice(index,1);makePlayList();}
+
 function doLike(){
-var item = playList[currentTrack];
-var url =  '<%= request.base_url %>/' + item.title + "/" + item.i + '/like';
-$.ajax({type: 'get',url: url, success:function(data){item.like=true;$('a#alike').html('liked');}});
+  var item = playList[currentTrack];
+  var url =  '<%= request.base_url %>/' + item.title + "/" + item.i + '/like';
+  $.ajax({type: 'get',url: url, success:function(data){item.like=true;$('a#alike').html('liked');}});
 }
 
-$("a.jp-rep").click(function() {
-$('.jp-playlist').focus().show();
-});
+$("a.jp-rep").click(function() {$('.jp-playlist').focus().show();});
 $("body").click(function(e) {
-var target = e.target;
-if(!($(target).is('.jp-playlist *') || target.className=='jp-rep' || target.className=='jp-playlist'))
-$(".jp-playlist").hide();
+  var target = e.target;
+  if(!($(target).is('.jp-playlist *') || target.className=='jp-rep' || target.className=='jp-playlist' || target.className=='play_list_close'))
+  $(".jp-playlist").hide();
 });
 
 var playList = [

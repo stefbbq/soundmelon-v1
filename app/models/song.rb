@@ -8,26 +8,17 @@ class Song < ActiveRecord::Base
 
   scope :processed, :conditions =>["is_processed = ?", true]
 
-  has_attached_file :song,    
+  has_attached_file :song,
     :url => "/assets/bands/song/album/:id/:style/:normalized_attachment_file_name"
 
   #  validates_attachment_content_type :song,
   # :content_type => [ 'audio/mpeg', 'audio/x-mpeg', 'audio/mp3', 'audio/x-mp3', 'audio/mpeg3', 'audio/x-mpeg3', 'audio/mpg', 'audio/x-mpg', 'audio/x-mpegaudio', 'application/octet-stream']
 
-  #  after_post_process :queue_song_for_processing
-
-  def queue_song_for_processing
-    # push the song into the processing job queue    
-    self.delay.convert_song
-    self.delay.update_metadata_from_file
-    self.delay.update_metadata_to_file
-  end
-  
   validates_attachment_size :song, :less_than => 15.megabytes
   validates_attachment_presence :song
 
   after_destroy :decrease_song_count
-  after_create :increase_song_count, :queue_song_for_processing
+  after_create :increase_song_count,:set_default_title, :queue_song_for_processing
 
   Paperclip.interpolates :normalized_attachment_file_name do |attachment, style|
     attachment.instance.normalized_attachment_file_name
@@ -37,8 +28,29 @@ class Song < ActiveRecord::Base
     "#{self.song_file_name.gsub( /[^a-zA-Z0-9_\.]/, '_')}"
   end
 
+  def get_default_title
+    album         = self.song_album
+    album_name    = album.album_name
+    song_count    = album.song_count
+    default_title = "#{album_name}_song_#{song_count}"
+    default_title
+  end
+
+  def set_default_title
+    album         = self.song_album
+    album_name    = album.album_name
+    song_count    = album.song_count
+    default_title = "#{album_name}_song_#{song_count}"
+    self.update_attribute(:title, default_title)
+  end
+
   def song_name_without_extension
     self.song_file_name.gsub(/\..*/,'')
+  end
+
+  def title_with_ext
+    title = self.title.blank? ? "song_#{self.id}" : self.title
+    "#{title.gsub(' ','_').gsub('.','')}#{File.extname(self.song.path)}"
   end
 
   def song_detail
@@ -84,7 +96,7 @@ class Song < ActiveRecord::Base
     song_file_name          = self.song_file_name
     song_file_name_base     = song_file_name.split(File.extname(song_file_name)).first
     new_file_name_mp3       = [song_file_name_base, '.mp3'].join
-    new_file_name_ogg       = [song_file_name_base, '.ogg'].join    
+    new_file_name_ogg       = [song_file_name_base, '.ogg'].join
     if File.exists?(song_file)
       file_location         = song_file.split('/')
       file_location.pop
@@ -99,7 +111,7 @@ class Song < ActiveRecord::Base
         logger.info "Already converted!"
         system(ffmpeg_command_mp3) unless File.exists?(new_file_location_mp3)
         system(ffmpeg_command_ogg) unless File.exists?(new_file_location_ogg)
-      end      
+      end
       if File.exists?(new_file_location_mp3) && File.exists?(new_file_location_ogg)
         # delete original file
         #        File.delete song_file
@@ -108,27 +120,30 @@ class Song < ActiveRecord::Base
     end
   end
 
+  # updates database by reading from the file
   def update_metadata_from_file
-    # get meta-data from file itself    
+    # get meta-data from file itself
     song_file = self.song.path
-    title     = ''
-    artist    = ''
-    album     = ''
-    track     = ''
-    genre     = ''
+    song_title     = ''
+    song_artist    = ''
+    song_album     = ''
+    song_track     = ''
+    song_genre     = ''
     Mp3Info.open(song_file) { |mp3|
-      title   = mp3.tag.title
-      artist  = mp3.tag.artist
-      album   = mp3.tag.album
-      track   = mp3.tag.tracknum
-      genre   = mp3.tag.genre
+      song_title   = mp3.tag.title
+      song_artist  = mp3.tag.artist
+      song_album   = mp3.tag.album
+      song_track   = mp3.tag.tracknum
+      song_genre   = mp3.tag.genre
     }
-    self.update_attributes(:title =>title, :artist =>artist, :album =>album, :track =>track, :genre =>genre)
+    song_title     = song_title.blank? ? self.title : song_title
+#    self.update_attributes(:title =>song_title, :artist =>song_artist, :album =>song_album, :track =>song_track, :genre =>song_genre)
+    self.update_attributes(:artist =>song_artist, :album =>song_album, :track =>song_track, :genre =>song_genre)
   end
 
+  # updates file itself from the db record
   def update_metadata_to_file
     # update meta-data from database
-    detail    = self.song_detail
     song_file = self.song.path
     title     = self.title
     artist    = self.artist
@@ -136,23 +151,32 @@ class Song < ActiveRecord::Base
     track     = self.track
     genre     = self.genre
     Mp3Info.open(song_file) { |mp3|
-      mp3.tag.title     = title || detail[:name]
-      mp3.tag.artist    = artist || detail[:band]
-      mp3.tag.album     = album || detail[:album]
-      mp3.tag.tracknum  = track
-      mp3.tag.genre     = genre
-    }    
+      mp3.tag.title     = title unless title.blank?
+      mp3.tag.artist    = artist unless artist.blank?
+      mp3.tag.album     = album unless album.blank?
+      mp3.tag.tracknum  = track unless track.blank?
+      mp3.tag.genre     = genre unless genre.blank?
+    }
+  end
+
+  def queue_song_for_processing
+    # push the song into the processing job queue
+    self.delay.convert_song
+    # first read from the file
+    self.delay.update_metadata_from_file
+#    # then update to the file read from the file
+    self.delay.update_metadata_to_file
   end
 
   private
 
   def increase_song_count
-    song_album = self.song_album    
+    song_album = self.song_album
     song_album.increment!(:song_count) if song_album
   end
 
   def decrease_song_count
-    song_album = self.song_album    
+    song_album = self.song_album
     self.song_album.decrement!(:song_count) if song_album
   end
 

@@ -1,0 +1,13 @@
+- @is_updated ||= false
+- song_item = capture do
+  %h3
+    Edit Song '#{@song.title}'
+  %hr/    
+  = form_for @song, :url =>album_song_update_path(:artist_name =>@song_album.band.name, :song_album_name => @song_album.album_name, :id =>@song.id).to_s, :html => {:multipart => true, :remote => true } do |f|
+    Song Title:
+    = f.text_field :title
+    %br
+    = f.submit "Save", :disable_with => 'Saving...', :class => 'button blue'
+!= "jQuery.facebox('#{escape_javascript song_item}');"
+!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"
+!= "$('#song_album_#{@song_album.id} #song_#{@song.id}').replaceWith('#{escape_javascript(render '/band_song_album/song_item', :song => @song, :accessible =>true)}');"

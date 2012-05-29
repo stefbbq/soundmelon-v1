@@ -11,6 +11,7 @@
         Released
         = song_album.created_at.strftime("%b %d, %Y")
       .album_controls
+        = link_to image_tag('download-icon.png'), download_song_album_path(:id =>song_album.id)
         = link_to image_tag('play-icon.png'), add_album_to_player_playlist_path(song_album), :remote => true, :class => 'ajaxopen'
         = link_to image_tag('queue-icon.png'), add_album_to_playlist_path(song_album), :remote => true, :class => 'ajaxopen'
         = link_to image_tag('buzz-icon.png'), album_buzz_path(song_album, :album_name => song_album.album_name), :remote => true, :class => 'ajaxopen'

@@ -1,0 +1,14 @@
+- accessible ||=false
+- artist_name = @song_album.band.name
+- album_name  = @song_album.album_name
+.song[song]
+  .song-title
+    = song.title
+  .song-controls
+    - if accessible
+      = link_to 'edit', album_song_edit_path(:artist_name =>artist_name, :song_album_name => album_name, :id =>song.id), :remote =>:true, :class =>'ajaxopen'
+    = link_to image_tag('download-icon.png'), download_song_path(:artist_name => artist_name, :id =>song.id)
+    = link_to image_tag('play-icon.png'), 'javascript:void(0);', :onclick =>"play_music('#{song.song_name_without_extension}','#{song.song}', '#{song.song_ogg}');"
+    = link_to image_tag('queue-icon.png'), add_to_playlist_path(song, :song_name => song.song_name_without_extension), :remote => true, :class => 'ajaxopen'
+    = link_to image_tag('buzz-icon.png'), song_buzz_path(song), :remote => true, :class => 'ajaxopen'
+  .clear

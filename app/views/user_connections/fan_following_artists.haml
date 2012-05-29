@@ -1,4 +1,4 @@
-=# render :partial=>"/fan_public/live"
+= render :partial=>"/fan_public/live"
 .primary-container
   .primary
     .left
@@ -6,7 +6,6 @@
       %hr
       - @following_artists.each do |band|
         = render '/user_connections/item', :user =>band
-      = paginate @following_artists, :remote => true
-      %br/
-      %br/
-      %br/
+      =# paginate @following_artists, :remote => true
+    .right
+      = render "/fan_public/right", :current =>'following_artist'

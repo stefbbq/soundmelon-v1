@@ -18,9 +18,12 @@
         $('#album_name').attr("disabled", true);
         var photo_stat = dat.photo_count_str>1 ? dat.photo_count_str + ' photos' : dat.photo_count_str + ' photo' ;        
         $('#photo_stat_' + dat.band_album_id ).html( photo_stat );
-        if($('#photobox .collection #band_album_'+ dat.band_album_id).length ==0){
+        if($('#photobox #band_album_'+ dat.band_album_id).length ==0){
           var new_album_html = get_list_album_html(dat.band_album_id, dat.album_name, dat.add_url, dat.album_url, dat.delete_url, dat.image_src);
-          $('#photobox .collection').append(new_album_html);
+          if($('#photobox .message').length>0)
+            $('#photobox').html(new_album_html);
+          else
+            $('#photobox').prepend(new_album_html);
         }                
       },
       onSelect : function(event,data) {

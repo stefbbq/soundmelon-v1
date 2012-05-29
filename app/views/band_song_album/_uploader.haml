@@ -18,9 +18,12 @@
          $('#album_name').val(dat.album_name);
          $('#album_name').attr("disabled", true);
          song_counter++;         
-         if($('#musicbox .collection #song_album_'+ dat.song_album_id).length ==0){
+         if($('#musicbox #song_album_'+ dat.song_album_id).length ==0){
           var new_album_html = get_list_album_html(dat.song_album_id, dat.album_name, dat.add_url, dat.album_url, dat.image_src);
-          $('#musicbox .collection').append(new_album_html);
+          if($('#musicbox .message').length>0)
+            $('#musicbox').html(new_album_html);
+          else
+            $('#musicbox').prepend(new_album_html);
         }
       },
       onSelect : function(event,data) {
