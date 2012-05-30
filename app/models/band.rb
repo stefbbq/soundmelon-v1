@@ -1,7 +1,8 @@
 class Band < ActiveRecord::Base
   
   acts_as_messageable :required => :body, :order => "created_at desc" 
-  acts_as_followable
+  acts_as_followable  
+  acts_as_follower
 
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user
@@ -143,14 +144,14 @@ class Band < ActiveRecord::Base
   
   def limited_band_members(n=Constant::BAND_MEMBER_SHOW_LIMIT)
     self.band_members.limit(n)
-  end
-  
-  def limited_band_follower(n=Constant::BAND_FOLLOWER_SHOW_LIMIT)
-    self.user_followers.order('created_at desc').limit(n)
-  end
+  end 
 
   def limited_band_tours(n=Constant::TOUR_DATE_SHOW_LIMIT)
     self.band_tours.order('created_at desc').limit(n)
+  end
+
+  def limited_band_featured_songs(n=Constant::ARTIST_FEATURED_SONG_LIMIT)
+    self.songs.featured.order('rand()').limit(n)
   end
 
   def self.find_band condition_params
@@ -161,6 +162,22 @@ class Band < ActiveRecord::Base
     Band.where(:name => condition_params[:band_name]).includes(:band_members).first
   end
   
+  def followers page = 1
+    follows   = Follow.where("followable_id = ? and followable_type = ?", self.id, self.class.name).page(page).per(FOLLOWING_FOLLOWER_PER_PAGE)
+    followers = follows.map{|follow| follow.follower}
+    followers
+  end
+
+  def limited_followers
+    follows   = Follow.where("followable_id = ? and followable_type = ?", self.id, self.class.name).order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)
+    followers = follows.map{|follow| follow.follower}
+    followers
+  end
+
+  def is_fan?
+    false
+  end
+
   protected
 
   def mark_mentioned_post_as_read post_ids

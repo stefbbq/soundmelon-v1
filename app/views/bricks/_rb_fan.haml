@@ -5,15 +5,14 @@
     %span.count
       = pluralize(fan_count, 'fan')
 - else
-  .selection-box-nohref
+  .selection-box-nohref{:id=>'fanbox'}
     %span.count
       0
     fan
-.collection
+.collection{:id =>'artistfollowers'}
   - if fan_count > 0
     %div
-      - band_fans.each do |band_fan|
-        .avatar
-          = link_to get_avatar_small(band_fan), fan_profile_path(band_fan), :class =>'ajaxopen backable', :remote =>true
+      - band_fans.each do |artist_fan|
+        = render '/bricks/avatar', :item =>artist_fan, :id_prefix =>"artist_follower"
   - else
     .message= Constant::NO_FAN_MESSAGE

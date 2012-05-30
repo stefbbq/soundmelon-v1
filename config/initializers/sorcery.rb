@@ -33,7 +33,7 @@ Rails.application.config.sorcery.configure do |config|
   # -- activity logging --
   config.register_login_time = true                                 # will register the time of last user login, every login.
   config.register_logout_time = true                                # will register the time of last user logout, every logout.
-  config.register_last_activity_time = true                         # will register the time of last user action, every action.
+  #config.register_last_activity_time = true                         # will register the time of last user action, every action.
                                                                                                                                           
   # -- external --
   # config.external_providers = []                                    # What providers are supported by this app,

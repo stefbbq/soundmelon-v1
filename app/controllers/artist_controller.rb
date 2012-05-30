@@ -17,16 +17,7 @@ class ArtistController < ApplicationController
         @unread_mentioned_count    = @band.unread_mentioned_post_count
         @unread_post_replies_count = @band.unread_post_replies_count
         @unread_messages_count     = @band.received_messages.unread.count
-        @song_album_count           = @band.song_albums.size
-        @photo_album_count          = @band.band_albums.size
-        @tour_count                 = @band.band_tours.size
-        @band_artist_count          = @band.band_members.size
-        @band_fan_count             = @band.followers_count
-        @song_albums                = @band.limited_song_albums
-        @photo_albums               = @band.limited_band_albums
-        @band_tours                 = @band.band_tours
-        @band_artists               = @band.limited_band_members
-        @band_fans                  = @band.limited_band_follower
+        get_artist_objects_for_right_column(@band)        
       else
         logger.error "#User with username:{current_user.get_full_name} and user id #{current_user.id} tried to adminster band with band id: #{@band.id} which he is not a admin" 
         redirect_to fan_home_url, :notice => 'Your action has been reported to admin' and return

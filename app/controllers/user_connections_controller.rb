@@ -4,12 +4,15 @@ class UserConnectionsController < ApplicationController
   def follow
     if request.xhr?
       begin
-        @user_to_be_followed = User.find(params[:id])
-        current_user.follow(@user_to_be_followed)
+        @actor                  = current_actor
+        @user_to_be_followed    = User.find(params[:id])
+        @actor.follow(@user_to_be_followed)
+        @last_follower_count    = @user_to_be_followed.followers_count
         respond_to do |format|
           format.js and return
         end
-      rescue
+      rescue => exp
+        logger.error "Error in UserConnections::Follow :=> #{exp.message}"
         render :nothing => true and return
       end
     else
@@ -20,13 +23,15 @@ class UserConnectionsController < ApplicationController
   def unfollow
     if request.xhr?
       begin
-        @user_to_be_unfollowed = User.find(params[:id])
-        current_user.stop_following(@user_to_be_unfollowed)
-        respond_to do |format|
-          @others = true if params[:others]
+        @actor                  = current_actor
+        @user_to_be_unfollowed  = User.find(params[:id])
+        @actor.stop_following(@user_to_be_unfollowed)
+        @last_follower_count    = @user_to_be_unfollowed.followers_count
+        respond_to do |format|          
           format.js and return
         end
-      rescue
+      rescue => exp
+        logger.error "Error in UserConnections::Unfollow :=> #{exp.message}"
         render :nothing => true and return
       end
     else
@@ -37,9 +42,12 @@ class UserConnectionsController < ApplicationController
   def follow_band
     if request.xhr?
       begin
-        @band       = Band.find_band(params)
-        current_user.follow(@band) unless current_user.following?(@band)
-      rescue
+        @actor                  = current_actor
+        @band                   = Band.find_band(params)
+        @actor.follow(@band)
+        @last_follower_count    = @band.followers_count
+      rescue => exp
+        logger.error "Error in UserConnections::FollowBand :=> #{exp.message}"
         render :nothing => true and return
       end
     else
@@ -50,9 +58,12 @@ class UserConnectionsController < ApplicationController
   def unfollow_band
     if request.xhr?
       begin
-        @band       = Band.find_band(params)
-        current_user.stop_following(@band)  if current_user.following?(@band)
-      rescue
+        @actor                  = current_actor
+        @band                   = Band.find_band(params)
+        @actor.stop_following(@band)
+        @last_follower_count    = @band.followers_count
+      rescue => exp
+        logger.error "Error in UserConnections::UnollowBand :=> #{exp.message}"
         render :nothing => true and return
       end
     else
@@ -63,9 +74,8 @@ class UserConnectionsController < ApplicationController
   def band_followers    
     begin
       if params[:band_name]   # band item
-        @band        = Band.find_band params        
-        #          @followers  = band.user_followers.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-        @followers   = @band.followers
+        @band        = Band.find_band params                
+        @followers   = @band.followers params[:page]
         get_artist_objects_for_right_column(@band)
       end
       respond_to do |format|
@@ -79,14 +89,9 @@ class UserConnectionsController < ApplicationController
   end
 
   def fan_followers    
-    begin
-      if params[:id]
-        @user            = User.find(params[:id])
-        @followers       = @user.user_followers.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-      else
-        @user            = current_user
-        @followers       = @user.user_followers.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-      end
+    begin      
+      @user            = User.find(params[:id])      
+      @followers       = @user.followers params[:page]
       get_fan_objects_for_right_column(@user)
       respond_to do |format|
         format.js and return

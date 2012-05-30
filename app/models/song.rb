@@ -7,6 +7,7 @@ class Song < ActiveRecord::Base
   has_many :playlists
 
   scope :processed, :conditions =>["is_processed = ?", true]
+  scope :featured, :conditions =>["is_featured = ?", true]
 
   has_attached_file :song,
     :url => "/assets/bands/song/album/:id/:style/:normalized_attachment_file_name"
@@ -29,18 +30,12 @@ class Song < ActiveRecord::Base
   end
 
   def get_default_title
-    album         = self.song_album
-    album_name    = album.album_name
-    song_count    = album.song_count
-    default_title = "#{album_name}_song_#{song_count}"
+    default_title = self.song_name_without_extension
     default_title
   end
 
   def set_default_title
-    album         = self.song_album
-    album_name    = album.album_name
-    song_count    = album.song_count
-    default_title = "#{album_name}_song_#{song_count}"
+    default_title = self.get_default_title
     self.update_attribute(:title, default_title)
   end
 
@@ -123,7 +118,7 @@ class Song < ActiveRecord::Base
   # updates database by reading from the file
   def update_metadata_from_file
     # get meta-data from file itself
-    song_file = self.song.path
+    song_file      = self.song.path
     song_title     = ''
     song_artist    = ''
     song_album     = ''

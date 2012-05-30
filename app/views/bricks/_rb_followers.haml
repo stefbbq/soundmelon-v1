@@ -12,16 +12,15 @@
       %br/
       = link_to 'see all', fan_followers_path(:id =>user.id), :remote=>:true, :class=>'small-font ajaxopen backable'
 - else
-  .selection-box-nohref
+  .selection-box-nohref{:id =>'followers'}
     %span.count
       0
     followers
-.collection{:id =>'followers'}
+.collection{:id =>'fanfollowers'}
   - if follower_count > 0
     %div
-      - follower_users.each do |fan_followers|
-        .avatar
-          = link_to get_avatar_small(fan_followers), fan_profile_path(fan_followers), :class =>'ajaxopen backable', :remote =>true
+      - follower_users.each do |fan_follower|
+        = render '/bricks/avatar', :item =>fan_follower, :id_prefix =>"fan_follower"
   - else
     .message
       = Constant::NO_FOLLOWER_MESSAGE

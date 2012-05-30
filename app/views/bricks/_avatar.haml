@@ -1,0 +1,7 @@
+- id_prefix ||= ""
+- if item.is_fan?
+  .avatar{:id =>"#{id_prefix}_fan_#{item.id}"}
+    = link_to get_avatar_small(item), fan_profile_path(item), :class =>'ajaxopen backable', :remote =>true
+- else
+  .avatar{:id =>"#{id_prefix}_artist_#{item.id}"}
+    = link_to get_band_logo_small(item), show_band_path(:band_name => item.name), :class =>'ajaxopen backable', :remote =>true

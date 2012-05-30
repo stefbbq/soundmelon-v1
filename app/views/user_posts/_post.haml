@@ -1,3 +1,7 @@
+- band = post.band_id.blank? ? nil : post.band
+- user = post.user_id.blank? ? nil : post.user
+- is_author_artist_profile  = (@band && band ) && @band.id == band.id
+- is_author_fan_profile     = (@user && user ) && @user.id == user.id
 - hide_thread_link ||= false
 - divclass ||=''
 -if @band && @is_admin_of_band
@@ -8,21 +12,26 @@
 = div_for post do
  %div{:class=>"#{divclass}"}
   .avatar
-   - if !post.user_id.nil?
-    = link_to get_avatar_small(post.user), fan_profile_path(post.user) if !self_owner
-    = link_to get_avatar_small(post.user), fan_home_url if self_owner
-   - elsif !post.band_id.nil?
-    = get_band_logo_small(post.band)
+   - if user
+    - if is_author_fan_profile
+     = get_avatar_small(user)
+    - else
+     = link_to get_avatar_small(user), (self_owner ? fan_home_url : fan_profile_path(user) ), :class =>'ajaxopen backable', :remote =>:true
+   - elsif band
+    - if is_author_artist_profile
+     = get_band_logo_small(band)
+    - else
+     = link_to get_band_logo_small(band), show_band_path(:band_name =>band.name), :class =>'ajaxopen backable', :remote =>:true
   %div{:class => 'content'}
    .post-header
     .title
      %strong
-      -if !post.band.nil?
-       = post.band.name
+      -if band
+       = is_author_artist_profile ? band.name : (link_to band.name, show_band_path(:band_name =>band.name), :class =>'ajaxopen backable', :remote =>:true)
       -elsif self_owner
        You
       -elsif !post.user.nil?
-       = post.user.fname
+       = is_author_fan_profile ? user.fname : (link_to user.fname, fan_profile_path(post.user), :class =>'ajaxopen backable', :remote =>:true)
      %span
       wrote this #{time_ago_in_words(post.created_at)} ago 
     .actions

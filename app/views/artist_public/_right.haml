@@ -1,16 +1,21 @@
-- tabs      = [:latest_post, :music, :photo, :tour, :member, :fan]
+- tabs      = [:latest_post, :music, :photo, :tour, :member, :fan, :song]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 .items
   = link_to 'latest posts', show_band_path(:band_name => @band.name),
             :id                 =>'latest-posts', 
             :remote             => 'true',
             :class              => 0 == current ? 'ajaxopen backable iconactive selection-box button-fill-artist' : 'ajaxopen backable iconactive selection-box'
-  = render '/bricks/rb_music',
+  = render '/bricks/rb_featured_song',            
+            :songs              => @featured_songs,
+            :is_admin           => false,
+            :band               => @band,
+            :selected           => 6 == current
+  =# render '/bricks/rb_music',
             :song_album_count   => @song_album_count,
             :song_albums        => @song_albums,
             :is_admin           => false,
             :band               => @band,
-            :selected           => 1 == current
+            :selected           => 1 == current  
   = render '/bricks/rb_photo',
             :photo_album_count  => @photo_album_count,
             :photo_albums       => @photo_albums,

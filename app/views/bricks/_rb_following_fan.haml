@@ -17,8 +17,7 @@
   - if following_fan_count > 0
     %div
       - following_users.each do |fan_following|
-        .avatar
-          = link_to get_avatar_small(fan_following), fan_profile_path(fan_following), :class =>'ajaxopen backable', :remote =>true
+        = render '/bricks/avatar', :item =>fan_following
   - else
     .message
       = Constant::NO_FOLLOWING_MESSAGE

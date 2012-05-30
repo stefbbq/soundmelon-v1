@@ -1,5 +1,5 @@
 - is_admin ||=false
--if band.is_member_public? || is_admin
+- if band.is_member_public? || is_admin
   - selected    ||=false
   - link_class  = selected ? 'selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
   -if artist_count >0
@@ -18,8 +18,7 @@
   .collection
     %div
       - if artist_count >0
-        - band_artists.each do |band_artist|
-          .avatar
-            =link_to get_avatar_small(band_artist), fan_profile_path(band_artist), :class =>'ajaxopen backable', :remote =>true
+        - band_artists.each do |artist|
+          = render '/bricks/avatar', :item =>artist
       - else
         .message= Constant::NO_BAND_ARTIST_MESSAGE

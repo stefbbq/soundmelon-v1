@@ -11,6 +11,7 @@ class Constant
   FOLLOWING_FAN_SHOW_LIMIT     = 5
   FOLLOWER_SHOW_LIMIT          = 5
   TOUR_DATE_SHOW_LIMIT         = 4
+  ARTIST_FEATURED_SONG_LIMIT   = 6
   
   NO_FAN_MESSAGE               = "no fans yet"
   NO_FOLLOWING_MESSAGE         = "not following anyone"

@@ -1,23 +1,11 @@
-- @unread_post_replies_count   ||= current_user.unread_post_replies_count
-- @unread_mentioned_count      ||= current_user.unread_mentioned_post_count
-- @unread_messages_count       ||= current_user.received_messages.unread.count
 .profilehead
   .top-bar
-    = render :partial=>"bricks/logo"
+    = render :partial=>"/bricks/logo"
     .session
       .summary
-        = WELCOME_MSG
-        = link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class => 'user-info ajaxopen backable', :remote =>true
+        = render '/bricks/session_header'
       .notifications
-        = link_to replies_path, {:class=> "ajaxopen backable", :id =>'replies', :remote =>true} do
-          %span{:class=> (@unread_post_replies_count > 0) ? "active" : ""}
-            = @unread_post_replies_count
-        = link_to mentioned_path, {:class=> "ajaxopen backable", :id =>'mentions', :remote =>true} do
-          %span{:class=> (@unread_mentioned_count > 0) ? "active" : ""}
-            = @unread_mentioned_count
-        = link_to user_inbox_path,  {:class=> "ajaxopen backable", :id =>'messages', :remote =>true} do
-          %span{:class=> (@unread_messages_count > 0) ? "active" : ""}
-            = @unread_messages_count
+        = render '/bricks/notifications'
       = link_to "logout", logout_path, :id => 'logout'
   .bottom-bar
     .music-player

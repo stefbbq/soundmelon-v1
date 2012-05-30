@@ -18,8 +18,7 @@
   - if following_artist_count > 0
     %div
       - following_artists.each do |band|
-        .avatar
-          = link_to get_band_logo_small(band), show_band_path(:band_name => band.name), :class =>'ajaxopen backable', :remote =>true
+        = render '/bricks/avatar', :item =>band
   - else
     .message
       = Constant::NO_FOLLOWING_MESSAGE

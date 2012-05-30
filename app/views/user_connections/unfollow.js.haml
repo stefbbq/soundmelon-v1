@@ -1,11 +1,9 @@
+- avatar_div = @actor.is_fan? ? "fan_follower_fan_#{@actor.id}" : "fan_follower_artist_#{@actor.id}"
 $('#facebox .content').html('Unfollowed Successfully');
 setTimeout('$(document).trigger(\"close.facebox\")',1000);
 - follow_content = capture do
   = link_to 'follow', follow_user_path(@user_to_be_unfollowed), :remote => true, :class => 'ajaxopen'
-$('.actions #follow_link').html('#{escape_javascript follow_content}');
-//var selector = "#following_#{@user_to_be_unfollowed.id}";
-//if ($(selector).length){
-//$(selector).remove();
-//} else {
-//$('#follow-unfollow .selection-box').html('#{escape_javascript follow_content}');
-//}
+$('.actions #follow_link').replaceWith('#{escape_javascript follow_content}');
+if($("#fanfollowers ##{avatar_div}").length>0){$("#fanfollowers ##{avatar_div}").remove();}
+$('#followers span.count').html("#{@last_follower_count}");
+setTimeout('$(document).trigger(\"close.facebox\")',1000); 

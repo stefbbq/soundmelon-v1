@@ -1,4 +1,3 @@
-$('.top-bar .session').html('#{escape_javascript(render '/artist/artist_admin_header')}');
 if($('#page-content .live').length>0){$('.live').replaceWith('#{escape_javascript(render 'live')}');}
 else{$('#page-content').html('#{escape_javascript(render 'live')}');}
 if($('.primary .left').length>0){$('.primary .left').html('#{escape_javascript(render '/bricks/fan_posts')}'); $('.primary .right').html('#{escape_javascript(render 'right')}');}

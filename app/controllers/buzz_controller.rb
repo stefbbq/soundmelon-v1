@@ -18,9 +18,11 @@ class BuzzController < ApplicationController
   def song_buzz 
     if request.xhr?
       begin
-        @song     = Song.where(:id =>params[:id]).includes(:song_album).first
-        @buzzes   = Post.song_buzz_for(@song.id)
-      rescue
+        @song                 = Song.where(:id =>params[:id]).includes(:song_album).first
+        @buzzes               = Post.song_buzz_for(@song.id)
+        @buzzes_by_dates      = @buzzes.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+      rescue =>exp
+        logger.error "Error i Buzz::SongBuz :=> #{exp.message}"
         render :nothing => true and return
       end
     else

@@ -174,6 +174,22 @@ class User < ActiveRecord::Base
     song_items.flatten
   end
 
+  def followers page = 1
+    follows   = Follow.where("followable_id = ? and followable_type = ?", self.id, self.class.name).page(page).per(FOLLOWING_FOLLOWER_PER_PAGE)
+    followers = follows.map{|follow| follow.follower}
+    followers
+  end
+
+  def limited_followers
+    follows   = Follow.where("followable_id = ? and followable_type = ?", self.id, self.class.name).order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)
+    followers = follows.map{|follow| follow.follower}
+    followers
+  end
+
+  def is_fan?
+    true
+  end
+
   ######### Invitation Specific Code #########################################################
   validates :invitation_id, :presence =>true#, :message => 'is required'
   validates_uniqueness_of :invitation_id
@@ -190,7 +206,7 @@ class User < ActiveRecord::Base
   def invitation_token=(token)
     self.invitation = Invitation.find_by_token(token)
   end
-
+  
   private
 
   def set_invitation_limit

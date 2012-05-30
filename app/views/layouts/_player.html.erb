@@ -49,7 +49,7 @@ $(".jp-pre").click(function() { playListPrev(); }); // Listen for Previous Track
 $(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click
 
 function playListStart(){if(playList.length>0){playListChange(0, 0);}}
-function updateTrackInfo(b,t,n,i,l){
+function updateTrackInfo(b,t,i,l){
 var url       = '<%= request.base_url %>/' + b;
 var band_html = "<a href='" + url + "' class='ajaxopen backable' data-remote='true'>" + b +"</a>";
 $('.info .artist-title').html(band_html);
@@ -63,7 +63,7 @@ function playListChange(index,play) {
 currentTrack = index;
 var item     = playList[currentTrack];
 var next     = (currentTrack + 1 < playList.length) ? currentTrack + 1 : 0;
-updateTrackInfo(item.band, item.title, next==0 ? '' : playList[next].title, item.image, item.like ? 'liked' : 'like')
+updateTrackInfo(item.band, item.title, item.image, item.like ? 'liked' : 'like')
 if(play==1)
 player.jPlayer("setMedia", { m4a:item.mp3, ogg:item.ogg}).jPlayer('play');
 else
@@ -104,23 +104,6 @@ $("body").click(function(e) {
   $(".jp-playlist").hide();
 });
 
-var playList = [
-<% for i in 0..@song_items.size-1
-  song          = @song_items[i]
-  song_detail   = song.song_detail
-%>
-  {
-  i:     "<%= song.id %>",
-  title: "<%= song.title %>",
-  mp3:   "<%= song.song_mp3  %>",
-  ogg:   "<%= song.song_ogg  %>",
-  band:  "<%= song_detail[:band]  %>",
-  album: "<%= song_detail[:album]  %>",
-  image: '<%= get_album_cover_image(song.song_album) %>',
-  like: <%= song.voted_on_by? current_user %>
-  }
-  <%= ","  unless i >= @song_items.size-1 %>
-<% end %>
-];
+var playList = [<%= list_of_play_items(@song_items) %>];
 //]]>
 </script>

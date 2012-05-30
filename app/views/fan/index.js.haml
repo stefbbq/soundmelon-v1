@@ -1,13 +1,12 @@
-$('.top-bar .session').html('#{escape_javascript(render '/artist/artist_admin_header')}');
-$('#page-content').html('#{escape_javascript(render 'live')}');
+$('#page-content').html('#{escape_javascript(render '/fan/live')}');
 $('#page-content').append('<div class="primary-container"></div>');
 $('.primary-container').append('<div class="primary"></div>');
 $('.primary').append('<div class="left"></div>');
-$('.primary .left').append('#{escape_javascript(render 'user_posts/form')}');
-$('.primary .left').append('#{escape_javascript(render 'social_header')}');
-$('.primary .left').append('#{escape_javascript(render 'bricks/fan_posts')}');
+$('.primary .left').append('#{escape_javascript(render '/user_posts/form')}');
+$('.primary .left').append('#{escape_javascript(render '/fan/social_header')}');
+$('.primary .left').append('#{escape_javascript(render '/bricks/fan_posts')}');
 $('.primary').append('<div class="right"></div>');
-$('.primary .right').html('#{escape_javascript(render 'right')}');
+$('.primary .right').html('#{escape_javascript(render '/fan/right')}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-fan');
 $('#feed-msg').addClass('active').addClass('button-fill-fan');

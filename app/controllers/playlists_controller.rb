@@ -31,6 +31,7 @@ class PlaylistsController < ApplicationController
 
   def add_to_player_queue
     @song_album = SongAlbum.where("id=?", params[:id]).includes(:songs).first
+    @songs      = @song_album.songs
   end
   
   private

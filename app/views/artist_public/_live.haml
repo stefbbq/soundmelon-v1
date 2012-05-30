@@ -1,3 +1,5 @@
+- actor       = current_actor
+- is_own_wall = actor.instance_of?(Band) && (actor.id == @band.id)
 .live
   .profile-image
     = get_band_logo_large(@band)
@@ -8,13 +10,14 @@
           %h2
             = @band.name
         .actions
-          - if @is_admin_of_band
-            = link_to 'administer', manage_band_path(:band_name => @band.name), :remote =>true, :class =>'ajaxopen backable'
-          - if current_user.following?(@band)
-            = link_to 'unfollow', unfollow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen'
-          - else
-            = link_to 'follow', follow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen'
-          = link_to 'message', band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen"
+          - unless is_own_wall
+            - if @is_admin_of_band
+              = link_to 'administer', manage_band_path(:band_name => @band.name), :remote =>true, :class =>'ajaxopen backable'
+            - if actor.following?(@band)
+              = link_to 'unfollow', unfollow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen'
+            - else
+              = link_to 'follow', follow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen'
+            = link_to 'message', band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen"
           = link_to 'Facebook', @band.facebook_page, :target =>'_blank', :title =>"Facebook Page" unless @band.facebook_page.blank?
           = link_to 'Twitter', @band.twitter_page, :target =>'_blank', :title =>"Twitter Page" unless @band.twitter_page.blank?
       .sub-head

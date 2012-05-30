@@ -182,8 +182,7 @@ module ApplicationHelper
     post_msg.html_safe
   end
 
-  def list_of_play_items song_album, song_list=[]
-    songs     = song_list.empty? ? song_album.songs : song_list
+  def list_of_play_items songs
     list_str  = ""
     for i in 0..songs.size-1
       song          = songs[i]

@@ -29,16 +29,7 @@ class ArtistPublicController < ApplicationController
       @load_more_bulletins_path   = bulletin_next_page ? band_more_bulletins_path(:band_name => @band.name, :page => bulletin_next_page) : nil
       next_page                   = @posts.next_page
       @load_more_path             =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => 'general') : nil
-      @song_album_count           = @band.song_albums.size
-      @photo_album_count          = @band.band_albums.size
-      @tour_count                 = @band.band_tours.size
-      @band_artist_count          = @band.band_members.size
-      @band_fan_count             = @band.followers_count
-      @song_albums                = @band.limited_song_albums
-      @photo_albums               = @band.limited_band_albums
-      @band_tours                 = @band.band_tours
-      @band_artists               = @band.limited_band_members
-      @band_fans                  = @band.limited_band_follower
+      get_artist_objects_for_right_column(@band)
     rescue  => exp
       logger.error "Error in ArtistPublic#Members :=> #{exp.message}"
       render :template =>'/bricks/page_missing' and return
