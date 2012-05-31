@@ -1,4 +1,4 @@
 $('#facebox #notice').html("<span style='color:red;font-size:15px;'>Updated Band Album Details</span>");
 $.facebox("Updated successfully");
-!= "$('.primary .left #band_album_#{@band_album.id}').replaceWith('#{escape_javascript(render 'band_photo_album', :band_album => @band_album)}');"
+!= "$('.primary .left #band_album_#{@band_album.id}').replaceWith('#{escape_javascript(render 'band_photo_album', :band_album => @band_album, :show_all =>true)}');"
 setTimeout('$(document).trigger(\"close.facebox\")',10);

@@ -89,7 +89,8 @@ class ApplicationController < ActionController::Base
   end
   
   def logged_in_user
-    redirect_to fan_home_url and return if current_user
+#    redirect_to fan_home_url and return if current_user
+    redirect_to user_home_url and return if current_user
   end
 
   #added to restrict the site from anonymous access

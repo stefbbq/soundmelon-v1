@@ -18,4 +18,4 @@ solr/data/*
 config/database.yml
 .DS_Store
 db/schema
-public/sm
+public/sm/*
