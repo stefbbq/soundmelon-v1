@@ -1,3 +1,6 @@
 .site-logo
-  %a{:href => root_path, :remote=>:true, :class =>'ajaxopen'}
+  %a{:href => root_path, :class =>'ajaxopen backable', :id =>'homelogo'}
     = image_tag 'base-logo.png'
+
+:javascript
+  $('#homelogo').live('click',function(){ $.ajax("#{root_path}");});

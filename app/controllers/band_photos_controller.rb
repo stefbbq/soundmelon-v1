@@ -1,15 +1,14 @@
 class BandPhotosController < ApplicationController 
-  before_filter :require_login
+  before_filter :require_login, :check_and_set_admin_access
   
-  def index
-    #@photos = Photos.all
+  def index    
   end
   
   def show
     begin
-      @band = Band.where(:name => params[:band_name]).first
-      @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).first
-      @photo = BandPhoto.find(params[:id])
+      @band           = Band.where(:name => params[:band_name]).first
+      @band_album     = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).first
+      @photo          = BandPhoto.find(params[:id])
     rescue
       render :nothing => true and return
     end       
@@ -17,18 +16,17 @@ class BandPhotosController < ApplicationController
 
   def new
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
-    @band = Band.where(:name => params[:band_name]).first
-    if current_user.is_admin_of_band?(@band)
-      @band_photo = BandPhoto.new
+    @band             = Band.where(:name => params[:band_name]).first
+    if @has_admin_access
+      @band_photo     = BandPhoto.new
     else
       render :nothing => true and return
     end
   end
 
   def create
-    begin
-      @band = Band.where(:name => params[:band_name]).first
-      if current_user.is_admin_of_band?(@band)
+    begin      
+      if @has_admin_access
         newparams = coerce(params)
         if params[:album_name].blank?
           params[:album_name] = Time.now.strftime("%Y-%m-%d")
@@ -69,9 +67,8 @@ class BandPhotosController < ApplicationController
   
   def band_albums        
     begin
-      @band = Band.where(:name => params[:band_name]).first
-      @is_admin_of_band = current_user.is_member_of_band?(@band)
-      @band_albums = @band.band_albums.includes('band_photos')
+      @band             = Band.where(:name => params[:band_name]).first
+      @band_albums      = @band.band_albums.includes('band_photos')      
       get_artist_objects_for_right_column(@band)
     rescue
       render :nothing => true and return
@@ -80,43 +77,43 @@ class BandPhotosController < ApplicationController
 
   def band_album    
     begin
-      @band = Band.where(:name => params[:band_name]).first
-      @is_admin_of_band = current_user.is_member_of_band?(@band)
-      @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
-      @status = true
-      @band_albums = [@band_album]
+      @band             = Band.where(:name => params[:band_name]).first
+      @band_album       = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
+      @status           = true
+      @band_albums      = [@band_album]
+      @show_all         = true
       get_artist_objects_for_right_column(@band)
       render :template =>"/band_photos/band_albums" and return
-    rescue
-      @status = false
-      render :nothing => true and return
+    rescue =>exp
+      logger.error "Error in BandPhoto#BandAlbum :=> #{exp.message}"
+      @status           = false
+      render :nothing   => true and return
     end
   end
   
   def band_album_photos
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
-    begin
-      @band = Band.where(:name => params[:band_name]).first
-      @is_admin_of_band = current_user.is_member_of_band?(@band)
-      @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
-    rescue
-      render :nothing => true and return
+    begin            
+      @band_album       = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:band_album_name]).includes('band_photos').first
+    rescue =>exp
+      logger.error "Error in BandPhoto#BandAlbumPhotos :=> #{exp.message}"
+      render :nothing   => true and return
     end
   end
   
   def add
     if request.xhr?
-      begin
-        @band = Band.where(:name => params[:band_name]).first
-        @band_album = BandAlbum.where(:name => params[:band_album_name], :band_id => @band.id).first
-        if current_user.is_admin_of_band?(@band)
-          @band_photo = BandPhoto.new
+      begin        
+        @band_album       = BandAlbum.where(:name => params[:band_album_name], :band_id => @band.id).first
+        if @has_admin_access
+          @band_photo     = BandPhoto.new
         else
           # render :nothing => true and return
         end
-        render :action => 'new', :format => 'js' and return
-      rescue
-        render :nothing => true and return
+        render :action    => 'new', :format => 'js' and return
+      rescue =>exp
+        logger.error "Error in BandPhoto#Add :=> #{exp.message}"
+        render :nothing   => true and return
       end
     else
       redirect_to show_band_url(params[:band_name]) and return
@@ -159,15 +156,14 @@ class BandPhotosController < ApplicationController
   
   def destroy_album
     if request.xhr?
-      begin
-        @band = Band.where(:name => params[:band_name]).first
-        @band_album = BandAlbum.where(:name => params[:band_album_name], :band_id => @band.id).first
-        unless current_user.is_admin_of_band?(@band)
+      begin        
+        @band_album       = BandAlbum.where(:name => params[:band_album_name], :band_id => @band.id).first
+        unless @has_admin_access
           render :nothing => true and return
         end
-        @status = @band_album.delete
+        @status           = @band_album.delete
       rescue
-        @status = false
+        @status           = false
         render :nothing => true and return
       end
     else
@@ -178,14 +174,14 @@ class BandPhotosController < ApplicationController
   def edit_photo
     if request.xhr?
       begin
-        @band = Band.where(:name => params[:band_name]).first
-        @band_album = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first
-        @band_photo = BandPhoto.where(:band_album_id => @band_album.id, :id => params[:id]).first
-        unless current_user.is_admin_of_band?(@band)
+        @band             = Band.where(:name => params[:band_name]).first
+        @band_album       = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first
+        @band_photo       = BandPhoto.where(:band_album_id => @band_album.id, :id => params[:id]).first
+        unless @has_admin_access
           render :nothing => true and return
         end
       rescue
-        render :nothing => true and return
+        render :nothing   => true and return
       end
     else
       redirect_to show_band_url(params[:band_name]) and return
@@ -194,33 +190,52 @@ class BandPhotosController < ApplicationController
   
   def update_photo
     if request.xhr?
-      begin
-        @band = Band.where(:name => params[:band_name]).first
-        @is_admin_of_band = current_user.is_member_of_band?(@band)
-        @band_album = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first
-        @band_photo = BandPhoto.where(:band_album_id => @band_album.id, :id => params[:id]).first
-        unless current_user.is_admin_of_band?(@band)
+      begin                
+        @band_album       = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first
+        @band_photo       = BandPhoto.where(:band_album_id => @band_album.id, :id => params[:id]).first
+        unless @has_admin_access
           render :nothing => true and return
         end
         @band_photo.update_attributes(params[:band_photo])
-      rescue
-        render :nothing => true and return
+      rescue =>exp
+        logger.error "Error in BandPhoto#UpdatePhoto :=> #{exp.message}"
+        render :nothing   => true and return
       end
     else
       redirect_to show_band_url(params[:band_name]) and return
     end
   end
+
+  def make_cover_image
+    if request.xhr?
+      begin        
+        @band_album       = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first
+        @band_photo       = BandPhoto.where(:band_album_id => @band_album.id, :id => params[:id]).first
+        unless @has_admin_access
+          render :nothing => true and return
+        end
+        @band_photo.make_cover_image
+        render :template =>'/band_photos/band_album_photos'
+      rescue =>exp
+        logger.error "Error in BandPhoto#MakeCoverImage :=> #{exp.message}"
+        render :nothing   => true and return
+      end
+    else
+      redirect_to show_band_url(params[:band_name]) and return
+    end  
+  end
   
   def destroy
     if request.xhr?
-      begin
-        @band = Band.where(:name => params[:band_name]).first
-        @band_album = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first
-        @band_photo = BandPhoto.where(:band_album_id => @band_album.id, :id => params[:id]).first
-        unless current_user.is_admin_of_band?(@band)
+      begin        
+        @band_album       = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first
+        @band_photo       = BandPhoto.where(:band_album_id => @band_album.id, :id => params[:id]).first
+        unless @has_admin_access
           render :nothing => true and return
         end
         @band_photo.destroy
+        @band_album.choose_cover_image
+        render :template =>'/band_photos/band_album_photos'
       rescue
         render :nothing => true and return
       end
@@ -231,22 +246,20 @@ class BandPhotosController < ApplicationController
   
   def disable_enable_band_album
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
-    begin
-      @band = Band.where(:name => params[:band_name]).first
-      @is_admin_of_band = current_user.is_member_of_band?(@band)
-      @band_album = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:album_name]).includes('band_photos').first
+    begin      
+      @is_admin_of_band   = current_user.is_member_of_band?(@band)
+      @band_album         = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:album_name]).includes('band_photos').first
       @band_album.update_attribute(:disabled, !@band_album.disabled)
-      @status = true
+      @status             = true
     rescue
-      @status = false
-      render :nothing => true and return
+      @status             = false
+      render :nothing     => true and return
     end   
   end
 
   def like_dislike
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
-    begin
-      @band             = Band.where(:name => params[:band_name]).first
+    begin      
       @is_admin_of_band = current_user.is_member_of_band?(@band)
       @band_album       = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:album_name]).includes('band_photos').first
 #      @band_album.update_attribute(:disabled, !@band_album.disabled)
@@ -257,7 +270,8 @@ class BandPhotosController < ApplicationController
     end
   end
 
-  private 
+  private
+  
   def coerce(params)
     if params[:band_photo].nil? 
       h = Hash.new 
@@ -268,5 +282,14 @@ class BandPhotosController < ApplicationController
     else 
       params
     end 
-  end  
+  end
+
+  # finds the artist profile by band_name parameter, and checks whether the current login is artist or fan
+  # and accordingly sets the variable @has_admin_access to be used in views and other actions
+  def check_and_set_admin_access
+    @band             = Band.where(:name => params[:band_name]).first
+    @actor            = current_actor
+    @has_admin_access = @band == @actor    
+  end
+  
 end

@@ -27,6 +27,11 @@ class BandPhoto < ActiveRecord::Base
     self.band_album.decrement!(:photo_count) if album
   end
 
+  def make_cover_image
+    self.band_album.band_photos.each{|photo| photo.update_attribute(:is_cover_image, false)}
+    self.update_attribute(:is_cover_image, true)
+  end
+
   # Fix the mime types. Make sure to require the mime-types gem
   def swfupload_file=(data)
     data.content_type = MIME::Types.type_for(data.original_filename).to_s

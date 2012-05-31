@@ -1,9 +1,12 @@
 $('#facebox .content').html('Followed Successfully');
 setTimeout('$(document).trigger(\"close.facebox\")',1000);
 - unfollow_content = capture do
-  = link_to 'unfollow', unfollow_user_path(@user_to_be_followed, :others => 1), :remote => true, :class => 'ajaxopen', :id=>'follow_link'
+  = link_to 'unfollow', unfollow_user_path(@user_to_be_followed), :remote => true, :class => 'ajaxopen', :id=>'follow_link'
 - new_follow_item = capture do
   = render '/bricks/avatar', :item =>@actor, :id_prefix =>"fan_follower"
+- left_list_item = capture do  
+  = render '/user_connections/item', :user =>@actor, :connection_item =>@user_to_be_followed, :following =>true
 != "$('.actions #follow_link').replaceWith('#{escape_javascript unfollow_content}');"
 if($('#fanfollowers .message').length>0){$('#fanfollowers').html('#{escape_javascript new_follow_item}')}else{$('#fanfollowers').prepend('#{escape_javascript new_follow_item}')};
+$('.primary .left .fan_follower_list').append('#{escape_javascript left_list_item}')
 $('#followers span.count').html("#{@last_follower_count}");

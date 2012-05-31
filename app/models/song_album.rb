@@ -39,12 +39,16 @@ class SongAlbum < ActiveRecord::Base
       # collect the album's tracks
       songs.collect {|song|        # add each track to the archive, names using the track's attributes
         attached_song  = song.song
-        zipfile.add("#{song.title_with_ext}", attached_song.path) if song.song_file_size>0
+        begin
+          zipfile.add("#{song.title_with_ext}", attached_song.path) if song.song_file_size>0
+        rescue =>exp
+          logger.error "Error in Adding Files into a Zip : #{exp.message}"
+        end
       }
     }
     # set read permissions on the file
     File.chmod(0644, bundle_filename)
     bundle_filename
-  end
+  end  
 
 end

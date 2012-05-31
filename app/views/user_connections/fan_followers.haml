@@ -2,11 +2,12 @@
 .primary-container
   .primary
     .left
-      %b #{@user.fname}'s Followers
+      %b Followers of #{@user.fname}
       %hr/
-      - @followers.each do |user|
-        = render '/user_connections/item', :user =>user
-      =# paginate @followers, :remote => true
+      .fan_follower_list
+        - @followers.each do |user|
+          = render '/user_connections/item', :user =>user, :connection_item =>@user, :following =>true
+        =# paginate @followers, :remote => true
     .right
       = render '/fan_public/right', :current =>'follower_user'
     

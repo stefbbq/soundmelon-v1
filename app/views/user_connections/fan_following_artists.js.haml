@@ -2,9 +2,10 @@ $('.primary .left').html('');
 - following = capture do
   %b Artists Following by '#{@user.fname}'
   %hr
-  - @following_artists.each do |band|
-    = render '/user_connections/item', :user =>band
-  =# paginate @following_artists, :remote => true
+  .fan_following_artist_list
+    - @following_artists.each do |band|
+      = render '/user_connections/item', :user =>band, :connection_item =>@user, :following =>false
+    =# paginate @following_artists, :remote => true
 $('.primary .left').html('#{escape_javascript(following)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.right .selection-box').removeClass('active').removeClass('button-fill-fan');

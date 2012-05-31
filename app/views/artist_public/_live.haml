@@ -12,7 +12,8 @@
         .actions
           - unless is_own_wall
             - if @is_admin_of_band
-              = link_to 'administer', manage_band_path(:band_name => @band.name), :remote =>true, :class =>'ajaxopen backable'
+              =# link_to 'administer', manage_band_path(:band_name => @band.name), :remote =>true, :class =>'ajaxopen backable'
+              = link_to "administer", change_login_path(@band.name), :class =>'ajaxopen backable', :remote =>true
             - if actor.following?(@band)
               = link_to 'unfollow', unfollow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen'
             - else

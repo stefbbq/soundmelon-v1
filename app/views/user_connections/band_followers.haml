@@ -4,8 +4,9 @@
     .left
       %b Followers for Artist '#{@band.name}'
       %hr
-      - @followers.each do |user|
-        = render '/user_connections/item', :user =>user
-      =# paginate @followers, :remote => true
+      .artist_follower_list
+        - @followers.each do |user|
+          = render '/user_connections/item', :user =>user, :connection_item =>@band, :following =>true
+        =# paginate @followers, :remote => true
     .right
       = render '/artist_public/right', :current =>'fan'

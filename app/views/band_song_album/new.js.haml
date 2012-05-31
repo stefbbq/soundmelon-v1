@@ -3,13 +3,16 @@
   #uploaded_images
   %h3 Upload a Song/Songs (You can select multiple files as well) 
   = form_for @song, :url => {:controller => 'band_song_album', :action => 'create'}, :html => {:multipart => true} do |f|
-    = hidden_field_tag :band_name, @band.name 
+    = hidden_field_tag :band_name, @band.name
     Album Name:
     %p
-      =text_field_tag :album_name
+      - if @song_album
+        = text_field_tag :album_name, @song_album.album_name, :disabled => true
+      - else
+        = text_field_tag :album_name    
     Choose File to Upload
     %p
       = f.file_field :song
     - f.submit "Upload"
-!= "jQuery.facebox('#{escape_javascript photo_upload_form} ' );"
+!= "jQuery.facebox('#{escape_javascript photo_upload_form}' );"
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   

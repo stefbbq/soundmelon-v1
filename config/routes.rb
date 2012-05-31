@@ -123,10 +123,11 @@ Soundmelon::Application.routes.draw do
   get ':band_name/:band_album_name/photos/add'    => 'band_photos#add',                   :as => :add_photos_to_album
   get ':band_name/edit/:band_album_name'          => 'band_photos#edit',                  :as => :edit_album
   match ':band_name/delete/:band_album_name'      => 'band_photos#destroy_album',         :as => :delete_album
+  get ':band_name/:album_name/photo/:id/cover'    => 'band_photos#make_cover_image' ,     :as => :make_cover_image
   get ':band_name/:album_name/photo/:id/edit'     => 'band_photos#edit_photo' ,           :as => :edit_photo
   get ':band_name/:album_name/photo/:id/delete'   => 'band_photos#destroy' ,              :as => :delete_photo
   get ':band_name/:album_name/ppublic'            => 'band_photos#disable_enable_band_album', :as => :disable_enable_band_album
-  match ':band_name/:album_name/photo/:id/update' => 'band_photos#update',                :as => :update_band_photo
+  match ':band_name/:album_name/photo/:id/update' => 'band_photos#update_photo',          :as => :update_band_photo
   get ':band_name/:album_name/plike'              => 'band_photos#like_dislike',          :as => :like_band_album
   
   #band song albums and songs
@@ -134,15 +135,16 @@ Soundmelon::Application.routes.draw do
   get ':band_name/song/albums'                    => 'band_song_album#band_song_albums',  :as => :band_song_albums
   get ':band_name/:song_album_name/album'         => 'band_song_album#band_song_album',   :as => :band_song_album
   get ':band_name/album/songs/:song_album_name'   => 'band_song_album#album_songs',       :as => :band_album_songs
-  get ':artist_name/:song_album_name/song/:id/edit' => 'band_song_album#edit_song',       :as => :album_song_edit
-  match ':artist_name/:song_album_name/song/:id/update' => 'band_song_album#update_song', :as => :album_song_update
-  get 'artist/SongAlbum/sadownload/:id'           => 'band_song_album#download_album',    :as => :download_song_album
-  get ':band_name/:song_album_name/download/song/:id' => 'band_photos#download',          :as => :band_album_song_download
-  get ':band_name/:song_album_name/public'        => 'band_song_album#disable_enable_song_album', :as => :disable_enable_band_song_album
-  get ':band_name/:song_album_name/add_song'      => 'band_song_album#add_song_to_album',         :as => :add_song_to_album
+  get ':band_name/:song_album_name/song/:id/edit' => 'band_song_album#edit_song',         :as => :album_song_edit
+  get ':band_name/:song_album_name/songs/add'     => 'band_song_album#add',               :as => :add_songs_to_album
+  match ':band_name/:song_album_name/song/:id/update' => 'band_song_album#update_song',   :as => :album_song_update
+  get ':band_name/SongAlbum/sadownload/:id'       => 'band_song_album#download_album',    :as => :download_song_album
+  match ':band_name/album/delete/:song_album_id'  => 'band_song_album#destroy_album',     :as => :delete_song_album
+  match ':band_name/song/delete/:song_id'         => 'band_song_album#destroy_song',      :as => :delete_song
+  get ':band_name/:song_album_name/public'        => 'band_song_album#disable_enable_song_album', :as => :disable_enable_band_song_albums
   get ':band_name/set_featured'                   => 'band_song_album#albums_for_featured_list',  :as => :popup_for_feature_albums
   get ':band_name/:song_album_name/featured'      => 'band_song_album#make_song_album_featured',  :as => :make_song_album_featured
-  get ':band_name/:song_album_name/edit'          => 'band_song_album#edit_song_album',   :as => :edit_band_song_album
+  get ':band_name/:song_album_name/edit'          => 'band_song_album#edit_song_album',   :as => :edit_band_song_album  
   get ':song_name/:id/like'                       => 'band_song_album#do_like_song',      :as => :like_song
   get ':song_name/:id/dislike'                    => 'band_song_album#do_dislike_song',   :as => :dislike_song
   root :to => 'home#index'

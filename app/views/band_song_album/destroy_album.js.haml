@@ -1,0 +1,8 @@
+- if @status
+  $('#facebox .content').html('Album successfully deleted');  
+  $('#musicbox #song_album_#{@song_album.id}').remove();
+  != "$('.primary .left #song_album_#{@song_album.id}').remove();"
+- else
+  jQuery.facebox("Something went wrong! Try again!");
+$.facebox.close();
+

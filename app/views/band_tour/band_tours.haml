@@ -4,7 +4,7 @@
     .left
       .album_list_header
         %b Band Shows
-        - if @is_admin_of_band
+        - if @has_admin_access
           .add_new{:style=>'float:right;background-color:grey;height:20px;width:70px;padding-left:10px;'}
             = link_to "add show", new_band_tour_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
         %hr/

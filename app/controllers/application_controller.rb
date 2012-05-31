@@ -36,6 +36,8 @@ class ApplicationController < ActionController::Base
 
   # instantiates all artist objects for rendering in right column
   def get_artist_objects_for_right_column artist
+    actor                      = current_actor
+    @has_admin_access          = actor == artist    
     @song_album_count          = artist.song_albums.size
     @photo_album_count         = artist.band_albums.size
     @tour_count                = artist.band_tours.size
@@ -43,7 +45,7 @@ class ApplicationController < ActionController::Base
     @band_fan_count            = artist.followers_count
     @song_albums               = artist.limited_song_albums
     @featured_songs            = artist.limited_band_featured_songs
-    @photo_albums              = artist.limited_band_albums
+    @photo_albums              = artist.limited_band_albums(2)
     @band_tours                = artist.limited_band_tours
     @band_artists              = artist.limited_band_members
     @band_fans                 = artist.limited_followers

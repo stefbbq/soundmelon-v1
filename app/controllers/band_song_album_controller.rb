@@ -1,12 +1,11 @@
 # Handling all the stuffs related to song and song albums
 class BandSongAlbumController < ApplicationController
-  before_filter :require_login
+  before_filter :require_login, :check_and_set_admin_access
 
   # renders the form for new song album, :only =>ajax_request
   def new
-    redirect_to  show_band_url(:band_name => params[:band_name]) and return unless request.xhr?
-    @band = Band.where(:name => params[:band_name]).first
-    if current_user.is_admin_of_band?(@band)
+    redirect_to  show_band_url(:band_name => params[:band_name]) and return unless request.xhr?    
+    if @has_admin_access
       @song = Song.new
     else
       render :nothing => true and return
@@ -17,14 +16,14 @@ class BandSongAlbumController < ApplicationController
   def create
     begin
       @band = Band.where(:name => params[:band_name]).first
-      if current_user.is_admin_of_band?(@band)
+      if @has_admin_access
         newparams = coerce(params)
         if params[:album_name].blank?
           params[:album_name] = @band.name + Time.now.strftime("%Y-%m-%d")
         end
-        @song_album = SongAlbum.where(:album_name => params[:album_name], :band_id => @band.id).first || SongAlbum.create(:album_name=>params[:album_name], :user_id => current_user.id, :band_id => @band.id)
-        @song = @song_album.songs.build(newparams[:song])
-        @song.user_id = current_user.id
+        @song_album           = SongAlbum.where(:album_name => params[:album_name], :band_id => @band.id).first || SongAlbum.create(:album_name=>params[:album_name], :user_id => current_user.id, :band_id => @band.id)
+        @song                 = @song_album.songs.build(newparams[:song])
+        @song.user_id         = current_user.id
         if @song.save
           flash[:notice] = "Song successfully uploaded."
           respond_to do |format|
@@ -37,8 +36,9 @@ class BandSongAlbumController < ApplicationController
                 :song_album_id  => @song_album.id,
                 :song_count_str => @song_album.song_count,
                 :image_src      => '/assets/no-image.png',
-                :add_url        => "#{add_song_to_album_path(:band_name =>@band.name, :song_album_name =>@song_album.album_name)}",
-                :album_url      => "#{band_song_album_path(:band_name =>@band.name, :song_album_name =>@song_album.album_name)}"
+                :add_url        => "#{add_songs_to_album_path(:band_name =>@band.name, :song_album_name =>@song_album.album_name)}",
+                :album_url      => "#{band_song_album_path(:band_name =>@band.name, :song_album_name =>@song_album.album_name)}",
+                :delete_url     => "#{delete_song_album_path(@band.name, @song_album.id)}",
               }               
             }
           end
@@ -48,12 +48,29 @@ class BandSongAlbumController < ApplicationController
       else
         render :nothing => true and return
       end
-    rescue
+    rescue =>exp
+      logger.error "Error in BandSongAlbum#Create :=>#{exp.message}"
       render :nothing => true and return
     end
   end
 
-  def destroy   
+  def add
+    if request.xhr?
+      begin
+        @song_album       = SongAlbum.where(:album_name => params[:song_album_name], :band_id => @band.id).first
+        if @has_admin_access
+          @song           = Song.new
+        else
+          # render :nothing => true and return
+        end
+        render :action    => 'new', :format => 'js' and return
+      rescue =>exp
+        logger.error "Error in BandSongAlbum#Add :=> #{exp.message}"
+        render :nothing   => true and return
+      end
+    else
+      redirect_to show_band_url(params[:band_name]) and return
+    end
   end
   
   def band_song_albums    
@@ -73,9 +90,11 @@ class BandSongAlbumController < ApplicationController
       @is_admin_of_band   = current_user.is_member_of_band?(@band)
       @song_album         = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
       @artist_song_albums = [@song_album]
+      @show_all           = true
       get_artist_objects_for_right_column(@band)
       render :template  =>"/band_song_album/band_song_albums" and return
-    rescue
+    rescue =>exp
+      logger.error "Error in BandSongAlbum#BandSongAlbum :=> #{exp.message}"
       render :nothing => true and return
     end
   end
@@ -97,9 +116,8 @@ class BandSongAlbumController < ApplicationController
   # edit form for song album, renders the pop-up to change the image and upload more songs
   def edit_song_album
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
-    begin
-      @band = Band.where(:name => params[:band_name]).first
-      if current_user.is_member_of_band?(@band)
+    begin      
+      if @has_admin_access
         @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
         5.times { @song_album.songs.build }
       else
@@ -112,9 +130,8 @@ class BandSongAlbumController < ApplicationController
 
   # updates the song album, adding more songs, changing the cover image
   def update_song_album
-    begin
-      @band               = Band.where(:name => params[:band_name]).first
-      if current_user.is_member_of_band?(@band)
+    begin      
+      if @has_admin_access
         @song_album       = SongAlbum.where('band_id = ? and id = ?', @band.id, params[:id]).first
         @song_album.update_attributes(params[:song_album])        
         @is_updated       = true
@@ -123,20 +140,55 @@ class BandSongAlbumController < ApplicationController
       else
         render :noting => true and return
       end
-    rescue
+    rescue =>exp
+      logger.error "Error in BandSongAlbum#UpdateSongAlbum :=> #{exp.message}"
       render :nothing => true and return
+    end
+  end
+
+  def destroy_album
+    if request.xhr?
+      begin        
+        @song_album         = SongAlbum.where(:id => params[:song_album_id], :band_id => @band.id).first
+        unless @has_admin_access
+          render :nothing => true and return
+        end
+        @status             = @song_album.destroy
+      rescue =>exp
+        logger.error "Error in BandSongAlbum#DestroyAlbum :=> #{exp.message}"
+        @status             = false
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(params[:band_name]) and return
+    end
+  end
+
+  def destroy_song
+    if request.xhr?
+      begin
+        @song           = Song.where(:id => params[:song_id]).first
+        unless @has_admin_access
+          render :nothing => true and return
+        end
+        @status         = @song.destroy
+      rescue =>exp
+        logger.error "Error in BandSongAlbum#DestroySong :=> #{exp.message}"
+        @status         = false
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(params[:band_name]) and return
     end
   end
 
   # edit form for a single song, renders the pop-up to change the song title
   def edit_song
     if request.xhr?
-      begin
-        @artist           = Band.where(:name => params[:artist_name]).first
-        @song_album       = SongAlbum.where(:album_name => params[:song_album_name], :band_id => @artist.id).first
-        @song             = Song.where(:song_album_id => @song_album.id, :id => params[:id]).first
+      begin                
+        @song             = Song.find(params[:id])
         @is_updated       = false
-        unless current_user.is_admin_of_band?(@artist)
+        unless @has_admin_access
           render :nothing => true and return
         end
       rescue =>exp
@@ -151,11 +203,9 @@ class BandSongAlbumController < ApplicationController
   # updates the single song detail
   def update_song
     if request.xhr?
-      begin
-        @artist                 = Band.where(:name => params[:artist_name]).first
-        @song_album             = SongAlbum.where(:album_name => params[:song_album_name], :band_id => @artist.id).first
-        @song                   = Song.where(:song_album_id => @song_album.id, :id => params[:id]).first
-        if current_user.is_member_of_band?(@artist)
+      begin        
+        @song                   = Song.find(params[:id])
+        if @has_admin_access
           @song.update_attributes(params[:song])
           @song.delay.update_metadata_to_file
           render :action => 'edit_song' and return
@@ -255,6 +305,7 @@ class BandSongAlbumController < ApplicationController
   end 
   
   private
+  
   def coerce(params)
     if params[:song].nil?
       h                             = Hash.new
@@ -265,6 +316,14 @@ class BandSongAlbumController < ApplicationController
     else
       params
     end
-  end  
+  end
+
+  # finds the artist profile by band_name parameter, and checks whether the current login is artist or fan
+  # and accordingly sets the variable @has_admin_access to be used in views and other actions
+  def check_and_set_admin_access
+    @band             = Band.where(:name => params[:band_name]).first
+    @actor            = current_actor
+    @has_admin_access = @band == @actor    
+  end
 end
 

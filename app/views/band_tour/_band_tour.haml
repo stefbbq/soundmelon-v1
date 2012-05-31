@@ -1,3 +1,4 @@
+- show_all ||=false
 .album[band_tour]
   .album_info_wrapper
     .album_info
@@ -8,13 +9,27 @@
         = link_to image_tag('buzz-icon.png'), band_tour_buzz_path(@band.name, band_tour.id), :remote => true, :class => 'ajaxopen'
     .clear
   .additional_info
-    - if can_admin?(@band, current_user)
+    - if @has_admin_access
       .album_controls{:style=>'float:left;width:50px;'}
         = link_to "edit", edit_band_tour_path(:band_name =>@band.name, :band_tour_id => band_tour.id), :remote=>:true, :class=>"ajaxopen"
         = link_to "remove", delete_band_tour_path(:band_name =>@band.name, :band_tour_id => band_tour.id), :remote=>:true, :class=>"ajaxopen"
-    .toggle-thread
-      = link_to "expand", band_tour_detail_path(:band_name =>@band.name, :band_tour_id => band_tour.id), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{band_tour.id}"
+    - unless show_all
+      .toggle-thread
+        = link_to "expand", band_tour_detail_path(:band_name =>@band.name, :band_tour_id => band_tour.id), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{band_tour.id}"
+    - else
+      .toggle-thread
+        %a{:href => "javascript:void(0);", :onclick => "$('div#band_tour_#{@band_tour.id} .tour_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
     .clear
   .tour_details
+    - if show_all
+      %hr/
+      Venue:
+      = @band_tour.venue
+      %br/
+      Country:
+      = @band_tour.country
+      %br/
+      Ticket:
+      = @band_tour.ticket
   .clear
 .clear

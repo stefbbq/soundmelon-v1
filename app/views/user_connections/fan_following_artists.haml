@@ -4,8 +4,9 @@
     .left
       %b Artists Following by '#{@user.fname}'
       %hr
-      - @following_artists.each do |band|
-        = render '/user_connections/item', :user =>band
-      =# paginate @following_artists, :remote => true
+      .fan_following_artist_list
+        - @following_artists.each do |band|
+          = render '/user_connections/item', :user =>band, :connection_item =>@user, :following =>false
+        =# paginate @following_artists, :remote => true
     .right
       = render "/fan_public/right", :current =>'following_artist'

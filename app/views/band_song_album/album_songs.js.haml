@@ -1,14 +1,13 @@
-- is_admin = can_admin?(@song_album.band,current_user)
 - show_album_songs = capture do
   - @song_album.songs.each do |song|
-    = render 'song_item', :song =>song, :accessible =>is_admin
-  - if is_admin
+    = render 'song_item', :song =>song
+  - if @has_admin_access
     .song
       .song-title
         = link_to image_tag("add.png"), edit_band_song_album_path(:band_name =>@song_album.band.name, :song_album_name => @song_album.album_name), :remote=>:true, :class=>"ajaxopen", :title =>"add new song"
 - hide_album_songs = capture do
   %a{:href => "javascript:void(0);", :onclick => "$('#song_album_#{@song_album.id} .album_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
     collapse
-$('#song_album_#{@song_album.id} .album_details').append('#{escape_javascript show_album_songs}');
+$('#song_album_#{@song_album.id} .album_details').html('#{escape_javascript show_album_songs}');
 $('#expand_link_#{@song_album.id}').replaceWith('#{escape_javascript hide_album_songs}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);

@@ -74,8 +74,9 @@ class UserConnectionsController < ApplicationController
   def band_followers    
     begin
       if params[:band_name]   # band item
-        @band        = Band.find_band params                
-        @followers   = @band.followers params[:page]
+        @actor                  = current_actor
+        @band                   = Band.find_band params
+        @followers              = @band.followers params[:page]
         get_artist_objects_for_right_column(@band)
       end
       respond_to do |format|
@@ -89,9 +90,10 @@ class UserConnectionsController < ApplicationController
   end
 
   def fan_followers    
-    begin      
-      @user            = User.find(params[:id])      
-      @followers       = @user.followers params[:page]
+    begin
+      @actor                    = current_actor
+      @user                     = User.find(params[:id])
+      @followers                = @user.followers params[:page]
       get_fan_objects_for_right_column(@user)
       respond_to do |format|
         format.js and return
@@ -106,8 +108,9 @@ class UserConnectionsController < ApplicationController
   def fan_following_artists    
     begin
       if params[:id]
-        @user                = User.find(params[:id])
-        @following_artists   = @user.following_bands.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
+        @actor                  = current_actor
+        @user                   = User.find(params[:id])
+        @following_artists      = @user.following_bands.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
       end
       get_fan_objects_for_right_column(@user)
       respond_to do |format|
@@ -123,9 +126,9 @@ class UserConnectionsController < ApplicationController
   def fan_following_fans    
     begin
       if params[:id]
-        @user           = User.find(params[:id])
-        #          @following_fans = user.following_fans.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-        @following_fans = @user.following_users.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
+        @actor                  = current_actor
+        @user                   = User.find(params[:id])        
+        @following_fans         = @user.following_users.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
       end
       get_fan_objects_for_right_column(@user)
       respond_to do |format|
