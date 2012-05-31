@@ -29,29 +29,34 @@
       padding: 15px 0px 5px 8px;
       width: $right-button-width;
       clear: both;
-      display: block ;
+      display: block;
       font-size: $right-item-font-size;
 
       &:hover {
         text-decoration: none;
       }
-
       .small-font{
         font-size: 10px;
       }
-      .count {
-        color: white;
-        font-weight: bold;
-        font-style: italic;
-      }
     }
     .selection-box-nohref {
-      @extend .selecton-box;
-      @include default-button-nohref;
+			@include default-button-nohref;      
+		  padding: 15px 0px 5px 8px;
+      width: $right-button-width;
+      clear: both;
+      display: block;
+      font-size: $right-item-font-size;
+    }
+
+		//selection count value
+		.count {
+      color: white;
+      font-weight: bold;
+      font-style: italic;
     }
 
     //active
-    > .active {
+    .active {
       @include single-text-shadow(rgba(white, .4), 0px, 1px, 0px);
       border: none;
       color: black;
@@ -81,13 +86,28 @@
         color: $text-faded-color;
       }
 
-      .album-cover-image {
-        padding: 2px;
-      }
+			//photos, albums
       .song-album {
         border-bottom: 0.5px solid #303030;
-        margin-bottom: 2px;
+				margin: 4px 0;				
+				height: 40px;
+				
+				.title {
+					display: inline-block;
+					padding-top: 10px;
+					margin-left: 4px;
+					float: left;
+				}
+	      .album-cover-image {
+					width: 32px;
+					height: 32px;
+					display: inline-block;
+	        padding-top: 2px;
+					background: rgba(white, .05);
+					float: left;					
+	      }
       }
+
       .avatar {
         float: left;
         padding: 0px 5px 0px 0px;
@@ -198,7 +218,7 @@
     font-size:$size*2;
   }
 
-	//icons
+	//icon defs
 	.right-icon-item {
 		display: inline-block;
 		position: absolute;
@@ -210,7 +230,28 @@
 			opacity: 1;
 		}
 	}
-	.icon-add {
-		@include sprite-img("sprites-24.png", 1, 1, 24px);
+	.right-icon-collection {
+		display: inline-block;
+		float: left;
+		opacity: .7;
+		margin: 6px 4px 0 0 ;
+		
+		&:hover {
+			opacity: 1;
+		}
 	}
+	.right-icon-collection-secondary {
+		display: inline;
+		float: right;
+		margin: 6px 8px 0 0;
+		opacity: .3;
+		
+		&:hover {
+			opacity: 1;
+		}
+	}
+	
+	//icons
+	.icon-add {	@include sprite-img("sprites-24.png", 1, 1, 24px, 24px); }
+	.icon-remove { @include sprite-img("sprites-24.png", 2, 1, 24px, 24px); }
 }

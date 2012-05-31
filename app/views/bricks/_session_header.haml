@@ -7,7 +7,7 @@
   = link_to "#{current_fan_user.fname} #{current_fan_user.lname}", fan_profile_path(current_fan_user), :class => 'user-info backable', :remote =>true
   administrating
   = link_to artist.name, manage_band_path(:band_name => artist.name), :class => 'user-info backable ajaxopen', :remote =>true
-  = link_to "Switch", 'javascript:void(0);', :id =>'logout', :class =>'button', :remote =>true, :onclick =>"$('.switch-lists').toggle();"
+  = link_to "switch", 'javascript:void(0);', :id =>'switch', :remote =>true, :onclick =>"$('.switch-lists').toggle();"
   .switch-lists{:style=>'display:none'}
     = link_to 'Switch back to yourself', change_login_path, :class =>'button1 ajaxopen', :remote =>true
     %br

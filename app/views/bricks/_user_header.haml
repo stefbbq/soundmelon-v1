@@ -4,9 +4,9 @@
     .session
       .summary
         = render '/bricks/session_header'
+        = link_to "logout", logout_path, :id => 'logout'
       .notifications
         = render '/bricks/notifications'
-      = link_to "logout", logout_path, :id => 'logout'
   .bottom-bar
     .music-player
       = render :partial =>'layouts/player'

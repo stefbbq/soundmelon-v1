@@ -41,6 +41,14 @@
 		cursor: pointer;
 	}
 }
+@mixin inverted-button-dark {
+	@include inverted-button();
+	@include linear-gradient(darken($inverted-button-color, 20), darken($inverted-button-color, 40));	
+	
+	&:hover {
+		@include linear-gradient(darken($inverted-button-color, 10), darken($inverted-button-color, 30));
+	}
+}
 
 //shapes
 @mixin draw-circle() {

@@ -11,7 +11,6 @@
 - hide_album_photos = capture do
   %a{:href => "javascript:void(0);", :onclick => "$('#band_album_#{@band_album.id} .album_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
     collapse
-
 $('#band_album_#{@band_album.id} .album_details').html('#{escape_javascript band_album_photos}');
 $('#expand_link_#{@band_album.id}').replaceWith('#{escape_javascript hide_album_photos}');    
 setTimeout('$(document).trigger(\"close.facebox\")',10);
