@@ -13,7 +13,6 @@
     .loader
     = form_for @band, :url => action_url, :html => {:multipart => true, :remote => true, :class => 'band-form' } do |f|
       = render :partial => 'form_fields', :locals =>{:f => f}
-
 :javascript
   $(document).ready(function() {    
     $("#band_genre_tokens").tokenInput(
