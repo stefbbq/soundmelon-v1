@@ -8,5 +8,5 @@ setTimeout('$(document).trigger(\"close.facebox\")',1000);
   = render '/user_connections/item', :user =>@actor, :connection_item =>@user_to_be_followed, :following =>true
 != "$('.actions #follow_link').replaceWith('#{escape_javascript unfollow_content}');"
 if($('#fanfollowers .message').length>0){$('#fanfollowers').html('#{escape_javascript new_follow_item}')}else{$('#fanfollowers').prepend('#{escape_javascript new_follow_item}')};
-$('.primary .left .fan_follower_list').append('#{escape_javascript left_list_item}')
+$('.primary .left .connections_list').append('#{escape_javascript left_list_item}')
 $('#followers span.count').html("#{@last_follower_count}");

@@ -52,6 +52,15 @@
 }
 
 //
+//error
+.login-error {
+	color: rgba($error-color, .9);
+	position: absolute;
+	top: 21px;
+	right: 550px;
+}
+
+//
 //logo
 .logo { 
   text-align:center;

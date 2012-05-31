@@ -3,26 +3,6 @@
 @import 'vars';
 
 //oontrol styles
-@mixin default-button {
-	@include linear-gradient(#444444, #373737);
-	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
-	@include border-radius($detail-border-radius);
-	border: none;
-	padding: 4px 5px;	
-	font-size: $default-button-font-size;
-	color: $default-button-font-color;
-	
-	a {
-		text-decoration: none;
-	}
-	
-	&:hover {
-		@include linear-gradient(#555, #444);
-		text-decoration: none;
-		cursor: pointer;
-	}
-}
-
 @mixin default-button-nohref {
 	@include linear-gradient(#393939, #313131);
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
@@ -33,6 +13,15 @@
 	color: $default-button-font-color;
 	a {
 		text-decoration: none;
+	}
+}
+@mixin default-button {
+	@include default-button-nohref;
+	
+	&:hover {
+		@include linear-gradient(#555, #444);
+		text-decoration: none;
+		cursor: pointer;
 	}
 }
 
@@ -50,6 +39,14 @@
 		@include linear-gradient(lighten($inverted-button-color, 15), $inverted-button-color);
 		text-decoration: none;
 		cursor: pointer;
+	}
+}
+@mixin inverted-button-dark {
+	@include inverted-button();
+	@include linear-gradient(darken($inverted-button-color, 20), darken($inverted-button-color, 40));	
+	
+	&:hover {
+		@include linear-gradient(darken($inverted-button-color, 10), darken($inverted-button-color, 30));
 	}
 }
 

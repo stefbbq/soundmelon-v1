@@ -23,7 +23,7 @@
           = link_to 'Twitter', @band.twitter_page, :target =>'_blank', :title =>"Twitter Page" unless @band.twitter_page.blank?
       .sub-head
         %h3 
-          = "genre #{@band.genre}"
+          = "#{@band.genre}"
       .description
     .bottom
       .left.left-default

@@ -1,0 +1,28 @@
+- selected  ||=false
+- link_class = selected ? 'selection-box iconactive button-fill-artist' : 'selection-box iconactive'
+%div{:style=>"position: relative;"}
+  = link_to "javascript:void(0);", {:remote=>:true, :id=>'featuredmusic', :class=>link_class} do
+    featured music
+  =# link_to "", new_band_song_album_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access
+  .collection{:id =>'featuredmusicbox'}
+    - if @featured_songs.size > 0
+      .featured_song_list
+        %ul
+    - else
+      .message= "no featured music"
+      - if @featured_songs.size > 0
+        :javascript
+          var songList = [#{list_of_play_items(@featured_songs)}];
+          makeFeaturedSongList();
+          function makeFeaturedSongList(){
+            var liHtml='';
+            for(var i=0;i<songList.length;i++){
+              liHtml+='<li style="list-style:none"><a href="javascript:void(0);" onclick="playFeaturedSong(' + i + ');"  title="Click to play">' + songList[i]['title'] + '</a><a class="play_list_next" href="javascript:void(0);" onclick="playFeaturedSong(' + i + ');" title="Click to play">play</a></li>';
+            }
+            $('.featured_song_list ul').html(liHtml);
+          }
+          function playFeaturedSong(index){      
+            var item = songList[index];      
+            updateTrackInfo(item.band, item.title, item.image, item.like ? 'liked' : 'like')
+            play_music(item.title, item.mp3, item.ogg);
+          }

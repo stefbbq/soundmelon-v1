@@ -25,4 +25,5 @@
   - else
     %h3
     No Results Found for '#{params[:q]}'
-$('#page-content').html('#{escape_javascript(search_result)}');
+$('.live').html('#{escape_javascript(search_result)}');
+$('.primary-container').remove();

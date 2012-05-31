@@ -5,11 +5,11 @@
             :id                 =>'latest-posts', 
             :remote             => 'true',
             :class              => 0 == current ? 'ajaxopen backable iconactive selection-box button-fill-artist' : 'ajaxopen backable iconactive selection-box'
-  = render '/bricks/rb_featured_song',            
+  = render '/bricks/rb_music_featured',            
             :songs              => @featured_songs,
             :is_admin           => false,
             :band               => @band,
-            :selected           => 6 == current
+            :selected           => 6 == current            
   = render '/bricks/rb_music',
             :song_album_count   => @song_album_count,
             :song_albums        => @song_albums,

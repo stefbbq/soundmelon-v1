@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120525044624) do
+ActiveRecord::Schema.define(:version => 20120530065108) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(:version => 20120525044624) do
     t.string   "mention_name"
     t.string   "facebook_page"
     t.string   "twitter_page"
+    t.boolean  "is_member_public",  :default => true
   end
 
   create_table "bands_genres", :id => false, :force => true do |t|
@@ -301,6 +302,7 @@ ActiveRecord::Schema.define(:version => 20120525044624) do
     t.string   "genre"
     t.string   "track"
     t.date     "year"
+    t.boolean  "is_featured",       :default => false
   end
 
   create_table "tour_posts", :force => true do |t|

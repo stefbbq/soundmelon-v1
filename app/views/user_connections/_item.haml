@@ -1,5 +1,4 @@
 - status                      = true
-= following
 - if user.instance_of?(Band)
   - link                      = show_band_path(user.name)
   - image                     = get_band_logo_small(user)
@@ -12,27 +11,20 @@
   - location                  = user.get_full_address  
 - else
   - status                    = false
+
 - change_connection           = true
-- if @actor == user
+- if (@actor == user)
   - if @actor.following?(connection_item)
     - if connection_item.instance_of?(Band)
       - connection_link       = unfollow_band_path(:band_name =>connection_item.name)
       - connection_link_text  = 'unfollow'
     - elsif  connection_item.instance_of?(User)
       - connection_link       = unfollow_user_path(connection_item.id)
-      - connection_link_text  = 'unfollow'
-  - elsif
-    - if connection_item.instance_of?(Band)
-      - connection_link       = follow_band_path(:band_name =>connection_item.name)
-      - connection_link_text  = 'follow'
-    - elsif connection_item.instance_of?(User)
-      - connection_link       = follow_user_path(connection_item.id)
-      - connection_link_text  = 'follow'
+      - connection_link_text  = 'unfollow'  
   - else
     - change_connection       = false
 - else
   - change_connection         = false
-
 
 - if status
   - item_div_id               = following ? "#{user.class.name.downcase}_#{user.id}_following_#{connection_item.class.name.downcase}_#{connection_item.id}" : "#{connection_item.class.name.downcase}_#{connection_item.id}_following_#{user.class.name.downcase}_#{user.id}"
@@ -43,7 +35,8 @@
       %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'
       %br
       - unless location.blank?
-        #{location}
-      - if change_connection
-        = link_to connection_link_text, connection_link, :remote =>:true, :class =>'ajaxopen'
+        #{location}      
     .clear
+    - if change_connection
+      .actions
+        = link_to connection_link_text, connection_link, :remote =>:true, :class =>'ajaxopen'

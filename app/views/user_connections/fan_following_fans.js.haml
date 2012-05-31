@@ -2,7 +2,7 @@ $('.primary .left').html('');
 - following_fans = capture do
   %b Artists Following by '#{@user.fname}'
   %hr
-  .fan_following_fan_list
+  .connections_list
     - @following_fans.each do |user|
       = render '/user_connections/item', :user =>user, :connection_item =>@user, :following =>false
     = paginate @following_fans, :remote => true

@@ -238,15 +238,31 @@
   }
 
 	//
-	//connections
+	//collections
 	.item {
 		@include genericItem();
+		margin-bottom: 5px;
 		display: block;
+		
+		//profile photo
+		.photo {
+			float: left;
+			
+			img { 
+				@include border-radius($border-radius / 2);
+				width: 100px; 
+				height: 100px; 
+			}
+		}
 		
 		//name, description
 		.content {
 			display: inline-block;
 			margin-left: 6px; 
+			
+			> span {
+				display: block;
+			}
 		}
 		
 		//unfollow, etc

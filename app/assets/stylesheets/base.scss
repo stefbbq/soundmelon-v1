@@ -11,7 +11,7 @@
   background: $main-bg-color;
 }
 #page-container {
-  background: url(base-bg.jpg) center 0px no-repeat;
+  background: url(base-bg.jpg) center -35px no-repeat;
 	background-attachment: fixed;
   width: 100%;
 }
@@ -82,7 +82,7 @@
 				//summary, welcome note
 				.summary {
 					position: relative;
-					bottom: 8px;
+					bottom: 7px;
 				}
 
 				//replies, mentions and messages
@@ -127,9 +127,14 @@
           @include inverted-button;
           padding: 4px 8px 3px 8px;
           margin-left: 4px;
-					position: relative;
-					bottom: 7px;
         }
+				#switch {
+					//@include inverted-button-dark;
+					@include inverted-button;
+					//@include border-radius($border-radius/2 0 0 $border-radius/2);
+          padding: 4px 8px 3px 8px;
+          margin-left: 4px;
+				}
       }
     }
 
@@ -305,6 +310,7 @@
 //search results
 .users_header, .bands_header {background:none repeat scroll 0 0 #EF502F; padding:5px; min-height:20px; margin-top:5px;}
 #results {
+	padding: 10px;
   color: #fff;
   .row {
     min-height: 98px;

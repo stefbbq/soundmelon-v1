@@ -4,7 +4,7 @@
   = link_to 'follow', follow_user_path(@user_to_be_unfollowed), :remote => true, :class => 'ajaxopen', :id=>'follow_link'
 $('.actions #follow_link').replaceWith('#{escape_javascript follow_content}');
 if($("#fanfollowers ##{avatar_div}").length>0){$("#fanfollowers ##{avatar_div}").remove();}
-if($('.primary .left .fan_follower_list ##{item_div_id}').length>0){$('.primary .left .fan_follower_list ##{item_div_id}').remove();}
+if($('.primary .left .connections_list ##{item_div_id}').length>0){$('.primary .left .connections_list ##{item_div_id}').remove();}
 $('#followers span.count').html("#{@last_follower_count}");
 $('#facebox .content').html('Unfollowed Successfully');
 setTimeout('$(document).trigger(\"close.facebox\")',1000); 

@@ -5,4 +5,6 @@
     .album_photo
       =link_to image_tag(photo.image.url(:medium), :width => '196px'), album_photo_path(photo.id, :album_name => @album.name), :remote => true, :class => 'ajaxopen'
 $('.primary .left').html('#{escape_javascript album_photos} ');
-setTimeout('$(document).trigger(\"close.facebox\")',10);    
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.selection-box').removeClass('active').removeClass('button-fill-artist');
+$('#photos').addClass('active').addClass('button-fill-artist');

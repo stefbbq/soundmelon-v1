@@ -1,8 +1,6 @@
 // Place all the styles related to the Bands controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.logo{float:left;}
-.switch{float:right;}
 .adminstrating-info{font-size: 16px;}
 .band-logo{
   float:left; 
@@ -18,9 +16,6 @@
 .band-bio{display:none;z-index:1;position:absolute;background-color:#ffffff;padding:3px;color:black;margin-top:2px;font-weight:normal;font-size:12px;}
 .sales-trend{color:#fff;float:left; background-color: #212121;margin-top:30px; min-height:105px;max-height:105px; margin-right:10px; min-width:270px;max-widhth:270px;text-align:center}
 .total-plays{color:#ffffff;float:left; background-color: #212121;margin-top:30px; min-height:105px;max-height:105px; margin-right:10px; min-width:270px;max-widhth:270px;text-align:center}
-.band-name{font-size:30px; font-weight:bold;}
-.band-genre{font-style: italic; font-size:15px; font-weight:bold;}
-.band-desc{font-style: italic; font-size:14px;}
 .band-stats{}
 .switch-button {
   -moz-border-radius: 4px 4px 4px 4px;
