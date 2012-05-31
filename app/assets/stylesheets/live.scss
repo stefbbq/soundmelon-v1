@@ -9,7 +9,7 @@
 	width: $page-width - 12px;
 	margin: 0 auto;
 	display: block;
-	height: 266px;
+	min-height: 266px;
 	position: relative;
 	
 	.profile-image { 
@@ -74,12 +74,12 @@
 			
 			.sub-head {
 				clear: both;
+				color: $text-slight-faded-color;
+				margin: -2px 0 0 12px;
+				display: block;
 				
-				h3 {
-					color: $text-slight-faded-color;
-					margin: -2px 0 0 12px;
+				h3 {					
 					text-transform: uppercase;
-					display: block;
 				}
 			}
 			
