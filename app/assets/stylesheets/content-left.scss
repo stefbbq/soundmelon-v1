@@ -241,6 +241,7 @@
 	//connections
 	.item {
 		@include genericItem();
+		margin-bottom: 5px;
 		display: block;
 		
 		//name, description

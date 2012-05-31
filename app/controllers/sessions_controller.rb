@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
       redirect_back_or_to fan_home_url
     else
       @user            = User.new
-      @failed_login    = 'Email or password is invalid'
+      @failed_login    = 'your email or password was incorrect'
       render :template =>'/fan/signup' and return
     end
   end

@@ -1,5 +1,6 @@
 //sidebar
 
+@import 'compass/utilities/sprites/sprite-img';
 @import 'compass/css3';
 @import 'mixins';
 @import 'vars';
@@ -45,8 +46,8 @@
       }
     }
     .selection-box-nohref {
+      @extend .selecton-box;
       @include default-button-nohref;
-      @extend .selecton-box
     }
 
     //active
@@ -68,6 +69,7 @@
       width: $right-button-width;
       text-align: left;
       color: #a7a7a7;
+			min-height: 36px;
       margin-top: -8px;
       overflow: hidden;
 
@@ -195,4 +197,20 @@
     padding:5%;
     font-size:$size*2;
   }
+
+	//icons
+	.right-icon-item {
+		display: inline-block;
+		position: absolute;
+		right: 8px;
+		top: 6px;
+		opacity: .7;
+		
+		&:hover {
+			opacity: 1;
+		}
+	}
+	.icon-add {
+		@include sprite-img("sprites-24.png", 1, 1, 24px);
+	}
 }

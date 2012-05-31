@@ -1,7 +1,5 @@
 $('.primary .left').html('');
 - followers = capture do
-  %b #{@user.fname}'s Followers
-  %hr
   - @followers.each do |user|    
     = render '/user_connections/item', :user =>user
   =# paginate @followers, :remote => true

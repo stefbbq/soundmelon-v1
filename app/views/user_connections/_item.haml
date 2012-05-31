@@ -13,12 +13,12 @@
   - status  = false
 
 - if status
-  .followuserbox{:id => "follower_#{user.id}", :style =>'margin-bottom:5px'}
-    .avatar{:style =>'margin-right:5px;'}
-      = link_to image, link, :remote =>:true, :class => 'ajaxopen backable'
-    .fusercontent
+  .item{:id => "follower_#{user.id}", :style =>'margin-bottom:5px'}
+    = link_to image, link, :remote =>:true, :class => 'ajaxopen backable avatar'
+    .content
       %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'
       %br
       - unless location.blank?
         #{location}
-    .clear
+    .actions
+      = link_to "unfollow", unfollow_user_path(user.id), :remote => true, :class => 'ajaxopen right' if @current_user_following

@@ -1,22 +1,23 @@
 - selected ||=false
 - is_admin ||= false
 - link_class  = selected ? 'selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
-- if is_admin || tour_count > 0
-  = link_to band_tours_path(:band_name =>band.name), {:remote=>:true, :id=>'shows', :class=>link_class} do
-    shows
-    - if is_admin
-      %span.add_more= link_to image_tag('add.png'), new_band_tour_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen"
-    - unless tour_count < Constant::TOUR_DATE_SHOW_LIMIT
-      %br
-      =  link_to "see all", band_tours_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen backable"
-- else
-  .selection-box-nohref
-    shows
-.collection{:id =>'showbox'}
-  - if tour_count > 0
-    %div
-      - band_tours.each do |tour|
-        %div{:id =>'band_tour#{tour.id}'}
-          = link_to tour.tour_date.strftime('%b %d') + " @#{tour.venue}", band_tour_path(:band_name =>band.name, :band_tour_id => tour.id), :remote=>:true, :class=>"ajaxopen backable"
+%div{:style=>"position: relative;"}
+  - if is_admin || tour_count > 0
+    = link_to band_tours_path(:band_name =>band.name), {:remote=>:true, :id=>'shows', :class=>link_class} do
+      shows
+      - if is_admin
+        = link_to "", new_band_tour_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add"
+      - unless tour_count < Constant::TOUR_DATE_SHOW_LIMIT
+        %br
+        =  link_to "see all", band_tours_path(:band_name => band.name), :remote=>:true, :class=>"small-font ajaxopen backable"
   - else
-    .message= Constant::NO_TOUR_DATE_MESSAGE
+    .selection-box-nohref
+      shows
+  .collection{:id =>'showbox'}
+    - if tour_count > 0
+      %div
+        - band_tours.each do |tour|
+          %div{:id =>'band_tour#{tour.id}'}
+            = link_to tour.tour_date.strftime('%b %d') + " @#{tour.venue}", band_tour_path(:band_name =>band.name, :band_tour_id => tour.id), :remote=>:true, :class=>"ajaxopen backable"
+    - else
+      .message= Constant::NO_TOUR_DATE_MESSAGE

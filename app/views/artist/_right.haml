@@ -6,11 +6,16 @@
             :id                 => 'feed-msg',
             :remote             => true,
             :class              => 0 == current ? "iconactive selection-box button-fill-artist" : "iconactive selection-box"
-  = render '/bricks/rb_featured_song',            
+  = render '/bricks/rb_music_featured',
             :songs              => @featured_songs,
             :is_admin           => true,
             :band               => @band,
-            :selected           => 8 == current
+            :selected           => 6 == current
+  =# render '/bricks/rb_featured_song',
+            :songs              => @featured_songs,
+            :is_admin           => true,
+            :band               => @band,
+            :selected           => 6 == current
   =# render '/bricks/rb_music',
             :song_album_count   => @song_album_count,
             :song_albums        => @song_albums,

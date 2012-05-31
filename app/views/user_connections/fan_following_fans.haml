@@ -2,8 +2,6 @@
 .primary-container
   .primary
     .left
-      %b Fans Following by '#{@user.fname}'
-      %hr
       - @following_fans.each do |user|
         = render '/user_connections/item', :user =>user, :band =>nil
       = paginate @following_fans, :remote => true

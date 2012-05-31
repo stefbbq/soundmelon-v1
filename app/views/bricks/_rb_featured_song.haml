@@ -1,14 +1,14 @@
-- selected ||=false
+- selected ||= false
 - is_admin ||= false
 .selection-box
-  featured songs
+  music
 .collection{:id =>'musicbox'}
   - if @featured_songs.size > 0    
     .featured_song_list
       %ul
   - else
-    .message= "No Featured Songs"
-- if @featured_songs.size >0
+    .message= "no featured music"
+- if @featured_songs.size > 0
   :javascript
     var songList = [#{list_of_play_items(@featured_songs)}];
     makeFeaturedSongList();
@@ -24,4 +24,3 @@
       updateTrackInfo(item.band, item.title, item.image, item.like ? 'liked' : 'like')
       play_music(item.title, item.mp3, item.ogg);
     }
-    
