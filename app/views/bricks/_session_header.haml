@@ -17,3 +17,4 @@
 - else
   = WELCOME_MSG  
   = link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class => 'user-info backable ajaxopen', :remote =>true
+= link_to "logout", logout_path, :id => 'logout'
