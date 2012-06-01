@@ -66,4 +66,32 @@ class UserController < ApplicationController
       redirect_to fan_home_path and return
     end
   end
+
+  # renders the form for updating the current actor(fan/artist) profile details
+  def manage_profile
+    begin
+      @actor               = current_actor
+      if @actor.is_fan?    # in case of fan profile login
+        @user             = @actor
+        @additional_info  = current_user.additional_info
+        get_user_associated_objects
+        render :template =>"/fan/manage_profile" and return
+      else                # in case of artist profile login
+        @band             = @actor
+        get_artist_objects_for_right_column(@band)
+        render :template =>"/artist/edit" and return
+      end
+    rescue =>exp
+      logger.error "Error in User#ManageProfile :=> #{exp.message}"
+      render :nothing => true and return
+    end
+  end
+
+  # renders the current fan's artist profiles
+  def pull_artist_profiles
+    @user     = current_user
+    @artists  = current_user.bands.includes(:song_albums, :songs)
+    get_fan_objects_for_right_column(@user)
+  end
+
 end

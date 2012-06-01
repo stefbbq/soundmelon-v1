@@ -2,6 +2,6 @@
 .primary-container
   .primary
     .left
-      = render 'form', :action_url => update_band_path(@band.id)
+      = render '/artist/form', :action_url => update_band_path(@band.id)
     .right
       = render "/artist/right", :current =>'manage_profile'

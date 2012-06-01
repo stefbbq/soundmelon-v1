@@ -2,7 +2,7 @@ class Band < ActiveRecord::Base
   
   acts_as_messageable :required => :body, :order => "created_at desc" 
   acts_as_followable  
-  acts_as_follower
+#  acts_as_follower
 
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user

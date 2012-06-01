@@ -26,10 +26,11 @@ Soundmelon::Application.routes.draw do
   get 'fan/following/artists/:id'             => 'user_connections#fan_following_artists',  :as => :fan_following_artists # id: following items
   
   #fan functions
-  get 'home/artists'                          => 'artist#pull',                     :as => :associated_band
+  get 'home/artists'                          => 'user#pull_artist_profiles',       :as => :associated_band
   get 'artist/new/band'                       => 'artist#new',                      :as => :new_band
   post 'artist/create/band'                   => 'artist#create',                   :as => :create_band
-  match 'home/manage'                         => 'fan#manage_profile',              :as => :manage_profile #manage session profile
+  match 'home/manage/profile'                 => 'user#manage_profile',             :as => :manage_profile #manage session profile
+#  match 'home/manage'                         => 'fan#manage_profile',              :as => :manage_profile #manage session profile
     
   #fan public
   match 'fan/(:id)'                           => 'fan_public#index',                :as => :fan_profile
@@ -37,7 +38,7 @@ Soundmelon::Application.routes.draw do
   
   #artist
   get 'home/artist/:band_name'                => 'artist#index',                    :as => :manage_band
-  get 'edit/artist/:band_name/:id'            => 'artist#edit',                     :as => :edit_band
+#  get 'edit/artist/:band_name/:id'            => 'artist#edit',                     :as => :edit_band
   match 'update/band/:id'                     => 'artist#update',                   :as => :update_band
   get ':band_name/bandmates/invitation'       => 'artist#invite_bandmates',         :as => :bandmates_invitation
   get ':band_name/social'                     => 'artist#social',                   :as => :band_social

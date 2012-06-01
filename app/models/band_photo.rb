@@ -12,6 +12,8 @@ class BandPhoto < ActiveRecord::Base
       :medium => ["300x300>", :jpeg],
       :thumb  => ["35x35#", :jpeg]
     }
+
+  scope :cover_image, :conditions =>["is_cover_image = ?", true]
       
 #  validates_attachment_content_type :image, :content_type => ['image/jpeg', 'image/png', 'image/jpg']
   validates_attachment_size :image, :less_than => 5.megabytes

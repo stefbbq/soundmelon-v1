@@ -29,13 +29,7 @@ class ArtistController < ApplicationController
   
   def new
     @band = Band.new
-  end
-  
-  def pull
-    @user     = current_user
-    @artists  = current_user.bands.includes(:song_albums, :songs)
-    get_fan_objects_for_right_column(@user)
-  end
+  end  
   
   def create
     @band     = current_user.bands.build(params[:band])

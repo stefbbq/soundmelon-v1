@@ -7,7 +7,7 @@
       - else
         %h3 Artist Profiles
         - @artists.each do |artist|
-          = render 'artist_item', :artist =>artist
+          = render '/artist/artist_item', :artist =>artist
         %hr
         #{link_to 'create another one?', new_band_path, :class => 'ajaxopen', :remote => true} You can add another artist profile to associate with your account!
     .right

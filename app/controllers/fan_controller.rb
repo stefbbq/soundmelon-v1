@@ -195,22 +195,6 @@ class FanController < ApplicationController
     end
   end
 
-  # renders the form for updating the current user's details
-  def manage_profile
-    begin
-      @user             = current_user
-      @additional_info  = current_user.additional_info
-      get_user_associated_objects
-      respond_to do |format|
-        format.js and return
-        format.html and return
-      end
-    rescue =>exp
-      logger.error "Error in Fan#ManageProfile :=> #{exp.message}"
-      render :nothing => true and return
-    end
-  end
-
   def update_basic_info
     if request.xhr?
       begin

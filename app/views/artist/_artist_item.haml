@@ -13,7 +13,6 @@
       Album ##{artist.song_albums_count},
       Songs ##{artist.songs_count}
   .actions
-    =# link_to 'access', manage_band_path(artist.name), :class=>'ajaxopen backable', :remote =>true
     - if is_current_artist
       currently administrating
     - else

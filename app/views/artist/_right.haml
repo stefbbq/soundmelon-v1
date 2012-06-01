@@ -43,7 +43,7 @@
             :selected           => 5 == current
   .divider
   = link_to 'manage your profile' ,
-            edit_band_path(:band_name => @band.name, :id =>@band.id),
+            manage_profile_path,
             :remote             => true,
             :id                 => 'manage_profile',
             :class              => 6 == current ?  'ajaxopen selection-box backable button-fill-artist' : 'ajaxopen selection-box backable'
