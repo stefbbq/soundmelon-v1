@@ -199,14 +199,14 @@ class FanController < ApplicationController
     if request.xhr?
       begin
         if params[:user][:fname].blank? || params[:user][:fname].blank?
-          @msg = 'First Name and Last Name cannot be blank'
+          @msg = 'first and last names cannot be blank'
         else
           current_user.fname = params[:user][:fname]
           current_user.lname = params[:user][:lname]
           if current_user.save
-            @msg = 'Basic info updated successfully'
+            @msg = 'info updated successfully'
           else
-            @msg = 'Something went wrong. Try again'
+            @msg = 'something went wrong, try again'
           end
         end
         respond_to do |format|
@@ -224,18 +224,18 @@ class FanController < ApplicationController
     if request.xhr?
       begin
         if params[:old_password].blank?
-          @msg = 'Old password do not match'
+          @msg = 'old password isn\'t correct'
         elsif params[:user][:password].blank? || params[:user][:password_confirmation].blank?
-          @msg = 'New password cannot be blank'
+          @msg = 'new password can\'t be blank'
         elsif params[:user][:password] != params[:user][:password_confirmation]
-          @msg = 'New password do not match'
+          @msg = 'new password doesn\'t match'
         elsif !login(current_user.email, params[:old_password])
-          @msg = 'Old password do not match'
+          @msg = 'old password isn\'t correct'
         else
           if current_user.change_password!(params[:user][:password])
-            @msg = 'Password updated successfully'
+            @msg = 'password updated'
           else
-            @msg = 'Something went wrong. Try again'
+            @msg = 'something went wrong, try again'
           end
         end
         respond_to do |format|

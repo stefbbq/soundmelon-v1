@@ -14,8 +14,7 @@ $('.primary .left').html('');
     %h3 Change Password
     %hr/
     #change-password-msg
-    = render :partial => '/fan/change_password_form'
-    
+    = render :partial => '/fan/change_password_form'    
 $('.primary .left').html('#{escape_javascript(manage_profile_forms)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-fan');

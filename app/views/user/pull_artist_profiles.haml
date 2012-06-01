@@ -5,10 +5,9 @@
       - if @artists.blank?
         You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_band_path, :class => 'ajaxopen', :remote => true}
       - else
-        %h3 Artist Profiles
         - @artists.each do |artist|
           = render '/artist/artist_item', :artist =>artist
         %hr
-        #{link_to 'create another one?', new_band_path, :class => 'ajaxopen', :remote => true} You can add another artist profile to associate with your account!
+        #{link_to 'create another artist account?', new_band_path, :class => 'ajaxopen', :remote => true} You can add another artist profile to associate with your account!
     .right
       = render "/fan/right", :current =>'access_profile'

@@ -1,4 +1,5 @@
 .area.form
+  #additional-info-msg.msg
   .details
     %h3
       change your  
@@ -16,13 +17,13 @@
         = f.text_field :age, :size => 5, :class => 'textfield'
       .field
         %label{:for => "name"} location
-        = f.text_field :location, :size => 40, :class => 'textfield location_auto_search_complete'
+        = f.text_field :location, :size => 40, :class => 'textfield location-auto-search-complete'
       .field
         %label{:for => "name"} favourite genres
         = f.text_field :favourite_genre, :size => 30, :class => 'textfield'
       = f.submit 'make it so', :class => 'button'
 :javascript
-  $('.location_auto_search_complete').autocomplete({
+  $('.location-auto-search-complete').autocomplete({
     minLength: 3,
     delay: 600,
     source: function(request, response) {

@@ -1,4 +1,5 @@
 .area.form
+  #basic-info-msg.msg
   .details
     %h3
       your name is
@@ -14,4 +15,5 @@
         %label{:for=>"name"}
           last
         = f.text_field :lname
+      .lock-toggle
       = submit_tag 'update it, it\'s legal', :class => 'button'

@@ -287,6 +287,19 @@
 	//
 	//forms
 	.form {
+		position: relative;
+		
+		//info area
+		.msg {
+			color: $fan-active-color;
+			position: absolute;
+			bottom: 20px;
+			font-size: 10px;
+			font-family: Verdana;
+			width: 230px;
+			left: 30px;
+			text-align: right;
+		}
 		.details {
 			position: absolute;
 			left: 30px;
@@ -298,6 +311,8 @@
 			h5 { margin: 2px 0 0 0;	}
 			span { color: white; }
 		}
+		
+		//form
 		.content {
 			right: 0px;
 			width: 56%;
@@ -308,6 +323,17 @@
 			
 			> form {
 				margin: 0 0 0 15px;
+				
+				.lock-toggle {
+					@include sprite-img("sprites-48.png", 1, 1, 48px, 48px);
+					position: absolute;
+					right: 17px;
+					top: 26px;
+				}
+				.lock-toggle-open {
+					@extend .lock-toggle;
+					@include sprite-img("sprites-48.png", 2, 1, 48px, 48px);					
+				}
 			}
 
 			.field {
