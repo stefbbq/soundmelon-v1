@@ -35,6 +35,8 @@ Soundmelon::Application.routes.draw do
   #fan public
   match 'fan/(:id)'                           => 'fan_public#index',                :as => :fan_profile
   match 'fan/posts/:id'                       => 'fan_public#latest_posts',         :as => :fan_latest_post
+
+  match 'fan/home/check_password'             => 'user#check_user_validity',        :as => :ask_and_check_user_password
   
   #artist
   get 'home/artist/:band_name'                => 'artist#index',                    :as => :manage_band

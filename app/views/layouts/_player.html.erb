@@ -1,5 +1,6 @@
-<% @song_items ||= current_user.find_radio_feature_playlist_songs
-first_album = @song_items.first ? @song_items.first.song_album : nil
+<% 
+  @song_items ||= current_user.find_radio_feature_playlist_songs
+  first_album = @song_items.first ? @song_items.first.song_album : nil
 %>
 
 <div id="sm_jplayer" class="jp-jplayer"></div>
@@ -49,13 +50,13 @@ $(".jp-pre").click(function() { playListPrev(); }); // Listen for Previous Track
 $(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click
 
 function playListStart(){if(playList.length>0){playListChange(0, 0);}}
-function updateTrackInfo(b,t,i,l){
-var url       = '<%= request.base_url %>/' + b;
-var band_html = "<a href='" + url + "' class='ajaxopen backable' data-remote='true'>" + b +"</a>";
-$('.info .artist-title').html(band_html);
-$('.info .song-title').html(t);
-$('.info .img').html(i);
-$('a#alike').html(l);
+function updateTrackInfo(b,t,i,l){  
+  var url       = '<%= request.base_url %>/' + b;  
+  var band_html = '<a href="'  + b + '" class="ajaxopen backable" data-remote="true">' + b +'</a>';  
+  $('.info .artist-title').html(band_html);
+  $('.info .song-title').html(t);
+  $('.info .img').html(i);
+  $('a#alike').html(l);
 }
 
 // Switch track

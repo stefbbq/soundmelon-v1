@@ -6,7 +6,7 @@
       %span= @user.get_full_name
     %h5 click the lock to enable changes
   .content
-    = form_for :user, :url => update_basic_info_path, :html => {:remote => true, :class => 'ajaxopen'}  do |f|
+    = form_for :user, :url => update_basic_info_path, :html => {:remote => true, :class => 'ajaxopen', :id =>'fan_basic_info'}  do |f|
       .field
         %label{:for=>"name"}
           first
@@ -16,4 +16,9 @@
           last
         = f.text_field :lname
       .lock-toggle
-      = submit_tag 'update it, it\'s legal', :class => 'button'
+      = submit_tag 'update it, it\'s legal', :class => 'button', :id =>'basic_form_submit', :disabled =>:true
+
+:javascript  
+  $('.lock-toggle').live('click',function(){
+    $.ajax('#{ask_and_check_user_password_path}',{remote:true});
+  });

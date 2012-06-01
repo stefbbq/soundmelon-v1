@@ -93,5 +93,18 @@ class UserController < ApplicationController
     @artists  = current_user.bands.includes(:song_albums, :songs)
     get_fan_objects_for_right_column(@user)
   end
+  
+  def check_user_validity
+    unless params[:user].blank?
+      @user         = User.authenticate(current_user.email, params[:user][:password])
+      @tested       = true
+    else
+      @user         = nil
+      @tested       = false
+    end       
+  end
+
+  
+  
 
 end

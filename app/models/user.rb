@@ -191,7 +191,7 @@ class User < ActiveRecord::Base
   end
 
   ######### Invitation Specific Code #########################################################
-  validates :invitation_id, :presence =>true#, :message => 'is required'
+  validates :invitation_id, :presence =>true, :on =>:create
   validates_uniqueness_of :invitation_id
 
   has_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'

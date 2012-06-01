@@ -181,17 +181,24 @@ module ApplicationHelper
     end
     post_msg.html_safe
   end
-
+  
   def list_of_play_items songs
     list_str  = ""
-    for i in 0..songs.size-1
+    for i in 0..songs.size-1      
       song          = songs[i]
       song_detail   = song.song_detail
-      hash_str      = "{"
-      hash_str      += "title: '#{song.title}', mp3:'#{song.song_mp3}', i:'#{song.id}'"
-      hash_str      += ",album:'#{song_detail[:album]}', band: '#{song_detail[:band]}', mp3:'#{song.song_mp3}', ogg: '#{song.song_ogg}'"
-      hash_str      += ",image: '#{get_album_cover_image(song.song_album)}',like:'#{song.voted_on_by?(current_user)}'"
-      hash_str      += "}"
+      song_album    = song.song_album
+      id            = song.id      
+      mp3           = song.song_mp3
+      ogg           = song.song_ogg
+      title         = song.title.gsub("'", "\\\\'")
+      band          = song_detail[:band].blank? ? '' : song_detail[:band].gsub("'", "\\\\'")      
+      album         = song_detail[:album].blank? ? '' : song_detail[:album].gsub("'", "\\\\'")
+      album_image   = song_album ? get_album_cover_image(song.song_album).gsub("'", "\\\\'") : ''
+      like          = song.voted_on_by?(current_user)
+      hash_str      = "{title: '#{title}', i:'#{id}'"
+      hash_str      += ",album:'#{album}', band: '#{band}', mp3:'#{mp3}', ogg: '#{ogg}'"
+      hash_str      += ",image: '#{album_image}',like:'#{like}'}"
       list_str      += hash_str
       list_str      +="," if i <= songs.size
     end
