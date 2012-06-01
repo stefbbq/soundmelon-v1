@@ -2,8 +2,6 @@
 .primary-container
   .primary
     .left
-      %b Fans Following by '#{@user.fname}'
-      %hr
       .connections_list
         - @following_fans.each do |user|
           = render '/user_connections/item', :user =>user, :connection_item =>@user, :following =>false

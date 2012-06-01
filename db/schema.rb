@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120530065108) do
+ActiveRecord::Schema.define(:version => 20120531084159) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(:version => 20120530065108) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "caption"
+    t.boolean  "is_cover_image",     :default => false
   end
 
   create_table "band_tours", :force => true do |t|
