@@ -26,16 +26,6 @@
       width: 414px;
       height: 246px;
     }
-    
-    a {
-      @include border-radius($border-radius);
-      padding: 0px 20px;
-      background: #515151;
-      color: #fff;
-      border: none;
-      font-weight: bold;
-      text-decoration: none;
-    }
   }
 	
 	.links {
@@ -110,6 +100,33 @@
 			.right-default {
 				background: url(live/live-default-right.jpg); 
 			}
+		}
+	}
+	
+	//actions
+	.overlay {
+		position: absolute;
+		bottom: 0;
+		height: 40px;
+		width: 100%;
+		background: rgba(black, .5);
+		text-align: right;
+		
+		a {
+			margin: -4px 0 0 20px;		
+			display: inline-block;
+			font-size: 14px;
+			opacity: .9;
+			
+			&:hover {	opacity: 1;	}
+			&:last-child { margin-right: 10px; }
+		}
+		
+		h2 {
+			@include single-text-shadow(black, 0px, 3px, 3px);	
+			padding: 0px;
+			margin: 0px;
+			display: inline-block;
 		}
 	}
 }

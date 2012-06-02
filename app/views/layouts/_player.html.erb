@@ -26,8 +26,8 @@
       <span class="artist-title"></span>
       <div class="jp-progress"><div class="jp-seek-bar"><div class="jp-play-bar"></div></div></div>
       <div class="jp-additional">
-        <a href="javascript:;" class="jp-rep" title="Show/Hide Playlist">p</a>
-        <a href="javascript:;" class="jp-like" title="Like Song" id="alike" onclick="doLike();">l</a></li>
+        <a href="javascript:;" class="jp-rep" title="show/hide playlist"></a>
+        <a href="javascript:;" class="jp-like" title="like" id="alike" onclick="doLike();"></a>
       </div>
     </div>
     <div class="jp-playlist" id="jp-playlist"><div class="pointer"></div><ul></ul></div>
@@ -59,7 +59,7 @@ function updateTrackInfo(b,t,i,l){
   $('.info .artist-title').html(band_html);
   $('.info .song-title').html(t);
   $('.info .img').html(i);
-  $('a#alike').html(l);
+  //$('a#alike').html(l);
 }
 
 function afterPlayStart(){
@@ -105,17 +105,21 @@ else{player.jPlayer('stop');$('.jp-playlist ul').html('<li>Playlist is empty</li
 
 function removeListItem(index){if(currentTrack == index){player.jPlayer('stop');}playList.splice(index,1);makePlayList();}
 
-function doLike(){
-  var item      = playList[currentTrack];
-  var url       =  '<%= request.base_url %>/' + item.title + "/" + item.i + '/like';
-  $.ajax({type: 'get',url: url, success:function(data){item.like=true;$('a#alike').html('liked');}});
+function doLike(){  
+  var item = playList[currentTrack];
+  var url =  '<%= request.base_url %>/' + item.title + "/" + item.i + '/like';
+  $.ajax({type: 'get',url: url, success:function(data){item.like=true;$('a#alike').addClass('jp-like-active');}});
 }
 
-$("a.jp-rep").click(function() {$('.jp-playlist').focus().show();});
-$("body").click(function(e) {
-  var target = e.target;
-  if(!($(target).is('.jp-playlist *') || target.className=='jp-rep' || target.className=='jp-playlist' || target.className=='play_list_close'))
-  $(".jp-playlist").hide();
+$(".jp-rep").click(function() {
+  $('.jp-playlist').focus().toggle();
+  $('.jp-rep').addClass('jp-rep-active');
+});
+$("body").click(function(e){ //broken code
+  /*if(!($(target).is('.jp-playlist *') || target.className=='jp-rep' || target.className=='jp-playlist' || target.className=='play_list_close')){
+    $(".jp-playlist").hide();
+    $('.jp.rep').removeClass('jp-rep-active');
+  }*/
 });
 
 var playList = [<%= list_of_play_items(@song_items) %>];
