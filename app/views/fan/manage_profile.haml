@@ -3,18 +3,12 @@
   .primary
     .left
       .content-box#basic-info
-        %h3 Basic info
-        %hr/
         #basic-info-msg
         = render :partial => '/fan/basic_info_form'
       .content-box#additional-info
-        %h3 Additional Info
-        %hr/
         #additional-info-msg
         = render :partial => '/fan/edit_additional_info_form'
       .content-box#change-password
-        %h3 Change Password
-        %hr/
         #change-password-msg
         = render :partial => '/fan/change_password_form'
     .right

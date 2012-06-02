@@ -1,0 +1,10 @@
+.overlay
+  = link_to crop_avatar_path(user), {:remote=>:true,:class=>'ajaxopen'} do
+    %h2
+      change crop
+  = link_to new_avatar_path(user), {:remote=>:true,:class=>'ajaxopen'} do
+    %h2
+      modify
+  = link_to delete_avatar_path(user), {:remote=>:true} do
+    %h2
+      remove

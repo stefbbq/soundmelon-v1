@@ -28,7 +28,7 @@
 
 - if status
   - item_div_id               = following ? "#{user.class.name.downcase}_#{user.id}_following_#{connection_item.class.name.downcase}_#{connection_item.id}" : "#{connection_item.class.name.downcase}_#{connection_item.id}_following_#{user.class.name.downcase}_#{user.id}"
-  .item{:id => item_div_id, :style =>'margin-bottom:5px'}
+  .item{:id => item_div_id}
     = link_to image, link, :remote =>:true, :class => 'ajaxopen backable avatar'
     .content
       %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'

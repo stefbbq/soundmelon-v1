@@ -210,22 +210,6 @@
 						font-size: 11px;
 						display: block;
 					}
-					
-					//jogger
-					.jp-progress {
-						margin: 0px;
-						display: block;
-						width: 250px;
-						padding: 0;
-						margin: 1px auto;
-					}
-					
-					//playlist, like
-					.jp-additional {
-						position: absolute;
-						right: 5px;
-						top: 10px;
-					}
 				}
       }
 
@@ -495,3 +479,12 @@ ul {
 
 #contact_list {height:220px;overflow:auto;}
 .recaptcha_theme_red #recaptcha_response_field {left:-4px;}
+
+//
+//sections (elements with specfic fan, artist or venue treatments)
+.button-fill-fan {
+	@include linear-gradient-important($fan-active-color, darken($fan-active-color, 18));
+}
+.button-fill-artist {
+	@include linear-gradient-important($artist-active-color, darken($artist-active-color, 18));
+}

@@ -32,14 +32,8 @@ module ApplicationHelper
     my_avatar = true if current_user.id == user.id
     if my_avatar
       if user.profile_pic(true)
-        edit_delete_links_and_img_str = '<div>'
-        edit_delete_links_and_img_str += link_to 'edit', crop_avatar_path(user), :remote=>:true,:class=>'ajaxopen'
-        edit_delete_links_and_img_str += link_to 'change', new_avatar_path(user), :remote=>:true,:class=>'ajaxopen'
-        edit_delete_links_and_img_str += link_to 'delete', delete_avatar_path(user), :remote=>:true
-        edit_delete_links_and_img_str += '</div>'
-        edit_delete_links_and_img_str += "<div id='pic_#{user.id}'>"
-        edit_delete_links_and_img_str += image_tag(user.profile_pic.avatar.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
-        edit_delete_links_and_img_str += '</div>'
+        edit_delete_links_and_img_str = image_tag(user.profile_pic.avatar.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
+        edit_delete_links_and_img_str += render :partial => '/bricks/avatar_profile', :locals => {:user => user}
         raw edit_delete_links_and_img_str
       else
         raw "<div>#{link_to 'Add', new_avatar_path(user), :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('fan-defaults-photo-profile.jpg')}</div>"
@@ -191,7 +185,8 @@ module ApplicationHelper
       id            = song.id      
       mp3           = song.song_mp3
       ogg           = song.song_ogg
-      title         = song.title.gsub("'", "\\\\'")
+      #title         = song.title.gsub("'", "\\\\'")
+      title         = song.title
       band          = song_detail[:band].blank? ? '' : song_detail[:band].gsub("'", "\\\\'")      
       album         = song_detail[:album].blank? ? '' : song_detail[:album].gsub("'", "\\\\'")
       album_image   = song_album ? get_album_cover_image(song.song_album).gsub("'", "\\\\'") : ''

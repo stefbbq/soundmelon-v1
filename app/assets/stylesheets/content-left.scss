@@ -241,7 +241,7 @@
 	//collections
 	.item {
 		@include genericItem();
-		margin-bottom: 5px;
+		margin-bottom: 10px;
 		display: block;
 		
 		//profile photo
@@ -329,10 +329,12 @@
 					position: absolute;
 					right: 17px;
 					top: 26px;
+					cursor: pointer;
 				}
 				.lock-toggle-open {
 					@extend .lock-toggle;
 					@include sprite-img("sprites-48.png", 2, 1, 48px, 48px);					
+					cursor: auto;					
 				}
 			}
 
@@ -353,10 +355,14 @@
 					height: 20px;
 					width: 200px;
 					background: rgba(black, .5);
+					outline: none;
 
 					&:hover, &:focus {
 						border: 2px solid $text-color;
 					}
+				}
+				.input-disabled {
+					opacity: .5;
 				}
 			}
 			

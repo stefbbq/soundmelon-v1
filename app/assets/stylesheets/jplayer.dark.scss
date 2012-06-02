@@ -1,18 +1,49 @@
-/*
- * Skin for jPlayer Plugin (jQuery JavaScript Library)
- * http://www.jplayer.org
- *
- * Skin Name: Blue / Dark
- *
- * Copyright (c) 2010 Happyworm Ltd & Per Sandström
- * Dual licensed under the MIT and GPL licenses.
- *  - http://www.opensource.org/licenses/mit-license.php
- *  - http://www.gnu.org/copyleft/gpl.html
- *
- * Author: Per Sandström – http://www.helloper.com
- * Skin Version: 1.0 (jPlayer 2.0.0)
- * Date: 20th March 2011
-*/
+//music player
+
+@import 'compass/utilities/sprites/sprite-img';
+@import 'compass/css3';
+@import 'vars';
+
+//playlist
+.jp-rep {
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	@include sprite-img("sprites-32.png", 5, 2, 32px, 32px);
+}
+.jp-rep-active {
+	@include sprite-img("sprites-32.png", 5, 3, 32px, 32px);
+}
+
+//like
+.jp-like {
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	@include sprite-img("sprites-32.png", 4, 2, 32px, 32px);
+}
+.jp-like-active {
+	@include sprite-img("sprites-32.png", 4, 3, 32px, 32px);	
+}
+
+//jogger
+.jp-progress {
+	margin: 0px;
+	display: block;
+	width: 230px;
+	padding: 0;
+	margin: 1px auto;
+}
+
+//playlist, like
+.jp-additional {
+	position: absolute;
+	right: 5px;
+	top: 6px;
+}
+
+
+
 
 div.jp-audio,
 div.jp-video {
@@ -258,15 +289,7 @@ div.jp-video-360p div.jp-type-playlist a.jp-next {
 	background: url(jplayer.dark.png) -29px -141px no-repeat;
 }*/
 
-div.jp-progress {
-  overflow: hidden;
-  padding:5px 0;
-}
 
-div.jp-audio div.jp-type-single div.jp-progress {
-  height: 5px;
-  width: 295px;
-}
 .jp-finished, .jp-remained{background:#23b139; -webkit-border-radius:5px; -moz-border-radius:5px; -o-border-radius:5px; border-radius:5px; height:4px; width:150px; float:left}
 .jp-controler{background:url(nav-controler.jpg) 0 0 no-repeat; position:absolute; height:8px; width:8px; left:145px; margin-top:-2px}
 .jp-remained{background:#393939; width:145px}
