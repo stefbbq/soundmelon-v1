@@ -4,8 +4,7 @@
   - if @has_admin_access || tour_count > 0
     = link_to band_tours_path(:band_name =>band.name), {:remote=>:true, :id=>'shows', :class=>link_class} do
       shows
-    = link_to "", new_band_tour_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access
-    =  link_to "see all", band_tours_path(:band_name => band.name), :remote=>:true, :class=>"right-icon-item small-font ajaxopen backable" unless tour_count < Constant::TOUR_DATE_SHOW_LIMIT
+    = link_to "", new_band_tour_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access    
   - else
     .selection-box-nohref
       shows

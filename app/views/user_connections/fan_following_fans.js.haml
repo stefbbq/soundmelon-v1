@@ -1,5 +1,7 @@
 $('.primary .left').html('');
 - following_fans = capture do
+  %b Following Fans by #{@user.fname}
+  %hr/
   .connections_list
     - @following_fans.each do |user|
       = render '/user_connections/item', :user =>user, :connection_item =>@user, :following =>false

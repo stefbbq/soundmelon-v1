@@ -9,15 +9,16 @@
         .name
           %h2
             = @user.get_full_name
-        - unless is_own_wall
+        - unless is_own_wall          
           .actions
-            %span{:id =>'follow_link'}
-              - if actor.following?(@user)
-                = link_to 'unfollow', unfollow_user_path(@user, :others => 1), :remote => true, :class => 'ajaxopen'
-              - else
-                = link_to 'follow', follow_user_path(@user), :remote => true, :class => 'ajaxopen'
-            //message
-            = link_to 'message', new_message_path(:id =>@user.id),:remote=>:true,:class=>"ajaxopen"
+            - if actor.is_fan?
+              %span{:id =>'follow_link'}
+                - if actor.following?(@user)
+                  = link_to 'unfollow', unfollow_user_path(@user, :others => 1), :remote => true, :class => 'ajaxopen'
+                - else
+                  = link_to 'follow', follow_user_path(@user), :remote => true, :class => 'ajaxopen'
+              //message
+              = link_to 'message', new_message_path(:id =>@user.id),:remote=>:true,:class=>"ajaxopen"
       .sub-head
         = @user.get_full_address
       .description

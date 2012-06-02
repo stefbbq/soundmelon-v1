@@ -13,12 +13,12 @@
   - status                    = false
 - change_connection           = true
 
-- if (@actor == user)
-  - if @actor.following?(connection_item)
+- if (@actor == user) & following
+  - if @actor.is_fan? && @actor.following?(connection_item)
     - if connection_item.instance_of?(Band)
       - connection_link       = unfollow_band_path(:band_name =>connection_item.name)
       - connection_link_text  = 'unfollow'
-    - elsif  connection_item.instance_of?(User)
+    - elsif connection_item.instance_of?(User)
       - connection_link       = unfollow_user_path(connection_item.id)
       - connection_link_text  = 'unfollow'  
   - else

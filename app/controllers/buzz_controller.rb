@@ -7,7 +7,8 @@ class BuzzController < ApplicationController
         @song_album       = SongAlbum.find(params[:id])
         @buzzes           = Post.album_buzz_for(@song_album.id)
         @buzzes_by_dates  = @buzzes.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-      rescue
+      rescue =>exp
+        logger.error "Error in Buzz#AlbumBuzz :=> #{exp.message}"
         render :nothing => true and return
       end
     else
@@ -36,7 +37,8 @@ class BuzzController < ApplicationController
         @band_photo_album     = BandAlbum.find(params[:id])
         @photo_album_buzzes   = PhotoPost.band_album_buzz_for(@band_photo_album.id)
         @buzzes_by_dates      = @photo_album_buzzes.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-      rescue
+      rescue =>exp
+        logger.error "Error in Buzz#BandPhotoAlbumBuzz :=> #{exp.message}"
         render :nothing => true and return
       end
     else
@@ -48,7 +50,8 @@ class BuzzController < ApplicationController
     if request.xhr?
       begin        
         @buzz       = Post.create_song_album_buzz_by(current_user.id, params)
-      rescue
+      rescue =>exp
+        logger.error "Error in Buzz#AlbumBuzzPost :=> #{exp.message}"
         render :nothing => true and return
       end
     else

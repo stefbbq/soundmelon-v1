@@ -13,11 +13,16 @@
           - unless is_own_wall
             - if @is_admin_of_band              
               = link_to "administer", change_login_path(@band.name), :class =>'ajaxopen backable', :remote =>true
-            - if actor.following?(@band)
-              = link_to 'unfollow', unfollow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen'
+            - if actor.is_fan?
+              - if actor.following?(@band)
+                = link_to 'unfollow', unfollow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen'
+              - else
+                = link_to 'follow', follow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen'
             - else
-              = link_to 'follow', follow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen'
-            = link_to 'message', band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen"
+              =# link_to 'follow', unfollow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen'
+              =# link_to 'connect', "javascript:void(0);", :id =>'followartist', :remote => true, :class => 'ajaxopen'
+              = link_to 'message', band_new_message_path(:band_name => @band.name, :id => @band.id), :remote => :true, :class => "ajaxopen"
+            
           = link_to 'Facebook', @band.facebook_page, :target =>'_blank', :title =>"Facebook Page" unless @band.facebook_page.blank?
           = link_to 'Twitter', @band.twitter_page, :target =>'_blank', :title =>"Twitter Page" unless @band.twitter_page.blank?
       .sub-head

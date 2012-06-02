@@ -1,5 +1,7 @@
-- band = post.band_id.blank? ? nil : post.band
-- user = post.user_id.blank? ? nil : post.user
+- band        = post.band_id.blank? ? nil : post.band
+- user        = post.user_id.blank? ? nil : post.user
+- song        = post.song_id.blank? ? nil : post.song
+- song_album  = post.song_id.blank? ? nil : post.song
 - is_author_artist_profile  = (@band && band ) && @band.id == band.id
 - is_author_fan_profile     = (@user && user ) && @user.id == user.id
 - hide_thread_link ||= false
@@ -30,10 +32,19 @@
        = is_author_artist_profile ? band.name : (link_to band.name, show_band_path(:band_name =>band.name), :class =>'ajaxopen backable', :remote =>:true)
       -elsif self_owner
        You
-      -elsif !post.user.nil?
+      -elsif user
        = is_author_fan_profile ? user.fname : (link_to user.fname, fan_profile_path(post.user), :class =>'ajaxopen backable', :remote =>:true)
      %span
-      wrote this #{time_ago_in_words(post.created_at)} ago 
+      - if band
+       - if post.is_bulletin
+        has pinned this to their profile #{time_ago_in_words(post.created_at)} ago
+       - else
+        has written this #{time_ago_in_words(post.created_at)} ago 
+      -else
+       wrote this
+       - if song
+        about '#{song.title}' song
+       #{time_ago_in_words(post.created_at)} ago
     .actions
      - if self_owner
       = link_to user_post_path(post), :method=> :delete, :class=>'action-delete', :remote=>true do
@@ -44,9 +55,12 @@
        %i
        %span reply
      -elsif !self_owner
-      = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote=>true do
-       %i
-       %span reply      
+      - if song
+       = "Buzz"
+      - else
+       = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote=>true do
+        %i
+        %span reply
    .post-body
     = post_msg_with_band_mention(post)
   .clear

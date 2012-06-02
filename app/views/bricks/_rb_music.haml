@@ -4,8 +4,7 @@
   - if @has_admin_access || song_album_count > 0
     = link_to band_song_albums_path(:band_name =>band.name), {:remote=>:true, :id=>'music', :class=>link_class} do
       music
-    = link_to "", new_band_song_album_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access
-    = link_to "see all", band_song_albums_path(:band_name => band.name), :remote=>:true, :class=>"right-icon-item small-font ajaxopen backable" unless song_album_count < Constant::BAND_SONG_ALBUM_SHOW_LIMIT
+    = link_to "", new_band_song_album_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access    
   - else
     .selection-box-nohref
       music

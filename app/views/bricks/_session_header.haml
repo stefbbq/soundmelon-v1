@@ -4,9 +4,9 @@
   - artist              = actor
   - current_fan_user    = current_user
   - other_admin_artists = current_fan_user.admin_bands_except(artist)  
-  = link_to "#{current_fan_user.fname} #{current_fan_user.lname}", fan_profile_path(current_fan_user), :class => 'user-info backable', :remote =>true
+  = link_to "#{current_fan_user.fname} #{current_fan_user.lname}".truncate(20), fan_profile_path(current_fan_user), :class => 'user-info backable', :remote =>true
   administrating
-  = link_to artist.name, manage_band_path(:band_name => artist.name), :class => 'user-info backable ajaxopen', :remote =>true
+  = link_to artist.name.truncate(15), manage_band_path(:band_name => artist.name), :class => 'user-info backable ajaxopen', :remote =>true
   = link_to "switch", 'javascript:void(0);', :id =>'switch', :remote =>true, :onclick =>"$('.switch-lists').toggle();"
   .switch-lists{:style=>'display:none'}
     = link_to 'Switch back to yourself', change_login_path, :class =>'button1 ajaxopen', :remote =>true
@@ -16,5 +16,5 @@
       %br/
 - else
   = WELCOME_MSG  
-  = link_to "#{current_user.fname} #{current_user.lname}", fan_home_path, :class => 'user-info backable ajaxopen', :remote =>true
+  = link_to "#{current_user.fname} #{current_user.lname}".truncate(30), fan_home_path, :class => 'user-info backable ajaxopen', :remote =>true
 = link_to "logout", logout_path, :id => 'logout'

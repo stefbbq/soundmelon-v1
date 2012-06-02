@@ -74,7 +74,7 @@ class Band < ActiveRecord::Base
   end
   
   def find_own_posts page=1   
-    Post.where('band_id = :band_id and is_deleted = :is_deleted',  :band_id => self.id, :is_deleted => false).order('created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE)
+    Post.where('band_id = :band_id and is_deleted = :is_deleted and is_bulletin = :is_bulletin',  :band_id => self.id, :is_deleted => false, :is_bulletin =>false).order('created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE)
   end
   
   def is_part_of_post? post

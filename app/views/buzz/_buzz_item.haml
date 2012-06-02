@@ -1,3 +1,7 @@
+- band = post.band_id.blank? ? nil : post.band
+- user = post.user_id.blank? ? nil : post.user
+- is_author_artist_profile  = (@band && band ) && @band.id == band.id
+- is_author_fan_profile     = (@user && user ) && @user.id == user.id
 - hide_thread_link ||= false
 - divclass ||=''
 -if @band && @is_admin_of_band
@@ -6,18 +10,19 @@
  - self_owner = post.user == current_user ? true : false
 - item_div_class = self_owner ? 'content' : 'content-mentioned'
 = div_for post do
- %div{:class=>"#{divclass}"}  
+ %div{:class=>"#{divclass}"}
   %div{:class => 'content'}
    .post-header
     .title
      %strong
-      -if !post.band.nil?
-       = post.band.name
+      -if band
+       = band.name
       -elsif self_owner
-       = post.user.fname
-      -elsif !post.user.nil?
-       = post.user.fname
-     posted at #{post.created_at.strftime('%H:%M')}
+       You
+      -elsif user
+       = user.fname
+     %span
+      wrote this #{time_ago_in_words(post.created_at)} ago
     .actions
      - if self_owner
       = link_to user_post_path(post), :method=> :delete, :class=>'action-delete', :remote=>true do
@@ -30,9 +35,9 @@
      -elsif !self_owner
       = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote=>true do
        %i
-       %span reply      
+       %span reply
    .post-body
-    = post.msg
+    = post_msg_with_band_mention(post)
   .clear
  - if post.ancestry && !hide_thread_link
   = link_to 'expand conversation', get_post_threads_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"

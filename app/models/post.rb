@@ -54,8 +54,7 @@ class Post < ActiveRecord::Base
   def self.create_song_album_buzz_by(user_id, params)
     Post.create(
       :song_album_id  => params[:id],
-      :user_id        => user_id,
-      :band_id        => params[:band_id],
+      :user_id        => user_id,      
       :msg            => params[:msg]
     )
   end
@@ -63,8 +62,7 @@ class Post < ActiveRecord::Base
   def self.create_song_buzz_by(user_id, params)
     Post.create(
       :song_id        => params[:id],      
-      :user_id        => user_id,
-      :band_id        => params[:band_id],
+      :user_id        => user_id,      
       :msg            => params[:msg]
     )
   end  
@@ -73,7 +71,7 @@ class Post < ActiveRecord::Base
 
   def update_mentioned_actors_in_post    
     if self.msg =~/@\w/      
-      splitted_post_msg     = self.msg.split(" ")
+      splitted_post_msg     = self.msg.split(" ").map{|aa| "@#{aa.gsub(/[^0-9A-Za-z]/, '')}"}
       mentioned_bands       = Band.find_bands_in_mentioned_post(splitted_post_msg)
       mentioned_users       = User.find_users_in_mentioned_post(splitted_post_msg)      
       self.mentioned_users  = mentioned_users.map{|mu| [mu.id,mu.mention_name]}.join(',')
@@ -83,7 +81,7 @@ class Post < ActiveRecord::Base
 
   def check_and_save_mentioned_in_post
     if self.msg =~/@\w/
-      splitted_post_msg     = self.msg.split(" ")
+      splitted_post_msg     = self.msg.split(" ").map{|aa| "@#{aa.gsub(/[^0-9A-Za-z]/, '')}"}
       mentioned_bands       = Band.find_bands_in_mentioned_post(splitted_post_msg)
       mentioned_users       = User.find_users_in_mentioned_post(splitted_post_msg)
       MentionedPost.create_post_mentions(self, mentioned_users, mentioned_bands)
