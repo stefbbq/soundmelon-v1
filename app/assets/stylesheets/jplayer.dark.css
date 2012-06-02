@@ -499,6 +499,14 @@ div.searchlist {
   border-bottom:dotted 1px #979797;
   padding-bottom:5px!important;
 }
+
+.jp-playlist ul li.current{
+  margin:2px 0 2px 0;
+  text-shadow:none;  
+  padding-bottom:5px!important;
+  background-color: #a6b3cf;
+}
+
 .jp-playlist ul li a{
   font:12px "Trebuchet MS", Arial, Helvetica, sans-serif;
   color:#979797;

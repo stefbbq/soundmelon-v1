@@ -186,18 +186,18 @@ module ApplicationHelper
     list_str  = ""
     for i in 0..songs.size-1      
       song          = songs[i]
-      song_detail   = song.song_detail
-      song_album    = song.song_album
-      id            = song.id      
-      mp3           = song.song_mp3
-      ogg           = song.song_ogg
-      title         = song.title.gsub("'", "\\\\'")
-      band          = song_detail[:band].blank? ? '' : song_detail[:band].gsub("'", "\\\\'")      
-      album         = song_detail[:album].blank? ? '' : song_detail[:album].gsub("'", "\\\\'")
-      album_image   = song_album ? get_album_cover_image(song.song_album).gsub("'", "\\\\'") : ''
+      song_detail   = song.song_detail      
+      id            = song_detail[:id]
+      mp3           = song_detail[:mp3_song]
+      ogg           = song_detail[:ogg_song]
+      title         = song_detail[:song_title]
+      album_name    = song_detail[:song_album_name]
+      band_name     = song_detail[:song_album_band_name]
+      song_album    = song_detail[:song_album]      
+      album_image   = song_album ? get_album_cover_image(song_album).gsub("'", "\\\\'") : ''
       like          = song.voted_on_by?(current_user)
       hash_str      = "{title: '#{title}', i:'#{id}'"
-      hash_str      += ",album:'#{album}', band: '#{band}', mp3:'#{mp3}', ogg: '#{ogg}'"
+      hash_str      += ",album:'#{album_name}', band: '#{band_name}', mp3:'#{mp3}', ogg: '#{ogg}'"
       hash_str      += ",image: '#{album_image}',like:'#{like}'}"
       list_str      += hash_str
       list_str      +="," if i <= songs.size

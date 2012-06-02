@@ -48,14 +48,29 @@ class Song < ActiveRecord::Base
     "#{title.gsub(' ','_').gsub('.','')}#{File.extname(self.song.path)}"
   end
 
+  # returns the song details with string formatted as necessary
   def song_detail
-    detail      = {:name =>self.song_name_without_extension}
-    song_album  = self.song_album(:include =>:band)
-    if song_album
-      detail.update(:album =>song_album.album_name, :band =>song_album.band.name, :band_image =>'')
-    else
-      detail.update(:album =>'', :band=>'', :band_image =>'')
-    end
+    song_title                      = self.title || self.get_default_title
+    song_album                      = self.song_album(:include =>:band)
+    song_album_name                 = song_album ? song_album.album_name : ''
+    song_album_band                 = song_album ? song_album.band : nil
+    song_album_band_name            = song_album_band ? song_album_band.name : ''
+    mp3_song                        = self.song_mp3
+    ogg_song                        = self.song_ogg    
+    ogg_song_name_formatted         = ogg_song.gsub("'", "\\\\'")
+    song_title_formatted            = song_title.gsub("'", "\\\\'")
+    song_album_name_formatted       = song_album_name.gsub("'", "\\\\'")
+    song_album_band_name_formatted  = song_album_band_name.gsub("'", "\\\\'")
+    
+    detail      = {
+                  :id                   => self.id,
+                  :mp3_song             => mp3_song,
+                  :ogg_song             => ogg_song_name_formatted,      
+                  :song_title           => song_title_formatted,
+                  :song_album_name      => song_album_name_formatted,
+                  :song_album_band_name => song_album_band_name_formatted,
+                  :song_album           => song_album
+                  }   
     detail
   end
 
