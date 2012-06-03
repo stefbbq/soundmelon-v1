@@ -4,9 +4,9 @@
     .left
       %b Followers of #{@user.fname}
       %hr/
-      .connections_list
+      .connections_list{:id =>"#{@user.class.name.downcase}_#{@user.id}_followers"}
         - @followers.each do |user|
-          = render '/user_connections/item', :user =>user, :connection_item =>@user, :following =>true
+          = render '/user_connections/item', :user =>user, :connection_item =>@user, :is_user_fan =>true
         =# paginate @followers, :remote => true
     .right
       = render '/fan_public/right', :current =>'follower_user'

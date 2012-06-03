@@ -1,25 +1,34 @@
-- if !@bulletins.blank?
-  %date{:id=>'bulletin_board'}
-    %div
-      %h1
-        Bulletin
-  .bulletin-posts{:style=>'margin-bottom:25px;'}
-    = render 'user_posts/post_aggregate', :posts => @bulletins
-  -if !@load_more_bulletins_path.nil?
-    .read-more#bulletin-readmore
-      =link_to("read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
-- else
-  .bulletin-posts{:style=>'margin-bottom:25px;'}
-.user_posts
-  - @posts_order_by_dates.each do |date, posts|
-    %date{:id =>"date_#{date.split('-').join()}"}
+- tabs            = [:latest, :reply, :mention, :message]
+- empty_messages  = ["There are no updates!", "No one has replied you!", "No one has mentioned you in their posts!", "No new messages!"]
+- current         = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
+- message         = empty_messages[current]
+
+- unless @bulletins.blank? && @posts_order_by_dates.blank?
+  - if !@bulletins.blank?
+    %date{:id=>'bulletin_board'}
       %div
-        %h1 
-          = date.to_date.strftime('%b')
-        %h2
-          = date.to_date.strftime('%d')
-    = render 'user_posts/post_aggregate', :posts => posts
-    .clear
--if !@load_more_path.nil?
-  .read-more
-    = link_to('read more', @load_more_path, :remote=>true, :class=>'ajaxload')    
+        %h1
+          Bulletin
+    .bulletin-posts{:style=>'margin-bottom:25px;'}
+      = render 'user_posts/post_aggregate', :posts => @bulletins
+    -if !@load_more_bulletins_path.nil?
+      .read-more#bulletin-readmore
+        =link_to("read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
+  - else
+    .bulletin-posts{:style=>'margin-bottom:25px;'}
+  .user_posts
+    - @posts_order_by_dates.each do |date, posts|
+      %date{:id =>"date_#{date.split('-').join()}"}
+        %div
+          %h1
+            = date.to_date.strftime('%b')
+          %h2
+            = date.to_date.strftime('%d')
+      = render 'user_posts/post_aggregate', :posts => posts
+      .clear
+  -if !@load_more_path.nil?
+    .read-more
+      = link_to('read more', @load_more_path, :remote=>true, :class=>'ajaxload')
+- else
+  .user_posts
+    = message

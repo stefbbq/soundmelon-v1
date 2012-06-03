@@ -1,8 +1,9 @@
-$('.live').replaceWith('#{escape_javascript(render 'live')}');
-$('.primary .left').html('#{escape_javascript(render 'user_posts/status_input')}');
-$('.primary .left').append('#{escape_javascript(render 'social_header')}');
+$('.live').replaceWith('#{escape_javascript(render '/artist/live')}');
+$('.primary .left').html('#{escape_javascript(render '/user_posts/status_input')}');
+$('.primary .left').append('#{escape_javascript(render '/artist/social_header')}');
 $('.primary .left').append('#{escape_javascript(render '/bricks/artist_posts')}');
-$('.primary .right').html('#{escape_javascript(render 'right')}');
+$('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
+$('.primary .right').html('#{escape_javascript(render '/artist/right')}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist');
 $('#feed-msg').addClass('active').addClass('button-fill-artist');

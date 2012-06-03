@@ -1,0 +1,9 @@
+= render :partial=>"/artist/live"
+.primary-container
+  .primary
+    .left
+      = render '/user_posts/status_input'
+      = render '/artist/social_header', :current =>'mention'
+      = render "/bricks/artist_posts", :current =>'mention'
+    .right
+      = render "/artist/right"

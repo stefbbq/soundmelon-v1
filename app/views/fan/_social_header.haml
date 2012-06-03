@@ -1,5 +1,23 @@
+- tabs      = [:latest_post, :reply, :mention, :message]
+- current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 .social-menu
-  = link_to "latest", fan_home_path, :class => "backable iconactive highlight ajaxload active button-fill-fan", :id => 'latest', :remote => true
-  = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies', replies_path ,:remote => true, :class=>"backable iconactive ajaxload", :id => 'replies'
-  = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions', mentioned_path ,:remote => true, :class=>"backable iconactive ajaxload", :id => 'mentions'
-  = link_to @unread_messages_count > 0 ? "messages #{@unread_messages_count} new" : "messages", user_inbox_path, :class=>"backable inbox iconactive ajaxload", :remote => true, :id => 'messages'
+  = link_to "latest", fan_home_path, 
+        :remote   => true,
+        :class    => "backable iconactive highlight ajaxload active button-fill-fan",
+        :id       => 'latest',
+        :class    => 0 == current ? "backable iconactive highlight ajaxload acive button-fill-fan" : "backable iconactive highlight ajaxload"
+  = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies',
+        replies_path ,
+        :remote   => true,
+        :class    => 1 == current ? "backable iconactive ajaxload highlight button-fill-fan" : "backable iconactive ajaxload",
+        :id       => 'replies'
+  = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions',
+        mentioned_path ,
+        :remote   => true,
+        :class    => 2 == current ? "backable iconactive ajaxload highlight button-fill-fan" : "backable iconactive ajaxload",
+        :id => 'mentions'
+  = link_to @unread_messages_count > 0 ? "messages #{@unread_messages_count} new" : "messages",
+        user_inbox_path,
+        :remote   => true,
+        :class    => 3 == current ? "backable inbox iconactive ajaxload highlight button-fill-fan" : "backable inbox iconactive ajaxload",
+        :id       => 'messages'

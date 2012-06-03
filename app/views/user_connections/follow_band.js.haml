@@ -3,11 +3,11 @@
 - unfollow_content = capture do
   = link_to 'unfollow', unfollow_band_path(:id => @band.id), :remote => true, :class => 'ajaxopen', :id=>'followartist'
 - new_follow_item = capture do
-  = render '/bricks/avatar', :item =>@actor, :id_prefix =>"artist_follower"
+  = render '/bricks/avatar', :item =>@actor
 - left_list_item = capture do
-  = render '/user_connections/item', :user =>@actor, :connection_item =>@band, :following =>true
+  = render '/user_connections/item', :user =>@actor, :connection_item =>@band, :is_user_fan =>true
 != "$('.actions #followartist').replaceWith('#{escape_javascript unfollow_content}');"
-if($('#artistfollowers .message').length>0){$('#artistfollowers').html('#{escape_javascript new_follow_item}')}else{$('#artistfollowers').prepend('#{escape_javascript new_follow_item}')};
+if($('#followerbox .message').length>0){$('#followerbox').html('#{escape_javascript new_follow_item}')}else{$('#followerbox').prepend('#{escape_javascript new_follow_item}')};
 $('.primary .left .connections_list').append('#{escape_javascript left_list_item}')
 $('#fanbox span.count').html("#{pluralize(@last_follower_count, 'fan')}");
 setTimeout('$(document).trigger(\"close.facebox\")',1000);

@@ -1,6 +1,5 @@
 $('.primary .left').html('#{escape_javascript(render 'status_input')}');
-$('.primary .left').append('#{escape_javascript(render 'artist/social_header')}');
-$('.primary .left').append('#{escape_javascript(render 'bricks/artist_posts')}');
+$('.primary .left').append('#{escape_javascript(render 'artist/social_header', :current =>'mention')}');
+$('.primary .left').append('#{escape_javascript(render 'bricks/artist_posts', :current =>'mention')}');
+$('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.left a').removeClass('active').removeClass('button-fill-artist');
-$('#mentions').addClass('active').addClass('button-fill-artist');

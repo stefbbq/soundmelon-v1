@@ -46,6 +46,7 @@ class UserConnectionsController < ApplicationController
         @band                   = Band.find_band(params)
         @actor.follow(@band)
         @last_follower_count    = @band.followers_count
+        @last_following_count   = @actor.following_user_count
       rescue => exp
         logger.error "Error in UserConnections::FollowBand :=> #{exp.message}"
         render :nothing => true and return
@@ -62,6 +63,7 @@ class UserConnectionsController < ApplicationController
         @band                   = Band.find_band(params)
         @actor.stop_following(@band)
         @last_follower_count    = @band.followers_count
+        @last_following_count   = @actor.following_band_count
       rescue => exp
         logger.error "Error in UserConnections::UnollowBand :=> #{exp.message}"
         render :nothing => true and return

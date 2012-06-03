@@ -26,6 +26,7 @@ $('div#msg_item_#{@message.id}').html('');
 $('#msg_item_#{@message.id}').append("#{escape_javascript(all_messages)}");
 $('#msg_item_#{@message.id}').append("#{escape_javascript(reply_form)}");
 $('a#message_count').text(parseInt($('a#message_count').text()) - 1);
+$('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 $('a#msg_view_#{@message.id}').remove();
 $('.ajaxload').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());});
 setTimeout('$(document).trigger(\"close.facebox\")',10);  

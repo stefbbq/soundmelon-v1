@@ -5,8 +5,10 @@ setTimeout('$(document).trigger(\"close.facebox\")',1000);
 - new_follow_item = capture do
   = render '/bricks/avatar', :item =>@actor, :id_prefix =>"fan_follower"
 - left_list_item = capture do  
-  = render '/user_connections/item', :user =>@actor, :connection_item =>@user_to_be_followed, :following =>true
+  = render '/user_connections/item', :user =>@actor, :connection_item =>@user_to_be_followed, :is_user_fan =>true
+- left_list_id   = "#{@user_to_be_followed.class.name.downcase}_#{@user_to_be_followed.id}_followers"
 != "$('.actions #follow_link').replaceWith('#{escape_javascript unfollow_content}');"
+//update right follower box
 if($('#fanfollowers .message').length>0){$('#fanfollowers').html('#{escape_javascript new_follow_item}')}else{$('#fanfollowers').prepend('#{escape_javascript new_follow_item}')};
-$('.primary .left .connections_list').append('#{escape_javascript left_list_item}')
+if($('.primary .left ##{left_list_id}').length>0){$('.primary .left ##{left_list_id}').append('#{escape_javascript left_list_item}');}
 $('#followers span.count').html("#{@last_follower_count}");

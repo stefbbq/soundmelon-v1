@@ -1,14 +1,18 @@
-= render :partial=>"fan/live"
-.primary
-  .left
-    - if @band
-      = render 'artist/social_header'
-    - else
-      = render 'fan/social_header';
-    = render "messages/inbox_messages", :messages => @messages
-  .right
-    = render "fan/right"
-  .clear
-:javascript
-  $('.left a').removeClass('active').removeClass('button-fill-fan');
-  $('#messages').addClass('active').addClass('button-fill-fan');
+= render :partial=> @user.is_fan? ? "/fan/live" : "/artist/live"
+.primary-container
+  - if @user.is_fan?    
+    .primary
+      .left
+        = render '/fan/social_header', :current =>'message'
+        = render "messages/inbox_messages", :messages => @messages
+      .right
+        = render "/fan/right"
+      .clear
+  - else    
+    .primary
+      .left
+        = render '/artist/social_header', :current =>'message'
+        = render "messages/inbox_messages", :messages => @messages
+      .right
+        = render "/artist/right"
+      .clear

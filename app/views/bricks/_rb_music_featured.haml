@@ -18,8 +18,7 @@
     var liHtml='';
     for(var i=0;i<songList.length;i++){
       liHtml+='<li style="list-style:none"><a href="javascript:void(0);" onclick="playFeaturedSong(' + i + ');"  title="Click to play">' + songList[i]['title'] + '</a><a class="play_list_next" href="javascript:void(0);" onclick="playFeaturedSong(' + i + ');" title="Click to play">play</a></li>';
-    }
-    alert(liHtml);
+    }    
     $('.featured_song_list ul').html(liHtml);
   }
   function playFeaturedSong(index){

@@ -1,9 +1,18 @@
-$('.live').replaceWith('#{escape_javascript(render '/fan/live')}');
-$('.primary .left').html('#{escape_javascript(render 'user_posts/form')}');
-$('.primary .left').append('#{escape_javascript(render 'fan/social_header')}');
-$('.primary .left').append('#{escape_javascript(render 'bricks/fan_posts')}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.left a').removeClass('active').removeClass('button-fill-fan');
-$('.primary .right a').removeClass('active').removeClass('button-fill-fan');
-$('.primary #mentions').addClass('active').addClass('button-fill-fan');
-$('.primary .right a#feed-msg').addClass('active').addClass('button-fill-fan');
+- if @user.is_fan?
+  $('.live').replaceWith('#{escape_javascript(render '/fan/live')}');
+  $('.primary .left').html('#{escape_javascript(render 'user_posts/form')}');
+  $('.primary .left').append('#{escape_javascript(render 'fan/social_header', :current =>'mention')}');
+  $('.primary .left').append('#{escape_javascript(render 'bricks/fan_posts', :current =>'mention')}');  
+  setTimeout('$(document).trigger(\"close.facebox\")',10);
+  $('.left a').removeClass('active').removeClass('button-fill-fan');
+  $('.primary .right a').removeClass('active').removeClass('button-fill-fan');
+  $('.primary #mentions').addClass('active').addClass('button-fill-fan');
+  $('.primary .right a#feed-msg').addClass('active').addClass('button-fill-fan');
+- else
+  $('.primary .left').html('#{escape_javascript(render '/user_posts/status_input')}');
+  $('.primary .left').append('#{escape_javascript(render '/artist/social_header', :current =>'mention')}');
+  $('.primary .left').append('#{escape_javascript(render '/bricks/artist_posts', :current =>'mention')}');  
+  setTimeout('$(document).trigger(\"close.facebox\")',10);
+  $('.left a').removeClass('active').removeClass('button-fill-artist');
+  $('#mentions').addClass('active').addClass('button-fill-artist');
+$('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');

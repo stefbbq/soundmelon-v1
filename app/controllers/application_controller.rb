@@ -51,16 +51,17 @@ class ApplicationController < ActionController::Base
     @band_fans                 = artist.limited_followers
   end
 
-  def get_band_associated_objects artist, is_for_admin = false    
+  def get_band_associated_objects artist
     @band_members_count        = artist.band_members.count
     @other_bands               = current_user.admin_bands_except(artist)
     @posts                     = artist.find_own_as_well_as_mentioned_posts(params[:page])
     @bulletins                 = artist.bulletins
     @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
     bulletin_next_page         = @bulletins.next_page
-    @load_more_bulletins_path  = bulletin_next_page ? band_more_bulletins_path(:band_name => artist.name, :page => bulletin_next_page) : nil
+#    @load_more_bulletins_path  = bulletin_next_page ? band_more_bulletins_path(:band_name => artist.name, :page => bulletin_next_page) : nil
+    @load_more_bulletins_path  =  bulletin_next_page ? more_posts_path(bulletin_next_page, :type => 'latest') : nil
     next_page                  = @posts.next_page
-    @load_more_path            =  next_page ? band_more_posts_path(:band_name => artist.name, :page => next_page, :type => 'latest') : nil
+    @load_more_path            =  next_page ? more_posts_path(next_page, :type => 'latest') : nil
     @unread_mentioned_count    = artist.unread_mentioned_post_count
     @unread_post_replies_count = artist.unread_post_replies_count
     @unread_messages_count     = artist.received_messages.unread.count

@@ -7,39 +7,27 @@ class MessagesController < ApplicationController
   end
   
   def inbox
-    begin
-      @user = current_user
-      if params[:band_name]        
-        @band = Band.where(:name => params[:band_name]).first
-        unless request.xhr?
-          redirect_to show_band_url(:band_name => @band.name) and return 
-        end
-        if current_user.is_admin_of_band?(@band)
-          @unread_mentioned_count     = @band.unread_mentioned_post_count
-          @unread_post_replies_count  = @band.unread_post_replies_count
-          @unread_messages_count      = @band.received_messages.unread.count
-          @messages                   = @band.inbox(params[:page])
-        else
-          @messages = []
-          next_page = nil
-        end
-      else
+    begin      
+      @user = current_actor
+      if @user.is_fan?
         get_user_associated_objects
         #TODO: not get called automatically so calling explicitly. Need to investigate
-        messages_and_posts_count 
-        @messages = current_user.inbox(params[:page])
-      end
-      next_page ||= @messages.next_page
-      if @band
-        @load_more_path =  next_page ?  more_inbox_messages_path(:band_name => @band.name, :page => next_page) : nil
+        messages_and_posts_count
+        @messages = current_user.inbox(params[:page])        
       else
-        @load_more_path =  next_page ?  more_inbox_messages_path(:page => next_page) : nil
+        @band                       = @user        
+        @unread_mentioned_count     = @band.unread_mentioned_post_count
+        @unread_post_replies_count  = @band.unread_post_replies_count
+        @unread_messages_count      = @band.received_messages.unread.count
+        @messages                   = @band.inbox(params[:page])
+        get_artist_objects_for_right_column(@band) #unless request.xhr?
       end
+      next_page ||= @messages.next_page      
+      @load_more_path =  next_page ?  more_inbox_messages_path(:page => next_page) : nil
     rescue
       render :nothing => true
     end
   end
-  
   
   def index
     redirect_to inbox_url and return unless request.xhr?
