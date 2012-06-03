@@ -2,12 +2,33 @@ class BandAlbum < ActiveRecord::Base
   acts_as_votable
   belongs_to :user
   belongs_to :band
-  has_many :band_photos
+  has_many :band_photos, :after_add => :set_cover_image
+  belongs_to :cover_image, :class_name =>'BandPhoto'
   
   scope :published, :conditions =>["disabled = ?", false]
 
   def choose_cover_image band_photo = self.band_photos.first
-    band_photo.update_attribute(:is_cover_image, true) if band_photo
+    if  band_photo
+      self.cover_image = band_photo
+      self.save
+    end
+  end
+  
+  def set_cover_image band_photo
+    begin
+      set_the_cover_image band_photo, self.cover_image.blank?
+    rescue =>exp
+      logger.error "Error in BandAlbum::SetCoverImage :#{exp.message}"
+    end
+  end
+
+  def set_the_cover_image band_photo, overwrite = false
+    if overwrite
+      self.cover_image = band_photo
+    else
+      self.cover_image = band_photo unless self.cover_image
+    end
+    self.save
   end
 
 end

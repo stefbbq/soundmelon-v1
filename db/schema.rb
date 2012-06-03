@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120531084159) do
+ActiveRecord::Schema.define(:version => 20120603154321) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -36,8 +36,9 @@ ActiveRecord::Schema.define(:version => 20120531084159) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "photo_count", :default => 0
-    t.boolean  "disabled",    :default => false
+    t.integer  "photo_count",    :default => 0
+    t.boolean  "disabled",       :default => false
+    t.integer  "cover_image_id"
   end
 
   create_table "band_invitations", :force => true do |t|
@@ -50,6 +51,16 @@ ActiveRecord::Schema.define(:version => 20120531084159) do
     t.datetime "updated_at"
   end
 
+  create_table "band_logos", :force => true do |t|
+    t.integer  "band_id",           :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+  end
+
   create_table "band_photos", :force => true do |t|
     t.integer  "band_album_id"
     t.integer  "user_id"
@@ -60,7 +71,6 @@ ActiveRecord::Schema.define(:version => 20120531084159) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "caption"
-    t.boolean  "is_cover_image",     :default => false
   end
 
   create_table "band_tours", :force => true do |t|
@@ -92,10 +102,6 @@ ActiveRecord::Schema.define(:version => 20120531084159) do
     t.string   "genre"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
     t.text     "bio"
     t.string   "location"
     t.string   "band_logo_url"
@@ -103,7 +109,7 @@ ActiveRecord::Schema.define(:version => 20120531084159) do
     t.string   "mention_name"
     t.string   "facebook_page"
     t.string   "twitter_page"
-    t.boolean  "is_member_public",  :default => true
+    t.boolean  "is_member_public", :default => true
   end
 
   create_table "bands_genres", :id => false, :force => true do |t|
@@ -347,6 +353,7 @@ ActiveRecord::Schema.define(:version => 20120531084159) do
     t.datetime "last_activity_at"
     t.string   "mention_name"
     t.text     "bio"
+    t.string   "user_type"
     t.integer  "invitation_id"
     t.integer  "invitation_limit"
   end

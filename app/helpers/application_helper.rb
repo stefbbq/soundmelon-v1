@@ -36,7 +36,7 @@ module ApplicationHelper
         edit_delete_links_and_img_str += render :partial => '/bricks/avatar_profile', :locals => {:user => user}
         raw edit_delete_links_and_img_str
       else
-        raw "<div>#{link_to 'Add', new_avatar_path(user), :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('fan-defaults-photo-profile.jpg')}</div>"
+        raw "<div class='overlay'>#{link_to 'Add'.html_safe, new_avatar_path(user), :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('fan-defaults-photo-profile.jpg')}</div>"
       end
     else
       if user.profile_pic
@@ -48,27 +48,39 @@ module ApplicationHelper
   end
 
   def get_band_logo_small(band)
-    if band.logo_content_type.nil?
+    unless band.band_logo(true)    
       image_tag('artist-defaults-photo-thumbnail.jpg', :alt=>'')
     else
-      image_tag(band.logo.url(:small), :alt=>'')
+      image_tag(band.band_logo.logo.url(:small), :alt=>'')
     end  
   end
   
   def get_band_logo_medium(band)
-    if band.logo_content_type.nil?
+    unless band.band_logo(true)    
       image_tag('artist-defaults-photo-profile.jpg', :alt=>'')
     else
-      image_tag(band.logo.url(:medium), :alt=>'')
+      image_tag(band.band_logo.logo.url(:medium), :alt=>'')
     end  
   end
   
-  def get_band_logo_large(band)
-    if band.logo_content_type.nil?
-      image_tag('artist-defaults-photo-thumbnail.jpg', :alt=>'')
+  def get_band_logo_large(band, self_logo = false)
+    actor     = current_actor
+    self_logo = actor == band
+    if self_logo
+      if band.band_logo(true)
+        edit_delete_links_and_img_str = image_tag(band.band_logo.logo.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
+        edit_delete_links_and_img_str += render :partial => '/bricks/artist_logo_profile', :locals => {:band => band}
+        raw edit_delete_links_and_img_str
+      else
+        raw "<div class='overlay'>#{link_to 'Add', new_logo_path(band), :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('artist-defaults-photo-thumbnail.jpg')}</div>"
+      end
     else
-      image_tag(band.logo.url(:large), :alt=>'')
-    end   
+      if band.band_logo
+        image_tag(band.band_logo.logo.url(:large), :alt=>'')
+      else        
+        image_tag('artist-defaults-photo-thumbnail.jpg', :alt=>'')
+      end
+    end    
   end
   
   def genre_atuofill

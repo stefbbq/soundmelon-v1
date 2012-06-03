@@ -1,5 +1,5 @@
 .album_photo[photo]
-  - if photo.is_cover_image
+  - if photo.id == band_album.cover_image_id
     album cover
     %br
   - else

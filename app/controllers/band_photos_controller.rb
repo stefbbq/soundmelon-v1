@@ -214,7 +214,7 @@ class BandPhotosController < ApplicationController
         unless @has_admin_access
           render :nothing => true and return
         end
-        @band_photo.make_cover_image
+        @band_album.set_the_cover_image(@band_photo, true)
         render :template =>'/band_photos/band_album_photos'
       rescue =>exp
         logger.error "Error in BandPhoto#MakeCoverImage :=> #{exp.message}"

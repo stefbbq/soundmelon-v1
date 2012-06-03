@@ -1,0 +1,10 @@
+.overlay
+  = link_to crop_logo_path(band), {:remote=>:true,:class=>'ajaxopen'} do
+    %h2
+      change crop      
+  = link_to new_logo_path(band), {:remote=>:true,:class=>'ajaxopen'} do
+    %h2
+      modify
+  = link_to delete_logo_path(band), {:remote=>:true} do
+    %h2
+      remove

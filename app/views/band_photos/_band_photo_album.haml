@@ -1,8 +1,9 @@
 - show_all        ||=false
+- album_cover_image = (cover_image = band_album.cover_image) ? cover_image.image.url(:medium) : 'no-image.png'
 .album[band_album]
   .album_info_wrapper
     .album_teaser_image
-      = link_to image_tag(band_album.photo_count>0 ? band_album.band_photos.first.image.url(:thumb) : 'no-image.png', :height => '80px'), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
+      = link_to image_tag(album_cover_image, :height => '80px', :width=>'80px'), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
     .album_info
       .album_name
         = link_to "#{band_album.name}", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"

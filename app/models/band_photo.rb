@@ -11,9 +11,7 @@ class BandPhoto < ActiveRecord::Base
       :large  => ["800x800>", :jpeg],
       :medium => ["300x300>", :jpeg],
       :thumb  => ["35x35#", :jpeg]
-    }
-
-  scope :cover_image, :conditions =>["is_cover_image = ?", true]
+    }  
       
 #  validates_attachment_content_type :image, :content_type => ['image/jpeg', 'image/png', 'image/jpg']
   validates_attachment_size :image, :less_than => 5.megabytes
@@ -27,11 +25,6 @@ class BandPhoto < ActiveRecord::Base
   def decrease_photo_count
     album = self.band_album
     self.band_album.decrement!(:photo_count) if album
-  end
-
-  def make_cover_image
-    self.band_album.band_photos.each{|photo| photo.update_attribute(:is_cover_image, false)}
-    self.update_attribute(:is_cover_image, true)
   end
 
   # Fix the mime types. Make sure to require the mime-types gem
