@@ -36,7 +36,8 @@
 
 <script type="text/javascript">
   //<![CDATA[
-var currentTrack = 0;
+var currentTrack        = 0;
+var currentTrackItemId  = 0;
 var player       = $("#sm_jplayer");
 var is_playing   = false;
 $(document).ready(function(){
@@ -59,7 +60,8 @@ function updateTrackInfo(b,t,i,l){
   $('.info .artist-title').html(band_html);
   $('.info .song-title').html(t);
   $('.info .img').html(i);
-  //$('a#alike').html(l);
+  if(l){$('a#alike').addClass('jp-like-active');}
+  else{$('a#alike').removeClass('jp-like-active');}
 }
 
 function afterPlayStart(){
@@ -75,8 +77,9 @@ function afterPlayPause(){
 function playListChange(index,play) {
 currentTrack = index;
 var item     = playList[currentTrack];
+currentTrackItemId = item.i;
 var next     = (currentTrack + 1 < playList.length) ? currentTrack + 1 : 0;
-updateTrackInfo(item.band, item.title, item.image, item.like ? 'liked' : 'like')
+updateTrackInfo(item.band, item.title, item.image, item.like)
 if(play==1){
   player.jPlayer("setMedia", { m4a:item.mp3, ogg:item.ogg}).jPlayer('play');  
 }
@@ -90,8 +93,16 @@ function playListNext() { playListChange((currentTrack + 1 < playList.length) ? 
 // Play previous track. If already on first track, start back at the end
 function playListPrev() { playListChange((currentTrack - 1 >= 0) ? currentTrack - 1 : playList.length-1, 1);}
 
-function play_music(song_title, smp3, sogg){
-  player.jPlayer("setMedia", { m4a:smp3, ogg:sogg }).jPlayer('play');  
+function playMusicFromFeaturedList(i, smp3, sogg){
+  player.jPlayer("setMedia", { m4a:smp3, ogg:sogg }).jPlayer('play');
+  currentTrackItemId = i;
+}
+
+// Play song from the song list in albums
+function playSongFromAlbum(song_detail){
+  player.jPlayer("setMedia", { m4a:song_detail.mp3, ogg:song_detail.ogg }).jPlayer('play');
+  currentTrackItemId = song_detail.i;
+  updateTrackInfo(song_detail.band, song_detail.title, song_detail.image, song_detail.like)
 }
 
 function makePlayList(){
@@ -106,9 +117,17 @@ else{player.jPlayer('stop');$('.jp-playlist ul').html('<li>Playlist is empty</li
 function removeListItem(index){if(currentTrack == index){player.jPlayer('stop');}playList.splice(index,1);makePlayList();}
 
 function doLike(){  
-  var item = playList[currentTrack];
-  var url =  '<%= request.base_url %>/' + item.title + "/" + item.i + '/like';
-  $.ajax({type: 'get',url: url, success:function(data){item.like=true;$('a#alike').addClass('jp-like-active');}});
+  var item      = playList[currentTrack];
+  var item_id   = currentTrackItemId;  
+  var url       =  '<%= request.base_url %>/' + item.title + "/" + item_id + '/like';
+  if(!$('a#alike').hasClass('jp-like-active')){url += "/1";}  
+  $.ajax({type: 'get',url: url, success:function(data){      
+      var data  = eval('(' + data + ')');
+      item.like = data.like;      
+      if(data.like){$('a#alike').addClass('jp-like-active')}else{$('a#alike').removeClass('jp-like-active');}
+    }
+  }
+  );
 }
 
 $(".jp-rep").click(function() {

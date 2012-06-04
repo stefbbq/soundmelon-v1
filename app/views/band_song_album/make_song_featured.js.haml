@@ -1,0 +1,14 @@
+- if @status
+  - if @song.is_featured?
+    $('.featured_songs .new_featured_song').first().replaceWith('#{escape_javascript(render 'featured_song', :song =>@song)}');
+  - else
+    - new_add_button = capture do
+      .new_featured_song{:style=>'height:40px;width:40px;padding-left:15px;padding-top:13px;margin-left:5px;border:1px solid blue;float:left;'}
+        = link_to "Add New", "javascript:void(0);",  :onclick =>"open_popup_for_song_albums('#{popup_for_feature_songs_path(:band_name =>@band.name)}');", :remote=>:true, :class=>"ajaxopen", :title =>'Choose Song to Set as Featured'
+    $('.featured_songs ##{@song.id}_featured').remove();
+    $('.featured_songs').append('#{escape_javascript(new_add_button)}');  
+  var songList = [#{list_of_play_items(@featured_songs)}];
+  makeFeaturedSongList();  
+- else
+  $('#facebox .content').html('Error Occurred!#{@msg}');
+$.facebox.close();

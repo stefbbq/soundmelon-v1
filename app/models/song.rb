@@ -8,6 +8,7 @@ class Song < ActiveRecord::Base
 
   scope :processed, :conditions =>["is_processed = ?", true]
   scope :featured, :conditions =>["is_featured = ?", true]
+  scope :nonfeatured, :conditions =>["is_featured = ?", false]
 
   has_attached_file :song,
     :url => "/assets/bands/song/album/:id/:style/:normalized_attachment_file_name"
@@ -176,6 +177,11 @@ class Song < ActiveRecord::Base
     self.delay.update_metadata_from_file
 #    # then update to the file read from the file
     self.delay.update_metadata_to_file
+  end
+
+  def voted_on_by? voter
+    up_vote = ActsAsVotable::Vote.find_by_voter_id_and_voter_type_and_votable_id_and_votable_type_and_vote_flag(voter.id,voter.class.name,self.id,self.class.name,1)
+    !up_vote.blank?
   end
 
   private

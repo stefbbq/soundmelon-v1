@@ -187,28 +187,36 @@ module ApplicationHelper
     end
     post_msg.html_safe
   end
-  
-  def list_of_play_items songs
-    list_str  = ""
-    for i in 0..songs.size-1      
-      song          = songs[i]
-      song_detail   = song.song_detail      
+
+
+  # prepares the detail for individual song
+  def song_detail song
+      actor         = current_user      
+      song_detail   = song.song_detail
       id            = song_detail[:id]
       mp3           = song_detail[:mp3_song]
       ogg           = song_detail[:ogg_song]
       title         = song_detail[:song_title]
       album_name    = song_detail[:song_album_name]
       band_name     = song_detail[:song_album_band_name]
-      song_album    = song_detail[:song_album]      
+      song_album    = song_detail[:song_album]
       album_image   = song_album ? get_album_cover_image(song_album).gsub("'", "\\\\'") : ''
-      like          = song.voted_on_by?(current_user)
+      like          = song.voted_on_by?(actor) ? 1 : 0
       hash_str      = "{title: '#{title}', i:'#{id}'"
       hash_str      += ",album:'#{album_name}', band: '#{band_name}', mp3:'#{mp3}', ogg: '#{ogg}'"
-      hash_str      += ",image: '#{album_image}',like:'#{like}'}"
+      hash_str      += ",image: '#{album_image}',like:#{like}}"
+      hash_str
+  end
+
+  # prepares the detail for list of songs
+  def list_of_play_items songs
+    list_str  = ""
+    for i in 0..songs.size-1
+      hash_str      = song_detail(songs[i])
       list_str      += hash_str
       list_str      +="," if i <= songs.size
     end
     list_str
-  end
-  
+  end  
+
 end

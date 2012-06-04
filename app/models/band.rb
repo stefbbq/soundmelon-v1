@@ -157,6 +157,10 @@ class Band < ActiveRecord::Base
   def is_fan?
     false
   end
+
+  def featured_songs
+    self.songs.featured.limit(6)
+  end
   
   protected
 

@@ -7,9 +7,6 @@
     %label Song Title:
     = f.text_field :title
     %br
-    %label Is Featured:
-    = f.check_box :is_featured
-    %br
     = f.submit "Save", :disable_with => 'Saving...', :class => 'button blue'
 != "jQuery.facebox('#{escape_javascript song_item}');"
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"

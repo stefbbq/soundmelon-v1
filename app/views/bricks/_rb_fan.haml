@@ -1,18 +1,20 @@
 - selected    ||=false
 - link_class  = selected ? 'selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
-- if fan_count >0
-  = link_to band_followers_path(:band_name => band.name), {:remote =>:true, :id =>'fanbox', :class =>link_class} do
-    %span.count
-      = pluralize(fan_count, 'fan')
-- else
-  .selection-box-nohref{:id=>'fanbox'}
-    %span.count
-      0
-    fan
-.collection{:id =>'followerbox'}
-  - if fan_count > 0
-    %div
-      - band_fans.each do |artist_fan|
-        = render '/bricks/avatar', :item =>artist_fan, :id_prefix =>"artist_follower"
+%div{:style=>"position: relative;"}
+  - if fan_count >0
+    = link_to band_followers_path(:band_name => band.name), {:remote =>:true, :id =>'fanbox', :class =>link_class} do
+      %span.count
+        = pluralize(fan_count, 'fan')
+      = link_to 'see all', band_followers_path(:band_name => band.name), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless fan_count < Constant::BAND_FAN_SHOW_LIMIT
   - else
-    .message= Constant::NO_FAN_MESSAGE
+    .selection-box-nohref{:id=>'fanbox'}
+      %span.count
+        0
+      fan
+  .collection{:id =>'followerbox'}
+    - if fan_count > 0
+      %div
+        - band_fans.each do |artist_fan|
+          = render '/bricks/avatar', :item =>artist_fan, :id_prefix =>"artist_follower"
+    - else
+      .message= Constant::NO_FAN_MESSAGE

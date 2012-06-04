@@ -241,23 +241,22 @@ class BandSongAlbumController < ApplicationController
     end
   end
 
-  # song like by current user
-  def do_like_song
+  # song like/dislike by current user
+  def do_like_dislike_song
+    actor                       = current_user
     begin
       @song                     = Song.find(params[:id])
-      @song.do_like_by current_user
-      @song.vote_by current_user
-    rescue
-      render :nothing => true and return
-    end
-  end
-
-  # song dislike by current user
-  def do_dislike_song
-    begin
-      @song                     = Song.find(params[:id])
-      @song.do_dislike_by current_user
-    rescue
+      @should_like              = params[:do_like].present? && params[:do_like] == "1"
+      if @should_like
+        @song.liked_by(actor)
+        @liked                  = 1
+      else
+        @song.disliked_by(actor)
+        @liked                  = 0
+      end
+      render :text =>"{like:#{@liked}}" and return
+    rescue =>exp
+      logger.error "Error in BandSongAlbum::DoLikeSong :=> #{exp.message}"
       render :nothing => true and return
     end
   end
@@ -301,6 +300,35 @@ class BandSongAlbumController < ApplicationController
       end
     rescue
       @status   = false      
+    end
+  end
+
+  # lists artist's song album and songs to choose from for setting as featured
+  def songs_for_featured_list
+    begin
+      @band               = Band.where(:name => params[:band_name]).first
+      @song_albums        = @band.song_albums.includes('songs')
+      @status             = true
+    rescue => exp
+      logger.error "Error in BandSongAlbum::SongsForFeaturedList :=>#{exp.message}"
+      @status            = false
+    end
+    render :layout =>false
+  end
+
+  # sets the requested song as featured song
+  def make_song_featured
+    begin
+      @band               = Band.where(:name => params[:band_name]).first
+      if @has_admin_access
+        begin @song       = Song.find params[:id] rescue @song = nil end
+        @song.update_attribute(:is_featured, !@song.is_featured) if @song
+        @status = true
+        @featured_songs   = @band.featured_songs
+      end
+    rescue =>exp
+      logger.error "Error in BandSongAlbum#MakeSongFeatured :=> #{exp.message}"
+      @status   = false
     end
   end 
   

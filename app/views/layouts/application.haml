@@ -12,8 +12,7 @@
         					$(".circle").corner("40px");
         					$(".logo").corner("20px");
         					$(".loginfields, .login, .button,.join,.textfield,.radiolabel").corner("round");
-      				});       
-       function open_popup_for_song_albums(url){$.facebox(function() {$.ajax({error: function() {$.facebox('Sorry, there was an error!');},load:function(data){},success: function(data) {$.facebox(data);},type: 'get',url: url});});}
+      				});              
   %body
     #base-container
       - if current_user #user logged in

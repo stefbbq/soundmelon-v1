@@ -38,6 +38,6 @@
         = render '/band_song_album/song_item', :song =>song
       .clear
   - if @has_admin_access
-    = link_to image_tag('add.png'), add_songs_to_album_path(@band.name, song_album.album_name ), :remote => true, :class => 'ajaxopen backable'
+    = link_to "", add_songs_to_album_path(@band.name, song_album.album_name ), :remote => true, :class => 'ajaxopen icon-add backable'
   .clear
 .clear

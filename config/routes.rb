@@ -151,12 +151,13 @@ Soundmelon::Application.routes.draw do
   get ':band_name/SongAlbum/sadownload/:id'       => 'band_song_album#download_album',    :as => :download_song_album
   match ':band_name/album/delete/:song_album_id'  => 'band_song_album#destroy_album',     :as => :delete_song_album
   match ':band_name/song/delete/:song_id'         => 'band_song_album#destroy_song',      :as => :delete_song
-  get ':band_name/:song_album_name/public'        => 'band_song_album#disable_enable_song_album', :as => :disable_enable_band_song_albums
-  get ':band_name/set_featured'                   => 'band_song_album#albums_for_featured_list',  :as => :popup_for_feature_albums
+  get ':band_name/:song_album_name/public'        => 'band_song_album#disable_enable_song_album', :as => :disable_enable_band_song_albums  
+  get ':band_name/set_featured_songs'             => 'band_song_album#songs_for_featured_list',   :as => :popup_for_feature_songs
   get ':band_name/:song_album_name/featured'      => 'band_song_album#make_song_album_featured',  :as => :make_song_album_featured
+  get ':band_name/:song_album_name/featured/:id'  => 'band_song_album#make_song_featured',:as => :make_song_featured
   get ':band_name/:song_album_name/edit'          => 'band_song_album#edit_song_album',   :as => :edit_band_song_album  
-  get ':song_name/:id/like'                       => 'band_song_album#do_like_song',      :as => :like_song
-  get ':song_name/:id/dislike'                    => 'band_song_album#do_dislike_song',   :as => :dislike_song
+  get ':song_name/:id/like(/:do_like)'            => 'band_song_album#do_like_dislike_song',      :as => :like_song
+  
   root :to => 'home#index'
 
   

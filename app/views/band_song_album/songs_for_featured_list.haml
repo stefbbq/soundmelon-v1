@@ -9,7 +9,14 @@
         List of Albums
         %hr/
         - for album in @song_albums
-          = link_to album.album_name, make_song_album_featured_path(:band_name =>album.band.name, :song_album_name =>album.album_name), :remote=>:true, :class=>"ajaxopen", :style=>'color:red;font-size:14px;'
-          %br/
+          - songs = album.songs.nonfeatured
+          %br= album.album_name
+          - if songs.blank?
+            No song to set as featured in this album
+          - else
+            - for song in songs
+              = link_to song.title, make_song_featured_path(:band_name =>album.band.name, :song_album_name =>album.album_name, :id =>song.id), :remote=>:true, :class=>"ajaxopen", :style=>'color:red;font-size:14px;'
+              %br/
+          %hr
 != "jQuery.facebox('#{escape_javascript popup_content}');"
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"

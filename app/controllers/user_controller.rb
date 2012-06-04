@@ -44,10 +44,10 @@ class UserController < ApplicationController
           @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
           next_page                   = @posts.next_page
           @load_more_path             =  next_page ? more_post_path(:page => next_page) : nil
-          @unread_mentioned_count     = current_user.unread_mentioned_post_count
-          @unread_post_replies_count  = current_user.unread_post_replies_count
-          @unread_messages_count      = current_user.received_messages.unread.count
-          @song_items                 = current_user.find_radio_feature_playlist_songs
+          @unread_mentioned_count     = @user.unread_mentioned_post_count
+          @unread_post_replies_count  = @user.unread_post_replies_count
+          @unread_messages_count      = @user.received_messages.unread.count
+          @song_items                 = @user.find_radio_feature_playlist_songs
           get_user_associated_objects
           #----------------------------------------------------------------------------------
         else          

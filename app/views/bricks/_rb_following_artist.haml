@@ -1,24 +1,22 @@
 - selected    ||=false
 - link_class  = selected ? 'selection-box iconactive ajaxload button-fill-fan backable' : 'selection-box iconactive ajaxload backable'
-
-- if following_artist_count > 0
-  = link_to fan_following_artists_path(:id =>user.id), {:id=>'following-artist', :class=>link_class, :remote => true} do
-    following
-    %span.count
-      = pluralize(following_artist_count, 'artist')
-    - unless following_artist_count < Constant::FOLLOWING_ARTIST_SHOW_LIMIT
-      %br
-      = link_to 'see all', fan_following_artists_path(:id =>user.id), :remote=>:true, :class=>'small-font ajaxopen backable'
-- else
-  .selection-box-nohref
-    following
-    %span.count
-      0 artists
-.collection{:id =>'followingartistbox'}
+%div{:style=>"position: relative;"}
   - if following_artist_count > 0
-    %div
-      - following_artists.each do |band|
-        = render '/bricks/avatar', :item =>band
+    = link_to fan_following_artists_path(:id =>user.id), {:id=>'following-artist', :class=>link_class, :remote => true} do
+      following
+      %span.count
+        = pluralize(following_artist_count, 'artist')
+      = link_to 'see all', fan_following_artists_path(:id =>user.id), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless following_artist_count < Constant::FOLLOWING_ARTIST_SHOW_LIMIT
   - else
-    .message
-      = Constant::NO_FOLLOWING_MESSAGE
+    .selection-box-nohref
+      following
+      %span.count
+        0 artists
+  .collection{:id =>'followingartistbox'}
+    - if following_artist_count > 0
+      %div
+        - following_artists.each do |band|
+          = render '/bricks/avatar', :item =>band
+    - else
+      .message
+        = Constant::NO_FOLLOWING_MESSAGE
