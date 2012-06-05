@@ -237,51 +237,5 @@ class UserPostsController < ApplicationController
       redirect_to root_url and return
     end
   end
-
-  #  def mentions_post
-  #    if request.xhr?
-  #      begin
-  #        @band         = Band.where(:name => params[:band_name]).includes(:band_members).first
-  #        if current_user.is_admin_of_band?(@band)
-  #         @posts                     = @band.mentioned_in_posts(params[:page])
-  #         @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-  #         next_page                  = @posts.next_page
-  #         @load_more_path            =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => 'mentions') : nil
-  #         @unread_mentioned_count    = @band.unread_mentioned_post_count
-  #         @unread_post_replies_count = @band.unread_post_replies_count
-  #         @unread_messages_count     = @band.received_messages.unread.count
-  #        else
-  #          render :nothing => true and return
-  #        end
-  #      rescue
-  #        render :nothing => true and return
-  #      end
-  #    else
-  #      redirect_to fan_home_url, :notice => 'Something went wrong! Try Again' and return
-  #    end
-  #  end
-  #
-  #  def replies_post
-  #    if request.xhr?
-  #      begin
-  #        @band = Band.where(:name => params[:band_name]).includes(:band_members).first
-  #        if current_user.is_admin_of_band?(@band)
-  #         @posts                     = @band.replies_post(params[:page])
-  #         @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-  #         next_page                  = @posts.next_page
-  #         @load_more_path            =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => 'replies') : nil
-  #         @unread_mentioned_count    = @band.unread_mentioned_post_count
-  #         @unread_post_replies_count = @band.unread_post_replies_count
-  #         @unread_messages_count     = @band.received_messages.unread.count
-  #        else
-  #          render :nothing => true and return
-  #        end
-  #      rescue
-  #        render :nothing => true and return
-  #      end
-  #    else
-  #      redirect_to fan_home_url, :notice => 'Something went wrong! Try Again' and return
-  #    end
-  #  end
   
 end

@@ -84,17 +84,17 @@ Soundmelon::Application.routes.draw do
   match 'edit/payment/info'                   => 'fan#update_payment_info',               :as => :edit_payment_info
   
   #--------------------------------------------------AvatarController[Fan Profile Pic/Artist Logo]----------------------
-  post 'profile/pic/add/:id'                  => 'avatar#create',                         :as => :add_avatar
-  get 'profile/pic/new/:id'                   => 'avatar#new',                            :as => :new_avatar
-  match 'profile/pic/crop/:id'                => 'avatar#crop',                           :as => :crop_avatar
-  match 'profile/pic/update/:id'              => 'avatar#update',                         :as => :update_avatar
-  get 'profile/pic/delete/:id'                => 'avatar#delete',                         :as => :delete_avatar
+  post 'profile/pic/add'                      => 'avatar#create',                         :as => :add_avatar
+  get 'profile/pic/new'                       => 'avatar#new',                            :as => :new_avatar
+  match 'profile/pic/crop'                    => 'avatar#crop',                           :as => :crop_avatar
+  match 'profile/pic/update'                  => 'avatar#update',                         :as => :update_avatar
+  get 'profile/pic/delete'                    => 'avatar#delete',                         :as => :delete_avatar
 
-  post 'artist/logo/add/:id'                  => 'avatar#create_logo',                    :as => :add_logo
-  get 'artist/logo/new/:id'                   => 'avatar#new_logo',                       :as => :new_logo
-  match 'artist/logo/crop/:id'                => 'avatar#crop_logo',                      :as => :crop_logo
-  match 'artist/logo/update/:id'              => 'avatar#update_logo',                    :as => :update_logo
-  get 'artist/logo/delete/:id'                => 'avatar#delete_logo',                    :as => :delete_logo
+  post 'artist/logo/add'                      => 'avatar#create_logo',                    :as => :add_logo
+  get 'artist/logo/new'                       => 'avatar#new_logo',                       :as => :new_logo
+  match 'artist/logo/crop'                    => 'avatar#crop_logo',                      :as => :crop_logo
+  match 'artist/logo/update'                  => 'avatar#update_logo',                    :as => :update_logo
+  get 'artist/logo/delete'                    => 'avatar#delete_logo',                    :as => :delete_logo
 
 
   # match 'profile/pic/delete' => 'avatar#delete', :as => 'delete_avatar'

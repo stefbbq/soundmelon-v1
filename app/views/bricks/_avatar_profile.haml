@@ -1,10 +1,21 @@
-.overlay
-  = link_to crop_avatar_path(user), {:remote=>:true,:class=>'ajaxopen'} do
-    %h2
-      change crop
-  = link_to new_avatar_path(user), {:remote=>:true,:class=>'ajaxopen'} do
-    %h2
-      modify
-  = link_to delete_avatar_path(user), {:remote=>:true} do
-    %h2
-      remove
+- if user.profile_pic
+  = image_tag(user.profile_pic.avatar.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
+  .overlay
+    = link_to crop_avatar_path, {:remote=>:true,:class=>'ajaxopen'} do
+      %h2
+        change crop
+    = link_to new_avatar_path, {:remote=>:true,:class=>'ajaxopen'} do
+      %h2
+        modify
+    = link_to delete_avatar_path, {:remote=>:true} do
+      %h2
+        remove
+- else
+  = image_tag('fan-defaults-photo-profile.jpg')
+  .overlay
+    = link_to new_avatar_path, {:remote=>:true} do
+      %h2
+        add
+
+
+

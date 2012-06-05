@@ -29,15 +29,10 @@ module ApplicationHelper
   end
   
   def get_avatar_large(user, my_avatar = false)
-    my_avatar = true if current_user.id == user.id
-    if my_avatar
-      if user.profile_pic(true)
-        edit_delete_links_and_img_str = image_tag(user.profile_pic.avatar.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
-        edit_delete_links_and_img_str += render :partial => '/bricks/avatar_profile', :locals => {:user => user}
-        raw edit_delete_links_and_img_str
-      else
-        raw "<div class='overlay'>#{link_to 'Add'.html_safe, new_avatar_path(user), :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('fan-defaults-photo-profile.jpg')}</div>"
-      end
+    actor     = current_actor
+    my_avatar = actor == user
+    if my_avatar       
+        raw (render :partial => '/bricks/avatar_profile', :locals => {:user => user})      
     else
       if user.profile_pic
         image_tag(user.profile_pic.avatar.url(:large), :alt=>'')
@@ -67,13 +62,7 @@ module ApplicationHelper
     actor     = current_actor
     self_logo = actor == band
     if self_logo
-      if band.band_logo(true)
-        edit_delete_links_and_img_str = image_tag(band.band_logo.logo.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
-        edit_delete_links_and_img_str += render :partial => '/bricks/artist_logo_profile', :locals => {:band => band}
-        raw edit_delete_links_and_img_str
-      else
-        raw "<div class='overlay'>#{link_to 'Add', new_logo_path(band), :remote=>:true,:class=>'ajaxopen'}</div><div>#{image_tag('artist-defaults-photo-thumbnail.jpg')}</div>"
-      end
+      raw (render :partial => '/bricks/artist_logo_profile', :locals => {:band => band})
     else
       if band.band_logo
         image_tag(band.band_logo.logo.url(:large), :alt=>'')
@@ -152,10 +141,11 @@ module ApplicationHelper
   end
   
   def get_band_photo_album_teaser_photo(band_photo_album, type='thumb')
-    if band_photo_album.band_photos.first.blank? || band_photo_album.band_photos.first.image_content_type.nil?
+    cover_image = band_photo_album.cover_image
+    if cover_image.blank?
       image_tag('no-image.png', :alt=>'')
     else
-      image_tag(band_photo_album.band_photos.first.image.url(type), :alt=>'')
+      image_tag(cover_image.image.url(type), :alt=>'')
     end
   end
 
@@ -187,7 +177,6 @@ module ApplicationHelper
     end
     post_msg.html_safe
   end
-
 
   # prepares the detail for individual song
   def song_detail song

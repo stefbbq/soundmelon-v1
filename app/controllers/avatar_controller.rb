@@ -1,21 +1,24 @@
 class AvatarController < ApplicationController
-  before_filter :require_login
+  before_filter :require_login, :set_actor_and_entities
 
   def new
-    begin @user = User.find params[:id] rescue @user=nil end
-    @profile_pic = @user.build_profile_pic
+    begin
+      @profile_pic = @user.build_profile_pic
+    rescue =>exp
+      logger.error "Error in Avatar::New :=> #{exp.message}"
+      render :nothing =>true and return
+    end
     respond_to do |format|
       format.js
     end
   end
 
   def create
-    begin
-      @user         = User.find(params[:profile_pic][:user_id])
+    begin      
       @profile_pic  = @user.build_profile_pic(params[:profile_pic])
     rescue =>exp
       logger.error "Error: #{exp.message}"
-      @user=nil
+      @user         = nil
     end
     respond_to do |format|
       if @profile_pic.save
@@ -26,21 +29,10 @@ class AvatarController < ApplicationController
     end
   end
 
-  def edit
-    begin
-      @user        = User.find params[:id]
-      @profile_pic = @user.profile_pic
-    rescue
-      @profile_pic = nil
-    end
+  def edit    
   end
 
-  def update
-    begin
-      @user        = User.find params[:id]
-      @profile_pic = @user.profile_pic
-    rescue
-    end
+  def update    
     if @profile_pic.update_attributes(params[:profile_pic])
       respond_to do |format|
         format.js
@@ -48,23 +40,10 @@ class AvatarController < ApplicationController
     end
   end
 
-  def crop
-    begin
-      @user        = User.find params[:id]
-      @profile_pic = @user.profile_pic
-    rescue =>exp
-      logger.error "Error : #{exp.message}"
-      @profile_pic = nil
-    end
+  def crop    
   end
 
-  def delete
-    begin
-      @user        = User.find params[:id]
-      @profile_pic = @user.profile_pic
-    rescue
-      @profile_pic = nil
-    end
+  def delete    
     redirect_to fan_home_url and return unless @profile_pic
     if @profile_pic.delete
       respond_to do |format|
@@ -74,19 +53,21 @@ class AvatarController < ApplicationController
   end
 
   def new_logo
-    begin @artist     = Band.find params[:id] rescue @artist=nil end
-    @artist_logo      = @artist.build_band_logo
+    begin
+      @artist_logo      = @artist.build_band_logo
+    rescue =>exp
+      logger.error "Error in Avatar::NewLogo :=> #{exp.message}"
+    end
     respond_to do |format|
       format.js
     end
   end
 
   def create_logo
-    begin
-      @artist         = Band.find(params[:band_logo][:band_id])
+    begin      
       @artist_logo    = @artist.build_band_logo(params[:band_logo])
     rescue =>exp
-      logger.error "Error: #{exp.message}"
+      logger.error "Error in AvatarCreateLogo :=> #{exp.message}"
       @artist         = nil
     end
     respond_to do |format|
@@ -98,21 +79,10 @@ class AvatarController < ApplicationController
     end
   end
 
-  def edit_logo
-    begin
-      @artist        = Band.find params[:id]
-      @artist_logo   = @artist.band_logo
-    rescue
-      @artist_logo   = nil
-    end
+  def edit_logo    
   end
 
-  def update_logo
-    begin
-      @artist        = Band.find params[:id]
-      @artist_logo   = @artist.band_logo
-    rescue
-    end
+  def update_logo    
     if @artist_logo.update_attributes(params[:band_logo])
       respond_to do |format|
         format.js
@@ -120,28 +90,32 @@ class AvatarController < ApplicationController
     end
   end
 
-  def crop_logo
-    begin
-      @artist        = Band.find params[:id]
-      @artist_logo   = @artist.band_logo
-    rescue =>exp
-      logger.error "Error : #{exp.message}"
-      @artist_logo = nil
-    end
+  def crop_logo    
   end
 
-  def delete_logo
-    begin
-      @artist        = Band.find params[:id]
-      @artist_logo   = @artist.band_logo
-    rescue
-      @artist_logo   = nil
-    end
+  def delete_logo    
     redirect_to fan_home_url and return unless @artist_logo
     if @artist_logo.delete
       respond_to do |format|
         format.js
       end
+    end
+  end
+
+  private
+
+  def set_actor_and_entities
+    begin
+      @actor = current_actor
+      if @actor.is_fan?
+        @user           = @actor
+        @profile_pic    = @actor.profile_pic
+      else
+        @artist         = @actor
+        @artist_logo    = @actor.band_logo
+      end
+    rescue =>exp
+      logger.error "Error in Avatar::SetActorAndEntities :=> #{exp.message}"
     end
   end
 
