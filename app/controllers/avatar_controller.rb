@@ -105,17 +105,21 @@ class AvatarController < ApplicationController
   private
 
   def set_actor_and_entities
-    begin
-      @actor = current_actor
-      if @actor.is_fan?
-        @user           = @actor
-        @profile_pic    = @actor.profile_pic
-      else
-        @artist         = @actor
-        @artist_logo    = @actor.band_logo
+    if request.xhr?
+      begin
+        @actor = current_actor
+        if @actor.is_fan?
+          @user           = @actor
+          @profile_pic    = @actor.profile_pic
+        else
+          @artist         = @actor
+          @artist_logo    = @actor.band_logo
+        end
+      rescue =>exp
+        logger.error "Error in Avatar::SetActorAndEntities :=> #{exp.message}"
       end
-    rescue =>exp
-      logger.error "Error in Avatar::SetActorAndEntities :=> #{exp.message}"
+    else
+      render :template =>'/bricks/page_missing'
     end
   end
 

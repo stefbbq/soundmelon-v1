@@ -2,11 +2,11 @@
   #page-bottom-fade
   .content
     %div
-      %a{:href => "#"}
+      = link_to page_path('about'),{:target =>'_blank'} do
         = image_tag 'base-footer-link-about.png'
-      %a{:href => "#"}
+      = link_to page_path('contact'),{:target =>'_blank'} do
         = image_tag 'base-footer-link-contact.png'
-      %a{:href => "#"}
+      = link_to page_path('help'),{:target =>'_blank'} do
         = image_tag 'base-footer-link-help.png'
-      %a{:href => "#"}
+      = link_to page_path('terms'),{:target =>'_blank'} do
         = image_tag 'base-footer-link-terms.png'

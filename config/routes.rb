@@ -3,7 +3,8 @@ Soundmelon::Application.routes.draw do
   resources :invitations
 
   get "artist/index"
-  
+
+  get 'page/:page_name'                       => 'page#show',                       :as => :page
   #global
   get "search/index"
   get 'logout'                                => 'sessions#destroy',                :as => :logout
