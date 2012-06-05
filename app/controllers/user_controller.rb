@@ -104,7 +104,19 @@ class UserController < ApplicationController
     end       
   end
 
-  
-  
+  def give_feedback
+    begin
+      actor           = current_actor
+      feedback_params = params[:feedback]
+      if feedback_params
+        feedback_params.update({:user_type =>actor.class.name, :user_id =>actor.id})
+      end
+      @feedback       = Feedback.new(feedback_params)
+      @status         = @feedback.save
+      @feedback       = Feedback.new if @status      
+    rescue =>exp
+      logger.error "Error in User::GiveFeedback :=> #{exp.message}"
+    end
+  end 
 
 end

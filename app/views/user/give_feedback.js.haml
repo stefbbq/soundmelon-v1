@@ -1,0 +1,8 @@
+- if @status
+  $('.primary #error_explanation').html('Thanks for your feedback');
+  != "$('form#feedback_form')[0].reset();"
+- else
+  $('.primary .feedback_message').html('');
+  $('.primary #feedback_form_div').html('#{escape_javascript(render '/page/feedback_form')}');
+
+  

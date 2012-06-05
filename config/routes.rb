@@ -1,9 +1,11 @@
 Soundmelon::Application.routes.draw do
 
-  resources :invitations
+  resources :invitations  
 
   get "artist/index"
 
+  # pages and feedback
+  match "/feedback/send"                      =>"user#give_feedback",               :as =>:send_feedback
   get 'page/:page_name'                       => 'page#show',                       :as => :page
   #global
   get "search/index"

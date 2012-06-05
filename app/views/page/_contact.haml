@@ -1,1 +1,7 @@
-Contact Soundmelon    
+Contact Soundmelon
+- unless @feedback.blank?  
+  #feedback_form_div
+    = render 'feedback_form'
+- else
+  %hr
+  You can email us to: feedbacks@soundmelon.com
