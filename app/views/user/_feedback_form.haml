@@ -1,0 +1,33 @@
+Send Feedback
+%hr
+- if @feedback.errors.any?
+  #error_explanation
+    %h2
+      = pluralize(@feedback.errors.count, "error")
+      prohibited your feedback from sending:
+    %ul
+      - @feedback.errors.full_messages.each do |msg|
+        %li
+          = msg
+- else
+  #error_explanation
+.form_div
+  = form_for @feedback, :url => send_feedback_path, :html => {:remote => true, :class => 'ajaxopen', :id =>'feedback_form'}  do |f|        
+    .field
+    %label{:for =>"topic"}
+      Feedback About
+      %br
+      = f.select :feedback_topic_id, options_from_collection_for_select(FeedbackTopic.all, 'id', 'name')
+    .field
+    %label{:for =>"topic"}
+      Feedback Subject
+      %br
+      = select :feedback, :subject, FEEDBACK_SUBJECTS
+    .field
+      %label{:for =>"content"}
+        Comment
+      %br
+      = f.text_area :content, {:maxlength => 200, :cols => 50, :rows => 8}
+    .postbtn
+      = submit_tag('Send')
+    .clear

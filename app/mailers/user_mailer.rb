@@ -68,9 +68,10 @@ class UserMailer < ActionMailer::Base
   end
 
   def feedback_notification_email feedback, feedback_topic, user
-    @user       = user
-    @content    = feedback.content
-    @toemail    = feedback_topic.emails.split(';')
+    @user             = user
+    @feedback_subject = feedback.subject
+    @content          = feedback.content
+    @toemail          = feedback_topic.emails.split(';')
     mail(
       :to => @toemail,
       :subject => "New Feedback Notification"

@@ -104,6 +104,10 @@ class UserController < ApplicationController
     end       
   end
 
+  def feedback_page
+    @feedback  = Feedback.new
+  end
+
   def give_feedback
     begin
       actor           = current_actor
@@ -113,7 +117,10 @@ class UserController < ApplicationController
       end
       @feedback       = Feedback.new(feedback_params)
       @status         = @feedback.save
-      @feedback       = Feedback.new if @status      
+      @feedback       = Feedback.new if @status
+      unless @status
+        render :action =>'feedback_page'
+      end
     rescue =>exp
       logger.error "Error in User::GiveFeedback :=> #{exp.message}"
     end

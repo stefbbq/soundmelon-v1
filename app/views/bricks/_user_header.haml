@@ -6,6 +6,7 @@
         = render '/bricks/session_header'
       .notifications
         = render '/bricks/notifications'
+      = link_to "feedback", feedback_start_path, :remote =>true, :class => "ajaxopen", :id => 'switch'
   .bottom-bar
     .music-player
       = render :partial =>'layouts/player'

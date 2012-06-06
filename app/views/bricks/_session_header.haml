@@ -4,9 +4,9 @@
   - artist              = actor
   - current_fan_user    = current_user
   - other_admin_artists = current_fan_user.admin_bands_except(artist)  
-  = link_to "#{current_fan_user.fname} #{current_fan_user.lname}".truncate(20), fan_profile_path(current_fan_user), :class => 'user-info backable', :remote =>true
+  = link_to "#{current_fan_user.fname}".truncate(10), fan_profile_path(current_fan_user), :class => 'user-info backable', :remote =>true, :title =>"#{current_fan_user.get_full_name}"
   administrating
-  = link_to artist.name.truncate(15), user_home_path, :class => 'user-info backable ajaxopen', :remote =>true
+  = link_to artist.name.truncate(10), user_home_path, :class => 'user-info backable ajaxopen', :remote =>true, :title =>"#{artist.name}"
   = link_to "switch", 'javascript:void(0);', :id =>'switch', :remote =>true, :onclick =>"$('.switch-lists').toggle();"
   .switch-lists{:style=>'display:none'}
     = link_to 'Switch back to yourself', change_login_path, :class =>'button1 ajaxopen', :remote =>true

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120605074350) do
+ActiveRecord::Schema.define(:version => 20120606090251) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -143,14 +143,13 @@ ActiveRecord::Schema.define(:version => 20120605074350) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "feedback_topic_id",                    :null => false
-    t.string   "name"
-    t.string   "email"
     t.string   "user_type"
     t.integer  "user_id"
     t.text     "content"
     t.boolean  "is_solved",         :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "subject"
   end
 
   create_table "follows", :force => true do |t|
