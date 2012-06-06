@@ -1,8 +1,6 @@
 - form_post_path = @band_photo_album ? band_album_buzz_post_path(@band_photo_album, :album_name => @band_photo_album.name ) : photo_buzz_post_path(@photo)
-- band_id        = @band_photo_album ? @band_photo_album.band_id : 
 .statusinput
- = form_tag(form_post_path, :class=>"ajaxopen", :remote => true, :id => 'buzz_form') do
-  = hidden_field_tag :band_id, band_id
+ = form_tag(form_post_path, :class=>"ajaxopen", :remote => true, :id => 'buzz_form') do  
   = text_area_tag :msg, nil, :maxlength => 200, :cols => 50, :rows => 3
   .postbtn
    = submit_tag('Post',:class=>"button blue right")

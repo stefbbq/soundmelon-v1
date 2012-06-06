@@ -25,7 +25,7 @@ class PhotoPost < ActiveRecord::Base
     PhotoPost.create(
       :band_photo_id => params[:id],
       :user_id       => user_id,
-      :band_id => params[:band_id],
+      :band_id       => params[:band_id],
       :msg           => params[:msg]
     )
   end

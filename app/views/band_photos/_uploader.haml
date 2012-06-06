@@ -24,7 +24,17 @@
             $('#photobox').html(new_album_html);
           else
             $('#photobox').prepend(new_album_html);
-        }                
+        }
+
+        if($('#photo_album_box').length >0){
+          if($('#photo_album_box #band_album_' + dat.band_album_id).length == 0){
+            $('#photo_album_box').append(dat.album_string);
+          }else{
+            if($('#photo_album_box #band_album_' + dat.band_album_id + ' .album_details .photo_gallery').length > 0){
+              $('#photo_album_box #band_album_' + dat.band_album_id + ' .album_details .photo_gallery').append(dat.photo_string);
+            }
+          }
+        }
       },
       onSelect : function(event,data) {
         $("#band_photo_image").uploadifySettings('scriptData', { 'album_name' : $('#album_name').val(), 'band_name' : $('#band_name').val() });
@@ -53,3 +63,8 @@
     html_str      +="</div>"
     return html_str;
   }
+  function get_band_photo_html(){        
+  }
+
+  
+

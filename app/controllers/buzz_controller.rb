@@ -1,5 +1,5 @@
 class BuzzController < ApplicationController
-  before_filter :require_login
+  before_filter :require_login, :set_current_actor
   
   def album_buzz
     if request.xhr?
@@ -48,8 +48,14 @@ class BuzzController < ApplicationController
  
   def album_buzz_post 
     if request.xhr?
-      begin        
-        @buzz       = Post.create_song_album_buzz_by(current_user.id, params)
+      begin
+        if @actor.is_fan?
+          user_id     = @actor.id
+        else
+          user_id     = nil
+          params.update({:band_id =>@actor.id})
+        end        
+        @buzz       = Post.create_song_album_buzz_by(user_id, params)
       rescue =>exp
         logger.error "Error in Buzz#AlbumBuzzPost :=> #{exp.message}"
         render :nothing => true and return
@@ -61,8 +67,14 @@ class BuzzController < ApplicationController
  
   def song_buzz_post
     if request.xhr?
-      begin        
-        @buzz       = Post.create_song_buzz_by(current_user.id, params)
+      begin
+        if @actor.is_fan?
+          user_id     = @actor.id
+        else
+          user_id     = nil
+          params.update({:band_id =>@actor.id})
+        end        
+        @buzz       = Post.create_song_buzz_by(user_id, params)
       rescue
         render :nothing => true and return
       end
@@ -73,9 +85,16 @@ class BuzzController < ApplicationController
 
   def band_album_buzz_post
     if request.xhr?
-      begin        
-        @buzz       = PhotoPost.create_band_album_buzz_by(current_user.id, params)
-      rescue
+      begin
+        if @actor.is_fan?
+          user_id     = @actor.id
+        else
+          user_id     = nil
+          params.update({:band_id =>@actor.id})
+        end        
+        @buzz       = PhotoPost.create_band_album_buzz_by(user_id, params)
+      rescue =>exp
+        logger.error "Error in Buzz::BandAlbumBuzzPost :=> #{exp.message}"
         render :nothing => true and return
       end
     else
@@ -85,8 +104,14 @@ class BuzzController < ApplicationController
 
   def photo_buzz_post
     if request.xhr?
-      begin        
-        @buzz       = Post.create_photo_buzz_by(current_user.id, params)
+      begin
+        if @actor.is_fan?
+          user_id     = @actor.id
+        else
+          user_id     = nil
+          params.update({:band_id =>@actor.id})
+        end        
+        @buzz       = Post.create_photo_buzz_by(user_id, params)
       rescue
         render :nothing => true and return
       end
@@ -111,14 +136,26 @@ class BuzzController < ApplicationController
 
   def band_tour_buzz_post
     if request.xhr?
-      begin        
-        @buzz       = TourPost.create_band_tour_buzz_by(current_user.id, params)
+      begin
+        if @actor.is_fan?
+          user_id     = @actor.id
+        else
+          user_id     = nil
+          params.update({:band_id =>@actor.id})
+        end        
+        @buzz       = TourPost.create_band_tour_buzz_by(user_id, params)
       rescue
         render :nothing => true and return
       end
     else
       redirect_to root_url and return
     end
+  end
+
+  private
+
+  def set_current_actor
+    @actor = current_actor
   end
   
 end

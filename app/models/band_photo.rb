@@ -2,8 +2,7 @@ class BandPhoto < ActiveRecord::Base
   belongs_to :band_album
   belongs_to :user
   
-  after_destroy :decrease_photo_count
-  after_create :increase_photo_count
+  after_destroy :decrease_photo_count  
 
   has_attached_file :image, 
     :url => "/assets/bands/album/:id/:style/:basename.:extension",
@@ -17,11 +16,7 @@ class BandPhoto < ActiveRecord::Base
   validates_attachment_size :image, :less_than => 5.megabytes
   validates_attachment_presence :image
 
-  def increase_photo_count
-    album = self.band_album
-    album.increment!(:photo_count) if album
-  end
-
+  
   def decrease_photo_count
     album = self.band_album
     self.band_album.decrement!(:photo_count) if album

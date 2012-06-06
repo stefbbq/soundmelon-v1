@@ -15,6 +15,7 @@ class BandAlbum < ActiveRecord::Base
   end
   
   def set_cover_image band_photo
+    self.increment!(:photo_count)
     begin
       set_the_cover_image band_photo, self.cover_image.blank?
     rescue =>exp

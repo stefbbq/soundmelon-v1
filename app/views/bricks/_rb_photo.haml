@@ -22,3 +22,17 @@
               = link_to image_tag('remove.png'), delete_album_path(:band_name => band.name, :band_album_name => band_photo_album.name), :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen"
     - else
       .message= Constant::NO_PHOTO_ALBUM_MESSAGE
+
+- if @has_admin_access
+  :javascript
+    function updateAfterPhotoAlbumRemoval(band_album_id){
+      if($('.right #photobox #band_album_' + band_album_id).length>0){
+        $('.right #photobox #band_album_' + band_album_id).remove();
+      }
+      if($('.primary .left #band_album_' + band_album_id).length >0){
+        $('.primary .left #band_album_' + band_album_id).remove();
+      }
+      if($('#photobox div.song-album').length==0){
+        $('#photobox').html("<div class='message'>#{Constant::NO_PHOTO_ALBUM_MESSAGE}</div>");
+      }
+    }

@@ -15,7 +15,7 @@
     .field  
       %label{:for=>"username"}
         username
-      = f.text_field :mention_name
+      = f.text_field :mention_name, :readonly =>:true
     = f.submit 'changes are swell', :class => 'button'
 .area.form
   .details

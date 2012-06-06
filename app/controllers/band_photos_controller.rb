@@ -34,8 +34,7 @@ class BandPhotosController < ApplicationController
         @band_album         = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first || BandAlbum.create(:name=>params[:album_name], :user_id => current_user.id, :band_id => @band.id)        
         @band_photo         = @band_album.band_photos.build(newparams[:band_photo])
         @band_photo.user_id = current_user.id
-        if @band_photo.save
-          @band_album       = @band_photo.band_album
+        if @band_photo.save          
           flash[:notice] = "Successfully created upload."
           respond_to do |format|
             format.html {redirect_to user_home_url and return}
@@ -50,7 +49,10 @@ class BandPhotosController < ApplicationController
                 :image_src      => @band_album.photo_count>0 ? @band_album.band_photos.first.image.url(:thumb) : '/assets/no-image.png',
                 :add_url        => "#{add_photos_to_album_path(:band_name =>@band.name, :band_album_name =>@band_album.name)}",
                 :album_url      => "#{band_album_path(:band_name =>@band.name, :band_album_name =>@band_album.name)}",
-                :delete_url     => "#{delete_album_path(:band_name =>@band.name, :band_album_name =>@band_album.name)}"
+                :delete_url     => "#{delete_album_path(:band_name =>@band.name, :band_album_name =>@band_album.name)}",
+                :album_photos_url=>"#{band_album_photos_path(:band_name =>@band.name, :band_album_name =>@band_album.name)}",
+                :album_string   => "#{render_to_string('/band_photos/_band_photo_album',:layout =>false, :locals =>{:band_album =>@band_album})}",
+                :photo_string   => "#{render_to_string('/band_photos/_band_photo',:layout =>false, :locals =>{:band_album =>@band_album, :photo =>@band_photo})}"
               }
             }
           end
@@ -60,7 +62,8 @@ class BandPhotosController < ApplicationController
       else
         render :nothing => true and return
       end
-    rescue
+    rescue =>exp
+      logger.error "Error in BandPhotos::Create :=>#{exp.message}"
       render :nothing => true and return
     end
   end
@@ -215,7 +218,7 @@ class BandPhotosController < ApplicationController
           render :nothing => true and return
         end
         @band_album.set_the_cover_image(@band_photo, true)
-        render :template =>'/band_photos/band_album_photos'
+#        render :template =>'/band_photos/band_album_photos'
       rescue =>exp
         logger.error "Error in BandPhoto#MakeCoverImage :=> #{exp.message}"
         render :nothing   => true and return
@@ -235,8 +238,9 @@ class BandPhotosController < ApplicationController
         end
         @band_photo.destroy
         @band_album.choose_cover_image
-        render :template =>'/band_photos/band_album_photos'
-      rescue
+#        render :template =>'/band_photos/band_album_photos'
+      rescue =>exp
+        logger.error "Error in BandPhoto::Destroy :=>#{exp.message}"
         render :nothing => true and return
       end
     else

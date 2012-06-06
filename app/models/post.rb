@@ -54,7 +54,8 @@ class Post < ActiveRecord::Base
   def self.create_song_album_buzz_by(user_id, params)
     Post.create(
       :song_album_id  => params[:id],
-      :user_id        => user_id,      
+      :user_id        => user_id,
+      :band_id        => params[:band_id],
       :msg            => params[:msg]
     )
   end
@@ -62,7 +63,8 @@ class Post < ActiveRecord::Base
   def self.create_song_buzz_by(user_id, params)
     Post.create(
       :song_id        => params[:id],      
-      :user_id        => user_id,      
+      :user_id        => user_id,
+      :band_id        => params[:band_id],
       :msg            => params[:msg]
     )
   end  
