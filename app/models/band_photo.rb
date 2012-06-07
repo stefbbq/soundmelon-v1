@@ -6,8 +6,9 @@ class BandPhoto < ActiveRecord::Base
   
   after_destroy :decrease_photo_count  
 
-  has_attached_file :image, 
-    :url => "/assets/bands/album/:id/:style/:basename.:extension",
+  has_attached_file :image,
+    :path => ":rails_root/public/sm/artist/photos/:normalized_file_name.:extension",
+    :url => "/sm/artist/photos/:normalized_file_name.:extension",    
     :styles => { 
       :large  => ["800x800>", :jpeg],
       :medium => ["300x300>", :jpeg],
@@ -18,6 +19,14 @@ class BandPhoto < ActiveRecord::Base
   validates_attachment_size :image, :less_than => 5.megabytes
   validates_attachment_presence :image
 
+  Paperclip.interpolates :normalized_file_name do |attachment, style|
+    attachment.instance.normalized_file_name(style)
+  end
+
+  def normalized_file_name style
+    name = "#{style}-#{self.id}"
+    "#{Digest::SHA1.hexdigest(name)}"
+  end
   
   def decrease_photo_count
     album = self.band_album

@@ -14,11 +14,25 @@ class SongAlbum < ActiveRecord::Base
   accepts_nested_attributes_for :songs, :reject_if => proc { |attributes| attributes['song'].blank?}
 
   has_attached_file :cover_img,
-    :styles => { :small => '35x35#', :medium => '100x100>', :large => '300x180#' },
-    :url => "/assets/images/album/cover/image/:id/:style/:basename.:extension"
+    :styles => {
+              :small =>   ['35x35#',:jpg],
+              :medium =>  ['100x100>',:jpg],
+              :large =>   ['300x180#',:jpg]
+            },
+    :path   => ":rails_root/public/sm/artist/song/photos/:normalized_file_name.:extension",
+    :url    => "/sm/artist/song/photos/:normalized_file_name.:extension"
 
   validates_attachment_content_type :cover_img, :content_type => ['image/jpeg', 'image/png', 'image/jpg']
   validates_attachment_size :cover_img, :less_than => 5.megabytes
+
+  Paperclip.interpolates :normalized_file_name do |attachment, style|
+    attachment.instance.normalized_file_name(style)
+  end
+
+  def normalized_file_name style
+    name = "#{style}-#{self.id}"
+    "#{Digest::SHA1.hexdigest(name)}"
+  end
 
   def download_filename
     "#{self.id}_#{self.album_name}_#{sel.id}.zip"
