@@ -154,28 +154,26 @@ module ApplicationHelper
   end
 
   def post_msg_with_band_mention(post)
-    post_msg          = post.msg
-    if post.instance_of?(Post)
-      mentioned_users   = post.mentioned_users
-      mentioned_bands   = post.mentioned_bands
-      unless mentioned_users.blank?
-        user_mentions   = mentioned_users.split(',')
-        for i in 0..user_mentions.size-2
-          um_id   = user_mentions[i]
-          um_name = user_mentions[i+1]
-          fan_profile_link_html = "<a href='#{fan_profile_path(um_id)}' class='ajaxopen backable' data-remote='true'>#{um_name}</a>"
-          post_msg = post_msg.gsub(um_name, fan_profile_link_html)
-          i = i+1
-        end
+    post_msg          = post.msg    
+    mentioned_users   = post.mentioned_users
+    mentioned_bands   = post.mentioned_bands
+    unless mentioned_users.blank?
+      user_mentions   = mentioned_users.split(',')
+      for i in 0..user_mentions.size-2
+        um_id   = user_mentions[i]
+        um_name = user_mentions[i+1]
+        fan_profile_link_html = "<a href='#{fan_profile_path(um_id)}' class='ajaxopen backable' data-remote='true'>#{um_name}</a>"
+        post_msg = post_msg.gsub(um_name, fan_profile_link_html)
+        i = i+1
       end
-      unless mentioned_bands.blank?
-        band_mentions = post.mentioned_bands.split(',')
+    end
+    unless mentioned_bands.blank?
+      band_mentions = post.mentioned_bands.split(',')
 
-        band_mentions.each{|mb|
-          band_profile_link_html = "<a href='#{show_band_path(mb.gsub('@',''))}' class='ajaxopen backable' data-remote='true'>#{mb}</a>"
-          post_msg = post_msg.gsub(mb, band_profile_link_html)
-        }
-      end
+      band_mentions.each{|mb|
+        band_profile_link_html = "<a href='#{show_band_path(mb.gsub('@',''))}' class='ajaxopen backable' data-remote='true'>#{mb}</a>"
+        post_msg = post_msg.gsub(mb, band_profile_link_html)
+      }
     end
     post_msg.html_safe
   end

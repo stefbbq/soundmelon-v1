@@ -1,10 +1,10 @@
 class Song < ActiveRecord::Base
   require 'mp3info'
   acts_as_votable
-  belongs_to :user
-  belongs_to :song_album
-  has_many :posts
-  has_many :playlists
+  belongs_to  :user
+  belongs_to  :song_album
+  has_many    :posts, :as =>:postitem, :dependent => :nullify
+  has_many    :playlists
 
   scope :processed, :conditions =>["is_processed = ?", true]
   scope :featured, :conditions =>["is_featured = ?", true]

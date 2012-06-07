@@ -30,4 +30,3 @@ $('.session .notifications').html('#{escape_javascript(render '/bricks/notificat
 $('a#msg_view_#{@message.id}').remove();
 $('.ajaxload').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());});
 setTimeout('$(document).trigger(\"close.facebox\")',10);  
-

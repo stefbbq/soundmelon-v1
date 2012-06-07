@@ -4,6 +4,8 @@ class BandAlbum < ActiveRecord::Base
   belongs_to :band
   has_many :band_photos, :after_add => :set_cover_image
   belongs_to :cover_image, :class_name =>'BandPhoto'
+
+  has_many  :posts, :as =>:postitem, :dependent => :nullify
   
   scope :published, :conditions =>["disabled = ?", false]
 

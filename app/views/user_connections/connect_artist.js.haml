@@ -1,0 +1,17 @@
+- if @connected
+  != "jQuery.facebox('Connected to artist successfully' );"
+- else
+  != "jQuery.facebox('Connection request sent successfully' );"
+!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
+- connection_content = capture do
+  = render '/bricks/artist_connection', :band =>@band, :actor =>@actor
+- new_connected_item = capture do
+  = render '/bricks/avatar', :item =>@actor
+- left_list_item = capture do
+  = render '/user_connections/connection_item', :user =>@actor, :connection_item =>@band, :is_user_fan =>true
+!= "$('.actions #connect_section').html('#{escape_javascript connection_content}');"
+- if @connected
+  if($('#connectionbox .message').length>0){$('#connectionbox').html('#{escape_javascript new_connected_item}')}else{$('#connectionbox').prepend('#{escape_javascript new_connected_item}')};
+  $('.primary .left .connections_list').append('#{escape_javascript left_list_item}')
+  $('#connections span.count').html("#{@last_connection_count}");
+setTimeout('$(document).trigger(\"close.facebox\")',1000);

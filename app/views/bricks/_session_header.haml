@@ -16,5 +16,5 @@
       %br/
 - else
   = WELCOME_MSG  
-  = link_to "#{current_user.fname} #{current_user.lname}".truncate(30), fan_home_path, :class => 'user-info backable ajaxopen', :remote =>true
+  = link_to "#{current_user.fname}".truncate(10), fan_home_path, :class => 'user-info backable ajaxopen', :remote =>true, :title =>"#{current_user.get_full_name}"
 = link_to "logout", logout_path, :id => 'logout'

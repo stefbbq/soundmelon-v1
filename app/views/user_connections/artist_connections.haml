@@ -1,0 +1,11 @@
+= render :partial=>"/artist_public/live"
+.primary-container
+  .primary
+    .left
+      %b Connections of #{@band.name}
+      %hr/
+      .connections_list{:id =>"#{@band.class.name.downcase}_#{@band.id}_connections"}
+        - @connections.each do |artist|
+          = render '/user_connections/connection_item', :user =>artist, :connection_item =>@band        
+    .right
+      = render '/artist_public/right', :current =>'connection'

@@ -1,6 +1,8 @@
 class BandPhoto < ActiveRecord::Base
   belongs_to :band_album
   belongs_to :user
+
+  has_many  :posts, :as =>:postitem, :dependent => :nullify
   
   after_destroy :decrease_photo_count  
 

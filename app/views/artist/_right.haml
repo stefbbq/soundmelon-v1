@@ -1,4 +1,4 @@
-- tabs      = [:latest_post, :music, :photo, :tour, :member, :fan, :manage_profile, :invite_bandmate, :song]
+- tabs      = [:latest_post, :music, :photo, :tour, :member, :fan, :manage_profile, :invite_bandmate, :song, :connection]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 .items
   = link_to 'news feed & messages', 
@@ -36,6 +36,11 @@
             :band               => @band,
             :is_admin           => true,
             :selected           => 4 == current
+  = render '/bricks/rb_connections',
+            :connection_count   => @band_connection_count,
+            :connected_artists  => @connected_artists,
+            :band               => @band,
+            :selected           => 10 == current
   = render '/bricks/rb_fan',
             :fan_count          => @band_fan_count,
             :band_fans          => @band_fans,

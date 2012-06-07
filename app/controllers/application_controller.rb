@@ -36,19 +36,25 @@ class ApplicationController < ActionController::Base
 
   # instantiates all artist objects for rendering in right column
   def get_artist_objects_for_right_column artist
-    actor                      = current_actor
-    @has_admin_access          = actor == artist    
-    @song_album_count          = artist.song_albums.size
-    @photo_album_count         = artist.band_albums.size
-    @tour_count                = artist.band_tours.size
-    @band_artist_count         = artist.band_members.size
-    @band_fan_count            = artist.followers_count
-    @song_albums               = artist.limited_song_albums
-    @featured_songs            = artist.limited_band_featured_songs
-    @photo_albums              = artist.limited_band_albums(2)
-    @band_tours                = artist.limited_band_tours
-    @band_artists              = artist.limited_band_members
-    @band_fans                 = artist.limited_followers
+    begin
+      actor                      = current_actor
+      @has_admin_access          = actor == artist
+      @song_album_count          = artist.song_albums.size
+      @photo_album_count         = artist.band_albums.size
+      @tour_count                = artist.band_tours.size
+      @band_artist_count         = artist.band_members.size
+      @band_fan_count            = artist.followers_count
+      @band_connection_count     = artist.connections_count
+      @song_albums               = artist.limited_song_albums
+      @featured_songs            = artist.limited_band_featured_songs
+      @photo_albums              = artist.limited_band_albums(2)
+      @band_tours                = artist.limited_band_tours
+      @band_artists              = artist.limited_band_members
+      @band_fans                 = artist.limited_followers
+      @connected_artists         = artist.connected_artists
+    rescue =>exp
+      logger.error "Error in Application::GetArtistObjectsForRightColumn :=> #{exp.message}"
+    end
   end
 
   def get_band_associated_objects artist
@@ -89,7 +95,7 @@ class ApplicationController < ActionController::Base
   end
   
   def logged_in_user
-#    redirect_to fan_home_url and return if current_user
+    #    redirect_to fan_home_url and return if current_user
     redirect_to user_home_url and return if current_user
   end
 

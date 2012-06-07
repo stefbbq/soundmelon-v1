@@ -1,0 +1,11 @@
+$('.primary .left').html('');
+- connections = capture do
+  %b Connections of #{@band.name}
+  %hr/
+  .connections_list{:id =>"#{@band.class.name.downcase}_#{@band.id}_connections"}
+    - @connections.each do |artist|
+      = render '/user_connections/connection_item', :user =>artist, :connection_item =>@band
+$('.primary .left').html('#{escape_javascript(connections)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.right .selection-box').removeClass('active').removeClass('button-fill-fan button-fill-artist');
+$('#connections').addClass('active').addClass('button-fill-artist');

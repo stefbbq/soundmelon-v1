@@ -26,6 +26,7 @@ Soundmelon::Application.routes.draw do
   #-------------------------------------------- followings, followers, follower bands, follower fans ---------------
   get 'fan/:id/followers'                     => 'user_connections#fan_followers',          :as => :fan_followers
   get 'artist/followers/:band_name'           => 'user_connections#band_followers',         :as => :band_followers
+  get 'artist/connections/:band_name'         => 'user_connections#artist_connections',     :as => :artist_connections
   get 'fan/following/fans/:id'                => 'user_connections#fan_following_fans',     :as => :fan_following_fans # id: following items
   get 'fan/following/artists/:id'             => 'user_connections#fan_following_artists',  :as => :fan_following_artists # id: following items
   
@@ -167,8 +168,12 @@ Soundmelon::Application.routes.draw do
   
   #--------------------------------------------UserConnections----------------------------------------------------
   # follow/un-follow band
-  get 'follow/artist/:band_name'          => 'user_connections#follow_band',              :as => :follow_band
-  get 'unfollow/artist/:band_name'        => 'user_connections#unfollow_band',            :as => :unfollow_band
+  get 'follow/artist/:band_name'                  => 'user_connections#follow_band',         :as => :follow_band
+  get 'unfollow/artist/:band_name'                => 'user_connections#unfollow_band',       :as => :unfollow_band
+  get 'connection/request/artist/:band_name'      => 'user_connections#connect_artist',      :as => :connect_artist
+  get 'connection/accept/artist/:band_name'       => 'user_connections#connect_artist',      :as => :accept_artist_connection
+  get 'connection/reject/artist/:band_name'       => 'user_connections#disconnect_artist',   :as => :reject_artist_connection
+  get 'connection/remove/artist/:band_name'       => 'user_connections#disconnect_artist',   :as => :remove_artist_connection
   
   # follow/un-follow fan
   get 'follow/fan/:id'                    => 'user_connections#follow',                   :as => :follow_user

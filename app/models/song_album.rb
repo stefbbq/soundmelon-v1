@@ -4,10 +4,10 @@ class SongAlbum < ActiveRecord::Base
 
   acts_as_votable
 
-  belongs_to :user
-  belongs_to :band
-  has_many :songs
-  has_many :posts
+  belongs_to  :user
+  belongs_to  :band
+  has_many    :songs
+  has_many    :posts, :as =>:postitem, :dependent => :nullify
 
   scope :published, :conditions =>["disabled = ?", false]
 

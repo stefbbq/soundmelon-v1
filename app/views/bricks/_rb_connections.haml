@@ -1,0 +1,26 @@
+- selected    ||=false
+- link_class  = selected ? 'selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
+%div{:style=>"position: relative;"}
+  - if connection_count > 0 || @has_admin_access
+    = link_to artist_connections_path(band.name), {:id=>'connections', :class=>link_class, :remote => true} do
+      %span.count
+        = connection_count
+      - if connection_count > 1 || connection_count == 0 #doesn't use pluarize since that would seperate text styling from number and label
+        connections
+      - else
+        connection
+      = link_to 'see all', artist_connections_path(band.name), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless connection_count < Constant::ARTIST_CONNECTION_SHOW_LIMIT
+        
+  - else
+    .selection-box-nohref{:id =>'connections'}
+      %span.count
+        0
+      connections
+  .collection{:id =>'connectionbox'}
+    - if connection_count > 0
+      %div
+        - connected_artists.each do |artist|
+          = render '/bricks/avatar', :item =>artist
+    - else
+      .message
+        = Constant::NO_CONNECTION_MESSAGE

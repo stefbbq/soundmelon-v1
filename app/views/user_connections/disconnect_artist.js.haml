@@ -1,0 +1,13 @@
+- avatar_div          = "#{@actor.class.name.downcase}_avatar_#{@actor.id}"
+- left_collection_div = "#{@band.class.name.downcase}_#{@band.id}_connections"
+- item_div_id         = "connection_#{@band.class.name.downcase}_#{@band.id}"
+!= "jQuery.facebox('Disconnected successfully');"
+!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
+- connection_content = capture do
+  = render '/bricks/artist_connection', :band =>@band, :actor =>@actor
+- if @actor != @band
+  != "$('.actions #connect_section').html('#{escape_javascript connection_content}');"
+if($('.primary .left ##{item_div_id}').length>0){$('.primary .left ##{item_div_id}').remove();}
+if($('.right #connectionbox ##{avatar_div}').length>0){$('.right #connectionbox ##{avatar_div}').remove();}
+$('#connections span.count').html("#{@last_connection_count}");
+setTimeout('$(document).trigger(\"close.facebox\")',1000); 

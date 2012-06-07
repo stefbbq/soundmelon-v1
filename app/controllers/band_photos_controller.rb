@@ -34,7 +34,8 @@ class BandPhotosController < ApplicationController
         @band_album         = BandAlbum.where(:name => params[:album_name], :band_id => @band.id).first || BandAlbum.create(:name=>params[:album_name], :user_id => current_user.id, :band_id => @band.id)        
         @band_photo         = @band_album.band_photos.build(newparams[:band_photo])
         @band_photo.user_id = current_user.id
-        if @band_photo.save          
+        if @band_photo.save
+          @band_album.save
           flash[:notice] = "Successfully created upload."
           respond_to do |format|
             format.html {redirect_to user_home_url and return}
@@ -42,11 +43,11 @@ class BandPhotosController < ApplicationController
                 {
                 :result         => 'success',
                 :band_album_id  => @band_album.id,
-                :photo_count_str=> @band_album.photo_count,
+                :photo_count_str=> @band_album.band_photos.size,
                 :upload         => @band_photo.image.url(:thumb),
                 :album_name     => @band_album.name,
                 :image_string   => '',
-                :image_src      => @band_album.photo_count>0 ? @band_album.band_photos.first.image.url(:thumb) : '/assets/no-image.png',
+                :image_src      => (cover_image = @band_album.cover_image) ? cover_image.image.url(:thumb) : '/assets/no-image.png',
                 :add_url        => "#{add_photos_to_album_path(:band_name =>@band.name, :band_album_name =>@band_album.name)}",
                 :album_url      => "#{band_album_path(:band_name =>@band.name, :band_album_name =>@band_album.name)}",
                 :delete_url     => "#{delete_album_path(:band_name =>@band.name, :band_album_name =>@band_album.name)}",

@@ -1,7 +1,7 @@
 - selected    ||=false
 - link_class  = selected ? 'selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
 %div{:style=>"position: relative;"}
-  - if fan_count >0
+  - if fan_count >0 || @has_admin_access
     = link_to band_followers_path(:band_name => band.name), {:remote =>:true, :id =>'fanbox', :class =>link_class} do
       %span.count
         = pluralize(fan_count, 'fan')

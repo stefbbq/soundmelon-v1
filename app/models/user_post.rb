@@ -1,7 +1,7 @@
 class UserPost < ActiveRecord::Base
-  belongs_to :user 
-  validates :post ,:presence => true
-  before_create :add_space_at_end
+  belongs_to      :user
+  validates       :post ,:presence => true
+  before_create   :add_space_at_end
   searchable do
     text :post
     boolean :is_deleted

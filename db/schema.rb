@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120606090251) do
+ActiveRecord::Schema.define(:version => 20120607084332) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -117,6 +117,14 @@ ActiveRecord::Schema.define(:version => 20120606090251) do
     t.integer "genre_id", :null => false
   end
 
+  create_table "connections", :force => true do |t|
+    t.integer  "band_id"
+    t.integer  "connected_band_id"
+    t.boolean  "is_approved",       :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
     t.integer  "attempts",   :default => 0
@@ -218,6 +226,16 @@ ActiveRecord::Schema.define(:version => 20120606090251) do
   add_index "messages", ["ancestry"], :name => "index_messages_on_ancestry"
   add_index "messages", ["sent_messageable_id", "received_messageable_id"], :name => "acts_as_messageable_ids"
 
+  create_table "newsfeeds", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.string   "newsitem_type"
+    t.integer  "newsitem_id"
+    t.string   "msg"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "payment_infos", :force => true do |t|
     t.integer  "user_id",       :null => false
     t.string   "card_type"
@@ -226,20 +244,6 @@ ActiveRecord::Schema.define(:version => 20120606090251) do
     t.string   "expire_year"
     t.string   "card_number"
     t.string   "security_code"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "photo_posts", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "band_id"
-    t.string   "msg"
-    t.string   "ancestry"
-    t.boolean  "is_bulletin",   :default => false
-    t.boolean  "is_deleted",    :default => false
-    t.boolean  "is_read",       :default => false
-    t.integer  "band_album_id"
-    t.integer  "band_photo_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -271,12 +275,12 @@ ActiveRecord::Schema.define(:version => 20120606090251) do
     t.string   "ancestry"
     t.boolean  "is_bulletin",        :default => false
     t.boolean  "is_read",            :default => false
-    t.integer  "song_album_id"
-    t.integer  "song_id"
     t.string   "mentioned_users"
     t.string   "mentioned_user_ids"
     t.string   "mentioned_bands"
     t.string   "mentioned_band_ids"
+    t.string   "postitem_type"
+    t.integer  "postitem_id"
   end
 
   add_index "posts", ["ancestry"], :name => "index_posts_on_ancestry"
@@ -329,19 +333,6 @@ ActiveRecord::Schema.define(:version => 20120606090251) do
     t.string   "track"
     t.date     "year"
     t.boolean  "is_featured",       :default => false
-  end
-
-  create_table "tour_posts", :force => true do |t|
-    t.integer  "user_id",     :null => false
-    t.integer  "tour_id",     :null => false
-    t.string   "msg",         :null => false
-    t.integer  "band_id"
-    t.string   "ancestry"
-    t.boolean  "is_bulletin"
-    t.boolean  "is_deleted"
-    t.boolean  "is_read"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "user_posts", :force => true do |t|

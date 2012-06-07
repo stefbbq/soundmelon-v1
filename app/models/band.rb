@@ -2,7 +2,6 @@ class Band < ActiveRecord::Base
   
   acts_as_messageable :required => :body, :order => "created_at desc" 
   acts_as_followable  
-#  acts_as_follower
 
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user
@@ -10,12 +9,16 @@ class Band < ActiveRecord::Base
   has_many :band_tours, :order =>'created_at desc'
   has_many :band_invitations, :dependent => :destroy
   has_many :song_albums, :order => 'created_at desc'
-  has_many :posts
+  has_many :posts, :dependent => :destroy
   has_many :mentioned_posts
   has_many :songs, :through => :song_albums
   has_and_belongs_to_many :genres
   has_one :band_logo
   attr_reader :genre_tokens
+
+  has_many :connections
+  has_many :connected_bands, :through =>:connections, :source =>:connected_band, :conditions =>["is_approved = ?", true]
+
 
   accepts_nested_attributes_for :band_invitations , :reject_if => proc { |attributes| attributes['email'].blank? }
   
@@ -160,6 +163,32 @@ class Band < ActiveRecord::Base
 
   def featured_songs
     self.songs.featured.limit(6)
+  end
+
+  # artist connections
+  # has made request to connect with band
+  def connection_requested_for? band
+    Connection.connection_requested? self, band
+  end
+
+  def connected_with? band
+    Connection.connected?(self, band)
+  end
+
+  def connected_artists limit = 0
+    Connection.connected_artists_with self, limit
+  end
+
+  def connections_count
+    Connection.connection_count_for self
+  end
+
+  def connect_artist band
+    Connection.add_connection_between self, band
+  end
+
+  def disconnect_artist band
+    Connection.remove_connection_between self, band
   end
   
   protected

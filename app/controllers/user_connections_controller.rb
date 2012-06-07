@@ -73,6 +73,39 @@ class UserConnectionsController < ApplicationController
     end
   end
 
+  def connect_artist
+    @actor                  = current_actor
+    if request.xhr?
+      begin
+        @band                   = Band.find_band(params)
+        @actor.connect_artist(@band)
+        @last_connection_count  = @band.connections_count
+        @connected              = @actor.connected_with?(@band)
+      rescue => exp
+        logger.error "Error in UserConnections::ConnectArtist :=> #{exp.message}"
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(:band_name => params[:band_name]) and return
+    end
+  end
+
+  def disconnect_artist
+    @actor                      = current_actor
+    if request.xhr?
+      begin        
+        @band                   = Band.find_band(params)
+        @actor.disconnect_artist(@band)
+        @last_connection_count  = @band.connections_count        
+      rescue => exp
+        logger.error "Error in UserConnections::DisconnectBand :=> #{exp.message}"
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_band_url(:band_name => params[:band_name]) and return
+    end
+  end
+
   def band_followers    
     begin
       if params[:band_name]   # band item
@@ -87,6 +120,24 @@ class UserConnectionsController < ApplicationController
       end
     rescue =>exp
       logger.error "Error in UserConnections#Followers : #{exp.message}"
+      render :nothing => true and return
+    end
+  end
+
+  def artist_connections
+    begin
+      if params[:band_name]   # band item
+        @actor                  = current_actor
+        @band                   = Band.find_band params
+        @connections            = @band.connected_artists# params[:page]
+        get_artist_objects_for_right_column(@band)
+      end
+      respond_to do |format|
+        format.js and return
+        format.html and return
+      end
+    rescue =>exp
+      logger.error "Error in UserConnections#ArtistConnections : #{exp.message}"
       render :nothing => true and return
     end
   end

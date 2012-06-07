@@ -12,7 +12,18 @@
 - else
   - status                    = false
 
+- if user.is_fan?
+  - follow_link               = follow_user_path(user.id)
+  - unfollow_link             = unfollow_user_path(user.id)
+- else
+  - follow_link               = follow_band_path(user.name)
+  - unfollow_link             = unfollow_band_path(user.name)
+
 - change_connection           = false
+
+- if (@actor == connection_item || @actor == user)
+  Change Connection
+
 - if is_user_fan
   - if @actor.is_fan?
     - if @actor == user
@@ -24,6 +35,26 @@
         - connection_link       = unfollow_band_path(:band_name =>connection_item.name)
         - connection_link_text  = 'unfollow'
         - change_connection     = true
+    - else
+      - if @actor.following? user
+        - if connection_item.is_fan?
+          - connection_link       = unfollow_user_path(user.id)
+          - connection_link_text  = 'unfollow'
+          - change_connection     = true
+        - else
+          - connection_link       = unfollow_band_path(:band_name =>user.name)
+          - connection_link_text  = 'unfollow'
+          - change_connection     = true
+      - else
+        - if connection_item.is_fan?
+          - connection_link       = follow_user_path(user.id)
+          - connection_link_text  = 'follow'
+          - change_connection     = true
+        - else
+          - connection_link       = follow_band_path(:band_name =>user.name)
+          - connection_link_text  = 'follow'
+          - change_connection     = true
+
 - else
   - if @actor.is_fan?
     - if @actor == connection_item

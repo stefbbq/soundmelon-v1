@@ -1,7 +1,7 @@
 # Handling all the stuffs related to song and song albums
 class BandSongAlbumController < ApplicationController
-  before_filter :require_login, :check_and_set_admin_access
-
+  before_filter :require_login
+  before_filter :check_and_set_admin_access, :except =>[:download_album, :download, :do_like_dislike_song ]
   # renders the form for new song album, :only =>ajax_request
   def new
     redirect_to  show_band_url(:band_name => params[:band_name]) and return unless request.xhr?    
@@ -14,8 +14,7 @@ class BandSongAlbumController < ApplicationController
 
   # creates the new song album
   def create
-    begin
-      @band = Band.where(:name => params[:band_name]).first
+    begin      
       if @has_admin_access
         newparams = coerce(params)
         if params[:album_name].blank?
@@ -74,20 +73,19 @@ class BandSongAlbumController < ApplicationController
   end
   
   def band_song_albums    
-    begin
-      @band               = Band.where(:name => params[:band_name]).first
-      @is_admin_of_band   = current_user.is_member_of_band?(@band)
+    begin      
+      @is_admin_of_band   = @has_admin_access
       @artist_song_albums = @band.song_albums.includes(:songs)
       get_artist_objects_for_right_column(@band)
-    rescue
+    rescue =>exp
+      logger.error "Error in BandSongAlbum#BandSongAlbums :=> #{exp.message}"
       render :nothing => true and return
     end
   end
   
   def band_song_album    
-    begin
-      @band               = Band.where(:name => params[:band_name]).first
-      @is_admin_of_band   = current_user.is_member_of_band?(@band)
+    begin      
+      @is_admin_of_band   = @has_admin_access
       @song_album         = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
       @artist_song_albums = [@song_album]
       @show_all           = true
@@ -101,8 +99,7 @@ class BandSongAlbumController < ApplicationController
 
   def album_songs
     if request.xhr?
-      begin
-        @band = Band.where(:name => params[:band_name]).first
+      begin        
         @is_admin_of_band = current_user.is_member_of_band?(@band)
         @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
       rescue
@@ -289,9 +286,8 @@ class BandSongAlbumController < ApplicationController
 
   # sets the requested song album as featured album
   def make_song_album_featured
-    begin
-      @band               = Band.where(:name => params[:band_name]).first
-      if current_user.is_member_of_band?(@band)
+    begin      
+      if @has_amdin_access
         @song_album       = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).first
       end
       if @song_album
@@ -305,8 +301,7 @@ class BandSongAlbumController < ApplicationController
 
   # lists artist's song album and songs to choose from for setting as featured
   def songs_for_featured_list
-    begin
-      @band               = Band.where(:name => params[:band_name]).first
+    begin      
       @song_albums        = @band.song_albums.includes('songs')
       @status             = true
     rescue => exp
@@ -318,8 +313,7 @@ class BandSongAlbumController < ApplicationController
 
   # sets the requested song as featured song
   def make_song_featured
-    begin
-      @band               = Band.where(:name => params[:band_name]).first
+    begin      
       if @has_admin_access
         begin @song       = Song.find params[:id] rescue @song = nil end
         @song.update_attribute(:is_featured, !@song.is_featured) if @song
@@ -349,9 +343,16 @@ class BandSongAlbumController < ApplicationController
   # finds the artist profile by band_name parameter, and checks whether the current login is artist or fan
   # and accordingly sets the variable @has_admin_access to be used in views and other actions
   def check_and_set_admin_access
-    @band             = Band.where(:name => params[:band_name]).first
-    @actor            = current_actor
-    @has_admin_access = @band == @actor    
+    begin
+      @band             = Band.where(:name => params[:band_name]).first
+      @actor            = current_actor
+      @has_admin_access = @band == @actor
+    rescue
+      @band             = nil
+    end
+    unless @band
+      render :template =>"bricks/page_missing" and return
+    end
   end
 end
 
