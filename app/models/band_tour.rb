@@ -6,6 +6,12 @@ class BandTour < ActiveRecord::Base
   validates :venue, :presence => true
   validates :country, :presence => true
 
-  has_many  :posts, :as =>:postitem, :dependent => :nullify
+  has_many  :posts, :as =>:postitem, :dependent => :destroy
+
+  after_create :create_newsfeed
+
+  def create_newsfeed
+    Post.create_newsfeed_for self, nil, self.band_id, " added"
+  end
   
 end

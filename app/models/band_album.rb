@@ -5,8 +5,10 @@ class BandAlbum < ActiveRecord::Base
   has_many :band_photos, :after_add => :set_cover_image
   belongs_to :cover_image, :class_name =>'BandPhoto'
 
-  has_many  :posts, :as =>:postitem, :dependent => :nullify
+  has_many  :posts, :as =>:postitem, :dependent => :destroy
   
+  after_create :create_newsfeed
+
   scope :published, :conditions =>["disabled = ?", false]
 
   def choose_cover_image band_photo = self.band_photos.first
@@ -32,6 +34,10 @@ class BandAlbum < ActiveRecord::Base
       self.cover_image = band_photo unless self.cover_image
     end
     self.save
+  end
+
+  def create_newsfeed
+    Post.create_newsfeed_for self, nil, self.band_id, " created"
   end
 
 end

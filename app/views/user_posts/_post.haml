@@ -2,19 +2,21 @@
 - band            = post.band_id.blank? ? nil : post.band
 - user            = post.user_id.blank? ? nil : post.user
 - post_item       = post.postitem
-- unless post_item.blank?
-  - buzz_content  = capture do
-    - if post.band_album_post?    
-      = link_to image_tag('buzz-icon.png'), band_album_buzz_path(post_item.id, :album_name => post_item.name), :remote => true, :class => 'ajaxopen'
-    - elsif post.band_tour_post?      
-      = link_to image_tag('buzz-icon.png'), band_tour_buzz_path(post_item.band.name, post_item.id), :remote => true, :class => 'ajaxopen'
-    - elsif post.song_post?
-      = link_to image_tag('buzz-icon.png'), song_buzz_path(post_item), :remote => true, :class => 'ajaxopen'
-    - elsif post.song_album_post?      
-      = link_to image_tag('buzz-icon.png'), album_buzz_path(post_item.album_name, post_item.id), :remote => true, :class => 'ajaxopen'
-- else
-  - buzz_content    = ""
+- is_newsfeed     = post.is_newsfeed
+- buzz_content    = ""
 
+- unless is_newsfeed
+  - if post_item
+    - buzz_content  = capture do
+      - if post.band_album_post?
+        = link_to image_tag('buzz-icon.png'), band_album_buzz_path(post_item.id, :album_name => post_item.name), :remote => true, :class => 'ajaxopen'
+      - elsif post.band_tour_post?
+        = link_to image_tag('buzz-icon.png'), band_tour_buzz_path(post_item.band.name, post_item.id), :remote => true, :class => 'ajaxopen'
+      - elsif post.song_post?
+        = link_to image_tag('buzz-icon.png'), song_buzz_path(post_item), :remote => true, :class => 'ajaxopen'
+      - elsif post.song_album_post?
+        = link_to image_tag('buzz-icon.png'), album_buzz_path(post_item.album_name, post_item.id), :remote => true, :class => 'ajaxopen'
+  
 - is_author_artist_profile  = (@band && band ) && @band == band
 - is_author_fan_profile     = (@user && user ) && @user == user
 - self_post                 = is_author_artist_profile || is_author_fan_profile
@@ -22,10 +24,12 @@
 - divclass                  ||=''
 
 - if @band && @is_admin_of_band
-  - self_owner = post.band_id == @band.id
+  - self_owner    = post.band_id == @band.id
 - else
-  - self_owner = post.user == current_user
-- item_div_class = self_owner ? 'content' : 'content-mentioned'
+  - self_owner    = post.user == current_user
+
+- self_owner      = self_post
+- item_div_class  = self_owner ? 'content' : 'content-mentioned'
 
 - writer_header = capture do
   - if band
@@ -36,7 +40,9 @@
     = is_author_fan_profile ? user.fname : (link_to user.fname, fan_profile_path(post.user), :class =>'ajaxopen backable', :remote =>:true)
 
 - content_header = capture do
-  - if post.is_bulletin
+  - if post.is_newsfeed?
+    #{newsfeed_message(post, post_item).first}
+  - elsif post.is_bulletin
     has pinned this to their profile
   - elsif post_item
     - if post.song_post?
@@ -61,21 +67,23 @@
     wrote this
   #{time_ago_in_words(post.created_at)} ago
 
-- action_section  = capture do
-  - unless buzz_content.blank?
-    #{buzz_content}
-  - if self_owner
-    = link_to user_post_path(post), :method=> :delete, :class=>'action-delete', :remote=>true do
-      %i
-      %span delete
-  - if @band && !self_owner
-    = link_to new_post_reply_path(post, :band_id => @band.id), :class=>'action-reply ajaxopen', :remote=>true do
-      %i
-      %span reply
-  - elsif !self_owner    
-    = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote=>true do
-      %i
-      %span reply
+- action_section  = ''
+- unless is_newsfeed
+  - action_section  = capture do
+    - unless buzz_content.blank?
+      #{buzz_content}
+    - if self_owner
+      = link_to user_post_path(post), :method=> :delete, :class=>'action-delete', :remote=>true do
+        %i
+        %span delete
+    - if @band && !self_owner
+      = link_to new_post_reply_path(post, :band_id => @band.id), :class=>'action-reply ajaxopen', :remote=>true do
+        %i
+        %span reply
+    - elsif !self_owner
+      = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote=>true do
+        %i
+        %span reply
 
 = div_for post do
   %div{:class=>"#{divclass}"}
@@ -94,13 +102,16 @@
       .post-header
         .title
           %strong
-            #{writer_header}            
+            #{writer_header}
           %span
-            #{content_header}          
+            #{content_header}
         .actions
           #{action_section}
       .post-body
-        = post_msg_with_band_mention(post)
+        - if is_newsfeed
+          #{newsfeed_message(post, post_item).last}
+        - else
+          = post_msg_with_band_mention(post) unless post.is_newsfeed?
     .clear
     - if post.ancestry && !hide_thread_link
       = link_to 'expand conversation', get_post_threads_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"

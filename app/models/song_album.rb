@@ -7,7 +7,9 @@ class SongAlbum < ActiveRecord::Base
   belongs_to  :user
   belongs_to  :band
   has_many    :songs
-  has_many    :posts, :as =>:postitem, :dependent => :nullify
+  has_many    :posts, :as =>:postitem, :dependent => :destroy
+
+  after_create :create_newsfeed
 
   scope :published, :conditions =>["disabled = ?", false]
 
@@ -63,6 +65,10 @@ class SongAlbum < ActiveRecord::Base
     # set read permissions on the file
     File.chmod(0644, bundle_filename)
     bundle_filename
-  end  
+  end
+
+  def create_newsfeed
+    Post.create_newsfeed_for self, nil, self.band_id, " created"
+  end
 
 end

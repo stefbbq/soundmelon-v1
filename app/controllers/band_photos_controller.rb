@@ -165,7 +165,7 @@ class BandPhotosController < ApplicationController
         unless @has_admin_access
           render :nothing => true and return
         end
-        @status           = @band_album.delete
+        @status           = @band_album.destroy
       rescue
         @status           = false
         render :nothing => true and return
@@ -239,7 +239,6 @@ class BandPhotosController < ApplicationController
         end
         @band_photo.destroy
         @band_album.choose_cover_image
-#        render :template =>'/band_photos/band_album_photos'
       rescue =>exp
         logger.error "Error in BandPhoto::Destroy :=>#{exp.message}"
         render :nothing => true and return

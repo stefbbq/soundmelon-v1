@@ -53,7 +53,17 @@ class Post < ActiveRecord::Base
   end
 
   def self.posts_for item, limit = 20, page=1
-    where(:postitem_type => item.class.name, :postitem_id => item.id).order('created_at desc').limit(limit).page(page)
+    where(:postitem_type => item.class.name, :postitem_id => item.id, :is_newsfeed =>false).order('created_at desc').limit(limit).page(page)
+  end
+
+  def self.create_newsfeed_for item, user_id, band_id, msg
+    last_post = self.find_or_create_by_postitem_type_and_postitem_id(item.class.name, item.id)
+    last_post.update_attributes(      
+      :user_id        => user_id,
+      :band_id        => band_id,
+      :is_newsfeed    => true,
+      :msg            => msg
+    )
   end
 
   def has_post_item?

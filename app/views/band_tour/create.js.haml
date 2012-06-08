@@ -1,6 +1,10 @@
 - new_tour_list_html = capture do
-  .band_tour{:id =>'band_tour_#{@band_tour.id}'}
+  .band_tour{:id =>"band_tour_#{@band_tour.id}"}
     = link_to @band_tour.tour_date.strftime('%b %d') + " @#{@band_tour.venue}", band_tour_path(:band_name =>@band.name, :band_tour_id => @band_tour.id), :remote=>:true, :class=>"ajaxopen backable"
+- new_tour_left_list_html = capture do
+  = render 'band_tour', :band_tour =>@band_tour
+
+if($('.band_shows_list').length > 0){$('.band_shows_list').append('#{escape_javascript new_tour_left_list_html}');}
 $('#facebox.content').html("<span style='color:red;font-size:15px;'>Added New Show</span>");
 if($('#showbox band_tour_#{@band_tour.id}').length ==0){if($('#showbox .message').length>0){$('#showbox').html('#{escape_javascript(new_tour_list_html)}');}else{$('#showbox').prepend('#{escape_javascript(new_tour_list_html)}');}}
 setTimeout('$(document).trigger(\"close.facebox\")',20);

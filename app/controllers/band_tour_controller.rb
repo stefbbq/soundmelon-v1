@@ -1,6 +1,9 @@
 class BandTourController < ApplicationController
-  before_filter :require_login, :check_and_set_admin_access
+  before_filter :require_login
+  before_filter :check_and_set_admin_access, :only =>[:new, :create, :edit, :update, :destroy_tour, :band_tours, :band_tour]
+  before_filter :instantiate_band_tour, :only =>[:edit, :destroy_tour, :band_tour, :like_dislike_band_tour]
   
+
   def new
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
     @band = Band.where(:name => params[:band_name]).first
@@ -30,10 +33,8 @@ class BandTourController < ApplicationController
 
   def edit
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
-    begin      
-      if current_user.is_member_of_band?(@band)
-        @band_tour = BandTour.find(params[:band_tour_id])        
-      else
+    begin            
+      unless @has_admin_access
         render :noting => true and return
       end
     rescue =>exp
@@ -45,7 +46,7 @@ class BandTourController < ApplicationController
   def update
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
     begin      
-      if current_user.is_member_of_band?(@band)
+      if @has_admin_access
         @band_tour = BandTour.find(params[:id])
         @band_tour.update_attributes(params[:band_tour])        
       else        
@@ -58,8 +59,7 @@ class BandTourController < ApplicationController
   end
 
   def band_tours    
-    begin      
-      @is_admin_of_band = current_user.is_member_of_band?(@band)
+    begin            
       @band_shows       = @band.band_tours
       get_artist_objects_for_right_column(@band)
     rescue =>exp
@@ -69,9 +69,7 @@ class BandTourController < ApplicationController
   end
 
   def band_tour    
-    begin      
-      @is_admin_of_band = current_user.is_member_of_band?(@band)
-      @band_tour        = BandTour.find(params[:band_tour_id])
+    begin            
       @status           = true
       @band_shows       = [@band_tour]
       @show_all         = true
@@ -85,31 +83,22 @@ class BandTourController < ApplicationController
   end
 
   def band_tour_detail
-    if request.xhr?
-      begin        
-        @is_admin_of_band = current_user.is_member_of_band?(@band)
-        @band_tour        = BandTour.find(params[:band_tour_id])
-      rescue =>exp
-      logger.error "Error in BandTour#BandTourDetail :=> #{exp.message}"
-        render :nothing => true and return
-      end
-    else
+    @band_tour        = BandTour.find(params[:band_tour_id])
+    unless request.xhr?      
       redirect_to show_band_path(:band_name => params[:band_name]) and return
     end
   end
 
-  def like_dislike_band_tour    
-    @band_tour        = BandTour.find(params[:band_tour_id])
+  def like_dislike_band_tour        
   end
 
   def destroy_tour
     if request.xhr?
-      begin        
-        @band_tour  = BandTour.find(params[:band_tour_id])
-        unless current_user.is_admin_of_band?(@band)
+      begin                
+        unless @has_admin_access
           render :nothing => true and return
         end
-        @status = @band_tour.delete
+        @status = @band_tour.destroy
       rescue
         @status = false
         render :nothing => true and return
@@ -127,6 +116,17 @@ class BandTourController < ApplicationController
     @band             = Band.where(:name => params[:band_name]).first
     @actor            = current_actor
     @has_admin_access = @band == @actor
+  end
+
+  def instantiate_band_tour
+    begin
+      @band_tour        = BandTour.find(params[:band_tour_id])
+    rescue
+      @badn_tour        = nil      
+    end
+    unless @band_tour
+      render :template =>'/bricks/page_missing' and return
+    end
   end
 
 end

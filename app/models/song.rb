@@ -3,7 +3,7 @@ class Song < ActiveRecord::Base
   acts_as_votable
   belongs_to  :user
   belongs_to  :song_album
-  has_many    :posts, :as =>:postitem, :dependent => :nullify
+  has_many    :posts, :as =>:postitem, :dependent => :destroy
   has_many    :playlists
 
   scope :processed, :conditions =>["is_processed = ?", true]
@@ -20,7 +20,7 @@ class Song < ActiveRecord::Base
   validates_attachment_presence :song
 
   after_destroy :decrease_song_count
-  after_create :increase_song_count,:set_default_title, :queue_song_for_processing
+  after_create :increase_song_count,:set_default_title, :queue_song_for_processing, :create_newsfeed
 
   Paperclip.interpolates :normalized_attachment_file_name do |attachment, style|
     attachment.instance.normalized_attachment_file_name
@@ -184,6 +184,11 @@ class Song < ActiveRecord::Base
     !up_vote.blank?
   end
 
+  
+  def create_newsfeed
+    Post.create_newsfeed_for self, nil, self.song_album.band_id, " added"
+  end
+
   private
 
   def increase_song_count
@@ -195,6 +200,7 @@ class Song < ActiveRecord::Base
     song_album = self.song_album
     self.song_album.decrement!(:song_count) if song_album
   end
+
 
   # Fix the mime types. Make sure to require the mime-types gem
   def swfupload_file=(data)

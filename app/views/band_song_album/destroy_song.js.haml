@@ -1,4 +1,4 @@
 $.facebox("deleted successfully");
 != "$('div#song_album_#{@song.song_album_id} #song_#{@song.id}').remove();"
-$('div#song_stat_#{@song.song_album_id}').html('#{pluralize(@song.song_album.song_count,'song')}');
+$('div#song_stats_#{@song.song_album_id}').html('#{pluralize(@song.song_album.song_count,'song')}');
 setTimeout('$(document).trigger(\"close.facebox\")',100);

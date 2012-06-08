@@ -150,7 +150,7 @@ Soundmelon::Application.routes.draw do
   get ':band_name/song/albums'                    => 'band_song_album#band_song_albums',  :as => :band_song_albums
   get ':band_name/:song_album_name/album'         => 'band_song_album#band_song_album',   :as => :band_song_album
   get ':band_name/album/songs/:song_album_name'   => 'band_song_album#album_songs',       :as => :band_album_songs
-  get ':band_name/:song_album_name/song/:id/edit' => 'band_song_album#edit_song',         :as => :album_song_edit
+  get ':band_name/song/:id/edit'                  => 'band_song_album#edit_song',         :as => :album_song_edit
   get ':band_name/:song_album_name/songs/add'     => 'band_song_album#add',               :as => :add_songs_to_album
   match ':band_name/:song_album_name/song/:id/update' => 'band_song_album#update_song',   :as => :album_song_update
   get ':band_name/SongAlbum/sadownload/:id'       => 'band_song_album#download_album',    :as => :download_song_album

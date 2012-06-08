@@ -12,7 +12,7 @@
     - if tour_count > 0
       %div
         - band_tours.each do |tour|
-          %div{:id =>'band_tour#{tour.id}'}
+          %div{:id =>"band_tour_#{tour.id}"}
             = link_to tour.tour_date.strftime('%b %d') + " @#{tour.venue}", band_tour_path(:band_name =>band.name, :band_tour_id => tour.id), :remote=>:true, :class=>"ajaxopen backable"
     - else
       .message= Constant::NO_TOUR_DATE_MESSAGE

@@ -13,17 +13,28 @@
         auto : true,
         script : '/band_song_album/create',
         onComplete : function(event, queueID, fileObj, response, data) {
-          var dat = eval('(' + response + ')');
+         var dat = eval('(' + response + ')');         
          $('#uploaded_images').append(song_counter +">" + dat.upload+'<br />');
          $('#album_name').val(dat.album_name);
          $('#album_name').attr("disabled", true);
-         song_counter++;         
+         song_counter++;
+         var song_stat  = dat.song_count_str>1 ? dat.song_count_str + ' songs' : dat.song_count_str + ' song' ;
+         $('#song_stats_' + dat.song_album_id ).html( song_stat );
          if($('#musicbox #song_album_'+ dat.song_album_id).length ==0){
           var new_album_html = get_list_album_html(dat.song_album_id, dat.album_name, dat.add_url, dat.album_url, dat.delete_url, dat.image_src);
           if($('#musicbox .message').length>0)
             $('#musicbox').html(new_album_html);
           else
             $('#musicbox').prepend(new_album_html);
+        }
+        if($('.left .album_lists').length >0){
+          if($('.left .album_lists #song_album_' + dat.song_album_id).length == 0){
+            $('#photo_album_box').append(dat.album_string);
+          }else{
+            if($('.left .album_lists #song_album_' + dat.song_album_id + ' .album_details').length > 0){
+              $('.left .album_lists #song_album_' + dat.song_album_id + ' .album_details').append(dat.song_string);
+            }
+          }
         }
       },
       onSelect : function(event,data) {

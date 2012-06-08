@@ -2,9 +2,10 @@ class BandPhoto < ActiveRecord::Base
   belongs_to :band_album
   belongs_to :user
 
-  has_many  :posts, :as =>:postitem, :dependent => :nullify
+  has_many  :posts, :as =>:postitem, :dependent => :destroy
   
-  after_destroy :decrease_photo_count  
+  after_destroy :decrease_photo_count
+  after_create :create_newsfeed
 
   has_attached_file :image,
     :path => ":rails_root/public/sm/artist/photos/:normalized_file_name.:extension",
@@ -38,4 +39,9 @@ class BandPhoto < ActiveRecord::Base
     data.content_type = MIME::Types.type_for(data.original_filename).to_s
     self.file = data
   end
+
+  def create_newsfeed
+    Post.create_newsfeed_for self, nil, self.band_album.band_id, " created"
+  end
+
 end

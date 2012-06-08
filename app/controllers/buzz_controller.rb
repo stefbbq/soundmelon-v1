@@ -53,7 +53,8 @@ class BuzzController < ApplicationController
         @band_tour           = BandTour.find(params[:id])
         @band_tour_buzzes    = Post.posts_for @band_tour
         @buzzes_by_dates     = @band_tour_buzzes.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-      rescue
+      rescue =>exp
+        logger.error "Error in Buzz::BandTourBuzz :=> #{exp.message}"
         render :nothing => true and return
       end
     else

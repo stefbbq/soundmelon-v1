@@ -33,11 +33,13 @@ class BandSongAlbumController < ApplicationController
                 :upload         => @song.song_file_name,
                 :album_name     => @song_album.album_name,
                 :song_album_id  => @song_album.id,
-                :song_count_str => @song_album.song_count,
+                :song_count_str => @song_album.songs.size,
                 :image_src      => '/assets/no-image.png',
                 :add_url        => "#{add_songs_to_album_path(:band_name =>@band.name, :song_album_name =>@song_album.album_name)}",
                 :album_url      => "#{band_song_album_path(:band_name =>@band.name, :song_album_name =>@song_album.album_name)}",
                 :delete_url     => "#{delete_song_album_path(@band.name, @song_album.id)}",
+                :album_string   => "#{render_to_string('/band_song_album/_band_song_album',:layout =>false, :locals =>{:song_album =>@song_album})}",
+                :song_string    => "#{render_to_string('/band_song_album/_song_item',:layout =>false, :locals =>{:song =>@song})}"
               }               
             }
           end
@@ -354,5 +356,6 @@ class BandSongAlbumController < ApplicationController
       render :template =>"bricks/page_missing" and return
     end
   end
+  
 end
 

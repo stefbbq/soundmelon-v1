@@ -139,6 +139,14 @@ module ApplicationHelper
       (width.nil? and height.nil?) ? image_tag(song_album.cover_img.url(type), :alt=>'aa') : image_tag(song_album.cover_img.url(type), :width =>width,:height=>height, :alt=>'')
     end
   end
+
+  def get_album_cover(song_album, type='small', width=nil, height=nil)
+    if song_album.cover_img_content_type.nil?
+      'no-image.png'
+    else
+      song_album.cover_img.url(type)
+    end
+  end
   
   def get_band_photo_album_teaser_photo(band_photo_album, type='thumb')
     cover_image = band_photo_album.cover_image
@@ -178,6 +186,41 @@ module ApplicationHelper
     post_msg.html_safe
   end
 
+  def newsfeed_message post, postitem    
+    content         = ""
+    message         = ""
+    if post && postitem
+      band            = post.band
+      if post.band_album_post?
+        album_name    = postitem.name
+        album_path    = "#{band_album_path(band.name, album_name)}"
+        content       += " added a new photo album <a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+      elsif post.band_photo_post?
+        album         = postitem.band_album
+        album_name    = album.name
+        album_path    = "#{band_album_path(band.name, album_name)}"
+        content       += " added a new photo to the album <a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+        message       =  raw (render '/band_photos/band_photo', :photo =>postitem, :band_album =>album, :band =>band, :in_newsfeed =>true)
+      elsif post.band_tour_post?
+        show_id       = postitem.id
+        show_venue    = postitem.venue
+        show_country  = postitem.country
+        show_path     = band_tour_path(band.name,show_id)
+        content       += " going to attend the <a href='#{show_path}' class='ajaxopen' remote=true>show</a> at #{show_venue}, #{show_country}"
+      elsif post.song_post?
+        album_name    = postitem.song_album.album_name
+        album_path    = "#{band_song_album_path(band.name, album_name)}"
+        content       += " added a new song to the album <a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+        message       = raw(render '/band_song_album/song_item', :song =>postitem, :band =>band, :in_newsfeed =>true)
+      elsif post.song_album_post?
+        album_name    = postitem.album_name
+        album_path    = "#{band_song_album_path(band.name, album_name)}"
+        content       += " added a new song album <a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+      end
+    end
+    [content.html_safe, message.html_safe]
+  end
+
   # prepares the detail for individual song
   def song_detail song
     actor         = current_user
@@ -188,8 +231,8 @@ module ApplicationHelper
     title         = song_detail[:song_title]
     album_name    = song_detail[:song_album_name]
     band_name     = song_detail[:song_album_band_name]
-    song_album    = song_detail[:song_album]
-    album_image   = song_album ? get_album_cover_image(song_album).gsub("'", "\\\\'") : ''
+    song_album    = song_detail[:song_album]    
+    album_image   = song_album ? get_album_cover(song_album).gsub("'", "\\\\'") : ''
     like          = song.voted_on_by?(actor) ? 1 : 0
     hash_str      = "{title: '#{title}', i:'#{id}'"
     hash_str      += ",album:'#{album_name}', band: '#{band_name}', mp3:'#{mp3}', ogg: '#{ogg}'"

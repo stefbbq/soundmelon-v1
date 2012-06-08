@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120607084332) do
+ActiveRecord::Schema.define(:version => 20120607121525) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -281,6 +281,7 @@ ActiveRecord::Schema.define(:version => 20120607084332) do
     t.string   "mentioned_band_ids"
     t.string   "postitem_type"
     t.integer  "postitem_id"
+    t.boolean  "is_newsfeed",        :default => false
   end
 
   add_index "posts", ["ancestry"], :name => "index_posts_on_ancestry"
