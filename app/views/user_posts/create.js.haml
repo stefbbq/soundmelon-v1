@@ -2,6 +2,7 @@
 - month = @post.created_at.strftime("%b")
 - day   = @post.created_at.strftime(" %d")
 != "$('#user_post_form')[0].reset();"
+if($('.user_posts .msg').length>0){$('.user_posts').html('');}
 - if @post.is_bulletin
   != "if($('#bulletin_board div').length==0){$('<date id=\"bulletin_board\"><div><h1>Bulletin</h1></div></date>').insertBefore($('.bulletin-posts'));}"
   != "$('.bulletin-posts').prepend('#{escape_javascript(render 'user_posts/post', :post => @post)}');"

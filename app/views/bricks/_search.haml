@@ -1,5 +1,6 @@
+- search_term = params[:q] || "search"
 = form_tag( {:controller =>'search', :action => 'index'}, :method => "get", :remote =>true, :id =>'search') do
-  %input.auto_search_complete{:value => "search", :name => "q", :type => "text", :class => 'search-input', :id =>'term'}
+  %input.auto_search_complete{:value => search_term, :name => "q", :type => "text", :class => 'search-input', :id =>'term'}
 .searchlist
   .pointer2 
 :javascript

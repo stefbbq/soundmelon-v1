@@ -31,4 +31,5 @@
       = link_to('read more', @load_more_path, :remote=>true, :class=>'ajaxload')
 - else
   .user_posts
-    = message
+    %span.msg
+      = message

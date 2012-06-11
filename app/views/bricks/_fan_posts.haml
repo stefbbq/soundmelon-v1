@@ -4,7 +4,8 @@
 - message         = empty_messages[current]
 .user_posts
   - if @posts_order_by_dates.size.zero?
-    = message
+    %span.msg
+      = message
     - if @user.follow_count.zero? && current.zero? && @user == current_actor
       %br
       Start following some artists and fans, and see what they're upto!

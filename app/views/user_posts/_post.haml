@@ -23,12 +23,7 @@
 - hide_thread_link          ||= false
 - divclass                  ||=''
 
-- if @band && @is_admin_of_band
-  - self_owner    = post.band_id == @band.id
-- else
-  - self_owner    = post.user == current_user
-
-- self_owner      = self_post
+- self_owner      = post.user == current_user
 - item_div_class  = self_owner ? 'content' : 'content-mentioned'
 
 - writer_header = capture do
