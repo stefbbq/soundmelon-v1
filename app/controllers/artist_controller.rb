@@ -25,6 +25,10 @@ class ArtistController < ApplicationController
     rescue
       redirect_to fan_home_url, :notice => 'Something went wrong! Try Again' and return
     end
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
   
   def new
@@ -87,6 +91,10 @@ class ArtistController < ApplicationController
     @band               = Band.where(:name => params[:band_name]).includes(:band_members).first
     @band_members_count = @band.band_members.count
     @is_admin_of_band   = current_user.is_admin_of_band?(@band)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end   
   
   def invite_bandmates

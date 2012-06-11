@@ -132,7 +132,7 @@ module ApplicationHelper
     return auto_mention_list
   end
   
-  def get_album_cover_image(song_album, type='small', width=nil, height=nil)
+  def get_album_cover_image(song_album, type=:small, width=nil, height=nil)
     if song_album.cover_img_content_type.nil?
       image_tag('no-image.png', :alt=>'')
     else
@@ -140,7 +140,7 @@ module ApplicationHelper
     end
   end
 
-  def get_album_cover(song_album, type='small', width=nil, height=nil)
+  def get_album_cover(song_album, type=:small, width=nil, height=nil)
     if song_album.cover_img_content_type.nil?
       'no-image.png'
     else
@@ -148,7 +148,7 @@ module ApplicationHelper
     end
   end
   
-  def get_band_photo_album_teaser_photo(band_photo_album, type='thumb')
+  def get_band_photo_album_teaser_photo(band_photo_album, type=:thumb)
     cover_image = band_photo_album.cover_image
     if cover_image.blank?
       image_tag('no-image.png', :alt=>'')

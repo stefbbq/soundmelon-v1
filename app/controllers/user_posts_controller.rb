@@ -25,6 +25,10 @@ class UserPostsController < ApplicationController
         @load_more_path =  next_page ?  more_post_path(:page => next_page) : nil
       end
     end
+    respond_to do |format|
+      format.json
+      format.html
+    end
   end
   
   def create

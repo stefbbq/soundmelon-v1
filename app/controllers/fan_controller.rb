@@ -14,6 +14,10 @@ class FanController < ApplicationController
     @unread_messages_count      = current_user.received_messages.unread.count
     @song_items                 = current_user.find_radio_feature_playlist_songs
     get_user_associated_objects
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def signup
@@ -49,7 +53,9 @@ class FanController < ApplicationController
         end
       end
     end
-    
+    respond_to do |format|
+      format.html
+    end    
   end
 
   def musician_new 
@@ -223,14 +229,10 @@ class FanController < ApplicationController
   def update_password
     if request.xhr?
       begin
-        if params[:old_password].blank?
-          @msg = 'old password isn\'t correct'
-        elsif params[:user][:password].blank? || params[:user][:password_confirmation].blank?
+        if params[:user][:password_confirmation].blank?
           @msg = 'new password can\'t be blank'
         elsif params[:user][:password] != params[:user][:password_confirmation]
-          @msg = 'new password doesn\'t match'
-        elsif !login(current_user.email, params[:old_password])
-          @msg = 'old password isn\'t correct'
+          @msg = 'new password doesn\'t match'        
         else
           if current_user.change_password!(params[:user][:password])
             @msg = 'password updated'

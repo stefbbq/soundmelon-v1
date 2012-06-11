@@ -6,3 +6,10 @@
   $('.search-input').focus(function() {
     if($(this).val()=='search'){$(this).val("");}
     });
+  $('#search').submit(function(){
+    var new_url = "#{search_index_path}?q=" + $('input#term').val();
+    history.pushState({
+      sm:true
+    }, document.title, new_url);
+    $('.auto_search_complete').autocomplete('close');
+  });

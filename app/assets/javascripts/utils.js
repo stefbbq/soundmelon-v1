@@ -15,7 +15,7 @@ $(document).ready( function(){
     },
     select: function(event, ui) {          
           $('#searchform input#term').val(ui.item.label);          
-          $("#searchform").submit();
+          $("#search").submit();
     }
   });
                 
@@ -96,13 +96,17 @@ $(document).ready( function(){
   $('a.backable').live('click', function(){
     history.pushState({
       sm:true
-    }, document.title, this.href);
+    }, document.title, this.href);    
     return false;
   });
   
   $(window).bind("popstate", function(event){    
-    if(event.originalEvent.state)
-      $.getScript(location.href);
+    if(event.originalEvent.state){
+      jQuery.facebox($('#globalloading').html());
+      $.getScript(location.href,function(data, textStatus, jqxhr) {
+       $(document).trigger("close.facebox");
+      });      
+    }
   });
 });
 
@@ -147,4 +151,10 @@ function set_right_height(height){
     target.css('height', height);
   else
     target.css('height', resizeTarget.height());
+}
+
+function updateSections(live_content, left_content, right_content){
+  // update live section
+  // update left section
+  // update right section
 }

@@ -1,31 +1,35 @@
-- @user = current_user
-= render :partial=>"fan/header"
-= render :partial=>"fan/live"
-#results
-  - if !@user_search_results.results.blank?
-    .users_header
-      %h3 USERS
-    - @user_search_results.results.each do |user|
-      .row
-        - if user == current_user
-          = link_to get_avatar_medium(user), fan_home_url
-        - else
-          = link_to get_avatar_medium(user), fan_profile_path(user)
-        / RESULT INFO
-        .info
-          %h3
+- @user             = current_user
+- got_some_results  = (@user_search_results.results.size>0) || (@band_search_results.results.size>0)
+.live
+  #results
+    - if got_some_results
+      - unless @user_search_results.results.blank?
+        .users_header
+          %h3 USERS
+        - @user_search_results.results.each do |user|
+          .row
             - if user == current_user
-              = link_to user.get_full_name, fan_home_url
+              = link_to get_avatar_medium(user), fan_home_url
             - else
-              = link_to user.get_full_name, fan_profile_path(user)
-        .clear
-  - if !@band_search_results.results.blank?
-    .bands_header
-      %h3 BANDS
-    - @band_search_results.results.each do |band|
-      .row
-        = link_to get_band_logo_medium(band), show_band_path(band.name)
-        / RESULT INFO
-        .info
-          %h3= link_to  "#{band.name} (#{band.genre})", show_band_path(band.name)
-        .clear
+              = link_to get_avatar_medium(user), fan_profile_path(user)
+            / RESULT INFO
+            .info
+              %h3
+                - if user == current_user
+                  = link_to user.get_full_name, fan_home_url
+                - else
+                  = link_to user.get_full_name, fan_profile_path(user)
+            .clear
+      - unless @band_search_results.results.blank?
+        .bands_header
+          %h3 BANDS
+        - @band_search_results.results.each do |band|
+          .row
+            = link_to get_band_logo_medium(band), show_band_path(band.name)
+            / RESULT INFO
+            .info
+              %h3= link_to  "#{band.name} (#{band.genre})", show_band_path(band.name)
+            .clear
+    - else
+      %h3
+      No Results Found for '#{params[:q]}'

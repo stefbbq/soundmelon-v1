@@ -11,7 +11,11 @@ class BandPhotosController < ApplicationController
       @photo          = BandPhoto.find(params[:id])
     rescue
       render :nothing => true and return
-    end       
+    end
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def new
@@ -77,6 +81,10 @@ class BandPhotosController < ApplicationController
     rescue
       render :nothing => true and return
     end
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def band_album    
@@ -93,6 +101,10 @@ class BandPhotosController < ApplicationController
       @status           = false
       render :nothing   => true and return
     end
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
   
   def band_album_photos
@@ -102,6 +114,10 @@ class BandPhotosController < ApplicationController
     rescue =>exp
       logger.error "Error in BandPhoto#BandAlbumPhotos :=> #{exp.message}"
       render :nothing   => true and return
+    end
+    respond_to do |format|
+      format.js
+      format.html
     end
   end
   
@@ -219,7 +235,7 @@ class BandPhotosController < ApplicationController
           render :nothing => true and return
         end
         @band_album.set_the_cover_image(@band_photo, true)
-#        render :template =>'/band_photos/band_album_photos'
+        #        render :template =>'/band_photos/band_album_photos'
       rescue =>exp
         logger.error "Error in BandPhoto#MakeCoverImage :=> #{exp.message}"
         render :nothing   => true and return
@@ -266,7 +282,7 @@ class BandPhotosController < ApplicationController
     begin      
       @is_admin_of_band = current_user.is_member_of_band?(@band)
       @band_album       = BandAlbum.where('band_id = ? and name = ?', @band.id, params[:album_name]).includes('band_photos').first
-#      @band_album.update_attribute(:disabled, !@band_album.disabled)
+      #      @band_album.update_attribute(:disabled, !@band_album.disabled)
       @status = true
     rescue
       @status = false

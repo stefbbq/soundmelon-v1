@@ -30,6 +30,10 @@ class UserController < ApplicationController
       logger.error "Error in User#Index => #{exp.message}"
       render :nothing =>true and return
     end
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def change_login
@@ -85,6 +89,10 @@ class UserController < ApplicationController
       logger.error "Error in User#ManageProfile :=> #{exp.message}"
       render :nothing => true and return
     end
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   # renders the current fan's artist profiles
@@ -92,6 +100,10 @@ class UserController < ApplicationController
     @user     = current_user
     @artists  = current_user.bands.includes(:song_albums, :songs)
     get_fan_objects_for_right_column(@user)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
   
   def check_user_validity

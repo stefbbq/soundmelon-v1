@@ -1,8 +1,8 @@
 - @user             = current_user
 - got_some_results  = (@user_search_results.results.size>0) || (@band_search_results.results.size>0)
 - search_result = capture do
-  - if got_some_results
-    #results
+  #results
+    - if got_some_results
       - unless @user_search_results.results.blank?
         .users_header
           %h3 USERS
@@ -22,8 +22,9 @@
           .info
             %h3= link_to "#{band.name} (#{band.genre})", show_band_path(band.name), :class =>'ajaxopen backable', :remote =>true
           .clear
-  - else
-    %h3
-    No Results Found for '#{params[:q]}'
+    - else
+      %h3
+      No Results Found for '#{params[:q]}'
+$('.auto_search_complete').autocomplete('close');
 $('.live').html('#{escape_javascript(search_result)}');
 $('.primary-container').remove();

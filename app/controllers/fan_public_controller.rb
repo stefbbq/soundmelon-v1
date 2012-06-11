@@ -14,6 +14,10 @@ class FanPublicController < ApplicationController
     else
       redirect_to fan_home_path, :error => "No user has been found with this user id"
     end
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def latest_posts
@@ -30,6 +34,10 @@ class FanPublicController < ApplicationController
       end
     else
       redirect_to root_url and return
+    end
+    respond_to do |format|
+      format.js
+      format.html
     end
   end
   

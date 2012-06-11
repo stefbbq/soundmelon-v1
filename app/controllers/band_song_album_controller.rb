@@ -83,6 +83,10 @@ class BandSongAlbumController < ApplicationController
       logger.error "Error in BandSongAlbum#BandSongAlbums :=> #{exp.message}"
       render :nothing => true and return
     end
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
   
   def band_song_album    
@@ -96,6 +100,10 @@ class BandSongAlbumController < ApplicationController
     rescue =>exp
       logger.error "Error in BandSongAlbum#BandSongAlbum :=> #{exp.message}"
       render :nothing => true and return
+    end
+    respond_to do |format|
+      format.js
+      format.html
     end
   end
 

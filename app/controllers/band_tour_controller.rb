@@ -3,7 +3,6 @@ class BandTourController < ApplicationController
   before_filter :check_and_set_admin_access, :only =>[:new, :create, :edit, :update, :destroy_tour, :band_tours, :band_tour]
   before_filter :instantiate_band_tour, :only =>[:edit, :destroy_tour, :band_tour, :like_dislike_band_tour]
   
-
   def new
     redirect_to show_band_path(:band_name => params[:band_name]) and return unless request.xhr?
     @band = Band.where(:name => params[:band_name]).first
@@ -65,6 +64,10 @@ class BandTourController < ApplicationController
     rescue =>exp
       logger.error "Error in BandTour#BandTours :=> #{exp.message}"
       render :nothing => true and return
+    end
+    respond_to do |format|
+      format.js
+      format.html
     end
   end
 

@@ -14,7 +14,7 @@ class ArtistPublicController < ApplicationController
       logger.error "Error in ArtistPublic#Members :=> #{exp.message}"
       render :template =>'/bricks/page_missing' and return
       render :nothing => true and return
-    end
+    end    
   end
 
   def social
@@ -33,6 +33,10 @@ class ArtistPublicController < ApplicationController
     rescue  => exp
       logger.error "Error in ArtistPublic#Members :=> #{exp.message}"
       render :template =>'/bricks/page_missing' and return
+    end
+    respond_to do |format|
+      format.js
+      format.html
     end
   end
 
