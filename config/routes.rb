@@ -52,7 +52,7 @@ Soundmelon::Application.routes.draw do
   get ':band_name/store'                      => 'artist#store',                    :as => :band_store
   match ':band_name/bandmates/send/inviation' => 'artist#send_bandmates_invitation',:as => :send_bandmates_invitation
 
-  get "profile/additional_info"    
+  get "profile/additional_info"
   
   match 'registration/(:invitation_token)'    => 'fan#signup',                            :as => :fan_registration
   match 'musician/registration'               => 'fan#musician_new',                      :as => :musician_registration

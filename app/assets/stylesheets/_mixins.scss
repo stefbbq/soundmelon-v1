@@ -29,7 +29,7 @@
 	@include linear-gradient($inverted-button-color, darken($inverted-button-color, 15));
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
 	@include border-radius($detail-border-radius);
-	@include text-shadow(rgba(white, .5), 0px, -1px, 0px);
+	@include single-text-shadow(rgba(white, .5), 0px, 1px, 0px);
 	border: none;
 	padding: 4px 5px;	
 	font-size: $default-button-font-size;
@@ -90,7 +90,6 @@
 	background-image: -o-linear-gradient($colora, $colorb); /* Opera 11.10 */
 	background-image: linear-gradient($colora, $colorb);
 }
-
 @mixin linear-gradient-important($colora, $colorb){
  	background-image: -moz-linear-gradient($colora, $colorb) !important; /* FF 3.6+ */  
 	background-image: -ms-linear-gradient($colora, $colorb) !important; /* IE10 */  
@@ -98,4 +97,13 @@
 	background-image: -webkit-linear-gradient($colora, $colorb) !important; /* Safari 5.1+, Chrome 10+ */  
 	background-image: -o-linear-gradient($colora, $colorb) !important; /* Opera 11.10 */
 	background-image: linear-gradient($colora, $colorb) !important;
+}
+
+//basic radial gradient
+@mixin radial-gradient($colora, $colorb, $distance){
+	background-image: -moz-radial-gradient(50% 50%, ellipse closest-side, $colora, $colorb $distance);
+	background-image: -ms-radial-gradient(50% 50%, ellipse closest-side, $colora, $colorb $distance);
+	background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, $colora, $colorb $distance);
+	background-image: -o-radial-gradient(50% 50%, ellipse closest-side, $colora, $colorb $distance);
+	background-image: radial-gradient(50% 50%, ellipse closest-side, $colora, $colorb $distance);					
 }

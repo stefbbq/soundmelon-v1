@@ -452,6 +452,17 @@ ul {
 .dimmed {opacity: .4;}
 
 //misc
+#feedback {
+	display: block;
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	right: 0;
+	width: 130px;
+	height: 130px;
+	background: url(feedback.png);
+}
+
 .radiolabel { 
   @include border-radius($border-radius);
   margin: 3px 10px;

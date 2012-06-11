@@ -43,7 +43,7 @@ var is_playing   = false;
 $(document).ready(function(){
   makePlayList();
   player.jPlayer({
-    ready: function (event) {playListStart();},
+    ready: function(event){playListStart();},
     play: function(event){afterPlayStart();},
     pause: function(event){afterPlayPause();},
     ended:function(event){playListNext();},
@@ -132,7 +132,11 @@ function doLike(){
 
 $(".jp-rep").click(function() {
   $('.jp-playlist').focus().toggle();
-  $('.jp-rep').addClass('jp-rep-active');
+  if($('.jp-rep').hasClass('jp-rep-active')){
+    $('.jp-rep').removeClass('jp-rep-active');
+  } else {
+    $('.jp-rep').addClass('jp-rep-active');
+  }
 });
 $("body").click(function(e){ //broken code
   /*if(!($(target).is('.jp-playlist *') || target.className=='jp-rep' || target.className=='jp-playlist' || target.className=='play_list_close')){

@@ -5,7 +5,7 @@
         :remote   => true,
         :class    => "backable iconactive highlight ajaxload active button-fill-fan",
         :id       => 'latest',
-        :class    => 0 == current ? "backable iconactive highlight ajaxload acive button-fill-fan" : "backable iconactive highlight ajaxload"
+        :class    => 0 == current ? "backable iconactive highlight ajaxload active button-fill-fan" : "backable iconactive highlight ajaxload"
   = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies',
         replies_path ,
         :remote   => true,

@@ -13,25 +13,24 @@
         					$(".logo").corner("20px");
         					$(".loginfields, .login, .button,.join,.textfield,.radiolabel").corner("round");
       				});              
-  %body
-    #base-container
-      - if current_user #user logged in
+  - if current_user #user logged in
+    %body
+      = link_to "", feedback_start_path, :remote =>true, :class => "ajaxopen", :id => 'feedback'
+      #base-container
         #page-container
           #page-top-fade
           #page
             #page-header
-              = render :partial =>'bricks/user_header'
-            #page-content
-              = yield
-      - else #no user logged in
-        #page-container{:style=>'background: none;padding-top:120px;'}
-          #page-top-fade
-          #page
-            #page-header.splash-header
-              = render :partial =>'bricks/splash_header'
+              = render :partial => 'bricks/user_header'
             #page-content
               = yield
       = render :partial=>"bricks/footer"
       .globalloading.hide{:id=>"globalloading" }
         .center
           =image_tag("loading.gif")
+  - else #splash
+    %body.splash-body
+      .splash
+        %div
+          = render :partial => 'bricks/splash'
+          = yield
