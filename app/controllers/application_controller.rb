@@ -3,12 +3,23 @@ class ApplicationController < ActionController::Base
   #before_filter :http_basic_authenticate
   # this is needed to prevent XHR request form using layouts
   before_filter proc { |controller| (controller.action_has_layout = false) if controller.request.xhr? }
-
+  before_filter :check_user_browser
+  
   after_filter :messages_and_posts_count
 
   helper_method :current_actor
 
   protected
+
+  def check_user_browser
+    user_browser      = request.env['HTTP_USER_AGENT']
+    chrome_browser    = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.124 Safari/534.30"
+    ie_browser        = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506; .NET CLR 3.5.30729; .NET4.0C; .NET4.0E)"
+    firefox_browser   = "Mozilla/5.0 (X11; Linux x86_64; rv:7.0.1) Gecko/20100101 Firefox/7.0.1"
+    if user_browser == ie_browser
+      render :template =>'/bricks/page_for_ie', :layout =>false and return
+    end    
+  end
   
   def get_user_associated_objects
     @following_artists        = current_user.following_band.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
