@@ -16,45 +16,6 @@
 	@include sprite-img("sprites-32.png", 5, 3, 32px, 32px);
 }
 
-//playlist
-.jp-playlist {
-  @include box-shadow(rgba(black, .7), 0px, 2px, 6px, 0px);
-	@include linear-gradient(rgb(218,218,218), rgb(192,192,192));
-	@include border-radius($border-radius);
-  position:absolute;
-  z-index:1;
-  width:313px;
-  display:none;
-  left:443px;
-  top:107px;
-  padding:10px;
-
-	ul {
-		list-style-type: none;
-		margin: 0px;
-		padding: 0px;
-	}
-	li {
-	  border-bottom: dashed 1px #aaa;
-	  padding: 3px 0;
-		margin: 0px;
-	
-		a {
-			@include single-text-shadow(rgba(white, .5), 0px, 1px, 0px);
-		  color: $inverted-text-color;
-			font-size: 12px;
-		}
-		
-		&:last-child {
-			border: none;
-		}
-	}
-	.current{
-	  padding-bottom:5px!important;
-	  background-color: #a6b3cf;
-	}
-}
-
 //like
 .jp-like {
 	width: 24px;
@@ -493,14 +454,6 @@ div.jp-video div.jp-duration {
   padding: 0 1%;
   top: 10px;
   width: 98%;
-}
-
-.pointer{
-  background:url(pointer.png) no-repeat;
-  height:13px;
-  width:21px;
-  position:absolute;
-  margin:-20px 0 0 155px;
 }
 
 

@@ -11,7 +11,7 @@ $(document).ready( function(){
       });
     },
     open: function(event, ui) {
-      $('ul.ui-autocomplete').removeClass(' ui-menu ui-widget ui-widget-content ui-corner-all');      
+      $('ul.ui-autocomplete').addClass('search-autocomplete').prepend('<div class="pointer"></div>').removeClass(' ui-menu ui-widget ui-widget-content ui-corner-all');      
     },
     select: function(event, ui) {          
           $('#searchform input#term').val(ui.item.label);          

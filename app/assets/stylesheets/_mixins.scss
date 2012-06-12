@@ -1,5 +1,7 @@
 //collection of custom mixins and reusable styles
 
+@import 'compass/utilities/sprites/sprite-img';
+@import 'compass/css3';
 @import 'vars';
 
 //oontrol styles
@@ -47,6 +49,36 @@
 	
 	&:hover {
 		@include linear-gradient(darken($inverted-button-color, 10), darken($inverted-button-color, 30));
+	}
+}
+
+//popout
+@mixin popout() {
+	@include box-shadow(rgba(black, .7), 0px, 2px, 6px, 0px);
+	@include linear-gradient(rgb(218,218,218), rgb(192,192,192));
+	@include border-radius($border-radius);
+	
+	ul {
+		list-style-type: none !important;
+		margin: 0px;
+		padding: 0px;
+		color: black;
+	}
+	
+	li {
+		padding: 6px 0 5px 6px !important;
+	}
+	
+	a {
+		@include single-text-shadow(rgba(white, .5), 0px, 1px, 0px);
+	  color: $inverted-text-color !important;
+		font-size: 12px !important;
+		cursor: pointer !important;
+		
+		&:hover {
+			color: $inverted-text-color !important;
+			background: transparent !important;
+		}
 	}
 }
 

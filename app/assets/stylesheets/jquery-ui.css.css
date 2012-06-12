@@ -71,26 +71,10 @@
   position: absolute;
   cursor: default;
   position:absolute;
-  z-index:1;    
-  background: rgb(63,76,107); /* Old browsers */
-  background: -moz-linear-gradient(top, rgb(218,218,218) 0%, rgb(192,192,192) 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(218,218,218)), color-stop(100%,rgb(192,192,192))); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, rgb(218,218,218) 0%,rgb(192,192,192) 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, rgb(63,76,107) 0%,rgb(59,80,102) 100%); /* Opera11.10+ */
-  background: -ms-linear-gradient(top, rgb(63,76,107) 0%,rgb(59,80,102) 100%); /* IE10+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', endColorstr='#3b5066',GradientType=0 ); /* IE6-9 */
-  background: linear-gradient(top, rgb(63,76,107) 0%,rgb(59,80,102) 100%); /* W3C */
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -o-border-radius:10px;
-  border-radius: 10px;    
+  z-index:1;  
   padding:10px;  
 }
 .ui-autocomplete li{
-   margin:2px 0 2px 0;
-  text-shadow:none;
-  border-bottom:dotted 1px #979797;
-  padding-bottom:5px!important;
   width: 100%;
   list-style: none;
   text-decoration: none;
