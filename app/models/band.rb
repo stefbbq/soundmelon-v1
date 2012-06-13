@@ -191,6 +191,10 @@ class Band < ActiveRecord::Base
     Connection.remove_connection_between self, band
   end
   
+  def connection_requests
+    Connection.requested_connections_for self
+  end
+
   protected
 
   def mark_mentioned_post_as_read post_ids

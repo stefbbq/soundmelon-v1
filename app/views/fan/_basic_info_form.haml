@@ -3,7 +3,10 @@
   .details
     %h3
       your name is
-      %span= @user.get_full_name
+      %span{:id =>'namespan'}= @user.get_full_name
+    %h3
+      and your username is
+      %span= @user.mention_name
     %h5 click the lock to enable changes
   .content.manage-basic
     = form_for :user, :url => update_basic_info_path, :html => {:remote => true, :class => 'ajaxopen', :id =>'fan_basic_info'}  do |f|
@@ -15,6 +18,10 @@
         %label{:for=>"name"}
           last
         = f.text_field :lname
+      .field
+        %label{:for=>"name"}
+          username
+        = f.text_field :mention_name, :readonly =>true
       .lock-toggle
       = submit_tag 'update it, it\'s legal', :class => 'button', :id =>'basic_form_submit', :disabled =>:true
 :javascript  

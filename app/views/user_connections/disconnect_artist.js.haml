@@ -7,6 +7,7 @@
   = render '/bricks/artist_connection', :band =>@band, :actor =>@actor
 - if @actor != @band
   != "$('.actions #connect_section').html('#{escape_javascript connection_content}');"
+if($('div#connection_request_#{@band.id}').length>0){$('div#connection_request_#{@band.id}').remove();}
 if($('.primary .left ##{item_div_id}').length>0){$('.primary .left ##{item_div_id}').remove();}
 if($('.right #connectionbox ##{avatar_div}').length>0){$('.right #connectionbox ##{avatar_div}').remove();}
 $('#connections span.count').html("#{@last_connection_count}");

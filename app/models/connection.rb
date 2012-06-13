@@ -85,6 +85,16 @@ class Connection < ActiveRecord::Base
       Connection.where("(band_id = ?) and is_approved is true", artist.id)
     end
   end
+  
+  # all connection requests for particular artist
+  def self.requested_connections_for artist, limit = 0
+    if limit > 0
+      Connection.where("(connected_band_id = ?) and is_approved is false", artist.id).limit(limit)
+    else
+      Connection.where("(connected_band_id = ?) and is_approved is false", artist.id)
+    end
+  end
+
 
   def self.connected_artists_with artist, limit = 0
     connections = self.approved_connections_for(artist, limit)

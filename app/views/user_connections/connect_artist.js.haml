@@ -10,6 +10,7 @@
 - left_list_item = capture do
   = render '/user_connections/connection_item', :user =>@actor, :connection_item =>@band, :is_user_fan =>true
 != "$('.actions #connect_section').html('#{escape_javascript connection_content}');"
+if($('div#connection_request_#{@band.id}').length>0){$('div#connection_request_#{@band.id}').remove();}
 - if @connected
   if($('#connectionbox .message').length>0){$('#connectionbox').html('#{escape_javascript new_connected_item}')}else{$('#connectionbox').prepend('#{escape_javascript new_connected_item}')};
   $('.primary .left .connections_list').append('#{escape_javascript left_list_item}')
