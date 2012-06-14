@@ -81,8 +81,10 @@ class UserConnectionsController < ApplicationController
         @actor.connect_artist(@band)
         @last_connection_count  = @band.connections_count
         @connected              = @actor.connected_with?(@band)
+        @is_self_profile        = params[:self] && params[:self] == "1"
+        logger.error "Is Self#{@is_self_profile}"
       rescue => exp
-        logger.error "Error in UserConnections::ConnectArtist :=> #{exp.message}"
+        logger.error "Error in UserConnect0Testions::ConnectArtist :=> #{exp.message}"
         render :nothing => true and return
       end
     else
@@ -96,7 +98,8 @@ class UserConnectionsController < ApplicationController
       begin        
         @band                   = Band.find_band(params)
         @actor.disconnect_artist(@band)
-        @last_connection_count  = @band.connections_count        
+        @last_connection_count  = @band.connections_count
+        @is_self_profile        = params[:self] && params[:self] == "1"
       rescue => exp
         logger.error "Error in UserConnections::DisconnectBand :=> #{exp.message}"
         render :nothing => true and return

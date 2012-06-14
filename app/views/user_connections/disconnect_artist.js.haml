@@ -1,4 +1,4 @@
-- avatar_div          = "#{@actor.class.name.downcase}_avatar_#{@actor.id}"
+- avatar_div          = @is_self_profile ? "#{@band.class.name.downcase}_avatar_#{@band.id}" : "#{@actor.class.name.downcase}_avatar_#{@actor.id}"
 - left_collection_div = "#{@band.class.name.downcase}_#{@band.id}_connections"
 - item_div_id         = "connection_#{@band.class.name.downcase}_#{@band.id}"
 != "jQuery.facebox('Disconnected successfully');"

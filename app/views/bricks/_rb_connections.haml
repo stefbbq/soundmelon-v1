@@ -34,7 +34,7 @@
           %div{:id =>"connection_request_#{from_band.id}"}
             = link_to from_band.name, show_band_path(from_band.name), :class =>'ajaxopen backable', :remote =>:true
             %div{:style =>'float:right;padding-right:3px;'}
-              = link_to "accept", accept_artist_connection_path(from_band.name), :class =>'ajaxopen', :remote =>:true
-              = link_to "ignore", reject_artist_connection_path(from_band.name), :class =>'ajaxopen', :remote =>:true
+              = link_to "accept", accept_artist_connection_path(from_band.name, :self=>1), :class =>'ajaxopen', :remote =>:true
+              = link_to "ignore", reject_artist_connection_path(from_band.name, :self=>1), :class =>'ajaxopen', :remote =>:true
           
         

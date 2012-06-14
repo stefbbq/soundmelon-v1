@@ -6,9 +6,17 @@
 - connection_content = capture do
   = render '/bricks/artist_connection', :band =>@band, :actor =>@actor
 - new_connected_item = capture do
-  = render '/bricks/avatar', :item =>@actor
+  - if @is_self_profile
+    = render '/bricks/avatar', :item =>@band
+  - else
+    = render '/bricks/avatar', :item =>@actor
+
 - left_list_item = capture do
-  = render '/user_connections/connection_item', :user =>@actor, :connection_item =>@band, :is_user_fan =>true
+  - if @is_self_profile
+    = render '/user_connections/connection_item', :user =>@band, :connection_item =>@actor
+  - else
+    = render '/user_connections/connection_item', :user =>@actor, :connection_item =>@band
+
 != "$('.actions #connect_section').html('#{escape_javascript connection_content}');"
 if($('div#connection_request_#{@band.id}').length>0){$('div#connection_request_#{@band.id}').remove();}
 - if @connected
