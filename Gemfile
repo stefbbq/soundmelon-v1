@@ -24,7 +24,7 @@ gem 'sunspot_solr'  # optional pre-packaged Solr distribution for use in develop
 gem 'progress_bar'
 gem "activerecord-import", ">= 0.2.0"
 gem 'ancestry'
-gem 'acts-as-messageable'
+gem 'acts-as-messageable', '0.4.5'
 gem 'acts_as_votable'
 gem 'acts_as_follower' #https://github.com/tcocca/acts_as_follower
 

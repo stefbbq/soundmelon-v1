@@ -1,11 +1,12 @@
 - if @confirmation_thanks
   %p.center
     Thanks for confirming!
-.blankbox
-  - if @user.account_type
-    = link_to "Skip", invite_band_member_path,:class=>"button right"
-  - else
-    = link_to "Skip", fan_home_path,:class=>"button right"
-= render 'fan_public/additional_info_form'
-= render 'fan_public/find_friends_form'
-= render 'fan_public/payment_info_form'
+- else
+  .blankbox
+    - if @user.account_type
+      = link_to "Skip", invite_band_member_path,:class=>"button right"
+    - else
+      = link_to "Skip", fan_home_path,:class=>"button right"
+  = render 'fan/edit_additional_info_form'
+  = render 'fan/find_friends_form'
+  = render 'fan/payment_info_form'
