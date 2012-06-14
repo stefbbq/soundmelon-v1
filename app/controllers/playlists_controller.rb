@@ -22,8 +22,9 @@ class PlaylistsController < ApplicationController
   
   def add_all_songs_of_album
     begin
-      song_album = SongAlbum.find(params[:id])
-      Playlist.add_whole_album_songs_for(current_user.id, song_album)
+      @song_album = SongAlbum.find(params[:id])
+      Playlist.add_whole_album_songs_for(current_user.id, @song_album)
+      @songs     = @song_album.songs
     rescue
       render :nothing => 'true' and return
     end

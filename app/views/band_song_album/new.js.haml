@@ -10,7 +10,7 @@
         = text_field_tag :album_name, @song_album.album_name, :disabled => true
       - else
         = text_field_tag :album_name    
-    Choose File to Upload
+    Choose Song Files to Upload
     %p
       = f.file_field :song
     - f.submit "Upload"

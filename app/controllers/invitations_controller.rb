@@ -1,17 +1,18 @@
 class InvitationsController < ApplicationController
   
   def new
-    @invitation = Invitation.new
+    @invitation = Invitation.new    
   end
 
   def create
     begin
       @invitation             = Invitation.new(params[:invitation])
       @invitation.sender_id   = current_user if current_user
+      @sent                   = false
       if @invitation.save
         if current_user
-          UserMailer.app_invitation_email(@invitation, fan_registration_url(:invitation_token=>@invitation.token)).deliver
-          @sent = true
+#          @invitation.send_invitation_email
+#          @sent = true
         else
           @sent = false
         end

@@ -16,6 +16,7 @@ solr/conf/*
 Gemfile.lock
 solr/data/*
 config/database.yml
+config/initializers/setup_mail.rb
 .DS_Store
 db/schema
 public/sm/*

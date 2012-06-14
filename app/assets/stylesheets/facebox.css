@@ -1,7 +1,7 @@
 #facebox {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: fixed;
+  top: 35%;
+  left: 35%;
   z-index: 2000;
   text-align: left;
 }

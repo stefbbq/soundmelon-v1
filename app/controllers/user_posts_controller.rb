@@ -24,30 +24,12 @@ class UserPostsController < ApplicationController
       else
         @load_more_path =  next_page ?  more_post_path(:page => next_page) : nil
       end
-    end
-    respond_to do |format|
-      format.json
-      format.html
-    end
+    end    
   end
   
   def create
-    if params[:band_id].present?
-      begin
-        @band = Band.where(:id => params[:band_id]).first
-        if current_user.is_admin_of_band?(@band)
-          @post = @band.posts.build(params[:post])    
-        else
-          raise
-        end
-      rescue
-        render :nothing => true and return
-      end
-    else  
-      @post = current_user.posts.build(params[:post])
-      @post.is_bulletin = false
-    end 
-    
+    actor = current_actor
+    @post = actor.posts.build(params[:post])
     if @post.save
       respond_to do |format|
         format.html { redirect_to fan_home_path, notice: 'Successfully Posted.' }
@@ -74,25 +56,15 @@ class UserPostsController < ApplicationController
   def new_reply
     if request.xhr?
       begin
+        actor                 = current_actor
         @parent_post          = Post.find(params[:id])
-        if params[:band_id].present?
-          @band               = Band.where(:id => params[:band_id]).first
-          if current_user.is_admin_of_band?(@band) #&& @band.is_part_of_post?(@parent_post)
-            participating_users_and_band_mention_names_arr = @parent_post.owner_as_well_as_all_mentioned_users_and_bands_except(@band.id, false)
-          else
-            raise
-          end
-        elsif #current_user.is_part_of_post?(@parent_post)
-          participating_users_and_band_mention_names_arr = @parent_post.owner_as_well_as_all_mentioned_users_and_bands_except(current_user.id)
-        else
-          render :nothing => true and return 
-        end
+        participating_users_and_band_mention_names_arr = @parent_post.owner_as_well_as_all_mentioned_users_and_bands_except(actor.id)        
       rescue =>exp
         logger.error "Error in UserPosts#NewReply :=> #{exp.message}"
         render :nothing => true and return
       end
-      @post = Post.new
-      @post.msg = participating_users_and_band_mention_names_arr.join(' ')
+      @post                   = Post.new
+      @post.msg               = participating_users_and_band_mention_names_arr.join(' ')
       respond_to do |format|
         format.js {render :layout => false}
       end
@@ -105,16 +77,8 @@ class UserPostsController < ApplicationController
     if request.xhr?
       begin
         @parent_post = Post.find(params[:parent_post_id])
-        if params[:band_id].present?
-          @band = Band.where(:id => params[:band_id]).first
-          if current_user.is_admin_of_band?(@band) #&& @band.is_part_of_post?(@parent_post)
-            @post = @band.posts.build(params[:post])
-          else
-            raise
-          end
-        else #current_user.is_part_of_post?(@parent_post)
-          @post = current_user.posts.build(params[:post])          
-        end
+        actor        = current_actor
+        @post        = actor.posts.build(params[:post])
       rescue
         render :nothing => true and return
       end

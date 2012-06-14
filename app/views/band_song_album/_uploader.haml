@@ -11,7 +11,9 @@
         cancelImg : '/uploadify/cancel.png',
         multi : true,
         auto : true,
-        script : '/band_song_album/create',
+        fileExt:  '*.mp3;*.wav;*.ogg;*.wma;*.flac',
+        fileDesc: 'Audio Files',
+        script : '/band_song_album/create',        
         onComplete : function(event, queueID, fileObj, response, data) {
          var dat = eval('(' + response + ')');         
          $('#uploaded_images').append(song_counter +">" + dat.upload+'<br />');
@@ -53,11 +55,11 @@
       });
   });
   function get_list_album_html(id, album_name, add_url, album_url,delete_url, img_src){
-    var html_str = "<div class='song-album' id='song_album_" + id + "'>";
+    var html_str  =  "<div class='song-album' id='song_album_" + id + "'>";
     html_str      += "<a href='" + add_url + "' class='ajaxopen' data-remote='true'><img alt='Add' src='/assets/add.png'/></a>";
     html_str      += "<span class='album-cover-image'><a href='" + album_url + "' class='ajaxopen' data-remote='true'><img alt='' src='" + img_src + "'/></a></span>";
     html_str      += "<a href='" + album_url + "' class='ajaxopen' data-remote='true'>" + album_name + "</a>";
     html_str      += "<a href='" + delete_url + "' class='ajaxopen' data-confirm='Are you sure?' data-remote='true'><img alt='Remove' src='/assets/remove.png' /></a>";
-    html_str      +="</div>"
+    html_str      += "</div>"
     return html_str;
   }

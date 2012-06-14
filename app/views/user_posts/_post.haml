@@ -1,4 +1,5 @@
 
+- actor           = current_actor
 - band            = post.band_id.blank? ? nil : post.band
 - user            = post.user_id.blank? ? nil : post.user
 - post_item       = post.postitem
@@ -24,6 +25,7 @@
 - divclass                  ||=''
 
 - self_owner      = post.user == current_user
+- self_actor      = user == actor || band == actor
 - item_div_class  = self_owner ? 'content' : 'content-mentioned'
 
 - writer_header = capture do
@@ -67,15 +69,11 @@
   - action_section  = capture do
     - unless buzz_content.blank?
       #{buzz_content}
-    - if self_owner
+    - if self_actor
       = link_to user_post_path(post), :method=> :delete, :class=>'action-delete', :remote=>true do
         %i
         %span delete
-    - if @band && !self_owner
-      = link_to new_post_reply_path(post, :band_id => @band.id), :class=>'action-reply ajaxopen', :remote=>true do
-        %i
-        %span reply
-    - elsif !self_owner
+    - else
       = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote=>true do
         %i
         %span reply

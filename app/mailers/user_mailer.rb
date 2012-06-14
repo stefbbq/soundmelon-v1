@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "merosathilai@gmail.com"
+  default from: "admin@soundmelon.com"
 
   def activation_needed_email(user)
     @user = user
@@ -58,9 +58,9 @@ class UserMailer < ActionMailer::Base
     )
   end
 
-  def app_invitation_email(invitation, signup_url)
-    @signup_url = signup_url
-    @toemail    = invitation.recipient_email
+  def app_invitation_email(invitation)
+    @invitation_token   = invitation.token
+    @toemail            = invitation.recipient_email
     mail(
       :to => @toemail,
       :subject => "Signup Invitation"

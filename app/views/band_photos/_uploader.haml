@@ -5,13 +5,15 @@
     $('#band_photo_image').click(function(event){ 
       event.preventDefault();
     });	
-    $('#band_photo_image').uploadify({
-      uploader : '/uploadify/uploadify.swf',
-      cancelImg : '/uploadify/cancel.png',
-      multi : true,
-      auto : true,
-      script : '/band_photos/create',
-      onComplete : function(event, queueID, fileObj, response, data) {
+    $("#band_photo_image").uploadify({
+      'uploader': '/uploadify/uploadify.swf',
+      'cancelImg': '/uploadify/cancel.png',
+      'multi': true,
+      'auto': true,
+      'fileExt':  '*.jpg;*.png;*.gif;*.bmp;*.jpeg',
+      'fileDesc': 'Image Files',
+      'script': '/band_photos/create',
+      onComplete: function(event, queueID, fileObj, response, data) {
         var dat = eval('(' + response + ')');        
         $('#uploaded_images').append('<img src="'+dat.upload+'" />');
         $('#album_name').val(dat.album_name);
@@ -37,7 +39,7 @@
         }
       },
       onSelect : function(event,data) {
-        $("#band_photo_image").uploadifySettings('scriptData', { 'album_name' : $('#album_name').val(), 'band_name' : $('#band_name').val() });
+        $("#band_photo_image").uploadifySettings('scriptData', { 'album_name' : $('#album_name').val(), 'band_name' : $('#band_name').val() });        
       },
       scriptData : {
         '_http_accept': 'application/javascript',
@@ -62,9 +64,4 @@
     html_str      += "<a href='" + delete_url + "' class='ajaxopen' data-confirm='Are you sure?' data-remote='true'><img alt='Remove' src='/assets/remove.png' /></a>";
     html_str      +="</div>"
     return html_str;
-  }
-  function get_band_photo_html(){        
-  }
-
-  
-
+  } 

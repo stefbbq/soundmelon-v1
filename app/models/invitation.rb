@@ -10,6 +10,10 @@ class Invitation < ActiveRecord::Base
   before_create :generate_token
   before_create :decrement_sender_count, :if => :sender
 
+  def send_invitation_email
+    UserMailer.app_invitation_email(self).deliver
+  end
+
   private
 
   def recipient_is_not_registered

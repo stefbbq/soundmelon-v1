@@ -215,6 +215,7 @@ class BandSongAlbumController < ApplicationController
         if @has_admin_access
           @song.update_attributes(params[:song])
           @song.delay.update_metadata_to_file
+          @is_updated = true
           render :action => 'edit_song' and return
         end
       rescue =>exp

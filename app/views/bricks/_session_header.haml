@@ -17,7 +17,7 @@
       - other_admin_artists.each do |artist|
         = link_to change_login_path(:artist_name => artist.name), {:class =>'ajaxopen', :remote =>true} do
           %li
-            access =#{artist.name}  
+            access #{artist.name}  
 - else
   = WELCOME_MSG  
   = link_to "#{current_user.fname}".truncate(10), fan_home_path, :class => 'user-info backable ajaxopen', :remote =>true, :title =>"#{current_user.get_full_name}"
