@@ -1,46 +1,39 @@
 - show_all        ||=false
-- album_cover_image = (cover_image = band_album.cover_image) ? cover_image.image.url(:medium) : 'no-image.png'
-.album[band_album]
-  .album_info_wrapper
-    .album_teaser_image
-      = link_to image_tag(album_cover_image, :height => '80px', :width=>'80px'), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
-    .album_info
-      .album_name
-        = link_to "#{band_album.name}", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
-        %br
+.artist-content[band_album]
+  .top
+    .cover
+      = link_to get_band_photo_album_teaser_photo(band_album, :medium, '60px;', '60px;'), band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
+    .info
+      = link_to band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name),{ :remote=>:true, :class=>"ajaxopen"} do
+        %h2=band_album.name
+      %h4
         Released
         = band_album.created_at.strftime("%b %d, %Y")
-      .album_controls
-        = link_to image_tag('buzz-icon.png'), band_album_buzz_path(band_album.id, :album_name => band_album.name), :remote => true, :class => 'ajaxopen'
-    .clear
-  .additional_info
+    .artist-content-actions
+      = link_to band_album_buzz_path(band_album.id, :album_name => band_album.name), {:remote => true, :class => 'ajaxopen'} do
+        .buzz-icon
+  .bottom
     .photo_stat{:id =>"photo_stat_#{band_album.id}"}
       = pluralize(band_album.photo_count, 'photo')
-    - if @has_admin_access
-      .album_controls{:style=>'float:left;width:50px;margin-left:150px;'}
-        = link_to "edit", edit_album_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"edit_link_#{band_album.id}"
-      .album_controls{:style=>'float:left;width:50px;margin-left:10px;'}
-        = link_to band_album.disabled? ? 'enable' : 'disable', disable_enable_band_album_path(:band_name =>@band.name, :album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{band_album.id}"
-      .album_controls{:style=>'float:left;width:50px;'}
-        = link_to "remove", delete_album_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"
-      .album_controls{:style=>'float:left;width:50px;'}
-        =# link_to "like/dislike", like_band_album_path(:band_name =>@band.name, :album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"like_dislike_link_#{band_album.id}"
-    - unless show_all
-      .toggle-thread
-        = link_to "expand", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{band_album.id}"
-    - else
-      .toggle-thread
-        %a{:href => "javascript:void(0);", :onclick => "$('#band_album_#{band_album.id} .album_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
-    .clear
-  .album_details
-    - if show_all
-      %h3
-      = "Photos in '#{band_album.name}'"
-      .photo_gallery
-        - band_album.band_photos.each do |photo|
-          = render 'band_photo', :photo => photo, :band_album =>band_album
       - if @has_admin_access
-        .album_photo
-          = link_to image_tag('add.png'), add_photos_to_album_path(:band_name => @band_album.band.name, :band_album_name => @band_album.name), :remote=>:true, :class=>"ajaxopen", :title =>"add new photo", :title =>'Add new photo'
+        .controls
+          = link_to "add", add_photos_to_album_path(:band_name => band_album.band.name, :band_album_name => band_album.name), {:remote=>:true, :class=>"ajaxopen", :title =>"add new photo"}            
+          = link_to "edit", edit_album_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"edit_link_#{band_album.id}"        
+          = link_to band_album.disabled? ? 'enable' : 'disable', disable_enable_band_album_path(:band_name =>@band.name, :album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{band_album.id}"        
+          = link_to "remove", delete_album_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen"        
+          =# link_to "like/dislike", like_band_album_path(:band_name =>@band.name, :album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"like_dislike_link_#{band_album.id}"
+    .toggle
+      .toggle-thread
+        - unless show_all
+          = link_to "expand", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{band_album.id}"
+        - else
+          %a{:href => "javascript:void(0);", :onclick => "$('#band_album_#{band_album.id} .album_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
+    .album_details
+      - if show_all
+        %h3
+        = "Photos in '#{band_album.name}'"
+        .photo_gallery
+          - band_album.band_photos.each do |photo|
+            = render 'band_photo', :photo => photo, :band_album =>band_album        
   .clear
 .clear

@@ -136,7 +136,7 @@ module ApplicationHelper
     if song_album.cover_img_content_type.nil?
       image_tag('no-image.png', :alt=>'')
     else
-      (width.nil? and height.nil?) ? image_tag(song_album.cover_img.url(type), :alt=>'aa') : image_tag(song_album.cover_img.url(type), :width =>width,:height=>height, :alt=>'')
+      (width.nil? and height.nil?) ? image_tag(song_album.cover_img.url(type), :alt=>'') : image_tag(song_album.cover_img.url(type), :width =>width,:height=>height, :alt=>'')
     end
   end
 
@@ -148,12 +148,12 @@ module ApplicationHelper
     end
   end
   
-  def get_band_photo_album_teaser_photo(band_photo_album, type=:thumb)
+  def get_band_photo_album_teaser_photo(band_photo_album, type=:thumb, width=nil, height=nil)
     cover_image = band_photo_album.cover_image
     if cover_image.blank?
       image_tag('no-image.png', :alt=>'')
     else
-      image_tag(cover_image.image.url(type), :alt=>'', :height =>'35px;', :width=>'35px;')
+      (width.nil? and height.nil?) ? image_tag(cover_image.image.url(type), :alt=>'') : image_tag(cover_image.image.url(type), :alt=>'', :height =>height, :width=>width)
     end
   end
 

@@ -10,13 +10,17 @@
   - if post_item
     - buzz_content  = capture do
       - if post.band_album_post?
-        = link_to image_tag('buzz-icon.png'), band_album_buzz_path(post_item.id, :album_name => post_item.name), :remote => true, :class => 'ajaxopen'
+        = link_to band_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'ajaxopen'} do
+          .buzz-icon
       - elsif post.band_tour_post?
-        = link_to image_tag('buzz-icon.png'), band_tour_buzz_path(post_item.band.name, post_item.id), :remote => true, :class => 'ajaxopen'
+        = link_to band_tour_buzz_path(post_item.band.name, post_item.id), {:remote => true, :class => 'ajaxopen'} do
+          .buzz-icon
       - elsif post.song_post?
-        = link_to image_tag('buzz-icon.png'), song_buzz_path(post_item), :remote => true, :class => 'ajaxopen'
+        = link_to song_buzz_path(post_item), {:remote => true, :class => 'ajaxopen'} do
+          .buzz-icon
       - elsif post.song_album_post?
-        = link_to image_tag('buzz-icon.png'), album_buzz_path(post_item.album_name, post_item.id), :remote => true, :class => 'ajaxopen'
+        = link_to album_buzz_path(post_item.album_name, post_item.id), {:remote => true, :class => 'ajaxopen'} do
+          .buzz-icon
   
 - is_author_artist_profile  = (@band && band ) && @band == band
 - is_author_fan_profile     = (@user && user ) && @user == user

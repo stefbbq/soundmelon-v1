@@ -38,8 +38,8 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   //<![CDATA[
   var currentTrack        = 0;
   var currentTrackItemId  = 0;
-  var player       = $("#sm_jplayer");
-  var is_playing   = false;
+  var player              = $("#sm_jplayer");
+  var playing_featured    = false;
   $(document).ready(function(){
     makePlayList();
     player.jPlayer({
@@ -66,7 +66,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
 
   function afterPlayStart(){
     var index = currentTrack;
-    if(!player.data('jPlayer').status.paused){
+    if(!player.data('jPlayer').status.paused && !playing_featured){
       $('.jp-playlist ul li').removeClass('current');
       $("li#litem_" + index).addClass('current');
     }
@@ -81,14 +81,16 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
     var item     = playList[currentTrack];
     currentTrackItemId = item.i;
     var next     = (currentTrack + 1 < playList.length) ? currentTrack + 1 : 0;
-    updateTrackInfo(item.band, item.title, item.image, item.like)
-    if(play==1){
-      player.jPlayer("setMedia", { m4a:item.mp3, ogg:item.ogg}).jPlayer('play');
-    }
-    else
-      player.jPlayer("setMedia", { m4a:item.mp3, ogg:item.ogg});
+    updateTrackInfo(item.band, item.title, item.image, item.like)    
+    setSongToPlay(play, item.mp3, item.ogg);
   }
 
+  // Set song for the player
+  function setSongToPlay(start_play, song, song_another){
+    player.jPlayer("setMedia", { m4a:song, ogg:song_another});
+    if(start_play == 1){ player.jPlayer('play'); }
+  }
+  
   // Play next track. If already on last track, start back at the begining
   function playListNext() { playListChange((currentTrack + 1 < playList.length) ? currentTrack + 1 : 0, 1);}
 
@@ -96,13 +98,14 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   function playListPrev() { playListChange((currentTrack - 1 >= 0) ? currentTrack - 1 : playList.length-1, 1);}
 
   function playMusicFromFeaturedList(i, smp3, sogg){
-    player.jPlayer("setMedia", { m4a:smp3, ogg:sogg }).jPlayer('play');
-    currentTrackItemId = i;
+    playing_featured = true;
+    setSongToPlay(1, smp3, sogg);
+    currentTrackItemId = i;    
   }
 
   // Play song from the song list in albums
   function playSongFromAlbum(song_detail){
-    player.jPlayer("setMedia", { m4a:song_detail.mp3, ogg:song_detail.ogg }).jPlayer('play');
+    setSongToPlay(1, song_detail.mp3, song_detail.ogg);
     currentTrackItemId = song_detail.i;
     updateTrackInfo(song_detail.band, song_detail.title, song_detail.image, song_detail.like)
   }
