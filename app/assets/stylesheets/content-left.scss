@@ -285,7 +285,7 @@
 		position: relative;
 	}
 	
-	//split content areas
+	//artist content areas
 	.artist-content { 
 		width: 100%; 
 		position: relative;
@@ -319,25 +319,11 @@
 				
 				h2, h4 { margin: 0px; }
 			}
-			.actions {
+			
+			.artist-content-actions {
 				position: absolute;
 				right: 5px;
 				top: 5px;
-				
-				a {
-					display: inline-block;
-					width: 48px;
-					text-align: center;
-					height: 40px;
-					font-size: 11px;
-					opacity: .75;
-					
-					&:hover { opacity: 1; }
-				}
-				div {
-					width: 24px;
-					margin: 0 auto 3px auto;
-				}
 			}
 		}
 		
@@ -365,6 +351,22 @@
 		}
 	}
 	
+	.artist-content-actions {
+		a {
+			display: inline-block;
+			width: 48px;
+			text-align: center;
+			height: 40px;
+			font-size: 11px;
+			opacity: .75;
+			
+			&:hover { opacity: 1; }
+		}
+		div {
+			width: 24px;
+			margin: 0 auto 3px auto;
+		}
+	}
 	
 	//
 	//forms

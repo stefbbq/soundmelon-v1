@@ -9,21 +9,38 @@
       - if @has_admin_access
         = link_to 'edit', album_song_edit_path(artist_name, song.id), :remote =>:true, :class =>'ajaxopen'
         = link_to 'remove', delete_song_path(artist_name, song.id), :remote =>:true, :class =>'ajaxopen', :confirm => 'Are you sure?'
-      = link_to image_tag('download-icon.png'), download_song_path(artist_name, song.id)
-      = link_to image_tag('play-icon.png'), 'javascript:void(0);', :onclick =>"playSongFromAlbum(#{song_detail(song)});"
-      = link_to image_tag('queue-icon.png'), add_to_playlist_path(song, song.song_name_without_extension), :remote => true, :class => 'ajaxopen'
-      = link_to image_tag('buzz-icon.png'), song_buzz_path(song), :remote => true, :class => 'ajaxopen'
-    .clear
+      .artist-content-actions
+        = link_to download_song_path(artist_name, song.id) do
+          %div{:class =>"download-icon"}
+          download
+        = link_to 'javascript:void(0);', {:onclick =>"playSongFromAlbum(#{song_detail(song)});", :remote => true, :class => 'ajaxopen'} do
+          %div{:class =>"play-icon"}
+          play
+        = link_to add_to_playlist_path(song, song.song_name_without_extension), {:remote => true, :class => 'ajaxopen'} do
+          %div{:class =>"queue-icon"}
+          queue
+        = link_to song_buzz_path(song), {:remote => true, :class => 'ajaxopen'} do
+          %div{:class =>"buzz-icon"}
+          buzz
 - else
-  .song[song]{:style =>'margin-left:2px'}
+  .song[song]{:style =>'margin-left:2px; height: 50px; '}
     .song-title
       = song.title
     .song-controls
       - if @has_admin_access
         = link_to 'edit', album_song_edit_path(artist_name, song.id), :remote =>:true, :class =>'ajaxopen'
         = link_to 'remove', delete_song_path(artist_name, song.id), :remote =>:true, :class =>'ajaxopen', :confirm => 'Are you sure?'
-      = link_to image_tag('download-icon.png'), download_song_path(artist_name, song.id)
-      = link_to image_tag('play-icon.png'), 'javascript:void(0);', :onclick =>"playSongFromAlbum(#{song_detail(song)});"
-      = link_to image_tag('queue-icon.png'), add_to_playlist_path(song, song.song_name_without_extension), :remote => true, :class => 'ajaxopen'
-      = link_to image_tag('buzz-icon.png'), song_buzz_path(song), :remote => true, :class => 'ajaxopen'
+      .artist-content-actions
+        = link_to download_song_path(artist_name, song.id) do
+          %div{:class =>"download-icon"}
+          download
+        = link_to 'javascript:void(0);', {:onclick =>"playSongFromAlbum(#{song_detail(song)});", :remote => true, :class => 'ajaxopen'} do
+          %div{:class =>"play-icon"}
+          play
+        = link_to add_to_playlist_path(song, song.song_name_without_extension), {:remote => true, :class => 'ajaxopen'} do
+          %div{:class =>"queue-icon"}
+          queue
+        = link_to song_buzz_path(song), {:remote => true, :class => 'ajaxopen'} do
+          %div{:class =>"buzz-icon"}
+          buzz
     .clear
