@@ -243,10 +243,12 @@ module ApplicationHelper
   # prepares the detail for list of songs
   def list_of_play_items songs
     list_str  = ""
-    for i in 0..songs.size-1
-      hash_str      = song_detail(songs[i])
-      list_str      += hash_str
-      list_str      +="," if i <= songs.size
+    unless songs.blank?
+      for i in 0..songs.size-1
+        hash_str      = song_detail(songs[i])
+        list_str      += hash_str
+        list_str      +="," if i <= songs.size
+      end
     end
     list_str
   end  

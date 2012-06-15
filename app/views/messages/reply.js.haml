@@ -1,5 +1,6 @@
-
-- @messages.each do |message|
-  - msg_sender = message.sent_messageable_type == 'User' ? message.sent_messageable.fname : message.sent_messageable.mention_name
-$('#msg_item_#{@message.id}).append('#{@message.body}<br /> by <strong>{@message.sent_messageable.fname}</strong> <small>about an #{ time_ago_in_words(@message.created_at)} ago</small><br/> <hr />');
+- message_thread = capture do
+  - @messages.each do |message|
+    - msg_sender = message.sent_messageable_type == 'User' ? message.sent_messageable.fname : message.sent_messageable.mention_name
+    #{message.body}<br /> by <strong>#{msg_sender}</strong> <small>about an #{ time_ago_in_words(message.created_at)} ago</small><br/> <hr />
+$('#msg_item_#{@message.id}').html('#{escape_javascript(message_thread)}');
 setTimeout('$(document).trigger(\"close.facebox\")',1000);

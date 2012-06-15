@@ -27,6 +27,10 @@ $('#msg_item_#{@message.id}').append("#{escape_javascript(all_messages)}");
 $('#msg_item_#{@message.id}').append("#{escape_javascript(reply_form)}");
 $('a#message_count').text(parseInt($('a#message_count').text()) - 1);
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
+- if @actor.is_fan?
+  $('.primary .left .social-menu').replaceWith('#{escape_javascript(render '/fan/social_header', :current =>'message')}');
+- else
+  $('.primary .left .social-menu').replaceWith('#{escape_javascript(render '/artist/social_header', :band =>@actor, :current =>'message')}');
 $('a#msg_view_#{@message.id}').remove();
 $('.ajaxload').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());});
 setTimeout('$(document).trigger(\"close.facebox\")',10);  

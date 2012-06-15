@@ -118,10 +118,11 @@ class ApplicationController < ActionController::Base
   end
 
   def messages_and_posts_count
-    if current_user      
-      @unread_mentioned_count     ||= current_user.unread_mentioned_post_count
-      @unread_post_replies_count  ||= current_user.unread_post_replies_count
-      @unread_messages_count      ||= current_user.received_messages.unread.count
+    actor                         = current_actor
+    if actor      
+      @unread_mentioned_count     ||= actor.unread_mentioned_post_count
+      @unread_post_replies_count  ||= actor.unread_post_replies_count
+      @unread_messages_count      ||= actor.received_messages.unread.count
     end
   end
   

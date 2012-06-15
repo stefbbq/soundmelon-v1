@@ -1,6 +1,6 @@
 - band ||= nil
 - messages.each do |message|
-  .primary-wrapper{:id=>"message_box_#{message.id}"}
+  .primary-wrapper{:id=>"message_box_#{message.id}", :style =>'margin-top:5px'}
     .avatar
       = link_to get_avatar_small(message.sent_messageable), fan_profile_path(message.sent_messageable) if message.sent_messageable_type == 'User' && message.sent_messageable != current_user
       = link_to get_avatar_small(message.sent_messageable), fan_home_url if message.sent_messageable_type == 'User' && message.sent_messageable == current_user

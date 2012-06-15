@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
   before_filter :require_login
   
   def send_message
-    @to_user = User.find(params[:receiver_id])
+    @to_user    = User.find(params[:receiver_id])
     current_user.send_message(@to_user,{:body=>params[:message_text]})
   end
   
@@ -56,16 +56,13 @@ class MessagesController < ApplicationController
 
   def show
     begin
-      if params[:band_id].present?
-        @band     = Band.where(:id => params[:band_id]).first
-        raise unless current_user.is_admin_of_band?(@band)
-        @message  = @band.messages.with_id(params[:id]).first
-      else
-        @message  = current_user.messages.with_id(params[:id]).first
-      end
+      @actor                        = current_actor
+      @message                      = @actor.messages.with_id(params[:id]).first
       if @message
         @message.update_attribute("opened",true)
-        @messages   = @message.conversation      
+        @messages                   = @message.conversation
+        @unread_messages_count      = @actor.received_messages.unread.count
+#        messages_and_posts_count
       end
     rescue =>e
       logger.info "message error: #{e.message}"
@@ -75,52 +72,40 @@ class MessagesController < ApplicationController
 
   def destroy
     begin
-      if params[:band_id].present?
-        @band     = Band.where(:id => params[:band_id]).first
-        raise unless current_user.is_admin_of_band?(@band)
-        @message  = @band.messages.with_id(params[:id]).first
-      else
-        @message  = current_user.messages.with_id(params[:id]).first
-      end
+      @actor        = current_actor
+      @message      = @actor.messages.with_id(params[:id]).first      
       if @message
-        @deleted = @message.destroy
+        @deleted    = @message.destroy
       else
-        @deleted = false
+        @deleted    = false
       end
-    rescue =>e
-      logger.info "message error: #{e.message}"
+    rescue =>exp
+      logger.info "Error in Messages::Destroy :=> #{exp.message}"
       render :nothing => true
     end    
   end
 
   def new
     redirect_to user_profile_url(params[:id]) and return unless request.xhr?
-    @to       = params[:id]
-    @message  = ActsAsMessageable::Message.new
+    @to             = params[:id]
+    @message        = ActsAsMessageable::Message.new
   end
 
   def create
-    to = User.find(params[:to])
-    current_user.send_message(to,params[:body])
+    to              = User.find(params[:to])
+    current_user.send_message(to, params[:body])
   end
   
  def reply
    begin
-     @msg = ActsAsMessageable::Message.find(params[:id])
-     if params[:band_id].present?
-       band = Band.where(:id => params[:band_id]).first
-       raise unless current_user.is_admin_of_band?(band)
-       if band.id == @msg.sent_messageable_id || band.id == @msg.received_messageable_id
-         @reply_msg = band.reply_to(@msg,:body=>params[:body])
-       end
-     else current_user.id == @msg.sent_messageable_id || current_user.id == @msg.received_messageable_id
-        @reply_msg = current_user.reply_to(@msg,:body=>params[:body])
-     end
-   rescue 
+     @message       = ActsAsMessageable::Message.find(params[:id])
+     @actor         = current_actor
+     @reply_msg     = @actor.reply_to(@message,:body=>params[:body])     
+     @messages      = @message.conversation
+   rescue =>exp
+     logger.error "Error in Messages::Reply :=> #{exp.message}"
      render :nothing => true and return
-   end
-   @message = @msg   
-   @messages = @message.conversation
+   end   
  end
   
 end

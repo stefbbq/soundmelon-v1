@@ -4,9 +4,11 @@ class PlaylistsController < ApplicationController
   
   def add
     begin
-      song = Song.find(params[:id])
-      Playlist.add_song_for(current_user.id, song.id)
-    rescue
+      @song   = Song.find(params[:id])
+      Playlist.add_song_for(current_user.id, @song.id)
+      @songs  = [@song]
+    rescue =>exp
+      logger.error "Error in Playlist::Add :=>#{exp.message}"
       render :nothing => 'true' and return
     end
   end
@@ -15,7 +17,8 @@ class PlaylistsController < ApplicationController
     begin
       song = Song.find(params[:id])
       Playlist.remove_song_for(current_user.id, song.id)
-    rescue
+    rescue =>exp
+      logger.error "Error in Playlist::Remove :=>#{exp.message}"
       render :nothing => 'true' and return
     end
   end
@@ -25,7 +28,8 @@ class PlaylistsController < ApplicationController
       @song_album = SongAlbum.find(params[:id])
       Playlist.add_whole_album_songs_for(current_user.id, @song_album)
       @songs     = @song_album.songs
-    rescue
+    rescue =>exp
+      logger.error "Error in Playlist::AddAllSongsOfAlbum :=>#{exp.message}"
       render :nothing => 'true' and return
     end
   end

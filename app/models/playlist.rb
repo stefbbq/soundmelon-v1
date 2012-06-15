@@ -5,7 +5,7 @@ class Playlist < ActiveRecord::Base
   validates :user_id, :uniqueness => {:scope => :song_id} 
   
   def self.add_song_for(user_id, song_id)
-    Playlist.create!(:user_id => user_id, :song_id => song_id)
+    Playlist.find_or_create_by_user_id_and_song_id(user_id, song_id)
   end
   
   def self.remove_song_for(user_id, song_id)
@@ -19,7 +19,7 @@ class Playlist < ActiveRecord::Base
   
   def self.add_whole_album_songs_for(user_id, song_album)
     song_album.songs.each do |song|
-      Playlist.create(:user_id => user_id, :song_id => song.id)
+      Playlist.find_or_create_by_user_id_and_song_id(user_id, song.id)
     end
   end
   
