@@ -5,10 +5,10 @@ class Band < ActiveRecord::Base
 
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user
-  has_many :band_albums, :order => 'created_at desc'
+  has_many :band_albums, :order => 'created_at desc', :dependent =>:destroy
   has_many :band_tours, :order =>'created_at desc'
   has_many :band_invitations, :dependent => :destroy
-  has_many :song_albums, :order => 'created_at desc'
+  has_many :song_albums, :order => 'created_at desc', :dependent =>:destroy
   has_many :posts, :dependent => :destroy
   has_many :mentioned_posts
   has_many :songs, :through => :song_albums

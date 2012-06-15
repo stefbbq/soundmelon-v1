@@ -13,9 +13,6 @@ class BandLogo < ActiveRecord::Base
   validates_attachment_size :logo, :less_than => 5.megabytes    
   validates_attachment_presence :logo
 
-#  before_create :fill_bandid
-
-  attr_protected  :band_id, :bandid
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   after_update :reprocess_logo, :if => :cropping?
 
@@ -37,14 +34,10 @@ class BandLogo < ActiveRecord::Base
     @geometry[style] ||= Paperclip::Geometry.from_file(logo.path(style))
   end
 
-
   private
 
   def reprocess_logo
     logo.reprocess!
   end
 
-  def fill_bandid
-    self.bandid = self.band_id
-  end
 end

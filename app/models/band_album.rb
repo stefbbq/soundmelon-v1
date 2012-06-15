@@ -2,7 +2,7 @@ class BandAlbum < ActiveRecord::Base
   acts_as_votable
   belongs_to :user
   belongs_to :band
-  has_many :band_photos, :after_add => :set_cover_image
+  has_many :band_photos, :after_add => :set_cover_image, :dependent =>:destroy
   belongs_to :cover_image, :class_name =>'BandPhoto'
 
   has_many  :posts, :as =>:postitem, :dependent => :destroy

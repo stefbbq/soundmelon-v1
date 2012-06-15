@@ -13,9 +13,6 @@ class ProfilePic < ActiveRecord::Base
   validates_attachment_size :avatar, :less_than => 5.megabytes
   validates_attachment_presence :avatar
 
-  before_create :fill_userid
-
-  attr_protected  :user_id, :userid
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   after_update :reprocess_avatar, :if => :cropping?
 
@@ -37,15 +34,10 @@ class ProfilePic < ActiveRecord::Base
     @geometry[style] ||= Paperclip::Geometry.from_file(avatar.path(style))
   end
 
-
   private
 
   def reprocess_avatar
     avatar.reprocess!
-  end
-
-  def fill_userid
-    self.userid = self.user_id
   end
 
 end

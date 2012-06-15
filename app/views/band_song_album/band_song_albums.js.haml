@@ -1,20 +1,16 @@
-- if @artist_song_albums.blank?
-  != "$('#facebox .content').html('Has not uploaded any song albums by band admin');"
-  != "setTimeout('$(document).trigger(\"close.facebox\")',1000);" 
-- else  
-  - song_albums = capture do
-    - if @has_admin_access
-      = render 'featured_songs', :featured_songs =>@band.featured_songs
-    .clear
-    .album_lists
-      .album_list_header
-        %b Albums
-        - if @has_admin_access
-          .add_new{:style=>'float:right;background-color:grey;height:20px;width:70px;padding-left:10px;'}
-            = link_to "add album", new_band_song_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen", :title =>'Add new song album'
-        %hr
-      - @artist_song_albums.each do |song_album|
-        = render 'band_song_album', :song_album =>song_album, :show_all =>@show_all || false
+- song_albums = capture do
+  - if @has_admin_access
+    = render 'featured_songs', :featured_songs =>@band.featured_songs
+  .clear
+  .album_lists
+    .album_list_header
+      %b Albums
+      - if @has_admin_access
+        .add_new{:style=>'float:right;background-color:grey;height:20px;width:70px;padding-left:10px;'}
+          = link_to "add album", new_band_song_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen", :title =>'Add new song album'
+      %hr
+    - @artist_song_albums.each do |song_album|
+      = render 'band_song_album', :song_album =>song_album, :show_all =>@show_all || false
 $('.primary .left').html('#{escape_javascript song_albums}'); 
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist')

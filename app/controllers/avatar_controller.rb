@@ -2,8 +2,8 @@ class AvatarController < ApplicationController
   before_filter :require_login, :set_actor_and_entities
 
   def new
-    begin
-      @profile_pic = @user.build_profile_pic
+    begin      
+      @profile_pic = ProfilePic.new(:user_id =>@user.id)
     rescue =>exp
       logger.error "Error in Avatar::New :=> #{exp.message}"
       render :nothing =>true and return
@@ -54,7 +54,7 @@ class AvatarController < ApplicationController
 
   def new_logo
     begin
-      @artist_logo      = @artist.build_band_logo
+      @artist_logo      = BandLogo.new(:band_id=>@artist.id)      
     rescue =>exp
       logger.error "Error in Avatar::NewLogo :=> #{exp.message}"
     end

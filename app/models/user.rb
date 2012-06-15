@@ -1,27 +1,27 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
 
-  acts_as_messageable :required => :body #,:order => "created_at desc" 
+  acts_as_messageable :required => :body ,:order => "created_at desc" 
   acts_as_followable
   acts_as_follower
   
   has_many :user_posts, :order => "created_at desc"
   #has_one :band_user
-  has_many :band_users
+  has_many :band_users, :dependent =>:destroy
   has_many :bands, :through => :band_users
   has_one  :additional_info
   has_one  :payment_info
   has_many :band_invitations
-  has_many :albums
+  has_many :albums, :dependent =>:destroy
   has_one  :profile_pic
   has_many :band_albums
   has_many :band_photos
   has_many :songs
   has_many :song_albums
   has_many :posts, :dependent => :destroy
-  has_many :mention_posts
-  has_many :playlists
-  has_many :genre_users
+  has_many :mention_posts, :dependent =>:destroy
+  has_many :playlists, :dependent =>:destroy
+  has_many :genre_users, :dependent =>:destroy
   has_many :genres, :through =>:genre_users
 
   has_many :top_genres,

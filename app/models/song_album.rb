@@ -6,7 +6,7 @@ class SongAlbum < ActiveRecord::Base
 
   belongs_to  :user
   belongs_to  :band
-  has_many    :songs
+  has_many    :songs, :dependent =>:destroy
   has_many    :posts, :as =>:postitem, :dependent => :destroy
 
   after_create :create_newsfeed
