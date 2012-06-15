@@ -1,0 +1,29 @@
+//icons
+
+@import 'compass/utilities/sprites/sprite-img';
+
+//player
+.jp-play { @include sprite-img("sprites-40.png", 1, 1, 40px, 40px)}
+.jp-pause { @include sprite-img("sprites-40.png", 2, 1, 40px, 40px)}
+.jp-pre { @include sprite-img("sprites-32.png", 1, 2); margin-bottom: 3px; }
+.jp-next { @include sprite-img("sprites-32.png", 2, 2); margin-bottom: 3px; }
+
+//live
+.facebook-icon { @include sprite-img("sprites-24.png", 1, 3, 24px, 24px); }
+.twitter-icon { @include sprite-img("sprites-24.png", 2, 3, 24px, 24px); }
+
+//right
+.icon-add {	@include sprite-img("sprites-24.png", 1, 1, 24px, 24px); }
+.icon-remove { @include sprite-img("sprites-24.png", 2, 1, 24px, 24px); }
+
+
+//post
+.action-reply { i {	@include sprite-img("sprites-16.png", 1, 1, 16px, 16px); }}
+.action-repost { i {	@include sprite-img("sprites-16.png", 2, 1, 16px, 16px); }}
+.action-delete { i {	@include sprite-img("sprites-16.png", 3, 1, 16px, 16px); }}
+
+//artist content
+.download-icon { @include sprite-img("sprites-24.png", 1, 2, 24px, 24px); }
+.play-icon { @include sprite-img("sprites-24.png", 2, 2, 24px, 24px); }
+.queue-icon { @include sprite-img("sprites-24.png", 3, 2, 24px, 24px); }
+.buzz-icon { @include sprite-img("sprites-24.png", 4, 2, 24px, 24px); }

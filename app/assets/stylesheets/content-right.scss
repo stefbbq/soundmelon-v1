@@ -1,6 +1,5 @@
 //sidebar
 
-@import 'compass/utilities/sprites/sprite-img';
 @import 'compass/css3';
 @import 'mixins';
 @import 'vars';
@@ -129,6 +128,7 @@
     .album {
       margin: 5px 2px;
       background: #363636;
+
       .album_teaser_image {
         width: 80px;
         height: 80px;
@@ -250,8 +250,4 @@
 			opacity: 1;
 		}
 	}
-	
-	//icons
-	.icon-add {	@include sprite-img("sprites-24.png", 1, 1, 24px, 24px); }
-	.icon-remove { @include sprite-img("sprites-24.png", 2, 1, 24px, 24px); }
 }

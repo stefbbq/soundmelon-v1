@@ -1,6 +1,5 @@
 //contains links and persistant/reusable elements (logo, background, footer, etc)
 
-@import 'compass/utilities/sprites/sprite-img';
 @import 'compass/css3'; //compass css3 mixins
 @import 'mixins'; //custom mixins
 @import 'vars'; //global variables
@@ -164,15 +163,11 @@
 						width: 32px;
 						height: 32px;
 					}
-					.jp-pre { @include sprite-img("sprites-32.png", 1, 2); margin-bottom: 3px; }
-					.jp-next { @include sprite-img("sprites-32.png", 2, 2); margin-bottom: 3px; }
 					.play-pause, .jp-play, .jp-pause {
 						width: 40px;
 						height: 40px;
 					}
 					.jp-play, .jp-pause { display: block; }
-					.jp-play { @include sprite-img("sprites-40.png", 1, 1, 40px, 40px)}
-					.jp-pause { @include sprite-img("sprites-40.png", 2, 1, 40px, 40px)}					
 				}
 				.jp-volume-bar {
 					margin: 0 0 9px 15px;
@@ -331,7 +326,66 @@
 //
 //main overlay
 #facebox {
-  color:#000;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  z-index: 2000;
+  text-align: left;
+	color: #111;
+
+  .popup {
+		@include box-shadow(rgba(black, .4), 0px, 2px, 10px);
+    position: relative;
+		left: -50%;
+	}
+
+  .content {
+		@include border-radius($border-radius);
+		background: rgba(white, .9);
+    display: table;
+    width: 370px;
+    padding: 10px;
+    
+
+    > p {
+      &:first-child {
+        margin-top: 0; 
+		}
+      &:last-child {
+        margin-bottom: 0; 
+			} 
+		} 
+	}
+
+  .buzz_list {
+    height: 200px;
+    overflow: auto; 
+	}
+
+  .close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 2px;
+    background: #fff;
+    img {
+      opacity: 0.3; 
+		}
+    &:hover img {
+      opacity: 1.0;
+		} 
+	}
+
+  .loading, .image {
+    text-align: center; 
+	}
+  
+	img {
+    border: 0;
+    margin: 0;
+    padding: 2px; 
+	} 
+	
   .shaded {color:#776B6B;}
   h2 {font-size:13px;color:#000;}
   h1 {font-size:2*$size;color:#000;}
@@ -367,6 +421,55 @@
     }
   }
 }
+
+#facebox_overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%; }
+
+.facebox_hide {
+  z-index: -100; }
+
+.facebox_overlayBG {
+  background-color: #000;
+  z-index: 1999; }
+
+#facebox {
+  date {
+    display: block;
+    background: url(base-feed-date.png);
+    position: absolute;
+    margin: 39px 0 20px -45px;
+    width: 76px;
+    height: 28px;
+    float: left;
+    text-align: right;
+    color: #555555;
+    font-weight: bold;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
+    &:first-of-type {
+      margin-top: 28px; }
+    > div {
+      margin: 6px 4px 0 0; }
+    h1, h2 {
+      display: inline;
+      font-family: Arial;
+      text-transform: uppercase; }
+    h1 {
+      font-size: 15px;
+      font-weight: bold; }
+    h2 {
+      font-size: 22px; } }
+  .post {
+    padding-bottom: 15px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1); } }
+
+
 .age {font-size:2*$size;color:#fff;}
 .fields {   
   label {

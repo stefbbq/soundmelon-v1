@@ -14,11 +14,11 @@
             - if actor.is_fan?
               %span{:id =>'follow_link'}
                 - if actor.following?(@user)
-                  = link_to 'unfollow', unfollow_user_path(@user, :others => 1), :remote => true, :class => 'ajaxopen'
+                  = link_to 'unfollow', unfollow_user_path(@user, :others => 1), :remote => true, :class => 'ajaxopen text-action'
                 - else
-                  = link_to 'follow', follow_user_path(@user), :remote => true, :class => 'ajaxopen'
+                  = link_to 'follow', follow_user_path(@user), :remote => true, :class => 'ajaxopen text-action'
               //message
-              = link_to 'message', new_message_path(:id =>@user.id),:remote=>:true,:class=>"ajaxopen"
+              = link_to 'message', new_message_path(:id =>@user.id),:remote=>:true,:class=>"ajaxopen text-action"
       .sub-head
         = @user.get_full_address
       .description

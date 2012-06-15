@@ -4,7 +4,7 @@
 != "$('#user_post_form')[0].reset();"
 if($('.user_posts .msg').length>0){$('.user_posts').html('');}
 - if @post.is_bulletin
-  != "if($('#bulletin_board div').length==0){$('<date id=\"bulletin_board\"><div><h1>Bulletin</h1></div></date>').insertBefore($('.user_posts'));}"
+  != "if($('#pin-board div').length==0){$('<date id=\"pin-board\"><div><h1>Bulletin</h1></div></date>').insertBefore($('.user_posts'));}"
   != "if($('.bulletin_posts').length==0){$('<div class=\"bulletin_posts\"></div><br/>').insertBefore($('.user_posts'));}"
   != "$('.bulletin_posts').prepend('#{escape_javascript(render 'user_posts/post', :post => @post)}');"
 - else

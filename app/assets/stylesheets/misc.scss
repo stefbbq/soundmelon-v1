@@ -18,9 +18,6 @@
   font-size:2*$size; color:#1AD327;
   a{ color:#1AD327;}
 }
-.redtext{}
-.bluetext{}
-.yellowtext{}
 .album, .album_photo {
   float:left;
   padding: 5px;
@@ -49,26 +46,6 @@
 			 }
 	   }
 
-}
-.album {
-   width: 100%;
-   background: #212121;
-   margin: 3px;
-   a {color: #d1d1d1; text-decoration:none;}
-  .album_info_wrapper{
-    background: #4d4d4d; 
-    .album_teaser_image{
-      float: left;
-    } 
-    .album_info{
-      .album_name {font-size:20px; float:left; padding-top:5px; padding-left:30px;}
-      .album_controls{float:right;}
-    }
-    margin-bottom:5px;
-  }
-  .additional_info{
-    .song_stats{font-size:14px; float:left; padding-left: 50px; padding-top:5px;}
-  }
 }
 
 .song{
