@@ -11,11 +11,11 @@ $(document).ready( function(){
       });
     },
     open: function(event, ui) {
-      $('ul.ui-autocomplete').addClass('search-autocomplete').prepend('<div class="pointer"></div>').removeClass(' ui-menu ui-widget ui-widget-content ui-corner-all');      
+      $('ul.ui-autocomplete').addClass('search-autocomplete').prepend('<div class="pointer"></div>').removeClass('ui-menu ui-widget ui-widget-content ui-corner-all');      
     },
     select: function(event, ui) {          
-          $('#searchform input#term').val(ui.item.label);          
-          $("#search").submit();
+     	$('#searchform input#term').val(ui.item.label);          
+      $("#search").submit();
     }
   });
                 
@@ -38,7 +38,7 @@ $(document).ready( function(){
     else{
       if(parseInt($(this).val().length) > 200){
         $(".post-btn").attr('disabled','disabled');
-        $(".inputerror").html('No more than 100 charactres');
+        $(".inputerror").html('no more than 200 charactres');
       }
       else{
         $(".post-btn").removeAttr('disabled');

@@ -1,6 +1,6 @@
 - if @user.is_fan?
   $('.live').replaceWith('#{escape_javascript(render '/fan/live')}');
-  $('.primary .left').html('#{escape_javascript(render 'user_posts/form')}');
+  $('.primary .left').html('#{escape_javascript(render 'user_posts/status_fan')}');
   $('.primary .left').append('#{escape_javascript(render 'fan/social_header', :current =>'mention')}');
   $('.primary .left').append('#{escape_javascript(render 'bricks/fan_posts', :current =>'mention')}');  
   setTimeout('$(document).trigger(\"close.facebox\")',10);
@@ -9,7 +9,7 @@
   $('.primary #mentions').addClass('active').addClass('button-fill-fan');
   $('.primary .right a#feed-msg').addClass('active').addClass('button-fill-fan');
 - else
-  $('.primary .left').html('#{escape_javascript(render '/user_posts/status_input')}');
+  $('.primary .left').html('#{escape_javascript(render '/user_posts/status_artist')}');
   $('.primary .left').append('#{escape_javascript(render '/artist/social_header', :current =>'mention')}');
   $('.primary .left').append('#{escape_javascript(render '/bricks/artist_posts', :current =>'mention')}');  
   setTimeout('$(document).trigger(\"close.facebox\")',10);

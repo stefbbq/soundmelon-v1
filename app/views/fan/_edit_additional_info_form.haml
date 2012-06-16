@@ -9,18 +9,18 @@
       picks
   .content
     = form_for(:additional_info, {:url => create_additional_info_path, :remote => true, :class => 'ajaxopen'}) do |f|
-      .field
+      .field.f
         %label{:for => "name"} gender
-        = f.select :gender, [['Male',1],['female', '0']], :class => 'textfield1'
+        = f.select :gender, [['male',1],['female', '0']]
       .field
         %label{:for => "name"} age
-        = f.text_field :age, :size => 5, :class => 'textfield'
+        = f.text_field :age, :size => 5, :class => 'textfield long'
       .field
         %label{:for => "name"} location
-        = f.text_field :location, :size => 40, :class => 'textfield location-auto-search-complete'
+        = f.text_field :location, :size => 40, :class => 'textfield location-auto-search-complete long'
       .field
         %label{:for => "name"} favourite genres
-        = f.text_field :favourite_genre, :size => 30, :class => 'textfield'
+        = f.text_field :favourite_genre, :size => 30, :class => 'textfield long'
       = f.submit 'make it so', :class => 'button'
 :javascript
   $('.location-auto-search-complete').autocomplete({

@@ -52,7 +52,7 @@
             - connection_link       = follow_band_path(:band_name =>user.name)
             - connection_link_text  = 'follow'
             - change_connection     = true
-
+            
   - else
     - if @actor.is_fan?
       - if @actor == connection_item
@@ -70,10 +70,10 @@
   .item{:id => item_div_id}
     = link_to image, link, :remote =>:true, :class => 'ajaxopen backable avatar'
     .content
-      %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'
-      %br
-      - unless location.blank?
-        #{location}      
+      %h4
+        %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'
+        - unless location.blank?
+          #{location}      
     - if change_connection
       .actions
         = link_to connection_link_text, connection_link, :remote =>:true, :class =>'ajaxopen'

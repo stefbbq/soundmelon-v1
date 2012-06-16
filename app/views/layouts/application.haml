@@ -5,14 +5,7 @@
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = csrf_meta_tags
-    = yield(:head)
-    :javascript
-      $(document).ready( function(){
-        					$(".sitem, .menu>ul>li, .searchinput, .search, .logout, .numbericon,.othericon,.othericon1").corner("round");
-        					$(".circle").corner("40px");
-        					$(".logo").corner("20px");
-        					$(".loginfields, .login, .button,.join,.textfield,.radiolabel").corner("round");
-      				});              
+    = yield(:head)          
   - if current_user #user logged in
     %body
       = link_to "", feedback_start_path, :remote =>true, :class => "ajaxopen", :id => 'feedback'

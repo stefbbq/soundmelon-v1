@@ -1,4 +1,4 @@
-$('.primary .left').html('#{escape_javascript(render 'status_input')}');
+$('.primary .left').html('#{escape_javascript(render 'status_artist')}');
 $('.primary .left').append('#{escape_javascript(render 'artist/social_header', :current =>'reply')}');
 $('.primary .left').append('#{escape_javascript(render 'bricks/artist_posts', :current =>'reply')}');
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');

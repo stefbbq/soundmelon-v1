@@ -21,9 +21,15 @@
 .action-reply { i {	@include sprite-img("sprites-16.png", 1, 1, 16px, 16px); }}
 .action-repost { i {	@include sprite-img("sprites-16.png", 2, 1, 16px, 16px); }}
 .action-delete { i {	@include sprite-img("sprites-16.png", 3, 1, 16px, 16px); }}
+.action-buzz { i {	@include sprite-img("sprites-16.png", 4, 1, 16px, 16px); }}
 
 //artist content
 .download-icon { @include sprite-img("sprites-24.png", 1, 2, 24px, 24px); }
 .play-icon { @include sprite-img("sprites-24.png", 2, 2, 24px, 24px); }
 .queue-icon { @include sprite-img("sprites-24.png", 3, 2, 24px, 24px); }
 .buzz-icon { @include sprite-img("sprites-24.png", 4, 2, 24px, 24px); }
+
+.download-sm-icon { @include sprite-img("sprites-16.png", 1, 3, 16px, 16px); }
+.play-sm-icon { @include sprite-img("sprites-16.png", 2, 3, 16px, 16px); }
+.queue-sm-icon { @include sprite-img("sprites-16.png", 3, 3, 16px, 16px); }
+.buzz-sm-icon { @include sprite-img("sprites-16.png", 4, 3, 16px, 16px); }

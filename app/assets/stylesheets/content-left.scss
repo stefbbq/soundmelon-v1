@@ -140,12 +140,16 @@
 					right: 0;
 
 					span { color: $text-faded-color; }
-					&:hover { 
-						span { color: $text-color; }
-						i { opacity: 1; }
+					a {
+						margin-left: 5px;
+						
+						&:hover { 
+							span { color: $text-color; }
+							i { opacity: 1; }
+						}
 					}
 					
-					i { width: 16px; height: 16px; opacity: .5; margin: -3px 0; }
+					i { width: 16px; height: 16px; opacity: .5; margin: -3px -1px; }
 					}	
 				}
 			}
@@ -257,9 +261,10 @@
 		}
 		
 		//name, description
+		h4 { margin: 0px; }
 		.content {
 			display: inline-block;
-			margin-left: 6px; 
+			margin: 15px 0 0 6px;
 			
 			> span {
 				display: block;
@@ -270,7 +275,7 @@
 		.actions { 
 			float: right;
 			display: block;
-			margin-top: 14px;
+			margin-top: 16px;
 			
 			a {	@include inverted-button();	}
 		}
@@ -368,6 +373,28 @@
 		}
 	}
 	
+	.song {
+		padding: 5px 0;
+		background: rgba(red, .1);
+		overflow: hidden;
+		margin-top: 5px;
+		.title {
+			float: left;
+		}
+		
+		.artist-content-actions-sm {
+			float: right;
+
+
+
+			div {
+				width: 16px;
+				display: inline-block;
+			}
+		}
+	}
+	
+	
 	//
 	//forms
 	.form {
@@ -436,14 +463,18 @@
 			}
 
 			.field {
-				width: 90%;
+				width: 95%;
 				margin-top: 3px;
+				min-height: 20px;
 				
 				label {
 					display: inline-block;
 					width: 60px;
 					text-align: right; 
 					margin-right: 2px;
+				}
+				select {
+					height: 20px;
 				}
 				input, textarea {
 					@include border-radius($border-radius);
@@ -460,6 +491,9 @@
 				}
 				.input-disabled {
 					opacity: .5;
+				}
+				.long {
+					width: 244px;
 				}
 			}
 			

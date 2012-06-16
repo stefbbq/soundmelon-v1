@@ -18,10 +18,6 @@
         %label{:for=>"name"}
           last
         = f.text_field :lname
-      .field
-        %label{:for=>"name"}
-          username
-        = f.text_field :mention_name, :readonly =>true
       .lock-toggle
       = submit_tag 'update it, it\'s legal', :class => 'button', :id =>'basic_form_submit', :disabled =>:true
 :javascript  

@@ -21,3 +21,12 @@
         $(this).val('');
       });
   });
+  $('.status-input .input-box').focus(function() {
+    if($(this).val()=='share something...')
+      $(this).val('');
+  });
+  $('.status-input .input-box').keypress(function() {
+    if(!$(this).val()){
+      $('.post-btn').css({ opacity: 1 });
+    }
+  });

@@ -1,5 +1,5 @@
 - selected ||=false
-- link_class  = selected ? 'selection-box iconactive ajaxload button-fill-fan backable' : 'selection-box iconactive ajaxload backable'
+- link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-fan backable' : 'selection-box iconactive ajaxload backable'
 %div{:style=>"position: relative;"}
   - if following_fan_count > 0
     = link_to fan_following_fans_path(:id =>user.id), {:id=>'following-fan', :class=>link_class, :remote => true} do
@@ -7,7 +7,6 @@
       %span.count
         = pluralize(following_fan_count,'fan')
       = link_to 'see all', fan_following_fans_path(:id =>user.id), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless following_fan_count < Constant::FOLLOWING_FAN_SHOW_LIMIT
-
   - else
     .selection-box-nohref
       following

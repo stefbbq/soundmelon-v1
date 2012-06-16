@@ -3,7 +3,7 @@
   $('#page-content').append('<div class="primary-container"></div>');
   $('.primary-container').append('<div class="primary"></div>');
   $('.primary').append('<div class="left"></div>');
-  $('.primary .left').append('#{escape_javascript(render '/user_posts/form')}');
+  $('.primary .left').append('#{escape_javascript(render '/user_posts/status_fan')}');
   $('.primary .left').append('#{escape_javascript(render '/fan/social_header')}');
   $('.primary .left').append('#{escape_javascript(render '/bricks/fan_posts')}');
   $('.primary').append('<div class="right"></div>');
@@ -15,7 +15,7 @@
   $('#latest').addClass('active').addClass('button-fill-fan');
 - elsif @is_artist  
   $('.live').replaceWith('#{escape_javascript(render '/artist/live')}');
-  $('.primary .left').html('#{escape_javascript(render '/user_posts/status_input')}');
+  $('.primary .left').html('#{escape_javascript(render '/user_posts/status_artist')}');
   $('.primary .left').append('#{escape_javascript(render '/artist/social_header')}');
   $('.primary .left').append('#{escape_javascript(render '/bricks/artist_posts')}');
   $('.primary .right').html('#{escape_javascript(render '/artist/right')}');
