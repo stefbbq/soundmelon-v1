@@ -29,10 +29,16 @@ class Band < ActiveRecord::Base
   before_validation :sanitize_mention_name  
   
   searchable do
-    text :genre
+    text :genres_name
     text :name
   end
-  
+
+  def genres_name
+    genres_name_list = ''
+    self.genres.map{|gen| genres_name_list += "#{gen.name},"}
+    genres_name_list.chomp(',')
+  end
+
   def genre_tokens=(ids)
     self.genre_ids = ids.split(",")
   end

@@ -1,4 +1,17 @@
-!= "$('.user_posts').append('#{escape_javascript(render 'user_posts/post_aggregate', :posts => @posts)}');"
+- unless @posts_order_by_dates.blank?
+  - first_date      = @posts_order_by_dates.first.first
+  - first_date_div  = "date_#{first_date.split('-').join()}"
+  - posts_html = capture do
+    - @posts_order_by_dates.each do |date, posts|
+      %date{:id =>"date_#{date.split('-').join()}"}
+        %div
+          %h1
+            = date.to_date.strftime('%b')
+          %h2
+            = date.to_date.strftime('%d')
+      = render 'user_posts/post_aggregate', :posts => posts
+
+!= "$('.user_posts').append('#{escape_javascript(posts_html)}');"
 != "$('.read-more a').attr('href','#{@load_more_path}');"
 -if @load_more_path.nil?
   != "$('.read-more a').hide();"

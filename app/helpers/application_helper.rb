@@ -221,6 +221,40 @@ module ApplicationHelper
     [content.html_safe, message.html_safe]
   end
 
+  # returns the message for buzz items for song, song album, artist photo, artist photo album, artist show
+  # linked with corresponding buzzed items
+  def post_message post, postitem
+    content         = " wrote about "    
+    if post && postitem
+      band            = postitem.band
+      if post.band_album_post?
+        album_name    = postitem.name
+        album_path    = "#{band_album_path(band.name, album_name)}"
+        content       += "<a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+      elsif post.band_photo_post?
+        album         = postitem.band_album
+        album_name    = album.name
+        album_path    = "#{band_album_path(band.name, album_name)}"
+        content       += "<a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"        
+      elsif post.band_tour_post?
+        show_id       = postitem.id
+        show_venue    = postitem.venue
+        show_country  = postitem.country
+        show_path     = band_tour_path(band.name,show_id)
+        content       += "<a href='#{show_path}' class='ajaxopen' remote=true>show</a>(at #{show_venue}, #{show_country})"
+      elsif post.song_post?
+        album_name    = postitem.song_album.album_name
+        album_path    = "#{band_song_album_path(band.name, album_name)}"
+        content       += "#{post_item.title} </a>"
+      elsif post.song_album_post?
+        album_name    = postitem.album_name
+        album_path    = "#{band_song_album_path(band.name, album_name)}"
+        content       += "<a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+      end
+    end
+    content.html_safe
+  end
+
   # prepares the detail for individual song
   def song_detail song
     actor         = current_user

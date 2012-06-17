@@ -50,24 +50,7 @@
   - elsif post.is_bulletin
     has pinned this to their profile
   - elsif post_item
-    - if post.song_post?
-      wrote about
-      %b #{post_item.title}
-      's song
-    - elsif post.song_album_post?
-      wrote about 
-      %b #{post_item.album_name}
-      's song album
-    - elsif post.band_album_post?
-      wrote about
-      %b #{post_item.name}
-      's photo album
-    - elsif post.band_tour_post?
-      - post_band     = post_item.band
-      - band_name     = post_band ? post_band.name : ''
-      wrote about 
-      %b #{band_name}
-      's show
+    #{post_message(post, post_item)}
   - else
     wrote this
   #{time_ago_in_words(post.created_at)} ago

@@ -11,8 +11,7 @@
             - if user == current_user
               = link_to get_avatar_medium(user), fan_home_url
             - else
-              = link_to get_avatar_medium(user), fan_profile_path(user)
-            / RESULT INFO
+              = link_to get_avatar_medium(user), fan_profile_path(user)            
             .info
               %h3
                 - if user == current_user
@@ -24,11 +23,11 @@
         .bands_header
           %h3 BANDS
         - @band_search_results.results.each do |band|
+          - band_link_header = band.genre.blank? ? band.name : "#{band.name} (#{band.genres_name})"
           .row
-            = link_to get_band_logo_medium(band), show_band_path(band.name)
-            / RESULT INFO
+            = link_to get_band_logo_medium(band), show_band_path(band.name)            
             .info
-              %h3= link_to  "#{band.name} (#{band.genre})", show_band_path(band.name)
+              %h3= link_to band_link_header, show_band_path(band.name)
             .clear
     - else
       %h3

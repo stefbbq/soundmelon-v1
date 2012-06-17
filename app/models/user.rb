@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   has_many :songs
   has_many :song_albums
   has_many :posts, :dependent => :destroy
-  has_many :mention_posts, :dependent =>:destroy
+  has_many :mention_posts
   has_many :playlists, :dependent =>:destroy
   has_many :genre_users, :dependent =>:destroy
   has_many :genres, :through =>:genre_users

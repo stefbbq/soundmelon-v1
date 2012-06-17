@@ -11,6 +11,5 @@
     var new_url = "#{search_index_path}?q=" + $('input#term').val();
     history.pushState({
       sm:true
-    }, document.title, new_url);
-    $('.auto_search_complete').autocomplete('close');
+    }, document.title, new_url);    
   });

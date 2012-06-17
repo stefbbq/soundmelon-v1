@@ -183,21 +183,22 @@ class UserPostsController < ApplicationController
         if params[:type] && params[:type] == 'general'
           @posts          = @band.find_own_posts(params[:page])
           next_page       = @posts.next_page
-          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page) : nil
+          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => params[:type]) : nil
         elsif params[:type] && current_user.is_admin_of_band?(@band)
           if params[:type] == 'replies'
             @posts = @band.replies_post(params[:page])
           elsif params[:type] == 'mentions'
             @posts = @band.mentioned_in_posts(params[:page])
           else
-            @posts = @band.find_own_as_well_as_mentioned_posts(params[:page])
+            @posts    = @band.find_own_as_well_as_mentioned_posts(params[:page])
           end
           @is_admin_of_band = true
-          next_page = @posts.next_page
+          next_page   = @posts.next_page
           @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => params[:type]) : nil
         else
           render :nothing => true and return
         end
+        @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       rescue
         render :nothing => true and return
       end
