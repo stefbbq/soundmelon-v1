@@ -1,0 +1,6 @@
+.primary-container
+  .primary
+    .left
+      = render '/admin/invitations', :invitations =>@invitations, :sent_list =>@sent_list
+    .right
+      = render "/admin/right"

@@ -190,6 +190,10 @@ class User < ActiveRecord::Base
     true
   end
 
+  def assign_admin_role
+    self.update_attribute(:user_account_type, USER_TYPE_ADMIN)
+  end
+
   ######### Invitation Specific Code #########################################################
   validates :invitation_id, :presence =>true, :on =>:create
   validates_uniqueness_of :invitation_id

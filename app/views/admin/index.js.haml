@@ -1,0 +1,8 @@
+$('.primary .left').html('');
+$('.primary .left').html('#{escape_javascript(render '/admin/invitations', :invitations=> @invitations, :sent_list =>@sent_list)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.selection-box').removeClass('active').removeClass('button-fill-artist');
+- if @sent_list
+  $('#sent_invitation_request').addClass('active').addClass('button-fill-artist');
+- else
+  $('#invitation_request').addClass('active').addClass('button-fill-artist');

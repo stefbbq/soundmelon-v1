@@ -14,6 +14,10 @@ Soundmelon::Application.routes.draw do
   post 'login'                                => 'sessions#create',                 :as => :login
 
   get 'ChangeLogin(/:artist_name)'            => 'user#change_login',               :as => :change_login
+
+  # administrator section
+  get '/home/admin(/:sent)'                   => 'admin#index',                     :as => :admin_home #home
+  get '/home/admin/:id/:opcode'               => 'admin#invitation_request_handler',:as => :request_handler
   #fan
   get 'home'                                  => 'user#index',                      :as => :user_home #home
   #fan
@@ -176,8 +180,8 @@ Soundmelon::Application.routes.draw do
   get 'connection/remove/artist/:band_name'       => 'user_connections#disconnect_artist',   :as => :remove_artist_connection
   
   # follow/un-follow fan
-  get 'follow/fan/:id'                    => 'user_connections#follow',                   :as => :follow_user
-  get 'unfollow/fan/:id'                  => 'user_connections#unfollow',                 :as => :unfollow_user
+  get 'follow/fan/:id(/:self)'                    => 'user_connections#follow',                   :as => :follow_user
+  get 'unfollow/fan/:id(/:self)'                  => 'user_connections#unfollow',                 :as => :unfollow_user
   #---------------------------------------------------------------------------------------------------------------
   #message band
   get ':band_name/message/new'            => 'artist_public#new_message',                 :as => :band_new_message

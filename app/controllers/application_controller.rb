@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   
   after_filter :messages_and_posts_count
 
-  helper_method :current_actor
+  helper_method :current_actor, :admin_login?
 
   protected
 
@@ -97,6 +97,11 @@ class ApplicationController < ActionController::Base
   # removes the current artist id(when a ban leaves administrating the artist profile)
   def reset_current_fan_artist
     session[:artist_id] = nil
+  end
+
+  def admin_login?
+    is_admin = current_user && current_user.user_account_type == USER_TYPE_ADMIN
+    is_admin
   end
 
   private

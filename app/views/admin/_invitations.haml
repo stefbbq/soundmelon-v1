@@ -1,0 +1,23 @@
+- sent_items                  ||= sent_list
+- invitation_request_list_id  =   sent_items ? 'sent_list' : 'invitation_request_list'
+%b List of Invitation Requests
+%hr
+.div{:id =>"#{invitation_request_list_id}"}
+  - if sent_items
+    - invitations.each do |inv|
+      - user = inv.user
+      .inv_request{:id =>"request_#{inv.id}"}
+        %b= inv.recipient_email
+        %span{:style =>'float:right'}
+          - if user
+            = link_to user.get_full_name, fan_profile_path(user.id)
+          - else
+            = link_to 'Re-send Invitation', request_handler_path(inv.id, 2), :class =>'ajaxopen', :remote =>:true
+  - else
+    - invitations.each do |inv|
+      .inv_request{:id =>"request_#{inv.id}"}
+        %b= inv.recipient_email
+        %span{:style =>'float:right'}
+          = link_to 'Send Invitation', request_handler_path(inv.id, 1), :class =>'ajaxopen', :remote =>:true
+          &nbsp;
+          = link_to 'Remove Request', request_handler_path(inv.id, 2), :class =>'ajaxopen', :remote =>:true

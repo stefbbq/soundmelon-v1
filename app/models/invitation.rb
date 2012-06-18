@@ -1,4 +1,5 @@
 class Invitation < ActiveRecord::Base
+  has_one :user
   belongs_to :sender, :class_name => 'User'
   has_one :recipient, :class_name => 'User'
 
@@ -10,8 +11,12 @@ class Invitation < ActiveRecord::Base
   before_create :generate_token
   before_create :decrement_sender_count, :if => :sender
 
+  scope :latest_unresponded_invitations, :conditions=>["sent_at is null"]
+  scope :latest_sent_invitations, :conditions=>["sent_at > ?", Time.now - 15.days ]
+
   def send_invitation_email
     UserMailer.app_invitation_email(self).deliver
+    self.update_attribute(:sent_at, Time.now)
   end
 
   private

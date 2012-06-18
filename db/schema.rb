@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120607121525) do
+ActiveRecord::Schema.define(:version => 20120618043151) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -226,6 +226,16 @@ ActiveRecord::Schema.define(:version => 20120607121525) do
   add_index "messages", ["ancestry"], :name => "index_messages_on_ancestry"
   add_index "messages", ["sent_messageable_id", "received_messageable_id"], :name => "acts_as_messageable_ids"
 
+  create_table "newsfeeds", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.string   "newsitem_type"
+    t.integer  "newsitem_id"
+    t.string   "msg"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "payment_infos", :force => true do |t|
     t.integer  "user_id",       :null => false
     t.string   "card_type"
@@ -354,8 +364,10 @@ ActiveRecord::Schema.define(:version => 20120607121525) do
     t.datetime "last_activity_at"
     t.string   "mention_name"
     t.text     "bio"
+    t.string   "user_type"
     t.integer  "invitation_id"
     t.integer  "invitation_limit"
+    t.string   "user_account_type"
   end
 
   add_index "users", ["activation_token"], :name => "index_users_on_activation_token"
