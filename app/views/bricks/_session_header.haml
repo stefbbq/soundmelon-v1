@@ -1,5 +1,7 @@
 - actor                 = current_actor
 - is_artist_login       = actor.instance_of?(Band)
+- is_admin_login        = admin_login?
+= link_to "admin page", admin_home_path, :class => 'user-info', :target =>'_blank', :title =>"go to admin section" if is_admin_login
 - if is_artist_login
   - artist              = actor
   - current_fan_user    = current_user

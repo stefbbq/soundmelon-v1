@@ -55,7 +55,7 @@ class ArtistController < ApplicationController
         render :nothing => true and return
       end
     rescue =>exp
-      logger.error "Error in Artist#Edit :=> #{exp.message} #{@band.blank?}"
+      logger.error "Error in Artist#Edit :=> #{exp.message}"
       render :template   => "/bricks/page_missing" and return
     end
   end

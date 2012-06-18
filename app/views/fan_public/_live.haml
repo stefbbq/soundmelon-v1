@@ -1,7 +1,7 @@
 - actor       = current_actor
-- is_own_wall = actor.instance_of?(User) && (actor.id == @user.id)
+- is_own_wall = actor == @user
 .live
-  .profile-image
+  .profile-image{:title =>"#{@user.get_full_name}"}
     = get_avatar_large(@user)
   .links
     .top

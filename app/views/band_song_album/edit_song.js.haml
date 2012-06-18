@@ -2,6 +2,8 @@
 - if @is_updated
   != "$('#facebox .content').html('Successfully updated song.');"
   setTimeout('$(document).trigger(\"close.facebox\")',100);
+  != "$('#song_album_#{@song.song_album_id} #song_#{@song.id}').replaceWith('#{escape_javascript(render '/band_song_album/song_item', :song => @song)}');"
+  if($('.right .featured_song_list a#song_#{@song.id}').length>0){$('.right .featured_song_list a#song_#{@song.id}').html('#{@song.title}');}
 - else
   - song_item = capture do
     %h3
@@ -14,5 +16,3 @@
       = f.submit "Save", :disable_with => 'Saving...', :class => 'button blue'
   != "jQuery.facebox('#{escape_javascript song_item}');"
   != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"
-  != "$('#song_album_#{@song.song_album_id} #song_#{@song.id}').replaceWith('#{escape_javascript(render '/band_song_album/song_item', :song => @song)}');"
-

@@ -1,7 +1,7 @@
 - actor       = current_actor
 - is_own_wall = actor.instance_of?(Band) && (actor.id == @band.id)
 .live
-  .profile-image
+  .profile-image{:title =>"#{@band.name}"}
     = get_band_logo_large(@band)
   .links
     .top

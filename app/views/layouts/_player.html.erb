@@ -77,6 +77,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
 
   // Switch track
   function playListChange(index,play) {
+    playing_featured    = false;
     currentTrack = index;
     var item     = playList[currentTrack];
     currentTrackItemId = item.i;
@@ -98,13 +99,16 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   function playListPrev() { playListChange((currentTrack - 1 >= 0) ? currentTrack - 1 : playList.length-1, 1);}
 
   function playMusicFromFeaturedList(i, smp3, sogg){
-    playing_featured = true;
+    afterPlayPause();
+    playing_featured = true;    
     setSongToPlay(1, smp3, sogg);
     currentTrackItemId = i;    
   }
 
   // Play song from the song list in albums
   function playSongFromAlbum(song_detail){
+    afterPlayPause();
+    playing_featured = true;    
     setSongToPlay(1, song_detail.mp3, song_detail.ogg);
     currentTrackItemId = song_detail.i;
     updateTrackInfo(song_detail.band, song_detail.title, song_detail.image, song_detail.like)
