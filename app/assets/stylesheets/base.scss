@@ -327,7 +327,7 @@
 //main overlay
 #facebox {
   position: fixed;
-  top: 40%;
+  top: 20%;
   left: 50%;
   z-index: 2000;
   text-align: left;
@@ -471,35 +471,6 @@
 
 
 .age {font-size:2*$size;color:#fff;}
-.fields {   
-  label {
-    padding-top:4px;
-    float:left;
-    width:200px;
-    color:#fff;
-    text-align:right;
-    font-size:2*$size;
-  }
-  .textfield {
-    @include border-radius($border-radius);
-    border:solid #4D4D4D 2px;
-    padding:2px;
-    background:#323232;
-    color:#fff;
-    margin:3px 0 0 20px;
-    height:20px;
-  }
-  select {
-    width:227px;
-    @include border-radius($border-radius);
-    border:solid #4D4D4D 2px;
-    background:#323232;
-    color:#fff;
-    margin:3px 0 0 20px;
-    height:25px;
-    option{ padding:2px;}
-  }
-}
 .error_messages {
   margin:0 auto;
   width: 450px;

@@ -3,16 +3,18 @@
   - if @user.is_fan?    
     .primary
       .left
-        = render '/fan/social_header', :current =>'message'
-        = render "messages/inbox_messages", :messages => @messages
+        .top
+          = render '/fan/social_header', :current =>'message'
+          = render "messages/inbox_messages", :messages => @messages
       .right
         = render "/fan/right"
       .clear
   - else    
     .primary
-      .left
-        = render '/artist/social_header', :current =>'message'
-        = render "messages/inbox_messages", :messages => @messages
+      .top
+        .left
+          = render '/artist/social_header', :current =>'message'
+          = render "messages/inbox_messages", :messages => @messages
       .right
         = render "/artist/right"
       .clear

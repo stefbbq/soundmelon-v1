@@ -8,6 +8,14 @@
 	padding: 25px 8px 0 $base-content-clear;
   width: 630px;
 	float: left;
+	
+	//top area
+	> .top {
+		margin: (-$base-content-clear) -17px 25px (-$base-content-clear);
+		padding: $base-content-clear 17px 0px $base-content-clear;
+		background: rgba(black, .3);
+		border-bottom: 1px solid rgba(white, .1); 		
+	}
 
 	//
 	//status update form
@@ -49,7 +57,7 @@
 	.social-menu {
 		overflow: hidden; 
 		margin: 16px 0;
-		
+		margin-bottom: -5px;
 		
 		a {
 			@include default-button;
@@ -120,7 +128,7 @@
 			padding: 0px; 
 			margin-left: 4px;
 			float: left;
-			width: 564px;
+			width: 566px;
 		
 			//post title and actions
 			.post-header {
@@ -374,23 +382,46 @@
 	}
 	
 	.song {
-		padding: 5px 0;
-		background: rgba(red, .1);
+		@include border-radius($border-radius/2);
+		padding: 4px 5px;
 		overflow: hidden;
 		margin-top: 5px;
-		.title {
+		width: 100%;
+		
+		> div {
 			float: left;
+			height: 24px;
+			vertical-align: middle;
+			margin: 5px 0px 0px 10px; 
+		}
+		
+		.title {
+			font-size: 14px;
 		}
 		
 		.artist-content-actions-sm {
-			float: right;
-
-
-
+			float: right; 
+			
+			a {
+				opacity: .8;
+				&:hover { opacity: 1; }
+			}
+			
 			div {
-				width: 16px;
 				display: inline-block;
 			}
+			
+			.text-actions {
+				position: relative;
+				top: -4px;
+				margin-right: 4px;
+			}
+		}
+		
+		i {
+			float: left;
+			width: 24px;
+			height: 24px;
 		}
 	}
 	

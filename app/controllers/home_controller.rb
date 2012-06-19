@@ -9,7 +9,7 @@ class HomeController < ApplicationController
       if @user.invitation
         @user.email               = @user.invitation.recipient_email
         @user.email_confirmation  = @user.invitation.recipient_email
-      end      
+      end
       render :template =>'/fan/signup'
     end
   end

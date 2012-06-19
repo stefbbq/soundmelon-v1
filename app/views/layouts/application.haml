@@ -25,5 +25,24 @@
     %body.splash-body
       .splash
         %div
-          = render :partial => 'bricks/splash'
-          = yield
+          - if @user.email        
+            = form_for :user, :url=>fan_registration_path do |f|
+              = render '/bricks/splash_no-login'
+              = render '/fan/registration-fields'
+          - else
+            = render '/bricks/splash'
+            .beta-note
+              %div
+                %h2 We are currently in closed beta. 
+                %p Please #{link_to "request an invitation", new_invitation_path, :remote =>:true} and we will notify you when we are ready to accept more users.
+:javascript
+  $(document).ready(function() {
+    $("#genre").tokenInput(
+      [
+      #{genre_atuofill}
+      ],
+      {
+        theme: "facebook"
+      }
+    );
+  });

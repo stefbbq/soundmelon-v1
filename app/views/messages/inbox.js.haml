@@ -1,11 +1,13 @@
 - if @band
   $('.live').replaceWith('#{escape_javascript(render '/artist/live')}');
-  $('.primary .left').html('#{escape_javascript(render '/artist/social_header', :current =>'message')}');
+  $('.primary .left').html('<div class="top"></div>');
+  $('.primary .left .top').html('#{escape_javascript(render '/artist/social_header', :current =>'message')}');
   $('.primary .right').html('#{escape_javascript(render '/artist/right')}');
 - else
   $('.live').replaceWith('#{escape_javascript(render '/fan/live')}');
-  $('.primary .left').html('#{escape_javascript(render '/fan/social_header', :current =>'message')}');
+  $('.primary .left').html('<div class="top"></div>');
+  $('.primary .left .top').html('#{escape_javascript(render '/fan/social_header', :current =>'message')}');
   $('.primary .right').html('#{escape_javascript(render 'fan/right')}');
 $('.primary .left').append('#{ escape_javascript(render '/messages/inbox_messages', :messages => @messages, :band =>@band)}');
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);  
+setTimeout('$(document).trigger(\"close.facebox\")',10);

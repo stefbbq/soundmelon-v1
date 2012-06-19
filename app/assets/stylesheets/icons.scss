@@ -16,12 +16,12 @@
 .icon-add {	@include sprite-img("sprites-24.png", 1, 1, 24px, 24px); }
 .icon-remove { @include sprite-img("sprites-24.png", 2, 1, 24px, 24px); }
 
-
 //post
 .action-reply { i {	@include sprite-img("sprites-16.png", 1, 1, 16px, 16px); }}
-.action-repost { i {	@include sprite-img("sprites-16.png", 2, 1, 16px, 16px); }}
-.action-delete { i {	@include sprite-img("sprites-16.png", 3, 1, 16px, 16px); }}
-.action-buzz { i {	@include sprite-img("sprites-16.png", 4, 1, 16px, 16px); }}
+.action-repost { i { @include sprite-img("sprites-16.png", 2, 1, 16px, 16px); }}
+.action-delete { i { @include sprite-img("sprites-16.png", 3, 1, 16px, 16px); }}
+.action-buzz { i { @include sprite-img("sprites-16.png", 4, 1, 16px, 16px); }}
+.song { i { @include sprite-img("sprites-24.png", 1, 4, 24px, 24px); }}
 
 //artist content
 .download-icon { @include sprite-img("sprites-24.png", 1, 2, 24px, 24px); }
