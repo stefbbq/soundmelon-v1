@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  before_filter :require_login, :except => [:check_bandname, :index]
+  before_filter :require_login, :except => [:check_bandname]
   
   def index
     @user_search_results = Sunspot.search User do |query| 

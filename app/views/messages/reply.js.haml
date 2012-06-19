@@ -2,5 +2,9 @@
   - @messages.each do |message|
     - msg_sender = message.sent_messageable_type == 'User' ? message.sent_messageable.fname : message.sent_messageable.mention_name
     #{message.body}<br /> by <strong>#{msg_sender}</strong> <small>about an #{ time_ago_in_words(message.created_at)} ago</small><br/> <hr />
-$('#msg_item_#{@message.id}').html('#{escape_javascript(message_thread)}');
+- reply_message_html = capture do  
+  - msg_sender = @reply_msg.sent_messageable_type == 'User' ? @reply_msg.sent_messageable.fname : @reply_msg.sent_messageable.mention_name
+  #{@reply_msg.body}<br /> by <strong>#{msg_sender}</strong> <small>about an #{ time_ago_in_words(@reply_msg.created_at)} ago</small><br/> <hr />
+$('#msg_item_#{@message.id} #message_thread_#{@message.id}').append('#{escape_javascript(reply_message_html)}');
+!= "$('form#reply_form_#{@message.id}')[0].reset();"
 setTimeout('$(document).trigger(\"close.facebox\")',1000);

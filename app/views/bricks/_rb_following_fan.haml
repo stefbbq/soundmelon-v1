@@ -4,13 +4,13 @@
   - if following_fan_count > 0
     = link_to fan_following_fans_path(:id =>user.id), {:id=>'following-fan', :class=>link_class, :remote => true} do
       following
-      %span.count
+      %span.count{:id=>'followingfancount'}
         = pluralize(following_fan_count,'fan')
       = link_to 'see all', fan_following_fans_path(:id =>user.id), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless following_fan_count < Constant::FOLLOWING_FAN_SHOW_LIMIT
   - else
     .selection-box-nohref
       following
-      %span.count
+      %span.count{:id=>'followingfancount'}
         0 fans
   .collection{:id =>'followingfanbox'}
     - if following_fan_count > 0

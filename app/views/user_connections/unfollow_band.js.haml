@@ -1,13 +1,17 @@
 - avatar_div = "#{@actor.class.name.downcase}_avatar_#{@actor.id}"
-- item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}_following_#{@band.class.name.downcase}_#{@band.id}"
+- item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}"
 != "jQuery.facebox('musician unfollowed successfully' );"
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
 - follow_content = capture do
   = link_to 'follow', follow_band_path(:id => @band.id), :remote => true, :class => 'ajaxopen', :id=>'followartist'
 != "$('.actions #followartist').replaceWith('#{escape_javascript follow_content}');"
-if($("#followerbox ##{avatar_div}").length>0){$("#followerbox ##{avatar_div}").remove();}
+- if @self_profile
+  - item_div_id   = "#{@band.class.name.downcase}_#{@band.id}"
+  if($('.right #followingartistbox ##{@band.class.name.downcase}_avatar_#{@band.id}').length>0){$('.right #followingartistbox ##{@band.class.name.downcase}_avatar_#{@band.id}').remove();}  
+  $('a#following-artist span.count').html("#{pluralize(@last_following_count, 'artist')}");  
+- else
+  - item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}"
+  if($("#followerbox ##{avatar_div}").length>0){$("#followerbox ##{avatar_div}").remove();}
+  $('#fanbox span.count').html("#{pluralize(@last_follower_count, 'fan')}");
 if($('.primary .left .connections_list ##{item_div_id}').length>0){$('.primary .left .connections_list ##{item_div_id}').remove();}
-if($('.right #followingartistbox ##{@band.class.name.downcase}_avatar_#{@band.id}').length>0){$('.right #followingartistbox ##{@band.class.name.downcase}_avatar_#{@band.id}').remove();}
-$('#fanbox span.count').html("#{pluralize(@last_follower_count, 'fan')}");
-$('a#following-artist span.count').html("#{pluralize(@last_following_count, 'artist')}");
 setTimeout('$(document).trigger(\"close.facebox\")',1000); 
