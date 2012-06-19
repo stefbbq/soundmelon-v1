@@ -2,9 +2,7 @@
   .user_nav
     - if current_user
       Logged in as #{"#{current_user.fname} #{current_user.lname}"}
-      | #{link_to "Log out", logout_path}
-  .musicianinfo
-    %h3= link_to 'Register (as an artist)', musician_registration_path
+      | #{link_to "Log out", logout_path}    
   .faninfo
     %h3= link_to 'Register (as a fan)', fan_registration_path
   .clear

@@ -15,36 +15,36 @@
             %li= message
     = hidden_field :user, :invitation_token
     .field
-      %label{:for => "name"} first name
+      %label{:for => "namea"} first name
       = text_field :user, :fname, :class => 'textfield'
     .field
-      %label{:for => "email"} last name
+      %label{:for => "emaila"} last name
       = text_field :user, :lname, :class => 'textfield'
     .field
-      %label{:for => "mention_name"} username
+      %label{:for => "mention_namea"} username
       = text_field :user, :mention_name, :class => 'textfield'
     .field
-      %label{:for => "website"} email
+      %label{:for => "websitea"} email
       = text_field :user, :email, :class => 'textfield', :readonly =>@is_invited
     .field
-      %label{:for => "website"} re-enter email
+      %label{:for => "websitea"} re-enter email
       = text_field :user, :email_confirmation, :class => 'textfield', :readonly =>@is_invited
     %br/
     .field
-      %label{:for => "website"} password
+      %label{:for => "websitea"} password
       = password_field :user, :password, :class => 'textfield'
     .field
-      %label{:for => "website"} re-enter password
+      %label{:for => "websitea"} re-enter password
       = password_field :user, :password_confirmation, :class => 'textfield'
     .info
       You can now go ahead and register. Or, you can add an artist profile along with your normal profile by including a name below.
     %br
     .field
       %label{:for => "name"} artist name
-      = text_field_tag :band_name, nil, :class => 'textfield', :'data-validate' => check_bandname_url
+      = text_field_tag :band_name, params[:band_name], :class => 'textfield', :'data-validate' => check_bandname_url
       .bandname_available
     .field
-      %label
-      =# recaptcha_tags
+      %label{:for => "username"} artist username
+      = text_field_tag :band_mention_name, params[:band_mention_name], :class => 'textfield'
     = submit_tag 'register me!', :class => 'join'
   .right

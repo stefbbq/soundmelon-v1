@@ -25,7 +25,15 @@
     %body.splash-body
       .splash
         %div
-          - if @user.email        
+          - if @user.id
+            %br
+            .main-login
+              .logo
+                = image_tag 'base-logo-big.png'
+                %h2
+                  your music community
+            = yield
+          - elsif @user.email
             = form_for :user, :url=>fan_registration_path do |f|
               = render '/bricks/splash_no-login'
               = render '/fan/registration-fields'

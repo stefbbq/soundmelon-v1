@@ -24,6 +24,7 @@ class Band < ActiveRecord::Base
   
   validates :name, :presence => true
   validates :name, :uniqueness => true
+  validates :mention_name, :presence => true
   validates :mention_name, :uniqueness => true
 
   before_validation :sanitize_mention_name  

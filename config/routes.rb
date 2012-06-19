@@ -58,8 +58,7 @@ Soundmelon::Application.routes.draw do
 
   get "profile/additional_info"
   
-  match 'registration/(:invitation_token)'    => 'fan#signup',                            :as => :fan_registration
-  match 'musician/registration'               => 'fan#musician_new',                      :as => :musician_registration
+  match 'registration(/:invitation_token)'    => 'fan#signup',                            :as => :fan_registration
   get 'users/:id/activate'                    => 'fan#activate',                          :as => :user_activation
   get 'user/reset/password'                   => 'password_resets#index',                 :as => :password_reset
   post 'add/additional_info'                  => 'fan#add_additional_info',               :as => :create_additional_info

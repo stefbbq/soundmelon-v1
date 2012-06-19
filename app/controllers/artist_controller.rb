@@ -32,10 +32,7 @@ class ArtistController < ApplicationController
       band_user.band_id       = @band.id
       band_user.access_level  = 1
       band_user.save
-      @bands                  = current_user.bands
-      messages_and_posts_count
-      get_band_associated_objects(@band)
-      render :action => 'index', :format => 'js' and return
+      @artists  = current_user.bands.includes(:song_albums, :songs)
     else
       render :action => 'new' and return
     end
