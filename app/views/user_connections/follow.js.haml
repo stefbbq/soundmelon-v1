@@ -14,7 +14,7 @@ setTimeout('$(document).trigger(\"close.facebox\")',1000);
 - if @self_profile
   - item_div_id     = "#{@user_to_be_followed.class.name.downcase}_#{@user_to_be_followed.id}"
   if($('#followingfanbox .message').length>0){$('#followingfanbox').html('#{escape_javascript new_follow_item}')}else{$('#followingfanbox').prepend('#{escape_javascript new_follow_item}')};
-  $('span#followingfancount').html("#{pluralize(@last_follower_count, 'fan')}");
+  $('span#followingfancount').html("#{pluralize(@last_following_count, 'fan')}");
   if($('.primary .left .connections_list ##{item_div_id}').length>0){$('.primary .left .connections_list ##{item_div_id} .actions a').attr('href','#{escape_javascript unfollow_link }').html('unfollow');}
 - else
   - item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}"  
