@@ -40,7 +40,7 @@
             - connection_link_text  = 'unfollow'
             - change_connection     = true
           - else
-            - connection_link       = unfollow_band_path(user.name)
+            - connection_link       = unfollow_band_path(user.name, 1)
             - connection_link_text  = 'unfollow'
             - change_connection     = true
         - else
@@ -49,7 +49,7 @@
             - connection_link_text  = 'follow'
             - change_connection     = true
           - else
-            - connection_link       = follow_band_path(user.name)
+            - connection_link       = follow_band_path(user.name, 1)
             - connection_link_text  = 'follow'
             - change_connection     = true
             
@@ -57,11 +57,11 @@
     - if @actor.is_fan?
       - if @actor == connection_item
         - if user.is_fan?
-          - connection_link       = unfollow_user_path(user.id)
+          - connection_link       = unfollow_user_path(user.id,1)
           - connection_link_text  = 'unfollow'
           - change_connection     = true
         - else
-          - connection_link       = unfollow_band_path(:band_name =>user.name)
+          - connection_link       = unfollow_band_path(user.name, 1)
           - connection_link_text  = 'unfollow'
           - change_connection     = true
 

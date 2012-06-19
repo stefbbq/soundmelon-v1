@@ -172,8 +172,8 @@ Soundmelon::Application.routes.draw do
   
   #--------------------------------------------UserConnections----------------------------------------------------
   # follow/un-follow band
-  get 'follow/artist/:band_name'                  => 'user_connections#follow_band',         :as => :follow_band
-  get 'unfollow/artist/:band_name'                => 'user_connections#unfollow_band',       :as => :unfollow_band
+  get 'follow/artist/:band_name(/:self)'          => 'user_connections#follow_band',         :as => :follow_band
+  get 'unfollow/artist/:band_name(/:self)'        => 'user_connections#unfollow_band',       :as => :unfollow_band
   get 'connection/request/artist/:band_name'      => 'user_connections#connect_artist',      :as => :connect_artist
   get 'connection/accept/artist/:band_name'       => 'user_connections#connect_artist',      :as => :accept_artist_connection
   get 'connection/reject/artist/:band_name'       => 'user_connections#disconnect_artist',   :as => :reject_artist_connection

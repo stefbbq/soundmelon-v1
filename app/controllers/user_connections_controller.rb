@@ -55,6 +55,7 @@ class UserConnectionsController < ApplicationController
         @actor                  = current_actor
         @band                   = Band.find_band(params)
         @actor.follow(@band)
+        @self_profile           = params[:self] && params[:self]=='1'
         @last_follower_count    = @band.followers_count
         @last_following_count   = @actor.following_user_count
       rescue => exp
@@ -72,6 +73,7 @@ class UserConnectionsController < ApplicationController
         @actor                  = current_actor
         @band                   = Band.find_band(params)
         @actor.stop_following(@band)
+        @self_profile           = params[:self] && params[:self]=='1'
         @last_follower_count    = @band.followers_count
         @last_following_count   = @actor.following_band_count
       rescue => exp
@@ -90,8 +92,7 @@ class UserConnectionsController < ApplicationController
         @band                   = Band.find_band(params)
         @actor.connect_artist(@band)
         @last_connection_count  = @band.connections_count
-        @connected              = @actor.connected_with?(@band)
-        @is_self_profile        = params[:self] && params[:self] == "1"
+        @connected              = @actor.connected_with?(@band)        
         logger.error "Is Self#{@is_self_profile}"
       rescue => exp
         logger.error "Error in UserConnect0Testions::ConnectArtist :=> #{exp.message}"

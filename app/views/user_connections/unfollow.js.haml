@@ -3,12 +3,13 @@
 - follow_link = @self_profile ? "#{follow_user_path(@user_to_be_unfollowed, 1)}" : "#{follow_user_path(@user_to_be_unfollowed)}"
 
 $('.actions #follow_link').replaceWith('#{escape_javascript follow_content}');
-- avatar_div      = "#{@actor.class.name.downcase}_avatar_#{@actor.id}"  
-- if @self_profile    
+- if @self_profile
+  - avatar_div      = "#{@user_to_be_unfollowed.class.name.downcase}_avatar_#{@user_to_be_unfollowed.id}"
   - item_div_id     = "#{@user_to_be_unfollowed.class.name.downcase}_#{@user_to_be_unfollowed.id}"  
-  if($('.right #followingfanbox ##{@user_to_be_unfollowed.class.name.downcase}_avatar_#{@user_to_be_unfollowed.id}').length>0){$('.right #followingfanbox ##{@user_to_be_unfollowed.class.name.downcase}_avatar_#{@user_to_be_unfollowed.id}').remove();}
+  if($('.right #followingfanbox ##{avatar_div}').length>0){$('.right #followingfanbox ##{avatar_div}').remove();}
   $('span#followingfancount').html("#{pluralize(@last_following_count, 'fan')}");  
-- else    
+- else
+  - avatar_div      = "#{@actor.class.name.downcase}_avatar_#{@actor.id}"
   - item_div_id     = "#{@actor.class.name.downcase}_#{@actor.id}"
   if($("#followerbox ##{avatar_div}").length>0){$("#followerbox ##{avatar_div}").remove();}  
   $('span#followercount').html("#{@last_follower_count}");
