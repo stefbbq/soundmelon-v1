@@ -3,12 +3,12 @@
 %div{:style=>"position: relative;"}
   - if fan_count >0 || @has_admin_access
     = link_to band_followers_path(:band_name => band.name), {:remote =>:true, :id =>'fanbox', :class =>link_class} do
-      %span.count
+      %span.count{:id=>'followercount'}
         = pluralize(fan_count, 'fan')
       = link_to 'see all', band_followers_path(:band_name => band.name), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless fan_count < Constant::BAND_FAN_SHOW_LIMIT
   - else
     .selection-box-nohref{:id=>'fanbox'}
-      %span.count
+      %span.count{:id=>'followercount'}
         0
       fan
   .collection{:id =>'followerbox'}

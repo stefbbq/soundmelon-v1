@@ -1,23 +1,23 @@
 $('div#msg_item_#{@message.id}').html('');
 - all_messages = capture do
-  - @messages.each do |message|
-    = message.body
-    %br/
-    by
-    %strong
-      - if message.sent_messageable_type == 'User'
-        = link_to "#{message.sent_messageable.fname}  #{message.sent_messageable.lname}", fan_profile_path(message.sent_messageable)
-      - else
-        = message.sent_messageable.mention_name
-    %small
-      about an #{time_ago_in_words(message.created_at)} ago    
-    %br/
-    %hr/  
+  .div{:id =>"message_thread_#{@message.id}"}
+    - @messages.each do |message|
+      = message.body
+      %br/
+      by
+      %strong
+        - if message.sent_messageable_type == 'User'
+          = link_to "#{message.sent_messageable.fname}  #{message.sent_messageable.lname}", fan_profile_path(message.sent_messageable)
+        - else
+          = message.sent_messageable.mention_name
+      %small
+        about an #{time_ago_in_words(message.created_at)} ago
+      %br/
+      %hr/  
 
 - reply_form = capture do
   %div{:id =>"reply_form_#{@message.id}"}
-    = form_tag  reply_to_message_path,:class=>"ajaxload", :method=>:post,  :remote => :true do |f|
-      %h4 Reply
+    = form_tag  reply_to_message_path, :id =>"reply_form_#{@message.id}", :class =>"ajaxload", :method =>:post,  :remote =>:true do |f|      
       = hidden_field_tag :id, @message.id
       - if @band
         = hidden_field_tag :band_id, @band.id
@@ -25,12 +25,11 @@ $('div#msg_item_#{@message.id}').html('');
       = submit_tag("Reply" ,:class=>"button yellow")
 $('#msg_item_#{@message.id}').append("#{escape_javascript(all_messages)}");
 $('#msg_item_#{@message.id}').append("#{escape_javascript(reply_form)}");
-$('a#message_count').text(parseInt($('a#message_count').text()) - 1);
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 - if @actor.is_fan?
   $('.primary .left .social-menu').replaceWith('#{escape_javascript(render '/fan/social_header', :current =>'message')}');
 - else
   $('.primary .left .social-menu').replaceWith('#{escape_javascript(render '/artist/social_header', :band =>@actor, :current =>'message')}');
-$('a#msg_view_#{@message.id}').remove();
+$('div#message_box_#{@message.id} .msgstremitem-unread').removeClass('msgstremitem-unread').addClass('msgstremitem-read');
 $('.ajaxload').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());});
 setTimeout('$(document).trigger(\"close.facebox\")',10);  

@@ -6,7 +6,7 @@
       = link_to get_avatar_small(message.sent_messageable), fan_home_url if message.sent_messageable_type == 'User' && message.sent_messageable == current_user
       = get_band_logo_small(message.sent_messageable) if message.sent_messageable_type == 'Band'
     -if message.opened
-      .msgstremitem
+      .msgstremitem-read
         .itemcontent{:id=>"msg_item_#{message.id}"}
           = message.body
           %br
@@ -29,7 +29,7 @@
             %br
             = link_to "View" ,message_path(message),:remote=>:true, :class=>"ajaxload"         
         .clear
-    -else
+    -else      
       .msgstremitem-unread
         .itemcontent{:id=>"msg_item_#{message.id}"}
           = message.body

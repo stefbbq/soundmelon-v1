@@ -8,6 +8,7 @@ class UserConnectionsController < ApplicationController
         @user_to_be_followed    = User.find(params[:id])
         @actor.follow(@user_to_be_followed)
         @last_follower_count    = @user_to_be_followed.followers_count
+        @self_profile           = params[:self] && params[:self]=='1'        
         respond_to do |format|
           format.js and return
         end
@@ -27,6 +28,7 @@ class UserConnectionsController < ApplicationController
         @user_to_be_unfollowed  = User.find(params[:id])
         @actor.stop_following(@user_to_be_unfollowed)
         @last_follower_count    = @user_to_be_unfollowed.followers_count
+        @self_profile           = params[:self] && params[:self]=='1'
         respond_to do |format|          
           format.js and return
         end

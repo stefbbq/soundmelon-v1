@@ -3,7 +3,7 @@
 %div{:style=>"position: relative;"}
   - if follower_count > 0
     = link_to fan_followers_path(:id =>user.id), {:id=>'followers', :class=>link_class, :remote => true} do
-      %span.count
+      %span.count{:id=>'followercount'}
         = follower_count
       - if follower_count > 1 || follower_count == 0 #doesn't use pluarize since that would seperate text styling from number and label
         followers
@@ -12,10 +12,10 @@
       = link_to 'see all', fan_followers_path(:id =>user.id), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless follower_count < Constant::FOLLOWER_SHOW_LIMIT
   - else
     .selection-box-nohref{:id =>'followers'}
-      %span.count
+      %span.count{:id=>'followercount'}
         0
       followers
-  .collection{:id =>'fanfollowers'}
+  .collection{:id =>'followerbox'}
     - if follower_count > 0
       %div
         - follower_users.each do |fan_follower|

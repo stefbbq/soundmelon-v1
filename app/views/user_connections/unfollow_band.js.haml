@@ -1,5 +1,5 @@
 - avatar_div = "#{@actor.class.name.downcase}_avatar_#{@actor.id}"
-- item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}_following_#{@band.class.name.downcase}_#{@band.id}"
+- item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}"
 != "jQuery.facebox('musician unfollowed successfully' );"
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
 - follow_content = capture do

@@ -35,21 +35,21 @@
           - change_connection     = true
       - else
         - if @actor.following? user
-          - if connection_item.is_fan?
-            - connection_link       = unfollow_user_path(user.id)
+          - if connection_item.is_fan?            
+            - connection_link       = unfollow_user_path(user.id, 1)
             - connection_link_text  = 'unfollow'
             - change_connection     = true
           - else
-            - connection_link       = unfollow_band_path(:band_name =>user.name)
+            - connection_link       = unfollow_band_path(user.name)
             - connection_link_text  = 'unfollow'
             - change_connection     = true
         - else
           - if connection_item.is_fan?
-            - connection_link       = follow_user_path(user.id)
+            - connection_link       = follow_user_path(user.id, 1)
             - connection_link_text  = 'follow'
             - change_connection     = true
           - else
-            - connection_link       = follow_band_path(:band_name =>user.name)
+            - connection_link       = follow_band_path(user.name)
             - connection_link_text  = 'follow'
             - change_connection     = true
             
@@ -67,6 +67,7 @@
 
 - if status
   - item_div_id               = is_user_fan ? "#{user.class.name.downcase}_#{user.id}_following_#{connection_item.class.name.downcase}_#{connection_item.id}" : "#{connection_item.class.name.downcase}_#{connection_item.id}_following_#{user.class.name.downcase}_#{user.id}"
+  - item_div_id               = "#{user.class.name.downcase}_#{user.id}"
   .item{:id => item_div_id}
     = link_to image, link, :remote =>:true, :class => 'ajaxopen backable avatar'
     .content

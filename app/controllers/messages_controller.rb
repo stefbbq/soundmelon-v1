@@ -2,6 +2,7 @@ class MessagesController < ApplicationController
   before_filter :require_login
   
   def send_message
+    redirect_to root_url and return unless request.xhr?
     @to_user    = User.find(params[:receiver_id])
     current_user.send_message(@to_user,{:body=>params[:message_text]})
   end
@@ -55,6 +56,7 @@ class MessagesController < ApplicationController
   end
 
   def show
+    redirect_to root_url and return unless request.xhr?
     begin
       @actor                        = current_actor
       @message                      = @actor.messages.with_id(params[:id]).first
@@ -71,6 +73,7 @@ class MessagesController < ApplicationController
   end
 
   def destroy
+    redirect_to root_url and return unless request.xhr?
     begin
       @actor        = current_actor
       @message      = @actor.messages.with_id(params[:id]).first      
@@ -86,6 +89,7 @@ class MessagesController < ApplicationController
   end
 
   def new
+    redirect_to root_url and return unless request.xhr?
     redirect_to user_profile_url(params[:id]) and return unless request.xhr?
     @to             = params[:id]
     @message        = ActsAsMessageable::Message.new
@@ -97,6 +101,7 @@ class MessagesController < ApplicationController
   end
   
  def reply
+   redirect_to root_url and return unless request.xhr?
    begin
      @message       = ActsAsMessageable::Message.find(params[:id])
      @actor         = current_actor
