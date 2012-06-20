@@ -9,15 +9,15 @@
   = link_to @unread_post_replies_count > 0 ? "replies #{@unread_post_replies_count} new" : 'replies',
         replies_path ,
         :remote   => true,
-        :class    => 1 == current ? "backable iconactive ajaxload highlight button-fill-fan" : "backable iconactive ajaxload",
+        :class    => 1 == current ? "backable iconactive ajaxload highlight active button-fill-fan" : "backable iconactive ajaxload",
         :id       => 'replies'
   = link_to @unread_mentioned_count > 0 ? "mentions #{@unread_mentioned_count} new" : 'mentions',
         mentioned_path ,
         :remote   => true,
-        :class    => 2 == current ? "backable iconactive ajaxload highlight button-fill-fan" : "backable iconactive ajaxload",
+        :class    => 2 == current ? "backable iconactive ajaxload highlight active button-fill-fan" : "backable iconactive ajaxload",
         :id => 'mentions'
   = link_to @unread_messages_count > 0 ? "messages #{@unread_messages_count} new" : "messages",
         user_inbox_path,
         :remote   => true,
-        :class    => 3 == current ? "backable inbox iconactive ajaxload highlight button-fill-fan" : "backable inbox iconactive ajaxload",
+        :class    => 3 == current ? "backable inbox iconactive ajaxload highlight active button-fill-fan" : "backable inbox iconactive ajaxload",
         :id       => 'messages'

@@ -1,7 +1,7 @@
 != "jQuery.facebox('musician followed successfully' );"
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
 - unfollow_content = capture do
-  = link_to 'unfollow', unfollow_band_path(:id => @band.id), :remote => true, :class => 'ajaxopen', :id=>'followartist'
+  = link_to 'unfollow', unfollow_band_path(:id => @band.id), :remote => true, :class => 'ajaxopen text-action', :id=>'followartist'
 - new_follow_item = capture do
   = render '/bricks/avatar', :item =>@actor
 - left_list_item = capture do

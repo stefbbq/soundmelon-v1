@@ -14,14 +14,14 @@
 		margin: (-$base-content-clear) -17px 25px (-$base-content-clear);
 		padding: $base-content-clear 17px 0px $base-content-clear;
 		background: rgba(black, .3);
-		border-bottom: 1px solid rgba(white, .1); 		
+		border-bottom: 1px solid rgba(white, .15); 		
 	}
 
 	//
 	//status update form
 	.status-input {  
 		@include border-radius($border-radius);
-	  margin: 0 auto;
+	  margin: 0 auto 16px auto;
 	
 	  .input-box {
 	    color: $text-faded-color;
@@ -56,7 +56,7 @@
 	//social header controls
 	.social-menu {
 		overflow: hidden; 
-		margin: 16px 0;
+		margin: 0 0 16px 0;
 		margin-bottom: -5px;
 		
 		a {
@@ -111,7 +111,7 @@
   .post {  
 		position: relative;
 		padding-bottom: 15px;
-    &:not(:last-child) { border-bottom: 1px dashed rgba(white, .1); }
+    &:not(:last-child) { border-bottom: 1px dashed rgba(white, .15); }
 		&:not(:first-of-type) { padding-top: 15px; }
 		
 		> div {
