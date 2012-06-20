@@ -4,8 +4,11 @@ class Feedback < ActiveRecord::Base
   validates :content, :presence =>true
   
   belongs_to :feedback_topic
+  belongs_to :user
 
   after_create :set_to_deliver_notification
+
+  scope :recent_feedbacks, :conditions =>["is_read is false and created_at > ?",  Time.now - 15.days ]
 
   def set_to_deliver_notification
     self.delay.send_notification

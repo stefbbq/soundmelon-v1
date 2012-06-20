@@ -1,19 +1,24 @@
-- tabs      = [:invitation_request, :sent_invitation]
+- tabs      = [:invitation_request, :sent_invitation, :feedbacks]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 .items
   = link_to 'invitation requests',
             admin_home_path,
             :id                 => 'invitation_request',
             :remote             => true,
-            :class              => 0 == current ? "iconactive selection-box button-fill-artist ajaxopen" : "iconactive selection-box ajaxopen"
+            :class              => 0 == current ? "iconactive selection-box button-fan-artist ajaxopen" : "iconactive selection-box ajaxopen"
   = link_to 'sent invitation requests',
             admin_home_path(1),
             :id                 => 'sent_invitation_request',
             :remote             => true,
-            :class              => 1 == current ? "iconactive selection-box button-fill-artist ajaxopen" : "iconactive selection-box ajaxopen"
+            :class              => 1 == current ? "iconactive selection-box button-fan-artist ajaxopen" : "iconactive selection-box ajaxopen"
   = link_to 'add invitation request',
             new_invitation_path, 
             :id                 =>'invite-friends',
             :remote             => true,
-            :class              => 'selection-box ajaxopen'  
+            :class              => 'selection-box ajaxopen'
+  = link_to 'recent feedbacks',
+            admin_feedbacks_list_path,
+            :id                 =>'feedbacks',
+            :remote             => true,
+            :class              => 2 == current ? "iconactive selection-box button-fan-artist ajaxopen" : "iconactive selection-box ajaxopen"
 .fader

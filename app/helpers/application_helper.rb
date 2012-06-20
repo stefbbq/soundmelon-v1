@@ -194,28 +194,28 @@ module ApplicationHelper
       if post.band_album_post?
         album_name    = postitem.name
         album_path    = "#{band_album_path(band.name, album_name)}"
-        content       += " added a new photo album <a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+        content       += " added a new photo album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       elsif post.band_photo_post?
         album         = postitem.band_album
         album_name    = album.name
         album_path    = "#{band_album_path(band.name, album_name)}"
-        content       += " added a new photo to the album <a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+        content       += " added a new photo to the album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
         message       =  raw (render '/band_photos/band_photo', :photo =>postitem, :band_album =>album, :band =>band, :in_newsfeed =>true)
       elsif post.band_tour_post?
         show_id       = postitem.id
         show_venue    = postitem.venue
         show_country  = postitem.country
         show_path     = band_tour_path(band.name,show_id)
-        content       += " going to attend the <a href='#{show_path}' class='ajaxopen' remote=true>show</a> at #{show_venue}, #{show_country}"
+        content       += " going to attend the <a href='#{show_path}' class='ajaxopen backable' data-remote=true>show</a> at #{show_venue}, #{show_country}"
       elsif post.song_post?
         album_name    = postitem.song_album.album_name
         album_path    = "#{band_song_album_path(band.name, album_name)}"
-        content       += " added a new song to the album <a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+        content       += " added a new song to the album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
         message       = raw(render '/band_song_album/song_item', :song =>postitem, :band =>band, :in_newsfeed =>true)
       elsif post.song_album_post?
         album_name    = postitem.album_name
         album_path    = "#{band_song_album_path(band.name, album_name)}"
-        content       += " added a new song album <a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+        content       += " added a new song album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       end
     end
     [content.html_safe, message.html_safe]
@@ -225,31 +225,35 @@ module ApplicationHelper
   # linked with corresponding buzzed items
   def post_message post, postitem
     content         = " wrote about "    
-    if post && postitem
-      band            = postitem.band
+    if post && postitem      
       if post.band_album_post?
+        band          = postitem.band
         album_name    = postitem.name
         album_path    = "#{band_album_path(band.name, album_name)}"
-        content       += "<a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+        content       += "<a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       elsif post.band_photo_post?
+        band          = postitem.band_album.band
         album         = postitem.band_album
         album_name    = album.name
         album_path    = "#{band_album_path(band.name, album_name)}"
-        content       += "<a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"        
+        content       += "<a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       elsif post.band_tour_post?
+        band          = postitem.band
         show_id       = postitem.id
         show_venue    = postitem.venue
         show_country  = postitem.country
         show_path     = band_tour_path(band.name,show_id)
-        content       += "<a href='#{show_path}' class='ajaxopen' remote=true>show</a>(at #{show_venue}, #{show_country})"
+        content       += "<a href='#{show_path}' class='ajaxopen backable' remote=true>show</a>(at #{show_venue}, #{show_country})"
       elsif post.song_post?
+        band          = postitem.song_album.band
         album_name    = postitem.song_album.album_name
         album_path    = "#{band_song_album_path(band.name, album_name)}"
-        content       += "#{post_item.title} </a>"
+        content       += "#{postitem.title} </a>"
       elsif post.song_album_post?
+        band          = postitem.band
         album_name    = postitem.album_name
         album_path    = "#{band_song_album_path(band.name, album_name)}"
-        content       += "<a href='#{album_path}' class='ajaxopen' remote='true'> #{album_name} </a>"
+        content       += "<a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       end
     end
     content.html_safe

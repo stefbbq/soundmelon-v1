@@ -31,6 +31,29 @@ class AdminController < ApplicationController
     end
   end
 
+  def feedbacks
+    @feedbacks = Feedback.recent_feedbacks.includes(:feedback_topic)
+  end
+
+  def feedback_handler
+    begin
+      @feedback = Feedback.find params[:id]
+    rescue
+      @feedback = nil
+    end
+    if @feedback
+      @opcode        = params[:opcode]
+      # remove the feedback
+      if @opcode == "1"
+        @feedback.destroy
+      elsif @opcode == "2"  # set as solved
+        @feedback.update_attribute(:is_read, true)
+      end
+    else
+      render :nothing =>true and return
+    end
+  end
+
   private
 
   def check_admin

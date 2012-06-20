@@ -1,7 +1,10 @@
 - band ||=nil
-.messages-wrapper
-  = render "messages/message", :messages => messages, :band =>band
-.clear
-- unless @load_more_path.nil?
-  .read-more
-    = link_to "Read more", @load_more_path , :remote => true, :class=>"ajaxload" 
+- unless messages.blank?
+  .messages-wrapper
+    = render "messages/message", :messages => messages, :band =>band
+  .clear
+  - unless @load_more_path.nil?
+    .read-more
+      = link_to "Read more", @load_more_path , :remote => true, :class=>"ajaxload"
+- else
+  You currently have no messages in your inbox.

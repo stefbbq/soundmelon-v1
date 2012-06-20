@@ -1,0 +1,23 @@
+%b List of Recent Feedbacks
+%hr
+.div
+  - feedbacks.each do |feedback|
+    - user    = feedback.user
+    - topic   = feedback.feedback_topic
+    - subject = feedback.subject
+    - content = feedback.content
+    .feedback_request{:id =>"feedback_#{feedback.id}"}
+      .div{:style =>'float:left;width:7%;'}
+        %b= topic.name
+      .div{:style =>'float:left;width:15%;'}
+        %b= subject      
+      .div{:style =>'width:42%;height:70px;overflow:auto;float:left;'}
+        #{content}
+      %span{:style =>'float:right'}
+        - if user
+          = link_to user.get_full_name, fan_profile_path(user.id), :class =>'ajaxopen backable'
+        &nbsp;&nbsp;
+        = link_to 'Set as read', admin_feedback_handler_path(feedback.id, 2), :class =>'ajaxopen', :remote =>:true
+        = link_to 'Remove', admin_feedback_handler_path(feedback.id, 1), :class =>'ajaxopen', :remote =>:true
+    .clear
+  

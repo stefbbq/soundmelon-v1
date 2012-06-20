@@ -1,8 +1,8 @@
 .buzz_header
   - if @band_photo_album
-    = "#{@band_photo_album.name} buzz"
+    = "Buzz : #{@band_photo_album.name}"
   - else
-    = "#{@band_photo.caption} buzz"
+    = "Buzz : #{@band_photo.caption}"
 %hr/
 = render 'buzzlisting', :buzzes_by_date =>@buzzes_by_dates
 .buzz_form

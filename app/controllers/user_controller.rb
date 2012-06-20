@@ -117,10 +117,11 @@ class UserController < ApplicationController
   end
 
   def feedback_page
+    redirect_to root_path and return unless request.xhr?
     @feedback  = Feedback.new
   end
 
-  def give_feedback
+  def give_feedback    
     begin
       actor           = current_actor
       feedback_params = params[:feedback]

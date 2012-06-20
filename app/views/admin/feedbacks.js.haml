@@ -1,0 +1,5 @@
+$('.primary .left').html('');
+$('.primary .left').html('#{escape_javascript(render '/admin/feedbacks', :feedbacks => @feedbacks)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.selection-box').removeClass('active').removeClass('button-fill-artist');
+$('#feedbacks').addClass('active').addClass('button-fill-artist');

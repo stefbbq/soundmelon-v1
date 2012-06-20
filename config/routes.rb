@@ -16,12 +16,14 @@ Soundmelon::Application.routes.draw do
   get 'ChangeLogin(/:artist_name)'            => 'user#change_login',               :as => :change_login
 
   # administrator section
-  get '/home/admin(/:sent)'                   => 'admin#index',                     :as => :admin_home #home
+  get '/home/admin/feedbacks'                 => 'admin#feedbacks',                 :as => :admin_feedbacks_list
+  get '/home/admin/feedback/:id/:opcode'      => 'admin#feedback_handler',          :as => :admin_feedback_handler
+  get '/home/admin(/:sent)'                   => 'admin#index',                     :as => :admin_home #home  
   get '/home/admin/:id/:opcode'               => 'admin#invitation_request_handler',:as => :request_handler
   #fan
-  get 'home'                                  => 'user#index',                      :as => :user_home #home
+  get '/home'                                 => 'user#index',                      :as => :user_home #home
   #fan
-  get '/fan/home'                             => 'fan#index',                       :as => :fan_home #home
+  get '/home'                                 => 'user#index',                       :as => :fan_home #home
   get 'home/post/:id/threads'                 => 'user_posts#post_threads',         :as => :get_post_threads #posts
   get 'home/mentions'                         => 'user_posts#mentioned',            :as => :mentioned #mentions
   get 'home/replies'                          => 'user_posts#replies',              :as => :replies #replies
