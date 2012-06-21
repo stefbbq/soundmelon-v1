@@ -7,7 +7,7 @@
       members
       %span.count
         =# pluralize(artist_count, 'artist')
-      - unless artist_count < Constant::BAND_MEMBER_SHOW_LIMIT
+      - unless artist_count < BAND_MEMBER_SHOW_LIMIT
         %br
         =  link_to "see all", band_members_path(:band_name => band.name), :remoe=>:true, :class=>"small-font ajaxopen backable"
   -else
@@ -21,4 +21,4 @@
         - band_artists.each do |artist|
           = render '/bricks/avatar', :item =>artist
       - else
-        .message= Constant::NO_BAND_ARTIST_MESSAGE
+        .message= NO_BAND_ARTIST_MESSAGE

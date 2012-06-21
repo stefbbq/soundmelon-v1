@@ -9,7 +9,7 @@
         connections
       - else
         connection
-      = link_to 'see all', artist_connections_path(band.name), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless connection_count < Constant::ARTIST_CONNECTION_SHOW_LIMIT
+      = link_to 'see all', artist_connections_path(band.name), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless connection_count < ARTIST_CONNECTION_SHOW_LIMIT
   - else
     .selection-box-nohref{:id =>'connections'}
       %span.count
@@ -22,7 +22,7 @@
           = render '/bricks/avatar', :item =>artist
     - else
       .message
-        = Constant::NO_CONNECTION_MESSAGE
+        = NO_CONNECTION_MESSAGE
     - if @has_admin_access
       connection requests
       %hr

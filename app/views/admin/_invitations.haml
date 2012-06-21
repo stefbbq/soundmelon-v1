@@ -12,7 +12,7 @@
           - if user
             = link_to user.get_full_name, fan_profile_path(user.id)
           - else
-            = link_to 'Re-send Invitation', request_handler_path(inv.id, 2), :class =>'ajaxopen', :remote =>:true
+            = link_to 'Re-send Invitation', request_handler_path(inv.id, 1), :class =>'ajaxopen', :remote =>:true
   - else
     - invitations.each do |inv|
       .inv_request{:id =>"request_#{inv.id}"}

@@ -143,7 +143,7 @@ class UserConnectionsController < ApplicationController
       if params[:band_name]   # band item
         @actor                  = current_actor
         @band                   = Band.find_band params
-        @connections            = @band.connected_artists# params[:page]
+        @connections            = @band.connected_artists params[:page]
         get_artist_objects_for_right_column(@band)
       end
       respond_to do |format|
@@ -177,7 +177,7 @@ class UserConnectionsController < ApplicationController
       if params[:id]
         @actor                  = current_actor
         @user                   = User.find(params[:id])
-        @following_artists      = @user.following_bands.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
+        @fan_following_artists  = @user.following_bands.page(1).per(FOLLOWING_FOLLOWER_PER_PAGE)
       end
       get_fan_objects_for_right_column(@user)
       respond_to do |format|

@@ -124,23 +124,23 @@ class Band < ActiveRecord::Base
     return posts
   end
   
-  def limited_band_albums(n=Constant::BAND_PHOTO_ALBUM_SHOW_LIMIT)
+  def limited_band_albums(n=BAND_PHOTO_ALBUM_SHOW_LIMIT)
     self.band_albums.limit(n)
   end
   
-  def limited_song_albums(n=Constant::BAND_SONG_ALBUM_SHOW_LIMIT)
+  def limited_song_albums(n=BAND_SONG_ALBUM_SHOW_LIMIT)
     self.song_albums.limit(n)
   end
   
-  def limited_band_members(n=Constant::BAND_MEMBER_SHOW_LIMIT)
+  def limited_band_members(n=BAND_MEMBER_SHOW_LIMIT)
     self.band_members.limit(n)
   end 
 
-  def limited_band_tours(n=Constant::TOUR_DATE_SHOW_LIMIT)
+  def limited_band_tours(n=TOUR_DATE_SHOW_LIMIT)
     self.band_tours.order('created_at desc').limit(n)
   end
 
-  def limited_band_featured_songs(n=Constant::ARTIST_FEATURED_SONG_LIMIT)
+  def limited_band_featured_songs(n=ARTIST_FEATURED_SONG_LIMIT)
     self.songs.featured.order('rand()').limit(n)
   end
 
@@ -182,8 +182,8 @@ class Band < ActiveRecord::Base
     Connection.connected?(self, band)
   end
 
-  def connected_artists limit = 0
-    Connection.connected_artists_with self, limit
+  def connected_artists page = 1
+    Connection.connected_artists_with self, page
   end
 
   def connections_count

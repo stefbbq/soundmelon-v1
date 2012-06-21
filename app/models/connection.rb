@@ -6,7 +6,7 @@ class Connection < ActiveRecord::Base
   REQUESTED     = 1
   CONNECTED     = 2
 
-  scope :approved, :conditions =>["is_approved is ?", true]
+  scope :approved, :conditions =>["is_approved = ?", true]
 
   # creates connection request from first artist to second
   def self.request_connection from_artist, to_artist
@@ -78,12 +78,9 @@ class Connection < ActiveRecord::Base
   end
 
   # all approved connections for particular artist
-  def self.approved_connections_for artist, limit = 0
-    if limit > 0
-      Connection.where("(band_id = ?) and is_approved is true", artist.id).limit(limit)
-    else
-      Connection.where("(band_id = ?) and is_approved is true", artist.id)
-    end
+  def self.approved_connections_for artist
+#    Connection.where("(band_id = ?) and is_approved is true", artist.id).page(page).per(ARTIST_CONNECTION_PER_PAGE)
+    Connection.where("(band_id = ?) and is_approved is true", artist.id)
   end
   
   # all connection requests for particular artist
@@ -95,10 +92,10 @@ class Connection < ActiveRecord::Base
     end
   end
 
-
-  def self.connected_artists_with artist, limit = 0
-    connections = self.approved_connections_for(artist, limit)
-    connections.map{|con| con.connected_band}
+  def self.connected_artists_with artist, page = 1
+    connections         = self.approved_connections_for(artist)
+    connected_band_ids  = connections.map{|con| con.connected_band_id}
+    Band.where('id in (?)', connected_band_ids ).page(page).per(ARTIST_CONNECTION_PER_PAGE)    
   end
 
   def approved?

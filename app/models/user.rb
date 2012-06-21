@@ -175,15 +175,11 @@ class User < ActiveRecord::Base
   end
 
   def followers page = 1
-    follows   = Follow.where("followable_id = ? and followable_type = ?", self.id, self.class.name).page(page).per(FOLLOWING_FOLLOWER_PER_PAGE)
-    followers = follows.map{|follow| follow.follower}
-    followers
+    self.followers_by_type('User').page(page).per(FOLLOWING_FOLLOWER_PER_PAGE)
   end
 
-  def limited_followers
-    follows   = Follow.where("followable_id = ? and followable_type = ?", self.id, self.class.name).order('RAND()').limit(NO_OF_FOLLOWER_TO_DISPLAY)
-    followers = follows.map{|follow| follow.follower}
-    followers
+  def limited_followers    
+    self.followers_by_type('User').order('rand()').limit(NO_OF_FOLLOWER_TO_DISPLAY)
   end
 
   def is_fan?

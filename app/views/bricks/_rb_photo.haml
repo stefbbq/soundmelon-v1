@@ -25,7 +25,7 @@
                 .icon-remove{:style =>'float:left;'}
           %br/
     - else
-      .message= Constant::NO_PHOTO_ALBUM_MESSAGE
+      .message= NO_PHOTO_ALBUM_MESSAGE
 - if @has_admin_access
   :javascript
     function updateAfterPhotoAlbumRemoval(band_album_id){
@@ -36,6 +36,6 @@
         $('.primary .left #band_album_' + band_album_id).remove();
       }
       if($('#photobox div.song-album').length==0){
-        $('#photobox').html("<div class='message'>#{Constant::NO_PHOTO_ALBUM_MESSAGE}</div>");
+        $('#photobox').html("<div class='message'>#{NO_PHOTO_ALBUM_MESSAGE}</div>");
       }
     }

@@ -30,11 +30,11 @@ Soundmelon::Application.routes.draw do
   match 'home/messages'                       => 'messages#inbox',                  :as => :user_inbox #messages
 
   #-------------------------------------------- followings, followers, follower bands, follower fans ---------------
-  get 'fan/:id/followers'                     => 'user_connections#fan_followers',          :as => :fan_followers
-  get 'artist/followers/:band_name'           => 'user_connections#band_followers',         :as => :band_followers
-  get 'artist/connections/:band_name'         => 'user_connections#artist_connections',     :as => :artist_connections
-  get 'fan/following/fans/:id'                => 'user_connections#fan_following_fans',     :as => :fan_following_fans # id: following items
-  get 'fan/following/artists/:id'             => 'user_connections#fan_following_artists',  :as => :fan_following_artists # id: following items
+  get 'fan/:id/followers(/:page)'             => 'user_connections#fan_followers',          :as => :fan_followers
+  get 'artist/followers/:band_name(/:page)'   => 'user_connections#band_followers',         :as => :band_followers
+  get 'artist/connections/:band_name(/:page)' => 'user_connections#artist_connections',     :as => :artist_connections
+  get 'fan/following/fans/:id(/:page)'        => 'user_connections#fan_following_fans',     :as => :fan_following_fans # id: following items
+  get 'fan/following/artists/:id(/:page)'     => 'user_connections#fan_following_artists',  :as => :fan_following_artists # id: following items
   
   #fan functions
   get 'home/artists'                          => 'user#pull_artist_profiles',       :as => :associated_band

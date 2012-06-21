@@ -6,7 +6,7 @@
       following
       %span.count{:id=>'followingartistcount'}
         = pluralize(following_artist_count, 'artist')
-      = link_to 'see all', fan_following_artists_path(:id =>user.id), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless following_artist_count < Constant::FOLLOWING_ARTIST_SHOW_LIMIT
+      = link_to 'see all', fan_following_artists_path(:id =>user.id), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless following_artist_count < FOLLOWING_ARTIST_SHOW_LIMIT
   - else
     .selection-box-nohref
       following
@@ -19,4 +19,4 @@
           = render '/bricks/avatar', :item =>band
     - else
       .message
-        = Constant::NO_FOLLOWING_MESSAGE
+        = NO_FOLLOWING_MESSAGE

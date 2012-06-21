@@ -9,7 +9,7 @@
         followers
       - else
         follower
-      = link_to 'see all', fan_followers_path(:id =>user.id), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless follower_count < Constant::FOLLOWER_SHOW_LIMIT
+      = link_to 'see all', fan_followers_path(:id =>user.id), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless follower_count < FOLLOWER_SHOW_LIMIT
   - else
     .selection-box-nohref{:id =>'followers'}
       %span.count{:id=>'followercount'}
@@ -22,4 +22,4 @@
           = render '/bricks/avatar', :item =>fan_follower, :id_prefix =>"fan_follower"
     - else
       .message
-        = Constant::NO_FOLLOWER_MESSAGE
+        = NO_FOLLOWER_MESSAGE

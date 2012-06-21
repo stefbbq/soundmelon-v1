@@ -2,7 +2,7 @@ $('.primary .left').html('');
 - following_fans = capture do
   .connections_list{:id =>"#{@user.class.name.downcase}_#{@user.id}_following_fans"}
     - @following_fans.each do |user|
-      = render '/user_connections/item', :user =>user, :connection_item =>@user, :is_user_fan =>false
+      = render '/user_connections/item', :user =>user, :connection_item =>@user, :is_user_fan =>false    
     = paginate @following_fans, :remote => true
 $('.primary .left').html('#{escape_javascript(following_fans)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
