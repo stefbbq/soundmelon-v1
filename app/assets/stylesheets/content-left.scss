@@ -22,6 +22,8 @@
 	.status-input {  
 		@include border-radius($border-radius);
 	  margin: 0 auto 16px auto;
+		position: relative;
+		overflow: auto;
 	
 	  .input-box {
 	    color: $text-faded-color;
@@ -54,7 +56,7 @@
 	
 	//
 	//social header controls
-	.social-menu {
+	.social-header {
 		overflow: hidden; 
 		margin: 0 0 16px 0;
 		margin-bottom: -5px;
@@ -65,6 +67,7 @@
 			float: left;
 			margin-right: 5px;
 		}
+		b { color: white; }
 		
 		#messages {
 			float: right;
@@ -441,6 +444,7 @@
 			left: 30px;
 			text-align: right;
 		}
+		
 		.details {
 			position: absolute;
 			left: 30px;
@@ -475,9 +479,7 @@
 					cursor: auto;
 				}
 			
-			> form {
-				margin: 0 0 0 15px;
-				
+			> form {				
 				.lock-toggle {
 					@include sprite-img("sprites-48.png", 1, 1, 48px, 48px);
 					position: absolute;
@@ -494,7 +496,7 @@
 
 			.field {
 				width: 95%;
-				margin-top: 3px;
+				margin: 3px 0 0 15px;
 				min-height: 20px;
 				
 				label {
@@ -514,6 +516,7 @@
 					width: 200px;
 					background: rgba(black, .5);
 					outline: none;
+					padding-left: 3px;
 
 					&:hover, &:focus {
 						border: 2px solid $text-color;

@@ -4,7 +4,7 @@
     .left
       .top
         = render '/user_posts/status_artist'
-        = render '/artist/social_header', :default_active =>true
-      = render "/bricks/artist_posts"
+        = render '/artist/social_header', :default_active => true
+      = render "/bricks/artist_posts", :current =>'replies'
     .right
       = render "/artist/right"

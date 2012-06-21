@@ -131,6 +131,20 @@ li {
     padding: 0;
     list-style-type: none; } }
 
+//mentions autocomplete
+.mentions-autocomplete-list {
+	@include popout();
+	position: absolute;
+	width: 200px;
+	left: 220px;
+	z-index: 1000;
+}
+
+
+
+
+
+
 
 
 .searchlist li {

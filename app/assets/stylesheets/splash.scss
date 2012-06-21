@@ -6,7 +6,7 @@
 @import 'vars';
 
 .splash-body {
-	@include radial-gradient($main-bg-color, darken($main-bg-color, 40), 150em);
+	@include radial-gradient(lighten($main-bg-color, 15), darken($main-bg-color, 60), 130em);
 	position: absolute;
 	height: 100%;
 	width: 100%;
@@ -47,7 +47,7 @@
 		text-align: center;
 		
 		> div {
-			margin-top: 88px;
+			margin-top: 105px;
 		}
 	}
 }
@@ -169,11 +169,13 @@
 	width: 100%;
 
 	img {
-		margin-top: 30px;
+		margin-top: 40px;
 		margin-left: 10px;
 	}
 
   h2 { 
-		margin: 15px 0 30px 0;
+		@include single-text-shadow(rgba(black, .6), 0px, 3px, 5px);
+		margin: 20px 0 30px 0;
+		color: #ddd;
   }
 }

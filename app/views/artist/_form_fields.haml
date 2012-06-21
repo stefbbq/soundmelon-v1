@@ -1,90 +1,94 @@
 - is_new = @band.new_record?
-.area.form
-  .details
-    - if is_new
-      %h3
-        your
-        %span name
-      %h3
-        your
-        %span username
-    - else
-      %h3
-        your name is
-        %span{:id =>'artistname'}= @band.name
-      %h3
-        and your username is
-        %span= @band.mention_name
-      %h5 click the lock to enable changes
-  .content{:id=>'basic-info'}    
-    - if is_new
+.content-box#band-edit
+  .area.form
+    #update-msg
+    .details
+      - if is_new
+        %h3
+          your
+          %span name
+        %h3
+          your
+          %span username
+      - else
+        %h3
+          your name is
+          %span{:id =>'artistname'}= @band.name
+        %h3
+          and your username is
+          %span= @band.mention_name
+        %h5 click the lock to enable changes
+    .content{:id=>'basic-info'}    
+      - if is_new
+        .field
+          %label{:for=>"name"}
+            name
+          = f.text_field :name
+        .field
+          %label{:for=>"username"}
+            username
+          = f.text_field :mention_name
+      - else
+        .field
+          %label{:for=>"name"}
+            name
+          = f.text_field :name
+        .field
+          %label{:for=>"username"}
+            username
+          = f.text_field :mention_name, :readonly =>true
+        .lock-toggle
+        = f.submit 'changes are swell', :class => 'button'
+.content-box#band-edit
+  .area.form
+    .details
+      - if is_new
+        %h3
+          your
+          %span location, genres, bio,
+          %span artist visibility
+          and
+          %span external links
+      - else
+        %h3
+          change your
+          %span location, genres, bio,
+          %span artist visibility
+          and
+          %span external links      
+    .content
       .field
-        %label{:for=>"name"}
-          name
-        = f.text_field :name
+        %label{:for=>"location"}
+          location
+        = f.text_field :location, :class => 'textfield long'
       .field
-        %label{:for=>"username"}
-          username
-        = f.text_field :mention_name
-    - else
+        %label{:for=>"genres"}
+          genre(s)
+        = f.text_field :genre_tokens, :class => 'textfield long'
       .field
-        %label{:for=>"name"}
-          name
-        = f.text_field :name
+        %label{:for=>"bio"}
+          bio
+        = f.text_area :bio, :rows => 5, :cols => 50, :class => 'text-area-field long'
       .field
-        %label{:for=>"username"}
-          username
-        = f.text_field :mention_name, :readonly =>true
-      .lock-toggle
-      = f.submit 'changes are swell', :class => 'button'
-.area.form
-  .details
-    - if is_new
-      %h3
-        your
-        %span location, genres, bio,
-        %span artist visibility
-        and
-        %span external links
-    - else
-      %h3
-        change your
-        %span location, genres, bio,
-        %span artist visibility
-        and
-        %span external links      
-  .content
-    .field
-      %label{:for=>"location"}
-        location
-      = f.text_field :location, :class => 'textfield long'
-    .field
-      %label{:for=>"genres"}
-        genre(s)
-      = f.text_field :genre_tokens, :class => 'textfield long'
-    .field
-      %label{:for=>"bio"}
-        bio
-      = f.text_area :bio, :rows => 5, :cols => 50, :class => 'text-area-field long'
-    .field
-      %label{:for=>"membersVisiblity"}
-        show members
-      = f.check_box :is_member_public, :class => 'textfield long'
-    .field
-      %label{:for=>"website"}
-        website
-      = f.text_field :website, :class => 'textfield long'
-    .field
-      %label{:for=>"facebook"}
-        facebook
-      = f.text_field :facebook_page, :class => 'textfield long'
-      %label{:for=>"twitter"}
-        twitter
-      = f.text_field :twitter_page, :class => 'textfield long'
-    - if is_new
-      = f.submit 'create profile', :class => 'button'
-    - else
-      = f.submit 'save to memory', :class => 'button'
+        %label{:for=>"membersVisiblity"}
+          show members
+        = f.check_box :is_member_public, :class => 'textfield long'
+      .field
+        %label{:for=>"website"}
+          website
+        = f.text_field :website, :class => 'textfield long'
+      .field
+        %label{:for=>"facebook"}
+          facebook
+        = f.text_field :facebook_page, :class => 'textfield long'
+      .field
+        %label{:for=>"twitter"}
+          twitter
+        = f.text_field :twitter_page, :class => 'textfield long'
+      - if is_new
+        = f.submit 'create profile', :class => 'button'
+      - else
+        = f.submit 'save to memory', :class => 'button'
 - unless is_new
   :javascript
     $('#basic-info input').attr('disabled', true).addClass('input-disabled');

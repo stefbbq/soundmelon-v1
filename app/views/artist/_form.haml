@@ -1,18 +1,15 @@
 = band_form = capture do 
-  .content-box#band-edit
-    #update-msg
-    - if @band.errors.any? 
-      #error_explanation
-        %h2
-          = pluralize(@band.errors.count, "error")
-          prohibited this new artist profile from being saved:
-        %ul
-          - @band.errors.full_messages.each do |msg|
-            %li
-              = msg
-    .loader
-    = form_for @band, :url => action_url, :html => {:multipart => true, :remote => true, :class => 'band-form' } do |f|
-      = render :partial => '/artist/form_fields', :locals =>{:f => f}
+  - if @band.errors.any? 
+    #error_explanation
+      %h2
+        = pluralize(@band.errors.count, "error")
+        prohibited this new artist profile from being saved:
+      %ul
+        - @band.errors.full_messages.each do |msg|
+          %li
+            = msg
+  = form_for @band, :url => action_url, :html => {:multipart => true, :remote => true, :class => 'band-form' } do |f|
+    = render :partial => '/artist/form_fields', :locals =>{:f => f}
 :javascript
   $(document).ready(function() {    
     $("#band_genre_tokens").tokenInput(
