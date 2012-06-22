@@ -1,15 +1,11 @@
-- tabs      = [:latest_post, :mention, :reply, :message]
+- tabs      = [:mention, :reply, :message]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 - band      = band || @band
 - if band 
   .social-header
-    = link_to "latest",
-              manage_band_path(:band_name => band.name),
-              :remote   => true,
-              :class    => 0 == current ? "backable iconactive highlight ajaxload active button-fill-artist" : "backable iconactive highlight ajaxload", :id => 'latest'    
     = link_to mentioned_path,
         {:remote => true, 
-         :class=> 1 == current ? "backable iconactive ajaxload highlight active button-fill-artist" : "backable iconactive ajaxload", 
+         :class=> 0 == current ? "backable iconactive ajaxload highlight active button-fill-artist" : "backable iconactive ajaxload",
          :id => 'mentions' } do
       - if @unread_mentioned_count > 0
         mentions
@@ -20,7 +16,7 @@
         mentions
     = link_to replies_path,
         {:remote => true, 
-         :class=> 2 == current ? "backable iconactive ajaxload highlight active button-fill-artist" : "backable iconactive ajaxload", 
+         :class=> 1 == current ? "backable iconactive ajaxload highlight active button-fill-artist" : "backable iconactive ajaxload",
          :id => 'replies' } do
       - if @unread_post_replies_count > 0
         replies
@@ -31,7 +27,7 @@
         replies
     = link_to user_inbox_path,
         {:remote => true, 
-         :class=> 3 == current ? "backable inbox iconactive ajaxload highlight active button-fill-artist" : "backable inbox iconactive ajaxload", 
+         :class=> 2 == current ? "backable inbox iconactive ajaxload highlight active button-fill-artist" : "backable inbox iconactive ajaxload",
          :id => 'messages' } do
       - if @unread_messages_count > 0
         messages

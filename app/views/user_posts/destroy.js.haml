@@ -1,4 +1,6 @@
 - date  = @post.created_at.strftime("%Y%m%d")
 != "$('#post_#{@post.id}').remove();"
-- unless @post.is_bulletin
+- if @post.is_bulletin
+  != "if($('.bulletin_posts').find('div').length==0){$('date#pin-board').remove();}"
+- else @post.is_bulletin
   != "if($('.user_posts #date_#{date}').nextUntil('date').length==0){$('.user_posts #date_#{date}').remove();}"

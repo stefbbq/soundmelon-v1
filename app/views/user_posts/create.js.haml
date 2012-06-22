@@ -4,9 +4,8 @@
 != "$('#user_post_form')[0].reset();"
 if($('.user_posts .msg').length>0){$('.user_posts').html('');}
 - if @post.is_bulletin
-  != "if($('#pin-board div').length==0){$('<date id=\"pin-board\"><div><h1>Bulletin</h1></div></date>').insertBefore($('.user_posts'));}"
-  != "if($('.bulletin_posts').length==0){$('<div class=\"bulletin_posts\"></div><br/>').insertBefore($('.user_posts'));}"
-  != "$('.bulletin_posts').prepend('#{escape_javascript(render 'user_posts/post', :post => @post)}');"
+  != "if($('#pin-board div').length==0){$('.pinned-posts').prepend('<date id=\"pin-board\"><div><h1>pinned</h1></div></date>');}"
+  != "$('.pinned-posts').append('#{escape_javascript(render 'user_posts/post', :post => @post)}');"
 - else
   != "if($('.user_posts #date_#{date}').length==0){$('.user_posts').prepend('<date id=\"date_#{date}\"><div><h1>#{month}</h1><h2>#{day}</h2></div></date>');}"
   != "$('#{escape_javascript(render 'user_posts/post', :post => @post)}').insertAfter($('.user_posts #date_#{date}'));"

@@ -52,8 +52,8 @@
   - elsif post_item
     #{post_message(post, post_item)}
   - else
-    wrote this
-  #{time_ago_in_words(post.created_at)} ago
+    wrote this  
+  #{timeago(post.created_at)}
 
 - action_section  = ''
 - unless is_newsfeed
