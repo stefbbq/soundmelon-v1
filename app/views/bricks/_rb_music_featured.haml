@@ -22,8 +22,6 @@
     }    
     $('.featured_song_list ul').html(liHtml);
   }
-  function playFeaturedSong(index){
-    var item = songList[index];
-    updateTrackInfo(item.band, item.title, item.image, item.like)
-    playMusicFromFeaturedList(item.i, item.mp3, item.ogg);
+  function playFeaturedSong(index){    
+    playSongFromAlbum(songList[index]);
   }

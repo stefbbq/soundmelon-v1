@@ -94,15 +94,17 @@ $(document).ready( function(){
   });
   
   $('a.backable').live('click', function(){
-    history.pushState({
-      sm:true
-    }, document.title, this.href);    
+    if(location.href!= this.href){
+      history.pushState({
+        sm:true
+      }, document.title, this.href);      
+    }    
     return false;
   });
   
   $(window).bind("popstate", function(event){    
     if(event.originalEvent.state){
-      jQuery.facebox($('#globalloading').html());
+      jQuery.facebox($('#globalloading').html());      
       $.getScript(location.href,function(data, textStatus, jqxhr) {
        $(document).trigger("close.facebox");
       });      

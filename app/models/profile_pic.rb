@@ -3,8 +3,8 @@ class ProfilePic < ActiveRecord::Base
   has_attached_file :avatar,
     :styles     => {
           :small    => ['50x50#',:jpg],
-          :medium   => ['100x100>',:jpg],
-          :large    => ['300x180>',:jpg]
+          :medium   => ['100x100#',:jpg],
+          :large    => ['414x246#',:jpg]
         },
     :path => ":rails_root/public/sm/u/:normalized_file_name.:extension",
     :url => "/sm/u/:normalized_file_name.:extension",

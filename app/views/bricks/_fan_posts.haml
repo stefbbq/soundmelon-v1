@@ -11,7 +11,9 @@
       Start following some artists and fans, and see what they're upto!
   - else
     - @posts_order_by_dates.each do |date, posts|
-      %date{:id =>"date_#{date.split('-').join()}"}
+      - date      = posts.first ? posts.first.created_at : date
+      - date_str  = date.strftime('%Y%m%d')
+      %date{:id =>"date_#{date_str}"}
         %div
           %h1
             = date.to_date.strftime('%b')
