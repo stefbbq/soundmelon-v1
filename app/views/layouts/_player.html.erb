@@ -13,10 +13,9 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
           <a href="javascript:;" class="jp-play"></a>
           <a href="javascript:;" class="jp-pause"></a>
         </div>
-        <a href="javascript:;" class="jp-next"></a>
-        <div class="jp-volume-bar">
-          <div class="vol_val">1</div>
-          <div class="vol_non">1</div>
+        <a href="javascript:;" class="jp-next"></a>        
+        <div class="jp-volume-bar1" style="position: absolute !important;">
+          <div class="jp-volume-bar-value"><img src="/assets/circle.png" alt=""/></div>
         </div>
       </div>
     </div>
@@ -43,13 +42,28 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   $(document).ready(function(){
     makePlayList();
     player.jPlayer({
-      ready: function(event){playListStart();},
+      ready: function(event){playListStart();   
+      $('.jp-volume-bar1 img').css('left', event.jPlayer.options.volume* 100 + 'px');
+      },
       play: function(event){afterPlayStart();},
       pause: function(event){afterPlayPause();},
       ended:function(event){playListNext();},
       swfPath: "../js",supplied: "m4a,mp3",wmode: "window"
     });
+    
+    $('.jp-volume-bar1 img').draggable({
+      axis: "x",
+      containment: '.jp-volume-bar1',
+      stop: function(event, ui) {
+        var volume = (parseInt(ui.position.left)) / 100;
+        player.jPlayer("volume", volume);
+      },
+      drag:function(event, ui){
+        $('.jp-volume-bar-value').css('width', ui.position.left + '%');
+      }
+    });
   });
+  
   $(".jp-pre").click(function() { playListPrev(); }); // Listen for Previous Track button click
   $(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click
 
@@ -168,3 +182,15 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   var playList = [<%= list_of_play_items(@song_items) %>];
   //]]>
 </script>
+<style type="text/css">
+  input [type='range'] {
+    -webkit-appearance: none !important;
+    background:red;
+    height:7px;}
+input [type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    background:blue;
+    height:10px;
+    width:10px;
+}
+</style>

@@ -169,10 +169,16 @@
 					}
 					.jp-play, .jp-pause { display: block; }
 				}
-				.jp-volume-bar {
-					margin: 0 0 9px 15px;
+				.jp-volume-bar1 {
+					margin: 20px 0 9px 15px;
+          width:116px;
+          height:5px;
+          background-color:gray;
 				}
-				
+        .jp-volume-bar-value {  
+          height: 5px;
+          background-color:#23B139;
+        }				
 				//main info section	
 				.info {
 					@include border-radius($border-radius);
