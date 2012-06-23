@@ -5,12 +5,12 @@
     .top
       .header
         .name
-          %h2
-            = @band.name
+          %h2.full-name= @band.name
+          %h2= @band.mention_name
         .actions
           = link_to 'view public profile', show_band_path(:band_name => @band.name), :remote =>true, :class =>'text-action ajaxopen backable'
-          = link_to '', @band.facebook_page, :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @band.facebook_page.blank?
-          = link_to '', @band.twitter_page, :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @band.twitter_page.blank?
+          = link_to '', @band.facebook_page, :target =>'_blank', :title =>"visit our Facebook page", :class =>"icon-action facebook-icon" unless @band.facebook_page.blank?
+          = link_to '', @band.twitter_page, :target =>'_blank', :title =>"visit our Twitter", :class =>"icon-action twitter-icon" unless @band.twitter_page.blank?
       .sub-head
         %h3 
           = "#{@band.genre}"

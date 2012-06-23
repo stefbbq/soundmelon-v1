@@ -7,8 +7,8 @@
     .top
       .header
         .name
-          %h2
-            = @band.name
+          %h2.full-name= @band.name
+          %h2= @band.mention_name
         .actions
           - unless is_own_wall
             - if @is_admin_of_band

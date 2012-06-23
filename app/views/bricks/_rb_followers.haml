@@ -9,7 +9,6 @@
         followers
       - else
         follower
-      = link_to 'see all', fan_followers_path(:id =>user.id), :remote=>:true, :class=>'small-font right-icon-item ajaxopen backable' unless follower_count < FOLLOWER_SHOW_LIMIT
   - else
     .selection-box-nohref{:id =>'followers'}
       %span.count{:id=>'followercount'}

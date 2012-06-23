@@ -1,6 +1,6 @@
 = render :partial=> @user.is_fan? ? "/fan/live" : "/artist/live"
 .primary-container
-  - if @user.is_fan?    
+  - if @user.is_fan?
     .primary
       .left
         .top
@@ -9,7 +9,7 @@
       .right
         = render "/fan/right"
       .clear
-  - else    
+  - else
     .primary
       .top
         .left

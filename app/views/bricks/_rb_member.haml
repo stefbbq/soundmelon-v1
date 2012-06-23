@@ -7,9 +7,6 @@
       members
       %span.count
         =# pluralize(artist_count, 'artist')
-      - unless artist_count < BAND_MEMBER_SHOW_LIMIT
-        %br
-        =  link_to "see all", band_members_path(:band_name => band.name), :remoe=>:true, :class=>"small-font ajaxopen backable"
   -else
     .selection-box-nohref
       members

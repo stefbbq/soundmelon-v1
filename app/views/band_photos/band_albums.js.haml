@@ -1,9 +1,7 @@
 - band_albums = capture do
-  .album_list_header{:style=>'margin:3px;padding:5px;'}
-    %b Albums
-    - if @has_admin_access
-      .add_new{:style=>'float:right;background-color:grey;height:20px;width:70px;padding-left:10px;'}
-        = link_to "add album", new_band_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
+  - if @has_admin_access
+    .add
+      = link_to "add album", new_band_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
     %hr
   .div{:id =>"photo_album_box"}
     - @band_albums.each do |band_album|

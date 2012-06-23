@@ -1,10 +1,11 @@
 - featured_songs ||=[]
-%b Featured Songs
-%br/
-.featured_songs{:style=>'margin:5px;padding:5px;'}
+.featured
   - featured_songs.each do |song|
-    = render 'featured_song', :song =>song
+    - song_album = song.song_album
+    - song_name  = song.title || song.song_name_without_extension
+    = link_to make_song_featured_path(song_album.band.name, song_album.album_name, song.id), {:remote=>:true, :class=>"ajaxopen featured-song feature-enabled", :title => 'remove from featured'} do
+      %span= song_name.truncate(16)
+      %span remove
   - (6 - featured_songs.size).times do |i|
-    .new_featured_song{:style=>'height:40px;width:40px;padding-left:15px;padding-top:13px;margin-left:5px;border:1px solid blue;float:left;'}      
-      = link_to "Add New", popup_for_feature_songs_path(:band_name =>@band.name), :remote=>:true, :class=>"ajaxopen", :title =>'Choose Song to Set as Featured'
+    = link_to "feature new song", popup_for_feature_songs_path(:band_name =>@band.name), :remote => :true, :class => "ajaxopen featured-song", :title => 'choose a song to feature'
 .clear

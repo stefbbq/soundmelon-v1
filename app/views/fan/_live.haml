@@ -2,8 +2,16 @@
   .profile-image{:title =>"#{@user.get_full_name}"}
     = get_avatar_large(@user)
   .links
-    .top.top-default
-      %div
+    .top
+      .header
+        .name
+          %h2.full-name= @user.get_full_name
+          %h2= @user.mention_name
+        .actions
+      .sub-head
+        = @user.get_full_address
+      .description
+        = @user.bio
     .bottom
       .left.left-default
       .right.right-default

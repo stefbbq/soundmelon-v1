@@ -1,9 +1,0 @@
-- song_album = song.song_album
-- song_name  = song.title || song.song_name_without_extension
-- if song_album
-  .featured_song{:id =>"#{song.id}_featured",:style =>'float:left;margin-left:5px;margin-right:10px;width:100px;border:1px dotted blue;padding:2px;'}
-    %span= song_name.truncate(20)
-    %br
-    (#{song_album.album_name})
-    %br
-      = link_to "Remove", make_song_featured_path(song_album.band.name, song_album.album_name, song.id), :remote=>:true, :class=>"ajaxopen", :title =>'Remove from featured list'

@@ -17,8 +17,6 @@
       %span.artist-count
         = pluralize(@following_artist_count, 'artist')
       - if @following_artist_count >0
-        %br/
-        = link_to "see all", user_following_artists_path(@user), :remote=>:true, :class=>"small-font ajaxopen"
     .band-box-content
       %div
         - @following_artists.each do |band|
@@ -32,8 +30,6 @@
       %span.artist-count
         = pluralize(@following_count,'fan')
       - if @following_count >0
-        %br/
-        = link_to "see all", user_following_path(@user), :remote=>:true, :class=>"small-font ajaxopen"
     .band-box-content
       %div
         - @following_users.each do |fan_following|
@@ -46,8 +42,6 @@
       %span.artist-count
         = pluralize(@follower_count,'follower')
       - if @follower_count >0
-        %br/
-        = link_to "see all", user_follower_path(@user), :remote=>:true, :class=>"small-font ajaxopen"
     .band-box-content
       %div
         - @follower_users.each do |fan_follower|
