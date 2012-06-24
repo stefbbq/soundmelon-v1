@@ -29,12 +29,12 @@
           else
             $('#musicbox').prepend(new_album_html);
         }
-        if($('.left .album_lists').length >0){
-          if($('.left .album_lists #song_album_' + dat.song_album_id).length == 0){
-            $('#photo_album_box').append(dat.album_string);
+        if($('.left .album-list').length >0){
+          if($('.left .album-list #song_album_' + dat.song_album_id).length == 0){
+            $('.left .album-list').append(dat.album_string);
           }else{
-            if($('.left .album_lists #song_album_' + dat.song_album_id + ' .album_details').length > 0){
-              $('.left .album_lists #song_album_' + dat.song_album_id + ' .album_details').append(dat.song_string);
+            if($('.left .album-list #song_album_' + dat.song_album_id + ' .album_details').length > 0){
+              $('.left .album-list #song_album_' + dat.song_album_id + ' .album_details').append(dat.song_string);
             }
           }
         }

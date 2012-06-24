@@ -2,6 +2,9 @@
   $('#facebox .content').html('Album successfully deleted');  
   $('#musicbox #song_album_#{@song_album.id}').remove();
   != "$('.primary .left #song_album_#{@song_album.id}').remove();"
+  $('.featured').replaceWith('#{escape_javascript(render '/band_song_album/featured_songs', :featured_songs =>@featured_songs)}');
+  var songList = [#{list_of_play_items(@featured_songs)}];
+  makeFeaturedSongList();  
 - else
   jQuery.facebox("Something went wrong! Try again!");
 $.facebox.close();

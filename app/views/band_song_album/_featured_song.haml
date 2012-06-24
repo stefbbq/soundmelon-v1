@@ -1,0 +1,6 @@
+- song_album = song.song_album
+- song_name  = song.title || song.song_name_without_extension
+- if song_album
+  = link_to make_song_featured_path(song_album.band.name, song_album.album_name, song.id), {:id =>"#{song.id}_featured", :remote=>:true, :class=>"ajaxopen featured-song feature-enabled", :title => 'remove from featured'} do
+    %span= song_name.truncate(16)
+    %span remove

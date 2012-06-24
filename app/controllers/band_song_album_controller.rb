@@ -2,6 +2,7 @@
 class BandSongAlbumController < ApplicationController
   before_filter :require_login
   before_filter :check_and_set_admin_access, :except =>[:download_album, :download, :do_like_dislike_song ]
+  
   # renders the form for new song album, :only =>ajax_request
   def new
     redirect_to  show_band_url(:band_name => params[:band_name]) and return unless request.xhr?    
@@ -23,7 +24,7 @@ class BandSongAlbumController < ApplicationController
         @song_album           = SongAlbum.where(:album_name => params[:album_name], :band_id => @band.id).first || SongAlbum.create(:album_name=>params[:album_name], :user_id => current_user.id, :band_id => @band.id)
         @song                 = @song_album.songs.build(newparams[:song])
         @song.user_id         = current_user.id
-        if @song.save
+        if @song.save                    
           flash[:notice] = "Song successfully uploaded."
           respond_to do |format|
             format.html {redirect_to manage_band_url(:band_name => @band.name) and return}
@@ -38,7 +39,7 @@ class BandSongAlbumController < ApplicationController
                 :add_url        => "#{add_songs_to_album_path(:band_name =>@band.name, :song_album_name =>@song_album.album_name)}",
                 :album_url      => "#{band_song_album_path(:band_name =>@band.name, :song_album_name =>@song_album.album_name)}",
                 :delete_url     => "#{delete_song_album_path(@band.name, @song_album.id)}",
-                :album_string   => "#{render_to_string('/band_song_album/_band_song_album',:layout =>false, :locals =>{:song_album =>@song_album})}",
+                :album_string   => "#{render_to_string('/band_song_album/_band_song_album',:layout =>false, :locals =>{:song_album =>@song_album, :show_all=>true})}",
                 :song_string    => "#{render_to_string('/band_song_album/_song_item',:layout =>false, :locals =>{:song =>@song})}"
               }               
             }
@@ -161,6 +162,7 @@ class BandSongAlbumController < ApplicationController
           render :nothing => true and return
         end
         @status             = @song_album.destroy
+        @featured_songs     = @band.featured_songs
       rescue =>exp
         logger.error "Error in BandSongAlbum#DestroyAlbum :=> #{exp.message}"
         @status             = false
@@ -174,11 +176,16 @@ class BandSongAlbumController < ApplicationController
   def destroy_song
     if request.xhr?
       begin
-        @song           = Song.where(:id => params[:song_id]).first
+        @song           = Song.where(:id => params[:song_id]).first        
         unless @has_admin_access
           render :nothing => true and return
         end
         @status         = @song.destroy
+        @song.song_album.decrease_song_count(@song)
+        @is_featured    = @song.is_featured?
+        if @is_featured
+          @featured_songs     = @band.featured_songs
+        end
       rescue =>exp
         logger.error "Error in BandSongAlbum#DestroySong :=> #{exp.message}"
         @status         = false

@@ -6,7 +6,7 @@ class SongAlbum < ActiveRecord::Base
 
   belongs_to  :user
   belongs_to  :band
-  has_many    :songs, :dependent =>:destroy
+  has_many    :songs, :after_add => :increase_song_count,:after_remove =>:decrease_song_count, :dependent =>:destroy
   has_many    :posts, :as =>:postitem, :dependent => :destroy
 
   after_create :create_newsfeed
@@ -29,6 +29,14 @@ class SongAlbum < ActiveRecord::Base
 
   Paperclip.interpolates :normalized_file_name do |attachment, style|
     attachment.instance.normalized_file_name(style)
+  end
+
+  def increase_song_count song
+    self.increment! :song_count
+  end
+
+  def decrease_song_count song
+    self.decrement! :song_count
   end
 
   def normalized_file_name style

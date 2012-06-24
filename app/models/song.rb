@@ -19,8 +19,7 @@ class Song < ActiveRecord::Base
   validates_attachment_size :song, :less_than => 15.megabytes
   validates_attachment_presence :song
 
-  after_destroy :decrease_song_count
-  after_create :increase_song_count,:set_default_title, :queue_song_for_processing, :create_newsfeed
+  after_create :set_default_title, :queue_song_for_processing, :create_newsfeed
 
   Paperclip.interpolates :normalized_attachment_file_name do |attachment, style|
     attachment.instance.normalized_attachment_file_name
@@ -189,18 +188,7 @@ class Song < ActiveRecord::Base
     Post.create_newsfeed_for self, nil, self.song_album.band_id, " added"
   end
 
-  private
-
-  def increase_song_count
-    song_album = self.song_album
-    song_album.increment!(:song_count) if song_album
-  end
-
-  def decrease_song_count
-    song_album = self.song_album
-    self.song_album.decrement!(:song_count) if song_album
-  end
-
+  private  
 
   # Fix the mime types. Make sure to require the mime-types gem
   def swfupload_file=(data)
