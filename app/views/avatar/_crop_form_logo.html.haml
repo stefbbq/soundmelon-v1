@@ -1,14 +1,15 @@
 :javascript
   function update_crop(coords) {
-    var ratio = #{@artist_logo.logo_geometry(:original).width} / #{@artist_logo.logo_geometry(:large).width} ;
-    $("#crop_x").val(Math.round(coords.x * ratio));
-    $("#crop_y").val(Math.round(coords.y * ratio));
-    $("#crop_w").val(Math.round(coords.w * ratio));
-    $("#crop_h").val(Math.round(coords.h * ratio));
-  }
+    var hc = #{@height_change};
+    var wc = #{@width_change};
+    $("#crop_x").val(Math.round(coords.x * wc));
+    $("#crop_y").val(Math.round(coords.y * hc));
+    $("#crop_w").val(Math.round(coords.w * wc));
+    $("#crop_h").val(Math.round(coords.h * hc));
+  } 
 .center{:style=>"margin-left:20px;"}
   .loader
-  = image_tag @artist_logo.logo.url(:large), :id => 'cropbox'
+  = image_tag @artist_logo.logo.url(:original), :id => 'cropbox', :height =>"#{@show_height}px", :width =>"#{@show_width}px"
   = form_for @artist_logo, :url => update_logo_path, :html => {:method => :post, :remote => true}  do |f|
     - for attribute in [:crop_x, :crop_y, :crop_w, :crop_h]
       = f.hidden_field attribute, :id => attribute

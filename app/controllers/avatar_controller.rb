@@ -22,6 +22,8 @@ class AvatarController < ApplicationController
     end
     respond_to do |format|
       if @profile_pic.save
+        @original_geometry = @profile_pic.avatar_geometry(:original)
+        set_height_and_width @original_geometry
         format.js { render :action => 'crop' and return }
       else
         format.js { render :action => 'new' and return}
@@ -40,7 +42,10 @@ class AvatarController < ApplicationController
     end
   end
 
-  def crop    
+  def crop
+    @ratio = @profile_pic.avatar_geometry(:original).width / @profile_pic.avatar_geometry(:original).height
+    @original_geometry = @profile_pic.avatar_geometry(:original)
+    set_height_and_width @original_geometry
   end
 
   def delete    
@@ -72,6 +77,8 @@ class AvatarController < ApplicationController
     end
     respond_to do |format|
       if @artist_logo.save
+        @original_geometry = @artist_logo.logo_geometry(:original)
+        set_height_and_width @original_geometry
         format.js { render :action => 'crop_logo' and return }
       else
         format.js { render :action => 'new_logo' and return}
@@ -90,7 +97,9 @@ class AvatarController < ApplicationController
     end
   end
 
-  def crop_logo    
+  def crop_logo
+    @original_geometry = @artist_logo.logo_geometry(:original)
+    set_height_and_width @original_geometry
   end
 
   def delete_logo    
@@ -121,6 +130,17 @@ class AvatarController < ApplicationController
     else
       render :template =>'/bricks/page_missing'
     end
+  end
+
+  def set_height_and_width geometry
+    img_height  = 400
+    img_width   = 400
+    height      = geometry.height
+    width       = geometry.width
+    @show_height = height > img_height ? img_height : height
+    @show_width  = width > img_width ? img_width : width    
+    @height_change = (height/img_height)
+    @width_change  = (width/img_width)
   end
 
 end

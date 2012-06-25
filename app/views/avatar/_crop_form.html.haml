@@ -1,14 +1,15 @@
 :javascript
-  function update_crop(coords) {
-    var ratio = #{@profile_pic.avatar_geometry(:original).width} / #{@profile_pic.avatar_geometry(:large).width} ;
-    $("#crop_x").val(Math.round(coords.x * ratio));
-    $("#crop_y").val(Math.round(coords.y * ratio));
-    $("#crop_w").val(Math.round(coords.w * ratio));
-    $("#crop_h").val(Math.round(coords.h * ratio));
-  }
-.center{:style=>"margin-left:20px;"}
+  function update_crop(coords) {    
+    var hc = #{@height_change};
+    var wc = #{@width_change};
+    $("#crop_x").val(Math.round(coords.x * wc));
+    $("#crop_y").val(Math.round(coords.y * hc));
+    $("#crop_w").val(Math.round(coords.w * wc));
+    $("#crop_h").val(Math.round(coords.h * hc));    
+  }  
+.center{:style=>"margin-left:20px;"}  
   .loader
-  = image_tag @profile_pic.avatar.url(:large), :id => 'cropbox'
+  = image_tag @profile_pic.avatar.url(:original), :id => 'cropbox', :height =>"#{@show_height}px", :width =>"#{@show_width}px"
   = form_for @profile_pic, :url => update_avatar_path, :html => {:method => :post, :remote => true}  do |f|
     - for attribute in [:crop_x, :crop_y, :crop_w, :crop_h]
       = f.hidden_field attribute, :id => attribute 

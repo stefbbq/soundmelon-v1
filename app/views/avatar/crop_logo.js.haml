@@ -3,5 +3,5 @@
   = javascript_include_tag "jquery.Jcrop.min", "avatar"
 != "$('.live .profile-image').html('#{escape_javascript(get_band_logo_large(@artist, true))}');"
 != "jQuery.facebox('#{escape_javascript(render 'crop_form_logo')} ' );"
-!= "$('#cropbox').Jcrop({onChange: update_crop, onSelect: update_crop, setSelect: [0, 0, 350, 280], aspectRatio: 1.5});"
+!= "$('#cropbox').Jcrop({onChange: update_crop, onSelect: update_crop, setSelect: [0, 0, 414, 246], aspectRatio: 1.68});"
 != "$('form').submit(function(){($('.loader').html($('#globalloading').html()));return true; $(':submit').attr('disabled','disabled');});" 

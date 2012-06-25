@@ -2,7 +2,7 @@ class ProfilePic < ActiveRecord::Base
   belongs_to :user
   has_attached_file :avatar,
     :styles     => {
-          :small    => ['50x50#',:jpg],
+          :small    => ['50x50!',:jpg],
           :medium   => ['100x100#',:jpg],
           :large    => ['414x246#',:jpg]
         },
@@ -29,7 +29,7 @@ class ProfilePic < ActiveRecord::Base
     !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
   end
 
-  def avatar_geometry(style = :large)
+  def avatar_geometry(style = :original)
     @geometry ||= {}
     @geometry[style] ||= Paperclip::Geometry.from_file(avatar.path(style))
   end

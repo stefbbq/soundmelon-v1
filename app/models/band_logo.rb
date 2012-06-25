@@ -2,7 +2,7 @@ class BandLogo < ActiveRecord::Base
   belongs_to :band
   has_attached_file :logo,
     :styles => {
-    :small => ['50x50#', :jpg],
+    :small => ['50x50!', :jpg],
     :medium =>['100x100#', :jpg],
     :large => ['414x246#', :jpg]
     },
