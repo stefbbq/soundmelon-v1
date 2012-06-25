@@ -68,17 +68,26 @@ class ApplicationController < ActionController::Base
   def get_band_associated_objects artist
     @band_members_count        = artist.band_members.count
     @other_bands               = current_user.admin_bands_except(artist)
+    get_band_mentioned_posts artist
+    messages_and_posts_count
+    get_artist_objects_for_right_column(artist)
+  end
+
+  def get_band_bulletins_and_posts artist
     @posts                     = artist.find_own_as_well_as_mentioned_posts(params[:page])
     next_page                  = @posts.next_page
-    @load_more_path             =  next_page ? band_more_posts_path(:band_name => artist.name, :page => next_page, :type => 'general') : nil
+    @load_more_path            =  next_page ? band_more_posts_path(:band_name => artist.name, :page => next_page, :type => 'general') : nil
     @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-    @bulletins                 = artist.bulletins    
+    @bulletins                 = artist.bulletins
     bulletin_next_page         = @bulletins.next_page
     @load_more_bulletins_path  = bulletin_next_page ? band_more_bulletins_path(:band_name => artist.name, :page => bulletin_next_page) : nil
-    @unread_mentioned_count    = artist.unread_mentioned_post_count
-    @unread_post_replies_count = artist.unread_post_replies_count
-    @unread_messages_count     = artist.received_messages.unread.count
-    get_artist_objects_for_right_column(artist)
+  end
+
+  def get_band_mentioned_posts artist
+    @posts                      = artist.mentioned_in_posts(params[:page])
+    @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+    next_page                   = @posts.next_page
+    @load_more_path             = next_page ? more_posts_path(next_page, :type => 'mentions') : nil
   end
 
   # checks whether the logged in user is administrating the artist  
@@ -124,7 +133,9 @@ class ApplicationController < ActionController::Base
     if actor      
       @unread_mentioned_count     ||= actor.unread_mentioned_post_count
       @unread_post_replies_count  ||= actor.unread_post_replies_count
-      @unread_messages_count      ||= actor.received_messages.unread.count
+      #      @unread_messages_count      ||= actor.received_messages.unread.count
+      #      @unread_messages_count      ||= actor.messages.unread.count
+      @unread_messages_count      ||= actor.mailbox.conversations(:unread=>true).size
     end
   end
   

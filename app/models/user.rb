@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
 
-  acts_as_messageable :required => :body ,:order => "created_at desc" 
+  acts_as_messageable
   acts_as_followable
   acts_as_follower
   

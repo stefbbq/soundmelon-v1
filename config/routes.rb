@@ -70,7 +70,6 @@ Soundmelon::Application.routes.draw do
   match 'invitation/accept/:old_user/:id/join'=> 'fan#activate_invitation' ,              :as => :join_band_invitation
   match "messages/sendmessage"                => 'messages#send_message',                 :as => :send_message
 
-  get ':band_name/messages/inbox'             => 'messages#inbox' ,                       :as => :band_inbox
   resources :user_posts
   match 'post/:id/reply/(:band_id)'           => 'user_posts#new_reply',                  :as => :new_post_reply
   match 'post/reply'                          => 'user_posts#reply',                      :as => :post_reply
@@ -78,7 +77,6 @@ Soundmelon::Application.routes.draw do
   get ':band_name/mentioned/posts'            => 'user_posts#mentions_post',              :as => :band_mentions_post
   get ':band_name/replies/posts'              => 'user_posts#replies_post',               :as => :band_replies_post
   
-  match 'messages/:id/band/:band_id'          => 'messages#show',                         :as => :band_message
   resources :messages
  
   match 'message/reply'                       =>'messages#reply' ,                        :as => :reply_to_message

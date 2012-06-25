@@ -22,13 +22,7 @@ class ArtistPublicController < ApplicationController
       @band                       = Band.where(:name => params[:band_name]).includes(:band_members).first
       @is_admin_of_band           = current_user.is_admin_of_band?(@band)
       @band_members_count         = @band.band_members.count
-      @posts                      = @band.find_own_posts(params[:page])
-      @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-      @bulletins                  = @band.bulletins
-      bulletin_next_page          = @bulletins.next_page
-      @load_more_bulletins_path   = bulletin_next_page ? band_more_bulletins_path(:band_name => @band.name, :page => bulletin_next_page) : nil
-      next_page                   = @posts.next_page
-      @load_more_path             =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => 'general') : nil
+      get_band_bulletins_and_posts(@band)
       get_artist_objects_for_right_column(@band)
     rescue  => exp
       logger.error "Error in ArtistPublic#Members :=> #{exp.message}"

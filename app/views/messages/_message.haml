@@ -1,48 +1,10 @@
-- band ||= nil
-- messages.each do |message|
-  .primary-wrapper{:id=>"message_box_#{message.id}", :style =>'margin-top:5px'}
-    .avatar
-      = link_to get_avatar_small(message.sent_messageable), fan_profile_path(message.sent_messageable) if message.sent_messageable_type == 'User' && message.sent_messageable != current_user
-      = link_to get_avatar_small(message.sent_messageable), fan_home_url if message.sent_messageable_type == 'User' && message.sent_messageable == current_user
-      = get_band_logo_small(message.sent_messageable) if message.sent_messageable_type == 'Band'
-    - if message.opened
-      .msgstremitem-read
-        .itemcontent{:id=>"msg_item_#{message.id}"}
-          = message.body
+- messages.each do |conversation|
+  %div{:style =>'margin:5px;padding:5px;', :id =>"conversation_#{conversation.id}"}
+    %div{:class =>'message-section'}
+      - conversation.messages.each do |message|
+        - receipt = message.receipt_for(@user).first
+        - if (receipt && !receipt.deleted)
+          = render 'message_item', :message =>message
           %br
-          by
-          %strong
-          - if message.sent_messageable_type == 'User'
-            =  message.sent_messageable.fname 
-          - else
-            = message.sent_messageable.mention_name
-          about an #{time_ago_in_words(message.created_at)} ago
-        .righticons
-          = link_to "Destroy(X)" ,band ? message_path(message, :band_id => band.id) : message_path(message), :remote=>:true,:method=>:delete, :class =>"ajaxload"
-          %br
-          - if band
-            = link_to "Reply" ,band_message_path(message, :band_id => band.id),:remote=>:true ,:class=>"ajaxload"
-            %br
-            = link_to "View" ,message_path(message, :band_id => band.id),:remote=>:true, :class=>"ajaxload", :id=>"msg_view_#{message.id}"
-          - else
-            = link_to "Reply" ,message_path(message),:remote=>:true ,:class=>"ajaxload"
-            %br
-            = link_to "View" ,message_path(message),:remote=>:true, :class=>"ajaxload"
-        .clear
-    - else
-      .msgstremitem-unread
-        .itemcontent{:id=>"msg_item_#{message.id}"}
-          = message.body
-          %br
-          by
-          %strong
-          =  message.sent_messageable_type == 'User' ? message.sent_messageable.fname : message.sent_messageable.mention_name 
-          about an #{time_ago_in_words(message.created_at)} ago
-        .righticons
-          = link_to "Destroy(X)" ,band ? message_path(message, :band_id => band.id) : message_path(message), :remote=>:true,:method=>:delete, :class =>"ajaxload"
-          %br
-          = link_to "View" ,band ? message_path(message, :band_id => band.id) : message_path(message), :remote=>:true, :class=>"ajaxload", :id=>"msg_view_#{message.id}"
-          %br
-          reply
-        .clear
-    .clear
+    = link_to "reply this conversation" ,"javascript:void(0);", :onclick =>"$('#reply_form_div_#{conversation.id}').toggle();"
+    = render 'reply_form', :conversation =>conversation, :desplay =>true

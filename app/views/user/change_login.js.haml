@@ -17,13 +17,12 @@
   $('.live').replaceWith('#{escape_javascript(render '/artist/live')}');
   $('.primary .left').html('<div class="top"></div>');
   $('.primary .left .top').html('#{escape_javascript(render '/user_posts/status_artist')}');
-  $('.primary .left .top').append('#{escape_javascript(render '/artist/social_header')}');
+  $('.primary .left .top').append('#{escape_javascript(render '/artist/social_header', :current=>'mention')}');
   $('.primary .left').append('#{escape_javascript(render '/bricks/artist_posts')}');
   $('.primary .right').html('#{escape_javascript(render '/artist/right')}');
   setTimeout('$(document).trigger(\"close.facebox\")',10);
   $('.selection-box').removeClass('active').removeClass('button-fill-artist');
   $('#feed-msg').addClass('active').addClass('button-fill-artist');
-  $('.left a').removeClass('active').removeClass('button-fill-artist');
-  $('#latest').addClass('active').addClass('button-fill-artist');
+history.pushState({sm:true}, document.title, '/home');
 $('.top-bar .session .summary').html('#{escape_javascript(render '/bricks/session_header')}');
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');

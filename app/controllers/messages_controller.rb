@@ -14,60 +14,43 @@ class MessagesController < ApplicationController
         get_user_associated_objects
         #TODO: not get called automatically so calling explicitly. Need to investigate
         messages_and_posts_count
-        @messages = current_user.inbox(params[:page])        
       else
         @band                       = @user        
-        @unread_mentioned_count     = @band.unread_mentioned_post_count
-        @unread_post_replies_count  = @band.unread_post_replies_count
-        @unread_messages_count      = @band.received_messages.unread.count
-        @messages                   = @band.inbox(params[:page])
-        get_artist_objects_for_right_column(@band) #unless request.xhr?
+        messages_and_posts_count
+        get_artist_objects_for_right_column(@band)
       end
-      next_page ||= @messages.next_page      
-      @load_more_path =  next_page ?  more_inbox_messages_path(:page => next_page) : nil
-    rescue
+      @messages         = @user.mailbox.conversations.page(params[:page]).per(MESSAGES_PER_PAGE).includes(:receipts, :messages)
+      num_pages         = @messages.num_pages
+      current_page      = @messages.current_page
+      next_page         = current_page < num_pages ? current_page + 1 : nil
+      @load_more_path   =  next_page ?  more_inbox_messages_path(:page => next_page) : nil      
+    rescue =>exp
+      logger.error "Error in Messages::Inbox =>#{exp.message}"      
       render :nothing => true
     end
   end
   
   def index
     redirect_to inbox_url and return unless request.xhr?
-    if params[:band_name]
-        band        = Band.where(:name => params[:band_name]).first
-        if current_user.is_admin_of_band?(band)
-          @messages = band.inbox(params[:page])
-        else
-          @messages = []
-          next_page = nil
-        end
-      else
-        @messages   = current_user.inbox(params[:page])
-      end
-      next_page   ||= @messages.next_page
-      if band
-        @load_more_path =  next_page ?  more_inbox_messages_path(:band_name => band.name, :page => next_page) : nil
-      else
-        @load_more_path =  next_page ?  more_inbox_messages_path(:page => next_page) : nil
-      end
-  end
-
-  def outbox
-    @messages = current_user.sent_messages
+      @user = current_actor
+      @messages         = @user.mailbox.conversations.page(params[:page]).per(MESSAGES_PER_PAGE).includes(:receipts, :messages)
+      num_pages         = @messages.num_pages
+      current_page      = @messages.current_page
+      next_page         = current_page < num_pages ? current_page + 1 : nil
+      @load_more_path   =  next_page ?  more_inbox_messages_path(:page => next_page) : nil      
   end
 
   def show
     redirect_to root_url and return unless request.xhr?
     begin
-      @actor                        = current_actor
-      @message                      = @actor.messages.with_id(params[:id]).first
+      @actor           = current_actor
+      @message         = Message.find(params[:id])
       if @message
-        @message.update_attribute("opened",true)
-        @messages                   = @message.conversation
-        @unread_messages_count      = @actor.received_messages.unread.count
-#        messages_and_posts_count
+        @receipt       = @message.receipt_for(@actor).first
+        @receipt.mark_as_read if @receipt
       end
-    rescue =>e
-      logger.info "message error: #{e.message}"
+    rescue =>exp
+      logger.info "Error in Messages::Show :=> #{exp.message}"
       render :nothing => true
     end
   end
@@ -76,9 +59,10 @@ class MessagesController < ApplicationController
     redirect_to root_url and return unless request.xhr?
     begin
       @actor        = current_actor
-      @message      = @actor.messages.with_id(params[:id]).first      
+      @message      = Message.find params[:id]
       if @message
-        @deleted    = @message.destroy
+        @receipt    = @message.receipt_for(@actor).first        
+        @deleted    = @receipt.update_attribute(:deleted, true)
       else
         @deleted    = false
       end
@@ -96,17 +80,21 @@ class MessagesController < ApplicationController
   end
 
   def create
-    to              = User.find(params[:to])
-    current_user.send_message(to, params[:body])
+    begin
+      @actor        = current_actor
+      to_user       = User.find(params[:to])
+      @actor.send_message(to_user, params[:body], 'Subject')
+    rescue =>exp
+      logger.error "Error in Messages::Create :#{exp.message}"
+    end
   end
   
  def reply
    redirect_to root_url and return unless request.xhr?
    begin
-     @message       = ActsAsMessageable::Message.find(params[:id])
-     @actor         = current_actor
-     @reply_msg     = @actor.reply_to(@message,:body=>params[:body])     
-     @messages      = @message.conversation
+     @actor         = current_actor     
+     @conversation  = Conversation.find(params[:id])
+     @new_message   = @actor.reply_to_conversation(@conversation, params[:body]).message
    rescue =>exp
      logger.error "Error in Messages::Reply :=> #{exp.message}"
      render :nothing => true and return

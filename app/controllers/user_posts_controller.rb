@@ -113,9 +113,7 @@ class UserPostsController < ApplicationController
       @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page                   = @posts.next_page
       @load_more_path             = next_page ? more_post_path(next_page, :type=>'mentioned') : nil
-      @unread_mentioned_count     = @user.unread_mentioned_post_count
-      @unread_post_replies_count  = @user.unread_post_replies_count
-      @unread_messages_count      = @user.received_messages.unread.count      
+      messages_and_posts_count
       get_user_associated_objects unless request.xhr?
       render :template =>'/user_posts/mentioned' and return
     else
@@ -124,9 +122,7 @@ class UserPostsController < ApplicationController
       @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page                   = @posts.next_page
       @load_more_path             = next_page ? more_posts_path(next_page, :type => 'mentions') : nil
-      @unread_mentioned_count     = @band.unread_mentioned_post_count
-      @unread_post_replies_count  = @band.unread_post_replies_count
-      @unread_messages_count      = @band.received_messages.unread.count
+      messages_and_posts_count
       # get right column objects
       get_artist_objects_for_right_column(@band) unless request.xhr?
       render :template =>"/user_posts/mentions_post" and return
@@ -140,9 +136,7 @@ class UserPostsController < ApplicationController
       @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page                   = @posts.next_page
       @load_more_path             = next_page ? more_post_path(next_page, :type=>'replies') : nil
-      @unread_mentioned_count     = @user.unread_mentioned_post_count
-      @unread_post_replies_count  = @user.unread_post_replies_count
-      @unread_messages_count      = @user.received_messages.unread.count
+      messages_and_posts_count
       # get right column objects
       get_user_associated_objects unless request.xhr?
       render :template =>"/user_posts/replies" and return
@@ -152,9 +146,7 @@ class UserPostsController < ApplicationController
       @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page                  = @posts.next_page
       @load_more_path            =  next_page ? more_posts_path(next_page, :type => 'replies') : nil
-      @unread_mentioned_count    = @band.unread_mentioned_post_count
-      @unread_post_replies_count = @band.unread_post_replies_count
-      @unread_messages_count     = @band.received_messages.unread.count
+      messages_and_posts_count
       # get right column objects
       get_artist_objects_for_right_column(@band) unless request.xhr?
       render :template =>"/user_posts/replies_post" and return
