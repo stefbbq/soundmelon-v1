@@ -4,9 +4,8 @@
       - @invitation.errors.full_messages.each do |error_msg|
         %li= error_msg
 
-%div{:style=>'width:600px;padding:10px;'}
+%div{:style=>'width:400px;padding:10px;'}
   = form_for @invitation, :remote=>true do |f|
-    %p
-      = f.label :recipient_email, current_user ? "Friend's Email" : "Your Email"
-      = f.text_field :recipient_email
-      = f.submit 'Request Invitation'
+    = f.label :recipient_email, current_user ? "email" : "email"
+    = f.text_field :recipient_email
+    = f.submit 'request invitation'

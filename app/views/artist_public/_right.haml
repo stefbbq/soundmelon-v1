@@ -4,7 +4,7 @@
   = link_to 'latest posts', show_band_path(:band_name => @band.name),
             :id                 =>'latest-posts', 
             :remote             => 'true',
-            :class              => 0 == current ? 'ajaxopen backable iconactive selection-box button-fill-artist' : 'ajaxopen backable iconactive selection-box'
+            :class              => 0 == current ? 'ajaxopen backable iconactive selection-box active button-fill-artist' : 'ajaxopen backable iconactive selection-box'
   = render '/bricks/rb_music_featured',            
             :songs              => @featured_songs,
             :is_admin           => false,

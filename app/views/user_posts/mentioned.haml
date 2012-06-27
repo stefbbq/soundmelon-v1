@@ -1,10 +1,10 @@
-= render :partial=>"fan/live"
+= render :partial => "fan/live"
 .primary-container
   .primary
     .left
       .top
         = render "user_posts/status_fan"
-        = render "fan/social_header", :current =>'mention'
-      = render "bricks/fan_posts", :current =>'mention'
+        = render "fan/social_header", :current => 'mention'
+      = render "bricks/fan_posts", :current => 'mention'
     .right
       = render "fan/right"

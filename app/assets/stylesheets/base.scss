@@ -1,8 +1,58 @@
+//core
 //contains links and persistant/reusable elements (logo, background, footer, etc)
 
 @import 'compass/css3'; //compass css3 mixins
 @import 'mixins'; //custom mixins
 @import 'vars'; //global variables
+
+//
+//core
+html, body {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Trebuchet MS", arial, verdana, tahoma;
+  font-size: 13px;  
+	font-weight: normal;
+  color: $text-color; 
+	background: $footer-bg-color;
+}
+img { 
+  border: none; 
+  vertical-align: middle;
+}
+ul {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: #fff;
+  &:hover { text-decoration: none; }
+}
+
+//headings
+h1 {
+	font-size: 24px;
+	font-weight: normal;
+}
+h2 {
+	font-size: 18px;
+	font-weight: normal;	
+}
+h3 {
+	font-size: 14px;
+	font-weight: normal;
+}
+h5 {
+	font-size: 10px;
+	color: $text-faded-color;
+	font-weight: normal;
+	font-family: Verdana;
+}
+i {
+	display: inline-block;
+}
 
 //
 //main, base, page content
@@ -150,6 +200,7 @@
         display: block;
         float: left;
 				margin-left: $base-content-clear;
+				position: relative;
         
 				//controls
 				.jp-gui { width: 250px; }
@@ -158,7 +209,12 @@
 					> * {
 						padding: 0px;
 						display: inline-block;
+						opacity: .88;
+						&:hover {
+							opacity: 1;
+						}
 					}
+					
 					.jp-pre, .jp-next { 
 						width: 32px;
 						height: 32px;
@@ -170,15 +226,31 @@
 					.jp-play, .jp-pause { display: block; }
 				}
 				.jp-volume-bar1 {
-					margin: 20px 0 9px 15px;
-          width:116px;
-          height:5px;
-          background-color:gray;
-				}
-        .jp-volume-bar-value {  
+					@include border-radius(3px);
+					@include box-shadow(rgba(white, .7), 0px, 1px, 0px);
+					margin: 18px 0 9px 15px;
+          width: 106px;
           height: 5px;
-          background-color:#23B139;
+          background-color: gray;
+				}
+        .jp-volume-bar-value {
+          height: 5px;
+          background-color: #23B139;
+					@include border-radius(3px);
         }				
+				.jp-volume-bar-thumb {
+					width: 16px;
+					height: 16px;
+					position: relative;
+					top: -5px;
+					cursor: pointer;
+				}
+				.jp-volume-marker {
+					position: absolute;
+					top: 40px;
+					left: 171px;
+				}
+				
 				//main info section	
 				.info {
 					@include border-radius($border-radius);
@@ -332,56 +404,70 @@
 //
 //main overlay
 #facebox {
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  z-index: 2000;
+	display: table;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	margin: 0px auto;
+	overflow: hidden;
   text-align: left;
 	color: #111;
+	height: 100%;
+	width: 100%;
 
   .popup {
 		@include box-shadow(rgba(black, .4), 0px, 2px, 10px);
-    position: relative;
-		left: -50%;
-	}
+		display: table-cell;
+		vertical-align: middle;
+		position: relative;
+		padding: 5px;
+		
+		.content-container {
+			position: relative;
+			width: 600px;
+			margin: 0px auto;
+			
+			.content {
+				@include border-radius($border-radius);
+				background: rgba(white, .93);
+		    display: table;
+		    width: 600px;
+		    padding: 10px;
+				position: relative;
+		 		z-index: 2000;
+				margin: 0px auto;
 
-  .content {
-		@include border-radius($border-radius);
-		background: rgba(white, .9);
-    display: table;
-    width: 370px;
-    padding: 10px;
-    
-
-    > p {
-      &:first-child {
-        margin-top: 0; 
+		    > p {
+		      &:first-child {
+		        margin-top: 0; 
+				}
+		      &:last-child {
+		        margin-bottom: 0; 
+					} 
+				}
+			}
+			.close {
+				display: block;
+		    position: absolute;
+				z-index: 2001;
+				width: 24px;
+				height: 24px;
+		    top: -6px;
+		    right: -26px;
+		    opacity: 0.85; 
+		
+		    &:hover {
+		      opacity: 1.0;
+				}
+			}
 		}
-      &:last-child {
-        margin-bottom: 0; 
-			} 
-		} 
 	}
 
   .buzz_list {
     height: 200px;
     overflow: auto; 
 	}
-
-  .close {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    padding: 2px;
-    background: #fff;
-    img {
-      opacity: 0.3; 
-		}
-    &:hover img {
-      opacity: 1.0;
-		} 
-	}
-
+	
   .loading, .image {
     text-align: center; 
 	}

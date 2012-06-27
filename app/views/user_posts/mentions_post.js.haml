@@ -2,5 +2,7 @@ $('.primary .left').html('<div class="top"></div>');
 $('.primary .left .top').html('#{escape_javascript(render 'status_artist')}');
 $('.primary .left .top').append('#{escape_javascript(render 'artist/social_header', :current =>'mention')}');
 $('.primary .left').append('#{escape_javascript(render 'bricks/artist_posts', :current =>'mention')}');
+$('.selection-box').removeClass('active').removeClass('button-fill-artist');
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
+$('#feed-msg').addClass('active').addClass('button-fill-artist');
 setTimeout('$(document).trigger(\"close.facebox\")',10);

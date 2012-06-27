@@ -131,7 +131,7 @@
 			padding: 0px; 
 			margin-left: 4px;
 			float: left;
-			width: 566px;
+			width: 575px;
 		
 			//post title and actions
 			.post-header {
@@ -238,7 +238,15 @@
   }
 
 	//pinned
-	.pinned-posts {}
+	.pinned-posts {
+		background: rgba(white, .02);
+		margin: -25px -15px 25px -25px;
+		padding: 25px 15px 0px 25px;
+		border-bottom: 1px solid rgba(white, .07);
+	}
+	date#pin-board {
+		margin-top: 24px;
+	}
 	
 	//read more button
   .read-more {
@@ -389,7 +397,6 @@
 		padding: 4px 5px;
 		overflow: hidden;
 		margin-top: 5px;
-		width: 100%;
 		
 		> div {
 			float: left;
@@ -451,8 +458,12 @@
 		}
 	}
 	
-	.add-album {
+	.content-action-space {
+		height: 20px;
+	}
+	.add-new {
 		@include inverted-button();
+		float: right;
 	}
 
 	

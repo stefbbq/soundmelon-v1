@@ -91,9 +91,11 @@
       faceboxHtml  : '\
     <div id="facebox" style="display:none;"> \
       <div class="popup"> \
-        <div class="content"> \
+        <div class="content-container"> \
+					<a href="#" class="close"></a> \
+					<div class="content"> \
+	        </div> \
         </div> \
-        <a href="#" class="close"><img src="/assets/closelabel.png" title="close" class="close_image" /></a> \
       </div> \
     </div>'
     },

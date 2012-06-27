@@ -23,7 +23,7 @@ Soundmelon::Application.routes.draw do
   #fan
   get '/home'                                 => 'user#index',                      :as => :user_home #home
   #fan
-  get '/home'                                 => 'user#index',                       :as => :fan_home #home
+  get '/home'                                 => 'user#index',                      :as => :fan_home #home
   get 'home/post/:id/threads'                 => 'user_posts#post_threads',         :as => :get_post_threads #posts
   get 'home/mentions'                         => 'user_posts#mentioned',            :as => :mentioned #mentions
   get 'home/replies'                          => 'user_posts#replies',              :as => :replies #replies
@@ -41,7 +41,7 @@ Soundmelon::Application.routes.draw do
   get 'artist/new/band'                       => 'artist#new',                      :as => :new_band
   post 'artist/create/band'                   => 'artist#create',                   :as => :create_band
   match 'home/manage/profile'                 => 'user#manage_profile',             :as => :manage_profile #manage session profile
-#  match 'home/manage'                         => 'fan#manage_profile',              :as => :manage_profile #manage session profile
+#  match 'home/manage'                         => 'fan#manage_profile',             :as => :manage_profile #manage session profile
     
   #fan public
   match 'fan/(:id)'                           => 'fan_public#index',                :as => :fan_profile
@@ -51,7 +51,7 @@ Soundmelon::Application.routes.draw do
   
   #artist
   get 'home/artist/:band_name'                => 'artist#index',                    :as => :manage_band
-#  get 'edit/artist/:band_name/:id'            => 'artist#edit',                     :as => :edit_band
+#  get 'edit/artist/:band_name/:id'            => 'artist#edit',                    :as => :edit_band
   match 'update/band/:id'                     => 'artist#update',                   :as => :update_band
   get ':band_name/bandmates/invitation'       => 'artist#invite_bandmates',         :as => :bandmates_invitation
   get ':band_name/social'                     => 'artist#social',                   :as => :band_social
@@ -171,16 +171,16 @@ Soundmelon::Application.routes.draw do
   
   #--------------------------------------------UserConnections----------------------------------------------------
   # follow/un-follow band
-  get 'follow/artist/:band_name(/:self)'          => 'user_connections#follow_band',         :as => :follow_band
-  get 'unfollow/artist/:band_name(/:self)'        => 'user_connections#unfollow_band',       :as => :unfollow_band
-  get 'connection/request/artist/:band_name'      => 'user_connections#connect_artist',      :as => :connect_artist
-  get 'connection/accept/artist/:band_name'       => 'user_connections#connect_artist',      :as => :accept_artist_connection
-  get 'connection/reject/artist/:band_name'       => 'user_connections#disconnect_artist',   :as => :reject_artist_connection
-  get 'connection/remove/artist/:band_name'       => 'user_connections#disconnect_artist',   :as => :remove_artist_connection
+  get 'follow/artist/:band_name(/:self)'          => 'user_connections#follow_band',       :as => :follow_band
+  get 'unfollow/artist/:band_name(/:self)'        => 'user_connections#unfollow_band',     :as => :unfollow_band
+  get 'connection/request/artist/:band_name'      => 'user_connections#connect_artist',    :as => :connect_artist
+  get 'connection/accept/artist/:band_name'       => 'user_connections#connect_artist',    :as => :accept_artist_connection
+  get 'connection/reject/artist/:band_name'       => 'user_connections#disconnect_artist', :as => :reject_artist_connection
+  get 'connection/remove/artist/:band_name'       => 'user_connections#disconnect_artist', :as => :remove_artist_connection
   
   # follow/un-follow fan
-  get 'follow/fan/:id(/:self)'                    => 'user_connections#follow',                   :as => :follow_user
-  get 'unfollow/fan/:id(/:self)'                  => 'user_connections#unfollow',                 :as => :unfollow_user
+  get 'follow/fan/:id(/:self)'            => 'user_connections#follow',                   :as => :follow_user
+  get 'unfollow/fan/:id(/:self)'          => 'user_connections#unfollow',                 :as => :unfollow_user
   #---------------------------------------------------------------------------------------------------------------
   #message band
   get ':band_name/message/new'            => 'artist_public#new_message',                 :as => :band_new_message

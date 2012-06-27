@@ -15,8 +15,11 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
         </div>
         <a href="javascript:;" class="jp-next"></a>        
         <div class="jp-volume-bar1" style="position: absolute !important;">
-          <div class="jp-volume-bar-value"><img src="/assets/circle.png" alt=""/></div>
+          <div class="jp-volume-bar-value">
+            <div class="jp-volume-bar-thumb"></div>
+          </div>
         </div>
+        <div class="jp-volume-marker"></div>
       </div>
     </div>
     <div class="info">
@@ -43,7 +46,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
     makePlayList();
     player.jPlayer({
       ready: function(event){playListStart();   
-      $('.jp-volume-bar1 img').css('left', event.jPlayer.options.volume* 100 + 'px');
+      $('.jp-volume-bar-thumb').css('left', event.jPlayer.options.volume* 100 + 'px');
       },
       play: function(event){afterPlayStart();},
       pause: function(event){afterPlayPause();},
@@ -51,7 +54,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
       swfPath: "../js",supplied: "m4a,mp3",wmode: "window"
     });
     
-    $('.jp-volume-bar1 img').draggable({
+    $('.jp-volume-bar-thumb').draggable({
       axis: "x",
       containment: '.jp-volume-bar1',
       stop: function(event, ui) {
@@ -59,7 +62,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
         player.jPlayer("volume", volume);
       },
       drag:function(event, ui){
-        $('.jp-volume-bar-value').css('width', ui.position.left + '%');
+        $('.jp-volume-bar-thumb').css('left', ui.position.left + '%');
       }
     });
   });

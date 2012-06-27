@@ -14,8 +14,6 @@
     -if !@load_more_bulletins_path.nil?
       .read-more#bulletin-readmore
         =link_to("read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
-  - else
-    .pinned-posts{:style=>'margin-bottom:25px;'}
   .user_posts
     - @posts_order_by_dates.each do |date, posts|
       - date      = posts.first ? posts.first.created_at : date

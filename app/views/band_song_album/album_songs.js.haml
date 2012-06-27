@@ -1,6 +1,6 @@
 - show_album_songs = capture do
   - @song_album.songs.each do |song|
-    = render 'song_item', :song =>song        
+    = render 'song_item', :song => song
 - hide_album_songs = capture do
   %a{:href => "javascript:void(0);", :onclick => "$('#song_album_#{@song_album.id} .album_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
     collapse
