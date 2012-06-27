@@ -12,24 +12,25 @@
   %span.inputerror
 
 :javascript
-$(function () {
-  $('textarea.mention').mentionsInput({
-    onDataRequest:function (mode, query, callback) {
-      var data = [
-      #{band_follower_mention_lists @band}
-      ];
-      data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
-      callback.call(this, data);
-    }
+  $(function () {
+    $('textarea.mention').mentionsInput({
+      onDataRequest:function (mode, query, callback) {
+        var data = [
+        #{band_follower_mention_lists @band}
+        ];
+        data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+        callback.call(this, data);
+      }
+    });
+    $('.status-input .input-box').focus(function() {
+       if($(this).val()=='share something...'){
+         $(this).val('');
+       }
+     });
+    $('.status-input .input-box').keypress(function() {
+      $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);      
+      if(!$(this).val()){
+        $('.post-btn').css({ opacity: 1 });
+      }
+    });
   });
-  $('.status-input .input-box').focus(function() {
-     if($(this).val()=='share something...'){
-       $(this).val('');
-     }
-   });
-  $('.status-input .input-box').keypress(function() {
-    if(!$(this).val()){
-      $('.post-btn').css({ opacity: 1 });
-    }
-  });
-});

@@ -4,7 +4,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
 %>
 
 <div id="sm_jplayer" class="jp-jplayer"></div>
-<div id="jp_primary-wrapper_1" class="jp-audio">
+<div id="jp_primary-wrapper" class="jp-audio">
   <div class="jp-type-single">
     <div class="jp-gui jp-interface">
       <div class="jp-controls">
@@ -32,10 +32,9 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
         <a href="javascript:;" class="jp-like" title="like" id="alike" onclick="doLike();"></a>
       </div>
     </div>
-    <div class="jp-playlist" id="jp-playlist"><div class="pointer"></div><ul></ul></div>
   </div>
 </div>
-
+<div class="jp-playlist" id="jp-playlist"><div class="pointer"></div><ul></ul></div>
 <script type="text/javascript">
   //<![CDATA[
   var currentTrack        = 0;
@@ -166,21 +165,36 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
     }
   );
   }
-
-  $(".jp-rep").click(function() {
-    $('.jp-playlist').focus().toggle();
-    if($('.jp-rep').hasClass('jp-rep-active')){
-      $('.jp-rep').removeClass('jp-rep-active');
-    } else {
+  
+  configPlaylist();
+  
+  function configPlaylist(){
+     $(".jp-rep").click(invokePlaylist);
+  }
+  
+  function invokePlaylist() {
+    if(!($('.jp-rep').hasClass('jp-rep-active'))){
+      $('.jp-playlist').show();
       $('.jp-rep').addClass('jp-rep-active');
+      $('.jp-rep').off('click');
+    }
+  }
+  
+  var mouse_is_inside = false;
+  $('.jp-playlist').hover(function(){ 
+      mouse_is_inside=true; 
+  }, function(){ 
+      mouse_is_inside=false; 
+  });
+
+  $("body").mouseup(function(){ 
+    if(!mouse_is_inside){
+      $('.jp-rep').removeClass('jp-rep-active');
+      $('.jp-playlist').hide();
+      window.setTimeout(configPlaylist, 1000, true);
     }
   });
-  $("body").click(function(e){ //broken code
-    /*if(!($(target).is('.jp-playlist *') || target.className=='jp-rep' || target.className=='jp-playlist' || target.className=='play_list_close')){
-    $(".jp-playlist").hide();
-    $('.jp.rep').removeClass('jp-rep-active');
-  }*/
-  });
+  
 
   var playList = [<%= list_of_play_items(@song_items) %>];
   //]]>

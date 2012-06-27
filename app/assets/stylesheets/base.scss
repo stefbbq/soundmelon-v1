@@ -104,6 +104,7 @@ i {
     margin: 0 auto;
     z-index: 999;
     width: $page-width;
+		height: 108px;
     top: 0px;
 		background: url(base-page-bg-shaded-flipped.jpg) center -140px;
     border-bottom: 1px solid rgba(white, .15);
@@ -191,9 +192,10 @@ i {
     //player and search
     .bottom-bar {
 			background: rgba(white, .1);
-			margin-top: -2px;
 			height: 60px;
-			overflow: hidden;
+			overflow: visible;
+			position: relative;
+			top: -2px;
 
       .music-player {
 				width: ($page-width * .75) - 25;
@@ -315,7 +317,7 @@ i {
   //
   //page content
   #page-content {
-    padding-top: 111px;
+    padding-top: 108px;
     min-height: 300px;
 		z-index: 49;
 

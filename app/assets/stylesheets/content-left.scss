@@ -23,7 +23,7 @@
 		@include border-radius($border-radius);
 	  margin: 0 auto 16px auto;
 		position: relative;
-		overflow: auto;
+		overflow: visible;
 	
 	  .input-box {
 	    color: $text-faded-color;

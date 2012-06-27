@@ -16,16 +16,13 @@
         callback.call(this, data);
       }
     });
-    $('.status-input .input-box').focus(function() {
-      if($(this).val()=='share something...')
-        $(this).val('');
-      });
   });
   $('.status-input .input-box').focus(function() {
     if($(this).val()=='share something...')
       $(this).val('');
   });
   $('.status-input .input-box').keypress(function() {
+    $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);
     if(!$(this).val()){
       $('.post-btn').css({ opacity: 1 });
     }
