@@ -132,15 +132,16 @@ class AvatarController < ApplicationController
     end
   end
 
-  def set_height_and_width geometry
-    img_height  = 400
-    img_width   = 400
-    height      = geometry.height
-    width       = geometry.width
-    @show_height = height > img_height ? img_height : height
-    @show_width  = width > img_width ? img_width : width    
-    @height_change = (height/img_height)
-    @width_change  = (width/img_width)
+  def set_height_and_width geometry    
+    img_height      = 400
+    img_width       = 400
+    height          = geometry.height
+    width           = geometry.width
+    @show_height    = height > img_height ? img_height : height
+    @show_width     = width > img_width ? img_width : width
+    @height_change  = (height/img_height)
+    @width_change   = (width/img_width)
+    @is_cropping    = false
   end
 
 end

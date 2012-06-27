@@ -1,9 +1,6 @@
 - if user.profile_pic(true)
   = image_tag(user.profile_pic.avatar.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}", :title =>"#{user.get_full_name}")
   .overlay
-    = link_to crop_avatar_path, {:remote=>:true,:class=>'ajaxopen'} do
-      %h2
-        crop
     = link_to new_avatar_path, {:remote=>:true,:class=>'ajaxopen'} do
       %h2
         upload

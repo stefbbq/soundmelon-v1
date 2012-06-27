@@ -1,9 +1,6 @@
 - if band.band_logo(true)
   = image_tag(band.band_logo.logo.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
   .overlay
-    = link_to crop_logo_path, {:remote=>:true,:class=>'ajaxopen'} do
-      %h2
-        crop
     = link_to new_logo_path, {:remote=>:true,:class=>'ajaxopen'} do
       %h2
         upload
