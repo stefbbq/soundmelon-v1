@@ -30,6 +30,7 @@ ARTIST_CONNECTION_SHOW_LIMIT = 5
 ARTIST_CONNECTION_PER_PAGE   = 10
 NO_FAN_MESSAGE               = "no fans yet"
 NO_FOLLOWING_MESSAGE         = "not following anyone"
+NO_FOLLOWING_ARTIST_MESSAGE  = "not following any artist"
 NO_FOLLOWER_MESSAGE          = "no followers yet"
 NO_SONG_ALBUM_MESSAGE        = "no music yet"
 NO_PHOTO_ALBUM_MESSAGE       = "no photos yet"

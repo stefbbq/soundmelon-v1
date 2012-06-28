@@ -13,11 +13,11 @@ setTimeout('$(document).trigger(\"close.facebox\")',1000);
 
 - if @self_profile
   - item_div_id     = "#{@user_to_be_followed.class.name.downcase}_#{@user_to_be_followed.id}"
-  if($('#followingfanbox .message').length>0){$('#followingfanbox').html('#{escape_javascript new_follow_item}')}else{$('#followingfanbox').prepend('#{escape_javascript new_follow_item}')};
+  if($('#followingfanbox .message').length>0){$('#followingfanbox').html('#{escape_javascript new_follow_item}')}else{if($('#followingfanbox div.avatar').length<#{NO_OF_FOLLOWING_TO_DISPLAY}){$('#followingfanbox').prepend('#{escape_javascript new_follow_item}')}};
   $('span#followingfancount').html("#{pluralize(@last_following_count, 'fan')}");
   if($('.primary .left .connections_list ##{item_div_id}').length>0){$('.primary .left .connections_list ##{item_div_id} .actions a').attr('href','#{escape_javascript unfollow_link }').html('unfollow');}
 - else
   - item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}"  
-  if($('#followerbox .message').length>0){$('#followerbox').html('#{escape_javascript new_follow_item}')}else{$('#followerbox').prepend('#{escape_javascript new_follow_item}')};
+  if($('#followerbox .message').length>0){$('#followerbox').html('#{escape_javascript new_follow_item}')}else{if($('#followerbox div.avatar').length<#{NO_OF_FOLLOWER_TO_DISPLAY}){$('#followerbox').prepend('#{escape_javascript new_follow_item}')}};
   if($('.primary .left ##{left_list_id}').length>0){$('.primary .left ##{left_list_id}').append('#{escape_javascript left_list_item}');}
   $('span#followercount').html("#{@last_follower_count}");

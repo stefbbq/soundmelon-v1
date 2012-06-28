@@ -25,9 +25,9 @@ Send Feedback
       = select :feedback, :subject, FEEDBACK_SUBJECTS
     .field
       %label{:for =>"content"}
-        Comment
+        Comment (Maximum 800 characters)
       %br
-      = f.text_area :content, {:maxlength => 200, :cols => 50, :rows => 8}
+      = f.text_area :content, {:maxlength => 800, :cols => 50, :rows => 8}
     .postbtn
       = submit_tag('Send')
     .clear

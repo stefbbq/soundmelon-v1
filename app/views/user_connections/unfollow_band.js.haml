@@ -7,11 +7,13 @@
 != "$('.actions #followartist').replaceWith('#{escape_javascript follow_content}');"
 - if @self_profile
   - item_div_id   = "#{@band.class.name.downcase}_#{@band.id}"
-  if($('.right #followingartistbox ##{@band.class.name.downcase}_avatar_#{@band.id}').length>0){$('.right #followingartistbox ##{@band.class.name.downcase}_avatar_#{@band.id}').remove();}  
+  if($('.right #followingartistbox ##{@band.class.name.downcase}_avatar_#{@band.id}').length>0){$('.right #followingartistbox ##{@band.class.name.downcase}_avatar_#{@band.id}').remove();}
+  if($('.right #followingartistbox div.avatar').length==0){$('.right #followingartistbox').html("<div class='message'>#{NO_FOLLOWING_ARTIST_MESSAGE}</div>");}
   $('a#following-artist span.count').html("#{pluralize(@last_following_count, 'artist')}");  
 - else
   - item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}"
   if($("#followerbox ##{avatar_div}").length>0){$("#followerbox ##{avatar_div}").remove();}
+  if($("#followerbox div.avatar").length==0){$("#followerbox").html("<div class='message'>#{NO_FAN_MESSAGE}</div>");}
   $('#fanbox span.count').html("#{pluralize(@last_follower_count, 'fan')}");
 if($('.primary .left .connections_list ##{item_div_id}').length>0){$('.primary .left .connections_list ##{item_div_id}').remove();}
 setTimeout('$(document).trigger(\"close.facebox\")',1000); 

@@ -1,5 +1,5 @@
 - actor       = current_actor
-- is_own_wall = actor.instance_of?(Band) && (actor.id == @band.id)
+- is_own_wall = actor == @band
 .live
   .profile-image{:title =>"#{@band.name}"}
     = get_band_logo_large(@band)
@@ -10,9 +10,9 @@
           %h2.full-name= @band.name
           %h2= @band.mention_name
         .actions
-          - unless is_own_wall
-            - if @is_admin_of_band
-              = link_to "administer", change_login_path(@band.name), :class =>'ajaxopen text-action', :remote =>true
+          - if is_own_wall
+            = link_to "administer", user_home_path, :class =>'ajaxopen text-action', :remote =>true          
+          - unless is_own_wall            
             - if actor.is_fan?
               - if actor.following?(@band)
                 = link_to 'unfollow', unfollow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen text-action'
@@ -21,8 +21,8 @@
             - else
               #connect_section
                 = render 'bricks/artist_connection' , :actor =>actor, :band => @band
-          = link_to '', @band.facebook_page, :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @band.facebook_page.blank?
-          = link_to '', @band.twitter_page, :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @band.twitter_page.blank?
+          = link_to '', "http://facebook.com/#{@band.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @band.facebook_page.blank?
+          = link_to '', "http://twitter.com/#{@band.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @band.twitter_page.blank?
       .sub-head
         %h3 
           = "#{@band.genre}"
