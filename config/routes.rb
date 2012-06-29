@@ -210,5 +210,8 @@ Soundmelon::Application.routes.draw do
   get 'playlist/:song_name/:id/remove'    => 'playlists#remove',                          :as => :remove_from_playlist
   get 'playlistPlayer/:id/add'            => 'playlists#add_to_player_queue',             :as => :add_album_to_player_playlist
   get 'playlist/:id/add'                  => 'playlists#add_all_songs_of_album',          :as => :add_album_to_playlist
+
+  get '/home/remove/profile'              => 'user#remove_user_profile',                  :as => :remove_my_profile
+
   match ':controller(/:action(/:id(.:format)))'
 end

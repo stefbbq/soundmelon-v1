@@ -39,8 +39,7 @@ $(document).ready( function(){
     if(event.keyCode == 13 && !event.shiftKey)
     {
       var form = $( "#post_msg" ).closest( "form" );
-      form.submit();
-      event.preventDefault();
+      form.submit();      
     }
   });
   

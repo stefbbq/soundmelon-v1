@@ -13,9 +13,9 @@ class User < ActiveRecord::Base
   has_one  :payment_info
   has_many :band_invitations
   has_many :albums, :dependent =>:destroy
-  has_one  :profile_pic
-  has_many :band_albums
-  has_many :band_photos
+  has_one  :profile_pic, :dependent =>:destroy
+  has_many :band_albums, :dependent =>:destroy
+  has_many :band_photos, :dependent =>:destroy
   has_many :songs
   has_many :song_albums
   has_many :posts, :dependent => :destroy
@@ -188,6 +188,21 @@ class User < ActiveRecord::Base
 
   def assign_admin_role
     self.update_attribute(:user_account_type, USER_TYPE_ADMIN)
+  end
+
+  # removes the self,
+  # removes every items belonged to it
+  # removes every associated artist profiles if they don't belong to anyone else
+  def remove_me
+    bands = self.bands
+    bands.each{|band|
+      # if it belongs to only this user
+      if band.band_users.size == 1
+        band.remove_me
+      end
+    }
+    self.remove_from_index!
+    self.destroy
   end
 
   ######### Invitation Specific Code #########################################################
