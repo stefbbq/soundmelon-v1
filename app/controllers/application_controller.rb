@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
 
   def get_band_associated_objects artist
     @band_members_count        = artist.band_members.count
-    @other_bands               = current_user.admin_bands_except(artist)
+    @other_bands               = current_user.admin_artists(artist)
     get_band_mentioned_posts artist
     messages_and_posts_count
     get_artist_objects_for_right_column(artist)
@@ -135,7 +135,8 @@ class ApplicationController < ActionController::Base
       @unread_post_replies_count  ||= actor.unread_post_replies_count
       #      @unread_messages_count      ||= actor.received_messages.unread.count
       #      @unread_messages_count      ||= actor.messages.unread.count
-      @unread_messages_count      ||= actor.mailbox.conversations(:unread=>true).size
+#      @unread_messages_count      ||= actor.mailbox.conversations(:unread=>true, :deleted =>false).size
+      @unread_messages_count      ||= actor.receipts.inbox.unread.not_trash.size
     end
   end
   

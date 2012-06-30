@@ -79,4 +79,8 @@ class SongAlbum < ActiveRecord::Base
     Post.create_newsfeed_for self, nil, self.band_id, " created"
   end
 
+  def artist
+    self.band
+  end
+
 end

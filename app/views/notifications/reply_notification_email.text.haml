@@ -1,0 +1,8 @@
+Hello #{@recipeint.get_name}
+- if @action_item.blank?
+  #{@actor.get_name} has replied to your post on SoundMelon.
+- else
+  #{@actor.get_name} has replied to your artist "#{@action_item.get_name}'s" post on SoundMelon.
+\=========================================
+#{@content_item.msg}
+\=========================================

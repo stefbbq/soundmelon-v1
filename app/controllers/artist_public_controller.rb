@@ -45,12 +45,12 @@ class ArtistPublicController < ApplicationController
   def send_message
     if request.xhr?
       begin
-        to_band = Band.find(params[:id])
-        if current_user.send_message(to_band, :body => params[:body])
-        else
-          # though body is empty, let the bogus user feel msg is sent
-        end
-      rescue
+        @actor            = current_actor
+        to_artist         = Band.find(params[:id])
+        receipt           = @actor.send_message(to_artist, params[:body], 'subject')
+        NotificationMail.message_notification to_artist, @actor, receipt.message
+      rescue =>exp
+        logger.error "Error in ArtistPublic::SendMessage"
         render :nothing => true and return
       end
     else

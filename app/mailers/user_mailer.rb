@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "admin@soundmelon.com"
+  default from: "SoundMelon<admin@soundmelon.com>"
 
   def activation_needed_email(user)
     @user = user
@@ -76,6 +76,32 @@ class UserMailer < ActionMailer::Base
       :to => @toemail,
       :subject => "New Feedback Notification"
     )
+  end
+
+  def general_notification_email notification_type, subject, recipient_object, actor_object, action_item=nil, content_item = nil, artist=nil
+    @action_item      = action_item
+    @content_item     = content_item
+    @actor            = actor_object
+    @recipeint        = recipient_object
+    @artist           = artist
+    @toemail          = recipient_object.email    
+    notification_for  = notification_type.blank? ? nil : NotificationMail::NOTIFICATION_TYPES.index(notification_type)
+    if notification_for
+      template_sets   = [
+                        'follow_notification_email',
+                        'connect_notification_email', 'connect_request_notification_email',
+                        'message_notification_email', 'reply_notification_email',                        
+                        'mention_notification_email', 'buzz_notification_email'
+                        ]
+      template_name   = template_sets[notification_for]
+      mail(
+        :from           => "SoundMelon<notifications@soundmelon.com>",
+        :to             => @toemail,
+        :subject        => subject,
+        :template_path  => 'notifications',
+        :template_name  => template_name
+      )
+    end
   end
   
 end

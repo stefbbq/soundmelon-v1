@@ -58,13 +58,15 @@ class MessagesController < ApplicationController
   def destroy
     redirect_to root_url and return unless request.xhr?
     begin
-      @actor        = current_actor
-      @message      = Message.find params[:id]
+      @actor                = current_actor
+      @message              = Message.find params[:id]
       if @message
-        @receipt    = @message.receipt_for(@actor).first        
-        @deleted    = @receipt.update_attribute(:deleted, true)
+        @receipt            = @message.receipt_for(@actor).first
+        @conversation       = @receipt.conversation
+        @deleted            = @receipt.move_to_trash
+        @empty_conversation = @conversation.receipts_for(@actor).not_trash.empty?
       else
-        @deleted    = false
+        @deleted            = false
       end
     rescue =>exp
       logger.info "Error in Messages::Destroy :=> #{exp.message}"
@@ -83,7 +85,8 @@ class MessagesController < ApplicationController
     begin
       @actor        = current_actor
       to_user       = User.find(params[:to])
-      @actor.send_message(to_user, params[:body], 'Subject')
+      receipt       = @actor.send_message(to_user, params[:body], 'Subject')
+      NotificationMail.message_notification to_user, @actor, receipt.message
     rescue =>exp
       logger.error "Error in Messages::Create :#{exp.message}"
     end

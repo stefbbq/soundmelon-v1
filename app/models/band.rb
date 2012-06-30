@@ -5,6 +5,7 @@ class Band < ActiveRecord::Base
 
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user
+  has_many :band_admin_users, :through => :band_users, :source => :user, :conditions =>'access_level = 1'
   has_many :band_albums, :order => 'created_at desc', :dependent =>:destroy
   has_many :band_tours, :order =>'created_at desc', :dependent =>:destroy
   has_many :band_invitations, :dependent => :destroy
@@ -207,6 +208,10 @@ class Band < ActiveRecord::Base
   def remove_me
     self.remove_from_index!
     self.destroy
+  end
+
+  def get_name
+    self.name
   end
 
   protected

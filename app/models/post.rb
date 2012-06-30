@@ -42,14 +42,16 @@ class Post < ActiveRecord::Base
     return participating_users_and_bands 
   end  
 
-  def self.create_post_for item, user_id, band_id, params
-    create(
+  def self.create_post_for item, actor, params
+    user_id, band_id = actor.is_fan? ? [actor.id, nil] : [nil, actor.id]    
+    post_item = create(
       :postitem_type  => item.class.name,
       :postitem_id    => item.id,
       :user_id        => user_id,
       :band_id        => band_id,
       :msg            => params[:msg]
     )
+    post_item.delay.create_notification_email_for_post(actor, item)
   end
 
   def self.posts_for item, limit = 20, page=1
@@ -89,7 +91,32 @@ class Post < ActiveRecord::Base
   def band_tour_post?
     postitem_type == 'BandTour'
   end
+
+  def create_notification_email_for_post actor, post_item = self.postitem
+    notice_receivers          = []    
+    if post_item      
+      artist                  = post_item.artist
+      if self.band_id != artist.id  # posted by artist itself
+        artist_admin_users    = artist.band_admin_users                
+        notice_receivers      = artist_admin_users - [self.user] # do not send notification to writer fan user
+      end
+      unless notice_receivers.blank?
+        # send notification
+        notice_receivers.each{|user|
+          NotificationMail.buzz_notification user, actor, post_item, self
+        }
+      end
+    end    
+  end
   
+  def writer_actor
+    if band_id.blank?
+      self.user
+    else
+      self.band
+    end
+  end
+
   protected
 
   def update_mentioned_actors_in_post    

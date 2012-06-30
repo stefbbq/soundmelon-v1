@@ -44,4 +44,8 @@ class BandPhoto < ActiveRecord::Base
     Post.create_newsfeed_for self, nil, self.band_album.band_id, " created"
   end
 
+  def artist
+    self.band_album.band
+  end
+
 end

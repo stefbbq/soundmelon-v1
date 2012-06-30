@@ -4,8 +4,7 @@ class Song < ActiveRecord::Base
   belongs_to  :user
   belongs_to  :song_album
   has_many    :posts, :as =>:postitem, :dependent => :destroy
-  has_many    :playlists
-
+  has_many    :playlists  
   scope :processed, :conditions =>["is_processed = ?", true]
   scope :featured, :conditions =>["is_featured = ?", true]
   scope :nonfeatured, :conditions =>["is_featured = ?", false]
@@ -188,6 +187,10 @@ class Song < ActiveRecord::Base
     Post.create_newsfeed_for self, nil, self.song_album.band_id, " added"
   end
 
+  def artist
+    self.song_album.band
+  end
+  
   private  
 
   # Fix the mime types. Make sure to require the mime-types gem

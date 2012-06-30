@@ -38,8 +38,8 @@ $(document).ready( function(){
   {
     if(event.keyCode == 13 && !event.shiftKey)
     {
-      var form = $( "#post_msg" ).closest( "form" );
-      form.submit();      
+      $(this).closest("form").submit();
+      $(this).css('height','25px');
     }
   });
   

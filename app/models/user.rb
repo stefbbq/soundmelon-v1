@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   #has_one :band_user
   has_many :band_users, :dependent =>:destroy
   has_many :bands, :through => :band_users
+  has_many :admin_bands, :through => :band_users, :source =>:band, :conditions =>'access_level = 1'
   has_one  :additional_info
   has_one  :payment_info
   has_many :band_invitations
@@ -94,8 +95,12 @@ class User < ActiveRecord::Base
   end
   
   #return all the bands in which the user is admin except the band that comes as argument
-  def admin_bands_except(band)
-    self.bands.where('bands.id != ?',band.id)
+  def admin_artists(band=nil)
+    if band
+      self.admin_bands.where('bands.id != ?', band.id)
+    else
+      self.admin_bands
+    end
   end
   
   def find_own_as_well_as_mentioned_posts page=1   
@@ -124,10 +129,6 @@ class User < ActiveRecord::Base
     else
       return false
     end
-  end
-
-  def inbox page=1
-    self.received_messages.paginate(:page => page, :per_page => MESSAGES_PER_PAGE)
   end
   
   def mentioned_posts page=1
@@ -203,6 +204,10 @@ class User < ActiveRecord::Base
     }
     self.remove_from_index!
     self.destroy
+  end
+
+  def get_name
+    self.get_full_name
   end
 
   ######### Invitation Specific Code #########################################################

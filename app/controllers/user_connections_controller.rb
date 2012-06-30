@@ -6,7 +6,8 @@ class UserConnectionsController < ApplicationController
       begin
         @actor                  = current_actor
         @user_to_be_followed    = User.find(params[:id])
-        @actor.follow(@user_to_be_followed)        
+        @actor.follow(@user_to_be_followed)
+        NotificationMail.follow_notification @user_to_be_followed, @actor
         @self_profile           = params[:self] && params[:self]=='1'
         if @self_profile
           @last_following_count = @actor.following_user_count
@@ -58,6 +59,7 @@ class UserConnectionsController < ApplicationController
         @self_profile           = params[:self] && params[:self]=='1'
         @last_follower_count    = @band.followers_count
         @last_following_count   = @actor.following_user_count
+        NotificationMail.follow_notification @band, @actor
       rescue => exp
         logger.error "Error in UserConnections::FollowBand :=> #{exp.message}"
         render :nothing => true and return
@@ -90,12 +92,17 @@ class UserConnectionsController < ApplicationController
     if request.xhr?
       begin
         @band                   = Band.find_band(params)
-        @actor.connect_artist(@band)
+        @actor.connect_artist(@band)        
         @last_connection_count  = @band.connections_count
-        @connected              = @actor.connected_with?(@band)        
+        @connected              = @actor.connected_with?(@band)
+        if @connected
+          NotificationMail.connect_notification @actor, @band
+        else
+          NotificationMail.connect_request_notification @band, @actor
+        end
         logger.error "Is Self#{@is_self_profile}"
       rescue => exp
-        logger.error "Error in UserConnect0Testions::ConnectArtist :=> #{exp.message}"
+        logger.error "Error in UserConnections::ConnectArtist :=> #{exp.message}"
         render :nothing => true and return
       end
     else
