@@ -1,6 +1,11 @@
 class UserMailer < ActionMailer::Base
   default from: "SoundMelon<admin@soundmelon.com>"
 
+  # fix for SystemStackError problem
+  # message sending with delay produces such error
+  def encode_with coder
+  end
+
   def activation_needed_email(user)
     @user = user
     @url  = user_activation_url(user.activation_token)
