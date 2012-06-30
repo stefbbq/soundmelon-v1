@@ -132,10 +132,7 @@ class ApplicationController < ActionController::Base
     actor                         = current_actor
     if actor      
       @unread_mentioned_count     ||= actor.unread_mentioned_post_count
-      @unread_post_replies_count  ||= actor.unread_post_replies_count
-      #      @unread_messages_count      ||= actor.received_messages.unread.count
-      #      @unread_messages_count      ||= actor.messages.unread.count
-#      @unread_messages_count      ||= actor.mailbox.conversations(:unread=>true, :deleted =>false).size
+      @unread_post_replies_count  ||= actor.unread_post_replies_count      
       @unread_messages_count      ||= actor.receipts.inbox.unread.not_trash.size
     end
   end

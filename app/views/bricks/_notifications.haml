@@ -3,7 +3,7 @@
 - replies_class                = (@unread_post_replies_count > 0) ? "active" : ""
 - @unread_mentioned_count      ||= actor.unread_mentioned_post_count
 - mentions_class               = (@unread_mentioned_count > 0) ? "active" : ""
-- @unread_messages_count       ||= actor.mailbox.conversations(:unread=>true).size
+- @unread_messages_count       ||= actor.receipts.inbox.unread.not_trash.size
 - messages_class               = (@unread_messages_count > 0) ? "active" : ""
 
 = link_to replies_path, {:class=> "ajaxopen backable", :id =>'replies', :remote =>true} do
