@@ -22,7 +22,7 @@ class NotificationMail
     recipient_users   = self.get_notification_recipient_users recipient_object
     notification_type = 'follow'
     recipient_users.each{|user|
-      self.delay.queue_notification_email(notification_type, subject, user, actor_object, action_item, nil)
+      NotificationMail.queue_notification_email(notification_type, subject, user, actor_object, action_item, nil)
     }    
   end
 
@@ -31,7 +31,7 @@ class NotificationMail
     subject           = "#{actor_object.get_name} has accpeted your connect request on SoundMelon"
     recipient_users   = self.get_notification_recipient_users recipient_object
     recipient_users.each{|user|
-      self.delay.queue_notification_email(notification_type, subject, user, actor_object, recipient_object, nil)
+      NotificationMail.queue_notification_email(notification_type, subject, user, actor_object, recipient_object, nil)
     }
   end
 
@@ -40,7 +40,7 @@ class NotificationMail
     subject           = "#{actor_object.get_name} has sent a connect request to your artist #{recipient_object.get_name} on SoundMelon"
     recipient_users   = self.get_notification_recipient_users recipient_object
     recipient_users.each{|user|
-      self.delay.queue_notification_email(notification_type, subject, user, actor_object, recipient_object, nil)
+      NotificationMail.queue_notification_email(notification_type, subject, user, actor_object, recipient_object, nil)
     }
   end
 
@@ -56,14 +56,14 @@ class NotificationMail
     recipient_users   = self.get_notification_recipient_users recipient_object
     content_item      = message
     recipient_users.each{|user|
-      self.delay.queue_notification_email(notification_type, subject, user, actor_object, action_item, content_item)
+      NotificationMail.queue_notification_email(notification_type, subject, user, actor_object, action_item, content_item)
     }
   end
 
   def self.buzz_notification recipient_user, actor_user, buzz_item, buzz
     notification_type = 'buzz'
     subject           = "#{actor_user.get_name} has buzzed on your artist item on SoundMelon"
-    self.delay.queue_notification_email(notification_type, subject, recipient_user, actor_user, buzz_item, buzz)
+    NotificationMail.queue_notification_email(notification_type, subject, recipient_user, actor_user, buzz_item, buzz)
   end
 
   def self.reply_notification recipient_object, actor_object, reply_message
@@ -78,7 +78,7 @@ class NotificationMail
     content_item      = reply_message
     recipient_users   = self.get_notification_recipient_users recipient_object
     recipient_users.each{|user|
-      self.delay.queue_notification_email(notification_type, subject, user, actor_object, action_item, content_item)
+      NotificationMail.queue_notification_email(notification_type, subject, user, actor_object, action_item, content_item)
     }
   end 
 
@@ -94,12 +94,12 @@ class NotificationMail
     content_item      = mention_post
     recipient_users   = self.get_notification_recipient_users recipient_object
     recipient_users.each{|user|
-      self.delay.queue_notification_email(notification_type, subject, user, actor_object, action_item, content_item)
+      NotificationMail.queue_notification_email(notification_type, subject, user, actor_object, action_item, content_item)
     }
   end
     
   def self.queue_notification_email  notification_type, subject, recipient_user, actor_user, action_item, content_item
-    UserMailer.general_notification_email(notification_type, subject, recipient_user, actor_user, action_item, content_item).deliver
+    UserMailer.delay.general_notification_email(notification_type, subject, recipient_user, actor_user, action_item, content_item)
   end
 
   def self.get_notification_recipient_users recipient_object
