@@ -50,7 +50,7 @@
   - elsif post.is_bulletin
     has pinned this to their profile
   - elsif post_item
-    #{post_message(post, post_item)}
+    #{post_message(post, post_item).first}
   - else
     wrote this  
   #{timeago(post.created_at)}
@@ -96,6 +96,7 @@
           #{newsfeed_message(post, post_item).last}
         - else
           = post_msg_with_band_mention(post) unless post.is_newsfeed?
+          #{post_message(post, post_item).last}
     .clear
     - if post.ancestry && !hide_thread_link
       = link_to 'expand conversation', get_post_threads_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"

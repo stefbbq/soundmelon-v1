@@ -52,6 +52,7 @@ class Post < ActiveRecord::Base
       :msg            => params[:msg]
     )
     post_item.delay.create_notification_email_for_post(actor, item)
+    post_item
   end
 
   def self.posts_for item, limit = 20, page=1

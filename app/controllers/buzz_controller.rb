@@ -72,6 +72,7 @@ class BuzzController < ApplicationController
         logger.error "Error in Buzz#AlbumBuzzPost :=> #{exp.message}"
         render :nothing => true and return
       end
+      render :template =>"/buzz/buzz_post" and return
     else
       redirect_to root_url and return
     end
@@ -86,6 +87,7 @@ class BuzzController < ApplicationController
       rescue
         render :nothing => true and return
       end
+      render :template =>"/buzz/buzz_post" and return
     else
       redirect_to root_url and return
     end   
@@ -101,6 +103,7 @@ class BuzzController < ApplicationController
         logger.error "Error in Buzz::BandAlbumBuzzPost :=> #{exp.message}"
         render :nothing => true and return
       end
+      render :template =>"/buzz/buzz_post" and return
     else
       redirect_to root_url and return
     end
@@ -115,6 +118,7 @@ class BuzzController < ApplicationController
       rescue
         render :nothing => true and return
       end
+      render :template =>"/buzz/buzz_post" and return
     else
       redirect_to root_url and return
     end
@@ -129,6 +133,7 @@ class BuzzController < ApplicationController
       rescue
         render :nothing => true and return
       end
+      render :template =>"/buzz/buzz_post" and return
     else
       redirect_to root_url and return
     end
