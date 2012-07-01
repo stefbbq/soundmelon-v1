@@ -5,18 +5,19 @@ class Band < ActiveRecord::Base
 
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user
+  has_many :band_admin_users, :through => :band_users, :source => :user, :conditions =>'access_level = 1'
   has_many :band_albums, :order => 'created_at desc', :dependent =>:destroy
-  has_many :band_tours, :order =>'created_at desc'
+  has_many :band_tours, :order =>'created_at desc', :dependent =>:destroy
   has_many :band_invitations, :dependent => :destroy
   has_many :song_albums, :order => 'created_at desc', :dependent =>:destroy
   has_many :posts, :dependent => :destroy
   has_many :mentioned_posts
   has_many :songs, :through => :song_albums
   has_and_belongs_to_many :genres
-  has_one :band_logo
+  has_one :band_logo , :dependent =>:destroy
   attr_reader :genre_tokens
 
-  has_many :connections
+  has_many :connections, :dependent =>:destroy
   has_many :connected_bands, :through =>:connections, :source =>:connected_band, :conditions =>["is_approved = ?", true]
 
 
@@ -200,6 +201,17 @@ class Band < ActiveRecord::Base
   
   def connection_requests
     Connection.requested_connections_for self
+  end
+
+  # removes the self,
+  # removes every items belonged to it
+  def remove_me
+    self.remove_from_index!
+    self.destroy
+  end
+
+  def get_name
+    self.name
   end
 
   protected

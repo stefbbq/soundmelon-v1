@@ -1,8 +1,9 @@
 module ApplicationHelper
 
   def timeago(time, options = {})
-    options[:class] ||= "timeago"
-    content_tag(:abbr, time.to_s, options.merge(:title => time.getutc.iso8601)) if time
+    #options[:class] ||= "timeago"
+    #content_tag(:abbr, time.to_s, options.merge(:title => time.getutc.iso8601)) if time
+    "#{time_ago_in_words(time)} ago"
   end
   
   def link_to_remove_fields(name, f)
@@ -229,31 +230,33 @@ module ApplicationHelper
   # returns the message for buzz items for song, song album, artist photo, artist photo album, artist show
   # linked with corresponding buzzed items
   def post_message post, postitem
-    content         = " wrote about "    
+    content         = " wrote about "
+    message         = ""
     if post && postitem      
       if post.band_album_post?
         band          = postitem.band
         album_name    = postitem.name
         album_path    = "#{band_album_path(band.name, album_name)}"
-        content       += "<a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
+        content       += "artist photo album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       elsif post.band_photo_post?
         band          = postitem.band_album.band
         album         = postitem.band_album
         album_name    = album.name
         album_path    = "#{band_album_path(band.name, album_name)}"
-        content       += "<a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
+        content       += "artist photo <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       elsif post.band_tour_post?
         band          = postitem.band
         show_id       = postitem.id
         show_venue    = postitem.venue
         show_country  = postitem.country
         show_path     = band_tour_path(band.name,show_id)
-        content       += "<a href='#{show_path}' class='ajaxopen backable' remote=true>show</a>(at #{show_venue}, #{show_country})"
+        content       += "artist show <a href='#{show_path}' class='ajaxopen backable' remote=true>show</a>(at #{show_venue}, #{show_country})"
       elsif post.song_post?
         band          = postitem.song_album.band
         album_name    = postitem.song_album.album_name
         album_path    = "#{band_song_album_path(band.name, album_name)}"
-        content       += "#{postitem.title} </a>"
+        content       += "song #{postitem.title}"
+        message       += "#{raw(render '/band_song_album/song_item', :song =>postitem, :band =>band, :in_newsfeed =>true)}"
       elsif post.song_album_post?
         band          = postitem.band
         album_name    = postitem.album_name
@@ -261,7 +264,7 @@ module ApplicationHelper
         content       += "<a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       end
     end
-    content.html_safe
+    [content.html_safe, message.html_safe]
   end
 
   # prepares the detail for individual song
@@ -294,6 +297,44 @@ module ApplicationHelper
       end
     end
     list_str
-  end  
+  end
 
+  # returns detail for actor
+  def actor_detail actor
+    if actor.is_fan
+      name = actor.get_full_name
+      link = fan_profile_url(actor)
+    else
+      name = actor.name
+      link = show_band_url(actor.name)
+    end
+    return {:name =>name, :link =>link}
+  end
+
+  def buzz_item_detail item
+    case item.class.name
+    when 'SongAlbum'
+      type    = 'Song Album'
+      name    = item.album_name
+      artist  = item.band
+    when 'Song'
+      type    = 'Song'
+      name    = item.title
+      artist  = item.song_album.band
+    when 'BandAlbum'
+      type    = 'Photo Album'
+      name    = item.name
+      artist  = item.band
+    when 'BandPhoto'
+      type    = 'Photo'
+      name    = nil
+      artist  = item.band
+    when 'BandTour'
+      type    = 'Show'
+      name    = nil
+      artist  = item.band
+    end
+    return {:type =>type, :name =>name, :artist =>artist}
+  end
+  
 end

@@ -67,11 +67,12 @@ class BuzzController < ApplicationController
     if request.xhr?
       begin
         @song_album         = SongAlbum.find params[:id]        
-        @buzz               = Post.create_post_for @song_album, @user_id, @band_id, params
+        @buzz               = Post.create_post_for @song_album, @actor, params
       rescue =>exp
         logger.error "Error in Buzz#AlbumBuzzPost :=> #{exp.message}"
         render :nothing => true and return
       end
+      render :template =>"/buzz/buzz_post" and return
     else
       redirect_to root_url and return
     end
@@ -82,10 +83,11 @@ class BuzzController < ApplicationController
     if request.xhr?
       begin
         @song               = Song.find params[:id]
-        @buzz               = Post.create_post_for @song, @user_id, @band_id, params
+        @buzz               = Post.create_post_for @song, @actor, params
       rescue
         render :nothing => true and return
       end
+      render :template =>"/buzz/buzz_post" and return
     else
       redirect_to root_url and return
     end   
@@ -96,11 +98,12 @@ class BuzzController < ApplicationController
     if request.xhr?
       begin
         @band_album         = BandAlbum.find params[:id]
-        @buzz               = Post.create_post_for @band_album, @user_id, @band_id, params
+        @buzz               = Post.create_post_for @band_album, @actor, params
       rescue =>exp
         logger.error "Error in Buzz::BandAlbumBuzzPost :=> #{exp.message}"
         render :nothing => true and return
       end
+      render :template =>"/buzz/buzz_post" and return
     else
       redirect_to root_url and return
     end
@@ -111,10 +114,11 @@ class BuzzController < ApplicationController
     if request.xhr?
       begin        
         @band_photo         = BandPhoto.find params[:id]
-        @buzz               = Post.create_post_for @band_photo, @user_id, @band_id, params
+        @buzz               = Post.create_post_for @band_photo, @actor, params
       rescue
         render :nothing => true and return
       end
+      render :template =>"/buzz/buzz_post" and return
     else
       redirect_to root_url and return
     end
@@ -125,10 +129,11 @@ class BuzzController < ApplicationController
     if request.xhr?
       begin        
         @band_show          = BandTour.find params[:id]
-        @buzz               = Post.create_post_for @band_show, @user_id, @band_id, params
+        @buzz               = Post.create_post_for @band_show, @actor, params
       rescue
         render :nothing => true and return
       end
+      render :template =>"/buzz/buzz_post" and return
     else
       redirect_to root_url and return
     end
@@ -138,14 +143,7 @@ class BuzzController < ApplicationController
 
   # sets who is creating the post
   def set_current_actor
-    @actor         = current_actor
-    if @actor.is_fan?
-      @user_id     = @actor.id
-      @band_id     = nil
-    else
-      @user_id     = nil
-      @band_id     = @actor.id
-    end
+    @actor         = current_actor    
   end
   
 end

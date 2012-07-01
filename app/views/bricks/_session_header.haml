@@ -5,7 +5,7 @@
 - if is_artist_login
   - artist              = actor
   - current_fan_user    = current_user
-  - other_admin_artists = current_fan_user.admin_bands_except(artist)  
+  - other_admin_artists = current_fan_user.admin_artists(artist)  
   = link_to "#{current_fan_user.fname}".truncate(10), fan_profile_path(current_fan_user), :class => 'user-info backable', :remote =>true, :title =>"#{current_fan_user.get_full_name}"
   administrating
   = link_to artist.name.truncate(10), user_home_path, :class => 'user-info backable ajaxopen', :remote =>true, :title =>"#{artist.name}"

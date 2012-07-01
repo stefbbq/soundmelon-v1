@@ -58,13 +58,13 @@ class UserPostsController < ApplicationController
       begin
         actor                 = current_actor
         @parent_post          = Post.find(params[:id])
-        participating_users_and_band_mention_names_arr = @parent_post.owner_as_well_as_all_mentioned_users_and_bands_except(actor.id)        
+#        participating_users_and_band_mention_names_arr = @parent_post.owner_as_well_as_all_mentioned_users_and_bands_except(actor.id)
       rescue =>exp
         logger.error "Error in UserPosts#NewReply :=> #{exp.message}"
         render :nothing => true and return
       end
       @post                   = Post.new
-      @post.msg               = participating_users_and_band_mention_names_arr.join(' ')
+#      @post.msg               = participating_users_and_band_mention_names_arr.join(' ')
       respond_to do |format|
         format.js {render :layout => false}
       end
@@ -76,14 +76,17 @@ class UserPostsController < ApplicationController
   def reply
     if request.xhr?
       begin
-        @parent_post = Post.find(params[:parent_post_id])
-        actor        = current_actor
-        @post        = actor.posts.build(params[:post])
-      rescue
+        @parent_post              = Post.where('id = ?', params[:parent_post_id]).includes(:band,:user).first
+        actor                     = current_actor
+        @post                     = actor.posts.build(params[:post])
+        parent_post_writer_user   = @parent_post.band || @parent_post.user
+      rescue =>exp
+        logger.error "Error in UserPosts::Reply :=>#{exp.message}"
         render :nothing => true and return
       end
       @post.parent_id = @parent_post.id
       if @post.save
+        NotificationMail.reply_notification parent_post_writer_user, actor, @post
         @saved_successfully = true
       end
       respond_to do |format|

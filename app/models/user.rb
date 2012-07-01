@@ -9,13 +9,14 @@ class User < ActiveRecord::Base
   #has_one :band_user
   has_many :band_users, :dependent =>:destroy
   has_many :bands, :through => :band_users
+  has_many :admin_bands, :through => :band_users, :source =>:band, :conditions =>'access_level = 1'
   has_one  :additional_info
   has_one  :payment_info
   has_many :band_invitations
   has_many :albums, :dependent =>:destroy
-  has_one  :profile_pic
-  has_many :band_albums
-  has_many :band_photos
+  has_one  :profile_pic, :dependent =>:destroy
+  has_many :band_albums, :dependent =>:destroy
+  has_many :band_photos, :dependent =>:destroy
   has_many :songs
   has_many :song_albums
   has_many :posts, :dependent => :destroy
@@ -94,8 +95,12 @@ class User < ActiveRecord::Base
   end
   
   #return all the bands in which the user is admin except the band that comes as argument
-  def admin_bands_except(band)
-    self.bands.where('bands.id != ?',band.id)
+  def admin_artists(band=nil)
+    if band
+      self.admin_bands.where('bands.id != ?', band.id)
+    else
+      self.admin_bands
+    end
   end
   
   def find_own_as_well_as_mentioned_posts page=1   
@@ -124,10 +129,6 @@ class User < ActiveRecord::Base
     else
       return false
     end
-  end
-
-  def inbox page=1
-    self.received_messages.paginate(:page => page, :per_page => MESSAGES_PER_PAGE)
   end
   
   def mentioned_posts page=1
@@ -188,6 +189,25 @@ class User < ActiveRecord::Base
 
   def assign_admin_role
     self.update_attribute(:user_account_type, USER_TYPE_ADMIN)
+  end
+
+  # removes the self,
+  # removes every items belonged to it
+  # removes every associated artist profiles if they don't belong to anyone else
+  def remove_me
+    bands = self.bands
+    bands.each{|band|
+      # if it belongs to only this user
+      if band.band_users.size == 1
+        band.remove_me
+      end
+    }
+    self.remove_from_index!
+    self.destroy
+  end
+
+  def get_name
+    self.get_full_name
   end
 
   ######### Invitation Specific Code #########################################################

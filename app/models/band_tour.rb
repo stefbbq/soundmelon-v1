@@ -13,5 +13,9 @@ class BandTour < ActiveRecord::Base
   def create_newsfeed
     Post.create_newsfeed_for self, nil, self.band_id, " added"
   end
+
+  def artist
+    self.band
+  end
   
 end

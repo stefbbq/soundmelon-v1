@@ -2,7 +2,6 @@
 - empty_messages  = ["There are no updates!", "No one has replied you!", "No one has mentioned you in their posts!", "No new messages!"]
 - current         = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 - message         = empty_messages[current]
-
 - unless @bulletins.blank? && @posts_order_by_dates.blank?
   - if !@bulletins.blank?
     .pinned-posts{:style=>'margin-bottom:25px;'}
@@ -14,7 +13,7 @@
     -if !@load_more_bulletins_path.nil?
       .read-more#bulletin-readmore
         =link_to("read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
-  .user_posts
+  .user_posts{:id =>"#{@band.class.name}_post_wall_#{@band.id}"}
     - @posts_order_by_dates.each do |date, posts|
       - date      = posts.first ? posts.first.created_at : date
       - date_str  = date.strftime('%Y%m%d')

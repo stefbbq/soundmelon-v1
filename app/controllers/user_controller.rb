@@ -74,7 +74,7 @@ class UserController < ApplicationController
   # renders the form for updating the current actor(fan/artist) profile details
   def manage_profile
     begin
-      @actor               = current_actor
+      @actor              = current_actor
       if @actor.is_fan?    # in case of fan profile login
         @user             = @actor
         @additional_info  = current_user.additional_info
@@ -93,6 +93,20 @@ class UserController < ApplicationController
       format.js
       format.html
     end
+  end
+
+  # remove the profile
+  # logs out the user and returns to home page
+  def remove_user_profile
+    redirect_to user_home_url and return unless request.xhr?
+    @actor               = current_actor
+    @is_fan              = @actor.is_fan?
+    @actor.remove_me
+    if @is_fan
+      logout
+    else      
+      reset_current_fan_artist      
+    end   
   end
 
   # renders the current fan's artist profiles

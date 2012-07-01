@@ -4,7 +4,11 @@
   - if fan_count >0 || @has_admin_access
     = link_to band_followers_path(:band_name => band.name), {:remote =>:true, :id =>'fanbox', :class =>link_class} do
       %span.count{:id=>'followercount'}
-        = pluralize(fan_count, 'fan')
+        = fan_count
+      - if fan_count > 1 || fan_count == 0
+        fans
+      - else
+        fan
   - else
     .selection-box-nohref{:id=>'fanbox'}
       %span.count{:id=>'followercount'}

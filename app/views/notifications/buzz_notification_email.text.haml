@@ -1,0 +1,14 @@
+- if @actor.is_fan?
+  - name = @actor.get_full_name
+  - link = fan_profile_url(@actor)
+- else
+  - name = @actor.name
+  - link = show_band_url(@actor.name)
+
+\Hello #{@recipeint.get_full_name},
+
+#{name} has buzzed on your artist #{@action_item.artist.get_name}'s item on SoundMelon.
+
+\===============================================
+#{@content_item.msg}
+\================================================

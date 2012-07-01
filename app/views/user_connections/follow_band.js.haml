@@ -9,5 +9,5 @@
 != "$('.actions #followartist').replaceWith('#{escape_javascript unfollow_content}');"
 if($('#followerbox .message').length>0){$('#followerbox').html('#{escape_javascript new_follow_item}')}else{if($('#followerbox div.avatar').length<#{BAND_FOLLOWER_SHOW_LIMIT}){$('#followerbox').prepend('#{escape_javascript new_follow_item}');}};
 $('.primary .left .connections_list').append('#{escape_javascript left_list_item}')
-$('#fanbox span.count').html("#{pluralize(@last_follower_count, 'fan')}");
+$('#fanbox span.count').html("#{@last_follower_count}");
 setTimeout('$(document).trigger(\"close.facebox\")',1000);
