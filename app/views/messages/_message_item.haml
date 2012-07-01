@@ -2,25 +2,25 @@
 - msg_div_class = read_message ? "msgstremitem-read" : "msgstremitem-unread"
 - sender_type   = message.sender_type
 - sender        = message.sender
-.primary-wrapper{:id=>"message_box_#{message.id}", :style =>'margin-top:5px'}
+.message{:id=>"message_box_#{message.id}", :style =>'margin-top:5px'}
   .avatar
     - if sender_type == 'User'
       #{get_avatar_small(sender)}
     - else
       #{get_band_logo_small(message.sender)}
-  %div{:class =>"#{msg_div_class}"}
-    .itemcontent{:id=>"msg_item_#{message.id}"}
+  .content{:class =>"#{msg_div_class}"}
+    .header{:id=>"msg_item_#{message.id}"}
       by
       %strong
       - if message.sender_type == 'User'
         =  message.sender.fname
       - else
         = message.sender.mention_name
-      #{timeago(message.created_at)}      
-      %div{:id =>"msg_content_#{message.id}", :class =>'messagecontent'}
-        = message.body.truncate(50)
-    .righticons
-      = link_to "Destroy(X)" , message_path(message), :remote=>:true, :method=>:delete, :class =>"ajaxload"
-      %br
-      = link_to "View" ,message_path(message), :remote=>:true, :class=>"ajaxload", :id =>'message_view_link'
+      #{timeago(message.created_at)}
+      .actions
+        = link_to "Destroy(X)" , message_path(message), :remote=>:true, :method=>:delete, :class =>"ajaxload"
+        %br
+        = link_to "View" ,message_path(message), :remote=>:true, :class=>"ajaxload", :id =>'message_view_link'      
+    .body{:id =>"msg_content_#{message.id}"}
+      = message.body.truncate(50)
     .clear

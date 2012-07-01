@@ -1,4 +1,3 @@
-
 - actor           = current_actor
 - band            = post.band_id.blank? ? nil : post.band
 - user            = post.user_id.blank? ? nil : post.user
@@ -82,7 +81,7 @@
           = get_band_logo_small(band)
         - else
           = link_to get_band_logo_small(band), show_band_path(:band_name =>band.name), :class =>'ajaxopen backable', :remote =>:true
-    %div{:class => 'content'}
+    .content
       .post-header
         .title
           %strong

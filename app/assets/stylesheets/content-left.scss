@@ -79,6 +79,7 @@
 			@include single-text-shadow(rgba(white, .5), 0px, 1px, 0px);
 			border: none;
 			color: black;
+			* { color: black; }
 		}
 	}
 	
@@ -110,7 +111,63 @@
   }
 
 	//
+	//messages
+	.message-conversation {
+		position: relative;
+		padding-bottom: 15px;
+    &:not(:last-child) { border-bottom: 1px dashed rgba(white, .15); }
+		&:not(:first-of-type) { padding-top: 15px; }
+		
+		> div {
+			@include genericItem();
+		}
+		
+		.content {
+			padding: 0px; 
+			margin-left: 4px;
+			float: left;
+			width: auto;
+		
+			//post title and actions
+			.header {
+				width: 100%;
+				font-size: 13px;
+				overflow: hidden;
+				
+				.title {
+					float: left;
+					strong {
+						color: white;
+					}
+				}
+				.actions {
+					display: none;
+					position: absolute;
+					right: 0;
+
+					span { color: $text-faded-color; }
+					a {
+						margin-left: 5px;
+						
+						&:hover { 
+							span { color: $text-color; }
+							i { opacity: 1; }
+						}
+					}
+					
+					i { width: 16px; height: 16px; opacity: .5; margin: -3px -1px; }
+					}	
+				}
+			}
+			.body {
+				margin-top: 2px;
+				font-size: 11px;
+			}
+	}
+
+	//
 	//posts
+	.post-no-border {	border: none !important; }
   .post {  
 		position: relative;
 		padding-bottom: 15px;
@@ -131,7 +188,7 @@
 			padding: 0px; 
 			margin-left: 4px;
 			float: left;
-			width: 575px;
+			width: auto;
 		
 			//post title and actions
 			.post-header {
@@ -216,9 +273,33 @@
 		}
 	}
 	
-	//thread
+	//post thread
 	.post-thread {
-		margin: 15px 0 0 12px;
+		margin-bottom: 20px; 
+		
+		.toggle-thread {
+			margin: 5px auto 0px auto;
+			background: black;
+			height: 16px;
+			border: 2px dashed $line-color;
+		}
+		.post-thread-top-border {
+			background: url(post-thread-border.png);
+			width: 629px;
+			height: 37px;
+		}
+		.post-thread-bottom-border {
+			background: url(post-thread-border.png);
+			background-position: 0px -70px;
+			width: 629px;
+			height: 20px;
+			text-align: center;
+		}
+		.post-thread-container {
+			@include border-radius($border-radius);
+			padding: 0px 10px;
+			margin: -12px 0px;
+		}
 	}
 	
 	//post toggle thread button
