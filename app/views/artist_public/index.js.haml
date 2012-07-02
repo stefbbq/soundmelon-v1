@@ -1,7 +1,4 @@
-if($('#page-content .live').length>0){$('.live').replaceWith('#{escape_javascript(render 'live')}');}
-else{$('#page-content').html('#{escape_javascript(render 'live')}');}
-if($('.primary').length>0){$('.primary').html('#{escape_javascript(render 'primary_content')}');}
-else{$('#page-content').append('#{escape_javascript(render 'primary_content')}');}
+$('#page-content').html('#{escape_javascript(render :partial => 'primary_content')}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist');
 $('#latest-posts').addClass('active').addClass('button-fill-artist');

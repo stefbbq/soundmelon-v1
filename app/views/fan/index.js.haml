@@ -1,7 +1,7 @@
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 $('#page-content').html('#{escape_javascript(render '/fan/live')}');
 $('#page-content').append('<div class="primary-container"></div>');
-$('.primary-container').append('<div class="primary"></div>');
+$('.primary-container').html('<div class="primary"></div>');
 $('.primary').append('<div class="left"><div class="top"></div></div>');
 $('.primary .left .top').append('#{escape_javascript(render '/user_posts/status_fan')}');
 $('.primary .left .top').append('#{escape_javascript(render '/fan/social_header')}');

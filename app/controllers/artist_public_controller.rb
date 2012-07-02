@@ -1,23 +1,7 @@
 class ArtistPublicController < ApplicationController
   before_filter :require_login
 
-  def members    
-    begin
-      @band         = Band.where(:name => params[:band_name]).includes(:band_members).first
-      @band_members = @band.band_members
-      get_artist_objects_for_right_column(@band)
-      respond_to do |format|
-        format.js
-        format.html
-      end
-    rescue => exp
-      logger.error "Error in ArtistPublic#Members :=> #{exp.message}"
-      render :template =>'/bricks/page_missing' and return
-      render :nothing => true and return
-    end    
-  end
-
-  def social
+  def index
     begin
       @band                       = Band.where(:name => params[:band_name]).includes(:band_members).first
       @is_admin_of_band           = current_user.is_admin_of_band?(@band)
@@ -32,6 +16,22 @@ class ArtistPublicController < ApplicationController
       format.js
       format.html
     end
+  end
+  
+  def members    
+    begin
+      @band         = Band.where(:name => params[:band_name]).includes(:band_members).first
+      @band_members = @band.band_members
+      get_artist_objects_for_right_column(@band)
+      respond_to do |format|
+        format.js
+        format.html
+      end
+    rescue => exp
+      logger.error "Error in ArtistPublic#Members :=> #{exp.message}"
+      render :template =>'/bricks/page_missing' and return
+      render :nothing => true and return
+    end    
   end
 
   def store

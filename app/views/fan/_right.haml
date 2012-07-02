@@ -29,10 +29,10 @@
             :id                       =>'access-artist',
             :remote                   => true,
             :class                    => 5 == current ? 'active button-fill-fan selection-box ajaxopen backable' : 'selection-box ajaxopen backable'
-  = link_to 'invite friends', new_invitation_path, :id=>'invite-friends', :remote => true, :class => 'selection-box ajaxopen'  
+  /= link_to 'invite friends', new_invitation_path, :id=>'invite-friends', :remote => true, :class => 'selection-box ajaxopen'  
   = link_to 'remove your profile',
             remove_my_profile_path,
             :remote             => true,
-            :class              => 'ajaxopen',
+            :class              => 'ajaxopen selection-text',
             :confirm            => "This will remove your profile and delete all the data. And this action cannot be undone. Are you sure to continue?"
 .fader

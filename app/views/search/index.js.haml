@@ -5,28 +5,23 @@
     #results
       - if got_some_results
         - unless @user_search_results.results.blank?
-          .users_header
-            %h3 USERS
+          .fans
+            %h1
+              showing 
+              = @user_search_results.results.length
+              %span fans
           - @user_search_results.results.each do |user|
-            .row
-              - user_url = user == current_user ? fan_home_url : fan_profile_path(user)
-              = link_to get_avatar_medium(user), user_url, :class =>'ajaxopen backable', :remote =>true              
-              .info
-                %h3= link_to user.get_full_name, user_url , :class =>'ajaxopen backable', :remote =>true
-              .clear
+            = render '/user_connections/item', :user => user, :connection_item => @user, :is_user_fan => false
         - unless @band_search_results.results.blank?
-          .bands_header
-            %h3 BANDS
+          .artists
+            %h1 
+              showing
+              = @band_search_results.results.length
+              %span artists
           - @band_search_results.results.each do |band|
-            - band_link_header = band.genre.blank? ? band.name : "#{band.name} (#{band.genres_name})"
-            .row
-              = link_to get_band_logo_medium(band), show_band_path(band.name), :class =>'ajaxopen backable', :remote =>true              
-              .info
-                %h3= link_to band_link_header, show_band_path(band.name), :class =>'ajaxopen backable', :remote =>true
-              .clear
+            = render '/user_connections/item', :user => band, :connection_item => @user, :is_user_fan => false
       - else
-        %h3
-        No Results Found for '#{params[:q]}'
+        %h3 no results found for '#{params[:q]}'
 $('.auto_search_complete').autocomplete('close');
 $('.live').html('#{escape_javascript(search_result)}');
 $('.primary-container').remove();

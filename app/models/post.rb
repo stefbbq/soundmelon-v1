@@ -138,5 +138,4 @@ class Post < ActiveRecord::Base
       MentionedPost.create_post_mentions(self, mentioned_users, mentioned_bands)
     end
   end
-  
 end

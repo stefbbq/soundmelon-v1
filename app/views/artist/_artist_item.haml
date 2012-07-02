@@ -1,7 +1,7 @@
 - actor = current_actor
 - is_current_artist = actor.instance_of?(Band) && (actor.id == artist.id)
 .item
-  .photo
+  .avatar.avatar-medium
     = get_band_logo_medium(artist)
   .content
     %span.band-name= artist.name

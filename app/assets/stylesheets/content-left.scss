@@ -111,22 +111,45 @@
   }
 
 	//
-	//messages
+	//message
 	.message-conversation {
+		&:not(:last-child) { border-bottom: 1px dashed rgba(white, .15); }
+		&:not(:first-of-type) { padding-top: 15px; }
+		&:first-of-type {
+			.message:first-child { padding-top: 0px !important; }
+		}
+		
+		.message {
+			border: none !important;
+			padding-bottom: 8px !important;
+			padding-top: 0px !important;
+		}
+	}
+	
+	//
+	//entries (messages, posts)
+	.entry-no-border { border: none !important; }
+  .entry {  
 		position: relative;
 		padding-bottom: 15px;
     &:not(:last-child) { border-bottom: 1px dashed rgba(white, .15); }
 		&:not(:first-of-type) { padding-top: 15px; }
 		
 		> div {
-			@include genericItem();
+			@include generic-item();
 		}
 		
+		.first-post {
+			.title span:before {
+				content: "first ";
+			}
+		}
+
 		.content {
 			padding: 0px; 
 			margin-left: 4px;
 			float: left;
-			width: auto;
+			width: 575px;
 		
 			//post title and actions
 			.header {
@@ -143,8 +166,8 @@
 				.actions {
 					display: none;
 					position: absolute;
-					right: 0;
-
+					right: 4px;
+					
 					span { color: $text-faded-color; }
 					a {
 						margin-left: 5px;
@@ -163,68 +186,6 @@
 				margin-top: 2px;
 				font-size: 11px;
 			}
-	}
-
-	//
-	//posts
-	.post-no-border {	border: none !important; }
-  .post {  
-		position: relative;
-		padding-bottom: 15px;
-    &:not(:last-child) { border-bottom: 1px dashed rgba(white, .15); }
-		&:not(:first-of-type) { padding-top: 15px; }
-		
-		> div {
-			@include genericItem();
-		}
-		
-		.first-post {
-			.title span:before {
-				content: "first ";
-			}
-		}
-
-		.content {
-			padding: 0px; 
-			margin-left: 4px;
-			float: left;
-			width: auto;
-		
-			//post title and actions
-			.post-header {
-				width: 100%;
-				font-size: 13px;
-				overflow: hidden;
-				
-				.title {
-					float: left;
-					strong {
-						color: white;
-					}
-				}
-				.actions {
-					display: none;
-					position: absolute;
-					right: 0;
-
-					span { color: $text-faded-color; }
-					a {
-						margin-left: 5px;
-						
-						&:hover { 
-							span { color: $text-color; }
-							i { opacity: 1; }
-						}
-					}
-					
-					i { width: 16px; height: 16px; opacity: .5; margin: -3px -1px; }
-					}	
-				}
-			}
-			.post-body {
-				margin-top: 2px;
-				font-size: 11px;
-			}
 		}
 
     .righticons{ 			
@@ -233,6 +194,24 @@
 			text-align: right;
     }
   }
+
+	//
+	//entry buttons
+	.add-message {
+		@include default-button();
+		display: inline-block;
+		margin: 0px 0 15px 0;
+		a { color: $text-color; }
+	}
+	.toggle-thread {
+		@include default-button();
+		display: inline-block;
+		margin: 10px 0 0 0;
+		a { color: $text-color; }		
+	}
+	
+	//
+	//entry other
 	date {
 		display: block;
 		background: url(base-feed-date.png);
@@ -252,7 +231,6 @@
 		> div {
 			margin: 6px 4px 0 0;
 		}
-
 
 		h1, h2 {
 			display: inline;
@@ -275,13 +253,15 @@
 	
 	//post thread
 	.post-thread {
-		margin-bottom: 20px; 
+		margin-bottom: 20px;
 		
 		.toggle-thread {
 			margin: 5px auto 0px auto;
-			background: black;
+			background: $page-bg-color;
 			height: 16px;
-			border: 2px dashed $line-color;
+			border: 0px dashed $line-color;
+			
+			&:hover { background: lighten($page-bg-color, 15); }
 		}
 		.post-thread-top-border {
 			background: url(post-thread-border.png);
@@ -297,17 +277,11 @@
 		}
 		.post-thread-container {
 			@include border-radius($border-radius);
-			padding: 0px 10px;
-			margin: -12px 0px;
+			padding: 0px;
+			margin: -12px 10px;
+			
+			.content { width: 555px !important;}
 		}
-	}
-	
-	//post toggle thread button
-	.toggle-thread {
-		@include default-button();
-		display: inline-block;
-		margin: 10px 0 0 0;
-		a { color: $text-color; }		
 	}
 
   .content-mentioned {
@@ -340,45 +314,6 @@
       text-decoration: none;
     }
   }
-
-	//
-	//collections
-	.item {
-		@include genericItem();
-		margin-bottom: 10px;
-		display: block;
-		
-		//profile photo
-		.photo {
-			float: left;
-			
-			img { 
-				@include border-radius($border-radius / 2);
-				width: 100px; 
-				height: 100px; 
-			}
-		}
-		
-		//name, description
-		h4 { margin: 0px; }
-		.content {
-			display: inline-block;
-			margin: 15px 0 0 6px;
-			
-			> span {
-				display: block;
-			}
-		}
-		
-		//unfollow, etc
-		.actions { 
-			float: right;
-			display: block;
-			margin-top: 16px;
-			
-			a {	@include inverted-button();	}
-		}
-	}
 	
 	//
 	//content areas

@@ -143,6 +143,9 @@ i {
 						height: 32px;
 						display: inline-block;
 						position: relative;
+						opacity: .85;
+						
+						&:hover {	opacity: 1; }
 						
 						span {
 							@include border-radius(0 0 4px 0);							
@@ -368,40 +371,64 @@ i {
 
 //
 //search results
-.users_header, .bands_header {background:none repeat scroll 0 0 #EF502F; padding:5px; min-height:20px; margin-top:5px;}
 #results {
+	.fans, .artists {
+		width: 100%;
+		margin: 18px 0 10px 0;
+		h1 { margin: 0px;}
+	}
+	.fans h1 span { color: $fan-active-color; }
+	.artists h1 span { color: $artist-active-color; }
+	
 	padding: 10px;
-  color: #fff;
-  .row {
-    min-height: 98px;
-    padding: 10px;
-    border-bottom: 1px solid #cfcfcf;
-    &:last-child { border: none; }
-    img { border: solid 1px #cecece; float: left;height:60px;width:60px; }
-    .action { float: right; }
-    .info {
-      color: #666;
-      width: 610px;
-      font-size: 1.6em;
-      float: left;
-      margin-left: 10px;
-      h3 {
-        color: #fff;
-        margin: 0px;
-        display: inline;
-      }
-      .verified {
-        //button-border-radius(certified.png) no-repeat left center transparent;
-        color: #6c6c6c;
-        font-size: 0.8em;
-        height: 22px;
-        line-height: 22px;
-        padding-left: 25px;
-        margin-top: 6px;
-      }
-    }
-  }
 }
+
+//
+//collections
+.item {
+	@include generic-item();
+	margin-bottom: 10px;
+	display: block;
+	
+	//profile photo
+	.avatar {
+		float: left;
+		img { @include border-radius($border-radius / 2); }
+	}
+	.avatar-small{
+		img { 
+			width: 50px; 
+			height: 50px;
+		}
+	}
+	.avatar-medium {
+		img {
+			width: 100px; 
+			height: 100px;
+		}
+	}
+	
+	//name, description
+	h4 { margin: 0px; }
+	.content {
+		display: inline-block;
+		margin: 15px 0 0 6px;
+		
+		> span {
+			display: block;
+		}
+	}
+	
+	//unfollow, etc
+	.actions { 
+		float: right;
+		display: block;
+		margin-top: 16px;
+		
+		a {	@include inverted-button();	}
+	}
+}
+
 
 //
 //main overlay

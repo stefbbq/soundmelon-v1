@@ -186,7 +186,7 @@ Soundmelon::Application.routes.draw do
   get ':band_name/message/new'            => 'artist_public#new_message',                 :as => :band_new_message
   match ':band_name/message/create'       => 'artist_public#send_message',                :as => :band_send_message
   get ':band_name/members'                => 'artist_public#members',                     :as => :band_members
-  get ':band_name'                        => 'artist_public#social',                      :as => :show_band
+  get ':band_name'                        => 'artist_public#index',                       :as => :show_band
   
   #album and song buzz
   get ':band_name/:id/tbuzz'              => 'buzz#band_tour_buzz',                       :as => :band_tour_buzz

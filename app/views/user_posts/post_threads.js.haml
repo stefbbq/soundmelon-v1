@@ -1,7 +1,8 @@
 - last_post  = @posts.pop
 - first_post = @posts.pop
 - all_posts = capture do
-  = render 'user_posts/post', :post => last_post, :hide_thread_link => false, :divclass =>'last-post'
+  = render 'user_posts/post', :post => last_post, :hide_thread_link => false, :divclass =>"last-post-#{last_post.id}"
+  
   .post-thread{:id =>"post_thread_#{last_post.id}"}
     .post-thread-top-border
     .post-thread-container
@@ -10,12 +11,12 @@
       = render 'user_posts/post', :post => first_post, :hide_thread_link => true, :id =>"first_post_#{first_post.id}",:divclass =>'first-post'
     .post-thread-bottom-border
 - hide_show_conversation = capture do
-  %a{:href => "javascript:void(0);", :class =>'toggle-thread', :onclick => "$('.last-post').parent().removeClass('post-no-border'); $('#post_thread_#{last_post.id}').toggle();$(this).html($.trim($(this).text())=='collapse conversation' ? 'expand conversation' : 'collapse conversation');$('#expand_link_#{last_post.id}').toggle();"}
+  %a{:href => "javascript:void(0);", :class =>'toggle-thread', :onclick => "$('.last-post-#{last_post.id}').parent().removeClass('entry-no-border'); $('#post_thread_#{last_post.id}').toggle();$(this).html($.trim($(this).text())=='collapse conversation' ? 'expand conversation' : 'collapse conversation');$('#expand_link_#{last_post.id}').toggle();"}
     collapse conversation
 
 $('#post_#{@post.id}').replaceWith("#{escape_javascript all_posts}");
 $('#expand_link_#{last_post.id}').hide();
 $('#post_thread_#{last_post.id} >div:last-child').append('#{escape_javascript hide_show_conversation}');
 $('#post_thread_#{last_post.id} .toggle-thread').addClass('toggle-thread-expanded');
-$('.last-post').parent().addClass('post-no-border');
+$('.last-post-#{last_post.id}').parent().addClass('entry-no-border');
 setTimeout('$(document).trigger(\"close.facebox\"); ',10);

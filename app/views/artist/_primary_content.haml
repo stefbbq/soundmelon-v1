@@ -1,10 +1,10 @@
+= render "artist/live"
 .primary-container
   .primary
     .left
       .top
         = render '/user_posts/status_artist'
-        = render '/artist/social_header', :current =>'latest'
+        = render '/artist/social_header', :default_active => true, :current => "mentions"
       = render "/bricks/artist_posts"
     .right
       = render "/artist/right"
-    

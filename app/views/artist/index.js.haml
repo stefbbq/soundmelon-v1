@@ -1,7 +1,4 @@
-if($('#page-content .live').length>0){$('.live').replaceWith('#{escape_javascript(render '/artist/live')}');}
-else{$('#page-content').html('#{escape_javascript(render '/artist/live')}');}
-if($('.primary').length>0){$('.primary').html('#{escape_javascript(render '/artist/primary_content')}');}
-else{$('#page-content').append('#{escape_javascript(render '/artist/primary_content')}');}
+$('#page-content').html('#{escape_javascript(render '/artist/primary_content')}');
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist');

@@ -6,7 +6,7 @@
       %hr/
       .connections_list{:id =>"#{@band.class.name.downcase}_#{@band.id}_followers"}
         - @followers.each do |user|
-          = render '/user_connections/item', :user =>user, :connection_item =>@band, :is_user_fan =>true
+          = render '/user_connections/item', :user => user, :connection_item => @band, :is_user_fan => true
         =# paginate @followers, :remote => true
     .right
       = render '/artist_public/right', :current =>'fan'

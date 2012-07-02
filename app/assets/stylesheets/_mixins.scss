@@ -89,7 +89,7 @@
 
 
 //box
-@mixin genericItem(){
+@mixin generic-item(){
 	@include border-radius($border-radius / 2);
 	//background: rgba(white, .03);
 	padding: 4px;

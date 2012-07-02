@@ -7,7 +7,7 @@
 
 - unless is_newsfeed
   - if post_item
-    - buzz_content  = capture do
+    - buzz_content = capture do
       - if post.band_album_post?
         = link_to band_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'action-buzz ajaxopen'} do
           %i
@@ -25,8 +25,8 @@
           %i
           %span buzz
   
-- is_author_artist_profile  = (@band && band ) && @band == band
-- is_author_fan_profile     = (@user && user ) && @user == user
+- is_author_artist_profile  = (@band && band) && @band == band
+- is_author_fan_profile     = (@user && user) && @user == user
 - self_post                 = is_author_artist_profile || is_author_fan_profile
 - hide_thread_link          ||= false
 - divclass                  ||=''
@@ -54,21 +54,21 @@
     wrote this  
   #{timeago(post.created_at)}
 
-- action_section  = ''
+- action_section = ''
 - unless is_newsfeed
-  - action_section  = capture do
+  - action_section = capture do
     - unless buzz_content.blank?
       #{buzz_content}
     - if self_actor
-      = link_to user_post_path(post), :method=> :delete, :class=>'action-delete', :remote=>true do
+      = link_to user_post_path(post), :method=> :delete, :class => 'action-delete', :remote => true do
         %i
         %span delete
     - else
-      = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote=>true do
+      = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote => true do
         %i
         %span reply
 
-= div_for post do
+= div_for post, {:class => 'entry'} do
   %div{:class=>"#{divclass}"}
     .avatar
       - if user
@@ -82,7 +82,7 @@
         - else
           = link_to get_band_logo_small(band), show_band_path(:band_name =>band.name), :class =>'ajaxopen backable', :remote =>:true
     .content
-      .post-header
+      .header
         .title
           %strong
             #{writer_header}
@@ -90,7 +90,7 @@
             #{content_header}
         .actions
           #{action_section}
-      .post-body
+      .body
         - if is_newsfeed
           #{newsfeed_message(post, post_item).last}
         - else

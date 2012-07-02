@@ -1,14 +1,20 @@
+-#set temnplates
 - msg_content = capture do
   = @message.body
 - show_hide_message = capture do
   = link_to "show / hide", "javascript:void(0);", :onclick =>"$('#msg_item_#{@message.id} #msg_content_#{@message.id}').toggle();"
-$('#msg_item_#{@message.id} #msg_content_#{@message.id}').html("#{escape_javascript(msg_content)}");
-$('#message_box_#{@message.id} .righticons a#message_view_link').replaceWith("#{escape_javascript(show_hide_message)}");
+  
+-#set view state
+$('#msg_content_#{@message.id}').html("#{escape_javascript(msg_content)}");
+$('#msg_box_#{@message.id} .righticons a#message_view_link').replaceWith("#{escape_javascript(show_hide_message)}");
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
+
+$('div#msg_box_#{@message.id} .msgstremitem-unread').removeClass('msgstremitem-unread').addClass('msgstremitem-read');
+$('.ajaxload').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());});
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+
+-#set social header state
 - if @actor.is_fan?
   $('.primary .left .social-header').replaceWith('#{escape_javascript(render '/fan/social_header', :current =>'message')}');
 - else
   $('.primary .left .social-header').replaceWith('#{escape_javascript(render '/artist/social_header', :band =>@actor, :current =>'message')}');
-$('div#message_box_#{@message.id} .msgstremitem-unread').removeClass('msgstremitem-unread').addClass('msgstremitem-read');
-$('.ajaxload').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());});
-setTimeout('$(document).trigger(\"close.facebox\")',10);  

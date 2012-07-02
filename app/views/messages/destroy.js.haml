@@ -1,7 +1,7 @@
 - if @empty_conversation
   != "$('#conversation_#{@conversation.id}').remove();"
 - else
-  != "$('#message_box_#{params[:id]}').remove();"
+  != "$('#msg_box_#{params[:id]}').remove();"
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 - if @actor.is_fan?
   $('.primary .left .social-header').replaceWith('#{escape_javascript(render '/fan/social_header', :current =>'message')}');

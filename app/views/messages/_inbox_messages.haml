@@ -1,8 +1,9 @@
 - band ||=nil
 - unless messages.blank?
-  = render "messages/message", :messages => messages, :band =>band
+  .messages
+    = render "messages/message-conversation", :messages => messages, :band => band
   - unless @load_more_path.nil?
     .read-more
       = link_to "read more", @load_more_path , :remote => true, :class=>"ajaxload"
 - else
-  You currently have no messages in your inbox.
+  you currently have no messages

@@ -35,7 +35,7 @@
           - change_connection     = true
       - else
         - if @actor.following? user
-          - if connection_item.is_fan?            
+          - if connection_item.is_fan?
             - connection_link       = unfollow_user_path(user.id, 1)
             - connection_link_text  = 'unfollow'
             - change_connection     = true
@@ -52,7 +52,6 @@
             - connection_link       = follow_band_path(user.name, 1)
             - connection_link_text  = 'follow'
             - change_connection     = true
-            
   - else
     - if @actor.is_fan?
       - if @actor == connection_item
