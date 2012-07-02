@@ -148,7 +148,7 @@ module ApplicationHelper
 
   def get_album_cover(song_album, type=:small, width=nil, height=nil)
     if song_album.cover_img_content_type.nil?
-      'no-image.png'
+      '/assets/no-image.png'
     else
       song_album.cover_img.url(type)
     end

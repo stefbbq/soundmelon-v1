@@ -107,6 +107,7 @@ Soundmelon::Application.routes.draw do
 
   # match 'profile/pic/delete' => 'avatar#delete', :as => 'delete_avatar'
   resources :password_resets
+  match '/user/resest/password/:id'           => 'password_resets#update',                :as => :reset_password
   resources :photos
   get 'albums'                                => 'photos#albums',                         :as => :albums
   get 'album/photos/:album_name'              => 'photos#album_photos',                   :as => :album_photos

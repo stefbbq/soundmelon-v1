@@ -1,3 +1,9 @@
 var newPlayList = [#{list_of_play_items(@songs)}];
-if(newPlayList.length>0){var current_length = playList.length;for(var i=0;i<newPlayList.length;i++){playList.push(newPlayList[i]);}makePlayList();playListChange(current_length,1);}
+:plain
+  if(newPlayList.length>0){
+  var current_length = playList.length;
+  if(newPlayList.length>0)
+    addItemsToPlayList(newPlayList);
+  playListChange(current_length,1);
+  }
 != "setTimeout('$(document).trigger(\"close.facebox\")',1000);"
