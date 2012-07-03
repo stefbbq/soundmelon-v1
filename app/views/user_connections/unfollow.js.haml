@@ -1,5 +1,5 @@
 - follow_content  = capture do
-  = link_to 'follow', follow_user_path(@user_to_be_unfollowed), :remote => true, :class => 'ajaxopen', :id=>'follow_link'
+  = link_to 'follow', follow_user_path(@user_to_be_unfollowed), :remote => true, :class => 'ajaxopen text-action', :id=>'follow_link'
 - follow_link = @self_profile ? "#{follow_user_path(@user_to_be_unfollowed, 1)}" : "#{follow_user_path(@user_to_be_unfollowed)}"
 
 $('.actions #follow_link').replaceWith('#{escape_javascript follow_content}');
