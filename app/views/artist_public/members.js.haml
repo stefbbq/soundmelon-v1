@@ -1,15 +1,7 @@
 $('.primary .left').html('');
 - band_members = capture do
-  Band Members
-  %hr
-  - @band_members.each do |user| 
-    .band-member
-      .avatar
-        = link_to get_avatar_medium(user), fan_profile_path(user.id)
-      .user-name 
-        %strong
-          = link_to user.get_full_name, fan_profile_path(user.id)
-      .clear 
+  - @band_members.each do |user|
+    = render '/user_connections/item', :user => user, :connection_item => user, :is_user_fan => false
 $('.primary .left').html('#{escape_javascript(band_members)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist');

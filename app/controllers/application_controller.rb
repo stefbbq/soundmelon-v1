@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :check_user_browser
   
   after_filter :messages_and_posts_count
-
+  
   helper_method :current_actor, :admin_login?
 
   protected

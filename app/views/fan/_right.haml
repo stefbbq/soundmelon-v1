@@ -18,7 +18,7 @@
   = render '/bricks/rb_followers',
               :follower_users         => @followers_users,
               :follower_count         => @followers_count,
-              :user                   =>@user,
+              :user                   => @user,
               :selected               => 3 == current
   .divider
   = link_to 'manage your profile', manage_profile_path,

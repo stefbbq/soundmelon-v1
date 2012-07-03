@@ -40,7 +40,6 @@
   padding:10px;
 
 	li {
-	  border-bottom: dashed 1px #aaa;
 	  padding: 3px 0;
 		margin: 0px;
 		
@@ -49,8 +48,17 @@
 		}
 	}
 	.current{
-	  padding-bottom:5px!important;
-	  background-color: #a6b3cf;
+	  background: rgba(black, .45);
+		color: white;
+		margin: 0px -10px;
+		padding-left: 16px !important;
+		border-bottom: none;			
+		
+		a {
+			@include single-text-shadow(rgba(black, .75), 0px, -1px, 0px);
+			color: #e3e3e3 !important;		
+		}
+		.play_list_close, .play_list_next { display: none; }
 	}
 }
 

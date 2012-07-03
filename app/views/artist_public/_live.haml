@@ -28,5 +28,4 @@
           = "#{@band.genre}"
       .description
     .bottom
-      .left.left-default
-      .right.right-default
+      = render "bricks/random_artists", :current => @band
