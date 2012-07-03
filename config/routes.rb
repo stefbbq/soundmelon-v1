@@ -121,6 +121,7 @@ Soundmelon::Application.routes.draw do
   match 'autocomplete/suggestions'            => 'search#autocomplete_suggestions',       :as => :autocomplete_suggestions
   match 'autocomplete/location/suggestions'   => 'search#location_autocomplete_suggestions',      :as => :location_autocomplete_suggestions
   get 'check/bandname'                        => 'search#check_bandname',                 :as => :check_bandname
+  get 'check/bandmentionname'                 => 'search#check_bandmentionname',          :as => :check_bandmentionname
   #get 'fan/sign_up/message' => 'users#fan_signup_sucessful_info', :as => successful_fan_signup
   #get 'musician/sign_up/message' => 'users#musician_signup_sucessful_info', :as => successful_musician_signup
 

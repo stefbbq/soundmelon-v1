@@ -6,13 +6,16 @@
     - if params[:fname]
       - @user.fname ||= params[:fname]
     - if params[:lname]
-      - @user.lname ||= params[:lname]
-    - if @user.errors.any?
+      - @user.lname ||= params[:lname]    
+    - if !@user.errors.blank? || !@is_band_data_valid
       .error_messages
-        %h2 Invalid user information
+        %h2 Invalid Information
         %ul
           - for message in @user.errors.full_messages
-            %li= message
+            %li= "User #{message}".downcase
+        %ul
+          - for message in @band.errors.full_messages
+            %li= "Artist #{message}".downcase
     = hidden_field :user, :invitation_token
     .field
       %label{:for => "namea"} first name
@@ -41,10 +44,11 @@
     %br
     .field
       %label{:for => "name"} artist name
-      = text_field_tag :band_name, params[:band_name], :class => 'textfield', :'data-validate' => check_bandname_url
+      = text_field_tag 'band[name]', params[:band] ? params[:band][:name] : '', :class => 'textfield', :'data-validate' => check_bandname_url
       .bandname_available
     .field
       %label{:for => "username"} artist username
-      = text_field_tag :band_mention_name, params[:band_mention_name], :class => 'textfield'
+      = text_field_tag 'band[mention_name]', params[:band] ? params[:band][:mention_name] : '', :class => 'textfield', :'data-validatemn' => check_bandmentionname_url
+      .bandmentionname_available
     = submit_tag 'register me!', :class => 'join'
   .right

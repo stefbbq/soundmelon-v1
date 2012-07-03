@@ -117,12 +117,10 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   }
 
   // Switch track
-  function playListChange(index, play) {
-    console.log('Current: ' + currentTrack + ' Index : ' + index + ' Length :' + playList.length);
+  function playListChange(index, play) {    
     plLength            = playList.length;
     playing_featured    = false;   
-    if(index >= 0 && index < plLength){
-      console.log('insdfad');
+    if(index >= 0 && index < plLength){      
       var item            = playList[index];
       currentTrackItemId  = item.i;
       updateTrackInfo(item.band, item.title, item.image, item.like)

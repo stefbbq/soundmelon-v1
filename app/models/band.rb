@@ -124,6 +124,14 @@ class Band < ActiveRecord::Base
     mark_replies_post_as_read post_ids
     return posts
   end
+
+  def self.random_artists limit= 2, except_this_artist = nil
+    if except_this_artist
+      self.where('id != ?', except_this_artist.id).order('rand()').limit(limit)
+    else
+      self.where('').order('rand()').limit(limit)
+    end    
+  end
   
   def limited_band_albums(n=BAND_PHOTO_ALBUM_SHOW_LIMIT)
     self.band_albums.limit(n)

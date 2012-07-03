@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  before_filter :require_login, :except => [:check_bandname]
+  before_filter :require_login, :except => [:check_bandname, :check_bandmentionname]
   
   def index
     @user_search_results = Sunspot.search User do |query| 
@@ -37,6 +37,14 @@ class SearchController < ApplicationController
   
   def check_bandname
     if Band.where('name = ?', params[:band_name]).count == 0
+      render :nothing => true, :status => 200 and return
+    else
+      render :nothing => true, :status => 409 and return
+    end
+  end
+
+  def check_bandmentionname
+    if Band.where('mention_name = ?', "@#{params[:band_mention_name]}").count == 0
       render :nothing => true, :status => 200 and return
     else
       render :nothing => true, :status => 409 and return

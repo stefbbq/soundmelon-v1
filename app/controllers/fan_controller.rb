@@ -25,24 +25,26 @@ class FanController < ApplicationController
       redirect_to fan_home_path
     else
       if request.post?
-        @user                     = User.new(params[:user])
-        @user.account_type        = 0        
-        if @user.save
-          band_name               = params[:band_name]
-          band_mention_name       = params[:band_mention_name]
-          @band                   = Band.find_by_name(band_name)
-          unless @band
-            @band                 = Band.new(:name =>band_name, :mention_name =>band_mention_name)
-            if @band.save
-              band_user             = @user.band_users.new
-              band_user.band_id     = @band.id
-              band_user.access_level= 1
-              band_user.save
-            end
+        successful_signup           = false
+        @band                       = Band.new(params[:band])
+        if(params[:band][:name].blank? && params[:band][:mention_name].blank?)
+          @is_band_data_valid       = true          
+        else          
+          @is_band_data_valid       = @band.valid?
+        end        
+        @user                       = User.new(params[:user])
+        if @is_band_data_valid
+          if @user.save
+            @band.save
+            band_user               = @user.band_users.new
+            band_user.band_id       = @band.id
+            band_user.access_level  = 1
+            band_user.save
+            successful_signup       = true
           end          
-          render :action =>'signup_success' and return
-#        else
-#          render :template =>'/fan/signup' and return
+        end        
+        if successful_signup          
+          render :action =>'signup_success' and return          
         end
       else
         @user                       = User.new(:invitation_token => params[:invitation_token])
@@ -51,6 +53,8 @@ class FanController < ApplicationController
           @user.email_confirmation  = @user.invitation.recipient_email
           @is_invited               = true
         end
+        @band                       = Band.new
+        @is_band_data_valid         = true
       end
     end    
   end
@@ -62,7 +66,7 @@ class FanController < ApplicationController
       @confirmation_thanks  = true
       @additional_info      = @user.additional_info
       @payment_info         = @user.payment_info      
-#      render 'fan/additional_info' and return
+      #      render 'fan/additional_info' and return
       redirect_to root_url, :notice => 'User was successfully activated.'
     else
       redirect_to root_url, :notice => 'Unable to activate your account. Try Again!'

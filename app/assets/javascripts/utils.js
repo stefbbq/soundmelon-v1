@@ -30,9 +30,21 @@ $(document).ready( function(){
     }).success(function() {
       $('.bandname_available').html('');
     }).error(function() {
-      $('.bandname_available').html('This band name is not available');      
+      $('.bandname_available').html('This artist name is not available');
     });
   });
+
+  $('[data-validatemn]').blur(function() {
+    $this = $(this);
+    $.get($this.data('validatemn'), {
+      band_mention_name: $this.val()
+    }).success(function() {
+      $('.bandmentionname_available').html('');
+    }).error(function() {
+      $('.bandmentionname_available').html('This artist mention name is not available');
+    });
+  });
+
 
   $('#post_msg').keyup(function( event )
   {
