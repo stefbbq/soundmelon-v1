@@ -4,14 +4,11 @@
   .avatar.avatar-medium
     = get_band_logo_medium(artist)
   .content
-    %span.band-name= artist.name
-    - unless artist.genre.blank?
-      %span.band-genre
-        (#{artist.genre})
-    %span.other-info
-      Fan ##{artist.followers_count},
-      Album ##{artist.song_albums_count},
-      Songs ##{artist.songs_count}
+    %h4
+      %strong= artist.name
+      = pluralize(artist.songs_count, 'songs')
+      online and 
+      = pluralize(artist.followers_count, 'fan')
   .actions
     - if is_current_artist
       currently administrating

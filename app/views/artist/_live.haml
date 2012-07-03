@@ -21,5 +21,4 @@
         %br
         = "#{@band.songs_count} albums have been brought 100 times"
     .bottom
-      .left.left-default
-      .right.right-default
+      = render "bricks/random_artists", :current => @band

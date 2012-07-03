@@ -11,7 +11,7 @@
           %h2= @band.mention_name
         .actions
           - if is_own_wall
-            = link_to "administer", user_home_path, :class =>'ajaxopen text-action', :remote =>true          
+            = link_to "administer", user_home_path, :class =>'ajaxopen text-action', :remote =>true
           - unless is_own_wall            
             - if actor.is_fan?
               - if actor.following?(@band)
@@ -20,7 +20,7 @@
                 = link_to 'follow', follow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen text-action'
             - else
               #connect_section
-                = render 'bricks/artist_connection' , :actor =>actor, :band => @band
+                = render 'bricks/artist_connection', :actor =>actor, :band => @band
           = link_to '', "http://facebook.com/#{@band.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @band.facebook_page.blank?
           = link_to '', "http://twitter.com/#{@band.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @band.twitter_page.blank?
       .sub-head
@@ -28,5 +28,4 @@
           = "#{@band.genre}"
       .description
     .bottom
-      .left.left-default
-      .right.right-default
+      = render "bricks/random_artists", :current => @band

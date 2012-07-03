@@ -409,7 +409,11 @@ i {
 	}
 	
 	//name, description
-	h4 { margin: 0px; }
+	h4 { 
+		margin: 0px; 
+		font-weight: normal;
+		strong { color: white; }
+	}
 	.content {
 		display: inline-block;
 		margin: 15px 0 0 6px;

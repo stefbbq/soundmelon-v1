@@ -7,11 +7,10 @@
         .name
           %h2.full-name= @user.get_full_name
           %h2= @user.mention_name
-        .actions
+        .heading
       .sub-head
         = @user.get_full_address
       .description
         = @user.bio
     .bottom
-      .left.left-default
-      .right.right-default
+      = render "bricks/random_artists", :current => nil

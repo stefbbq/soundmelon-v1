@@ -36,7 +36,7 @@
 		.top {
 			display: block;
 			width: 549px;
-			height: 118px;
+			height: 85px;
 			background: $live-bg-color;
 			
 			.header {
@@ -100,18 +100,29 @@
 		
 		.bottom {
 			margin-top: 10px; 
-			.left {
+			
+			.photo {
 				width: 270px;
-				height: 118px;
+				height: 151px;
+				overflow: hidden;
+				
+				img {width: 100%; }
+			}
+			
+			.left {
+				position: relative;
+				width: 270px;
+				height: 151px;
 				float: left; 
 			}
 			.left-default {
 				background: url(live/live-default-left.jpg); 
 			}
 			.right {
+				position: relative;
 				float: right; 
 				width: 270px;
-				height: 118px;
+				height: 151px;
 			}
 			.right-default {
 				background: url(live/live-default-right.jpg); 
@@ -119,30 +130,33 @@
 		}
 	}
 	
-	//actions
+	//actions and headings
 	.overlay {
 		position: absolute;
 		bottom: 0;
 		height: 40px;
 		width: 100%;
-		background: rgba(black, .6);
+		background: rgba(black, .7);
 		text-align: right;
+		
 		
 		a {
 			margin: -4px 0 0 20px;		
 			display: inline-block;
-			font-size: 14px;
+			font-size: 12px;
 			opacity: .9;
+			color: $text-highlight-color;
 			
 			&:hover {	opacity: 1;	}
 			&:last-child { margin-right: 20px; }
 		}
 		
 		h2 {
-			@include single-text-shadow(black, 0px, 3px, 3px);	
+			@include single-text-shadow(rgba(black, .4), 0px, 3px, 3px);	
 			padding: 0px;
 			margin: 0px;
 			display: inline-block;
+			color: white;
 		}
 	}
 }

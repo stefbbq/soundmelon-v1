@@ -1,10 +1,10 @@
 - if actor.connected_with?(band)
-  = link_to "Disconnect", remove_artist_connection_path(band.name), :remote => true, :class => 'ajaxopen'
-  = link_to 'message', band_new_message_path(:band_name => band.name, :id => band.id), :remote => :true, :class => "ajaxopen"
+  = link_to "disconnect", remove_artist_connection_path(band.name), :remote => true, :class => 'ajaxopen text-action'
+  = link_to 'message', band_new_message_path(:band_name => band.name, :id => band.id), :remote => :true, :class => "ajaxopen text-action"
 - elsif band.connection_requested_for?(actor)
-  = link_to "Accept Connection", accept_artist_connection_path(band.name), :remote => true, :class => 'ajaxopen'
-  = link_to "Reject Connection", reject_artist_connection_path(band.name), :remote => true, :class => 'ajaxopen'
+  = link_to "accept connection", accept_artist_connection_path(band.name), :remote => true, :class => 'ajaxopen'
+  = link_to "reject connection", reject_artist_connection_path(band.name), :remote => true, :class => 'ajaxopen'
 - elsif actor.connection_requested_for?(band)
-  = link_to "Cancel Connection Request", reject_artist_connection_path(band.name), :remote => true, :class => 'ajaxopen'
+  = link_to "cancel connection request", reject_artist_connection_path(band.name), :remote => true, :class => 'ajaxopen text-action'
 - elsif actor!= band
-  = link_to 'connect', connect_artist_path(band.name), :id =>'connectartist', :remote => true, :class => 'ajaxopen'
+  = link_to 'connect', connect_artist_path(band.name), :id =>'connectartist', :remote => true, :class => 'ajaxopen text-action'
