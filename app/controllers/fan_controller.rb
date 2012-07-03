@@ -116,11 +116,11 @@ class FanController < ApplicationController
   def invite_bandmates
     redirect_to root_url and return unless current_user.account_type
     if request.post?
-      @band = current_user.bands.first
+      @band             = current_user.bands.first
       @band.update_attributes(params[:band])
       redirect_to fan_home_url and return
     else
-      @band = Band.new
+      @band             = Band.new
       @band_invitations = @band.band_invitations.build
     end
   end
@@ -129,13 +129,10 @@ class FanController < ApplicationController
     unless params[:id].blank?
       band_invitation = BandInvitation.find_by_token(params[:id])
       if band_invitation
-        band_user = BandUser.new(:band_id => band_invitation.band_id,
-          :user_id => current_user.id,
-          :access_level => band_invitation.access_level
-        )
-        band_user.save
+        band_user = BandUser.find_or_create_by_band_id_and_user_id(band_invitation.band_id, current_user.id)          
+        band_user.update_attribute(:access_level, band_invitation.access_level)
         band_invitation.update_attribute(:token, nil)
-        redirect_to fan_home_url, :notice => "You have successfully joined the band." and return
+        redirect_to show_band_url(band_user.band.name), :notice => "You have successfully joined the band." and return
       else
         redirect_to fan_home_url ,:error => "Invitation token has been already used or token missmatch" and return
       end

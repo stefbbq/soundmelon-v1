@@ -16,12 +16,11 @@ class BandInvitation < ActiveRecord::Base
   def send_invitation
     # if receiver is already a member of soundmelon.com then send him/her internal message to
     if(receiver = User.find_by_email(self.email))
-      band = Band.find(self.band_id)
-      sender = User.find(self.user_id)
-      msg = "Your bandmate #{sender.get_full_name} has invited you to join #{band.name} at soundmelon. \n Please click the below link to join the band. \n http://localhost:3000/invitation/accept/1/#{self.token}/join"
-      sender.send_message(receiver, {:body => msg})
-    end
-    
+      band      = Band.find(self.band_id)
+      sender    = User.find(self.user_id)
+      msg       = "Your bandmate #{sender.get_full_name} has invited you to join #{band.name} at soundmelon. \n Please click the below link to join the band. \n http://soundmelon.com/invitation/accept/1/#{self.token}/join"
+      sender.send_message(receiver, msg, 'Join Invitation From Artist')
+    end    
     UserMailer.mate_invitation_email(self).deliver  
   end 
   

@@ -8,12 +8,12 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   <div class="jp-type-single">
     <div class="jp-gui jp-interface">
       <div class="jp-controls">
-        <a href="javascript:;" class="jp-pre"></a>
+        <a href="javascript:;" class="jp-pre" id="jp-pre"></a>
         <div class="play-pause">
           <a href="javascript:;" class="jp-play"></a>
           <a href="javascript:;" class="jp-pause"></a>
         </div>
-        <a href="javascript:;" class="jp-next"></a>        
+        <a href="javascript:;" class="jp-next" id="jp-next"></a>
         <div class="jp-volume-bar1" style="position: absolute !important;">
           <div class="jp-volume-bar-value">
             <div class="jp-volume-bar-thumb"></div>
@@ -39,8 +39,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   //<![CDATA[
   var currentTrack        = 0;
   var currentTrackItemId  = 0;
-  var player              = $("#sm_jplayer");
-  var playing_featured    = false;
+  var player              = $("#sm_jplayer");  
   $(document).ready(function(){    
     player.jPlayer({
       ready: function(event){
@@ -49,7 +48,9 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
       },
       play: function(event){afterPlayStart();},
       pause: function(event){afterPlayPause();},
-      ended:function(event){playListNext();},
+      ended:function(event){
+        playListNext();
+      },
       swfPath: "../js",supplied: "m4a,mp3",wmode: "window"
     });
     
@@ -66,8 +67,11 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
     });
   });
   
-  $(".jp-pre").click(function() { playListPrev(); }); // Listen for Previous Track button click
-  $(".jp-next").click(function() {playListNext(); }); // Listen for Next Track button click
+  $("#jp-pre").click(function() { playListPrev(); }); // Listen for Previous Track button click
+  $("#jp-next").click(function(event) {
+    playListNext();event.stopPropagation();
+   }
+  ); // Listen for Next Track button click
 
   function playListStart(){
     if(playList.length>0)
@@ -105,18 +109,20 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   }
 
   function enableDisablePrev(state){
-    state ? $('.jp-prev').on('click', playListPrev) : $('.jp-next').off('click');
+    $('#jp-pre').attr('class',state ? 'jp-pre' : 'jp-pre-dis');    
   }
 
   function enableDisableNext(state){
-    state ? $('.jp-next').on('click', playListNext) : $('.jp-next').off('click');
+    $('#jp-next').attr('class', state ? 'jp-next' : 'jp-next-dis');
   }
 
   // Switch track
-  function playListChange(index, play) {    
+  function playListChange(index, play) {
+    console.log('Current: ' + currentTrack + ' Index : ' + index + ' Length :' + playList.length);
     plLength            = playList.length;
     playing_featured    = false;   
     if(index >= 0 && index < plLength){
+      console.log('insdfad');
       var item            = playList[index];
       currentTrackItemId  = item.i;
       updateTrackInfo(item.band, item.title, item.image, item.like)
@@ -127,8 +133,8 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   }
   
   function updateButtons(){    
-    enableDisablePrev(currentTrack > 0);
-    enableDisableNext(currentTrack < playList.length - 1);
+    enableDisablePrev(currentTrack != 0);
+    enableDisableNext(currentTrack != playList.length - 1);
   }
   
   // Set song for the player
@@ -150,8 +156,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   // Play song from the song list in albums
   function playSongFromAlbum(song_detail){
     makePlaylistEmpty();
-    addSingleSongToPlaylist(song_detail);
-    playing_featured = true;
+    addSingleSongToPlaylist(song_detail);    
     setSongToPlay(1, song_detail.mp3, song_detail.ogg);
     currentTrackItemId = song_detail.i;
     updateTrackInfo(song_detail.band, song_detail.title, song_detail.image, song_detail.like);

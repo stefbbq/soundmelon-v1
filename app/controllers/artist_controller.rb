@@ -110,21 +110,21 @@ class ArtistController < ApplicationController
       @band = Band.where(:name => params[:band_name]).first
       if current_user.is_admin_of_band?(@band)
         params['band']['band_invitations_attributes'].each do |key, value|
-          value['user_id'] = current_user.id unless value.has_key?('id') 
+          value['user_id'] = current_user.id unless value.has_key?('id')
         end
         if @band.update_attributes(params[:band])
           @msg = 'Invitation Send Successfully'
-        end 
+        end
       else
         logger.error "#User with username:{current_user.get_full_name} and user id #{current_user.id} tried to send invitation for bandmates to join a band with band id: #{@band.id} which he is not a admin" 
         redirect_to fan_home_url, :notice => 'Your action has been reported to admin' and return
       end
-    rescue
+    rescue =>exp
+      logger.error "Error in Artist::SendBandmatesInvitation :=>#{exp.message}"
       redirect_to fan_home_url, :notice => 'Something went wrong! Try Again' and return
+    end  
+    respond_to do |format|
+      format.js {render :action => 'invite_bandmates' and return}
     end
   end
-  respond_to do |format|
-    format.js {render :action => 'invite_bandmates' and return}
-  end   
-  
 end

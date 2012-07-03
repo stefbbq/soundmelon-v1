@@ -11,7 +11,7 @@ $('.primary .left').html('');
       #error_explanation
         %h2
           = pluralize(@band.errors.count, "error")
-          prohibited this image from being saved:
+          prohibited this record from being saved:
         %ul
           - @band.errors.full_messages.each do |msg|
             %li
