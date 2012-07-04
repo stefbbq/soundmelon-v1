@@ -1,8 +1,50 @@
-Welcome #{"#{@user.fname} #{@user.lname}"},
-\===============================================
-
-Thanks for signing up.
-
-To activate your account just follow this link: #{@url}.
-
-Thanks for joining and have a great day!
+%head
+  %title SoundMelon Invitation
+  %meta{"content-type" => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
+  %meta{:content => "noindex,nofollow", :name => "robots"}
+  %meta{:content => "Announcing MK Geek Night #1 - Amazing Speakers Confirmed"}
+  %link{:href => "http://css.createsend1.com/css/social.min.css?h=28875B5D", :media => "screen,projection", :rel => "stylesheet", :type => "text/css"}
+%body{:bgcolor => "#eaeaea", :style => "-webkit-font-smoothing:antialiased;width:100% !important;background-color:#eaeaea;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;-webkit-text-size-adjust:none;"}
+  %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background-color: #eaeaea", :width => "100%"}
+    %tr
+      %td{:style => "background-color: #eaeaea", :width => "100%"}
+        %table.table{:align => "center", :border => "0", :cellpadding => "0", :cellspacing => "0", :width => "600"}
+          %tr
+            %td.cell{:width => "500"}
+              %img{:src => "http://soundmelon.com/email/logo_email.jpg", :style =>"margin-left:-37px;margin-top:20px;"}
+          %tr
+            %td.cell{:width => "600"}
+              %br
+                %table.promotable{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "600"}
+                  %tr
+                    %td.promocell{:style => "padding-top:25px;color:#565656;font-size:14px;line-height:21px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:21px;padding-bottom:0;font-weight:normal;", :width => "600"}
+                      %h1{:style => "font-size:21px;line-height:26px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:10px;padding-top:0;padding-bottom:0;font-weight:normal;color:#4b5c66;"}
+                        %a{:href => "http://email.pixelcreation.co.uk/t/r-l-hlilldd-l-o/", :style => "color:#3ca34e;text-decoration:none;"}
+                          Welcome #{"#{@user.fname} #{@user.lname}"}
+                      %p{:style => "color:#565656;font-size:14px;line-height:21px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:21px;padding-top:0;padding-bottom:0;font-weight:normal;"}
+                        Please activate your account to start using the site:
+                        #{@url}
+        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%", :height => "100", :style =>"background-color:#ddd;"}
+          %tr
+            %td
+              %table.table{:align => "center", :border => "0", :cellpadding => "0", :cellspacing => "0", :width => "600"}
+                %tr
+                  %td.cell{:nowrap => "", :width => "600"}
+                    %table.table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "600", :style =>"margin-top: 10px;"}
+                      %tr
+                        %td.footershow{:valign => "top", :width => "380"}
+                          %br
+                            %p.reminder{:style => "color:#565656;font-size:12px;font-family:Helvetica,Arial,sans-serif;margin-top:0px;margin-bottom:15px;padding-top:0;padding-bottom:0;line-height:18px;font-weight:normal;"}
+                              You’re receiving this because someone manually entered your email as a recipient.
+                        %td.hide{:align => "right", :style => "color:#a6a6a6;font-size:12px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;text-shadow:0 1px 0 #ffffff;", :valign => "top", :width => "220"}
+                          %table{:border => "0", :cellpadding => "0", :cellspacing => "0"}
+                            %tr
+                              %td{:style => "padding-top: 10px;"}
+                                %a{:href => "http://www.twitter.com/soundmelon/", :style => "color:#3ca34e;text-decoration:none;"}
+                                  %img{:alt => "Follow us on Twitter", :border => "0", :height => "32", :src => "http://i9.createsend1.com/ti/r/AC/DBC/718/222240/twitter-32x32.png", :width => "32"}/
+                              %td{:style => "padding-left:10px;padding-top: 10px;"}
+                                %a{:href => "http://www.facebook.com/soundmelon", :style => "color:#3ca34e;text-decoration:none;"}
+                                  %img{:alt => "Visit us on Facebook", :border => "0", :height => "32", :src => "http://i2.createsend1.com/ti/r/AC/DBC/718/222240/facebook-32x32.png", :width => "32"}/
+                          %br
+                            %p{:style => "color:#000000;font-size:11px;line-height:15px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;font-weight:bold;"}
+                              SoundMelon Inc.
