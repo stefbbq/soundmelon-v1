@@ -10,12 +10,12 @@ class MentionedPost < ActiveRecord::Base
     actor           = post.writer_actor
     mentioned_users.each do |mentioned_user| 
       mentioned_posts << self.new(:post_id => post.id, :user_id => mentioned_user.id, :status => UNREAD)
-      NotificationMail.mention_notification mentioned_user, actor, post
+      #NotificationMail.mention_notification mentioned_user, actor, post
     end
     
     mentioned_bands.each do |mentioned_band| 
       mentioned_posts << self.new(:post_id => post.id, :band_id => mentioned_band.id, :status => UNREAD)
-      NotificationMail.mention_notification mentioned_band, actor, post
+      #NotificationMail.mention_notification mentioned_band, actor, post
     end
     
     self.import mentioned_posts
