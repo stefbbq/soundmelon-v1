@@ -4,6 +4,8 @@ $('.primary .left').html('');
     = render :partial => '/fan/basic_info_form'
   .content-box#additional-info
     = render :partial => '/fan/edit_additional_info_form'
+  .content-box#notification-setting
+    = render :partial => '/fan/notification_setting_form'
   .content-box#change-password
     = render :partial => '/fan/change_password_form'    
 $('.primary .left').html('#{escape_javascript(manage_profile_forms)}');

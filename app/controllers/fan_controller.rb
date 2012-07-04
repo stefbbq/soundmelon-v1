@@ -203,6 +203,15 @@ class FanController < ApplicationController
     end
   end
 
+  def update_notification_setting
+    if request.xhr?
+      current_user.toggle! :notification_on
+      @status   = current_user.notification_on ? 'on' : 'off'
+    else
+      redirect_to fan_home_url and return
+    end
+  end
+
   def signup_success    
   end
   

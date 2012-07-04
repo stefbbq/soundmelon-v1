@@ -1,5 +1,5 @@
 %head
-  %title SoundMelon Invitation
+  %title SoundMelon Notification Email
   %meta{"content-type" => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
   %meta{:content => "noindex,nofollow", :name => "robots"}
   %meta{:content => "Announcing MK Geek Night #1 - Amazing Speakers Confirmed"}
@@ -18,13 +18,7 @@
                 %table.promotable{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "600"}
                   %tr
                     %td.promocell{:style => "padding-top:25px;color:#565656;font-size:14px;line-height:21px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:21px;padding-bottom:0;font-weight:normal;", :width => "600"}
-                      %h1{:style => "font-size:21px;line-height:26px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:10px;padding-top:0;padding-bottom:0;font-weight:normal;color:#4b5c66;"}
-                        %a{:href => "http://email.pixelcreation.co.uk/t/r-l-hlilldd-l-o/", :style => "color:#3ca34e;text-decoration:none;"}
-                          Hey #{"#{@user.fname}"}
-                      %p{:style => "color:#565656;font-size:14px;line-height:21px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:21px;padding-top:0;padding-bottom:0;font-weight:normal;"}
-                        Your account has been setup.
-                      %p{:style => "color:#565656;font-size:14px;line-height:21px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:21px;padding-top:0;padding-bottom:0;font-weight:normal;"}
-                        Thanks a bunch for joining and have a great day!
+                      = yield
         %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%", :height => "100", :style =>"background-color:#ddd;"}
           %tr
             %td
@@ -36,7 +30,7 @@
                         %td.footershow{:valign => "top", :width => "380"}
                           %br
                             %p.reminder{:style => "color:#565656;font-size:12px;font-family:Helvetica,Arial,sans-serif;margin-top:0px;margin-bottom:15px;padding-top:0;padding-bottom:0;line-height:18px;font-weight:normal;"}
-                              You’re receiving this because you've started the SoundMelon registration process.
+                              You can stop receiving notificaiton email by turning off the notification in your profile settings.
                         %td.hide{:align => "right", :style => "color:#a6a6a6;font-size:12px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;text-shadow:0 1px 0 #ffffff;", :valign => "top", :width => "220"}
                           %table{:border => "0", :cellpadding => "0", :cellspacing => "0"}
                             %tr

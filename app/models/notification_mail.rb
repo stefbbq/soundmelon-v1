@@ -102,13 +102,15 @@ class NotificationMail
     UserMailer.delay.general_notification_email(notification_type, subject, recipient_user, actor_user, action_item, content_item)
   end
 
-  def self.get_notification_recipient_users recipient_object
+  # collects the users to be notified based on their setting for email notification
+  def self.get_notification_recipient_users recipient_object    
+    recipient_users   = []
     if recipient_object.is_fan?
-      recipient_users = [recipient_object]      
+      recipient_users << recipient_object if recipient_object.notification_on
     else
-      recipient_users = recipient_object.band_admin_users      
+      recipient_users = recipient_object.band_notified_users
     end
     recipient_users
   end
-
+  
 end

@@ -1,0 +1,7 @@
+- detail = actor_detail(@actor)
+- name = detail[:name]
+- link = detail[:link]
+%h1{:style => "font-size:21px;line-height:26px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:10px;padding-top:0;padding-bottom:0;font-weight:normal;color:#4b5c66;"}
+  Hello #{@recipeint.get_full_name},
+%p{:style => "color:#565656;font-size:14px;line-height:21px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:21px;padding-top:0;padding-bottom:0;font-weight:normal;"}
+  The artist #{link_to name, link } has requested for connection with your artist "#{@action_item.get_name}" on SoundMelon

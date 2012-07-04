@@ -301,7 +301,7 @@ module ApplicationHelper
 
   # returns detail for actor
   def actor_detail actor
-    if actor.is_fan
+    if actor.is_fan?
       name = actor.get_full_name
       link = fan_profile_url(actor)
     else

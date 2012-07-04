@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120624074441) do
+ActiveRecord::Schema.define(:version => 20120704064330) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -89,12 +89,13 @@ ActiveRecord::Schema.define(:version => 20120624074441) do
   end
 
   create_table "band_users", :force => true do |t|
-    t.integer  "user_id",                         :null => false
+    t.integer  "user_id",                            :null => false
     t.integer  "band_id"
     t.integer  "access_level"
-    t.boolean  "is_deleted",   :default => false
+    t.boolean  "is_deleted",      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "notification_on", :default => true
   end
 
   create_table "bands", :force => true do |t|
@@ -231,6 +232,16 @@ ActiveRecord::Schema.define(:version => 20120624074441) do
 
   add_index "messages", ["ancestry"], :name => "index_messages_on_ancestry"
   add_index "messages", ["sent_messageable_id", "received_messageable_id"], :name => "acts_as_messageable_ids"
+
+  create_table "newsfeeds", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.string   "newsitem_type"
+    t.integer  "newsitem_id"
+    t.string   "msg"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "notifications", :force => true do |t|
     t.string   "type"
@@ -392,9 +403,11 @@ ActiveRecord::Schema.define(:version => 20120624074441) do
     t.datetime "last_activity_at"
     t.string   "mention_name"
     t.text     "bio"
+    t.string   "user_type"
     t.integer  "invitation_id"
     t.integer  "invitation_limit"
     t.string   "user_account_type"
+    t.boolean  "notification_on",                 :default => true
   end
 
   add_index "users", ["activation_token"], :name => "index_users_on_activation_token"

@@ -39,8 +39,9 @@ class ArtistController < ApplicationController
   end
   
   def edit    
-    begin
-      @band = Band.find(params[:id])
+    begin      
+      @band       = Band.find(params[:id])
+      @band_user  = BandUser.for_user_and_band(current_user, @band).first || BandUser.new
       get_artist_objects_for_right_column(@band)
       if current_user.is_admin_of_band?(@band)
         respond_to do |format|
@@ -74,6 +75,21 @@ class ArtistController < ApplicationController
       logger.error "#User with username:{current_user.get_full_name} and user id #{current_user.id} tried to update band with band id: #{@band.id} which he is not a admin" 
       render :nothing => true and return
     end    
+  end
+
+  def update_notification_setting
+    if request.xhr?
+      @updated           = false
+      band               = Band.find(params[:id])
+      if band
+        band_user        = BandUser.for_user_and_band(current_user, band).first
+        band_user.toggle! :notification_on if band_user
+        @status          = band_user.notification_on ? 'on' : 'off'
+        @updated         = true
+      end      
+    else
+      redirect_to fan_home_url and return
+    end
   end
   
   def show

@@ -82,6 +82,7 @@ class UserController < ApplicationController
         render :template =>"/fan/manage_profile" and return
       else                # in case of artist profile login
         @band             = @actor
+        @band_user        = BandUser.for_user_and_band(current_user, @band).first || BandUser.new
         get_artist_objects_for_right_column(@band)
         render :template =>"/artist/edit" and return
       end

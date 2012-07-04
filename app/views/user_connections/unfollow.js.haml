@@ -2,7 +2,7 @@
   = link_to 'follow', follow_user_path(@user_to_be_unfollowed), :remote => true, :class => 'ajaxopen text-action', :id=>'follow_link'
 - follow_link = @self_profile ? "#{follow_user_path(@user_to_be_unfollowed, 1)}" : "#{follow_user_path(@user_to_be_unfollowed)}"
 
-$('.actions #follow_link').replaceWith('#{escape_javascript follow_content}');
+$('div.actions #follow_link').replaceWith('#{escape_javascript follow_content}');
 - if @self_profile
   - avatar_div      = "#{@user_to_be_unfollowed.class.name.downcase}_avatar_#{@user_to_be_unfollowed.id}"
   - item_div_id     = "#{@user_to_be_unfollowed.class.name.downcase}_#{@user_to_be_unfollowed.id}"  

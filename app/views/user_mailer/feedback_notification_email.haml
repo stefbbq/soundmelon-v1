@@ -1,0 +1,10 @@
+
+There is new feedback
+%br/
+This is about : #{@feedback_subject},
+%hr/
+#{@content}
+%hr/
+- url = @user.is_fan? ? fan_profile_url(@user) : show_band_url(@user.name)
+Sent By : #{url}
+

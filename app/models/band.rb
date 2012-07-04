@@ -6,6 +6,7 @@ class Band < ActiveRecord::Base
   has_many :band_users, :dependent => :destroy
   has_many :band_members, :through => :band_users, :source => :user
   has_many :band_admin_users, :through => :band_users, :source => :user, :conditions =>'access_level = 1'
+  has_many :band_notified_users, :through => :band_users, :source => :user, :conditions =>'band_users.access_level = 1 and band_users.notification_on is true'
   has_many :band_albums, :order => 'created_at desc', :dependent =>:destroy
   has_many :band_tours, :order =>'created_at desc', :dependent =>:destroy
   has_many :band_invitations, :dependent => :destroy
@@ -21,7 +22,7 @@ class Band < ActiveRecord::Base
   has_many :connected_bands, :through =>:connections, :source =>:connected_band, :conditions =>["is_approved = ?", true]
 
 
-  accepts_nested_attributes_for :band_invitations , :reject_if => proc { |attributes| attributes['email'].blank? }
+  accepts_nested_attributes_for :band_invitations , :reject_if => proc { |attributes| attributes['email'].blank? } 
   
   validates :name, :presence => true
   validates :name, :uniqueness => true

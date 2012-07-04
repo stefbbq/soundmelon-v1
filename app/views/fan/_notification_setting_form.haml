@@ -1,0 +1,7 @@
+.area.form
+  #notification-setting-msg.msg
+  .details
+    %h3
+      turn on/off notification
+  .content.manage-basic
+    = check_box_tag :notification, @user.notification_on, @user.notification_on, :onchange =>"$.ajax('#{update_notification_setting_url}');"

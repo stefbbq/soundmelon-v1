@@ -1,4 +1,5 @@
 - is_new = @band.new_record?
+- band_user_notification_status = @band_user ? @band_user.notification_on : false
 .content-box#band-edit
   .area.form
     #update-msg
@@ -72,7 +73,7 @@
       .field
         %label{:for=>"membersVisiblity"}
           show members
-        = f.check_box :is_member_public, :class => 'textfield long'
+        = f.check_box :is_member_public, :class => 'textfield long'      
       .field
         %label{:for=>"website"}
           website
@@ -89,6 +90,18 @@
         = f.submit 'create profile', :class => 'button'
       - else
         = f.submit 'save to memory', :class => 'button'
+- unless is_new
+  .content-box#band-edit
+    .area.form
+      #notification-setting-msg.msg
+      .details
+        %h3
+          email notification for this artist          
+      .content
+        .field
+          %label{:for=>"notification"}
+            turn on/off
+          = check_box_tag :notification, band_user_notification_status, band_user_notification_status, :onchange =>"$.ajax('#{update_artist_notification_setting_url(@band.id)}');"
 - unless is_new
   :javascript
     $('#basic-info input').attr('disabled', true).addClass('input-disabled');

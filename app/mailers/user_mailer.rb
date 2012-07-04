@@ -1,10 +1,11 @@
 class UserMailer < ActionMailer::Base
   default from: "SoundMelon<admin@soundmelon.com>"
+  helper :application
 
   # fix for SystemStackError problem
   # message sending with delay produces such error
-  def encode_with coder
-  end
+  #  def encode_with coder
+  #  end
 
   def activation_needed_email(user)
     @user = user
@@ -83,7 +84,7 @@ class UserMailer < ActionMailer::Base
     )
   end
 
-  def general_notification_email notification_type, subject, recipient_object, actor_object, action_item=nil, content_item = nil, artist=nil
+  def general_notification_email notification_type, subject, recipient_object, actor_object, action_item=nil, content_item = nil, artist=nil    
     @action_item      = action_item
     @content_item     = content_item
     @actor            = actor_object
@@ -98,14 +99,14 @@ class UserMailer < ActionMailer::Base
                         'message_notification_email', 'reply_notification_email',                        
                         'mention_notification_email', 'buzz_notification_email'
                         ]
-      template_name   = template_sets[notification_for]
+      template_name   = "notifications/#{template_sets[notification_for]}"
       mail(
         :from           => "SoundMelon<notifications@soundmelon.com>",
         :to             => @toemail,
-        :subject        => subject,
-        :template_path  => 'notifications',
-        :template_name  => template_name
-      )
+        :subject        => subject
+      ) do |format|
+         format.html { render :template =>template_name, :layout => 'notification_mail' }
+      end
     end
   end
   
