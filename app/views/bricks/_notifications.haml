@@ -6,12 +6,12 @@
 - @unread_messages_count       ||= actor.receipts.inbox.unread.not_trash.size
 - messages_class               = (@unread_messages_count > 0) ? "active" : ""
 
-= link_to replies_path, {:class=> "ajaxopen backable", :id =>'replies', :remote =>true} do
-  %span{:class=> replies_class}
-    = @unread_post_replies_count
 = link_to mentioned_path, {:class=> "ajaxopen backable", :id =>'mentions', :remote =>true} do
   %span{:class=> mentions_class}
     = @unread_mentioned_count
+= link_to replies_path, {:class=> "ajaxopen backable", :id =>'replies', :remote =>true} do
+  %span{:class=> replies_class}
+    = @unread_post_replies_count
 = link_to user_inbox_path,  {:class=> "ajaxopen backable", :id =>'messages', :remote =>true} do
   %span{:class=> messages_class}
     = @unread_messages_count
