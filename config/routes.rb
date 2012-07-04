@@ -90,6 +90,7 @@ Soundmelon::Application.routes.draw do
   match 'update/additional/info'              => 'fan#update_additional_info',            :as => :update_additional_info
   match 'update/password'                     => 'fan#update_password',                   :as => :update_password  
   match 'edit/payment/info'                   => 'fan#update_payment_info',               :as => :edit_payment_info
+  match 'update/notification/setting'         => 'fan#update_notification_setting',       :as => :update_notification_setting
   match 'update/artist/notification/:id'      => 'artist#update_notification_setting',    :as => :update_artist_notification_setting
   
   #--------------------------------------------------AvatarController[Fan Profile Pic/Artist Logo]----------------------
