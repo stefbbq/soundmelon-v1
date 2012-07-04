@@ -1,7 +1,7 @@
 $('#facebox .content').html('Followed Successfully');
 setTimeout('$(document).trigger(\"close.facebox\")',1000);
 - unfollow_content = capture do
-  = link_to 'unfollow', unfollow_user_path(@user_to_be_followed), :remote => true, :class => 'ajaxopen text-action', :id=>'follow_link text-action'
+  = link_to 'unfollow', unfollow_user_path(@user_to_be_followed), :remote => true, :class => 'ajaxopen text-action', :id=>'follow_link'
 - new_follow_item = capture do
   = render '/bricks/avatar', :item =>@self_profile ? @user_to_be_followed : @actor, :id_prefix =>"fan_follower"
 - left_list_item = capture do  
