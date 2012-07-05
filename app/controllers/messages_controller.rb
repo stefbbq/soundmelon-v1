@@ -87,7 +87,7 @@ class MessagesController < ApplicationController
       @actor        = current_actor
       to_user       = User.find(params[:to])      
       receipt       = @actor.send_message(to_user, params[:body], 'Subject')
-      NotificationMail.message_notification(to_user, @actor, receipt.message)
+      NotificationMail.message_notification(to_user, @actor, receipt.message) if receipt
     rescue =>exp
       logger.error "Error in Messages::Create :#{exp.message}"
     end
@@ -99,8 +99,10 @@ class MessagesController < ApplicationController
       @actor         = current_actor
       @conversation  = Conversation.find(params[:id])
       @new_message   = @actor.reply_to_conversation(@conversation, params[:body]).message
-      to_user        = @conversation.participants.delete_if{|p| p.id == @actor.id and p.class.name == @actor.class.name}.first
-      NotificationMail.message_notification(to_user, @actor, @new_message)
+      if @new_message
+        to_user        = @conversation.participants.delete_if{|p| p.id == @actor.id and p.class.name == @actor.class.name}.first
+        NotificationMail.message_notification(to_user, @actor, @new_message)
+      end
     rescue =>exp
       logger.error "Error in Messages::Reply :=> #{exp.message}"
       render :nothing => true and return

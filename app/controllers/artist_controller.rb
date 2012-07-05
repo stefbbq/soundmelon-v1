@@ -125,12 +125,13 @@ class ArtistController < ApplicationController
     begin
       @band = Band.where(:name => params[:band_name]).first
       if current_user.is_admin_of_band?(@band)
+        invitation_email_array = []
         params['band']['band_invitations_attributes'].each do |key, value|
           value['user_id'] = current_user.id unless value.has_key?('id')
-        end
-        if @band.update_attributes(params[:band])
-          @msg = 'Invitation Send Successfully'
-        end
+          invitation_email_array << {:type =>params[:invitation_by_type], :name =>value['email'], :level =>value['access_level']}
+        end        
+        number_of_invitation = BandInvitation.create_invitation_for_artist current_user, @band, invitation_email_array
+        @msg = "#{number_of_invitation} invitations has been sent"
       else
         logger.error "#User with username:{current_user.get_full_name} and user id #{current_user.id} tried to send invitation for bandmates to join a band with band id: #{@band.id} which he is not a admin" 
         redirect_to fan_home_url, :notice => 'Your action has been reported to admin' and return
@@ -138,9 +139,32 @@ class ArtistController < ApplicationController
     rescue =>exp
       logger.error "Error in Artist::SendBandmatesInvitation :=>#{exp.message}"
       redirect_to fan_home_url, :notice => 'Something went wrong! Try Again' and return
-    end  
-    respond_to do |format|
-      format.js {render :action => 'invite_bandmates' and return}
+    end      
+  end
+
+  def search_fan_popup
+    @artist = Band.where(:name => params[:band_name]).first
+  end
+
+  def search_fan
+    @artist_name         = params[:artist_name]
+    @artist_id           = params[:artist_id] ? params[:artist_id].to_i : 0
+    @user_search_results = Sunspot.search User do |query|
+      query.keywords params[:q]
+      query.with :activation_state, 'active'
+    end
+    @user_search_results      = @user_search_results.results
+    unless @user_search_results.blank?
+      @artist_member_ids      = BandUser.for_artist_id(@artist_id).map{|user| user.user_id}
+      @user_search_results.delete_if{|u| @artist_member_ids.include?(u.id)}
+      @artist_invitee_emails  = BandInvitation.for_artist_id(@artist_id).map{|bi| bi.email}
     end
   end
+
+  def search_fan_invitation
+    @artist = Band.where(:name => params[:band_name]).first
+    @fan    = User.find(params[:id])
+    BandInvitation.create_invitation_for_artist_and_fan(current_user, @artist, @fan)
+  end
+
 end

@@ -1,0 +1,16 @@
+- got_some_results        = @user_search_results.size>0
+- already_invited_emails  = @artist_invitee_emails
+- search_result = capture do  
+  #results
+    - if got_some_results
+      .fans
+        %h4
+          showing
+          = pluralize(@user_search_results.length, 'fan')
+      - @user_search_results.each do |user|
+        - invited = already_invited_emails.include?(user.email)
+        = render '/artist/fan_item', :user => user, :invited =>invited
+    - else
+      %h3 no results found for '#{params[:q]}'
+!= "$('.popup .content #search_fan_results').html('#{escape_javascript search_result}');"
+!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"

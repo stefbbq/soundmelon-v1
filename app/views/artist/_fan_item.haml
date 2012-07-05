@@ -1,0 +1,20 @@
+- status                      = true
+- if user.instance_of?(User)
+  - link                      = fan_profile_path(user.id)
+  - image                     = get_avatar_small(user)
+  - name                      = user.get_full_name
+  - location                  = user.get_full_address  
+- else
+  - status                    = false
+- if status
+  - item_div_id               = "fan_#{user.class.name.downcase}_#{user.id}"  
+  .item{:id => item_div_id}
+    = link_to image, link, :target =>'_blank'
+    %strong= link_to name, link, :target =>'_blank', :style =>'color:black;'
+    - unless location.blank?
+      #{location}
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    - if invited
+      invited
+    - else
+      = link_to 'invite this fan', artist_search_fan_invitation_path(@artist_name, user.id), :remote =>:true, :id =>"invitation_fan_#{user.id}", :style =>'color:blue;'

@@ -1,15 +1,15 @@
+- first ||=false
 .fields
-  %label{:for => "name"} email
-  = f.text_field :email,:class=>"textfield"
-  %br/
-  %br/
+  %label{:for => "name"} email/username
+  = f.text_field :email,:class=>"textfield", :size =>27
   &nbsp;&nbsp;
   %label{:for => "email"} &nbsp;
   = f.radio_button(:access_level, "1", {:checked => true})
   %span.radiolabel Admin
   = f.radio_button( :access_level, "0")
   %span.radiolabel Limited
-  = link_to_remove_fields "remove", f
+  - unless first
+    = link_to_remove_fields "remove", f
   %br/
   %br/
 %hr

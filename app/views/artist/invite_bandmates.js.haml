@@ -1,3 +1,6 @@
-= render :partial => 'invite_bandmates_form'
+- band_invitation_form = capture do
+  = render :partial => 'invite_bandmates_form'
+!="$('.primary .left').html('#{escape_javascript(band_invitation_form)}');"
+setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist');
 $('#invite_artist').addClass('active').addClass('button-fill-artist');

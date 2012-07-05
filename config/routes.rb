@@ -57,6 +57,9 @@ Soundmelon::Application.routes.draw do
   get ':band_name/social'                     => 'artist#social',                   :as => :band_social
   get ':band_name/store'                      => 'artist#store',                    :as => :band_store
   match ':band_name/bandmates/send/inviation' => 'artist#send_bandmates_invitation',:as => :send_bandmates_invitation
+  get ':band_name/bandmates/search'           => 'artist#search_fan_popup',         :as => :artist_search_fan_popup
+  get ':band_name/:id/search/invitation'      => 'artist#search_fan_invitation',    :as => :artist_search_fan_invitation
+
 
   get "profile/additional_info"
   

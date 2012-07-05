@@ -210,6 +210,12 @@ class User < ActiveRecord::Base
     self.get_full_name
   end
 
+  def deliver_pending_invitations
+    BandInvitation.for_email(self.email).each{|bi|
+      bi.send_invitation
+    }
+  end
+
   ######### Invitation Specific Code #########################################################
   validates :invitation_id, :presence =>true, :on =>:create
   validates_uniqueness_of :invitation_id

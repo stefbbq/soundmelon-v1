@@ -1,0 +1,39 @@
+.blankbox
+  %h3
+    = "Invite bandmates to join #{@band.name}"
+  - if @msg
+    = @msg
+.content-box#bandmates-invitation
+  #update-msg
+  - if @band.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@band.errors.count, "error")
+        prohibited this record from being saved:
+      %ul
+        - @band.errors.full_messages.each do |msg|
+          %li
+            = msg
+.content-box
+  .band-invitation-form
+    = form_for @band, :url=> send_bandmates_invitation_path(:band_name => @band.name), :html => {:method=>:post, :remote => true} do |f|
+      = radio_button_tag(:invitation_by_type, "email", {:checked => true})
+      %span.radiolabel By Email
+      = radio_button_tag(:invitation_by_type, "username")
+      %span.radiolabel By Username
+      &nbsp;&nbsp;&nbsp;&nbsp;or
+      = link_to 'search fan to invite', artist_search_fan_popup_path(@band.name), :class =>'ajaxopen', :remote =>:true
+      %br/
+      %br/
+      #invitation_status_msg
+      = f.fields_for :band_invitations do |band_invitation|
+        - if band_invitation.object.new_record?
+          = render :partial => 'band_invitation_fields', :locals => {:f => band_invitation, :first =>true}
+        - else
+          - hidden_field_tag :old_band_invitation
+      %br/
+      %span.radiolabel
+        = link_to_add_fields "Add another", f, :band_invitations
+      .right
+        = f.submit("Send Invitations" ,:class=>"button")
+.clear

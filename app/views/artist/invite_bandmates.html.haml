@@ -2,36 +2,6 @@
 .primary-container
   .primary
     .left
-      .blankbox
-        %h3
-          = "Invite bandmates to join #{@band.name}"
-        %hr/
-        - if @msg
-          = @msg
-      .content-box#bandmates-invitation
-        #update-msg
-        - if @band.errors.any?
-          #error_explanation
-            %h2
-              = pluralize(@band.errors.count, "error")
-              prohibited this record from being saved:
-            %ul
-              - @band.errors.full_messages.each do |msg|
-                %li
-                  = msg
-      .content-box
-        .band-invitation-form
-          = form_for @band, :url=> send_bandmates_invitation_path(:band_name => @band.name), :html => {:method=>:post, :remote => true} do |f|
-            = f.fields_for :band_invitations do |band_invitation|
-              - if band_invitation.object.new_record?
-                = render :partial => 'band_invitation_fields', :locals => {:f => band_invitation}
-              - else
-                - hidden_field_tag :old_band_invitation
-            %br/
-            %span.radiolabel
-              = link_to_add_fields "Add another", f, :band_invitations
-            .right
-              = f.submit("Send Invitations" ,:class=>"button")
-      .clear
+      = render 'invite_bandmates_form'
     .right
       = render "/artist/right", :current =>'invite_bandmate'
