@@ -128,9 +128,9 @@ class Band < ActiveRecord::Base
 
   def self.random_artists limit= 2, except_this_artist = nil
     if except_this_artist
-      self.where('id != ?', except_this_artist.id).order('rand()').limit(limit)
+      self.where('id != ?', except_this_artist.id).order('rand()').limit(limit).uniq
     else
-      self.where('').order('rand()').limit(limit)
+      self.where('').order('rand()').limit(limit).uniq
     end    
   end
   

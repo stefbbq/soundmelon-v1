@@ -1,7 +1,7 @@
 - band ||=nil
 - unless messages.blank?
   .messages
-    = render "messages/message-conversation", :messages => messages, :band => band
+    = render "messages/message_conversation", :messages => messages, :band => band
   - unless @load_more_path.nil?
     .read-more
       = link_to "read more", @load_more_path, :remote => true, :class=>"ajaxload"

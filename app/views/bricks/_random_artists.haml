@@ -1,18 +1,19 @@
-- @bands = Band.find(:all)
-- @random = ((0..@bands.length-1).to_a).sort{rand() - 0.5}
-- @randomA = (current == @bands[@random[0]]) ? @random[2] : @random[0]
-- @randomB = (current == @bands[@random[1]]) ? @random[3] : @random[1]
-.left
-  .photo
-    = get_band_logo_large(@bands[@randomA])
-  .overlay
-    = link_to show_band_path(:band_name => @bands[@randomA].name), {:class =>'ajaxopen backable', :remote =>true} do
-      visit artist
-      %h2= @bands[@randomA].name
-.right
-  .photo
-    = get_band_logo_large(@bands[@randomB])
-  .overlay
-    = link_to show_band_path(:band_name => @bands[@randomB].name), {:class =>'ajaxopen backable', :remote =>true} do
-      visit artist
-      %h2= @bands[@randomB].name
+- @bands = Band.random_artists 2, current
+- @randomA = @bands.first
+- @randomB = @bands.last
+- if @randomA
+  .left
+    .photo
+      = get_band_logo_large(@randomA)
+    .overlay
+      = link_to show_band_path(@randomA.name), {:class =>'ajaxopen backable', :remote =>true} do
+        visit artist
+        %h2= @randomA.name
+- if @randomB
+  .right
+    .photo
+      = get_band_logo_large(@randomB)
+    .overlay
+      = link_to show_band_path(@randomB.name), {:class =>'ajaxopen backable', :remote =>true} do
+        visit artist
+        %h2= @randomB.name
