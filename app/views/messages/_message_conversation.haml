@@ -1,0 +1,10 @@
+- messages.each do |conversation|
+  - conversation_receipts = conversation.receipts_for(@user).not_trash
+  - unless conversation_receipts.blank?
+    = link_to "add a message" ,"javascript:void(0);", :onclick =>"$('#reply_form_div_#{conversation.id}').toggle();", :class => 'add-message'
+    = render 'reply_form', :conversation => conversation, :desplay => true
+    .message-conversation{:id =>"conversation_#{conversation.id}"}
+      .message-section
+        - conversation_receipts.each do |message_receipt|
+          - message = message_receipt.message
+          = render 'message_item', :message =>message          

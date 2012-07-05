@@ -1,8 +1,0 @@
-- messages.each do |conversation|
-  = link_to "add reply" ,"javascript:void(0);", :onclick =>"$('#reply_form_div_#{conversation.id}').toggle();", :class => 'add-message'
-  = render 'reply_form', :conversation => conversation, :desplay => true
-  .message-conversation{:id =>"conversation_#{conversation.id}"}
-    - conversation.messages.reverse_each do |message|
-      - receipt = message.receipt_for(@user).first
-      - if (receipt && !receipt.deleted)
-        = render 'message-item', :message => message
