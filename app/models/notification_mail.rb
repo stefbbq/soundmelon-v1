@@ -5,10 +5,10 @@ class NotificationMail
   SUBJECT_MESSAGE_NOTIFICATION            = "You have a new message"
   SUBJECT_MENTION_NOTIFICATION            = "Someone has mentioned you"
   SUBJECT_REPLY_NOTIFICATION              = "Someone has sent you a reply"
-  SUBJECT_SONG_BUZZ_NOTIFICATION          = "Someone has buzzed your song item"
-  SUBJECT_SONG_ALBUM_BUZZ_NOTIFICATION    = "Someone has buzzed your song album"
-  SUBJECT_PHOTO_ALBUM_BUZZ_NOTIFICATION   = "Someone has buzzed your photo album"
-  SUBJECT_PHOTO_BUZZ_NOTIFICATION         = "Someone has buzzed your photo"
+  SUBJECT_SONG_BUZZ_NOTIFICATION          = "Someone has written about your song"
+  SUBJECT_SONG_ALBUM_BUZZ_NOTIFICATION    = "Someone has written about your music album"
+  SUBJECT_PHOTO_ALBUM_BUZZ_NOTIFICATION   = "Someone has written about your photo album"
+  SUBJECT_PHOTO_BUZZ_NOTIFICATION         = "Someone has written about your photo"
   NOTIFICATION_TYPES                      = ['follow', 'connect','connect_request', 'message', 'reply', 'mention', 'buzz']
   
   def self.follow_notification recipient_object, actor_object

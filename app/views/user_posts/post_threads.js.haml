@@ -1,12 +1,11 @@
 - last_post  = @posts.pop
-- first_post = @posts.pop
+- first_post = @posts.shift
 - all_posts = capture do
   = render 'user_posts/post', :post => last_post, :hide_thread_link => false, :divclass =>"last-post-#{last_post.id}"
-  
   .post-thread{:id =>"post_thread_#{last_post.id}"}
     .post-thread-top-border
     .post-thread-container
-      - @posts.each do |post|
+      - @posts.reverse_each do |post|
         = render 'user_posts/post', :post => post, :hide_thread_link => true
       = render 'user_posts/post', :post => first_post, :hide_thread_link => true, :id =>"first_post_#{first_post.id}",:divclass =>'first-post'
     .post-thread-bottom-border

@@ -113,8 +113,9 @@
 	//
 	//message
 	.message-conversation {
+		padding-bottom: 10px;
 		&:not(:last-child) { border-bottom: 1px dashed rgba(white, .15); }
-		&:not(:first-of-type) { padding-top: 15px; }
+		&:not(:first-of-type) { padding-top: 10px;}
 		&:first-of-type {
 			.message:first-child { padding-top: 0px !important; }
 		}
@@ -200,7 +201,8 @@
 	.add-message {
 		@include default-button();
 		display: inline-block;
-		margin: 0px 0 15px 0;
+		margin: 15px 0 0px 0;
+		&:first-of-type { margin-top: 0px;}
 		a { color: $text-color; }
 	}
 	.toggle-thread {
