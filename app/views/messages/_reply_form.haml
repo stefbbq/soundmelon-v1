@@ -3,5 +3,5 @@
 %div{:id =>"reply_form_div_#{conversation.id}", :style =>"display:#{display_style}"}
   = form_tag  reply_to_message_path, :id =>"reply_form_#{conversation.id}", :class =>"ajaxload", :method =>:post,  :remote =>:true do |f|
     = hidden_field_tag :id, conversation.id
-    = text_area_tag :body,'',{:class=>"input-box",:rows=>3,:style=>"width:90%;"}
-    = submit_tag("Reply" ,:class=>"button yellow")
+    = text_area_tag :body,'',{:class=>"input-box",:rows=>3,:style=>"width:85%;"}
+    = submit_tag("Reply" ,:class=>"button yellow", :disable_with => 'sending')

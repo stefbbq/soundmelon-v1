@@ -81,13 +81,14 @@ Soundmelon::Application.routes.draw do
   get ':band_name/replies/posts'              => 'user_posts#replies_post',               :as => :band_replies_post
   
   resources :messages
- 
+
+  match 'messages/:conversation_id/view/all'  =>'messages#show_conversation_thread',      :as => :conversation_thread_view
   match 'message/reply'                       =>'messages#reply' ,                        :as => :reply_to_message
   match '(:band_name)/inbox/messages/:page'   =>'messages#index',                         :as => :more_inbox_messages
   match '(:type)/posts/more/:page'            =>'user_posts#index',                       :as => :more_post
   match 'user/:id/posts/more/:page'           =>'user_posts#index',                       :as => :user_more_post
   match ':band_name/bulletins/more/:page'     =>'user_posts#more_bulletins',              :as => :band_more_bulletins
-  match ':band_name/(:type)/posts/more/:page' =>'user_posts#more_posts',                  :as => :band_more_posts
+  match ':band_name/(:type)/posts/more/:page' =>'user_posts#more_posts',                  :as => :band_more_posts  
 
   match 'update/basic/profile'                => 'fan#update_basic_info',                 :as => :update_basic_info
   match 'update/additional/info'              => 'fan#update_additional_info',            :as => :update_additional_info

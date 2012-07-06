@@ -8,10 +8,7 @@ class UserController < ApplicationController
         @user                       = current_user
         @is_fan                     = true
         #----------Get Objects------------------------------------------------------------
-        @posts                      = @user.find_own_as_well_as_following_user_posts(params[:page])
-        @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-        next_page                   = @posts.next_page
-        @load_more_path             =  next_page ? more_post_path(:page => next_page) : nil
+        get_current_fan_posts
         messages_and_posts_count
         @song_items                 = current_user.find_radio_feature_playlist_songs
         get_user_associated_objects
@@ -42,10 +39,7 @@ class UserController < ApplicationController
           reset_current_fan_artist
           @is_fan                     = true
           #----------Get Objects------------------------------------------------------------
-          @posts                      = @user.find_own_as_well_as_following_user_posts(params[:page])
-          @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-          next_page                   = @posts.next_page
-          @load_more_path             =  next_page ? more_post_path(:page => next_page) : nil
+          get_current_fan_posts
           messages_and_posts_count
           @song_items                 = @user.find_radio_feature_playlist_songs
           get_user_associated_objects
@@ -105,8 +99,12 @@ class UserController < ApplicationController
     @actor.remove_me
     if @is_fan
       logout
-    else      
-      reset_current_fan_artist      
+    else
+      reset_current_fan_artist  
+      get_current_fan_posts
+      messages_and_posts_count
+      @song_items                 = current_user.find_radio_feature_playlist_songs
+      get_user_associated_objects      
     end   
   end
 

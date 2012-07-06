@@ -202,8 +202,11 @@ class User < ActiveRecord::Base
         band.remove_me
       end
     }
+    full_name   = self.get_full_name
+    email       = self.email
     self.remove_from_index!
     self.destroy
+    UserMailer.fan_removal_notification_email(full_name, email).deliver
   end
 
   def get_name

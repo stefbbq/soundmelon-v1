@@ -2,6 +2,6 @@
   %h2
     Type your message here to send message
     = hidden_field_tag :to,@to
-    = text_area_tag :body,'',{:class=>'input-box',:rows=>5,:cols=>50 ,:maxlength => 200}
+    = text_area_tag :body,'',{:class=>'input-box',:rows=>5,:cols=>50 ,:maxlength => 400}
     %br 
     %input{:name => 'send', :id=>'send_message_btn', :type => 'submit', :value => 'Send' ,:class=>'button blue right'}

@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
 
   def get_band_associated_objects artist
     @band_members_count        = artist.band_members.count
-    @other_bands               = current_user.admin_artists(artist)
+    @other_bands               = current_user.admin_artists(artist)    
     get_band_mentioned_posts artist
     messages_and_posts_count
     get_artist_objects_for_right_column(artist)
@@ -81,6 +81,13 @@ class ApplicationController < ActionController::Base
     @bulletins                 = artist.bulletins
     bulletin_next_page         = @bulletins.next_page
     @load_more_bulletins_path  = bulletin_next_page ? band_more_bulletins_path(:band_name => artist.name, :page => bulletin_next_page) : nil
+  end
+
+  def get_current_fan_posts
+    @posts                      = current_user.find_own_as_well_as_following_user_posts(params[:page])
+    @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+    next_page                   = @posts.next_page
+    @load_more_path             = next_page ? more_post_path(:page => next_page) : nil
   end
 
   def get_band_mentioned_posts artist

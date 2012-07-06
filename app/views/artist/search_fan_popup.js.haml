@@ -1,5 +1,5 @@
 - popup_content = capture do  
-  %div{:style=>"color:black;border: 2px solid blue;padding:5px;width:90%;height:200px;"}
+  %div{:style=>"color:black;border: 2px solid blue;padding:5px;height:200px;width:400px;"}
     Search fan to invite
     %hr
     = form_tag( {:controller =>'artist', :action => 'search_fan'}, :method => "post", :remote =>true, :id =>'search') do

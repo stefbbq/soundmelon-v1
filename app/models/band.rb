@@ -215,8 +215,30 @@ class Band < ActiveRecord::Base
   # removes the self,
   # removes every items belonged to it
   def remove_me
+    artist_members    = []
+    artist_member_ids = []
+    artist_member_records = BandUser.for_band(self)
+    artist_member_records.map{|ar| 
+      artist_members << ar.user
+      artist_member_ids << ar.user_id      
+    }    
+    artist_followers    = self.followers
+    artist_followers.delete_if{|u| artist_member_ids.include?(u.id)}
+    artist_name         = self.get_name
+    artist_invitations  = BandInvitation.for_artist_id(self.id)
     self.remove_from_index!
     self.destroy
+
+    # remove the existing artist invitations
+    artist_invitations.destroy_all
+
+    # send notification email
+    artist_members.each{|artist_member|      
+      UserMailer.artist_removal_notification_email(artist_member, artist_name, 'member').deliver      
+    }
+    artist_followers.each{|artist_follower|      
+      UserMailer.artist_removal_notification_email(artist_follower, artist_name, 'follower').deliver      
+    }
   end
 
   def get_name

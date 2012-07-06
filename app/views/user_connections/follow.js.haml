@@ -5,7 +5,7 @@ setTimeout('$(document).trigger(\"close.facebox\")',1000);
 - new_follow_item = capture do
   = render '/bricks/avatar', :item =>@self_profile ? @user_to_be_followed : @actor, :id_prefix =>"fan_follower"
 - left_list_item = capture do  
-  = render '/user_connections/item', :user =>@self_profile ? @user_to_be_followed : @actor, :connection_item =>@user_to_be_followed, :is_user_fan =>true
+  = render '/user_connections/item', :user =>@self_profile ? @user_to_be_followed : @actor, :connection_item =>@user_to_be_followed, :is_user_fan =>false
 != "$('.actions #follow_link').replaceWith('#{escape_javascript unfollow_content}');"
 
 - left_list_id   = "#{@user_to_be_followed.class.name.downcase}_#{@user_to_be_followed.id}_followers"

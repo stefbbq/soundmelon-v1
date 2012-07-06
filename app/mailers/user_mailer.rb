@@ -32,6 +32,31 @@ class UserMailer < ActionMailer::Base
       :subject => "Your account is now activated"
     )
   end
+
+  def fan_removal_notification_email full_name, email
+    @full_name = full_name
+    mail(
+      :to =>email,
+      :subject  =>'Your profile on SoundMelon has been removed.'
+    )
+  end
+
+  def artist_removal_notification_email fan, artist_name, connection_type
+    @fan          = fan
+    @artist       = artist_name
+    if connection_type == 'member'
+      subject     = "Your artist profile #{@artist} has been removed from SounMelon"
+      @is_member  = true
+    else
+      subject     = "Artist profile #{@artist} has been removed from SounMelon"
+      @is_member  = false
+    end
+    
+    mail(
+      :to       => @fan.email,
+      :subject  => subject
+    )
+  end
   
   def mate_invitation_email(band_invitation)
     @band_invitation = band_invitation

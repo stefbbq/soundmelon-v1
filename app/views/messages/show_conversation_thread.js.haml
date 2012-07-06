@@ -1,0 +1,6 @@
+- conversation_messages_thread = capture do
+  .message-section
+    - @conversation_receipts.each do |message_receipt|
+      = render 'message_item', :message =>message_receipt.message
+$("div#conversation_#{@conversation.id}" ).html('#{escape_javascript(conversation_messages_thread)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);

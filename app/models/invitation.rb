@@ -5,6 +5,8 @@ class Invitation < ActiveRecord::Base
 
   validates :recipient_email, :presence =>true
   validates :recipient_email, :uniqueness => true
+  validates :recipient_email,
+            :format => { :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i }            
   validate :recipient_is_not_registered
   validate :sender_has_invitations, :if => :sender
 

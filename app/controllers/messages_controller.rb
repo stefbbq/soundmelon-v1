@@ -55,6 +55,11 @@ class MessagesController < ApplicationController
     end
   end
 
+  def show_conversation_thread
+    @user                  = current_actor
+    @conversation          = Conversation.find(params[:conversation_id])
+    @conversation_receipts = @conversation.receipts_for(@user).not_trash.order('created_at desc')    
+  end
 
   def destroy
     redirect_to root_url and return unless request.xhr?
@@ -84,10 +89,10 @@ class MessagesController < ApplicationController
 
   def create
     begin
-      @actor        = current_actor
+      @user        = current_actor
       to_user       = User.find(params[:to])      
-      receipt       = @actor.send_message(to_user, params[:body], 'Subject')
-      NotificationMail.message_notification(to_user, @actor, receipt.message) if receipt
+      receipt       = @user.send_message(to_user, params[:body], 'Subject')
+      NotificationMail.message_notification(to_user, @user, receipt.message) if receipt
     rescue =>exp
       logger.error "Error in Messages::Create :#{exp.message}"
     end
@@ -96,12 +101,12 @@ class MessagesController < ApplicationController
   def reply
     redirect_to root_url and return unless request.xhr?
     begin
-      @actor         = current_actor
+      @user         = current_actor
       @conversation  = Conversation.find(params[:id])
-      @new_message   = @actor.reply_to_conversation(@conversation, params[:body]).message
+      @new_message   = @user.reply_to_conversation(@conversation, params[:body]).message
       if @new_message
-        to_user        = @conversation.participants.delete_if{|p| p.id == @actor.id and p.class.name == @actor.class.name}.first
-        NotificationMail.message_notification(to_user, @actor, @new_message)
+        to_user        = @conversation.participants.delete_if{|p| p.id == @user.id and p.class.name == @user.class.name}.first
+        NotificationMail.message_notification(to_user, @user, @new_message)
       end
     rescue =>exp
       logger.error "Error in Messages::Reply :=> #{exp.message}"

@@ -1,5 +1,6 @@
-- actor       = current_actor
-- is_own_wall = actor == @band
+- actor           = current_actor
+- is_artist_admin = @artist_admin_fan_ids.include? current_user.id
+- is_own_wall     = actor == @band
 .live
   .profile-image{:title =>"#{@band.name}"}
     = get_band_logo_large(@band)
@@ -10,9 +11,11 @@
           %h2.full-name= @band.name
           %h2= @band.mention_name
         .actions
-          - if is_own_wall
+          - if is_own_wall            
             = link_to "administer", user_home_path, :class =>'ajaxopen text-action', :remote =>true
-          - unless is_own_wall            
+          - else
+            - if is_artist_admin
+              = link_to "administer", change_login_path(@band.name), :class =>'ajaxopen text-action', :remote =>:true
             - if actor.is_fan?
               - if actor.following?(@band)
                 = link_to 'unfollow', unfollow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen text-action'

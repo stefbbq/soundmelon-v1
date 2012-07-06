@@ -6,10 +6,11 @@ class ArtistPublicController < ApplicationController
       @band                       = Band.where(:name => params[:band_name]).includes(:band_members).first
       @is_admin_of_band           = current_user.is_admin_of_band?(@band)
       @band_members_count         = @band.band_members.count
+      @artist_admin_fan_ids       = BandUser.for_artist_id(@band.id).map { |u| u.user_id}
       get_band_bulletins_and_posts(@band)
-      get_artist_objects_for_right_column(@band)
+      get_artist_objects_for_right_column(@band)      
     rescue  => exp
-      logger.error "Error in ArtistPublic#Members :=> #{exp.message}"
+      logger.error "Error in ArtistPublic#Index :=> #{exp.message}"
       render :template =>'/bricks/page_missing' and return
     end
     respond_to do |format|
