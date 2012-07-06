@@ -4,7 +4,7 @@
 @import 'compass/css3';
 @import 'vars';
 
-//oontrol styles
+//control styles: button
 @mixin default-button-nohref {
 	@include linear-gradient(#393939, #313131);
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
@@ -51,6 +51,33 @@
 		@include linear-gradient(darken($inverted-button-color, 10), darken($inverted-button-color, 30));
 	}
 }
+
+//control styles: fields
+@mixin default-text-field {
+	background: none;
+	border: none;
+	border-bottom: 1px solid $line-color;
+	color: $text-black-on-white;
+	font-size: $input-font-size;
+	outline: none;
+	min-width: 175px;
+	height: 20px;
+	margin: 5px 5px 0 0;		
+	
+	&:focus {
+		background: #ccc;
+	}	
+}
+@mixin inverted-text-field {
+	@include default-text-field;
+	color: $text-color;
+	
+	&:focus {
+		background: $input-bg-active-color;
+	}
+}
+
+
 
 //popout
 @mixin popout() {

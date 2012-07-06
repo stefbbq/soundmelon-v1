@@ -1,11 +1,9 @@
-%p{:id=>'notice'}
-  - unless @invitation.errors.blank?
-    %ul
-      - @invitation.errors.full_messages.each do |error_msg|
-        %li= error_msg
-
-%div{:style=>'width:400px;padding:10px;'}
-  = form_for @invitation, :remote=>true do |f|
+- if !@invitation.errors.blank?
+  .overlay-error
+    - @invitation.errors.full_messages.each do |error_msg|
+      = error_msg
+.overlay-invitation
+  = form_for @invitation, :remote => true do |f|
     = f.label :recipient_email, current_user ? "email" : "email"
-    = f.text_field :recipient_email
-    = f.submit 'request invitation'
+    = f.text_field :recipient_email, :class => "generic-text-field", :style => "width: 300px;"
+    = f.submit 'request invitation', :class => "generic-button"

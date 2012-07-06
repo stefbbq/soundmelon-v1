@@ -135,20 +135,8 @@
 
 //
 //fields
-.login .field, .registration input  {
-	background: none;
-	border: none;
-	border-bottom: 1px solid $line-color;
-	color: $text-color;
-	font-size: $input-font-size;
-	outline: none;
-	width: 175px;
-	height: 20px;
-	margin: 5px 5px 0 0;		
-	
-	&:focus {
-		background: $input-bg-active-color;
-	}
+.login .field, .registration input {
+	@include inverted-text-field;
 }
 .login .field {
 	float: left;
@@ -157,7 +145,7 @@
 //
 //error
 .login-error {
-	color: rgba($error-color, .9);
+	color: rgba($text-error-color, .9);
 	position: absolute;
 	top: 21px;
 	right: 550px;

@@ -7,7 +7,7 @@
       = get_band_logo_large(@randomA)
     .overlay
       = link_to show_band_path(@randomA.name), {:class =>'ajaxopen backable', :remote =>true} do
-        visit artist
+        artist
         %h2= @randomA.name
 - if @randomB
   .right
@@ -15,5 +15,5 @@
       = get_band_logo_large(@randomB)
     .overlay
       = link_to show_band_path(@randomB.name), {:class =>'ajaxopen backable', :remote =>true} do
-        visit artist
+        artist
         %h2= @randomB.name

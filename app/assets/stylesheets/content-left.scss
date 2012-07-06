@@ -21,7 +21,8 @@
 	//status update form
 	.status-input {  
 		@include border-radius($border-radius);
-	  margin: 0 auto 16px auto;
+		display: block;
+		margin-bottom: 20px;
 		position: relative;
 		overflow: visible;
 	
@@ -58,8 +59,9 @@
 	//social header controls
 	.social-header {
 		overflow: hidden; 
-		margin: 0 0 16px 0;
 		margin-bottom: -5px;
+		padding-top: 15px;
+		width: 100%;
 		
 		a {
 			@include default-button;
