@@ -107,7 +107,7 @@ class NotificationMail
   def self.get_notification_recipient_users recipient_object    
     recipient_users   = []
     if recipient_object.is_fan?
-      recipient_users << recipient_object if recipient_object.notification_on
+      recipient_users << recipient_object if recipient_object.notification_on?
     else
       recipient_users = recipient_object.band_notified_users
     end
