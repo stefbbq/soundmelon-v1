@@ -1,3 +1,3 @@
 != "$('form#reply_form_#{@conversation.id}')[0].reset();"
-$('#conversation_#{@conversation.id} .message-section').append('#{escape_javascript(render 'message_item', :message =>@new_message)}');
+$('#conversation_#{@conversation.id} .message-section').prepend('#{escape_javascript(render 'message_item', :message =>@new_message)}');
 setTimeout('$(document).trigger(\"close.facebox\")',1000);

@@ -5,6 +5,6 @@
     = render 'reply_form', :conversation => conversation, :desplay => true
     .message-conversation{:id =>"conversation_#{conversation.id}"}
       .message-section
-        - conversation_receipts.each do |message_receipt|
+        - conversation_receipts.reverse_each do |message_receipt|
           - message = message_receipt.message
-          = render 'message_item', :message =>message          
+          = render 'message_item', :message =>message
