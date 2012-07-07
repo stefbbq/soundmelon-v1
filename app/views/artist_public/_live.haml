@@ -1,5 +1,6 @@
+- artist_admin_ids= BandUser.for_artist_id(@band.id).map { |u| u.user_id}
 - actor           = current_actor
-- is_artist_admin = @artist_admin_fan_ids.include? current_user.id
+- is_artist_admin = artist_admin_ids.include? current_user.id
 - is_own_wall     = actor == @band
 .live
   .profile-image{:title =>"#{@band.name}"}

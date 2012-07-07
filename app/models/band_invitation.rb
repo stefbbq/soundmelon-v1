@@ -3,7 +3,7 @@ class BandInvitation < ActiveRecord::Base
   belongs_to :band
   
   validates :email, :presence => true # :uniqueness => { :scope => :band_id, :case_sensitive => false, :message => 'has already been invited' } 
-  
+  validates :email,  :email_format => true  
   #validates :token, :uniqueness => true
   
   scope :for_artist_id, lambda{|artist_id| where('band_id = ?', artist_id)}

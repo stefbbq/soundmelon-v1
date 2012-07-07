@@ -17,6 +17,7 @@ module Soundmelon
     %w(middleware).each do |dir|
        config.autoload_paths << "#{Rails.root.to_s}/app/#{dir}"
     end
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]  
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
 

@@ -1,2 +1,5 @@
-!= "$('#facebox .content').html('Instructions have been sent to your email.');"
-!= "setTimeout('$(document).trigger(\"close.facebox\")',1000);"
+- if @status
+  != "$('#facebox .content').html('Instructions have been sent to your email.');"
+  != "setTimeout('$(document).trigger(\"close.facebox\")',1000);"
+- else  
+  != "$('#facebox .content #password_reset_email_status_message').html('#{@status_msg}').css({'border':'1px solid red','margin':'5px','padding':'5px'});"

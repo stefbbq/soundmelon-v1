@@ -13,14 +13,19 @@ class PasswordResetsController < ApplicationController
   
   def create
     if request.xhr?
-      user = User.find_by_email(params[:email])
-      
-      # This line sends an email to the user with instructions on how to reset their password (a url with a random token)
-      user.deliver_reset_password_instructions! if user
+      email_user      = User.new(:email =>params[:email])
+      email_user.valid?
+      is_valid_email  = email_user.errors[:email].blank?
+      if is_valid_email        
+        user          = User.find_by_email(params[:email])
+        # This line sends an email to the user with instructions on how to reset their password (a url with a random token)
+        user.deliver_reset_password_instructions! if user
+      else
+        @status_msg   = "Provided email is invalid"
+      end
       respond_to do |format|
         format.js
-      end
-    
+      end    
       # Tell the user instructions have been sent whether or not email was found.
       # This is to not leak information to attackers about which emails exist in the system.
     else

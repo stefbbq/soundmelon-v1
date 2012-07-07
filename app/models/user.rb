@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
   validates :password, :confirmation => true      
   validates :email, :uniqueness => true
   validates :email, :confirmation => true
+  validates :email, :email_format => true  
   validates :tac, :acceptance => true
   before_validation :sanitize_mention_name 
   
