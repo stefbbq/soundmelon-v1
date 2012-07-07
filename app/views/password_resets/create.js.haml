@@ -1,4 +1,4 @@
-- if @status_msg
+- if @status_msg.blank?
   != "$('#facebox .content').html('Instructions have been sent to your email.');"
   != "setTimeout('$(document).trigger(\"close.facebox\")',1000);"
 - else  
