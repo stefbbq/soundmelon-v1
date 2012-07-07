@@ -57,15 +57,15 @@ class Band < ActiveRecord::Base
     end  
   end
   
-  def find_own_as_well_as_mentioned_posts page=1   
+  def find_own_as_well_as_mentioned_posts page = 1
     post_ids = []
     posts = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.band_id = :band_id or (posts.band_id = :band_id) and posts.is_deleted = :is_deleted and posts.is_bulletin = false',  :band_id => self.id, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
-    #mark_mentioned_post_as_read post_ids
+    mark_mentioned_post_as_read post_ids
     #mark_replies_post_as_read post_ids
     return posts
   end
   
-  def find_own_posts page=1   
+  def find_own_posts page = 1   
     Post.where('band_id = :band_id and is_deleted = :is_deleted and is_bulletin = :is_bulletin',  :band_id => self.id, :is_deleted => false, :is_bulletin =>false).order('created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE)
   end
   
@@ -89,7 +89,7 @@ class Band < ActiveRecord::Base
     self.songs.count
   end
   
-  def bulletins page=1
+  def bulletins page = 1
     Post.where(:band_id => self.id, :is_bulletin => true, :is_deleted => false).order('created_at desc').paginate(:page => page, :per_page => POST_PER_PAGE)
   end
   
@@ -97,7 +97,7 @@ class Band < ActiveRecord::Base
     self.received_messages.paginate(:page => page, :per_page => MESSAGES_PER_PAGE)
   end
   
-  def mentioned_in_posts page=1
+  def mentioned_in_posts page = 1
     post_ids = []
     posts = Post.joins(:mentioned_posts).where('mentioned_posts.band_id = ?',  self.id).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
     mark_mentioned_post_as_read post_ids
@@ -112,7 +112,7 @@ class Band < ActiveRecord::Base
     unread_post_replies.count
   end
   
-  def replies_post page=1
+  def replies_post page = 1
     replies_post_ids = []
     ancestry_post_ids = []
     Post.where('ancestry is not null and is_deleted = ?', false).map do |post| 
@@ -120,13 +120,13 @@ class Band < ActiveRecord::Base
       ancestry_post_ids << post.ancestry
     end
     parent_posts = Post.where(:id => ancestry_post_ids, :band_id => self.id).map{|post| post.id}
-    post_ids=[]
+    post_ids = []
     posts = Post.where(:id => replies_post_ids, :ancestry => parent_posts).order('created_at desc').paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
     mark_replies_post_as_read post_ids
     return posts
   end
 
-  def self.random_artists limit= 2, except_this_artist = nil
+  def self.random_artists limit = 2, except_this_artist = nil
     if except_this_artist
       self.where('id != ?', except_this_artist.id).order('rand()').limit(limit).uniq
     else

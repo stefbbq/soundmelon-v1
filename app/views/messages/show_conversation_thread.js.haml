@@ -1,6 +1,11 @@
+- last_message  = @conversation_receipts.shift
 - conversation_messages_thread = capture do
-  .message-section
-    - @conversation_receipts.each do |message_receipt|
-      = render 'message_item', :message =>message_receipt.message
+  = render 'message_item', :message => last_message.message
+  .conversation-thread
+    .conversation-thread-top-border
+    .conversation-thread-container
+      - @conversation_receipts.each do |message_receipt|
+        = render 'message_item', :message => message_receipt.message
+    .conversation-thread-bottom-border
 $("div#conversation_#{@conversation.id}" ).html('#{escape_javascript(conversation_messages_thread)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);

@@ -83,7 +83,7 @@
 
   $.extend($.facebox, {
     settings: {
-      opacity      : 0.3,
+      opacity      : 0.4,
       overlay      : true,
       loadingImage : '/assets/loading.gif',
       closeImage   : '/assets/closelabel.png',
@@ -92,7 +92,7 @@
     <div id="facebox" style="display:none;"> \
       <div class="popup"> \
         <div class="content-container"> \
-					<a href="#" class="close"></a> \
+					<!--<a href="#" class="close"></a>--> \
 					<div class="content"> \
 	        </div> \
         </div> \
@@ -106,6 +106,7 @@
       showOverlay()
 
       $('#facebox .content').empty()
+			$('#facebox .close').hide();
       $('#facebox .body').children().hide().end().
         append('<div class="loading"><img src="'+$.facebox.settings.loadingImage+'"/></div>')
 
@@ -125,6 +126,7 @@
       $(document).trigger('beforeReveal.facebox')
       if (klass) $('#facebox .content').addClass(klass)
       $('#facebox .content').append(data)
+			$('#facebox .close').show();
       $('#facebox .loading').remove()
       $('#facebox .body').children().fadeIn('normal')
       //$('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').width() / 2))

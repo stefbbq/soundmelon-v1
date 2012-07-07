@@ -1,9 +1,11 @@
 - if !@invitation.errors.blank?
-  .overlay-error
+  .error
     - @invitation.errors.full_messages.each do |error_msg|
       = error_msg
-.overlay-invitation
+.header
+  type in your email address to request an invite
+.mini-content
   = form_for @invitation, :remote => true do |f|
     = f.label :recipient_email, current_user ? "email" : "email"
-    = f.text_field :recipient_email, :class => "generic-text-field", :style => "width: 300px;"
-    = f.submit 'request invitation', :class => "generic-button"
+    = f.text_field :recipient_email, :class => "generic-text-field", :style => "width: 373px;"
+    = f.submit 'submit', :class => "generic-button"

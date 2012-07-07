@@ -205,23 +205,23 @@ module ApplicationHelper
         album         = postitem.band_album
         album_name    = album.name
         album_path    = "#{band_album_path(band.name, album_name)}"
-        content       += " added a new photo to the album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
+        content       += " added a new photo to the <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a> album"
         message       =  raw (render '/band_photos/band_photo', :photo =>postitem, :band_album =>album, :band =>band, :in_newsfeed =>true)
       elsif post.band_tour_post?
         show_id       = postitem.id
         show_venue    = postitem.venue
         show_country  = postitem.country
         show_path     = band_tour_path(band.name,show_id)
-        content       += " going to attend the <a href='#{show_path}' class='ajaxopen backable' data-remote=true>show</a> at #{show_venue}, #{show_country}"
+        content       += " has created a new <a href='#{show_path}' class='ajaxopen backable' data-remote=true>show</a> at #{show_venue}"
       elsif post.song_post?
         album_name    = postitem.song_album.album_name
         album_path    = "#{band_song_album_path(band.name, album_name)}"
-        content       += " added a new song to the album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
+        content       += " added a new song to the <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a> album"
         message       = raw(render '/band_song_album/song_item', :song =>postitem, :band =>band, :in_newsfeed =>true)
       elsif post.song_album_post?
         album_name    = postitem.album_name
         album_path    = "#{band_song_album_path(band.name, album_name)}"
-        content       += " added a new song album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
+        content       += " added a new music album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       end
     end
     [content.html_safe, message.html_safe]

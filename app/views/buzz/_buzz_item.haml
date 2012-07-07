@@ -40,4 +40,4 @@
     = post_msg_with_band_mention(post)
   .clear
  - if post.ancestry && !hide_thread_link
-  = link_to 'expand conversation', get_post_threads_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"
+  = link_to 'expand conversation', get_conversation_thread_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"

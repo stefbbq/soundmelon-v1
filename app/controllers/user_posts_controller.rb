@@ -24,7 +24,7 @@ class UserPostsController < ApplicationController
       else
         @load_more_path =  next_page ?  more_post_path(:page => next_page) : nil
       end
-    end    
+    end
   end
   
   def create
@@ -97,7 +97,7 @@ class UserPostsController < ApplicationController
     end  
   end
   
-  def post_threads
+  def show_conversation_thread
     if request.xhr?
       @post       = Post.where(:id => params[:id]).first
       @posts      = @post.path

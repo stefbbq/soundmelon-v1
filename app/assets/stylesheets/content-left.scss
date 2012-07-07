@@ -60,7 +60,6 @@
 	.social-header {
 		overflow: hidden; 
 		margin-bottom: -5px;
-		padding-top: 15px;
 		width: 100%;
 		
 		a {
@@ -142,6 +141,12 @@
 			@include generic-item();
 		}
 		
+		.unread {
+			font-style: italic;
+			font-weight: bold; 
+			color: $text-error-color;
+			display: inline-block;
+		}
 		.first-post {
 			.title span:before {
 				content: "first ";
@@ -256,7 +261,7 @@
 	}
 	
 	//post thread
-	.post-thread {
+	.conversation-thread {
 		margin-bottom: 20px;
 		
 		.toggle-thread {
@@ -267,19 +272,19 @@
 			
 			&:hover { background: lighten($page-bg-color, 15); }
 		}
-		.post-thread-top-border {
-			background: url(post-thread-border.png);
+		.conversation-thread-top-border {
+			background: url(conversation-thread-border.png);
 			width: 629px;
 			height: 37px;
 		}
-		.post-thread-bottom-border {
-			background: url(post-thread-border.png);
+		.conversation-thread-bottom-border {
+			background: url(conversation-thread-border.png);
 			background-position: 0px -70px;
 			width: 629px;
 			height: 20px;
 			text-align: center;
 		}
-		.post-thread-container {
+		.conversation-thread-container {
 			@include border-radius($border-radius);
 			padding: 0px;
 			margin: -12px 10px;

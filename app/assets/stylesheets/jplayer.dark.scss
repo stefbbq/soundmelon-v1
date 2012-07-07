@@ -5,26 +5,13 @@
 @import 'mixins';
 @import 'vars';
 
-//playlist button
+//actions
 .jp-rep {
-	width: 24px;
-	height: 24px;
 	display: inline-block;
-	@include sprite-img("sprites-32.png", 5, 2, 32px, 32px);
-}
-.jp-rep-active {
-	@include sprite-img("sprites-32.png", 5, 3, 32px, 32px);
 }
 
-//like
 .jp-like {
-	width: 24px;
-	height: 24px;
-	display: inline-block;
-	@include sprite-img("sprites-32.png", 4, 2, 32px, 32px);
-}
-.jp-like-active {
-	@include sprite-img("sprites-32.png", 4, 3, 32px, 32px);	
+	display: inline-block;	
 }
 
 //jogger

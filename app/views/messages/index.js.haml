@@ -1,4 +1,4 @@
-!= "$('.messages-wrapper').append('#{escape_javascript(render 'messages/message', :messages => @messages)}');"
+!= "$('.messages').append('#{escape_javascript(render 'messages/message_conversation', :messages => @messages)}');"
 != "$('.read-more a').attr('href','#{@load_more_path}');"
 -if @load_more_path.nil?
   != "$('.read-more a').hide();"

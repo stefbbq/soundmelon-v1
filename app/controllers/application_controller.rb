@@ -74,9 +74,9 @@ class ApplicationController < ActionController::Base
   end
 
   def get_band_bulletins_and_posts artist
-    @posts                     = artist.find_own_as_well_as_mentioned_posts(params[:page])
+    @posts                     = artist.find_own_posts(params[:page])
     next_page                  = @posts.next_page
-    @load_more_path            =  next_page ? band_more_posts_path(:band_name => artist.name, :page => next_page, :type => 'general') : nil
+    @load_more_path            = next_page ? band_more_posts_path(:band_name => artist.name, :page => next_page, :type => 'general') : nil
     @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
     @bulletins                 = artist.bulletins
     bulletin_next_page         = @bulletins.next_page
@@ -91,7 +91,8 @@ class ApplicationController < ActionController::Base
   end
 
   def get_band_mentioned_posts artist
-    @posts                      = artist.mentioned_in_posts(params[:page])
+    @posts                      = artist.mentioned_in_posts(params[:page])    
+    #@posts                      = artist.find_own_as_well_as_mentioned_posts(params[:page])
     @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
     next_page                   = @posts.next_page
     @load_more_path             = next_page ? more_posts_path(next_page, :type => 'mentions') : nil

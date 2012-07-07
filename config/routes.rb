@@ -24,7 +24,7 @@ Soundmelon::Application.routes.draw do
   get '/home'                                 => 'user#index',                      :as => :user_home #home
   #fan
   get '/home'                                 => 'user#index',                      :as => :fan_home #home
-  get 'home/post/:id/threads'                 => 'user_posts#post_threads',         :as => :get_post_threads #posts
+  get 'home/post/:id/threads'                 => 'user_posts#show_conversation_thread',         :as => :get_show_conversation_thread #posts
   get 'home/mentions'                         => 'user_posts#mentioned',            :as => :mentioned #mentions
   get 'home/replies'                          => 'user_posts#replies',              :as => :replies #replies
   match 'home/messages'                       => 'messages#inbox',                  :as => :user_inbox #messages
@@ -59,10 +59,7 @@ Soundmelon::Application.routes.draw do
   match ':band_name/bandmates/send/inviation' => 'artist#send_bandmates_invitation',:as => :send_bandmates_invitation
   get ':band_name/bandmates/search'           => 'artist#search_fan_popup',         :as => :artist_search_fan_popup
   get ':band_name/:id/search/invitation'      => 'artist#search_fan_invitation',    :as => :artist_search_fan_invitation
-
-
   get "profile/additional_info"
-  
   match 'registration(/:invitation_token)'    => 'fan#signup',                            :as => :fan_registration
   get 'users/:id/activate'                    => 'fan#activate',                          :as => :user_activation
   get 'user/reset/password'                   => 'password_resets#index',                 :as => :password_reset

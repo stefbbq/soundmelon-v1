@@ -148,9 +148,6 @@ i {
 						height: 32px;
 						display: inline-block;
 						position: relative;
-						opacity: .85;
-						
-						&:hover {	opacity: 1; }
 						
 						span {
 							@include border-radius(0 0 4px 0);							
@@ -170,15 +167,6 @@ i {
 							background: $highlight-color;
 						}
 					}	
-					#replies {
-						@include sprite-img("sprites-32.png", 2, 3);
-					}
-					#mentions {
-						@include sprite-img("sprites-32.png", 1, 3);
-					}
-					#messages {
-						@include sprite-img("sprites-32.png", 3, 3);
-					}
 				}
 				
 				//logout
@@ -219,10 +207,6 @@ i {
 					> * {
 						padding: 0px;
 						display: inline-block;
-						opacity: .88;
-						&:hover {
-							opacity: 1;
-						}
 					}
 					
 					.jp-pre, .jp-next { 
@@ -472,14 +456,27 @@ i {
 
 //misc
 #feedback {
+	text-align: right;
 	display: block;
 	position: fixed;
 	z-index: 1000;
-	top: 0;
-	right: 0;
-	width: 130px;
+	top: 4px;
+	right: 4px;
+	width: 150px;
 	height: 130px;
-	background: url(feedback.png);
+	font-size: 12px;
+	color: #555;
+	
+	.date {
+		color: black;
+	}
+	
+	a {
+		display: block;
+		margin-top: 5px;
+		color: #555;
+		text-decoration: underline;
+	}
 }
 
 .radiolabel { 

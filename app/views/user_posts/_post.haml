@@ -37,11 +37,11 @@
 
 - writer_header = capture do
   - if band
-    = is_author_artist_profile ? band.name : (link_to band.name, show_band_path(:band_name =>band.name), :class =>'ajaxopen backable', :remote =>:true, :title =>band.name)
+    = is_author_artist_profile ? band.name : (link_to band.name, show_band_path(:band_name => band.name), :class => 'ajaxopen backable', :remote => :true, :title => band.name)
   - elsif self_owner
     You
   -elsif user
-    = is_author_fan_profile ? user.fname : (link_to user.fname, fan_profile_path(post.user), :class =>'ajaxopen backable', :remote =>:true, :title =>user.fname)
+    = is_author_fan_profile ? user.fname : (link_to user.get_full_name, fan_profile_path(post.user), :class => 'ajaxopen backable', :remote => :true, :title => user.get_full_name)
 
 - content_header = capture do
   - if post.is_newsfeed?
@@ -98,4 +98,4 @@
           #{post_message(post, post_item).last}
     .clear
     - if post.ancestry && !hide_thread_link
-      = link_to 'expand conversation', get_post_threads_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"
+      = link_to 'expand conversation', get_show_conversation_thread_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"

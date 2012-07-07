@@ -18,6 +18,24 @@
 	height: 100%;
 	width: 100%;
 
+	.center {
+		overflow: hidden;
+		margin: 0 20px;
+		
+		h1 { 
+			display: block;
+			float: left;
+			color: #555;
+			margin-right: 10px;
+		}
+
+		.loading-img {
+			margin-top: 3px;
+			display: block;
+			float: right;
+		}
+	}
+
   .popup {
 		@include box-shadow(rgba(black, .4), 0px, 2px, 10px);
 		display: table-cell;
@@ -142,6 +160,40 @@
     padding-bottom: 15px;
     border-bottom: 1px dashed rgba(255, 255, 255, 0.1); 
 	}
+	
+	//content
+	.header {
+		@include border-radius($border-radius $border-radius 0 0);
+		@include single-text-shadow(rgba(black, .5), 0px, -1px, 0px);
+		@include linear-gradient-important($generic-active-color, darken($generic-active-color, 5));
+		color: white;
+		margin: -10px -10px 5px -10px;
+		padding: 5px;
+		text-align: center;
+
+	}
+	
+	.error { 
+		color: $text-error-color;
+		text-align: center;
+		text-transform: lowercase;
+		width: 100%;
+		bottom: -20px;
+		left: 0px;
+		position: absolute;
+	}
+
+	.mini-content {
+		padding: 10px 0;
+		width: 482px;
+
+		div { padding: 0px; margin: 0px; display: inline;	}
+		h2 { margin: 0px; padding: 0px; text-align: center; }
+	}
+	
+	.centered {
+		text-align: center;
+	}
 }
 
 #facebox_overlay {
@@ -155,11 +207,9 @@
 .facebox_overlayBG {
   background-color: #000;
   z-index: 1999; }
-
-
 .age {font-size:2*$size;color:#fff;}
 .error_messages {
-  margin:0 auto;
+  margin: 0 auto;
   width: 450px;
   border: 2px solid #E84067;
   padding-bottom: 0;
@@ -172,24 +222,4 @@
     background: #E84067;
     color: #000;
   }
-}
-
-//
-//bricks
-.overlay-error { 
-	color: $text-error-color;
-	text-align: center;
-	text-transform: lowercase;
-	width: 100%;
-	bottom: -20px;
-	left: 0px;
-	position: absolute;
-}
-
-.overlay-invitation {
-	padding: 10px 0;
-	width: 482px;
-	
-	div { padding: 0px; margin: 0px; display: inline;	}
-	h2 { margin: 0px; padding: 0px; text-align: center; }
 }

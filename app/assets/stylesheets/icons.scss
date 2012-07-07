@@ -2,15 +2,61 @@
 
 @import 'compass/utilities/sprites/sprite-img';
 
+//splash
+.splash .facebook-icon { @include sprite-img("social-icons.png", 1, 1, 21px, 21px); }
+.splash .twitter-icon { @include sprite-img("social-icons.png", 2, 1, 21px, 21px); }
+
 //player
-.jp-play { @include sprite-img("sprites-40.png", 1, 1, 40px, 40px)}
-.jp-pause { @include sprite-img("sprites-40.png", 2, 1, 40px, 40px)}
-.jp-pre { @include sprite-img("sprites-32.png", 1, 2); margin-bottom: 3px; }
-.jp-pre-dis { @include sprite-img("sprites-32.png", 1, 2); margin-bottom: 3px;}
-.jp-next { @include sprite-img("sprites-32.png", 2, 2); margin-bottom: 3px; }
-.jp-next-dis { @include sprite-img("sprites-32.png", 2, 2); margin-bottom: 3px;}
-.jp-volume-bar-thumb { @include sprite-img("sprites-16.png", 1, 4, 16px, 16px); }
+.jp-play { 
+	@include sprite-img("sprites-40.png", 1, 1, 40px, 40px); 
+	&:hover { @include sprite-img("sprites-40.png", 1, 2, 40px, 40px); }
+	&:active { @include sprite-img("sprites-40.png", 1, 3, 40px, 40px); }
+}
+.jp-pause { 
+	@include sprite-img("sprites-40.png", 2, 1, 40px, 40px);
+	&:hover { @include sprite-img("sprites-40.png", 2, 2, 40px, 40px); }
+	&:active { @include sprite-img("sprites-40.png", 2, 3, 40px, 40px); }
+}
+.jp-pre { 
+	@include sprite-img("sprites-32.png", 2, 1, 32px, 32px); 
+	margin-bottom: 3px;
+	&:hover { @include sprite-img("sprites-32.png", 2, 2, 32px, 32px); }
+	&:active { @include sprite-img("sprites-32.png", 2, 3, 32px, 32px); }	
+}
+.jp-pre-dis { @include sprite-img("sprites-32.png", 2, 4); margin-bottom: 3px; }
+.jp-next { 
+	@include sprite-img("sprites-32.png", 3, 1, 32px, 32px); 
+	margin-bottom: 3px; 
+	&:hover { @include sprite-img("sprites-32.png", 3, 2, 32px, 32px); }
+	&:active { @include sprite-img("sprites-32.png", 3, 3, 32px, 32px); }	
+}
+.jp-next-dis { @include sprite-img("sprites-32.png", 3, 4); margin-bottom: 3px;}
+.jp-volume-bar-thumb { 
+	@include sprite-img("sprites-16.png", 1, 4, 16px, 16px); 
+	&:hover { @include sprite-img("sprites-16.png", 2, 4, 16px, 16px); }
+	&:active { @include sprite-img("sprites-16.png", 3, 4, 16px, 16px); }	
+}
 .jp-volume-marker { @include sprite-img("sprites-16.png", 1, 2, 16px, 16px); }
+
+//player actions
+.jp-rep { @include sprite-img("sprites-32.png", 9, 1, 32px, 32px); }
+.jp-rep-active {  @include sprite-img("sprites-32.png", 9, 3, 32px, 32px); }
+.jp-like { @include sprite-img("sprites-32.png", 8, 1, 32px, 32px); }
+.jp-like-active { @include sprite-img("sprites-32.png", 8, 3, 32px, 32px);}
+
+//notifications
+.notifications #replies {
+	@include sprite-img("sprites-32.png", 6, 1);
+	&:hover { @include sprite-img("sprites-32.png", 6, 2); }
+}
+.notifications #mentions {
+	@include sprite-img("sprites-32.png", 5, 1);
+	&:hover { @include sprite-img("sprites-32.png", 5, 2); }
+}
+.notifications #messages {
+	@include sprite-img("sprites-32.png", 7, 1);
+	&:hover { @include sprite-img("sprites-32.png", 7, 2); }
+}
 
 //live
 .facebook-icon { @include sprite-img("sprites-24.png", 1, 3, 24px, 24px); }
@@ -25,6 +71,7 @@
 .action-repost { i { @include sprite-img("sprites-16.png", 2, 1, 16px, 16px); }}
 .action-delete { i { @include sprite-img("sprites-16.png", 3, 1, 16px, 16px); }}
 .action-buzz { i { @include sprite-img("sprites-16.png", 4, 1, 16px, 16px); }}
+.action-view { i { @include sprite-img("sprites-16.png", 5, 1, 16px, 16px); }}
 .song { i { @include sprite-img("sprites-24.png", 1, 4, 24px, 24px); }}
 
 //artist content

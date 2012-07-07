@@ -4,7 +4,7 @@
 - message         = empty_messages[current]
 - unless @bulletins.blank? && @posts_order_by_dates.blank?
   - if !@bulletins.blank?
-    .pinned-posts{:style=>'margin-bottom:25px;'}
+    .pinned-posts{:style =>  'margin-bottom: 25px;'}
       %date{:id=>'pin-board'}
         %div
           %h1
@@ -24,7 +24,6 @@
           %h2
             = date.to_date.strftime('%d')
       = render 'user_posts/post_aggregate', :posts => posts
-      .clear
   -if !@load_more_path.nil?
     .read-more
       = link_to('read more', @load_more_path, :remote=>true, :class=>'ajaxload')

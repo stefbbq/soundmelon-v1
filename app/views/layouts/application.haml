@@ -8,7 +8,10 @@
     = yield(:head)          
   - if current_user #user logged in
     %body
-      = link_to "", feedback_start_path, :remote =>true, :class => "ajaxopen", :id => 'feedback'
+      #feedback
+        .date last update: July 7th, 2012
+        .commit codebase 197
+        = link_to "provide feedback", feedback_start_path, :remote =>true, :class => "ajaxopen"
       #base-container
         #page-container
           #page-top-fade
@@ -18,13 +21,18 @@
             #page-content
               = yield
       = render :partial=>"bricks/footer"
-      .globalloading.hide{:id=>"globalloading" }
+      .globalloading.hide{:id => "globalloading"}
         .center
-          =image_tag("loading.gif")
+          %h1
+            loading
+          .loading-img
+            = image_tag("loading.gif")
   - else #splash
     %body.splash-body
       .splash
-        %div
+        .left-decoration
+        .right-decoration
+        .content
           - if @user.id
             %br
             .main-login
@@ -41,8 +49,18 @@
             = render '/bricks/splash'
             .beta-note
               %div
-                %h2 We are currently in closed beta. 
-                %p Please #{link_to "request an invitation", new_invitation_path, :remote =>:true} and we will notify you when we are ready to accept more users.
+                %h2 SoundMelon is currently in closed beta
+                %p Please #{link_to "request an invitation", new_invitation_path, :remote =>:true} and we will notify you when we are ready to accept more users
+        .footer
+          .links
+            %a{:href => "http://blog.soundmelon.com", :title => "visit the SoundMelon blog", :target => "_blank"} blog
+            %a{:href => "#", :title => "learn more", :style => "opacity: .4;"} about
+            %a{:href => "#", :title => "read legal notice", :style => "opacity: .4;"} legal
+            %span
+              &copy; 2012 SoundMelon Inc, All Rights Reserved.
+          .social
+            %a.facebook-icon{:href => "http://www.facebook.com/soundmelon", :target => "_blank", :title => "visit our Facebook page"}
+            %a.twitter-icon{:href => "http://www.twitter.com/soundmelon", :target => "_blank", :title => "visit our Twitter"}
 :javascript
   $('a').ajaxComplete(function() {
     $("abbr.timeago").timeago();

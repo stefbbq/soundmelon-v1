@@ -1,6 +1,5 @@
 - unless message.blank?
   - read_message  = message.is_read?(@user)
-  - msg_div_class = read_message ? "msgstremitem-read" : "msgstremitem-unread"
   - sender        = message.sender
   - self_message  = @user == sender
   - sender_detail = actor_detail(message.sender)
@@ -14,22 +13,24 @@
           = avatar
         - else
           = link_to avatar, sender_detail[:link], :class =>'ajaxopen backable', :remote =>:true
-      .content{:class =>"#{msg_div_class}"}
+      .content
         .header{:id=>"msg_item_#{message.id}"}
           .title
-            %strong
             - if self_message
-              = sender_detail[:name]
+              %strong= sender_detail[:name]
             - else
               = link_to sender_detail[:name], sender_detail[:link], :class =>'ajaxopen backable', :remote =>:true
             #{timeago(message.created_at)}
+            - unless read_message
+              .unread
+                UNREAD
           .actions
             = link_to message_path(message), :method => :delete, :class => 'action-delete ajaxload', :remote => true do
               %i
               %span delete
-            = link_to message_path(message), :class=>'action-delete ajaxload', :remote => true do
+            = link_to message_path(message), :class=>'action-view ajaxload', :remote => true do
               %i
-              %span view
+              %span read
         .body{:id =>"msg_content_#{message.id}"}
           = message.body.truncate(40)
       .clear
