@@ -9,11 +9,10 @@ $('#msg_content_#{@message.id}').html("#{escape_javascript(msg_content)}");
 $('#msg_box_#{@message.id} .righticons a#message_view_link').replaceWith("#{escape_javascript(show_hide_message)}");
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 
-$('div#msg_box_#{@message.id} .msgstremitem-unread').removeClass('msgstremitem-unread').addClass('msgstremitem-read');
+$('div#msg_box_#{@message.id} .unread').remove();
 $('.ajaxload').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());});
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 
--#set social header state
 - if @actor.is_fan?
   $('.primary .left .social-header').replaceWith('#{escape_javascript(render '/fan/social_header', :current =>'message')}');
 - else

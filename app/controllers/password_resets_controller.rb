@@ -12,15 +12,12 @@ class PasswordResetsController < ApplicationController
   end
   
   def create
-    if request.xhr?
-      email_user      = User.new(:email =>params[:email])
-      email_user.valid?
-      is_valid_email  = email_user.errors[:email].blank?
+    if request.xhr?      
+      is_valid_email  = params[:email] =~ EmailFormatValidator::EMAIL_FORMAT
       if is_valid_email        
         user          = User.find_by_email(params[:email])
         # This line sends an email to the user with instructions on how to reset their password (a url with a random token)
-        user.deliver_reset_password_instructions! if user
-        @status_msg   = nil
+        user.deliver_reset_password_instructions! if user        
       else
         @status_msg   = "Provided email is invalid"
       end

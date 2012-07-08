@@ -4,4 +4,4 @@ Type your email address to reset your password
 = form_tag password_resets_path, :remote => true, :class => 'ajaxopen' do
   Email
   = text_field_tag :email
-  = submit_tag "submit",:class=>"button blue"
+  = submit_tag "submit",:class=>"button blue", :onClick =>"$('#facebox .content #password_reset_email_status_message').html('').removeAttr('style');$('.loader').html($('#globalloading').html());"

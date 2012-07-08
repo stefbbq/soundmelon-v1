@@ -47,9 +47,6 @@ class UserMailer < ActionMailer::Base
     if connection_type == 'member'
       subject     = "Your artist profile #{@artist} has been removed from SounMelon"
       @is_member  = true
-    else
-      subject     = "Artist profile #{@artist} has been removed from SounMelon"
-      @is_member  = false
     end
     
     mail(
