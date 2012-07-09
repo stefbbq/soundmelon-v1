@@ -1,6 +1,8 @@
 - actor                 = current_actor
 - is_artist_login       = actor.instance_of?(Band)
 - is_admin_login        = admin_login?
+- if is_admin_login
+  = link_to "admin", admin_home_path, :class => 'header-admin-button', :target =>'_blank', :title =>"go to admin section"
 - if is_artist_login
   - artist              = actor
   - current_fan_user    = current_user
@@ -23,8 +25,7 @@
   = WELCOME_MSG  
   = link_to "#{current_user.fname}".truncate(12), fan_home_path, :class => 'user-info backable ajaxopen', :remote =>true, :title =>"#{current_user.get_full_name}"
 = link_to "logout", logout_path, :id => 'logout'
-- if is_admin_login
-  = link_to "admin", admin_home_path, :class => 'header-admin-button', :target =>'_blank', :title =>"go to admin section"
+
 :javascript
   configSwitch();
   
