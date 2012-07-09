@@ -4,7 +4,7 @@
 - if @randomA
   .left
     .photo
-      = get_band_logo_large(@randomA)
+      = get_artist_profile_image(@randomA)
     .overlay
       = link_to show_band_path(@randomA.name), {:class =>'ajaxopen backable', :remote =>true} do
         artist
@@ -12,7 +12,7 @@
 - if @randomB
   .right
     .photo
-      = get_band_logo_large(@randomB)
+      = get_artist_profile_image(@randomB)
     .overlay
       = link_to show_band_path(@randomB.name), {:class =>'ajaxopen backable', :remote =>true} do
         artist

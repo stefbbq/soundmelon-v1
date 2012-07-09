@@ -73,14 +73,14 @@
     .avatar
       - if user
         - if is_author_fan_profile
-          = get_avatar_small(user)
+          = get_fan_avatar(user)
         - else
-          = link_to get_avatar_small(user), (self_owner ? fan_home_url : fan_profile_path(user) ), :class =>'ajaxopen backable', :remote =>:true
+          = link_to get_fan_avatar(user), (self_owner ? fan_home_url : fan_profile_path(user) ), :class =>'ajaxopen backable', :remote =>:true
       - elsif band
         - if is_author_artist_profile
-          = get_band_logo_small(band)
+          = get_artist_avatar(band)
         - else
-          = link_to get_band_logo_small(band), show_band_path(:band_name =>band.name), :class =>'ajaxopen backable', :remote =>:true
+          = link_to get_artist_avatar(band), show_band_path(:band_name =>band.name), :class =>'ajaxopen backable', :remote =>:true
     .content
       .header
         .title

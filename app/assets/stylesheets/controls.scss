@@ -1,0 +1,33 @@
+//controls
+
+@import 'compass/utilities/sprites/sprite-img';
+@import 'compass/css3';
+@import 'mixins';
+@import 'vars';
+
+.control-toggle {display: inline; font-size: 16px; line-height: 16px; cursor: pointer; cursor: hand;}
+.control-toggle .mark {display: inline;}
+.control-toggle * { border: none !important; }
+
+.control-toggle img {vertical-align: middle; width: 78px; height: 25px; border: none;}
+.control-toggle img {background: url(control-toggle.png) ; border: none !important; outline: none;}
+
+.control-toggle img{
+	background-position: 0px 25px;
+}
+.control-toggle-hover img{
+	background-position: 0px 25px;
+}
+.control-toggle-checked img{
+	background-position: top;
+}
+.control-toggle-checked .control-toggle-hover img {
+	background-position: top;
+}
+
+.control-toggle-disabled img{
+	background-position: 0px 25px;
+}
+.control-toggle-checked .control-toggle-disabled img{
+	background-position: 0px 25px;
+}

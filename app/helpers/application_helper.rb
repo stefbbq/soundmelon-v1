@@ -18,62 +18,55 @@ module ApplicationHelper
     link_to_function(name, ("add_fields(this, '#{association}', '#{escape_javascript(fields)}')"))
   end
   
-  def get_avatar_small(user)
+  def get_fan_avatar(user)
     if user.profile_pic
       image_tag(user.profile_pic.avatar.url(:small), :alt=>'')
     else
-      image_tag('fan-defaults-photo-thumbnail.jpg', :alt=>'')
+      image_tag('profile/fan-defaults-photo-avatar.jpg', :alt=>'')
     end
   end
   
-  def get_avatar_medium(user)
-    if user.profile_pic
-      image_tag(user.profile_pic.avatar.url(:medium), :alt=>'')
-    else
-      image_tag('fan-defaults-photo-profile.jpg', :alt=>'')
-    end
-  end
-  
-  def get_avatar_large(user, my_avatar = false)
+  def get_fan_profile_image(user, my_avatar = false)
     actor     = current_actor
     my_avatar = actor == user
     if my_avatar       
-      raw (render :partial => '/bricks/avatar_profile', :locals => {:user => user})
+      raw (render :partial => '/bricks/fan_profile_image', :locals => {:user => user})
     else
       if user.profile_pic
         image_tag(user.profile_pic.avatar.url(:large), :alt=>'')
       else
-        image_tag('fan-defaults-photo-profile.jpg', :alt=>'')
+        image_tag('profile/fan-defaults-photo-profile.jpg', :alt=>'')
       end
     end
   end
 
-  def get_band_logo_small(band)
+  def get_artist_avatar(band)
     unless band.band_logo(true)    
-      image_tag('artist-defaults-photo-thumbnail.jpg', :alt=>'')
+      image_tag('profile/artist-defaults-photo-thumbnail.jpg', :alt=>'')
     else
       image_tag(band.band_logo.logo.url(:small), :alt=>'')
     end  
   end
   
-  def get_band_logo_medium(band)
+  def get_artist_avatar_large(band)
     unless band.band_logo(true)    
       image_tag('artist-defaults-photo-profile.jpg', :alt=>'')
     else
       image_tag(band.band_logo.logo.url(:medium), :alt=>'')
-    end  
+    end
   end
   
-  def get_band_logo_large(band, self_logo = false)
+  def get_artist_profile_image(band, self_logo = false)
     actor     = current_actor
     self_logo = actor == band
+    random_profile_images = ["profile/artist-defaults-photo-profile-a.jpg", "profile/artist-defaults-photo-profile-b.jpg", "profile/artist-defaults-photo-profile-c.jpg", "profile/artist-defaults-photo-profile-d.jpg"]
     if self_logo
-      raw (render :partial => '/bricks/artist_logo_profile', :locals => {:band => band})
+      raw (render :partial => '/bricks/artist_profile_image', :locals => {:band => band})
     else
       if band.band_logo
         image_tag(band.band_logo.logo.url(:large), :alt=>'')
-      else        
-        image_tag('artist-defaults-photo-thumbnail.jpg', :alt=>'')
+      else
+        image_tag(random_profile_images.sample, :alt=>'')
       end
     end    
   end

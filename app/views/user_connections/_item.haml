@@ -1,12 +1,12 @@
 - status                      = true
 - if user.instance_of?(Band)
   - link                      = show_band_path(user.name)
-  - image                     = get_band_logo_small(user)
+  - image                     = get_artist_avatar(user)
   - name                      = user.name
   - location                  = nil  
 - elsif user.instance_of?(User)
   - link                      = fan_profile_path(user.id)
-  - image                     = get_avatar_small(user)
+  - image                     = get_fan_avatar(user)
   - name                      = user.get_full_name
   - location                  = user.get_full_address  
 - else

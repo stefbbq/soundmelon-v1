@@ -1,7 +1,7 @@
 - is_new = @band.new_record?
 - band_user_notification_status = @band_user ? @band_user.notification_on : false
 .content-box#band-edit
-  .area.form
+  .area.form.artist-basic
     #update-msg
     .details
       - if is_new
@@ -16,10 +16,10 @@
           your name is
           %span{:id =>'artistname'}= @band.name
         %h3
-          and your username is
+          permanent username is
           %span= @band.mention_name
         %h5 click the lock to enable changes
-    .content{:id=>'basic-info'}    
+    .content{:id=>'basic-info'}
       - if is_new
         .field
           %label{:for=>"name"}
@@ -34,14 +34,10 @@
           %label{:for=>"name"}
             name
           = f.text_field :name
-        .field
-          %label{:for=>"username"}
-            username
-          = f.text_field :mention_name, :readonly =>true
         .lock-toggle
         = f.submit 'changes are swell', :class => 'button'
 .content-box#band-edit
-  .area.form
+  .area.form.toggle-replace
     .details
       - if is_new
         %h3
@@ -54,7 +50,7 @@
         %h3
           change your
           %span location, genres, bio,
-          %span artist visibility
+          %span member visibility
           and
           %span external links      
     .content
@@ -70,21 +66,21 @@
         %label{:for=>"bio"}
           bio
         = f.text_area :bio, :rows => 5, :cols => 50, :class => 'text-area-field long'
-      .field
+      .field.members-visibility
         %label{:for=>"membersVisiblity"}
           show members
-        = f.check_box :is_member_public, :class => 'textfield long'      
+        = f.check_box :is_member_public, :class => 'textfield long'
       .field
         %label{:for=>"website"}
           website
         = f.text_field :website, :class => 'textfield long'
       .field
         %label{:for=>"facebook"}
-          facebook username
+          facebook
         = f.text_field :facebook_page, :class => 'textfield long'
       .field
         %label{:for=>"twitter"}
-          twitter username
+          twitter
         = f.text_field :twitter_page, :class => 'textfield long'
       - if is_new
         = f.submit 'create profile', :class => 'button'
@@ -92,19 +88,26 @@
         = f.submit 'save to memory', :class => 'button'
 - unless is_new
   .content-box#band-edit
-    .area.form
+    .area.form.toggle-sole
       #notification-setting-msg.msg
       .details
         %h3
-          email notification for this artist          
+          %span email notifications
       .content
-        .field
-          %label{:for=>"notification"}
-            turn on/off
-          = check_box_tag :notification, band_user_notification_status, band_user_notification_status, :onchange =>"$.ajax('#{update_artist_notification_setting_url(@band.id)}');"
+        %form
+          .field.notification-toggle
+            %label
+              toggle
+            = check_box_tag :notification, band_user_notification_status, band_user_notification_status, :onchange =>"$.ajax('#{update_artist_notification_setting_url(@band.id)}');"
 - unless is_new
   :javascript
     $('#basic-info input').attr('disabled', true).addClass('input-disabled');
     $('#basic-info .lock-toggle').live('click',function(){
       $.ajax('#{ask_and_check_user_password_path}',{remote:true});
     });
+:javascript
+  $('input[type=checkbox]').checkbox();
+  $('.left input[type=checkbox]').checkbox({
+    cls:'control-toggle',
+    empty: '/assets/empty.png'
+  });

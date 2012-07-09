@@ -1,14 +1,15 @@
 - actor = current_actor
 - is_current_artist = actor.instance_of?(Band) && (actor.id == artist.id)
 .item
-  .avatar.avatar-medium
-    = link_to get_band_logo_medium(artist), show_band_path(artist.name), :class =>'ajaxopen backable', :remote =>:true
+  .avatar
+    = link_to get_artist_avatar(artist), show_band_path(artist.name), :class =>'ajaxopen backable', :remote => :true
   .content
     %h4
-      %strong= link_to artist.name, show_band_path(artist.name), :class =>'ajaxopen backable', :remote =>:true
-      = pluralize(artist.songs_count, 'songs')
-      online and 
+      %strong= link_to artist.name, show_band_path(artist.name), :class =>'ajaxopen backable', :remote => :true
       = pluralize(artist.followers_count, 'fan')
+      with 
+      = pluralize(artist.songs_count, 'song')
+      uploaded
   .actions
     - if is_current_artist
       currently administrating

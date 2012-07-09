@@ -15,7 +15,7 @@
       .field.f
         %label{:for => "name"} gender
         = f.select :gender, [['male',1],['female', '0']]
-      .field
+      .field.set-age
         %label{:for => "name"} age
         = f.text_field :age, :size => 5, :class => 'textfield long'
       .field

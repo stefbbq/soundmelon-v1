@@ -501,7 +501,7 @@
 		.msg {
 			color: $fan-active-color;
 			position: absolute;
-			bottom: 20px;
+			bottom: 16px;
 			font-size: 10px;
 			font-family: Verdana;
 			width: 230px;
@@ -562,18 +562,29 @@
 				width: 95%;
 				margin: 3px 0 0 15px;
 				min-height: 20px;
+				position: relative;
 				
 				label {
-					display: inline-block;
+					position: absolute;
+					top: 7px;
+					display: block;
 					width: 60px;
-					text-align: right; 
-					margin-right: 2px;
+					text-align: right;
+					font-size: 12px;
+					line-height: 12px;
 				}
 				select {
-					height: 20px;
+					font-size: 14px;
+					background: black !important;
+					width: 100px !important;
+					height: 24px !important;
 				}
-				input, textarea {
+				.ez-checkbox {
+					input { margin-left: 0px !important; }
+				}
+				input, textarea, select {
 					@include border-radius($border-radius);
+					margin-left: 64px;
 					border: 2px solid $text-faded-color;
 					color: $text-color;
 					height: 20px;
@@ -585,6 +596,9 @@
 					&:hover, &:focus {
 						border: 2px solid $text-color;
 					}
+				}
+				textarea {
+					height: 70px;
 				}
 				.input-disabled {
 					opacity: .5;
@@ -602,3 +616,45 @@
 			}
 		}
 	}
+	
+	//controls
+	.control-toggle {
+		margin-left: 64px;
+	}
+	
+	//content adjustments
+	.artist-basic {
+		.content { padding-bottom: 40px !important; }
+		.lock-toggle { top: 12px !important; }
+	}
+	.toggle-sole {
+		.details { top: 25px; }
+		.content { padding-bottom: 20px !important; }
+		.msg { bottom: 10px; }
+		label { visibility: hidden; }
+	}
+	.members-visibility {
+		margin-top: 0px !important;
+		label { top: 1px !important; }
+	}
+	.set-age {
+		width: 100px;
+		input { width: 40px !important; }
+	}
+
+//
+//item large size adjustment
+.item-large {
+	.avatar img {
+		width: 100px !important;
+		height: 100px !important;
+	}
+	
+	h3 { margin-top: 0px; margin-bottom: 5px; font-size: 16px;}
+	.content {
+		margin-top: 5px !important;
+	}
+	.actions {
+		margin-top: 7px !important;
+	}
+}

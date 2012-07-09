@@ -3,14 +3,6 @@
 .live
   #results
     - if got_some_results
-      - unless @user_search_results.results.blank?
-        .fans
-          %h1
-            showing 
-            = @user_search_results.results.length
-            %span fans
-        - @user_search_results.results.each do |user|
-          = render '/user_connections/item', :user => user, :connection_item => @user, :is_user_fan => false
       - unless @band_search_results.results.blank?
         .artists
           %h1 
@@ -19,5 +11,13 @@
             %span artists
         - @band_search_results.results.each do |band|
           = render '/user_connections/item', :user => band, :connection_item => @user, :is_user_fan => false
+        - unless @user_search_results.results.blank?
+          .fans
+            %h1
+              showing 
+              = @user_search_results.results.length
+              %span fans
+          - @user_search_results.results.each do |user|
+            = render '/user_connections/item', :user => user, :connection_item => @user, :is_user_fan => false          
     - else
       %h3 no results found for '#{params[:q]}'

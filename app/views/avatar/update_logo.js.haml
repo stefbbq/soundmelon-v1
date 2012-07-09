@@ -1,4 +1,4 @@
 $(':submit').removeAttr('disabled');
 jQuery.facebox("Successfully cropped");
 setTimeout('$(document).trigger(\"close.facebox\")',1000);
-!= "$('.live .profile-image').html('#{escape_javascript(get_band_logo_large(@artist, true))}');"
+!= "$('.live .profile-image').html('#{escape_javascript(get_artist_profile_image(@artist, true))}');"

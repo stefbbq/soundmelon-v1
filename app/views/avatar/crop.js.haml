@@ -2,11 +2,11 @@
   - content_for(:head) do
     = stylesheet_link_tag "jquery.Jcrop"
     = javascript_include_tag "jquery.Jcrop.min", "avatar"
-  != "$('.live .profile-image').html('#{escape_javascript(get_avatar_large(@user, true))}');"
+  != "$('.live .profile-image').html('#{escape_javascript(get_fan_profile_image(@user, true))}');"
   != "jQuery.facebox('#{escape_javascript(render 'crop_form')} ' );"
   != "$('#cropbox').Jcrop({onChange: update_crop, onSelect: update_crop, setSelect: [0, 0, 414, 246], aspectRatio: 1.68});"
   != "$('form').submit(function(){($('.loader').html($('#globalloading').html()));return true; $(':submit').attr('disabled','disabled');});"
 - else
-  != "$('.live .profile-image').html('#{escape_javascript(get_avatar_large(@user, true))}');"
+  != "$('.live .profile-image').html('#{escape_javascript(get_fan_profile_image(@user, true))}');"
   jQuery.facebox("Successfully Uploaded");
   setTimeout('$(document).trigger(\"close.facebox\")',1000);

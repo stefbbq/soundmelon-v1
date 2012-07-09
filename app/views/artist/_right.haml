@@ -51,12 +51,12 @@
             manage_profile_path,
             :remote             => true,
             :id                 => 'manage_profile',
-            :class              => 6 == current ?  'ajaxopen selection-box backable button-fill-artist' : 'ajaxopen selection-box backable'
+            :class              => 6 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'
   = link_to 'manage bandmates' , 
             bandmates_invitation_path(:band_name => @band.name),
             :remote             => true,
             :id                 => 'invite_artist',
-            :class              => 7 == current ?  'ajaxopen selection-box backable button-fill-artist' : 'ajaxopen selection-box backable'
+            :class              => 7 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'
   = link_to 'remove your profile',
             remove_my_profile_path,
             :remote             => true,
