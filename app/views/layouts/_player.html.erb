@@ -44,7 +44,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
     player.jPlayer({
       ready: function(event){
         makePlayList(0);
-        $('.jp-volume-bar-thumb').css('left', event.jPlayer.options.volume* 100 + 'px');
+        $('.jp-volume-bar-thumb').css('left', event.jPlayer.options.volume * 70 - 8 + 'px');
       },
       play: function(event){afterPlayStart();},
       pause: function(event){afterPlayPause();},
@@ -58,11 +58,11 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
       axis: "x",
       containment: '.jp-volume-bar1',
       stop: function(event, ui) {
-        var volume = (parseInt(ui.position.left)) / 100;
+        var volume = ((parseInt(ui.position.left)) / 60) ;
         player.jPlayer("volume", volume);
       },
       drag:function(event, ui){
-        $('.jp-volume-bar-thumb').css('left', ui.position.left + '%');
+        $('.jp-volume-bar-thumb').css('left', (ui.position.left * 1.2) + '%');
       }
     });
   });

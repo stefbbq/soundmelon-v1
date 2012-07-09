@@ -12,8 +12,9 @@
     .artist-content-actions
       = link_to band_album_buzz_path(band_album.id, :album_name => band_album.name), {:remote => true, :class => 'ajaxopen'} do
         .buzz-icon
+        buzz
   .bottom
-    .photo_stat{:id =>"photo_stat_#{band_album.id}"}
+    .stat{:id =>"photo_stat_#{band_album.id}"}
       = pluralize(band_album.photo_count, 'photo')
       - if @has_admin_access
         .controls
@@ -30,10 +31,8 @@
           %a{:href => "javascript:void(0);", :onclick => "$('#band_album_#{band_album.id} .album_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
     .album_details
       - if show_all
-        %h3
-        = "Photos in '#{band_album.name}'"
         .photo_gallery
           - band_album.band_photos.each do |photo|
-            = render 'band_photo', :photo => photo, :band_album =>band_album        
+            = render 'band_photo', :photo => photo, :band_album =>band_album
   .clear
 .clear

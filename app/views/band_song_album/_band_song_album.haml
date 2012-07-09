@@ -24,9 +24,8 @@
         %div{:class =>"buzz-icon"}
         buzz
   .bottom
-    .stats{:id =>"song_stats_#{song_album.id}"}
-      .price
-        = "$#{song_album.price}"
+    .stat{:id =>"song_stats_#{song_album.id}"}
+      =# "$#{song_album.price}"
       %span{:id =>'song_count'}= pluralize(song_album.song_count, 'song')
     - if @has_admin_access
       .controls

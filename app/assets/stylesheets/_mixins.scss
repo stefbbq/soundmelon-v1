@@ -27,18 +27,19 @@
 	}
 }
 
-@mixin inverted-button {
-	@include linear-gradient($inverted-button-color, darken($inverted-button-color, 15));
+@mixin inverted-button($color: $inverted-button-color) {
+	@include linear-gradient($color, darken($color, 15));
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
 	@include border-radius($detail-border-radius);
-	@include single-text-shadow(rgba(white, .5), 0px, 1px, 0px);
+	@include single-text-shadow(lighten($color, 20), 0px, 1px, 0px);
 	border: none;
 	padding: 4px 5px;	
 	font-size: $default-button-font-size;
 	color: black;
 	
 	&:hover {
-		@include linear-gradient(lighten($inverted-button-color, 15), $inverted-button-color);
+		@include linear-gradient(lighten($color, 15), $color);
+		@include single-text-shadow(lighten($color, 35), 0px, 1px, 0px);
 		text-decoration: none;
 		cursor: pointer;
 	}

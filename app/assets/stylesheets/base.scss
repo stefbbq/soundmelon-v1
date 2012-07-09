@@ -111,8 +111,7 @@ i {
     width: $page-width;
 		height: 108px;
     top: 0px;
-		background: url(base-page-bg-shaded-flipped.jpg) center -140px;
-    border-bottom: 1px solid rgba(white, .15);
+		background: url(header-bg.png);
 
     > div {
       width: 100%;
@@ -130,6 +129,8 @@ i {
         float: right;
 				padding-right: $base-content-clear;
 				padding-top: 12px;
+				width: 500px;
+				text-align: right;
 				
 				> a, div {
 					display: inline-block;
@@ -138,16 +139,19 @@ i {
 				//summary, welcome note
 				.summary {
 					position: relative;
-					bottom: 7px;
+					top: 12px;
+					right: 5px;
 				}
 
 				//replies, mentions and messages
         .notifications {
+					float: right;
+					
 					> a {
 						width: 32px;
 						height: 32px;
 						display: inline-block;
-						position: relative;
+						position: relative;	
 						
 						span {
 							@include border-radius(0 0 4px 0);							
@@ -173,7 +177,6 @@ i {
 				#logout {
           @include inverted-button;
           padding: 4px 8px 3px 8px;
-          margin-left: 4px;
         }
 				#switch {
 					//@include inverted-button-dark;
@@ -183,11 +186,14 @@ i {
           margin-left: 4px;
 				}
       }
+
+			.header-admin-button {
+				@include inverted-button($generic-active-color);
+			}
     }
 
     //player and search
     .bottom-bar {
-			background: rgba(white, .1);
 			height: 60px;
 			overflow: visible;
 			position: relative;
@@ -220,29 +226,29 @@ i {
 					.jp-play, .jp-pause { display: block; }
 				}
 				.jp-volume-bar1 {
-					@include border-radius(3px);
+					@include border-radius(4px);
 					@include box-shadow(rgba(white, .7), 0px, 1px, 0px);
-					margin: 18px 0 9px 15px;
-          width: 106px;
-          height: 5px;
+					margin: 16px 0 9px 46px;
+          width: 70px;
+          height: 7px;
           background-color: gray;
 				}
         .jp-volume-bar-value {
-          height: 5px;
+          height: 7px;
           background-color: #23B139;
-					@include border-radius(3px);
+					@include border-radius(4px);
         }				
 				.jp-volume-bar-thumb {
 					width: 16px;
 					height: 16px;
 					position: relative;
-					top: -5px;
+					top: -4px;
 					cursor: pointer;
 				}
 				.jp-volume-marker {
 					position: absolute;
-					top: 40px;
-					left: 171px;
+					top: 23px;
+					left: 133px;
 				}
 				
 				//main info section	

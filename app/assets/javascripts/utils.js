@@ -55,6 +55,7 @@ $(document).ready( function(){
     }
   });
   
+	//status input
   $(".post-btn").attr('disabled','disabled');
   $('.input-box').keyup(function() {
     if($(this).val() == ''){
@@ -64,8 +65,11 @@ $(document).ready( function(){
       if(parseInt($(this).val().length) > 200){
         $(".post-btn").attr('disabled','disabled');
         $(".inputerror").html('no more than 200 charactres');
-      }
-      else{
+      } else {
+	      $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);      
+	      $('.status-input input[type=checkbox]').removeAttr("disabled");
+	      $('.status-input .pin .text').css('color', '#bbb');
+	      $('.post-btn').css({ opacity: 1 });	
         $(".post-btn").removeAttr('disabled');
         $(".inputerror").html('');
       }

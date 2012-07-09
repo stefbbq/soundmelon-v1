@@ -1,6 +1,4 @@
 - band_album_photos = capture do
-  %h3
-    = "Photos in '#{@band_album.name}'"
   .photo_gallery
     - @band_album.band_photos.each do |photo|
       = render 'band_photo', :photo => photo, :band_album =>@band_album

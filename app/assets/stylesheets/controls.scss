@@ -13,10 +13,10 @@
 .control-toggle img {background: url(control-toggle.png) ; border: none !important; outline: none;}
 
 .control-toggle img{
-	background-position: 0px 25px;
+	background-position: 0px -25px;
 }
 .control-toggle-hover img{
-	background-position: 0px 25px;
+	background-position: 0px -25px;
 }
 .control-toggle-checked img{
 	background-position: top;
@@ -26,7 +26,7 @@
 }
 
 .control-toggle-disabled img{
-	background-position: 0px 25px;
+	background-position: bottom;
 }
 .control-toggle-checked .control-toggle-disabled img{
 	background-position: 0px 25px;

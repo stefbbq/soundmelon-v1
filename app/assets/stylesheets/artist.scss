@@ -24,20 +24,6 @@
 .sales-trend{color:#fff;float:left; background-color: #212121;margin-top:30px; min-height:105px;max-height:105px; margin-right:10px; min-width:270px;max-widhth:270px;text-align:center}
 .total-plays{color:#ffffff;float:left; background-color: #212121;margin-top:30px; min-height:105px;max-height:105px; margin-right:10px; min-width:270px;max-widhth:270px;text-align:center}
 .band-stats{}
-.switch-button {
-  -moz-border-radius: 4px 4px 4px 4px;
-  background: none repeat scroll 0 0 #4D4D4D;
-  color: #FFFFFF;
-  cursor: default;
-  display: inline-block;
-  font-size: 1.2em;
-  height: 30px;
-  line-height: 30px;
-  min-width: 100px;
-  margin:5px;
-  text-align: center;
-  text-shadow: 0 -1px 0 #398C04;
-}
 .associated-bands:hover > .switch-lists{display:block;}
 .associated-bands{float:right; margin-top:-8px;padding-right:7px;}
 .band-logo-sml{

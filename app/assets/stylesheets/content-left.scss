@@ -42,13 +42,25 @@
 				border: 2px solid darken($text-color, 20);
 			}			
 	  }
-	  .post-btn {
-	    @include default-button;
-			float:right;
-			margin: 4px 0 0 0;
-			height: 24px;
-			opacity: .5;
-	  }
+		.submit {
+			float: right;
+			
+			.post-btn {
+		    @include default-button;
+				margin: 4px 0 0 0;
+				height: 25px;
+				opacity: .5;
+				display: inline-block;
+				float: right; 
+		  }
+			.pin {
+				margin: 4px 4px 0 0;
+				width: 140px; 
+				display: inline-block;
+				.control-toggle { float: right; }
+				.text { display: inline-block; margin-top: 4px; color: $text-faded-color; }
+			}			
+		}
 	  .inputerror {
 			color: #2A0D17;
 			font-size: 11px;
@@ -349,10 +361,13 @@
 				left: 10px;
 				top: -6px;
 				
-				.cover-anchor img {
+				img {
+					@include border-radius($border-radius);
+					@include box-shadow(rgba(black, .3), 1px, 0px, 6px);
 					width: 64px;
 					height: 64px;
 				}
+				
 				.edit {
 					position: absolute;
 					bottom: 0px;
@@ -367,6 +382,7 @@
 				top: 5px;
 				
 				h2, h4 { margin: 0px; }
+				h4 { font-weight: normal; }
 			}
 			
 			.artist-content-actions {
@@ -381,6 +397,7 @@
 			background: $content-box-color;
 			position: relative;
 			min-height: 42px;
+			overflow: hidden; 
 			
 			.details { 
 				position: absolute;
@@ -391,11 +408,21 @@
 				position: absolute;
 				right: 80px;
 				top: 14px;
+				a {
+					display: inline-block;
+					margin-left: 5px;
+					opacity: .5;
+
+					&:hover { opacity: 1; }
+				}
 			}
 			.toggle {
 				position: absolute;
 				right: 10px;
 				top: 0px;
+			}
+			.stat {
+				padding: 15px 0 0 10px;
 			}
 		}
 	}
@@ -615,11 +642,11 @@
 				bottom: -6px;
 			}
 		}
-	}
-	
-	//controls
-	.control-toggle {
-		margin-left: 64px;
+		
+		//controls
+		.control-toggle {
+			margin-left: 64px;
+		}
 	}
 	
 	//content adjustments

@@ -66,8 +66,8 @@
 .switch-popout {
 	@include popout();
 	position: absolute;
-	left: 123px;
-	top: 25px;
+	right: -5px;
+	top: 35px;
 	display: none;
 	text-align: left;
 	width: 200px;
@@ -75,6 +75,10 @@
 	
 	.pointer {
 		margin: -12px 0 0 45%;
+	}
+	
+	li { 
+		&:hover { background: rgba(black, .15); }
 	}
 }
 

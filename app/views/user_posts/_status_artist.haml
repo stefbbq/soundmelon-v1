@@ -5,12 +5,13 @@
     - if @band
       = hidden_field_tag :band_id, @band.id
     = text_area :post, :msg, :class=>"input-box mention",:value=>"share something...",:maxlength => 200
-    = submit_tag('post',:class=>"post-btn")
-    = check_box :post, :is_bulletin
-    pin
+    .submit
+      = submit_tag('post', :class => "post-btn")
+      .pin
+        .text pin to top
+        = check_box :post, :is_bulletin, :disabled => true
     .clear
   %span.inputerror
-
 :javascript
   $(function () {
     $('textarea.mention').mentionsInput({
@@ -27,10 +28,8 @@
          $(this).val('');
        }
      });
-    $('.status-input .input-box').keypress(function() {
-      $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);      
-      if(!$(this).val()){
-        $('.post-btn').css({ opacity: 1 });
-      }
-    });
+  });
+  $('.status-input input[type=checkbox]').checkbox({
+    cls:'control-toggle',
+    empty: '/assets/empty.png'
   });
