@@ -1,0 +1,8 @@
+.fans
+  %h1
+    total
+    = total_fan_count
+    %span fans
+= paginate fan_results, :remote =>:true, :params =>{:f_page =>fan_results.next_page}
+- fan_results.each do |user|
+  = render '/user_connections/item', :user => user, :connection_item => @user, :is_user_fan => false

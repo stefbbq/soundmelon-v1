@@ -11,10 +11,9 @@ nbproject/*
 public/assets/*
 publicassets/*
 publicimages/*
-solr/*
-solr/conf/*
 Gemfile.lock
 solr/data/*
+solr/pids/*
 config/database.yml
 config/initializers/setup_mail.rb
 .DS_Store

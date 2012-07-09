@@ -31,7 +31,7 @@ class Band < ActiveRecord::Base
 
   before_validation :sanitize_mention_name  
   
-  searchable do
+  searchable :auto_index => true, :auto_remove =>true do
     text :genres_name
     text :name
   end

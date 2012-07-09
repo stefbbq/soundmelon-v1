@@ -1,0 +1,8 @@
+.artists
+  %h1
+    total
+    = total_artist_count
+    %span artists
+= paginate artist_results, :remote =>:true, :params =>{:a_page =>artist_results.next_page}
+- artist_results.each do |band|
+  = render '/user_connections/item', :user => band, :connection_item => @user, :is_user_fan => false

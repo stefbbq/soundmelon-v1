@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   validates :tac, :acceptance => true
   before_validation :sanitize_mention_name 
   
-  searchable do
+  searchable :auto_index => true, :auto_remove =>true do
     text    :fname
     text    :lname
     string  :activation_state
