@@ -6,7 +6,7 @@
 @import 'vars';
 
 .splash-body {
-	@include radial-gradient(lighten($main-bg-color, 30), darken($main-bg-color, 60), 130em);
+	@include radial-gradient(lighten($main-bg-color, 20), darken($main-bg-color, 60), 130em);
 	position: absolute;
 	height: 100%;
 	width: 100%;
@@ -33,13 +33,14 @@
 		width: 800px;
 		height: 550px;
 		
-		.main-login {
-			height: 45%;
+		.main {
+			@include border-radius($border-radius $border-radius 0 0);
+			height: 240px;
 			background: url(base-page-bg-shaded-flipped.jpg) center bottom no-repeat;
 			border-bottom: 1px solid #333;
 		}
 
-		.beta-note {
+		.note {
 			width: 100%;
 			position: absolute;
 			top: 50%;
@@ -48,7 +49,7 @@
 			text-align: center;
 
 			> div {
-				margin-top: 85px;
+				margin-top: 75px;
 				
 				h2 { margin-bottom: 30px; color: $text-highlight-color; }
 				a { @include inverted-button; font-size: 12px; height: 16px; margin: 0px 2px; }
@@ -60,15 +61,30 @@
 			width: 100%;
 
 			img {
-				margin-top: 55px;
+				margin-top: 35px;
 				margin-left: 10px;
 			}
 
 		  h2 { 
 				@include single-text-shadow(rgba(black, .6), 0px, 3px, 5px);
-				margin: 20px 0 30px 0;
+				margin: 10px 0 20px 0;
 				color: #ddd;
 		  }
+		}
+		
+		.field {
+			position: relative;
+		}
+		
+		//no login adjustments
+		.no-login {
+			height: 120px;
+			
+			.logo img {
+				margin-top: 10px;
+			}
+			
+			h2 { margin: -5px 0 10px 0;}
 		}
 	}
 	
@@ -156,7 +172,7 @@
 //
 //registration
 .registration {
-	padding-top: 10px;
+	padding-top: 40px;
 	
 	.left {
 		width: 50%;
@@ -166,7 +182,8 @@
 			margin-left: 20px;
 		}
 		
-		input {
+	 	.generic-text-field {
+			@include inverted-text-field;
 			float: none; 
 			width: 208px;
 		}
@@ -178,10 +195,12 @@
 		}
 		
 		.info {
-			font-size: 10px;
-			width: 365px;
-			margin-top: 18px;
+			font-size: 11px;
+			width: 350px;
+			margin: 23px 6px 5px 29px;
 			text-align: right;
+			float: right;
+			color: $text-slight-faded-color;
 		}
 		.field {
 			display: block;
@@ -196,8 +215,8 @@
 	}
 	
 	.join {
-		@include inverted-button;
-		width: 100px !important;
+		@include inverted-button($generic-active-color);
+		margin: 12px 6px 0 0;
 		height: 24px;
 		float: right !important;
 	}
@@ -205,18 +224,72 @@
 
 //
 //fields
-.login .field, .registration input {
-	@include inverted-text-field;
-}
 .login .field {
 	float: left;
 }
 
 //
-//error
+//error messages
 .login-error {
 	color: rgba($text-error-color, .9);
 	position: absolute;
 	top: 21px;
 	right: 550px;
+}
+.registration-error {
+  @include border-radius($border-radius);
+	position: absolute;
+	top: 94px;
+	left: 175px;
+  margin: 0 auto;
+  width: 450px;
+	background: black;
+  border: 2px solid $text-error-color;
+  padding-bottom: 0;
+
+  h2 {
+    text-align: left;
+    padding: 2px 5px 2px 5px;
+    font-size: 11px;
+		display: block; 
+    margin: 0px;
+    background: $object-error-color;
+    color: #000;
+  }
+	li {
+		font-size: 11px; 
+		margin-left: 5px;
+		line-height: 18px; 
+	}
+}
+
+//
+//error states
+.field_with_errors {
+	display: inline-block;
+	color: $text-error-color;
+	
+	input { border-bottom: 1px solid $text-error-color !important; }
+}
+
+//
+//error popouts
+.field-error {
+	@include popout($object-error-color);
+	position: absolute;
+	color: black;
+	
+	bottom: 0px;
+	span { 
+		display: block;
+		margin: 3px 8px	; 
+	}
+}
+.artist-name-popout {
+	right: 305px;
+	width: 160px;
+}
+.artist-username-popout {
+	right: 330px;
+	width: 190px;
 }

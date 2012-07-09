@@ -20,7 +20,7 @@
               = render :partial => 'bricks/user_header'
             #page-content
               = yield
-      = render :partial=>"bricks/footer"      
+      = render :partial=>"bricks/footer"
   - else #splash
     %body.splash-body
       .splash
@@ -28,20 +28,19 @@
         .right-decoration
         .content
           - if @user.id
-            %br
-            .main-login
+            .main
               .logo
                 = image_tag 'base-logo-big.png'
                 %h2
                   your music community
             = yield
           - elsif @user.email
-            = form_for :user, :url=>fan_registration_path do |f|
+            = form_for :user, :url => fan_registration_path do |f|
               = render '/bricks/splash_no-login'
               = render '/fan/registration-fields'
           - else
             = render '/bricks/splash'
-            .beta-note
+            .note
               %div
                 %h2 SoundMelon is currently in closed beta
                 %p Please #{link_to "request an invitation", new_invitation_path, :remote =>:true} and we will notify you when we are ready to accept more users

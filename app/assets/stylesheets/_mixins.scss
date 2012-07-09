@@ -27,7 +27,7 @@
 	}
 }
 
-@mixin inverted-button($color: $inverted-button-color) {
+@mixin inverted-button($color: $inverted-object-bg-color) {
 	@include linear-gradient($color, darken($color, 15));
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
 	@include border-radius($detail-border-radius);
@@ -46,10 +46,10 @@
 }
 @mixin inverted-button-dark {
 	@include inverted-button();
-	@include linear-gradient(darken($inverted-button-color, 20), darken($inverted-button-color, 40));	
+	@include linear-gradient(darken($inverted-object-bg-color, 20), darken($inverted-object-bg-color, 40));	
 	
 	&:hover {
-		@include linear-gradient(darken($inverted-button-color, 10), darken($inverted-button-color, 30));
+		@include linear-gradient(darken($inverted-object-bg-color, 10), darken($inverted-object-bg-color, 30));
 	}
 }
 
@@ -58,15 +58,18 @@
 	background: none;
 	border: none;
 	border-bottom: 1px solid $line-color;
-	color: $text-black-on-white;
+	color: $text-color;
 	font-size: $input-font-size;
 	outline: none;
 	min-width: 175px;
 	height: 20px;
 	margin: 5px 5px 0 0;		
 	
+	&:hover {
+		background: #1d1d1d;
+	}
 	&:focus {
-		background: #ccc;
+		background: #262626;
 	}	
 }
 @mixin inverted-text-field {
@@ -91,9 +94,9 @@
 }
 
 //popout
-@mixin popout() {
+@mixin popout($color: $inverted-object-bg-color) {
 	@include box-shadow(rgba(black, .7), 0px, 2px, 6px, 0px);
-	@include linear-gradient(rgb(218,218,218), rgb(192,192,192));
+	@include linear-gradient($color, darken($color, 15));
 	@include border-radius($border-radius);
 	
 	ul {

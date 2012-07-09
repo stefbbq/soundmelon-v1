@@ -209,18 +209,3 @@
   background-color: #000;
   z-index: 1999; }
 .age {font-size:2*$size;color:#fff;}
-.error_messages {
-  margin: 0 auto;
-  width: 450px;
-  border: 2px solid #E84067;
-  padding-bottom: 0;
-  @include border-radius($border-radius);
-  h2 {
-    text-align: left;
-    padding: 5px 5px 5px 15px;
-    font-size: 12px;
-    margin: 0px;
-    background: #E84067;
-    color: #000;
-  }
-}

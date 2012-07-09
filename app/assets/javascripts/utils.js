@@ -28,9 +28,9 @@ $(document).ready( function(){
     $.get($this.data('validate'), {
       band_name: $this.val()
     }).success(function() {
-      $('.bandname_available').html('');
+      $('.artist-name-popout').html('');
     }).error(function() {
-      $('.bandname_available').html('This artist name is not available');
+      $('.artist-name-popout').html('<span>This name is unavailable</span>');
     });
   });
 
@@ -39,9 +39,9 @@ $(document).ready( function(){
     $.get($this.data('validatemn'), {
       band_mention_name: $this.val()
     }).success(function() {
-      $('.bandmentionname_available').html('');
+      $('.artist-username-popout').html('');
     }).error(function() {
-      $('.bandmentionname_available').html('This artist mention name is not available');
+      $('.artist-username-popout').html('<span>This username is unavailable</span>');
     });
   });
 
