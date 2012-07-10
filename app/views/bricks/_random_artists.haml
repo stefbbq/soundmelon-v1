@@ -1,6 +1,6 @@
-- @bands = Band.random_artists 2, current
-- @randomA = @bands.first
-- @randomB = @bands.last
+- @bands    = Band.random_artists 2, current
+- @randomA  = @bands.first
+- @randomB  = @bands.size > 1 ? @bands.last : nil
 - if @randomA
   .left
     .photo

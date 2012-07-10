@@ -43,12 +43,14 @@
             .note
               %div
                 %h2 SoundMelon is currently in closed beta
-                %p Please #{link_to "request an invitation", new_invitation_path, :remote =>:true} and we will notify you when we are ready to accept more users
+                %p Please request an invitation and we will notify you when we are ready to accept more users
+                #invitation_form_homepage
+                  = render '/invitations/form', :from_page =>1                
         .footer
           .links
             %a{:href => "http://blog.soundmelon.com", :title => "visit the SoundMelon blog", :target => "_blank"} blog
-            %a{:href => "#", :title => "learn more", :style => "opacity: .4;"} about
-            %a{:href => "#", :title => "read legal notice", :style => "opacity: .4;"} legal
+            %a{:href => "#", :title => "learn more", :style => "opacity:4;"} about
+            %a{:href => "#", :title => "read legal notice", :style => "opacity:4;"} legal
             %span
               &copy; 2012 SoundMelon Inc, All Rights Reserved.
           .social

@@ -1,4 +1,9 @@
 - message = @sent ? 'Invitation is on it\'s way, thanks!' : 'Thanks for signing up, we\'ll send you an invite in no time!'
-$('#facebox .close').remove();
-$('#facebox .content').html("<div class='mini-content centered'><h2>#{message}</h2></div>");
-setTimeout('$(document).trigger(\"close.facebox\")',2500);
+- if @from_page
+  - @invitation = Invitation.new
+  $('#invitation_form_homepage').html('#{escape_javascript(render '/invitations/form', :from_page =>1)}');
+  $('#invitation_form_homepage').append("#{message}");  
+- else  
+  $('#facebox .close').remove();
+  $('#facebox .content').html("<div class='mini-content centered'><h2>#{message}</h2></div>");
+  setTimeout('$(document).trigger(\"close.facebox\")',2500);

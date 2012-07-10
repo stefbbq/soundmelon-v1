@@ -9,6 +9,7 @@ class InvitationsController < ApplicationController
       @invitation             = Invitation.new(params[:invitation])
       @invitation.sender_id   = current_user if current_user
       @sent                   = false
+      @from_page              = params[:from_page].present? && params[:from_page]=='1'
       if @invitation.save
         if current_user
 #          @invitation.send_invitation_email

@@ -1,4 +1,7 @@
 - new_invitation_form = capture do
   = render :partial =>'/invitations/form'
-!= "jQuery.facebox('#{escape_javascript(new_invitation_form)}');"
-!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
+- if @from_page
+  $('#invitation_form_homepage').html('#{escape_javascript(render '/invitations/form', :from_page =>1)}');
+- else
+  != "jQuery.facebox('#{escape_javascript(new_invitation_form)}');"
+  != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"

@@ -1,11 +1,14 @@
+- @invitation ||= Invitation.new
+- from_page   ||= 0
+.header
+  type in your email address to request an invite
 - if !@invitation.errors.blank?
   .error
     - @invitation.errors.full_messages.each do |error_msg|
       = error_msg
-.header
-  type in your email address to request an invite
 .mini-content
-  = form_for @invitation, :remote => true do |f|
+  = form_for @invitation, :remote => true, :id =>'homepage_invitation_form' do |f|
+    = hidden_field_tag :from_page, from_page
     = f.label :recipient_email, current_user ? "email" : "email"
     = f.text_field :recipient_email, :class => "generic-text-field", :style => "width: 373px;"
     = f.submit 'submit', :class => "generic-button"
