@@ -1,8 +1,10 @@
+$('#page-content').html("");
+$('#page-content').html('#{escape_javascript(render '/artist/live')}');
+$('#page-content').append("<div class='primary-container'><div class='primary'><div class='left'></div><div class='right'></div></div></div>");
 $('.primary .left').html('<div class="top"></div>');
-$('.primary .left .top').html('#{escape_javascript(render 'status_artist')}');
-$('.primary .left .top').append('#{escape_javascript(render 'artist/social_header', :current =>'mention')}');
-$('.primary .left').append('#{escape_javascript(render 'bricks/artist_posts', :current =>'mention')}');
-$('.selection-box').removeClass('active').removeClass('button-fill-artist');
+$('.primary .left .top').html('#{escape_javascript(render '/user_posts/status_artist')}');
+$('.primary .left .top').append('#{escape_javascript(render '/artist/social_header', :current =>'mention')}');
+$('.primary .left').append('#{escape_javascript(render '/bricks/artist_posts', :current =>'mention')}');
+$('.primary .right').html('#{escape_javascript(render 'artist/right', :current=>'news_feed')}');
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
-$('#feed-msg').addClass('active').addClass('button-fill-artist');
 setTimeout('$(document).trigger(\"close.facebox\")',10);

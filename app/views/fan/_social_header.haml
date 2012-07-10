@@ -6,7 +6,7 @@
     :class    => "backable iconactive highlight ajaxload active button-fill-fan",
     :id       => 'latest',
     :class    => 0 == current ? "backable iconactive highlight ajaxload active button-fill-fan" : "backable iconactive highlight ajaxload"  
-  = link_to mentioned_path,
+  = link_to mentioned_path(1),
       {:remote => true, 
        :class=> 1 == current ? "backable iconactive ajaxload highlight active button-fill-fan" : "backable iconactive ajaxload", 
        :id => 'mentions' } do
@@ -17,7 +17,7 @@
         new
     - else
       mentions
-  = link_to replies_path,
+  = link_to replies_path(1),
       {:remote => true, 
        :class=> 2 == current ? "backable iconactive ajaxload highlight active button-fill-fan" : "backable iconactive ajaxload", 
        :id => 'replies' } do
@@ -28,7 +28,7 @@
         new
     - else
       replies
-  = link_to user_inbox_path,
+  = link_to user_inbox_path(1),
       {:remote => true, 
        :class=> 3 == current ? "backable inbox iconactive ajaxload highlight active button-fill-fan" : "backable inbox iconactive ajaxload", 
        :id => 'messages' } do
@@ -39,4 +39,3 @@
         new
     - else
       messages
-      

@@ -1,21 +1,11 @@
 - if @user.is_fan?
-  $('.live').replaceWith('#{escape_javascript(render '/fan/live')}');
+  $('#page-content').html("");
+  $('#page-content').html('#{escape_javascript(render '/fan/live')}');
+  $('#page-content').append("<div class='primary-container'><div class='primary'><div class='left'></div><div class='right'></div></div></div>");
   $('.primary .left').html('<div class="top"></div>');
   $('.primary .left .top').html('#{escape_javascript(render 'user_posts/status_fan')}');
   $('.primary .left .top').append('#{escape_javascript(render 'fan/social_header', :current =>'mention')}');
   $('.primary .left').append('#{escape_javascript(render 'bricks/fan_posts', :current =>'mention')}');  
-  setTimeout('$(document).trigger(\"close.facebox\")',10);
-  $('.left a').removeClass('active').removeClass('button-fill-fan');
-  $('.primary .right a').removeClass('active').removeClass('button-fill-fan');
-  $('.primary #mentions').addClass('active').addClass('button-fill-fan');
-  $('.primary .right a#feed-msg').addClass('active').addClass('button-fill-fan');
-- else
-  $('.primary .left').html('<div class="top"></div>');
-  $('.primary .left .top').html('#{escape_javascript(render '/user_posts/status_artist')}');
-  $('.primary .left .top').append('#{escape_javascript(render '/artist/social_header', :current =>'mention')}');
-  $('.primary .left').append('#{escape_javascript(render '/bricks/artist_posts', :current =>'mention')}');  
-  setTimeout('$(document).trigger(\"close.facebox\")',10);
-  $('.left a').removeClass('active').removeClass('button-fill-artist');
-  $('#mentions').addClass('active').addClass('button-fill-artist');
-  $('#feed-msg').addClass('active').addClass('button-fill-artist');
+  $('.primary .right').html('#{escape_javascript(render 'fan/right', :current=>'news_feed')}');    
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);

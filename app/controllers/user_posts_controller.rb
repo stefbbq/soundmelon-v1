@@ -117,7 +117,7 @@ class UserPostsController < ApplicationController
       next_page                   = @posts.next_page
       @load_more_path             = next_page ? more_post_path(next_page, :type=>'mentioned') : nil
       messages_and_posts_count
-      get_user_associated_objects unless request.xhr?
+      get_user_associated_objects
       render :template =>'/user_posts/mentioned' and return
     else
       @band                       = @user
@@ -127,7 +127,7 @@ class UserPostsController < ApplicationController
       @load_more_path             = next_page ? more_posts_path(next_page, :type => 'mentions') : nil
       messages_and_posts_count
       # get right column objects
-      get_artist_objects_for_right_column(@band) unless request.xhr?
+      get_artist_objects_for_right_column(@band)
       render :template =>"/user_posts/mentions_post" and return
     end    
   end
@@ -141,7 +141,7 @@ class UserPostsController < ApplicationController
       @load_more_path             = next_page ? more_post_path(next_page, :type=>'replies') : nil
       messages_and_posts_count
       # get right column objects
-      get_user_associated_objects unless request.xhr?
+      get_user_associated_objects
       render :template =>"/user_posts/replies" and return
     else
       @band                      = @user
@@ -151,7 +151,7 @@ class UserPostsController < ApplicationController
       @load_more_path            =  next_page ? more_posts_path(next_page, :type => 'replies') : nil
       messages_and_posts_count
       # get right column objects
-      get_artist_objects_for_right_column(@band) unless request.xhr?
+      get_artist_objects_for_right_column(@band)
       render :template =>"/user_posts/replies_post" and return
     end
   end

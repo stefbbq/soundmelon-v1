@@ -25,9 +25,9 @@ Soundmelon::Application.routes.draw do
   #fan
   get '/home'                                 => 'user#index',                      :as => :fan_home #home
   get 'home/post/:id/threads'                 => 'user_posts#show_conversation_thread',         :as => :get_show_conversation_thread #posts
-  get 'home/mentions'                         => 'user_posts#mentioned',            :as => :mentioned #mentions
-  get 'home/replies'                          => 'user_posts#replies',              :as => :replies #replies
-  match 'home/messages'                       => 'messages#inbox',                  :as => :user_inbox #messages
+  get 'home/mentions(/:top)'                  => 'user_posts#mentioned',            :as => :mentioned #mentions
+  get 'home/replies(/:top)'                   => 'user_posts#replies',              :as => :replies #replies
+  match 'home/messages(/:top)'                => 'messages#inbox',                  :as => :user_inbox #messages
 
   #-------------------------------------------- followings, followers, follower bands, follower fans ---------------
   get 'fan/:id/followers(/:page)'             => 'user_connections#fan_followers',          :as => :fan_followers
