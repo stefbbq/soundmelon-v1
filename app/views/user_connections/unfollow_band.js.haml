@@ -3,8 +3,11 @@
 != "jQuery.facebox('musician unfollowed successfully' );"
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
 - follow_content = capture do
-  = link_to 'follow', follow_band_path(:id => @band.id), :remote => true, :class => 'ajaxopen text-action', :id=>'followartist'
-!= "$('.actions #followartist').replaceWith('#{escape_javascript follow_content}');"
+  = link_to follow_band_path(:band_name => @band.name), {:id =>'follow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+    .icon-bg
+    %i
+    follow
+!= "$('.actions #unfollow-artist').replaceWith('#{escape_javascript follow_content}');"
 - if @self_profile
   - item_div_id   = "#{@band.class.name.downcase}_#{@band.id}"
   if($('.right #followingartistbox ##{@band.class.name.downcase}_avatar_#{@band.id}').length>0){$('.right #followingartistbox ##{@band.class.name.downcase}_avatar_#{@band.id}').remove();}

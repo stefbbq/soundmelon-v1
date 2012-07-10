@@ -67,8 +67,27 @@
 						margin-left: 7px; 
 					}
 					
-					.text-action {	
-						@include inverted-button();	
+					.text-action {
+						@include inverted-button();
+						position: relative;
+						padding-left: 28px;
+						
+						i {
+							position: absolute;
+							left: 0px;
+							margin: -4px 0px;
+						}
+						
+						.icon-bg {	
+							@include border-radius($detail-border-radius 0 0 $detail-border-radius);
+							position: absolute;
+							left: 0px;
+							margin: -4px 0px;
+							width: 24px;
+							height: 24px;
+							background: black;
+							opacity: .45;
+						}
 					}
 					.icon-action {
 						width: 24px;

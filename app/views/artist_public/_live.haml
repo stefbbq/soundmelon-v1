@@ -12,16 +12,28 @@
           %h2.full-name= @band.name
           %h2= @band.mention_name
         .actions
-          - if is_own_wall            
-            = link_to "administer", user_home_path, :class =>'ajaxopen text-action', :remote =>true
+          - if is_own_wall
+            = link_to user_home_path, {:class =>'ajaxopen text-action', :remote => true, :id => "administer"} do
+              .icon-bg
+              %i
+              administer
           - else
             - if is_artist_admin
-              = link_to "administer", change_login_path(@band.name), :class =>'ajaxopen text-action', :remote =>:true
+              = link_to change_login_path(@band.name), {:class =>'ajaxopen text-action', :remote => :true, :id => "administer"} do
+                .icon-bg
+                %i
+                administer
             - if actor.is_fan?
               - if actor.following?(@band)
-                = link_to 'unfollow', unfollow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen text-action'
+                = link_to unfollow_band_path(:band_name => @band.name), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+                  .icon-bg
+                  %i
+                  unfollow
               - else
-                = link_to 'follow', follow_band_path(:band_name => @band.name), :id =>'followartist', :remote => true, :class => 'ajaxopen text-action'
+                = link_to follow_band_path(:band_name => @band.name), {:id =>'follow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+                  .icon-bg
+                  %i
+                  follow
             - else
               #connect_section
                 = render 'bricks/artist_connection', :actor =>actor, :band => @band

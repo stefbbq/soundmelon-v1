@@ -12,13 +12,21 @@
         - unless is_own_wall
           .actions
             - if actor.is_fan?
-              %span{:id =>'follow_link'}
-                - if actor.following?(@user)
-                  = link_to 'unfollow', unfollow_user_path(@user, :others => 1), :remote => true, :class => 'ajaxopen text-action'
-                - else
-                  = link_to 'follow', follow_user_path(@user), :remote => true, :class => 'ajaxopen text-action'
+              - if actor.following?(@user)
+                = link_to unfollow_user_path(@user, :others => 1), {:id =>'unfollow', :remote => true, :class => 'ajaxopen text-action'} do
+                  .icon-bg
+                  %i
+                  unfollow
+              - else
+                = link_to follow_user_path(@user), {:id =>'follow', :remote => true, :class => 'ajaxopen text-action'} do
+                  .icon-bg
+                  %i
+                  follow
               //message
-              = link_to 'message', new_message_path(:id =>@user.id),:remote=>:true,:class => "ajaxopen text-action"
+              = link_to new_message_path(:id =>@user.id), {:id => "message", :remote => :true, :class => "ajaxopen text-action"} do
+                .icon-bg
+                %i
+                message
       .sub-head
         = @user.get_full_address
       .description

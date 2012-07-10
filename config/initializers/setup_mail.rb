@@ -1,7 +1,7 @@
 
 ActionMailer::Base.smtp_settings = {
  :user_name => "soundmelon",
-  :password => "s0undm3l0n",
+ :password => "s0undm3l0n",
  :domain => "soundmelon.com",
  :address => "smtp.sendgrid.net",
  :port => 587,

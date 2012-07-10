@@ -1,12 +1,16 @@
 != "jQuery.facebox('musician followed successfully' );"
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
 - unfollow_content = capture do
-  = link_to 'unfollow', unfollow_band_path(:id => @band.id), :remote => true, :class => 'ajaxopen text-action', :id=>'followartist'
+  = link_to unfollow_band_path(:band_name => @band.name), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+    .icon-bg
+    %i
+    unfollow
 - new_follow_item = capture do
   = render '/bricks/avatar', :item =>@actor
 - left_list_item = capture do
   = render '/user_connections/item', :user =>@actor, :connection_item =>@band, :is_user_fan =>true
-!= "$('.actions #followartist').replaceWith('#{escape_javascript unfollow_content}');"
+
+$('.actions #follow-artist').replaceWith('#{escape_javascript unfollow_content}');
 if($('#followerbox .message').length>0){$('#followerbox').html('#{escape_javascript new_follow_item}')}else{if($('#followerbox div.avatar').length<#{BAND_FOLLOWER_SHOW_LIMIT}){$('#followerbox').prepend('#{escape_javascript new_follow_item}');}};
 $('.primary .left .connections_list').append('#{escape_javascript left_list_item}')
 $('#fanbox span.count').html("#{@last_follower_count}");

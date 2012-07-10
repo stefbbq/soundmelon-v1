@@ -6,7 +6,6 @@ gem 'rails', '3.1.0.rc8'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
-
 gem "execjs"
 gem "therubyracer"
 gem 'sorcery'
@@ -27,13 +26,12 @@ gem 'ancestry', '1.3.0'
 gem 'acts-as-messageable'
 gem 'acts_as_votable'
 gem 'acts_as_follower' #https://github.com/tcocca/acts_as_follower
-
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'rubyzip'
-
 gem 'mailboxer'
+gem 'user-agent', '~> 1.0.0'
 
 # Gems used only for assets and not required
 # in production environments by default.

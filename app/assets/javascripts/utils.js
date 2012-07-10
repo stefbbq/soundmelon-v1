@@ -55,27 +55,6 @@ $(document).ready( function(){
     }
   });
   
-	//status input
-  $(".post-btn").attr('disabled','disabled');
-  $('.input-box').keyup(function() {
-    if($(this).val() == ''){
-      $(".post-btn").attr('disabled','disabled');
-    } 
-    else{
-      if(parseInt($(this).val().length) > 200){
-        $(".post-btn").attr('disabled','disabled');
-        $(".inputerror").html('no more than 200 charactres');
-      } else {
-	      $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);      
-	      $('.status-input input[type=checkbox]').removeAttr("disabled");
-	      $('.status-input .pin .text').css('color', '#bbb');
-	      $('.post-btn').css({ opacity: 1 });	
-        $(".post-btn").removeAttr('disabled');
-        $(".inputerror").html('');
-      }
-    }
-  });
-  
   $('.primary-wrapper#message_text').keyup(function(){
     if($(this).val() == ''){
       $("#send_message_btn").attr('disabled','disabled');

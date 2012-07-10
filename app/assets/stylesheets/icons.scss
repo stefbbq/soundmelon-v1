@@ -61,6 +61,11 @@
 //live
 .facebook-icon { @include sprite-img("sprites-24.png", 1, 3, 24px, 24px); }
 .twitter-icon { @include sprite-img("sprites-24.png", 2, 3, 24px, 24px); }
+#follow i, #follow-artist i { @include sprite-img("sprites-24.png", 1, 5, 24px, 24px); }
+#unfollow i, #unfollow-artist i { @include sprite-img("sprites-24.png", 3, 5, 24px, 24px); }
+#administer i { @include sprite-img("sprites-24.png", 5, 5, 24px, 24px); }
+#view-public-profile i { @include sprite-img("sprites-24.png", 6, 5, 24px, 24px); }
+#message i { @include sprite-img("sprites-24.png", 4, 5, 24px, 24px); }
 
 //right
 .icon-add {	@include sprite-img("sprites-24.png", 1, 1, 24px, 24px); }

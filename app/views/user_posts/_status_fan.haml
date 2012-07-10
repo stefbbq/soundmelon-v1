@@ -2,21 +2,21 @@
   = form_tag(user_posts_path, :class=>"ajaxload",:remote => true, :id => 'user_post_form') do
     - if @band
       = hidden_field_tag :band_id, @band.id
-    = text_area :post, :msg, :class=>"input-box mention",:value=>"share something...",:maxlength => 200
+    = text_area :post, :msg, :class => "input-box mention", :value => "share something...", :maxlength => 240
+    %span 
+      200
+      %span characters remaining
     .submit
-      = submit_tag('post',:class=>"post-btn")
+      = submit_tag('post',:class => "post-btn")
     .clear
-  %span.inputerror
 
 :javascript
-  $(function () {
-    $('textarea.mention').mentionsInput({
-      onDataRequest:function (mode, query, callback) {
-        var data = [#{user_mention_lists current_user}];
-        data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
-        callback.call(this, data);
-      }
-    });
+  $('textarea.mention').mentionsInput({
+    onDataRequest:function (mode, query, callback) {
+      var data = [#{user_mention_lists current_user}];
+      data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+      callback.call(this, data);
+    }
   });
   $('.status-input .input-box').focus(function() {
     if($(this).val()=='share something...')
@@ -28,3 +28,25 @@
       $('.post-btn').css({ opacity: 1 });
     }
   });
+  
+  var maxChar = 200;
+
+  $(".post-btn").attr('disabled','disabled');
+  $('.input-box').keyup(function() {
+    $('.status-input form > span').html((maxChar - $(this).val().length) + "<span> characters remaining</span>");
+    if($(this).val() == ''){ //0
+      $('.status-input form > span').attr('class', '');
+      $(".post-btn").attr('disabled','disabled');
+    } else if ($(this).val().length <= (maxChar - 10)){ //over 0, below 200
+      $('.status-input form > span').attr('class', 'okay');
+      $('.post-btn').css({ opacity: 1 });	
+      $(".post-btn").removeAttr('disabled');
+      $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);
+    } else if ($(this).val().length > (maxChar - 10) && $(this).val().length < maxChar) { 
+      $('.status-input form > span').attr('class', 'warning');
+    } else { //over 200
+      $('.status-input form > span').html((maxChar - $(this).val().length) + "<span> no more than 200 characters</span>");
+      $('.status-input form > span').attr('class', 'over');			
+      $(".post-btn").attr('disabled','disabled');
+    }
+  })
