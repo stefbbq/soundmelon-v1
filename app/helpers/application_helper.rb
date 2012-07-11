@@ -160,7 +160,8 @@ module ApplicationHelper
     user.is_admin_of_band?(band)
   end
 
-  def post_msg_with_band_mention(post)
+  def post_msg_with_band_mention(post)    
+    weblink_reg_http  = /(\b(?:https?:\/\/|www\.)\S+\b)/        
     post_msg          = post.msg    
     mentioned_users   = post.mentioned_users
     mentioned_bands   = post.mentioned_bands
@@ -182,6 +183,7 @@ module ApplicationHelper
         post_msg = post_msg.gsub(mb, band_profile_link_html)
       }
     end
+    post_msg.gsub!(weblink_reg_http){|m| "#{link_to($1, 'http://' + $1.gsub('http://',''), :target=>'_blank')}"}
     post_msg.html_safe
   end
 

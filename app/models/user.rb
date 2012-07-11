@@ -214,6 +214,10 @@ class User < ActiveRecord::Base
     self.get_full_name
   end
 
+  def name
+    self.get_full_name
+  end
+
   def deliver_pending_invitations
     BandInvitation.for_email(self.email).each{|bi|
       bi.send_invitation
