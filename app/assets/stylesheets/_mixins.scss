@@ -5,20 +5,20 @@
 @import 'vars';
 
 //control styles: button
-@mixin default-button-nohref {
+@mixin base-button-nohref {
 	@include linear-gradient(#393939, #313131);
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
 	@include border-radius($detail-border-radius);
 	border: none;
 	padding: 4px 5px;
-	font-size: $default-button-font-size;
-	color: $default-button-font-color;
+	font-size: $base-button-font-size;
+	color: $base-button-font-color;
 	a {
 		text-decoration: none;
 	}
 }
-@mixin default-button {
-	@include default-button-nohref;
+@mixin base-button {
+	@include base-button-nohref;
 	
 	&:hover {
 		@include linear-gradient(#555, #444);
@@ -27,14 +27,14 @@
 	}
 }
 
-@mixin inverted-button($color: $inverted-object-bg-color) {
+@mixin base-highlight-button($color: $inverted-object-bg-color) {
 	@include linear-gradient($color, darken($color, 15));
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
 	@include border-radius($detail-border-radius);
 	@include single-text-shadow(lighten($color, 20), 0px, 1px, 0px);
 	border: none;
 	padding: 4px 5px;	
-	font-size: $default-button-font-size;
+	font-size: $base-button-font-size;
 	color: black;
 	
 	&:hover {
@@ -44,8 +44,8 @@
 		cursor: pointer;
 	}
 }
-@mixin inverted-button-dark {
-	@include inverted-button();
+@mixin base-highlight-button-dark {
+	@include base-highlight-button();
 	@include linear-gradient(darken($inverted-object-bg-color, 20), darken($inverted-object-bg-color, 40));	
 	
 	&:hover {
@@ -53,8 +53,26 @@
 	}
 }
 
+@mixin overlay-button {
+	@include linear-gradient($generic-active-color, darken($generic-active-color, 20));
+	@include box-shadow(rgba(black, .1), 0px, 2px, 4px);
+	@include border-radius($detail-border-radius);
+	@include single-text-shadow(darken($generic-active-color, 30), 0px, -1px, 0px);	
+	border: none;
+	padding: 4px 5px;
+	font-size: $base-button-font-size;
+	color: white;
+	a { text-decoration: none; }
+	
+	&:hover {
+		@include linear-gradient(ligten($generic-active-color, 20), $generic-active-color);
+		text-decoration: none;
+		cursor: pointer;
+	}
+}
+
 //control style: fields
-@mixin default-text-field {
+@mixin base-text-field {
 	background: none;
 	border: none;
 	border-bottom: 1px solid $line-color;
@@ -65,20 +83,58 @@
 	height: 20px;
 	margin: 5px 5px 0 0;		
 	
-	&:hover {
-		background: #1d1d1d;
-	}
-	&:focus {
-		background: #262626;
-	}	
+	&:hover {	background: #1d1d1d; }
+	&:focus {	background: #262626; }	
 }
-@mixin inverted-text-field {
-	@include default-text-field;
-	color: $text-color;
+@mixin overlay-text-field {
+	@include base-text-field;
+	color: $text-black-on-white;
 	
+	&:hover {	background: #ccc; }
+	&:focus {	background: #ccc;	}
+}
+
+@mixin base-input-box {
+	color: $text-faded-color;
+  float: left;
+	background: rgba(black, .7);
+  height: 24px;
+  border: 2px solid $text-faded-color;
+  padding: 3px;
+
+	&:hover {	border: 2px solid darken($text-color, 20); }
 	&:focus {
-		background: $input-bg-active-color;
+		color: $text-color;
+		border: 2px solid darken($text-color, 20);
 	}
+}
+@mixin overlay-input-box {
+	@include base-input-box;
+}
+
+@mixin base-form-input-box {
+	@include border-radius($border-radius);
+	border: 2px solid $text-faded-color;
+	color: $text-color;
+	height: 20px;
+	width: 200px;
+	background: rgba(black, .5);
+	outline: none;
+	padding-left: 3px;
+
+	&:hover, &:focus {
+		border: 2px solid $text-color;
+	}
+}
+@mixin overlay-form-input-box {
+	@include base-form-input-box;
+	margin: 0px;
+	color: $text-black-on-white;
+	background: white;
+	border: 2px solid #aaa;
+	
+	&:hover {	background: #fff; border: 2px solid #888;}
+	&:focus {	background: #fff;	border: 2px solid #888;}
 }
 
 //control style: toggle
@@ -156,6 +212,7 @@
 
 //basic linear gradient
 @mixin linear-gradient($colora, $colorb){
+	background-image: $colora;
  	background-image: -moz-linear-gradient($colora, $colorb); /* FF 3.6+ */  
 	background-image: -ms-linear-gradient($colora, $colorb); /* IE10 */  
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $colora), color-stop(100%, $colorb)); /* Safari 4+, Chrome 2+ */  
@@ -164,6 +221,7 @@
 	background-image: linear-gradient($colora, $colorb);
 }
 @mixin linear-gradient-important($colora, $colorb){
+	background-image: $colora;
  	background-image: -moz-linear-gradient($colora, $colorb) !important; /* FF 3.6+ */  
 	background-image: -ms-linear-gradient($colora, $colorb) !important; /* IE10 */  
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $colora), color-stop(100%, $colorb)) !important; /* Safari 4+, Chrome 2+ */  
@@ -174,9 +232,10 @@
 
 //basic radial gradient
 @mixin radial-gradient($colora, $colorb, $distance){
+	background: $colora;
 	background-image: -moz-radial-gradient(50% 50%, ellipse closest-side, $colora, $colorb $distance);
 	background-image: -ms-radial-gradient(50% 50%, ellipse closest-side, $colora, $colorb $distance);
 	background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, $colora, $colorb $distance);
 	background-image: -o-radial-gradient(50% 50%, ellipse closest-side, $colora, $colorb $distance);
-	background-image: radial-gradient(50% 50%, ellipse closest-side, $colora, $colorb $distance);					
+	background-image: radial-gradient(50% 50%, ellipse closest-side, $colora, $colorb $distance);
 }

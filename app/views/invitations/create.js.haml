@@ -2,8 +2,8 @@
 - if @from_page
   - @invitation = Invitation.new
   $('#invitation_form_homepage').html('#{escape_javascript(render '/invitations/form', :from_page =>1)}');
-  $('#invitation_form_homepage').append("#{message}");  
+  $('#invitation_form_homepage').append("<div class='success'>#{message}</div>");
 - else  
   $('#facebox .close').remove();
-  $('#facebox .content').html("<div class='mini-content centered'><h2>#{message}</h2></div>");
+  $('#facebox .content').html("<div class='success'><h2>#{message}</h2></div>");
   setTimeout('$(document).trigger(\"close.facebox\")',2500);

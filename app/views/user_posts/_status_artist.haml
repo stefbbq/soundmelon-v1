@@ -16,48 +16,48 @@
     .clear
   %span.inputerror
 :javascript
-    $('textarea.mention').mentionsInput({
-      onDataRequest:function (mode, query, callback) {
-        var data = [
-        #{band_follower_mention_lists @band}
-        ];
-        data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
-        callback.call(this, data);
-      }
-    });
-    $('.status-input .input-box').focus(function() {
-      if($(this).val()=='share something...'){
-        $(this).val('');
-      }
-    });
-    $('.status-input input[type=checkbox]').checkbox({
-      cls:'control-toggle',
-      empty: '/assets/empty.png'
-    });
+  $('textarea.mention').mentionsInput({
+    onDataRequest:function (mode, query, callback) {
+      var data = [
+      #{band_follower_mention_lists @band}
+      ];
+      data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+      callback.call(this, data);
+    }
+  });
+  $('.status-input .input-box').focus(function() {
+    if($(this).val()=='share something...'){
+      $(this).val('');
+    }
+  });
+  $('.status-input input[type=checkbox]').checkbox({
+    cls:'control-toggle',
+    empty: '/assets/empty.png'
+  });
 
-    var maxChar = 200;
+  var maxChar = 200;
 
-    $(".post-btn").attr('disabled','disabled');
-    $('.input-box').keyup(function() {
-      $('.status-input form > span').html((maxChar - $(this).val().length) + "<span> characters remaining</span>");
-      if($(this).val() == ''){ //0
-        $('.status-input form > span').attr('class', '');
-        $('.post-btn').css({ opacity: .5 });	
-        $(".post-btn").attr('disabled','disabled');
-        $('.status-input input[type=checkbox]').attr("disabled", "disabled");
-        $('.status-input .pin .text').css('color', '#555');        
-      } else if ($(this).val().length <= (maxChar - 10)){ //over 0, below 200
-        $('.status-input form > span').attr('class', 'okay');
-        $('.post-btn').css({ opacity: 1 });	
-        $(".post-btn").removeAttr('disabled');
-        $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);      
-        $('.status-input input[type=checkbox]').removeAttr("disabled");
-        $('.status-input .pin .text').css('color', '#bbb');
-      } else if ($(this).val().length > (maxChar - 10) && $(this).val().length < maxChar) { 
-        $('.status-input form > span').attr('class', 'warning');
-      } else { //over 200
-        $('.status-input form > span').html((maxChar - $(this).val().length) + "<span> no more than 200 characters</span>");
-        $('.status-input form > span').attr('class', 'over');			
-        $(".post-btn").attr('disabled','disabled');
-      }
-    })
+  $(".post-btn").attr('disabled','disabled');
+  $('.input-box').keyup(function() {
+    $('.status-input form > span').html((maxChar - $(this).val().length) + "<span> characters remaining</span>");
+    if($(this).val() == ''){ //0
+      $('.status-input form > span').attr('class', '');
+      $('.post-btn').css({ opacity: .5 });	
+      $(".post-btn").attr('disabled','disabled');
+      $('.status-input input[type=checkbox]').attr("disabled", "disabled");
+      $('.status-input .pin .text').css('color', '#555');        
+    } else if ($(this).val().length <= (maxChar - 10)){ //over 0, below 200
+      $('.status-input form > span').attr('class', 'okay');
+      $('.post-btn').css({ opacity: 1 });	
+      $(".post-btn").removeAttr('disabled');
+      $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);      
+      $('.status-input input[type=checkbox]').removeAttr("disabled");
+      $('.status-input .pin .text').css('color', '#bbb');
+    } else if ($(this).val().length > (maxChar - 10) && $(this).val().length < maxChar) { 
+      $('.status-input form > span').attr('class', 'warning');
+    } else { //over 200
+      $('.status-input form > span').html((maxChar - $(this).val().length) + "<span> no more than 200 characters</span>");
+      $('.status-input form > span').attr('class', 'over');			
+      $(".post-btn").attr('disabled','disabled');
+    }
+  })

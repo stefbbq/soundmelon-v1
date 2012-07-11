@@ -17,35 +17,35 @@
     = hidden_field :user, :invitation_token
     .field
       %label{:for => "namea"} first name
-      = text_field :user, :fname, :class => 'generic-text-field'
+      = text_field :user, :fname, :class => 'base-text-field'
     .field
       %label{:for => "emaila"} last name
-      = text_field :user, :lname, :class => 'generic-text-field'
+      = text_field :user, :lname, :class => 'base-text-field'
     .field
       %label{:for => "mention_namea"} username
-      = text_field :user, :mention_name, :class => 'generic-text-field'
+      = text_field :user, :mention_name, :class => 'base-text-field'
     .field
       %label{:for => "websitea"} email
-      = text_field :user, :email, :class => 'generic-text-field', :readonly =>@is_invited
+      = text_field :user, :email, :class => 'base-text-field', :readonly =>@is_invited
     .field
       %label{:for => "websitea"} re-enter email
-      = text_field :user, :email_confirmation, :class => 'generic-text-field', :readonly =>@is_invited
+      = text_field :user, :email_confirmation, :class => 'base-text-field', :readonly =>@is_invited
     %br/
     .field
       %label{:for => "websitea"} password
-      = password_field :user, :password, :class => 'generic-text-field'
+      = password_field :user, :password, :class => 'base-text-field'
     .field
       %label{:for => "websitea"} re-enter password
-      = password_field :user, :password_confirmation, :class => 'generic-text-field'
+      = password_field :user, :password_confirmation, :class => 'base-text-field'
     .info
       You can now go ahead and register or you can also add an artist profile along with your normal profile by filling out the form below
     .field
       %label{:for => "name"} artist name
-      = text_field_tag 'band[name]', params[:band] ? params[:band][:name] : '', :class => 'generic-text-field', :'data-validate' => check_bandname_url
+      = text_field_tag 'band[name]', params[:band] ? params[:band][:name] : '', :class => 'base-text-field', :'data-validate' => check_bandname_url
       .artist-name-popout.field-error
     .field
       %label{:for => "username"} artist username
-      = text_field_tag 'band[mention_name]', params[:band] ? params[:band][:mention_name] : '', :class => 'generic-text-field', :'data-validatemn' => check_bandmentionname_url
+      = text_field_tag 'band[mention_name]', params[:band] ? params[:band][:mention_name] : '', :class => 'base-text-field', :'data-validatemn' => check_bandmentionname_url
       .artist-username-popout.field-error
     = submit_tag 'register me!', :size => "100", :class => 'join'
   .right

@@ -3,9 +3,11 @@
   %head
     %title SoundMelon
     = stylesheet_link_tag    "application"
+    /[if IE]
+      = stylesheet_link_tag  "/stylesheets/ie9"
     = javascript_include_tag "application"
     = csrf_meta_tags
-    = yield(:head)          
+    = yield(:head)
   - if current_user #user logged in
     %body
       #feedback
@@ -43,14 +45,14 @@
             .note
               %div
                 %h2 SoundMelon is currently in closed beta
-                %p Please request an invitation and we will notify you when we are ready to accept more users
+                %span Enter in your email address to request an invite!
                 #invitation_form_homepage
-                  = render '/invitations/form', :from_page =>1                
+                  = render '/invitations/form', :from_page => 1
         .footer
           .links
             %a{:href => "http://blog.soundmelon.com", :title => "visit the SoundMelon blog", :target => "_blank"} blog
-            %a{:href => "#", :title => "learn more", :style => "opacity:4;"} about
-            %a{:href => "#", :title => "read legal notice", :style => "opacity:4;"} legal
+            %a{:href => "#", :title => "learn more", :style => "opacity: .4;"} about
+            %a{:href => "#", :title => "read legal notice", :style => "opacity: .4;"} legal
             %span
               &copy; 2012 SoundMelon Inc, All Rights Reserved.
           .social

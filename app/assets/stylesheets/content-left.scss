@@ -28,26 +28,13 @@
 		
 		form {
 			.input-box {
-		    color: $text-faded-color;
-		    float: left;
-		  	background: rgba(black, .7);
-		    height: 24px;
-		    border: 2px solid $text-faded-color;
-		    padding: 3px;
-
-				&:hover {
-					border: 2px solid darken($text-color, 20);
-				}
-				&:focus {
-					color: $text-color;
-					border: 2px solid darken($text-color, 20);
-				}			
+		    @include base-input-box;	
 		  }
 			.submit {
 				float: right;
 
 				.post-btn {
-			    @include default-button;
+			    @include base-button;
 					margin: 4px 0 0 0;
 					height: 25px;
 					opacity: .5;
@@ -88,7 +75,7 @@
 		width: 100%;
 		
 		a {
-			@include default-button;
+			@include base-button;
 			display: block;
 			float: left;
 			margin-right: 5px;
@@ -231,14 +218,14 @@
 	//
 	//entry buttons
 	.add-message {
-		@include default-button();
+		@include base-button();
 		display: inline-block;
 		margin: 15px 0 0px 0;
 		&:first-of-type { margin-top: 0px;}
 		a { color: $text-color; }
 	}
 	.toggle-thread {
-		@include default-button();
+		@include base-button();
 		display: inline-block;
 		margin: 10px 0 0 0;
 		a { color: $text-color; }		
@@ -342,7 +329,7 @@
     margin: 30px auto 20px auto;
     text-align: center;
     a {
-			@include default-button;
+			@include base-button;
 			padding: 4px 30px;
 			opacity: .4;
       text-decoration: none;
@@ -507,7 +494,7 @@
 		margin-bottom: 20px;
 		
 		.featured-song {
-			@include inverted-button();
+			@include base-highlight-button();
 			opacity: .5;
 			width: 50px;
 			height: 50px;
@@ -527,7 +514,7 @@
 		height: 20px;
 	}
 	.add-new {
-		@include inverted-button();
+		@include base-highlight-button();
 		float: right;
 	}
 
@@ -619,37 +606,15 @@
 					width: 100px !important;
 					height: 24px !important;
 				}
-				.ez-checkbox {
-					input { margin-left: 0px !important; }
-				}
-				input, textarea, select {
-					@include border-radius($border-radius);
-					margin-left: 64px;
-					border: 2px solid $text-faded-color;
-					color: $text-color;
-					height: 20px;
-					width: 200px;
-					background: rgba(black, .5);
-					outline: none;
-					padding-left: 3px;
-
-					&:hover, &:focus {
-						border: 2px solid $text-color;
-					}
-				}
-				textarea {
-					height: 70px;
-				}
-				.input-disabled {
-					opacity: .5;
-				}
-				.long {
-					width: 244px;
-				}
+				
+				input, textarea, select {	@include base-form-input-box; margin-left: 64px; }
+				textarea { height: 70px; }
+				.input-disabled {	opacity: .5; }
+				.long {	width: 244px;	}
 			}
 			
 			.button {
-				@include inverted-button();
+				@include base-highlight-button();
 				position: absolute;
 				right: 20px;
 				bottom: -6px;

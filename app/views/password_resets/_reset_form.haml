@@ -1,7 +1,7 @@
 .header
   type in your email address to reset your password
-.mini-content
+.mini-content{:style => "width: 344px;"}
   = form_tag password_resets_path, :remote => true, :class => 'ajaxopen' do
     email
-    = text_field_tag :email, nil, :class => 'generic-text-field', :style => "width: 373px;"
+    = text_field_tag :email, nil, :class => 'overlay-text-field', :style => "width: 300px; margin-bottom: 10px;"
     = submit_tag "submit", :class => "generic-button"

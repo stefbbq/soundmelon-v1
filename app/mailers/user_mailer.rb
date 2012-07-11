@@ -29,7 +29,7 @@ class UserMailer < ActionMailer::Base
     @url  = root_url
     mail(
       :to => user.email,
-      :subject => "Your account is now activated"
+      :subject => "Your account has now been activated"
     )
   end
 
@@ -37,7 +37,7 @@ class UserMailer < ActionMailer::Base
     @full_name = full_name
     mail(
       :to =>email,
-      :subject  =>'Your profile on SoundMelon has been removed.'
+      :subject  =>'Your profile on SoundMelon has been removed'
     )
   end
 
@@ -45,7 +45,7 @@ class UserMailer < ActionMailer::Base
     @fan          = fan
     @artist       = artist_name
     if connection_type == 'member'
-      subject     = "Your artist profile #{@artist} has been removed from SounMelon"
+      subject     = "Your artist profile #{@artist} has been removed from SoundMelon"
       @is_member  = true
     end
     
@@ -64,7 +64,7 @@ class UserMailer < ActionMailer::Base
       
     mail(
       :to => band_invitation.email,
-      :subject => "#{@user.fname} #{@user.lname}  has invited you to join his/her band at soundmelon  "
+      :subject => "#{@user.fname} #{@user.lname} has invited you to join their artist as a member on SoundMelon"
     )
   end
   
@@ -82,7 +82,7 @@ class UserMailer < ActionMailer::Base
     @toemail = toemail
     mail(
       :to => toemail,
-      :subject => "#{@user.fname} #{@user.lname}  has invited you to join soundmelon  "
+      :subject => "#{@user.fname} #{@user.lname} has invited you to join SoundMelon"
     )
   end
 

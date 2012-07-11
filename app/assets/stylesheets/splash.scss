@@ -6,7 +6,7 @@
 @import 'vars';
 
 .splash-body {
-	@include radial-gradient(lighten($main-bg-color, 20), darken($main-bg-color, 60), 130em);
+	background: $main-bg-color;
 	position: absolute;
 	height: 100%;
 	width: 100%;
@@ -49,10 +49,10 @@
 			text-align: center;
 
 			> div {
-				margin-top: 75px;
+				margin-top: 45px;
 				
-				h2 { margin-bottom: 30px; color: $text-highlight-color; }
-				a { @include inverted-button; font-size: 12px; height: 16px; margin: 0px 2px; }
+				h2 { margin-bottom: 10px; color: $text-highlight-color; }
+				a { @include base-highlight-button; font-size: 12px; height: 16px; margin: 0px 2px; }
 			}
 		}
 		
@@ -76,6 +76,22 @@
 			position: relative;
 		}
 		
+		//invitation form
+		#invitation_form_homepage {
+			margin-top: 50px;
+			
+			.error {
+				margin-top: 5px;
+				color: $text-error-color;
+				list-style-type: none;
+				text-transform: lowercase;
+			}
+			.success {
+				margin-top: 15px;
+				color: $generic-active-color;
+			}
+		}
+		
 		//no login adjustments
 		.no-login {
 			height: 120px;
@@ -95,8 +111,8 @@
 		position: absolute;
 		top: -261px;
 	}
-	.left-decoration { left: -508px; }
-	.right-decoration { left: 298px; background-position: -210px 0px; }
+	.left-decoration { left: -600px; }
+	.right-decoration { left: 390px; background-position: -210px 0px; }
 	
 	//footer
 	.footer {
@@ -110,7 +126,7 @@
 			margin-top: 3px;
 			
 			a {	
-				@include default-button-nohref;	
+				@include base-button-nohref;	
 				@include box-shadow(none); 
 				background: rgba(black, .55);
 				margin-top: 6px; 
@@ -182,8 +198,7 @@
 			margin-left: 20px;
 		}
 		
-	 	.generic-text-field {
-			@include inverted-text-field;
+	 	.base-text-field {
 			float: none; 
 			width: 208px;
 		}
@@ -215,7 +230,7 @@
 	}
 	
 	.join {
-		@include inverted-button($generic-active-color);
+		@include base-highlight-button($generic-active-color);
 		margin: 12px 6px 0 0;
 		height: 24px;
 		float: right !important;
@@ -265,12 +280,15 @@
 
 //
 //error states
+#invitation_form_homepage .field_with_errors input {
+	border: 2px solid $text-error-color !important;
+}
 .field_with_errors {
 	display: inline-block;
 	color: $text-error-color;
-	
-	input { border-bottom: 1px solid $text-error-color !important; }
+	input { border-bottom: 1px solid $text-error-color !important;}
 }
+
 
 //
 //error popouts

@@ -24,7 +24,7 @@
 		
    	//selection
     .selection-box {
-      @include default-button;
+      @include base-button;
       padding: 15px 0px 5px 8px;
       width: $right-button-width;
       clear: both;
@@ -39,7 +39,7 @@
       }
     }
     .selection-box-nohref {
-			@include default-button-nohref;      
+			@include base-button-nohref;      
 		  padding: 15px 0px 5px 8px;
       width: $right-button-width;
       clear: both;

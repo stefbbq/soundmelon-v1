@@ -1,6 +1,6 @@
 - if @status_msg.blank?
-  $('#facebox .content').html("<div class='mini-content centered'><h2>Instructions have been sent to your email.</h2></div>");
+  $('#facebox .content').html("<div class='centered'><h2>Reset instructions have been sent to your email.</h2></div>");
   setTimeout('$(document).trigger(\"close.facebox\")',2500);
-- else  
+- else
   $('#facebox .content #password_reset_email_status_message').html('#{@status_msg}').css({'border':'1px solid red','margin':'5px','padding':'5px'});
   $('.popup .content .loader').html('');

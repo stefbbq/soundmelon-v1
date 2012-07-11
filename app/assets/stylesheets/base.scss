@@ -56,8 +56,11 @@ i {
 
 //
 //basic controls
-.generic-button { @include default-button(); }
-.generic-text-field { @include default-text-field(); }
+.base-button { @include base-button(); }
+.base-highlight-button { @include base-highlight-button(); }
+.base-text-field { @include base-text-field(); }
+.overlay-text-field { @include overlay-text-field(); }
+.base-input-box { @include base-form-input-box(); margin: 0px; }
 
 //
 //main, base, page content
@@ -178,17 +181,17 @@ i {
 					margin: 0px 3px;
 				}
 				#logout {
-          @include inverted-button;
+          @include base-highlight-button;
           padding: 4px 8px 3px 8px;
         }
 				#switch {
-					@include inverted-button;
+					@include base-highlight-button;
           padding: 4px 8px 3px 8px;
 				}
       }
 
 			.header-admin-button {
-				@include inverted-button($generic-active-color);
+				@include base-highlight-button($generic-active-color);
 			}
     }
 
@@ -424,7 +427,7 @@ i {
 		display: block;
 		margin-top: 16px;
 		
-		a {	@include inverted-button();	}
+		a {	@include base-highlight-button();	}
 	}
 }
 

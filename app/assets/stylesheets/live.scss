@@ -68,7 +68,7 @@
 					}
 					
 					.text-action {
-						@include inverted-button();
+						@include base-highlight-button();
 						position: relative;
 						padding-left: 28px;
 						

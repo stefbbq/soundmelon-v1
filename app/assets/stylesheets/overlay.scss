@@ -45,6 +45,7 @@
 		
 		.content-container {
 			@include border-radius($border-radius);
+			@include box-shadow(rgba(black, .8), 0px, 5px, 20px);
 			background: rgba(white, .93);
 	    display: table;
 	    width: auto;
@@ -166,12 +167,11 @@
 	.header {
 		@include border-radius($border-radius $border-radius 0 0);
 		@include single-text-shadow(rgba(black, .5), 0px, -1px, 0px);
-		@include linear-gradient-important($generic-active-color, darken($generic-active-color, 5));
+		background: #666;
 		color: white;
 		margin: -10px -10px 5px -10px;
 		padding: 5px;
 		text-align: center;
-
 	}
 	
 	.error { 
@@ -190,6 +190,18 @@
 
 		div { padding: 0px; margin: 0px; display: inline;	}
 		h2 { margin: 0px; padding: 0px; text-align: center; }
+		textarea { 
+			@include overlay-form-input-box; 
+			width: 473px;
+			height: 100px;
+		}
+		.generic-button {
+			@include overlay-button;
+			position: absolute;
+			bottom: -8px;
+			right: 8px;
+			padding: 4px 10px;
+		}
 	}
 	
 	.centered {
@@ -206,6 +218,7 @@
 .facebox_hide {
   z-index: -100; }
 .facebox_overlayBG {
-  background-color: #000;
+	background: black;
+	//@include radial-gradient(rgba(black, 1), rgba(black, .5), 130em);
   z-index: 1999; }
 .age {font-size:2*$size;color:#fff;}
