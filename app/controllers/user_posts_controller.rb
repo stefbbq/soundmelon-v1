@@ -58,13 +58,13 @@ class UserPostsController < ApplicationController
       begin
         actor                 = current_actor
         @parent_post          = Post.find(params[:id])
-#        participating_users_and_band_mention_names_arr = @parent_post.owner_as_well_as_all_mentioned_users_and_bands_except(actor.id)
+        #        participating_users_and_band_mention_names_arr = @parent_post.owner_as_well_as_all_mentioned_users_and_bands_except(actor.id)
       rescue =>exp
         logger.error "Error in UserPosts#NewReply :=> #{exp.message}"
         render :nothing => true and return
       end
       @post                   = Post.new
-#      @post.msg               = participating_users_and_band_mention_names_arr.join(' ')
+      #      @post.msg               = participating_users_and_band_mention_names_arr.join(' ')
       respond_to do |format|
         format.js {render :layout => false}
       end
@@ -200,6 +200,45 @@ class UserPostsController < ApplicationController
     else
       redirect_to root_url and return
     end
+  end
+
+  def new_mention_post
+    if request.xhr?
+      begin
+        mention_item          = params[:artist_id].present? ? Band.find(params[:artist_id]) : User.find(params[:fan_id])
+      rescue =>exp
+        logger.error "Error in UserPosts#NewReply :=> #{exp.message}"
+        render :nothing => true and return
+      end
+      @post                   = Post.new
+      @post.msg               = mention_item.mention_name if mention_item
+      respond_to do |format|
+        format.js {render :layout => false}
+      end
+    else
+      redirect_to root_url and return
+    end    
+  end
+
+  def create_mention_post
+    if request.xhr?
+      begin
+        #mention_item           = params[:artist_id].present? ? Band.find(params[:artist_id]) : User.find(params[:fan_id])
+        actor                   = current_actor
+        @post                   = actor.posts.build(params[:post])        
+      rescue =>exp
+        logger.error "Error in UserPosts::CreateMentionPost :=>#{exp.message}"
+        render :nothing => true and return
+      end      
+      if @post.save        
+        @saved_successfully = true
+      end
+      respond_to do |format|
+        format.js {render :layout => false}
+      end
+    else
+      redirect_to root_url and return
+    end      
   end
   
 end

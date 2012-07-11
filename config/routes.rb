@@ -71,6 +71,9 @@ Soundmelon::Application.routes.draw do
   match "messages/sendmessage"                => 'messages#send_message',                 :as => :send_message
 
   resources :user_posts
+  match 'post/:artist_id/new/mention/artist'  => 'user_posts#new_mention_post',           :as => :new_artist_mention_post
+  match 'post/:fan_id/new/mention/fan'        => 'user_posts#new_mention_post',           :as => :new_fan_mention_post
+  match 'post/mention'                        => 'user_posts#create_mention_post',        :as => :mention_post
   match 'post/:id/reply/(:band_id)'           => 'user_posts#new_reply',                  :as => :new_post_reply
   match 'post/reply'                          => 'user_posts#reply',                      :as => :post_reply
   

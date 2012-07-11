@@ -27,6 +27,11 @@
                 .icon-bg
                 %i
                 message
+            - unless is_own_wall
+              = link_to new_fan_mention_post_path(@user.id), {:id => "mention-fan", :remote => :true, :class => "ajaxopen text-action"} do
+                .icon-bg
+                %i
+                mention
       .sub-head
         = @user.get_full_address
       .description

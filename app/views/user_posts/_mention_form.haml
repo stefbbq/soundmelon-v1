@@ -1,0 +1,9 @@
+.status-input
+ = form_tag(mention_post_path, :class=>"ajaxopen", :remote => true, :id => 'user_post_form') do
+  = hidden_field_tag :artist_id, params[:artist_id] if params[:artist_id]
+  = hidden_field_tag :fan_id, params[:fan_id] if params[:fan_id]
+  = text_area :post, :msg, :class=>"input-box mention" ,:maxlength => 200, :cols => 50, :rows => 10
+  .postbtn
+   = submit_tag('Post',:class=>"button blue right")
+  .clear
+  %span.inputerror
