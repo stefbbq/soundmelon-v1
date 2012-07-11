@@ -161,7 +161,7 @@ module ApplicationHelper
   end
 
   def post_msg_with_band_mention(post)    
-    weblink_reg_http  = /(\b(?:https?:\/\/|www\.)\S+\b)/        
+    weblink_reg_http  = /(\b(?:https?:\/\/|www\.)\S+\b.\S{2,})/
     post_msg          = post.msg    
     mentioned_users   = post.mentioned_users
     mentioned_bands   = post.mentioned_bands
