@@ -15,6 +15,7 @@ Gemfile.lock
 solr/data/*
 solr/pids/*
 config/database.yml
+config/sunspot.yml
 config/initializers/setup_mail.rb
 .DS_Store
 db/schema

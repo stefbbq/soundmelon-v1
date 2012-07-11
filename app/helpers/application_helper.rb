@@ -247,9 +247,8 @@ module ApplicationHelper
       elsif post.song_post?
         band          = postitem.song_album.band
         album_name    = postitem.song_album.album_name
-        album_path    = "#{band_song_album_path(band.name, album_name)}"
-        content       += "song #{postitem.title}"
-        message       += "#{raw(render '/band_song_album/song_item', :song =>postitem, :band =>band, :in_newsfeed =>true)}"
+        album_path    = "#{band_song_album_path(band.name, album_name)}?h=#{postitem.id}"
+        content       += " song <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{postitem.title} </a>"
       elsif post.song_album_post?
         band          = postitem.band
         album_name    = postitem.album_name

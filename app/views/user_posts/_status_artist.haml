@@ -30,6 +30,10 @@
       $(this).val('');
     }
   });
+  $('.status-input .input-box').blur(function() {
+    if($(this).val()=='')
+      $(this).val('share something...');
+  });
   $('.status-input input[type=checkbox]').checkbox({
     cls:'control-toggle',
     empty: '/assets/empty.png'

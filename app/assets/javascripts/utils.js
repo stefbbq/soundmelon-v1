@@ -22,7 +22,18 @@ $(document).ready( function(){
       $("#search").submit();
     }
   });
-                
+
+  $('[data-validatefanusername]').blur(function() {
+    $this = $(this);
+    $.get($this.data('validatefanusername'), {
+      fan_user_name: $this.val()
+    }).success(function() {
+      $('.fan-username-popout').html('');
+    }).error(function() {
+      $('.fan-username-popout').html('<span>This username is unavailable</span>');
+    });
+  });
+
   $('[data-validate]').blur(function() {
     $this = $(this);
     $.get($this.data('validate'), {
@@ -46,14 +57,17 @@ $(document).ready( function(){
   });
 
 
-  $('#post_msg').keyup(function( event )
-  {
-    if(event.keyCode == 13 && !event.shiftKey)
+  $('#post_msg').live("keyup", function(event)
     {
-      $(this).closest("form").submit();
-      $(this).css('height','25px');
+      if(event.keyCode == 13 && !event.shiftKey)
+      {
+        $(this).val($(this).val().trim());
+        $(this).closest("form").submit();
+        $(this).blur();
+        $(this).css('height','25px');
+      }
     }
-  });
+  );
   
   $('.primary-wrapper#message_text').keyup(function(){
     if($(this).val() == ''){

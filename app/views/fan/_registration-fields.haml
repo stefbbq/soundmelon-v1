@@ -1,6 +1,6 @@
 .registration
   - if !@user.errors.blank? || !@is_band_data_valid
-    .registration-error      
+    .registration-error
       %ul
         - for message in @user.errors.full_messages
           %li= "User #{message}".downcase
@@ -23,7 +23,8 @@
       = text_field :user, :lname, :class => 'base-text-field'
     .field
       %label{:for => "mention_namea"} username
-      = text_field :user, :mention_name, :class => 'base-text-field'
+      = text_field :user, :mention_name, :class => 'base-text-field', :'data-validatefanusername' => check_fanusername_url
+      .fan-username-popout.field-error
     .field
       %label{:for => "websitea"} email
       = text_field :user, :email, :class => 'base-text-field', :readonly =>@is_invited

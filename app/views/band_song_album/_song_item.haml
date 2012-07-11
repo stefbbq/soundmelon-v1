@@ -1,10 +1,15 @@
+- highlighted_song_id = @highlighted_song_id.blank? ? 0 : @highlighted_song_id.to_i
 - band        = band || @band
 - in_newsfeed ||= false
 - artist_name = band.name
 .song[song]
   %i
-  .title
-    = song.title
+  - if highlighted_song_id == song.id
+    .titl{:style =>'color:blue;'}
+      = song.title
+  - else
+    .title
+      = song.title
   .artist-content-actions-sm
     - if @has_admin_access
       .text-actions

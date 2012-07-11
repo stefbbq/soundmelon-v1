@@ -96,6 +96,7 @@ class BandSongAlbumController < ApplicationController
       @song_album         = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
       @artist_song_albums = [@song_album]
       @show_all           = true
+      @highlighted_song_id= params[:h]
       get_artist_objects_for_right_column(@band)
       render :template  =>"/band_song_album/band_song_albums" and return
     rescue =>exp

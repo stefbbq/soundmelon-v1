@@ -22,6 +22,10 @@
     if($(this).val()=='share something...')
       $(this).val('');
   });
+  $('.status-input .input-box').blur(function() {
+    if($(this).val()=='')
+      $(this).val('share something...');
+  });
   $('.status-input .input-box').keypress(function() {
     $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);
     if(!$(this).val()){
