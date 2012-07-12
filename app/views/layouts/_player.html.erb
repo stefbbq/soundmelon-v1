@@ -51,7 +51,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
       ended:function(event){
         playListNext();
       },
-      swfPath: "../js",supplied: "m4a,mp3",wmode: "window"
+      swfPath: "<%= asset_path("Jplayer.swf") %>",supplied: "m4a,oga",wmode: "window"
     });
     
     $('.jp-volume-bar-thumb').draggable({
@@ -137,7 +137,7 @@ first_album = @song_items.first ? @song_items.first.song_album : nil
   
   // Set song for the player
   function setSongToPlay(start_play, song, song_another){
-    player.jPlayer("setMedia", { m4a:song, ogg:song_another});
+    player.jPlayer("setMedia", { m4a:song, oga:song_another});
     if(start_play == 1){ player.jPlayer('play'); }
   }
 

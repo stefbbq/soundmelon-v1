@@ -32,7 +32,7 @@ gem 'daemons'
 gem 'rubyzip'
 gem 'mailboxer'
 gem 'user-agent', '~> 1.0.0'
-
+gem "rinku", "~> 1.7.0"
 
 # Gems used only for assets and not required
 # in production environments by default.

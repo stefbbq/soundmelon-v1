@@ -62,14 +62,14 @@ class Song < ActiveRecord::Base
     song_album_band_name_formatted  = song_album_band_name.gsub("'", "\\\\'")
     
     detail      = {
-                  :id                   => self.id,
-                  :mp3_song             => mp3_song,
-                  :ogg_song             => ogg_song_name_formatted,      
-                  :song_title           => song_title_formatted,
-                  :song_album_name      => song_album_name_formatted,
-                  :song_album_band_name => song_album_band_name_formatted,
-                  :song_album           => song_album
-                  }   
+      :id                   => self.id,
+      :mp3_song             => mp3_song,
+      :ogg_song             => ogg_song_name_formatted,
+      :song_title           => song_title_formatted,
+      :song_album_name      => song_album_name_formatted,
+      :song_album_band_name => song_album_band_name_formatted,
+      :song_album           => song_album
+    }
     detail
   end
 
@@ -145,27 +145,30 @@ class Song < ActiveRecord::Base
       song_track   = mp3.tag.tracknum
       song_genre   = mp3.tag.genre
     }
-    song_title     = song_title.blank? ? self.title : song_title
-#    self.update_attributes(:title =>song_title, :artist =>song_artist, :album =>song_album, :track =>song_track, :genre =>song_genre)
-    self.update_attributes(:artist =>song_artist, :album =>song_album, :track =>song_track, :genre =>song_genre)
+    song_title     = song_title.blank? ? self.title : song_title    
+    self.update_attributes(:artist_name =>song_artist, :album_name =>song_album, :track =>song_track, :genre =>song_genre)
   end
 
   # updates file itself from the db record
   def update_metadata_to_file
     # update meta-data from database
-    song_file = self.song.path
-    title     = self.title
-    artist    = self.artist
-    album     = self.album
-    track     = self.track
-    genre     = self.genre
-    Mp3Info.open(song_file) { |mp3|
-      mp3.tag.title     = title unless title.blank?
-      mp3.tag.artist    = artist unless artist.blank?
-      mp3.tag.album     = album unless album.blank?
-      mp3.tag.tracknum  = track unless track.blank?
-      mp3.tag.genre     = genre unless genre.blank?
-    }
+    song_file   = self.song.path
+    title       = self.title
+    artist_name = self.artist_name
+    album_name  = self.album_name
+    track       = self.track
+    genre       = self.genre
+    if File.exists?(song_file)
+      Mp3Info.open(song_file) { |mp3|
+        mp3.tag.title     = title unless title.blank?
+        mp3.tag.artist    = artist_name unless artist_name.blank?
+        mp3.tag.album     = album_name unless album_name.blank?
+        mp3.tag.tracknum  = track.to_i unless track.blank?
+        mp3.tag.genre     = genre unless genre.blank?
+      }
+    else
+      puts "No File Exists with Name #{song_file}"
+    end    
   end
 
   def queue_song_for_processing
@@ -173,7 +176,7 @@ class Song < ActiveRecord::Base
     self.delay.convert_song
     # first read from the file
     self.delay.update_metadata_from_file
-#    # then update to the file read from the file
+    #    # then update to the file read from the file
     self.delay.update_metadata_to_file
   end
 
@@ -198,5 +201,5 @@ class Song < ActiveRecord::Base
     data.content_type = MIME::Types.type_for(data.original_filename).to_s
     self.file = data
   end
-
+  
 end
