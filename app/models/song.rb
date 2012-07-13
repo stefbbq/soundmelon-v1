@@ -9,7 +9,8 @@ class Song < ActiveRecord::Base
   scope :featured, :conditions =>["is_featured = ?", true]
   scope :nonfeatured, :conditions =>["is_featured = ?", false]
 
-  has_attached_file :song,
+  has_attached_file :song,    
+    :path => ":rails_root/public/assets/bands/song/album/:id/:style/:normalized_attachment_file_name",
     :url => "/assets/bands/song/album/:id/:style/:normalized_attachment_file_name"
 
   #  validates_attachment_content_type :song,
@@ -25,7 +26,7 @@ class Song < ActiveRecord::Base
   end
 
   def normalized_attachment_file_name
-    "#{self.song_file_name.gsub( /[^a-zA-Z0-9_\.]/, '_')}"
+    "#{self.song_file_name.gsub( /[^a-zA-Z0-9_\.]/, '_').downcase}"
   end
 
   def get_default_title
@@ -95,14 +96,14 @@ class Song < ActiveRecord::Base
 
   def song_ogg
     base_file_path  = self.song.url.split('/')
-    base_file_path.pop
-    ogg_file_url    = (base_file_path + ["#{self.file_name}.ogg"]).join('/')
+    file_name       = base_file_path.pop
+    ogg_file_url    = (base_file_path + ["#{file_name.split('.').first}.ogg"]).join('/')
     ogg_file_url
   end
 
   def convert_song enforced = false
     song_file               = self.song.path
-    song_file_name          = self.song_file_name
+    song_file_name          = self.normalized_attachment_file_name
     song_file_name_base     = song_file_name.split(File.extname(song_file_name)).first
     new_file_name_mp3       = [song_file_name_base, '.mp3'].join
     new_file_name_ogg       = [song_file_name_base, '.ogg'].join
@@ -111,8 +112,8 @@ class Song < ActiveRecord::Base
       file_location.pop
       new_file_location_mp3 = (file_location + [new_file_name_mp3]).join('/')
       new_file_location_ogg = (file_location + [new_file_name_ogg]).join('/')
-      ffmpeg_command_mp3    = "ffmpeg -i " + song_file + " -y " + new_file_location_mp3
-      ffmpeg_command_ogg    = "ffmpeg -i " + song_file + " -y " + new_file_location_ogg
+      ffmpeg_command_mp3    = "ffmpeg -i " + song_file + " -y " + new_file_location_mp3      
+      ffmpeg_command_ogg    = "ffmpeg -i " + song_file + " -f ogg -y -acodec libvorbis -vsync 2 " + new_file_location_ogg
       if enforced
         system(ffmpeg_command_mp3)
         system(ffmpeg_command_ogg)
@@ -138,15 +139,23 @@ class Song < ActiveRecord::Base
     song_album     = ''
     song_track     = ''
     song_genre     = ''
-    Mp3Info.open(song_file) { |mp3|
-      song_title   = mp3.tag.title
-      song_artist  = mp3.tag.artist
-      song_album   = mp3.tag.album
-      song_track   = mp3.tag.tracknum
-      song_genre   = mp3.tag.genre
-    }
-    song_title     = song_title.blank? ? self.title : song_title    
-    self.update_attributes(:artist_name =>song_artist, :album_name =>song_album, :track =>song_track, :genre =>song_genre)
+    if File.exists?(song_file)
+      begin
+        Mp3Info.open(song_file) { |mp3|
+          song_title   = mp3.tag.title
+          song_artist  = mp3.tag.artist
+          song_album   = mp3.tag.album
+          song_track   = mp3.tag.tracknum
+          song_genre   = mp3.tag.genre
+        }
+        song_title     = song_title.blank? ? self.title : song_title
+        self.update_attributes(:artist_name =>song_artist, :album_name =>song_album, :track =>song_track, :genre =>song_genre)
+      rescue =>exp
+        logger.error "Error in UpdateMetadataFromFile => #{exp.message}"
+      end
+    else
+      puts "No file exists with name : #{song_file}"
+    end    
   end
 
   # updates file itself from the db record
@@ -159,21 +168,25 @@ class Song < ActiveRecord::Base
     track       = self.track
     genre       = self.genre
     if File.exists?(song_file)
-      Mp3Info.open(song_file) { |mp3|
-        mp3.tag.title     = title unless title.blank?
-        mp3.tag.artist    = artist_name unless artist_name.blank?
-        mp3.tag.album     = album_name unless album_name.blank?
-        mp3.tag.tracknum  = track.to_i unless track.blank?
-        mp3.tag.genre     = genre unless genre.blank?
-      }
+      begin
+        Mp3Info.open(song_file) { |mp3|
+          mp3.tag.title     = title unless title.blank?
+          mp3.tag.artist    = artist_name unless artist_name.blank?
+          mp3.tag.album     = album_name unless album_name.blank?
+          mp3.tag.tracknum  = track.to_i unless track.blank?
+          mp3.tag.genre     = genre unless genre.blank?
+        }
+      rescue =>exp
+        logger.error "Error in UpdateMetadataToFile => #{exp.message}"
+      end
     else
-      puts "No File Exists with Name #{song_file}"
+      puts "No file exists with name : #{song_file}"
     end    
   end
 
-  def queue_song_for_processing
+  def queue_song_for_processing enforced_conversion = false
     # push the song into the processing job queue
-    self.delay.convert_song
+    self.delay.convert_song(enforced_conversion)
     # first read from the file
     self.delay.update_metadata_from_file
     #    # then update to the file read from the file
