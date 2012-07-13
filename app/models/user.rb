@@ -224,6 +224,10 @@ class User < ActiveRecord::Base
     }
   end
 
+  def is_active?
+    self.activation_state == 'active'
+  end
+
   ######### Invitation Specific Code #########################################################
   validates :invitation_id, :presence =>true, :on =>:create
   validates_uniqueness_of :invitation_id

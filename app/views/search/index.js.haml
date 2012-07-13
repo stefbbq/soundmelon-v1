@@ -8,7 +8,6 @@
 - if !fan_only_query
   - total_artist_count  = @artist_search_results.total
   - artist_results      = @artist_search_results.results
-
 - @user                 = current_user
 - if both_type_query
   - got_some_results    = (fan_results.size>0) || (artist_results.size>0)
@@ -23,15 +22,14 @@
             - unless fan_results.blank?
               = render '/search/fan_result_items', :total_fan_count => total_fan_count, :fan_results =>fan_results, :connection_item => @user, :is_user_fan => false          
         - else
-          %h3 no results found for '#{params[:q]}'
+          %h3 no results found for '#{params[:q]}'  
   $('.auto_search_complete').autocomplete('close');
-  $('.live').html('#{escape_javascript(search_result)}');
-  $('.primary-container').remove();
+  $('#page-content').html('#{escape_javascript(search_result)}');
 - elsif artist_only_query
   - search_result = capture do
     = render '/search/artist_result_items', :total_artist_count => total_artist_count, :artist_results =>artist_results, :connection_item => @user, :is_user_fan => false
-  $('.live #results #artist-section').html('#{escape_javascript(search_result)}');
+  $('#page-content #results #artist-section').html('#{escape_javascript(search_result)}');
 - elsif fan_only_query
   - search_result = capture do
     = render '/search/fan_result_items', :total_fan_count => total_fan_count, :fan_results =>fan_results, :connection_item => @user, :is_user_fan => false
-  $('.live #results #fan-section').html('#{escape_javascript(search_result)}');
+  $('#page-content #results #fan-section').html('#{escape_javascript(search_result)}');

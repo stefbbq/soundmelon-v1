@@ -27,7 +27,7 @@ class SearchController < ApplicationController
   end
   
   def autocomplete_suggestions
-    @users          = User.where("fname like :search_word or lname like :search_word", :search_word => "#{params[:term]}%").select('Distinct fname, lname').limit(10)
+    @users          = User.where("activation_state = 'active' and (fname like :search_word or lname like :search_word)", :search_word => "#{params[:term]}%").select('Distinct fname, lname').limit(10)
     @band_names     = Band.where("name like :search_word", :search_word => "#{params[:term]}%").select('Distinct name').limit(10).map{|band| band.name}
     @band_genres    = Band.where("genre like :search_word", :search_word => "#{params[:term]}%").select('Distinct genre').limit(10).map{|band| band.genre}
     respond_to do |format|

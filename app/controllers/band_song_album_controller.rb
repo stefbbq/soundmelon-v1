@@ -128,11 +128,11 @@ class BandSongAlbumController < ApplicationController
     begin      
       if @has_admin_access
         @song_album = SongAlbum.where('band_id = ? and album_name = ?', @band.id, params[:song_album_name]).includes(:songs).first
-        5.times { @song_album.songs.build }
       else
         render :noting => true and return
       end
-    rescue
+    rescue =>exp
+      logger.error "Error in BandSongAlbum::EditSongAlbum :=> #{exp.message}"
       render :nothing => true and return
     end
   end
@@ -143,8 +143,7 @@ class BandSongAlbumController < ApplicationController
       if @has_admin_access
         @song_album       = SongAlbum.where('band_id = ? and id = ?', @band.id, params[:id]).first
         @song_album.update_attributes(params[:song_album])        
-        @is_updated       = true
-        5.times { @song_album.songs.build }
+        @is_updated       = true        
         render :action => 'edit_song_album' and return
       else
         render :noting => true and return
