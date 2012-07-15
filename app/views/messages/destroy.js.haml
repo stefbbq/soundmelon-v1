@@ -2,6 +2,9 @@
   != "$('#conversation_#{@conversation.id}').remove();"
 - else
   != "$('#msg_box_#{params[:id]}').remove();"
+
+if($('.conversation-thread .message').length==0){$('.conversation-thread').remove();}
+
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 - if @actor.is_fan?
   $('.primary .left .social-header').replaceWith('#{escape_javascript(render '/fan/social_header', :current =>'message')}');

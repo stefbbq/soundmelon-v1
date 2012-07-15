@@ -12,6 +12,6 @@
           = render '/search/artist_result_items', :total_artist_count => total_artist_count, :artist_results =>artist_results, :connection_item => @user, :is_user_fan => false
       #fan-section
         - unless fan_results.blank?
-          = render 'search/fan_result_items', :total_fan_count => total_fan_count, :fan_results =>fan_results, :connection_item => @user, :is_user_fan => false      
+          = render 'search/fan_result_items', :total_fan_count => total_fan_count, :fan_results =>fan_results, :connection_item => @user, :is_user_fan => false
     - else
       %h3 no results found for '#{params[:q]}'

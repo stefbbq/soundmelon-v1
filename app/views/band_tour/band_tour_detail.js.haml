@@ -16,3 +16,4 @@
 $('#band_tour_#{@band_tour.id} .tour_details').html('#{escape_javascript band_tour_detail}');
 $('#expand_link_#{@band_tour.id}').replaceWith('#{escape_javascript hide_tour_detail}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
+scrollToTop();

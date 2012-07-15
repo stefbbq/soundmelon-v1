@@ -5,10 +5,10 @@
     :remote   => true,
     :class    => "backable iconactive highlight ajaxload active button-fill-fan",
     :id       => 'latest',
-    :class    => 0 == current ? "backable iconactive highlight ajaxload active button-fill-fan" : "backable iconactive highlight ajaxload"  
+    :class    => 0 == current ? "backable iconactive highlight ajaxopen active button-fill-fan" : "backable iconactive highlight ajaxopen"
   = link_to mentioned_path(1),
       {:remote => true, 
-       :class=> 1 == current ? "backable iconactive ajaxload highlight active button-fill-fan" : "backable iconactive ajaxload", 
+       :class=> 1 == current ? "backable iconactive ajaxopen highlight active button-fill-fan" : "backable iconactive ajaxopen",
        :id => 'mentions' } do
     - if @unread_mentioned_count > 0
       mentions
@@ -19,7 +19,7 @@
       mentions
   = link_to replies_path(1),
       {:remote => true, 
-       :class=> 2 == current ? "backable iconactive ajaxload highlight active button-fill-fan" : "backable iconactive ajaxload", 
+       :class=> 2 == current ? "backable iconactive ajaxopen highlight active button-fill-fan" : "backable iconactive ajaxopen",
        :id => 'replies' } do
     - if @unread_post_replies_count > 0
       replies
@@ -30,7 +30,7 @@
       replies
   = link_to user_inbox_path(1),
       {:remote => true, 
-       :class=> 3 == current ? "backable inbox iconactive ajaxload highlight active button-fill-fan" : "backable inbox iconactive ajaxload", 
+       :class=> 3 == current ? "backable inbox iconactive ajaxopen highlight active button-fill-fan" : "backable inbox iconactive ajaxopen",
        :id => 'messages' } do
     - if @unread_messages_count > 0
       messages

@@ -1,9 +1,9 @@
-- page_content = capture do
+- page_content = capture do  
   = render @page_name
-$('#page-content').html('');
-- if current_user
-  $('#page-content').html('<div class="primary-container"><div class="primary"></div></div>');
+- if current_user  
+  $('#page-content .primary-container').html('');
 - else
   $('#page-content').html('<div class="primary-container" style="padding-top:11px;"><div class="primary"></div></div>');
-$('#page-content .primary-container .primary').html('#{escape_javascript(page_content)}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);  
+$('#page-content .live').html('#{escape_javascript(page_content)}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+scrollToTop();

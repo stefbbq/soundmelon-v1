@@ -43,7 +43,8 @@ class User < ActiveRecord::Base
   validates :email, :confirmation => true
   validates :email, :email_format => true  
   validates :tac, :acceptance => true
-  before_validation :sanitize_mention_name 
+  before_validation :sanitize_mention_name
+  before_create :generate_remember_token
   
   searchable :auto_index => true, :auto_remove =>true do
     text    :fname
@@ -254,6 +255,11 @@ class User < ActiveRecord::Base
   ######### Invitation Specific Code #########################################################
 
   protected
+  
+  def generate_remember_token
+    self.remember_me_token = SecureRandom.urlsafe_base64
+  end  
+
   def mark_mentioned_post_as_read post_ids
     MentionedPost.where(:post_id => post_ids, :user_id => self.id).update_all(:status => READ)
   end

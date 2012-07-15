@@ -7,3 +7,4 @@
 $('#song_album_#{@song_album.id} .album_details').html('#{escape_javascript show_album_songs}');
 $('#expand_link_#{@song_album.id}').replaceWith('#{escape_javascript hide_album_songs}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
+scrollToTop();

@@ -198,6 +198,11 @@ function scrollToTop(){
       });
   }
 }
+function scrollToContainerTop(){
+  if($('#page-container').length>0){
+    $('html body').animate({scrollTop: $('#page-header').offset().top+$('#page-content .live').height});
+  }
+}
 
 //cursor position jquery
 new function($) {

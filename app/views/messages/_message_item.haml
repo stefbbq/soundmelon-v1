@@ -1,3 +1,6 @@
+- conv_id            ||=0
+- last_message       ||=false
+- newest_message     ||=false
 - unless message.blank?
   - read_message  = message.is_read?(@user)
   - sender        = message.sender
@@ -24,7 +27,12 @@
             - unless read_message
               .unread
                 UNREAD
+            - if newest_message
+              .unread
+                NEW
           .actions
+            - if last_message
+              = link_to "add a message" ,"javascript:void(0);", :onclick =>"$('#reply_form_div_#{conv_id}').toggle();", :class => 'add-message'
             = link_to message_path(message), :method => :delete, :class => 'action-delete ajaxload', :remote => true do
               %i
               %span delete
