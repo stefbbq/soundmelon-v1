@@ -14,7 +14,7 @@
   $('textarea.mention').mentionsInput({
     onDataRequest:function (mode, query, callback) {
       var data = [#{user_mention_lists current_user}];
-      data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+      data = _.filter(data, function(item) { return item.id.toLowerCase().indexOf(query.toLowerCase()) > -1 });
       callback.call(this, data);
     }
   });
