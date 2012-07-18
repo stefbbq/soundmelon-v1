@@ -151,7 +151,9 @@
       var end = currentMessage.substr(currentCaretPosition, currentMessage.length);
       var startEndIndex = (start + value).length;
 
-      var updatedMessageText = start + value + end;
+      // changed to the value should be added to the textare message
+      //var updatedMessageText = start + value + end;
+      var updatedMessageText = start + id + end;
 
       mentionsCollection.push({
         id    : id,

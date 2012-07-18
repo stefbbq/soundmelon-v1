@@ -112,21 +112,27 @@ module ApplicationHelper
   def user_mention_lists(user)
     auto_mention_list     = ''
     mention_list_arr      = []
-    user.following_user.select('mention_name').map{|user_following| mention_list_arr << user_following.mention_name}
-    user.user_followers.select('mention_name').map{|follower_user| mention_list_arr << follower_user.mention_name}
-    user.following_band.select('mention_name').map{|band_following| mention_list_arr << band_following.mention_name}
-    mention_list_arr.uniq.each do |mentioner|
-      auto_mention_list += "{name: '#{mentioner}'},"
+    mention_list_arr << user.following_users.to_a
+    mention_list_arr << user.user_followers.to_a
+    mention_list_arr << user.following_bands.to_a
+    
+    mention_list_arr.flatten.uniq.each do |mentionable_item|
+      mention_name    = mentionable_item.mention_name
+      display_name    = "#{mentionable_item.get_name}(#{mention_name})"
+      object_type     = mentionable_item.class.to_s.downcase
+      auto_mention_list += "{name: \"#{display_name}\", id:\"#{mention_name}\", type:\"#{object_type}\"},"
     end
-    return auto_mention_list
+    return auto_mention_list.chomp(",")
   end
   
   def band_follower_mention_lists band
     auto_mention_list       = ''
-    mention_list_arr        = []
-    band.user_followers.select('mention_name').map{|follower_user| mention_list_arr << follower_user.mention_name}
-    mention_list_arr.uniq.each do |mentioner|
-      auto_mention_list     += "{name: '#{mentioner}'},"
+    mention_list_arr        = band.user_followers.to_a    
+    mention_list_arr.flatten.uniq.each do |mentionable_item|
+      mention_name    = mentionable_item.mention_name
+      display_name    = "#{mentionable_item.get_name}(#{mention_name})"
+      object_type     = mentionable_item.class.to_s.downcase
+      auto_mention_list += "{name: \"#{display_name}\", id:\"#{mention_name}\", type:\"#{object_type}\"},"
     end
     return auto_mention_list
   end
