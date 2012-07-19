@@ -17,26 +17,27 @@
 - else
   - status                    = false
 
-- connector_item              = is_user_actor ? connection_item : user
-- is_following                = @actor.following?(user)
-- if connector_item.is_fan?
-  - source_symbol             = is_search_item ? 4 : is_self_profile ? 1 : 3
-  - connector_follow_link     = follow_user_path(connector_item.id, source_symbol)
-  - connector_unfollow_link   = unfollow_user_path(connector_item.id, source_symbol)
-- else
-  - source_symbol             = is_search_item ? 4 : is_self_profile ? 2 : 3
-  - connector_follow_link     = follow_band_path(connector_item.name, source_symbol)
-  - connector_unfollow_link   = unfollow_band_path(connector_item.name, source_symbol)
+- change_connection           = !is_user_actor && @actor.is_fan?
 
-- if status
-  - if is_following
-    - connection_link_text    = 'unfollow'
-    - connection_link         = connector_unfollow_link
+- if change_connection
+  - connector_item              = is_user_actor ? connection_item : user
+  - is_following                = @actor.following?(user)
+  - if connector_item.is_fan?
+    - source_symbol             = is_search_item ? 4 : is_self_profile ? 1 : 3
+    - connector_follow_link     = follow_user_path(connector_item.id, source_symbol)
+    - connector_unfollow_link   = unfollow_user_path(connector_item.id, source_symbol)
   - else
-    - connection_link_text    = 'follow'
-    - connection_link         = connector_follow_link
+    - source_symbol             = is_search_item ? 4 : is_self_profile ? 2 : 3
+    - connector_follow_link     = follow_band_path(connector_item.name, source_symbol)
+    - connector_unfollow_link   = unfollow_band_path(connector_item.name, source_symbol)
 
-- change_connection           = is_user_actor ? false : true
+  - if status
+    - if is_following
+      - connection_link_text    = 'unfollow'
+      - connection_link         = connector_unfollow_link
+    - else
+      - connection_link_text    = 'follow'
+      - connection_link         = connector_follow_link
 
 - if status
   - item_div_id               = is_user_fan ? "#{user.class.name.downcase}_#{user.id}_following_#{connection_item.class.name.downcase}_#{connection_item.id}" : "#{connection_item.class.name.downcase}_#{connection_item.id}_following_#{user.class.name.downcase}_#{user.id}"
