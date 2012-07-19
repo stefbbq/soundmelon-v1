@@ -1,17 +1,4 @@
--if @failed_login
-  .login-error
-    = @failed_login
 .main
-  .login
-    %h3
-      Already registered?    
-    = form_tag login_path do
-      = text_field_tag :email, params[:email], :class => "field base-text-field"
-      = password_field_tag :password,nil, :class => "field base-text-field"
-      = check_box_tag :remember_me, 1, params[:remember_me]
-      = label_tag :remember_me      
-      = submit_tag "", :class => 'exec-login'
-    = link_to 'Forgot your password?', password_resets_path, :remote => :true, :id => 'password-reset'
   .logo
     = image_tag 'base-logo-big.png'
     %h2

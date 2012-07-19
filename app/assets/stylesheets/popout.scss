@@ -146,10 +146,20 @@ li {
 //mentions autocomplete
 .mentions-autocomplete-list {
 	@include popout();
+	@include border-radius(0 0 $border-radius $border-radius);
+	@include single-text-shadow(rgba(white, .4), 0px, 1px, 0px);
 	position: absolute;
-	width: 200px;
-	left: 220px;
+	width: 240px;
+	left: 200px;
 	z-index: 1000;
+	
+	li { margin-left: 0px !important; padding-left: 0px !important; color: $text-on-light; }
+	b { color: black; }
+	
+	span {
+		float: right;
+		color: $text-faded-on-light;
+	}
 }
 
 

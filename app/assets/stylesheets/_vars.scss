@@ -1,4 +1,4 @@
-//contains global variables
+	//contains global variables
 
 //base
 $page-width: 956px;
@@ -13,6 +13,8 @@ $right-button-width: 242px;
 $main-bg-color: #c3c3c3;
 $footer-bg-color: #676767;
 $page-bg-color: #131313;
+$overlay-bg-color: rgba(white, .9);
+$overlay-header-color: #bbb;
 
 //text colors
 $text-highlight-color: #ccc;
@@ -20,7 +22,8 @@ $text-color: #a5a5a5;
 $text-slight-faded-color: #888;
 $text-faded-color: #555;
 $text-error-color: #ff2244;
-$text-black-on-white: #333;
+$text-on-light: #333;
+$text-faded-on-light: #888;
 
 //object colors
 $box-color: #1A1A1A;

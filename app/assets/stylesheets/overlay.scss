@@ -46,7 +46,7 @@
 		.content-container {
 			@include border-radius($border-radius);
 			@include box-shadow(rgba(black, .8), 0px, 5px, 20px);
-			background: rgba(white, .93);
+			background: $overlay-bg-color;
 	    display: table;
 	    width: auto;
 	    padding: 10px;
@@ -166,9 +166,9 @@
 	//content
 	.header {
 		@include border-radius($border-radius $border-radius 0 0);
-		@include single-text-shadow(rgba(black, .5), 0px, -1px, 0px);
-		background: #666;
-		color: white;
+		@include single-text-shadow(rgba(white, .5), 0px, 1px, 0px);
+		background: $overlay-header-color;
+		color: $text-on-light;
 		margin: -10px -10px 5px -10px;
 		padding: 5px;
 		text-align: center;
@@ -179,16 +179,20 @@
 		text-align: center;
 		text-transform: lowercase;
 		width: 100%;
-		bottom: -20px;
+		top: 100%;
+		padding-top: 5px;
 		left: 0px;
 		position: absolute;
 	}
 
-	.mini-content {
+	.normal-content {
 		padding: 10px 0;
-		width: 482px;
+		width: 500px;
 
-		div { padding: 0px; margin: 0px; display: inline;	}
+		div { 
+			padding: 0px; 
+			margin: 0 0 10px 0;	
+		}
 		h2 { margin: 0px; padding: 0px; text-align: center; }
 		textarea { 
 			@include overlay-form-input-box; 
@@ -199,10 +203,47 @@
 			@include overlay-button;
 			position: absolute;
 			bottom: -8px;
-			right: 8px;
+			right: 16px;
 			padding: 4px 10px;
 		}
+		
+		#uploaded {
+			color: $text-faded-on-light;
+			margin-top: 20px;
+		}
+		
+		//form
+		form {
+			margin-bottom: 10px; 
+			
+			.field {
+				margin-bottom: 3px; 
+
+				label {
+					display: inline-block;
+					margin-right: 5px;
+					width: 70px;
+					text-align: right;
+					text-transform: lowercase;
+				}
+				input {
+					width: 255px;
+				}
+			}
+			
+			//field with errors reset margins
+			.field_with_errors {margin: 0px; }
+		}
+		
+		//set flash browse position
+		object {
+			position: relative;
+			top: 9px;
+		}
 	}
+	
+	.mini-content {	width: 344px; }
+	.mega-content { width: 600px; }
 	
 	.centered {
 		text-align: center;

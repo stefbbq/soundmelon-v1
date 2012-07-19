@@ -16,7 +16,7 @@
         script : '/band_song_album/create',        
         onComplete : function(event, queueID, fileObj, response, data) {
          var dat = eval('(' + response + ')');         
-         $('#uploaded_images').append(song_counter +">" + dat.upload+'<br />');
+         $('#uploaded').append(song_counter + "  " + dat.upload+'<br />');
          $('#album_name').val(dat.album_name);
          $('#album_name').attr("disabled", true);
          song_counter++;
@@ -33,8 +33,8 @@
           if($('.left .album-list #song_album_' + dat.song_album_id).length == 0){
             $('.left .album-list').append(dat.album_string);
           }else{
-            if($('.left .album-list #song_album_' + dat.song_album_id + ' .album_details').length > 0){
-              $('.left .album-list #song_album_' + dat.song_album_id + ' .album_details').append(dat.song_string);
+            if($('.left .album-list #song_album_' + dat.song_album_id + ' .album-details').length > 0){
+              $('.left .album-list #song_album_' + dat.song_album_id + ' .album-details').append(dat.song_string);
             }
           }
         }

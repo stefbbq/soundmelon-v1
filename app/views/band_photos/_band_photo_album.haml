@@ -28,8 +28,8 @@
         - unless show_all
           = link_to "expand", band_album_photos_path(:band_name =>@band.name, :band_album_name => band_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{band_album.id}"
         - else
-          %a{:href => "javascript:void(0);", :onclick => "$('#band_album_#{band_album.id} .album_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
-    .album_details
+          %a{:href => "javascript:void(0);", :onclick => "$('#band_album_#{band_album.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
+    .album-details
       - if show_all
         .photo_gallery
           - band_album.band_photos.each do |photo|

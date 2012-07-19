@@ -2,17 +2,15 @@
 .primary-container
   .primary
     .left
-      .album_list_header
-        %b Artist Shows
-        - if @has_admin_access
-          .add_new{:style=>'float:right;background-color:grey;height:20px;width:70px;padding-left:10px;'}
-            = link_to "add show", new_band_tour_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen"
-        %hr/
-      .band_shows_list
+      - if @has_admin_access
+        .content-action-space
+          share an upcoming gig
+          = link_to "add show", new_band_tour_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen add-new", :title => "add new show"
+      .album-list
         - if @band_shows.blank?
           Artist has not set any shows!
         - else
           - @band_shows.each do |band_tour|
-            = render '/band_tour/band_tour', :band_tour =>band_tour
+            = render '/band_tour/show', :band_tour => band_tour
     .right
       = render "/artist_public/right", :current =>'tour'

@@ -5,6 +5,10 @@
 //splash
 .splash .facebook-icon { @include sprite-img("social-icons.png", 1, 1, 21px, 21px); }
 .splash .twitter-icon { @include sprite-img("social-icons.png", 2, 1, 21px, 21px); }
+.splash .exec-login { @include sprite-img("sprites-32.png", 1); 
+	&:hover { @include sprite-img("sprites-32.png", 1, 2, 32px, 32px); }
+	&:active { @include sprite-img("sprites-32.png", 1, 3, 32px, 32px); }
+}
 
 //player
 .jp-play { 

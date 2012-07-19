@@ -1,29 +1,28 @@
-%p{:id=>'notice'}
+.header
+  = @band_tour.new_record? ? "create new show" : "update show"
+.normal-content.mini-content
+  = form_for @band_tour, :url => {:controller => 'band_tour', :action => @band_tour.new_record? ? 'create' : 'update'}, :html => {:remote =>true } do |f|
+    = hidden_field_tag :band_name, @band.name
+    = hidden_field_tag :id, @band_tour.id
+    .field
+      = f.label "date"
+      = f.date_select :tour_date, :class => 'overlay-text-field'
+    .field
+      = f.label :venue
+      = f.text_field :venue, :class => 'overlay-text-field'
+    .field
+      = f.label :country
+      = f.text_field :country, :class => 'overlay-text-field'
+    .field
+      = f.label :ticket
+      = f.text_field :ticket, :class => 'overlay-text-field'
+    .field
+      = f.label :web_page
+      = f.text_field :web_page, :class => 'overlay-text-field'
+    = f.submit @band_tour.new_record? ? "create" : "update", :class => "generic-button"
+#notice.error
   = notice
   - unless @band_tour.errors.blank?
     %ul
       - @band_tour.errors.full_messages.each do |error_msg|
         %li= error_msg
-#band_tours
-  %h3 
-  = @band_tour.new_record? ? "Create Band Tour" : "Update Band Tour"
-  %hr/
-  = form_for @band_tour, :url => {:controller => 'band_tour', :action => @band_tour.new_record? ? 'create' : 'update'}, :html => {:remote =>true } do |f|
-    = hidden_field_tag :band_name, @band.name
-    = hidden_field_tag :id, @band_tour.id
-    .field
-      = f.label :tour_date
-      = f.date_select :tour_date
-    .field
-      = f.label :venue
-      = f.text_field :venue
-    .field
-      = f.label :country
-      = f.text_field :country
-    .field
-      = f.label :ticket
-      = f.text_field :ticket
-    .field
-      = f.label :web_page
-      = f.text_field :web_page
-    %p= f.submit @band_tour.new_record? ? "Create" : "Update"

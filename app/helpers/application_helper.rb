@@ -109,6 +109,8 @@ module ApplicationHelper
     return pre_popullate_genre
   end
   
+  #
+  # get user mentions autocmplete entry
   def user_mention_lists(user)
     auto_mention_list     = ''
     mention_list_arr      = []
@@ -118,8 +120,10 @@ module ApplicationHelper
     
     mention_list_arr.flatten.uniq.each do |mentionable_item|
       mention_name    = mentionable_item.mention_name
-      display_name    = "#{mentionable_item.get_name}(#{mention_name})"
+      display_name    = "#{mention_name} - #{mentionable_item.get_name}"
       object_type     = mentionable_item.class.to_s.downcase
+      # reset object type to fan or artist (needs to be fixed in database)
+      object_type     = (object_type == "band") ? "artist" : "fan"
       auto_mention_list += "{name: \"#{display_name}\", id:\"#{mention_name}\", type:\"#{object_type}\"},"
     end
     return auto_mention_list.chomp(",")

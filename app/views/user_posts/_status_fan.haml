@@ -26,12 +26,6 @@
     if($(this).val()=='')
       $(this).val('share something...');
   });
-  $('.status-input .input-box').keypress(function() {
-    $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);
-    if(!$(this).val()){
-      $('.post-btn').css({ opacity: 1 });
-    }
-  });
   
   var maxChar = 200;
 
@@ -45,7 +39,7 @@
       $('.status-input form > span').attr('class', 'okay');
       $('.post-btn').css({ opacity: 1 });	
       $(".post-btn").removeAttr('disabled');
-      $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);
+      $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 8);
     } else if ($(this).val().length > (maxChar - 10) && $(this).val().length < maxChar) { 
       $('.status-input form > span').attr('class', 'warning');
     } else { //over 200

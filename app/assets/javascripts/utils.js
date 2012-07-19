@@ -56,10 +56,15 @@ $(document).ready( function(){
     });
   });
 
-  $('#post_msg').live("keyup", function(event)
-  {
-    if(event.keyCode == 13 && !event.shiftKey && event.relatedTarget == null)
-    {      
+	//status input capture enter key
+	var openMention = false;
+  $('#post_msg').live("keyup", function(event) {
+		if($(".status-input .mentions-autocomplete-list").css("display") == "block"){
+			openMention = true;
+		} else {
+			window.setTimeout(function(){openMention = false;}, 50);
+		}
+    if(event.keyCode == 13 && !event.shiftKey && openMention == false) {
       $(this).val($(this).val().trim());
       $(this).closest("form").submit();
       $(this).blur();
@@ -123,8 +128,7 @@ $(document).ready( function(){
   
   $(window).bind("popstate", function(event){
     var url         = location.href;    
-    if(event.originalEvent.state){
-      console.log("accessing : " + url);
+    if(event.originalEvent.state){      
       jQuery.facebox($('#globalloading').html());      
       $.getScript(url,function(data, textStatus, jqxhr){$(document).trigger("close.facebox");});
     }

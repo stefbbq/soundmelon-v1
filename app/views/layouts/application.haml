@@ -11,37 +11,33 @@
   - if current_user #user logged in
     %body
       #feedback
-        .date last update: July 9th, 2012
-        .commit codebase 203
-        = link_to "provide feedback", feedback_start_path, :remote =>true, :class => "ajaxopen"
+        .date July 17th, 2012
+        .commit codebase 220
+        = link_to "provide feedback", feedback_start_path, :remote => true, :class => "ajaxopen"
       #base-container
         #page-container
           #page-top-fade
           #page
             #page-header
-              = render :partial => 'bricks/user_header'
+              = render :partial => "bricks/user_header"
             #page-content
               = yield
-      = render :partial=>"bricks/footer"
+      = render :partial => "bricks/footer"
   - else #splash
     %body.splash-body
       .splash
         .left-decoration
         .right-decoration
         .content
-          - if @user.id
-            .main
-              .logo
-                = image_tag 'base-logo-big.png'
-                %h2
-                  your music community
+          - if @user.id #no login
+            = render "/bricks/splash"
             = yield
-          - elsif @user.email
+          - elsif @user.email #registration forms
             = form_for :user, :url => fan_registration_path do |f|
-              = render '/bricks/splash_no-login'
-              = render '/fan/registration-fields'
-          - else
-            = render '/bricks/splash'
+              = render '/bricks/splash_registration'
+              = render '/fan/registration_fields'
+          - else #login
+            = render "/bricks/splash_login"
             .note
               %div
                 %h2 SoundMelon is currently in closed beta

@@ -2,9 +2,9 @@
   - @song_album.songs.each do |song|
     = render 'song_item', :song => song
 - hide_album_songs = capture do
-  %a{:href => "javascript:void(0);", :onclick => "$('#song_album_#{@song_album.id} .album_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
+  %a{:href => "javascript:void(0);", :onclick => "$('#song_album_#{@song_album.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
     collapse
-$('#song_album_#{@song_album.id} .album_details').html('#{escape_javascript show_album_songs}');
+$('#song_album_#{@song_album.id} .album-details').html('#{escape_javascript show_album_songs}');
 $('#expand_link_#{@song_album.id}').replaceWith('#{escape_javascript hide_album_songs}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 scrollToTop();
