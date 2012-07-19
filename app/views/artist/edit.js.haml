@@ -1,6 +1,5 @@
-$('.primary .left').html('');
-$('.primary .left').html('#{escape_javascript(render '/artist/form', :action_url => update_band_path(@band.id))}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.selection-box').removeClass('active').removeClass('button-fill-artist');
-$('#manage_profile').addClass('active').addClass('button-fill-artist');
+updateLiveSection('#{escape_javascript(render '/artist/live')}');
+updateLeftSection('#{escape_javascript(render '/artist/form', :action_url => update_band_path(@band.id))}');
+updateRightSection('#{escape_javascript(render '/artist/right', :current =>'manage_profile')}');
+closeFacebox(10);
 scrollToTop();

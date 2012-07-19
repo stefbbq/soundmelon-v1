@@ -25,9 +25,9 @@ Soundmelon::Application.routes.draw do
   #fan
   get '/home'                                 => 'user#index',                      :as => :fan_home #home
   get 'home/post/:id/threads'                 => 'user_posts#show_conversation_thread',         :as => :get_show_conversation_thread #posts
-  get 'home/mentions(/:top)'                  => 'user_posts#mentioned',            :as => :mentioned #mentions
-  get 'home/replies(/:top)'                   => 'user_posts#replies',              :as => :replies #replies
-  match 'home/messages(/:top)'                => 'messages#inbox',                  :as => :user_inbox #messages
+  get 'home/mentions'                  => 'user_posts#mentioned',            :as => :mentioned #mentions
+  get 'home/replies'                   => 'user_posts#replies',              :as => :replies #replies
+  match 'home/messages'                => 'messages#inbox',                  :as => :user_inbox #messages
 
   #-------------------------------------------- followings, followers, follower bands, follower fans ---------------
   get 'fan/:id/followers(/:page)'             => 'user_connections#fan_followers',          :as => :fan_followers
@@ -180,16 +180,16 @@ Soundmelon::Application.routes.draw do
   
   #--------------------------------------------UserConnections----------------------------------------------------
   # follow/un-follow band
-  get 'follow/artist/:band_name(/:self)'          => 'user_connections#follow_band',       :as => :follow_band
-  get 'unfollow/artist/:band_name(/:self)'        => 'user_connections#unfollow_band',     :as => :unfollow_band
-  get 'connection/request/artist/:band_name'      => 'user_connections#connect_artist',    :as => :connect_artist
-  get 'connection/accept/artist/:band_name'       => 'user_connections#connect_artist',    :as => :accept_artist_connection
-  get 'connection/reject/artist/:band_name'       => 'user_connections#disconnect_artist', :as => :reject_artist_connection
-  get 'connection/remove/artist/:band_name'       => 'user_connections#disconnect_artist', :as => :remove_artist_connection
+  get 'follow/artist/:band_name/:source'         => 'user_connections#follow_band',       :as => :follow_band
+  get 'unfollow/artist/:band_name/:source'       => 'user_connections#unfollow_band',     :as => :unfollow_band
+  get 'connection/request/artist/:band_name'     => 'user_connections#connect_artist',    :as => :connect_artist
+  get 'connection/accept/artist/:band_name'      => 'user_connections#connect_artist',    :as => :accept_artist_connection
+  get 'connection/reject/artist/:band_name'      => 'user_connections#disconnect_artist', :as => :reject_artist_connection
+  get 'connection/remove/artist/:band_name'      => 'user_connections#disconnect_artist', :as => :remove_artist_connection
   
   # follow/un-follow fan
-  get 'follow/fan/:id(/:self)'            => 'user_connections#follow',                   :as => :follow_user
-  get 'unfollow/fan/:id(/:self)'          => 'user_connections#unfollow',                 :as => :unfollow_user
+  get 'follow/fan/:id/:source'            => 'user_connections#follow',                   :as => :follow_user
+  get 'unfollow/fan/:id/:source'          => 'user_connections#unfollow',                 :as => :unfollow_user
   #---------------------------------------------------------------------------------------------------------------
   #message band
   get ':band_name/message/new'            => 'artist_public#new_message',                 :as => :band_new_message

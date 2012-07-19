@@ -1,18 +1,23 @@
 class UserConnectionsController < ApplicationController
   before_filter :require_login
 
+  # from the list of own profile[1]
+  # from fan's profile(update fan's right list of followers)[2]
+  # from the list of other's profile(change the follow/unfollow link of the left list item)[3]
+  # from search results list(change the follow/unfollow link of the left list item)[4]
+
   def follow
     if request.xhr?
       begin
         @actor                  = current_actor
         @user_to_be_followed    = User.find(params[:id])
         @actor.follow(@user_to_be_followed)
-        NotificationMail.follow_notification @user_to_be_followed, @actor
-        @self_profile           = params[:self] && params[:self]=='1'
-        if @self_profile
+        NotificationMail.follow_notification @user_to_be_followed, @actor        
+        @source_symbol          = params[:source]            
+        if @source_symbol == '1'          
           @last_following_count = @actor.following_user_count
-        else
-          @last_follower_count  = @user_to_be_followed.followers_count
+        elsif @source_symbol == '2'
+          @last_follower_count  = @user_to_be_followed.followers_count        
         end
         respond_to do |format|
           format.js and return
@@ -32,10 +37,12 @@ class UserConnectionsController < ApplicationController
         @actor                  = current_actor
         @user_to_be_unfollowed  = User.find(params[:id])
         @actor.stop_following(@user_to_be_unfollowed)
-        @self_profile           = params[:self] && params[:self]=='1'
-        if @self_profile
+        @source_symbol          = params[:source]            
+        if @source_symbol == '1'
+          @self_profile         = true
           @last_following_count = @actor.following_user_count
-        else
+          @is_following_me      = @user_to_be_unfollowed.following? @actor
+        elsif @source_symbol == '2'
           @last_follower_count  = @user_to_be_unfollowed.followers_count
         end        
         respond_to do |format|          
@@ -56,7 +63,7 @@ class UserConnectionsController < ApplicationController
         @actor                  = current_actor
         @band                   = Band.find_band(params)
         @actor.follow(@band)
-        @self_profile           = params[:self] && params[:self]=='1'
+        @source_symbol          = params[:source]                
         @last_follower_count    = @band.followers_count
         @last_following_count   = @actor.following_user_count
         NotificationMail.follow_notification @band, @actor
@@ -75,7 +82,7 @@ class UserConnectionsController < ApplicationController
         @actor                  = current_actor
         @band                   = Band.find_band(params)
         @actor.stop_following(@band)
-        @self_profile           = params[:self] && params[:self]=='1'
+        @source_symbol          = params[:source]        
         @last_follower_count    = @band.followers_count
         @last_following_count   = @actor.following_band_count
       rescue => exp
@@ -99,8 +106,7 @@ class UserConnectionsController < ApplicationController
           NotificationMail.connect_notification @actor, @band
         else
           NotificationMail.connect_request_notification @band, @actor
-        end
-        logger.error "Is Self#{@is_self_profile}"
+        end        
       rescue => exp
         logger.error "Error in UserConnections::ConnectArtist :=> #{exp.message}"
         render :nothing => true and return
@@ -213,6 +219,6 @@ class UserConnectionsController < ApplicationController
       logger.error "Error in UserConnections#FanFollowingFans : #{exp.message}"
       render :nothing => true and return
     end
-  end  
-  
+  end
+    
 end

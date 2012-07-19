@@ -5,6 +5,6 @@
       .connections_list{:id =>"#{@user.class.name.downcase}_#{@user.id}_following_fans"}
         - @following_fans.each do |user|
           = render '/user_connections/item', :user =>user, :connection_item =>@user, :is_user_fan =>false
-        = paginate @following_fans, :remote => true
+      = paginate @following_fans, :remote => true
     .right
       = render "/fan_public/right", :current =>'following_fan'

@@ -10,7 +10,11 @@ class HomeController < ApplicationController
         @user.email               = @user.invitation.recipient_email
         @user.email_confirmation  = @user.invitation.recipient_email
       end
-      render :template =>'/fan/signup'
+      if request.xhr?
+        render :text =>"alert('Your session has been timed out. Please, log-in to proceed.');"
+      else
+        render :template =>'/fan/signup'
+      end      
     end
   end
   

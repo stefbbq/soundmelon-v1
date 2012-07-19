@@ -25,12 +25,12 @@
                 administer
             - if actor.is_fan?
               - if actor.following?(@band)
-                = link_to unfollow_band_path(:band_name => @band.name), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+                = link_to unfollow_band_path(@band.name, 1), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
                   .icon-bg
                   %i
                   unfollow
               - else
-                = link_to follow_band_path(:band_name => @band.name), {:id =>'follow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+                = link_to follow_band_path(@band.name, 1), {:id =>'follow-artist', :remote => true, :class => 'ajaxopen text-action'} do
                   .icon-bg
                   %i
                   follow

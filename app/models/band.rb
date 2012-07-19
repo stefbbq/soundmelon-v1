@@ -164,8 +164,7 @@ class Band < ActiveRecord::Base
   
   def followers page = 1
     follows   = Follow.where("followable_id = ? and followable_type = ?", self.id, self.class.name).page(page).per(FOLLOWING_FOLLOWER_PER_PAGE)
-    followers = follows.map{|follow| follow.follower}
-    followers
+    follows
   end
 
   def limited_followers

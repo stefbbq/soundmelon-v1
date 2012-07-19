@@ -1,5 +1,4 @@
-$('#facebox .content').html('Followed Successfully');
-setTimeout('$(document).trigger(\"close.facebox\")',1000);
+- @self_profile = @source_symbol == '1'
 - unfollow_content = capture do
   = link_to unfollow_user_path(@user, :others => 1), {:id =>'unfollow', :remote => true, :class => 'ajaxopen text-action'} do
     .icon-bg
@@ -8,20 +7,27 @@ setTimeout('$(document).trigger(\"close.facebox\")',1000);
 - new_follow_item = capture do
   = render '/bricks/avatar', :item =>@self_profile ? @user_to_be_followed : @actor, :id_prefix =>"fan_follower"
 - left_list_item = capture do  
-  = render '/user_connections/item', :user =>@self_profile ? @user_to_be_followed : @actor, :connection_item =>@user_to_be_followed, :is_user_fan =>false
-
-$('.actions #follow').replaceWith('#{escape_javascript unfollow_content}');
+  = render '/user_connections/item', :user =>@self_profile ? @user_to_be_followed : @actor, :connection_item =>@user_to_be_followed, :is_user_fan =>true
 
 - left_list_id   = "#{@user_to_be_followed.class.name.downcase}_#{@user_to_be_followed.id}_followers"
-- unfollow_link  = @self_profile ? "#{unfollow_user_path(@user_to_be_followed, 1)}" : "#{unfollow_user_path(@user_to_be_followed)}"
+- unfollow_link  = "#{unfollow_user_path(@user_to_be_followed, @source_symbol.to_i)}"
 
-- if @self_profile
+- if @source_symbol == '1'
   - item_div_id     = "#{@user_to_be_followed.class.name.downcase}_#{@user_to_be_followed.id}"
   if($('#followingfanbox .message').length>0){$('#followingfanbox').html('#{escape_javascript new_follow_item}')}else{if($('#followingfanbox div.avatar').length<#{NO_OF_FOLLOWING_TO_DISPLAY}){$('#followingfanbox').prepend('#{escape_javascript new_follow_item}')}};
   $('span#followingfancount').html("#{pluralize(@last_following_count, 'fan')}");
   if($('.primary .left .connections_list ##{item_div_id}').length>0){$('.primary .left .connections_list ##{item_div_id} .actions a').attr('href','#{escape_javascript unfollow_link }').html('unfollow');}
-- else
-  - item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}"  
+- elsif @source_symbol == '2'
+  - item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}"
+  $('.actions #follow').replaceWith('#{escape_javascript unfollow_content}');
   if($('#followerbox .message').length>0){$('#followerbox').html('#{escape_javascript new_follow_item}')}else{if($('#followerbox div.avatar').length<#{NO_OF_FOLLOWER_TO_DISPLAY}){$('#followerbox').prepend('#{escape_javascript new_follow_item}')}};
   if($('.primary .left ##{left_list_id}').length>0){$('.primary .left ##{left_list_id}').append('#{escape_javascript left_list_item}');}
   $('span#followercount').html("#{@last_follower_count}");
+- elsif @source_symbol == '3'
+  - item_div_id     = "#{@user_to_be_followed.class.name.downcase}_#{@user_to_be_followed.id}"
+  if($('.primary .left .connections_list ##{item_div_id}').length>0){$('.primary .left .connections_list ##{item_div_id} .actions a').attr('href','#{escape_javascript unfollow_link }').html('unfollow');}
+- elsif @source_symbol == '4'
+  - item_div_id     = "#{@user_to_be_followed.class.name.downcase}_#{@user_to_be_followed.id}"
+  if($('#results .item##{item_div_id}').length>0){$('#results .item##{item_div_id} .actions a').attr('href','#{escape_javascript unfollow_link }').html('unfollow');}
+faceboxContent('Followed Successfully');
+closeFacebox(1000);

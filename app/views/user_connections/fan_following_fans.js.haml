@@ -1,11 +1,9 @@
-$('.primary .left').html('');
 - following_fans = capture do
   .connections_list{:id =>"#{@user.class.name.downcase}_#{@user.id}_following_fans"}
     - @following_fans.each do |user|
       = render '/user_connections/item', :user =>user, :connection_item =>@user, :is_user_fan =>false    
-    = paginate @following_fans, :remote => true
-$('.primary .left').html('#{escape_javascript(following_fans)}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.right .selection-box').removeClass('active').removeClass('button-fill-fan');
-$('#following-fan').addClass('active').addClass('button-fill-fan');
+  = paginate @following_fans, :remote => true
+updateLeftSection('#{escape_javascript(following_fans)}');
+updateRightSection('#{escape_javascript(render '/fan_public/right', :current =>'following_fan')}');
+closeFacebox(10);
 scrollToContainerTop();

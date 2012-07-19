@@ -2,7 +2,7 @@ class SearchController < ApplicationController
   before_filter :require_login, :except => [:check_bandname, :check_bandmentionname, :check_fanusername]
   
   def index
-    
+    @actor                = current_actor
     if params[:a_page].blank? # only fan search      
       @fan_search_results = User.search do
         fulltext params[:q]
@@ -17,8 +17,8 @@ class SearchController < ApplicationController
         paginate :page => params[:a_page], :per_page => SEARCH_ARTIST_RESULT_PER_PAGE
       end
     end
-    
-    messages_and_posts_count unless request.xhr?
+
+    messages_and_posts_count
     
     respond_to do |format|
       format.js

@@ -13,12 +13,12 @@
           .actions
             - if actor.is_fan?
               - if actor.following?(@user)
-                = link_to unfollow_user_path(@user, :others => 1), {:id =>'unfollow', :remote => true, :class => 'ajaxopen text-action'} do
+                = link_to unfollow_user_path(@user.id, 2), {:id =>'unfollow', :remote => true, :class => 'ajaxopen text-action'} do
                   .icon-bg
                   %i
                   unfollow
               - else
-                = link_to follow_user_path(@user), {:id =>'follow', :remote => true, :class => 'ajaxopen text-action'} do
+                = link_to follow_user_path(@user.id, 2), {:id =>'follow', :remote => true, :class => 'ajaxopen text-action'} do
                   .icon-bg
                   %i
                   follow

@@ -1,4 +1,3 @@
-$('.primary .left').html('');
 - content = capture do
   - if @artists.blank?
     You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_band_path, :class => 'ajaxopen', :remote => true}
@@ -6,7 +5,9 @@ $('.primary .left').html('');
     - @artists.each do |artist|
       = render '/artist/artist_item', :artist =>artist
     #{link_to 'create another artist profile?', new_band_path, :class => 'ajaxopen backable', :remote => true} You can add another artist profile to associate with your account!
-$('.primary .left').html('#{escape_javascript(content)}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.selection-box').removeClass('active').removeClass('button-fill-fan');
-$('#access-artist').addClass('active').addClass('button-fill-fan');
+setUpPage();
+updateLiveSection('#{escape_javascript(render '/fan/live')}');
+updateLeftSection('#{escape_javascript(content)}');
+updateRightSection('#{escape_javascript(render '/fan/right', :current =>'access_profile')}');
+scrollToContainerTop();
+closeFacebox(10);

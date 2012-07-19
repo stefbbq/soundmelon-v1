@@ -5,4 +5,4 @@
     %span fans
 = paginate fan_results, :remote =>:true, :params =>{:f_page =>fan_results.next_page}
 - fan_results.each do |user|
-  = render '/user_connections/item', :user => user, :connection_item => @user, :is_user_fan => false
+  = render '/user_connections/item', :user => user, :connection_item => @actor, :is_user_fan => false, :is_search_item =>true

@@ -1,4 +1,5 @@
-$('.primary .left').html('');
+updateLiveSection('#{escape_javascript(render '/fan/live')}');
+setUpPage();
 - manage_profile_forms = capture do
   .content-box#basic-info
     = render :partial => '/fan/basic_info_form'
@@ -8,7 +9,8 @@ $('.primary .left').html('');
     = render :partial => '/fan/notification_setting_form'
   .content-box#change-password
     = render :partial => '/fan/change_password_form'    
-$('.primary .left').html('#{escape_javascript(manage_profile_forms)}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.selection-box').removeClass('active').removeClass('button-fill-fan');
-$('#manage-profile').addClass('active').addClass('button-fill-fan');
+updateLeftSection('#{escape_javascript(manage_profile_forms)}');
+updateRightSection('#{escape_javascript(render '/fan/right', :current =>'manage_profile')}');
+scrollToTop();
+closeFacebox(10);
+

@@ -1,4 +1,3 @@
-$('.primary .left').html('');
 - connections = capture do
   %b Connections of #{@band.name}
   %hr/
@@ -6,8 +5,7 @@ $('.primary .left').html('');
     - @connections.each do |artist|
       = render '/user_connections/connection_item', :user =>artist, :connection_item =>@band
     = paginate @connections, :remote =>true
-$('.primary .left').html('#{escape_javascript(connections)}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.right .selection-box').removeClass('active').removeClass('button-fill-fan button-fill-artist');
-$('#connections').addClass('active').addClass('button-fill-artist');
+updateLeftSection('#{escape_javascript(connections)}');
+updateRightSection('#{escape_javascript(render '/artist_public/right', :current =>'connection')}');
+closeFacebox(10);
 scrollToContainerTop();
