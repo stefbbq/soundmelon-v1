@@ -239,18 +239,16 @@
 		position: absolute;
     margin: 39px 0 20px -60px;
     width: 76px;
-		height: 28px;
+		height: 26px;
     float: left;
     text-align: right;
 		color: $text-faded-color;
     font-weight: bold;
-		&:first-of-type { 
-			margin-top: 28px;
-		}
+		&:first-of-type { margin-top: 28px;	}
 		@include rotate(270deg);
 
 		> div {
-			margin: 6px 4px 0 0;
+			margin: 4px 4px 0 0;
 		}
 
 		h1, h2 {
@@ -424,6 +422,11 @@
 			.stat {
 				padding: 15px 0 0 10px;
 			}
+			
+			//details
+			.album-details {
+				margin-top: 10px; 
+			}
 		}
 	}
 	
@@ -446,7 +449,7 @@
 	
 	.song {
 		@include border-radius($border-radius/2);
-		padding: 4px 5px;
+		padding: 4px 10px;
 		overflow: hidden;
 		margin-top: 5px;
 		
@@ -511,11 +514,13 @@
 	}
 	
 	.content-action-space {
-		height: 20px;
+		display: block; 
+		margin: 5px 0px;
+		text-align: right; 
 	}
-	.add-new {
-		@include base-highlight-button();
-		float: right;
+	.add-new { 
+		@include base-highlight-button(); 
+		margin-left: 5px; 
 	}
 
 	

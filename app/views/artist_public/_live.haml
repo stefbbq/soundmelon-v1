@@ -22,7 +22,7 @@
               = link_to change_login_path(@band.name), {:class =>'ajaxopen text-action', :remote => :true, :id => "administer"} do
                 .icon-bg
                 %i
-                administer
+                admin
             - if actor.is_fan?
               - if actor.following?(@band)
                 = link_to unfollow_band_path(:band_name => @band.name), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
@@ -37,10 +37,6 @@
             - else
               #connect_section
                 = render 'bricks/artist_connection', :actor =>actor, :band => @band
-            = link_to new_artist_mention_post_path(@band.id), {:id =>'mention-artist', :remote => true, :class => 'ajaxopen text-action'} do
-              .icon-bg
-              %i
-              mention
           = link_to '', "http://facebook.com/#{@band.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @band.facebook_page.blank?
           = link_to '', "http://twitter.com/#{@band.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @band.twitter_page.blank?
       .sub-head

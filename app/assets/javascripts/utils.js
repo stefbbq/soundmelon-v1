@@ -56,18 +56,21 @@ $(document).ready( function(){
     });
   });
 
-
-  $('#post_msg').live("keyup", function(event)
-    {
-      if(event.keyCode == 13 && !event.shiftKey)
-      {
-        $(this).val($(this).val().trim());
-        $(this).closest("form").submit();
-        $(this).blur();
-        $(this).css('height','25px');
-      }
+	//status input capture enter key
+	var openMention = false;
+  $('#post_msg').live("keyup", function(event) {
+		if($(".status-input .mentions-autocomplete-list").css("display") == "block"){
+			openMention = true;
+		} else {
+			window.setTimeout(function(){openMention = false;}, 50);
+		}
+    if(event.keyCode == 13 && !event.shiftKey && openMention == false) {
+      $(this).val($(this).val().trim());
+      $(this).closest("form").submit();
+      $(this).blur();
+      $(this).css('height','25px');
     }
-  );
+  });
   
   $('.primary-wrapper#message_text').keyup(function(){
     if($(this).val() == ''){

@@ -15,7 +15,7 @@
   script : '/photos/create',
   onComplete : function(event, queueID, fileObj, response, data) {
   var dat = eval('(' + response + ')');
-  $('#uploaded_images').append('<img src="'+dat.upload+'" />');
+  $('#uploaded').append('<img src="'+dat.upload+'" />');
   $('#album_name').val(dat.album_name);
   $('#album_name').attr("disabled", true);
   },

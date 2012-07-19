@@ -2,8 +2,6 @@
 .primary-container
   .primary
     .left
-      %b New Artist Profile
-      %hr
       = render 'form', :action_url => create_band_path
     .right
       = render "/fan/right", :current =>'access_profile'

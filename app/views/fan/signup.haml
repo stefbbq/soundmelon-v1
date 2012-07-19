@@ -1,7 +1,7 @@
 - if @user.email        
   = form_for :user, :url=>fan_registration_path do |f|
     = render '/bricks/splash_no-login'
-    = render '/fan/registration-fields'
+    = render '/fan/registration_fields'
 
 :javascript
   $(document).ready(function() {

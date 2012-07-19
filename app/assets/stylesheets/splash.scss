@@ -40,29 +40,13 @@
 			border-bottom: 1px solid #333;
 		}
 
-		.note {
-			width: 100%;
-			position: absolute;
-			top: 50%;
-			height: 50%;
-			margin: auto;
-			text-align: center;
-
-			> div {
-				margin-top: 45px;
-				
-				h2 { margin-bottom: 10px; color: $text-highlight-color; }
-				a { @include base-highlight-button; font-size: 12px; height: 16px; margin: 0px 2px; }
-			}
-		}
-		
 		.logo { 
 		  text-align:center;
 			width: 100%;
 
 			img {
-				margin-top: 35px;
-				margin-left: 10px;
+				margin-top: 42px;
+				margin-left: 17px;
 			}
 
 		  h2 { 
@@ -72,13 +56,27 @@
 		  }
 		}
 		
-		.field {
-			position: relative;
+		.note {
+			width: 100%;
+			position: absolute;
+			top: 50%;
+			height: 50%;
+			margin: auto;
+			text-align: center;
+
+			> div {
+				margin-top: 60px;
+				overflow: hidden; 
+				
+				h2 { margin-bottom: 10px; color: $text-highlight-color; }
+				input[type=text] { height: 19px; }
+				input[type=submit] { margin: 0px; position: relative; top: 1px;}
+			}
 		}
 		
 		//invitation form
 		#invitation_form_homepage {
-			margin-top: 50px;
+			margin-top: 20px;
 			
 			.error {
 				margin-top: 5px;
@@ -135,7 +133,7 @@
 				&:hover { background: rgba(black, .7);}
 			}
 			span {
-				color: $text-black-on-white;
+				color: $text-on-light;
 				display: inline-block;
 				margin: 2px 0 0 2px;
 				font-size: 12px;
@@ -160,29 +158,56 @@
 .login {
 	float: right; 
 	margin: 10px 10px 0 0;
-	width: 530px; 
+	width: 417px; 
+	position: relative;
 	
-	div, h3 {
-		float: left;
-	}
-	
-	h3 {
-		margin: 10px 10px 0 0;
-	}
+	div, h3 { float: left; }
+	h3 { margin: 10px 10px 0 0; }
 	
 	.exec-login {
 		border: none;
 		cursor: pointer;
 		padding: 0px;
 		float: left;
-		@include sprite-img("sprites-32.png", 1);
 	}
 	
 	#password-reset {
-		margin-left: 315px;
+		position: absolute;
+		top: 33px;
+		left: 215px;
 		font-size: $font-size-minor;
 		color: $text-faded-color;
 	}
+	
+	form {
+		.field { float: left;	}
+		input[type=text], input[type=password] {
+			position: relative;
+			min-width: 165px !important;
+			width: 165px !important;
+		}
+		#remember-me {
+			position: absolute;
+			left: 40px;
+			top: 31px;
+		}
+	}
+	
+	#remember-me, #password-reset {
+		color: $text-color; 
+		opacity: .5;
+		&:hover { opacity: 1; }
+	}
+	label {
+		text-transform: lowercase;
+	}
+}
+
+.login-error {
+	color: rgba($text-error-color, .9);
+	position: absolute;
+	top: 21px;
+	right: 435px;
 }
 
 //
@@ -191,66 +216,46 @@
 	padding-top: 40px;
 	
 	.left {
-		width: 50%;
+		width: 400px;
 		float: left;
+		padding-left: 40px;
 		
-		> div {
-			margin-left: 20px;
-		}
-		
-	 	.base-text-field {
-			float: none; 
-			width: 208px;
-		}
 		label {
-			width: 150px;
+			width: 170px;
 			text-align: right;
 			display: inline-block;
 			margin-right: 10px;
 		}
-		
+		input[type=text], input[type=password] {
+			@include base-text-field;
+			width: 200px;
+			display: inline-block;
+		}
 		.info {
 			font-size: 11px;
 			width: 350px;
-			margin: 23px 6px 5px 29px;
+			margin: 16px 17px 5px 29px;
 			text-align: right;
 			float: right;
 			color: $text-slight-faded-color;
 		}
-		.field {
-			display: block;
-		}
 	}
 	
 	.right {
-		width: 50%;
-		background: url(signup-explanation.png) left 5px no-repeat;
+		width: 360px;
+		background: url(signup-explanation.png) left 3px no-repeat;
 		height: 365px;
 		float: right;
 	}
 	
 	.join {
 		@include base-highlight-button($generic-active-color);
-		margin: 12px 6px 0 0;
+		margin: 10px 16px 0 0;
 		height: 24px;
 		float: right !important;
 	}
 }
 
-//
-//fields
-.login .field {
-	float: left;
-}
-
-//
-//error messages
-.login-error {
-	color: rgba($text-error-color, .9);
-	position: absolute;
-	top: 21px;
-	right: 550px;
-}
 .registration-error {
   @include border-radius($border-radius);
 	position: absolute;
@@ -271,6 +276,7 @@
     background: $object-error-color;
     color: #000;
   }
+
 	li {
 		font-size: 11px; 
 		margin-left: 5px;

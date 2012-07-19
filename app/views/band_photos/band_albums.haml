@@ -4,6 +4,7 @@
     .left
       - if @has_admin_access
         .content-action-space
+          share photos of you or your gigs
           = link_to "add album", new_band_album_path(:band_name => @band.name), :remote=>:true, :class=>"ajaxopen add-new"
       #photo_album_box
         - @band_albums.each do |band_album|

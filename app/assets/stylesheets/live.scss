@@ -5,17 +5,17 @@
 @import 'mixins';
 
 .live {
-	background: black;
-	width: $page-width - 12px;
+	background: #080808;
+	width: $page-width - 8px;
 	margin: 0 auto;
 	display: block;
-	min-height: 266px;
+	min-height: 262px;
 	position: relative;
 	
 	.profile-image { 
 		position: absolute;
-		left: -14px;
-		top: 10px;
+		left: -11px;
+		top: 8px;
     width: 414px;
 		height: 246px;
 		background: #222;
@@ -30,13 +30,13 @@
 	
 	.links {
 		position: absolute;
-		right: -14px;
-		top: 10px;
+		right: -11px;
+		top: 8px;
 		
 		.top {
 			display: block;
 			width: 549px;
-			height: 85px;
+			height: 87px;
 			background: $live-bg-color;
 			
 			.header {
@@ -47,7 +47,7 @@
 				
 				.name {
 					float: left; 
-					margin-left: 12px;
+					margin-left: 8px;
 					
 					h2 {
 						margin: 12px 4px 0 0;
@@ -59,12 +59,12 @@
 				}
 				.actions {
 					position: absolute;
-					right: 14px;
+					right: 12px;
 					top: 14px;
 					
 					a { 
 						float: left; 
-						margin-left: 7px; 
+						margin-left: 7px;
 					}
 					
 					.text-action {
@@ -100,7 +100,7 @@
 			.sub-head {
 				clear: both;
 				color: $text-slight-faded-color;
-				margin: -2px 0 0 12px;
+				margin: -2px 0 0 8px;
 				display: block;
 				
 				h3 {					
@@ -118,7 +118,7 @@
 		}
 		
 		.bottom {
-			margin-top: 10px; 
+			margin-top: 8px; 
 			
 			.photo {
 				width: 270px;

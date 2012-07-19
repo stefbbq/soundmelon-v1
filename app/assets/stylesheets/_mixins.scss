@@ -65,7 +65,7 @@
 	a { text-decoration: none; }
 	
 	&:hover {
-		@include linear-gradient(ligten($generic-active-color, 20), $generic-active-color);
+		@include linear-gradient(lighten($generic-active-color, 10), darken($generic-active-color, 10));
 		text-decoration: none;
 		cursor: pointer;
 	}
@@ -88,7 +88,7 @@
 }
 @mixin overlay-text-field {
 	@include base-text-field;
-	color: $text-black-on-white;
+	color: $text-on-light;
 	
 	&:hover {	background: #ccc; }
 	&:focus {	background: #ccc;	}
@@ -129,7 +129,7 @@
 @mixin overlay-form-input-box {
 	@include base-form-input-box;
 	margin: 0px;
-	color: $text-black-on-white;
+	color: $text-on-light;
 	background: white;
 	border: 2px solid #aaa;
 	
@@ -154,6 +154,7 @@
 	@include box-shadow(rgba(black, .7), 0px, 2px, 6px, 0px);
 	@include linear-gradient($color, darken($color, 15));
 	@include border-radius($border-radius);
+	padding: 0px 8px;
 	
 	ul {
 		list-style-type: none !important;

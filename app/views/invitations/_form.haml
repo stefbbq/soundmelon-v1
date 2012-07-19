@@ -4,7 +4,7 @@
   = hidden_field_tag :from_page, from_page
   = f.label :recipient_email, current_user ? "email" : "email"
   = f.text_field :recipient_email, :class => "base-input-box", :style => "width: 300px;"
-  = f.submit 'submit', :class => "base-highlight-button", :style => "padding: 4px 8px"
+  = f.submit 'submit', :class => "base-highlight-button"
 - if !@invitation.errors.blank?
   .error
     %ul

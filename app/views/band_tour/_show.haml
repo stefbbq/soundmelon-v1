@@ -8,6 +8,7 @@
     .artist-content-actions
       = link_to band_tour_buzz_path(@band.name, band_tour.id), {:remote => true, :class => 'ajaxopen'} do
         .buzz-icon
+        buzz
   .bottom
     - if @has_admin_access
       .controls

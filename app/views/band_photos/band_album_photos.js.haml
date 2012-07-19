@@ -3,9 +3,9 @@
     - @band_album.band_photos.each do |photo|
       = render 'band_photo', :photo => photo, :band_album =>@band_album
 - hide_album_photos = capture do
-  %a{:href => "javascript:void(0);", :onclick => "$('#band_album_#{@band_album.id} .album_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
+  %a{:href => "javascript:void(0);", :onclick => "$('#band_album_#{@band_album.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
     collapse
-$('#band_album_#{@band_album.id} .album_details').html('#{escape_javascript band_album_photos}');
+$('#band_album_#{@band_album.id} .album-details').html('#{escape_javascript band_album_photos}');
 $('#expand_link_#{@band_album.id}').replaceWith('#{escape_javascript hide_album_photos}');    
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist')
