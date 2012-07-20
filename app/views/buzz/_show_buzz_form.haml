@@ -1,4 +1,4 @@
-- form_post_path = band_tour_buzz_post_path(@band_tour)
+- form_post_path = artist_show_buzz_post_path(@artist_show)
 .statusinput
  = form_tag(form_post_path, :class=>"ajaxopen", :remote => true, :id => 'buzz_form') do  
   = text_area_tag :msg, nil, :maxlength => 200, :cols => 50, :rows => 3

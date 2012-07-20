@@ -132,14 +132,14 @@ Soundmelon::Application.routes.draw do
   #get 'fan/sign_up/message' => 'users#fan_signup_sucessful_info', :as => successful_fan_signup
   #get 'musician/sign_up/message' => 'users#musician_signup_sucessful_info', :as => successful_musician_signup
 
-  # Band Shows
-  get ':band_name/show/new'                       => 'band_tour#new',                     :as => :new_band_tour
-  get ':band_name/shows'                          => 'band_tour#band_tours',              :as => :band_tours
-  get ':band_name/:band_tour_id/show'             => 'band_tour#band_tour',               :as => :band_tour
-  get ':band_name/:band_tour_id/showdetail'       => 'band_tour#band_tour_detail',        :as => :band_tour_detail
-  get ':band_name/showchange/:band_tour_id'       => 'band_tour#edit',                    :as => :edit_band_tour
-  get ':band_name/showlike/:band_tour_id'         => 'band_tour#like_dislike_band_tour',  :as => :like_dislike_band_tour
-  match ':band_name/showremove/:band_tour_id'     => 'band_tour#destroy_tour',            :as => :delete_band_tour
+  # Artist Shows
+  get ':artist_name/show/new'                     => 'artist_show#new',                     :as => :new_artist_show
+  get ':artist_name/shows'                        => 'artist_show#index',                   :as => :artist_shows
+  get ':artist_name/:artist_show_id/show'         => 'artist_show#artist_show',             :as => :artist_show
+  get ':artist_name/:artist_show_id/showdetail'   => 'artist_show#show_detail',             :as => :artist_show_detail
+  get ':artist_name/showchange/:artist_show_id'   => 'artist_show#edit',                    :as => :edit_artist_show
+  get ':artist_name/showlike/:artist_show_id'     => 'artist_show#like_dislike_artist_show',:as => :like_dislike_artist_show
+  match ':artist_name/showremove/:artist_show_id' => 'artist_show#destroy_show',            :as => :delete_artist_show
 
   resources :album_photos
   get ':band_name/album/new'                      => 'band_photos#new',                   :as => :new_band_album
@@ -198,7 +198,7 @@ Soundmelon::Application.routes.draw do
   get ':band_name'                        => 'artist_public#index',                       :as => :show_band
   
   #album and song buzz
-  get ':band_name/:id/tbuzz'              => 'buzz#band_tour_buzz',                       :as => :band_tour_buzz
+  get ':artist_name/:id/tbuzz'              => 'buzz#artist_show_buzz',                   :as => :artist_show_buzz
   get ':album_name/:id/photo_album_buzz'  => 'buzz#band_photo_album_buzz',                :as => :band_album_buzz
   get ':album_name/:id/buzz'              => 'buzz#album_buzz',                           :as => :album_buzz
   get 'buzz/:id'                          => 'buzz#song_buzz',                            :as => :song_buzz
@@ -207,7 +207,7 @@ Soundmelon::Application.routes.draw do
   match 'buzz/:id/create'                 => 'buzz#song_buzz_post',                       :as => :song_buzz_post
   match ':album_name/:id/photobuzz/create'=> 'buzz#band_album_buzz_post',                 :as => :band_album_buzz_post
   match 'photobuzz/:id/create'            => 'buzz#band_photo_buzz_post',                 :as => :band_photo_buzz_post
-  match 'tbuzz/:id/create'                => 'buzz#band_tour_buzz_post',                  :as => :band_tour_buzz_post
+  match 'tbuzz/:id/create'                => 'buzz#artist_show_buzz_post',                  :as => :artist_show_buzz_post
 
   #match ':song_name/:id/buzz/create' => 'buzz#song_buzz_post', :as => 'song_buzz_post' 
   

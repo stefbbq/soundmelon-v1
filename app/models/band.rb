@@ -8,7 +8,7 @@ class Band < ActiveRecord::Base
   has_many :band_admin_users, :through => :band_users, :source => :user, :conditions =>'access_level = 1'
   has_many :band_notified_users, :through => :band_users, :source => :user, :conditions =>'band_users.access_level = 1 and band_users.notification_on is true'
   has_many :band_albums, :order => 'created_at desc', :dependent =>:destroy
-  has_many :band_tours, :order =>'created_at desc', :dependent =>:destroy
+  has_many :artist_shows, :order =>'created_at desc', :dependent =>:destroy, :foreign_key =>'artist_id'
   has_many :band_invitations, :dependent => :destroy
   has_many :song_albums, :order => 'created_at desc', :dependent =>:destroy
   has_many :posts, :dependent => :destroy
@@ -146,8 +146,8 @@ class Band < ActiveRecord::Base
     self.band_members.limit(n)
   end 
 
-  def limited_band_tours(n=TOUR_DATE_SHOW_LIMIT)
-    self.band_tours.order('created_at desc').limit(n)
+  def limited_artist_shows(n=SHOW_DATE_SHOW_LIMIT)
+    self.artist_shows.order('created_at desc').limit(n)
   end
 
   def limited_band_featured_songs(n=ARTIST_FEATURED_SONG_LIMIT)

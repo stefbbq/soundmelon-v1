@@ -51,14 +51,14 @@ class ApplicationController < ActionController::Base
       @has_admin_access          = actor == artist
       @song_album_count          = artist.song_albums.size
       @photo_album_count         = artist.band_albums.size
-      @tour_count                = artist.band_tours.size
+      @show_count                = artist.artist_shows.size
       @band_artist_count         = artist.band_members.size
       @band_fan_count            = artist.followers_count
       @band_connection_count     = artist.connections_count
       @song_albums               = artist.limited_song_albums
       @featured_songs            = artist.limited_band_featured_songs
       @photo_albums              = artist.limited_band_albums(2)
-      @band_tours                = artist.limited_band_tours
+      @artist_shows              = artist.limited_artist_shows
       @band_artists              = artist.limited_band_members
       @band_fans                 = artist.limited_followers
       @connected_artists         = artist.connected_artists

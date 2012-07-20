@@ -1,0 +1,24 @@
+.header
+  = @artist_show.new_record? ? "create new show" : "update show"
+.normal-content.mini-content
+  = form_for @artist_show, :url => {:controller => 'artist_show', :action => @artist_show.new_record? ? 'create' : 'update'}, :html => {:remote =>true } do |f|
+    = hidden_field_tag :artist_name, @artist.name
+    = hidden_field_tag :id, @artist_show.id
+    .field
+      = f.label "date"
+      = f.text_field :show_date, :readonly =>true, :class => 'overlay-text-field'
+    .field
+      = f.label :venue
+      = f.text_field :venue, :class => 'overlay-text-field'
+    .field
+      = f.label :city
+      = f.text_field :city, :class => 'overlay-text-field'
+    = f.submit @artist_show.new_record? ? "create" : "update", :class => "generic-button"
+#notice.error
+  = notice
+  - unless @artist_show.errors.blank?
+    %ul
+      - @artist_show.errors.full_messages.each do |error_msg|
+        %li= error_msg
+:javascript
+  $('.popup .content #artist_show_show_date').datepicker({dateFormat:'yy-mm-dd', gotoCurrent: true, minDate:0 });

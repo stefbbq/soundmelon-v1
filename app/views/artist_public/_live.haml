@@ -1,3 +1,4 @@
+- @band ||= @artist
 - artist_admin_ids= BandUser.for_artist_id(@band.id).map { |u| u.user_id}
 - actor           = current_actor
 - is_artist_admin = artist_admin_ids.include? current_user.id

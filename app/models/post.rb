@@ -3,7 +3,7 @@ class Post < ActiveRecord::Base
   belongs_to :band
   belongs_to :postitem, :polymorphic =>true
   has_many :mentioned_posts
-  has_ancestry
+  has_ancestry :orphan_strategy =>:rootify
   before_save :update_mentioned_actors_in_post
   after_save :check_and_save_mentioned_in_post
   
@@ -89,8 +89,8 @@ class Post < ActiveRecord::Base
     postitem_type == 'Song'
   end
 
-  def band_tour_post?
-    postitem_type == 'BandTour'
+  def artist_show_post?
+    postitem_type == 'ArtistShow'
   end
 
   def create_notification_email_for_post actor, post_item = self.postitem

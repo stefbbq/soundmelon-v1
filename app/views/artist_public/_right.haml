@@ -1,4 +1,5 @@
-- tabs      = [:latest_post, :music, :photo, :tour, :member, :fan, :connection]
+- @band     ||= @artist
+- tabs      = [:latest_post, :music, :photo, :show, :member, :fan, :connection]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 .items
   = link_to 'latest posts', show_band_path(:band_name => @band.name),
@@ -22,11 +23,11 @@
             :is_admin           => false,
             :band               => @band,
             :selected           => 2 == current
-  = render '/bricks/rb_tour',
-            :tour_count         => @tour_count,
-            :band_tours         => @band_tours,
+  = render '/bricks/rb_show',
+            :show_count         => @show_count,
+            :artist_shows       => @artist_shows,
             :is_admin           => false,
-            :band               => @band,
+            :artist             => @band,
             :selected           => 3 == current
   = render '/bricks/rb_member',
             :artist_count       => @band_artist_count,

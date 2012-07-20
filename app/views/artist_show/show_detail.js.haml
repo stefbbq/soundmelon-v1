@@ -1,0 +1,14 @@
+- artist_show_detail = capture do
+  %hr/
+  Venue:
+  = @artist_show.venue
+  %br/
+  City:
+  = @artist_show.city
+- hide_show_detail = capture do
+  %a{:href => "javascript:void(0);", :onclick => "$('div#artist_show_#{@artist_show.id} .show_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
+    collapse
+$('#artist_show_#{@artist_show.id} .show_details').html('#{escape_javascript artist_show_detail}');
+$('#expand_link_#{@artist_show.id}').replaceWith('#{escape_javascript hide_show_detail}');
+closeFacebox(10);
+scrollToTop();

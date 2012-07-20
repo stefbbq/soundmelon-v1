@@ -200,29 +200,33 @@ module ApplicationHelper
     content         = ""
     message         = ""
     if post && postitem
-      band            = post.band
       if post.band_album_post?
+        band            = post.band
         album_name    = postitem.name
         album_path    = "#{band_album_path(band.name, album_name)}"
         content       += " added a new photo album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       elsif post.band_photo_post?
+        band          = post.band
         album         = postitem.band_album
         album_name    = album.name
         album_path    = "#{band_album_path(band.name, album_name)}"
         content       += " added a new photo to the <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a> album"
         message       =  raw (render '/band_photos/band_photo', :photo =>postitem, :band_album =>album, :band =>band, :in_newsfeed =>true)
-      elsif post.band_tour_post?
+      elsif post.artist_show_post?
+        band          = postitem.artist
         show_id       = postitem.id
         show_venue    = postitem.venue
-        show_country  = postitem.country
-        show_path     = band_tour_path(band.name,show_id)
-        content       += " has created a new <a href='#{show_path}' class='ajaxopen backable' data-remote=true>show</a> at #{show_venue}"
+        show_city     = postitem.city
+        show_path     = artist_show_path(band.name,show_id)
+        content       += " has created a new <a href='#{show_path}' class='ajaxopen backable' data-remote=true>show</a> at #{show_venue} of #{show_city}"
       elsif post.song_post?
+        band            = post.band
         album_name    = postitem.song_album.album_name
         album_path    = "#{band_song_album_path(band.name, album_name)}"
         content       += " added a new song to the <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a> album"
         message       = raw(render '/band_song_album/song_item', :song =>postitem, :band =>band, :in_newsfeed =>true)
       elsif post.song_album_post?
+        band            = post.band
         album_name    = postitem.album_name
         album_path    = "#{band_song_album_path(band.name, album_name)}"
         content       += " added a new music album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
@@ -236,7 +240,7 @@ module ApplicationHelper
   def post_message post, postitem
     content         = " wrote about "
     message         = ""
-    if post && postitem      
+    if post && postitem
       if post.band_album_post?
         band          = postitem.band
         album_name    = postitem.name
@@ -248,13 +252,13 @@ module ApplicationHelper
         album_name    = album.name
         album_path    = "#{band_album_path(band.name, album_name)}"
         content       += "artist photo <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
-      elsif post.band_tour_post?
-        band          = postitem.band
+      elsif post.artist_show_post?
+        band          = postitem.artist
         show_id       = postitem.id
         show_venue    = postitem.venue
-        show_country  = postitem.country
-        show_path     = band_tour_path(band.name,show_id)
-        content       += "artist show <a href='#{show_path}' class='ajaxopen backable' remote=true>show</a>(at #{show_venue}, #{show_country})"
+        show_city     = postitem.city
+        show_path     = artist_show_path(band.name,show_id)
+        content       += "artist show <a href='#{show_path}' class='ajaxopen backable' remote=true>show</a>(at #{show_venue} of #{show_city})"
       elsif post.song_post?
         band          = postitem.song_album.band
         album_name    = postitem.song_album.album_name
@@ -332,10 +336,10 @@ module ApplicationHelper
       type    = 'Photo'
       name    = nil
       artist  = item.band
-    when 'BandTour'
+    when 'ArtistShow'
       type    = 'Show'
       name    = nil
-      artist  = item.band
+      artist  = item.artist
     end
     return {:type =>type, :name =>name, :artist =>artist}
   end

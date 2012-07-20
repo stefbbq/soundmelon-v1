@@ -1,0 +1,32 @@
+- show_all ||=false
+.artist-content[artist_show]
+  .top
+    .cover
+      %h2
+        Show Date:
+        = artist_show.show_date.strftime("%b %d, %Y")
+    .artist-content-actions
+      = link_to artist_show_buzz_path(@artist.name, artist_show.id), {:remote => true, :class => 'ajaxopen'} do
+        .buzz-icon
+        buzz
+  .bottom
+    - if @has_admin_access
+      .controls
+        = link_to "edit", edit_artist_show_path(@artist.name, artist_show.id), :remote=>:true, :class=>"ajaxopen"
+        = link_to "remove", delete_artist_show_path(@artist.name, artist_show.id), :remote=>:true, :class=>"ajaxopen"
+    .toggle
+      .toggle-thread
+        - unless show_all
+          = link_to "expand", artist_show_detail_path(@artist.name, artist_show.id), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_show.id}"
+        - else
+          %a{:href => "javascript:void(0);", :onclick => "$('div#artist_show_#{@artist_show.id} .show_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
+    .show_details
+      - if show_all
+        %hr/
+        Venue:
+        = @artist_show.venue
+        %br/
+        City:
+        = @artist_show.city
+  .clear
+.clear

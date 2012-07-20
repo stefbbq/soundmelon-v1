@@ -1,0 +1,7 @@
+.buzz_header
+  - if @artist_show
+    = " Buzz : Artist Show on #{@artist_show.show_date} @#{@artist_show.venue} "
+%hr/
+= render 'buzzlisting', :buzzes_by_date =>@buzzes_by_dates
+.buzz_form
+  = render 'show_buzz_form'

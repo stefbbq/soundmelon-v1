@@ -1,0 +1,16 @@
+= render :partial=>"/artist_public/live"
+.primary-container
+  .primary
+    .left
+      - if @has_admin_access
+        .content-action-space
+          share an upcoming gig
+          = link_to "add show", new_artist_show_path(:artist_name => @artist.name), :remote=>:true, :class=>"ajaxopen add-new", :title => "add new show"
+      .show-list
+        - if @artist_shows.blank?
+          Artist has not set any show dates!
+        - else
+          - @artist_shows.each do |artist_show|
+            = render '/artist_show/show', :artist_show => artist_show
+    .right
+      = render "/artist_public/right", :current =>'show'

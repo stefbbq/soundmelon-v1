@@ -1,6 +1,6 @@
 class BuzzController < ApplicationController
   before_filter :require_login
-  before_filter :set_current_actor, :only =>[:album_buzz_post , :song_buzz_post, :band_album_buzz_post, :photo_buzz_post, :band_tour_buzz_post ]
+  before_filter :set_current_actor, :only =>[:album_buzz_post , :song_buzz_post, :band_album_buzz_post, :photo_buzz_post, :artist_show_buzz_post ]
   
   def album_buzz
     if request.xhr?
@@ -47,14 +47,14 @@ class BuzzController < ApplicationController
     end
   end
 
-  def band_tour_buzz
+  def artist_show_buzz
     if request.xhr?
       begin
-        @band_tour           = BandTour.find(params[:id])
-        @band_tour_buzzes    = Post.posts_for @band_tour
-        @buzzes_by_dates     = @band_tour_buzzes.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+        @artist_show           = ArtistShow.find(params[:id])
+        @artist_show_buzzes    = Post.posts_for @artist_show
+        @buzzes_by_dates     = @artist_show_buzzes.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       rescue =>exp
-        logger.error "Error in Buzz::BandTourBuzz :=> #{exp.message}"
+        logger.error "Error in Buzz::ArtistShowBuzz :=> #{exp.message}"
         render :nothing => true and return
       end
     else
@@ -125,11 +125,11 @@ class BuzzController < ApplicationController
   end
 
   # creates band tour post as buzz
-  def band_tour_buzz_post
+  def artist_show_buzz_post
     if request.xhr?
       begin        
-        @band_show          = BandTour.find params[:id]
-        @buzz               = Post.create_post_for @band_show, @actor, params
+        @artist_show        = ArtistShow.find params[:id]
+        @buzz               = Post.create_post_for @artist_show, @actor, params
       rescue
         render :nothing => true and return
       end

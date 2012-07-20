@@ -12,8 +12,8 @@
         = link_to band_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'action-buzz ajaxopen'} do
           %i
           %span buzz
-      - elsif post.band_tour_post?
-        = link_to band_tour_buzz_path(post_item.band.name, post_item.id), {:remote => true, :class => 'action-buzz ajaxopen'} do
+      - elsif post.artist_show_post?
+        = link_to artist_show_buzz_path(post_item.artist.name, post_item.id), {:remote => true, :class => 'action-buzz ajaxopen'} do
           %i
           %span buzz
       - elsif post.song_post?
@@ -80,7 +80,7 @@
         - if is_author_artist_profile
           = get_artist_avatar(band)
         - else
-          = link_to get_artist_avatar(band), show_band_path(:band_name =>band.name), :class =>'ajaxopen backable', :remote =>:true
+          = link_to get_artist_avatar(band), show_band_path(band.name), :class =>'ajaxopen backable', :remote =>:true
     .content
       .header
         .title

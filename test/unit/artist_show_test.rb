@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BandTourTest < ActiveSupport::TestCase
+class ArtistShowTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
