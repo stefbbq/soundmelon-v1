@@ -9,7 +9,7 @@
 //
 //else
 .adminstrating-info{font-size: 16px;}
-.band-logo{
+.artist-logo{
   float:left; 
   background-color: #212121;
   margin-right: 25px;
@@ -17,24 +17,24 @@
   max-height:236px;
   overflow:hidden;
 }
-.quick-band-info{margin-top:55px;}
-.band-short-bio{color:#ffffff;float:left; background-color: #212121;margin-top:10px;width:95%; padding-left:20px; font-size:14px; display:none;}
-.band-short-bio:hover > .band-bio{display:block;}
-.band-bio{display:none;z-index:1;position:absolute;background-color:#ffffff;padding:3px;color:black;margin-top:2px;font-weight:normal;font-size:12px;}
+.quick-artist-info{margin-top:55px;}
+.artist-short-bio{color:#ffffff;float:left; background-color: #212121;margin-top:10px;width:95%; padding-left:20px; font-size:14px; display:none;}
+.artist-short-bio:hover > .artist-bio{display:block;}
+.artist-bio{display:none;z-index:1;position:absolute;background-color:#ffffff;padding:3px;color:black;margin-top:2px;font-weight:normal;font-size:12px;}
 .sales-trend{color:#fff;float:left; background-color: #212121;margin-top:30px; min-height:105px;max-height:105px; margin-right:10px; min-width:270px;max-widhth:270px;text-align:center}
 .total-plays{color:#ffffff;float:left; background-color: #212121;margin-top:30px; min-height:105px;max-height:105px; margin-right:10px; min-width:270px;max-widhth:270px;text-align:center}
-.band-stats{}
-.associated-bands:hover > .switch-lists{display:block;}
-.associated-bands{float:right; margin-top:-8px;padding-right:7px;}
-.band-logo-sml{
+.artist-stats{}
+.associated-artists:hover > .switch-lists{display:block;}
+.associated-artists{float:right; margin-top:-8px;padding-right:7px;}
+.artist-logo-sml{
   float:left; 
   background-color: #212121;
   margin-right: 25px;
   min-height:100px; 
   min-width:100px;
 }
-.band{ min-height:120px; }
-.band-access{float:right}
+.artist{ min-height:120px; }
+.artist-access{float:right}
 .file-field{
  -moz-border-radius: 5px 5px 5px 5px;
   background: none repeat scroll 0 0 #323232;
@@ -51,8 +51,8 @@
   margin: 3px 0 0 219px;
   padding: 2px;
 }
-.band-member{padding:10px;}
-.band-member >.avatar{float:left; margin-left:20px;padding-right:20px;}
+.artist-member{padding:10px;}
+.artist-member >.avatar{float:left; margin-left:20px;padding-right:20px;}
 .user-name{font-size:14px; font-weight:bold;}
 .bulletinsicon {
   -moz-transform: rotate(270deg);

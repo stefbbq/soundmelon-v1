@@ -1,0 +1,5 @@
+- if @status
+  - if @artist_album
+    $('a#like_dislike_link_#{@artist_album.id}').text('Status Changed!');
+- else
+  alert('There was an error!');

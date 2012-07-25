@@ -13,7 +13,7 @@
     -if !@load_more_bulletins_path.nil?
       .read-more#bulletin-readmore
         =link_to("read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
-  .user_posts{:id =>"#{@band.class.name}_post_wall_#{@band.id}"}
+  .user_posts{:id =>"#{@artist.class.name}_post_wall_#{@artist.id}"}
     - @posts_order_by_dates.each do |date, posts|
       - date      = posts.first ? posts.first.created_at : date
       - date_str  = date.strftime('%Y%m%d')

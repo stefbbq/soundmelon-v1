@@ -1,26 +1,26 @@
-= band_form = capture do 
-  - if @band.errors.any? 
+= artist_form = capture do 
+  - if @artist.errors.any? 
     #error_explanation
       %h2
-        = pluralize(@band.errors.count, "error")
+        = pluralize(@artist.errors.count, "error")
         prohibited this new artist profile from being saved:
       %ul
-        - @band.errors.full_messages.each do |msg|
+        - @artist.errors.full_messages.each do |msg|
           %li
             = msg
-  = form_for @band, :url => action_url, :html => {:multipart => true, :remote => true, :class => 'band-form' } do |f|
+  = form_for @artist, :url => action_url, :html => {:multipart => true, :remote => true, :class => 'artist-form' } do |f|
     = render :partial => '/artist/form_fields', :locals =>{:f => f}
 :javascript
   $(document).ready(function() {    
-    $("#band_genre_tokens").tokenInput(
+    $("#artist_genre_tokens").tokenInput(
       [
-      #{genre_atuofill_band}
+      #{genre_atuofill_artist}
       ],
       {
         theme: "facebook",
         prePopulate:
         [
-        #{genre_prepopullate @band.genres}
+        #{genre_prepopullate @artist.genres}
         ]
       }
     );

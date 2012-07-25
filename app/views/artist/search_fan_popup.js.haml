@@ -1,11 +1,10 @@
-- popup_content = capture do  
-  %div{:style=>"color:black;border: 2px solid blue;padding:5px;height:200px;width:400px;"}
+- popup_content = capture do
+  .header
     Search fan to invite
-    %hr
+  .normal-content.mini-content
     = form_tag( {:controller =>'artist', :action => 'search_fan'}, :method => "post", :remote =>true, :id =>'search') do
       = hidden_field_tag 'artist_name', @artist.name
       = hidden_field_tag 'artist_id', @artist.id
       %input.auto_search_complete{:value =>'', :name => "q", :type => "text", :class => 'search-input', :id =>'term'}
     #search_fan_results
-!= "jQuery.facebox('#{escape_javascript popup_content}');"
-!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"
+faceboxContent('#{escape_javascript popup_content}');

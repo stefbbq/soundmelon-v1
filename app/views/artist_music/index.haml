@@ -1,0 +1,14 @@
+= render :partial=>"/artist_public/live"
+.primary-container
+  .primary
+    .left
+      - if @has_admin_access
+        = render 'featured_songs', :featured_songs =>@artist.featured_songs
+        .content-action-space
+          share your music
+          = link_to "add album", new_artist_music_path(@artist.name), :remote=>:true, :class=>"ajaxopen add-new", :title =>'add new album'
+      .album-list
+        - @artist_musics.each do |music|
+          = render 'artist_music', :artist_music =>music, :show_all =>@show_all || false
+    .right
+      = render "/artist_public/right", :current =>'music'

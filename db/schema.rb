@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120720102807) do
+ActiveRecord::Schema.define(:version => 20120722070901) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -30,18 +30,8 @@ ActiveRecord::Schema.define(:version => 20120720102807) do
     t.datetime "updated_at"
   end
 
-  create_table "artist_shows", :force => true do |t|
-    t.integer  "artist_id",  :null => false
-    t.date     "show_date",  :null => false
-    t.string   "venue",      :null => false
-    t.text     "more_info"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "city"
-  end
-
-  create_table "band_albums", :force => true do |t|
-    t.integer  "band_id"
+  create_table "artist_albums", :force => true do |t|
+    t.integer  "artist_id"
     t.integer  "user_id"
     t.string   "name"
     t.datetime "created_at"
@@ -51,8 +41,8 @@ ActiveRecord::Schema.define(:version => 20120720102807) do
     t.integer  "cover_image_id"
   end
 
-  create_table "band_invitations", :force => true do |t|
-    t.integer  "band_id"
+  create_table "artist_invitations", :force => true do |t|
+    t.integer  "artist_id"
     t.integer  "user_id"
     t.string   "email"
     t.string   "token"
@@ -61,8 +51,8 @@ ActiveRecord::Schema.define(:version => 20120720102807) do
     t.datetime "updated_at"
   end
 
-  create_table "band_logos", :force => true do |t|
-    t.integer  "band_id",           :null => false
+  create_table "artist_logos", :force => true do |t|
+    t.integer  "artist_id",         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "logo_file_name"
@@ -71,8 +61,25 @@ ActiveRecord::Schema.define(:version => 20120720102807) do
     t.datetime "logo_updated_at"
   end
 
-  create_table "band_photos", :force => true do |t|
-    t.integer  "band_album_id"
+  create_table "artist_musics", :force => true do |t|
+    t.integer  "artist_id"
+    t.integer  "user_id"
+    t.string   "album_name"
+    t.string   "cover_img_file_name"
+    t.string   "cover_img_content_type"
+    t.integer  "cover_img_file_size"
+    t.datetime "cover_img_updated_at"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "price",                  :default => 0.0
+    t.boolean  "disabled",               :default => false
+    t.integer  "song_count",             :default => 0
+    t.boolean  "featured",               :default => false
+  end
+
+  create_table "artist_photos", :force => true do |t|
+    t.integer  "artist_album_id"
     t.integer  "user_id"
     t.string   "image_file_name"
     t.string   "image_content_type"
@@ -83,9 +90,19 @@ ActiveRecord::Schema.define(:version => 20120720102807) do
     t.string   "caption"
   end
 
-  create_table "band_users", :force => true do |t|
+  create_table "artist_shows", :force => true do |t|
+    t.integer  "artist_id",  :null => false
+    t.date     "show_date",  :null => false
+    t.string   "venue",      :null => false
+    t.text     "more_info"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "city"
+  end
+
+  create_table "artist_users", :force => true do |t|
     t.integer  "user_id",                            :null => false
-    t.integer  "band_id"
+    t.integer  "artist_id"
     t.integer  "access_level"
     t.boolean  "is_deleted",      :default => false
     t.datetime "created_at"
@@ -93,14 +110,14 @@ ActiveRecord::Schema.define(:version => 20120720102807) do
     t.boolean  "notification_on", :default => true
   end
 
-  create_table "bands", :force => true do |t|
+  create_table "artists", :force => true do |t|
     t.string   "name"
     t.string   "genre"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "bio"
     t.string   "location"
-    t.string   "band_logo_url"
+    t.string   "artist_logo_url"
     t.string   "website"
     t.string   "mention_name"
     t.string   "facebook_page"
@@ -108,15 +125,15 @@ ActiveRecord::Schema.define(:version => 20120720102807) do
     t.boolean  "is_member_public", :default => true
   end
 
-  create_table "bands_genres", :id => false, :force => true do |t|
-    t.integer "band_id",  :null => false
-    t.integer "genre_id", :null => false
+  create_table "artists_genres", :id => false, :force => true do |t|
+    t.integer "artist_id", :null => false
+    t.integer "genre_id",  :null => false
   end
 
   create_table "connections", :force => true do |t|
-    t.integer  "band_id"
-    t.integer  "connected_band_id"
-    t.boolean  "is_approved",       :default => false
+    t.integer  "artist_id"
+    t.integer  "connected_artist_id"
+    t.boolean  "is_approved",         :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -202,7 +219,7 @@ ActiveRecord::Schema.define(:version => 20120720102807) do
   create_table "mentioned_posts", :force => true do |t|
     t.integer  "post_id"
     t.integer  "user_id"
-    t.integer  "band_id"
+    t.integer  "artist_id"
     t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -287,21 +304,21 @@ ActiveRecord::Schema.define(:version => 20120720102807) do
 
   create_table "posts", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "band_id"
+    t.integer  "artist_id"
     t.string   "msg"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_deleted",         :default => false
+    t.boolean  "is_deleted",           :default => false
     t.string   "ancestry"
-    t.boolean  "is_bulletin",        :default => false
-    t.boolean  "is_read",            :default => false
+    t.boolean  "is_bulletin",          :default => false
+    t.boolean  "is_read",              :default => false
     t.string   "mentioned_users"
     t.string   "mentioned_user_ids"
-    t.string   "mentioned_bands"
-    t.string   "mentioned_band_ids"
+    t.string   "mentioned_artists"
+    t.string   "mentioned_artist_ids"
     t.string   "postitem_type"
     t.integer  "postitem_id"
-    t.boolean  "is_newsfeed",        :default => false
+    t.boolean  "is_newsfeed",          :default => false
   end
 
   add_index "posts", ["ancestry"], :name => "index_posts_on_ancestry"
@@ -331,26 +348,9 @@ ActiveRecord::Schema.define(:version => 20120720102807) do
 
   add_index "receipts", ["notification_id"], :name => "index_receipts_on_notification_id"
 
-  create_table "song_albums", :force => true do |t|
-    t.integer  "band_id"
-    t.integer  "user_id"
-    t.string   "album_name"
-    t.string   "cover_img_file_name"
-    t.string   "cover_img_content_type"
-    t.integer  "cover_img_file_size"
-    t.datetime "cover_img_updated_at"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.float    "price",                  :default => 0.0
-    t.boolean  "disabled",               :default => false
-    t.integer  "song_count",             :default => 0
-    t.boolean  "featured",               :default => false
-  end
-
   create_table "songs", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "song_album_id"
+    t.integer  "artist_music_id"
     t.text     "description"
     t.string   "song_file_name"
     t.string   "song_content_type"

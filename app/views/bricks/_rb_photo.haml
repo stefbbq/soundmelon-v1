@@ -2,38 +2,38 @@
 - link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
 %div{:style=>"position: relative;"}
   - if @has_admin_access || photo_album_count > 0
-    = link_to band_albums_path(:band_name =>band.name), {:remote =>:true, :id=>'photos', :class =>link_class} do
+    = link_to artist_albums_path(artist.name), {:remote =>:true, :id=>'photos', :class =>link_class} do
       photos
-    = link_to "", new_band_album_path(:band_name => band.name), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access    
+    = link_to "", new_artist_album_path(:artist_name => artist.name), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access
   - else
     .selection-box-nohref
       photos
   .collection{:id =>'photobox'}
     - if photo_album_count > 0
       %div
-        - photo_albums.each do |band_photo_album|
-          .song-album{:id => "band_album_#{band_photo_album.id}"}
+        - photo_albums.each do |artist_photo_album|
+          .song-album{:id => "artist_album_#{artist_photo_album.id}"}
             - if @has_admin_access
-              = link_to add_photos_to_album_path(:band_name => band.name, :band_album_name => band_photo_album.name), {:remote=>:true, :class=>"ajaxopen"} do
+              = link_to add_photos_to_album_path(artist.name, artist_photo_album.name), {:remote=>:true, :class=>"ajaxopen"} do
                 .icon-add{:style =>'float:left;margin-right:2px;'}
             %span{:style =>'float:left;'}
               %span.album-cover-image{:style =>'margin-right:5px;'}
-                = link_to get_band_photo_album_teaser_photo(band_photo_album), band_album_path(:band_name =>band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
-              = link_to band_photo_album.name, band_album_path(:band_name =>band.name, :band_album_name => band_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
+                = link_to get_artist_photo_album_teaser_photo(artist_photo_album), artist_album_path(:artist_name =>artist.name, :artist_album_name => artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
+              = link_to artist_photo_album.name, artist_album_path(artist.name, artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
             - if @has_admin_access
-              = link_to delete_album_path(:band_name => band.name, :band_album_name => band_photo_album.name),{ :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen"} do
+              = link_to delete_album_path(artist.name, artist_photo_album.name),{ :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen"} do
                 .icon-remove{:style =>'float:left;'}
           %br/
     - else
       .message= NO_PHOTO_ALBUM_MESSAGE
 - if @has_admin_access
   :javascript
-    function updateAfterPhotoAlbumRemoval(band_album_id){
-      if($('.right #photobox #band_album_' + band_album_id).length>0){
-        $('.right #photobox #band_album_' + band_album_id).remove();
+    function updateAfterPhotoAlbumRemoval(artist_album_id){
+      if($('.right #photobox #artist_album_' + artist_album_id).length>0){
+        $('.right #photobox #artist_album_' + artist_album_id).remove();
       }
-      if($('.primary .left #band_album_' + band_album_id).length >0){
-        $('.primary .left #band_album_' + band_album_id).remove();
+      if($('.primary .left #artist_album_' + artist_album_id).length >0){
+        $('.primary .left #artist_album_' + artist_album_id).remove();
       }
       if($('#photobox div.song-album').length==0){
         $('#photobox').html("<div class='message'>#{NO_PHOTO_ALBUM_MESSAGE}</div>");

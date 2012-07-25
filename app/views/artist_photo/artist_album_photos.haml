@@ -1,0 +1,4 @@
+%h3= "#{@artist_album.name}(#{@artist_album.artist_photos.count})"
+- @artist_album.artist_photos.each do |photo|
+  .album_photo
+    = link_to image_tag(photo.image.url(:medium)), artist_album_photo_path(photo.id, :artist_album_name => @artist_album.name, :artist_name => @artist.name), :remote => true, :class => 'ajaxopen'

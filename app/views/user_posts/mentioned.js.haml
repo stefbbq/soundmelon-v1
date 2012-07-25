@@ -1,5 +1,4 @@
-- if @user.is_fan?
-  $('#page-content').html("");
+- if @user.is_fan?  
   $('#page-content').html('#{escape_javascript(render '/fan/live')}');
   $('#page-content').append("<div class='primary-container'><div class='primary'><div class='left'></div><div class='right'></div></div></div>");
   $('.primary .left').html('<div class="top"></div>');
@@ -9,3 +8,4 @@
   $('.primary .right').html('#{escape_javascript(render 'fan/right', :current=>'news_feed')}');    
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
+scrollToContainerTop();

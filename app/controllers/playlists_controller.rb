@@ -4,9 +4,9 @@ class PlaylistsController < ApplicationController
   
   def add
     begin
-      @song   = Song.find(params[:id])
+      @song         = Song.find(params[:id])
       Playlist.add_song_for(current_user.id, @song.id)
-      @songs  = [@song]
+      @songs        = [@song]
     rescue =>exp
       logger.error "Error in Playlist::Add :=>#{exp.message}"
       render :nothing => 'true' and return
@@ -15,7 +15,7 @@ class PlaylistsController < ApplicationController
   
   def remove
     begin
-      song = Song.find(params[:id])
+      song          = Song.find(params[:id])
       Playlist.remove_song_for(current_user.id, song.id)
     rescue =>exp
       logger.error "Error in Playlist::Remove :=>#{exp.message}"
@@ -25,9 +25,9 @@ class PlaylistsController < ApplicationController
   
   def add_all_songs_of_album
     begin
-      @song_album = SongAlbum.find(params[:id])
-      Playlist.add_whole_album_songs_for(current_user.id, @song_album)
-      @songs     = @song_album.songs
+      @artist_music = ArtistMusic.find(params[:id])
+      Playlist.add_artist_music_songs_for(current_user.id, @artist_music)
+      @songs        = @artist_music.songs
     rescue =>exp
       logger.error "Error in Playlist::AddAllSongsOfAlbum :=>#{exp.message}"
       render :nothing => 'true' and return
@@ -35,8 +35,8 @@ class PlaylistsController < ApplicationController
   end
 
   def add_to_player_queue
-    @song_album = SongAlbum.where("id=?", params[:id]).includes(:songs).first
-    @songs      = @song_album.songs
+    @artist_music   = ArtistMusic.where("id=?", params[:id]).includes(:songs).first
+    @songs          = @artist_music.songs
   end
   
   private

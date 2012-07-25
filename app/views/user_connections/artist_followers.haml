@@ -1,0 +1,12 @@
+= render :partial=>"/artist_public/live"
+.primary-container
+  .primary
+    .left
+      %b Followers of #{@artist.name}
+      %hr/
+      .connections_list{:id =>"#{@artist.class.name.downcase}_#{@artist.id}_followers"}
+        - @followers.map(&:follower).each do |user|
+          = render '/user_connections/item', :user => user, :connection_item => @artist, :is_user_fan => true
+      = paginate @followers, :remote => true
+    .right
+      = render '/artist_public/right', :current =>'fan'

@@ -59,7 +59,7 @@ class AvatarController < ApplicationController
 
   def new_logo
     begin
-      @artist_logo      = BandLogo.new(:band_id=>@artist.id)      
+      @artist_logo      = ArtistLogo.new(:artist_id=>@artist.id)      
     rescue =>exp
       logger.error "Error in Avatar::NewLogo :=> #{exp.message}"
     end
@@ -70,7 +70,7 @@ class AvatarController < ApplicationController
 
   def create_logo
     begin      
-      @artist_logo    = @artist.build_band_logo(params[:band_logo])
+      @artist_logo    = @artist.build_artist_logo(params[:artist_logo])
     rescue =>exp
       logger.error "Error in AvatarCreateLogo :=> #{exp.message}"
       @artist         = nil
@@ -90,7 +90,7 @@ class AvatarController < ApplicationController
   end
 
   def update_logo    
-    if @artist_logo.update_attributes(params[:band_logo])
+    if @artist_logo.update_attributes(params[:artist_logo])
       respond_to do |format|
         format.js
       end
@@ -122,7 +122,7 @@ class AvatarController < ApplicationController
           @profile_pic    = @actor.profile_pic
         else
           @artist         = @actor
-          @artist_logo    = @actor.band_logo
+          @artist_logo    = @actor.artist_logo
         end
       rescue =>exp
         logger.error "Error in Avatar::SetActorAndEntities :=> #{exp.message}"

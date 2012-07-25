@@ -1,0 +1,10 @@
+- show_artist_music_songs = capture do
+  - @artist_music.songs.each do |song|
+    = render 'song_item', :song => song
+- hide_artist_music_songs = capture do
+  %a{:href => "javascript:void(0);", :onclick => "$('#artist_music_#{@artist_music.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
+    collapse
+$('#artist_music_#{@artist_music.id} .album-details').html('#{escape_javascript show_artist_music_songs}');
+$('#expand_link_#{@artist_music.id}').replaceWith('#{escape_javascript hide_artist_music_songs}');
+closeFacebox(1000);
+scrollToTop();

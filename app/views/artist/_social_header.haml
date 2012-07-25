@@ -1,7 +1,7 @@
 - tabs      = [:mention, :reply, :message]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
-- band      = band || @band
-- if band 
+- artist      = artist || @artist
+- if artist 
   .social-header
     = link_to mentioned_path,
         {:remote => true, 

@@ -37,7 +37,7 @@ $(document).ready( function(){
   $('[data-validate]').blur(function() {
     $this = $(this);
     $.get($this.data('validate'), {
-      band_name: $this.val()
+      artist_name: $this.val()
     }).success(function() {
       $('.artist-name-popout').html('');
     }).error(function() {
@@ -48,7 +48,7 @@ $(document).ready( function(){
   $('[data-validatemn]').blur(function() {
     $this = $(this);
     $.get($this.data('validatemn'), {
-      band_mention_name: $this.val()
+      artist_mention_name: $this.val()
     }).success(function() {
       $('.artist-username-popout').html('');
     }).error(function() {

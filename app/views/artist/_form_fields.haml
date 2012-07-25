@@ -1,6 +1,6 @@
-- is_new = @band.new_record?
-- band_user_notification_status = @band_user ? @band_user.notification_on : false
-.content-box#band-edit
+- is_new = @artist.new_record?
+- artist_user_notification_status = @artist_user ? @artist_user.notification_on : false
+.content-box#artist-edit
   .area.form.artist-basic
     #update-msg
     .details
@@ -14,10 +14,10 @@
       - else
         %h3
           your name is
-          %span{:id =>'artistname'}= @band.name
+          %span{:id =>'artistname'}= @artist.name
         %h3
           permanent username is
-          %span= @band.mention_name
+          %span= @artist.mention_name
         %h5 click the lock to enable changes
     .content{:id=>'basic-info'}
       - if is_new
@@ -36,7 +36,7 @@
           = f.text_field :name
         .lock-toggle
         = f.submit 'changes are swell', :class => 'button'
-.content-box#band-edit
+.content-box#artist-edit
   .area.form.toggle-replace
     .details
       - if is_new
@@ -87,7 +87,7 @@
       - else
         = f.submit 'save to memory', :class => 'button'
 - unless is_new
-  .content-box#band-edit
+  .content-box#artist-edit
     .area.form.toggle-sole
       #notification-setting-msg.msg
       .details
@@ -98,7 +98,7 @@
           .field.notification-toggle
             %label
               toggle
-            = check_box_tag :notification, band_user_notification_status, band_user_notification_status, :onchange =>"$.ajax('#{update_artist_notification_setting_url(@band.id)}');"
+            = check_box_tag :notification, artist_user_notification_status, artist_user_notification_status, :onchange =>"$.ajax('#{update_artist_notification_setting_url(@artist.id)}');"
 - unless is_new
   :javascript
     $('#basic-info input').attr('disabled', true).addClass('input-disabled');

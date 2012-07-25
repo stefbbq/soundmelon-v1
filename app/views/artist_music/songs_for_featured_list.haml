@@ -1,0 +1,21 @@
+- popup_content = capture do
+  - unless @status
+    Sorry, there was an error!
+  - else
+    %div{:style=>"color:black;border: 2px solid blue;padding:5px;width:90%;"}
+      - if @artist_musics.empty?
+        All musics are featured!
+      - else
+        List of Musics
+        %hr/
+        - for album in @artist_musics
+          - songs = album.songs.nonfeatured
+          %br= album.album_name
+          - if songs.blank?
+            No song to set as featured.
+          - else
+            - for song in songs
+              = link_to song.title, make_song_featured_path(album.artist.name, album.album_name, song.id), :remote=>:true, :class=>"ajaxopen", :style=>'color:red;font-size:14px;'
+              %br/
+          %hr
+faceboxContent('#{escape_javascript popup_content}')

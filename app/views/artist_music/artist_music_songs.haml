@@ -1,0 +1,7 @@
+%h3
+  = image_tag(@artist_music.cover_img.url(:medium))
+  = "#{@artist_music.album_name}(#{@artist_music.songs.count})"
+  = link_to 'Edit', edit_artist_music_path(@artist_music.artist.name, @artist_music.album_name ), :remote => true, :class => 'ajaxopen'
+- @artist_music.songs.each do |song|
+  .song_album_songs
+    = "#{song.song_file_name}(#{number_to_human_size(song.song_file_size)})"]

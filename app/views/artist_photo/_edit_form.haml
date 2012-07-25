@@ -1,0 +1,8 @@
+= image_tag  @artist_photo.image.url(:thumb)
+= form_for @artist_photo, :url => update_artist_photo_path(@artist_photo, :artist_name => @artist.name,  :album_name => @artist_album.name), :remote => true do |f|
+  .field>
+    = f.label :caption
+    %br
+    = f.text_field :caption
+  .actions
+    = f.submit 'update', :disable_with => 'updating...'

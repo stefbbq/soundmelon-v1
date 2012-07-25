@@ -1,0 +1,5 @@
+- content = capture do
+  = image_tag @photo.image.url(:large)
+  %br
+  = @photo.caption
+faceboxContent('#{escape_javascript(content)}')

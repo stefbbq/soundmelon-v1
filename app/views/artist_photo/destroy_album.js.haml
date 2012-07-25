@@ -1,0 +1,6 @@
+- if @status
+  faceboxContent('Album successfully deleted');
+  updateAfterPhotoAlbumRemoval('#{@artist_album.id}');
+- else
+  faceboxContent("Something went wrong! Try again!");
+closeFacebox(100);

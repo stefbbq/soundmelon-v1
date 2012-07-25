@@ -3,7 +3,7 @@ else{$('#page-content').html('#{escape_javascript(render 'live')}');}
 if($('.primary .left').length>0){$('.primary .left').html('#{escape_javascript(render '/bricks/fan_posts')}'); $('.primary .right').html('#{escape_javascript(render 'right')}');}
 else{$('#page-content').append('#{escape_javascript(render 'primary_content')}');}
 $('.primary .right').html('#{escape_javascript(render 'right')}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
+closeFacebox(1000);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist');
 $('#feed-msg').addClass('active').addClass('button-fill-artist');
 $('.left a').removeClass('active').removeClass('button-fill-fan');

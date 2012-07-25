@@ -1,0 +1,29 @@
+- @is_updated ||= false
+- artist_music_songs = capture do
+  .header
+    Update Artist Music : #{@artist_music.album_name}
+  %h3
+    = get_album_cover_image(@artist_music, 'medium')
+    %br
+    = "#{@artist_music.album_name} : #{@artist_music.songs.count} songs"
+    %br
+    = "$#{@artist_music.price}"  
+  .normal-content.mini-content
+    = form_for @artist_music, :url => {:action => 'update_artist_music' , :id => @artist_music.id, :artist_name => @artist_music.artist.name}, :html => {:multipart => true, :remote => true } do |f|
+      .field
+        = f.label "album name"
+        = f.text_field :album_name
+      .field
+        = f.label "album price"
+        = f.text_field :price
+      .field 
+        = f.label "cover image"
+        =f.file_field :cover_img      
+      = f.submit "Save", :disable_with => 'Saving...', :class => 'generic-button'
+
+- if @is_updated
+  $('.primary .left #artist_music_#{@artist_music.id}').replaceWith('#{escape_javascript(render 'artist_music', :artist_music => @artist_music)}');
+  faceboxContent('Successfully updated');
+  closeFacebox(1000);
+- else
+  faceboxContent('#{escape_javascript artist_music_songs}');

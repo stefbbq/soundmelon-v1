@@ -1,0 +1,67 @@
+= javascript_include_tag "swfobject.js", "jquery.uploadify.v2.1.0.js"
+- session_key = Rails.application.config.session_options[:key]
+:javascript
+  $(document).ready(function() {	   
+    $('#artist_photo_image').click(function(event){ 
+      event.preventDefault();
+    });	
+    $("#artist_photo_image").uploadify({
+      'uploader': '/uploadify/uploadify.swf',
+      'cancelImg': '/uploadify/cancel.png',
+      'multi': true,
+      'auto': true,
+      'fileExt':  '*.jpg;*.png;*.gif;*.bmp;*.jpeg',
+      'fileDesc': 'Image Files',
+      'script': '/artist_photo/create',
+      onComplete: function(event, queueID, fileObj, response, data) {
+        var dat = eval('(' + response + ')');        
+        $('#uploaded_images').append('<img src="'+dat.upload+'" />');
+        $('#album_name').val(dat.album_name);
+        $('#album_name').attr("disabled", true);
+        var photo_stat = dat.photo_count_str>1 ? dat.photo_count_str + ' photos' : dat.photo_count_str + ' photo' ;        
+        $('#photo_stat_' + dat.artist_album_id ).html( photo_stat );
+        if($('#photobox #artist_album_'+ dat.artist_album_id).length ==0){
+          var new_album_html = get_list_album_html(dat.artist_album_id, dat.album_name, dat.add_url, dat.album_url, dat.delete_url, dat.image_src);
+          if($('#photobox .message').length>0)
+            $('#photobox').html(new_album_html);
+          else
+            $('#photobox').prepend(new_album_html);
+        }
+
+        if($('#photo_album_box').length >0){
+          if($('#photo_album_box #artist_album_' + dat.artist_album_id).length == 0){
+            $('#photo_album_box').append(dat.album_string);
+          }else{
+            if($('#photo_album_box #artist_album_' + dat.artist_album_id + ' .album-details .photo_gallery').length > 0){
+              $('#photo_album_box #artist_album_' + dat.artist_album_id + ' .album-details .photo_gallery').append(dat.photo_string);
+            }
+          }
+        }
+      },
+      onSelect : function(event,data) {
+        $("#artist_photo_image").uploadifySettings('scriptData', { 'album_name' : $('#album_name').val(), 'artist_name' : $('#artist_name').val() });        
+      },
+      scriptData : {
+        '_http_accept': 'application/javascript',
+        'format' : 'json',
+        '_method': 'post',
+        '#{session_key}' : encodeURIComponent('#{u cookies[session_key]}'),
+        'authenticity_token': encodeURIComponent($('meta[name=csrf-token]').attr('content'))
+      }
+    });
+	
+    $('#upload_submit').click(function(event){
+      event.preventDefault();
+      $('#artist_photo_image').uploadifyUpload();
+    });
+  });
+
+  function get_list_album_html(id, album_name, add_url, album_url, delete_url, img_src){
+    var html_str = "<div class='song-album' id='artist_album_" + id + "'>";
+    html_str      += "<a href='" + add_url + "' class='ajaxopen' data-remote='true'><div class='icon-add' style='float:left;margin-right:2px;'></div></a>";
+    html_str      += "<span style='float:left;'><span class='album-cover-image' style='margin-left:5px;'><a href='" + album_url + "' class='ajaxopen' data-remote='true'><img alt='' src='" + img_src + "'/></a></span>";
+    html_str      += "<a href='" + album_url + "' class='ajaxopen' data-remote='true'>" + album_name + "</a></span>";
+    html_str      += "<a href='" + delete_url + "' class='ajaxopen' data-confirm='Are you sure?' data-remote='true'><div class='icon-remove' style='float:left;'></div></a>";
+    html_str      +="</div>"
+    return html_str;
+  } 

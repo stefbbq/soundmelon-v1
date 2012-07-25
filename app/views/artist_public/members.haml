@@ -2,10 +2,11 @@
 .primary-container
   .primary
     .left
-      -if @band.is_member_public?
-        - @band_members.each do |user|
-          = render '/user_connections/item', :user => user, :connection_item => user, :is_user_fan => false
-      - else
-        This artists members are not public.
+      .connections_list
+        -if @artist.is_member_public?
+          - @artist_members.each do |user|
+            = render '/user_connections/item', :user => user, :connection_item => user, :is_user_fan => false
+        - else
+          This artists members are not public.
     .right
       = render 'right', :current =>'member'

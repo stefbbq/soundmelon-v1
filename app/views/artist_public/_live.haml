@@ -1,17 +1,17 @@
-- @band ||= @artist
-- artist_admin_ids= BandUser.for_artist_id(@band.id).map { |u| u.user_id}
+- @artist ||= @artist
+- artist_admin_ids= ArtistUser.for_artist_id(@artist.id).map { |u| u.user_id}
 - actor           = current_actor
 - is_artist_admin = artist_admin_ids.include? current_user.id
-- is_own_wall     = actor == @band
+- is_own_wall     = actor == @artist
 .live
-  .profile-image{:title =>"#{@band.name}"}
-    = get_artist_profile_image(@band)
+  .profile-image{:title =>"#{@artist.name}"}
+    = get_artist_profile_image(@artist)
   .links
     .top
       .header
         .name
-          %h2.full-name= @band.name
-          %h2= @band.mention_name
+          %h2.full-name= @artist.name
+          %h2= @artist.mention_name
         .actions
           - if is_own_wall
             = link_to user_home_path, {:class =>'ajaxopen text-action', :remote => true, :id => "administer"} do
@@ -20,29 +20,29 @@
               administer
           - else
             - if is_artist_admin
-              = link_to change_login_path(@band.name), {:class =>'ajaxopen text-action', :remote => :true, :id => "administer"} do
+              = link_to change_login_path(@artist.name), {:class =>'ajaxopen text-action', :remote => :true, :id => "administer"} do
                 .icon-bg
                 %i
                 admin
             - if actor.is_fan?
-              - if actor.following?(@band)
-                = link_to unfollow_band_path(@band.name, 1), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+              - if actor.following?(@artist)
+                = link_to unfollow_artist_path(@artist.name, 1), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
                   .icon-bg
                   %i
                   unfollow
               - else
-                = link_to follow_band_path(@band.name, 1), {:id =>'follow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+                = link_to follow_artist_path(@artist.name, 1), {:id =>'follow-artist', :remote => true, :class => 'ajaxopen text-action'} do
                   .icon-bg
                   %i
                   follow
             - else
               #connect_section
-                = render 'bricks/artist_connection', :actor =>actor, :band => @band
-          = link_to '', "http://facebook.com/#{@band.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @band.facebook_page.blank?
-          = link_to '', "http://twitter.com/#{@band.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @band.twitter_page.blank?
+                = render 'bricks/artist_connection', :actor =>actor, :artist => @artist
+          = link_to '', "http://facebook.com/#{@artist.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @artist.facebook_page.blank?
+          = link_to '', "http://twitter.com/#{@artist.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @artist.twitter_page.blank?
       .sub-head
         %h3 
-          = "#{@band.genre}"
+          = "#{@artist.genre}"
       .description
     .bottom
-      = render "bricks/random_artists", :current => @band
+      = render "bricks/random_artists", :current => @artist

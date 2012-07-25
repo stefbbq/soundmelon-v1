@@ -2,7 +2,7 @@ class Song < ActiveRecord::Base
   require 'mp3info'
   acts_as_votable
   belongs_to  :user
-  belongs_to  :song_album
+  belongs_to  :artist_music
   has_many    :posts, :as =>:postitem, :dependent => :destroy
   has_many    :playlists  
   scope :processed, :conditions =>["is_processed = ?", true]
@@ -10,8 +10,8 @@ class Song < ActiveRecord::Base
   scope :nonfeatured, :conditions =>["is_featured = ?", false]
 
   has_attached_file :song,    
-    :path => ":rails_root/public/assets/bands/song/album/:id/:style/:normalized_attachment_file_name",
-    :url => "/assets/bands/song/album/:id/:style/:normalized_attachment_file_name"
+    :path => ":rails_root/public/assets/artists/music/:id/:style/:normalized_attachment_file_name",
+    :url => "/assets/artists/music/:id/:style/:normalized_attachment_file_name"
 
   #  validates_attachment_content_type :song,
   # :content_type => [ 'audio/mpeg', 'audio/x-mpeg', 'audio/mp3', 'audio/x-mp3', 'audio/mpeg3', 'audio/x-mpeg3', 'audio/mpg', 'audio/x-mpg', 'audio/x-mpegaudio', 'application/octet-stream']
@@ -51,47 +51,51 @@ class Song < ActiveRecord::Base
   # returns the song details with string formatted as necessary
   def song_detail
     song_title                      = self.title || self.get_default_title
-    song_album                      = self.song_album(:include =>:band)
-    song_album_name                 = song_album ? song_album.album_name : ''
-    song_album_band                 = song_album ? song_album.band : nil
-    song_album_band_name            = song_album_band ? song_album_band.name : ''
+    artist_music                    = self.artist_music(:include =>:artist)
+    artist_music_name               = artist_music ? artist_music.album_name : ''
+    artist_music_artist             = artist_music ? artist_music.artist : nil
+    artist_music_artist_name        = artist_music_artist ? artist_music_artist.name : ''
     mp3_song                        = self.song_mp3
     ogg_song                        = self.song_ogg    
     ogg_song_name_formatted         = ogg_song.gsub("'", "\\\\'")
     song_title_formatted            = song_title.gsub("'", "\\\\'")
-    song_album_name_formatted       = song_album_name.gsub("'", "\\\\'")
-    song_album_band_name_formatted  = song_album_band_name.gsub("'", "\\\\'")
+    artist_music_name_formatted     = artist_music_name.gsub("'", "\\\\'")
+    artist_name_formatted           = artist_music_artist_name.gsub("'", "\\\\'")
     
     detail      = {
-      :id                   => self.id,
-      :mp3_song             => mp3_song,
-      :ogg_song             => ogg_song_name_formatted,
-      :song_title           => song_title_formatted,
-      :song_album_name      => song_album_name_formatted,
-      :song_album_band_name => song_album_band_name_formatted,
-      :song_album           => song_album
+      :id                       => self.id,
+      :mp3_song                 => mp3_song,
+      :ogg_song                 => ogg_song_name_formatted,
+      :song_title               => song_title_formatted,
+      :artist_music_name        => artist_music_name_formatted,
+      :artist_music_artist_name => artist_name_formatted,
+      :artist_music             => artist_music
     }
     detail
   end
 
   def do_like_by user
-    song_album      = self.song_album(:include =>:band)
-    band            = song_album.band
-    genres          = band ? band.genre : []
-    genres          = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
+    artist_music      = self.artist_music(:include =>:artist)
+    artist            = artist_music.artist
+    genres            = artist ? artist.genre : []
+    genres            = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
     GenreUser.add_genre_and_users genres, user
   end
 
   def do_dislike_by user
-    song_album      = self.song_album(:include =>:band)
-    band            = song_album.band
-    genres          = band ? band.genre : []
-    genres          = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
+    artist_music      = self.artist_music(:include =>:artist)
+    artist            = artist_music.artist
+    genres            = artist ? artist.genre : []
+    genres            = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
     GenreUser.remove_genre_and_users genres, user
   end
 
   def song_mp3
-    self.song
+#    self.song
+    base_file_path  = self.song.url.split('/')
+    file_name       = base_file_path.pop
+    mp3_file_url    = (base_file_path + ["#{file_name.split('.').first}.mp3"]).join('/')
+    mp3_file_url
   end
 
   def song_ogg
@@ -136,7 +140,7 @@ class Song < ActiveRecord::Base
     song_file      = self.song.path
     song_title     = ''
     song_artist    = ''
-    song_album     = ''
+    artist_music     = ''
     song_track     = ''
     song_genre     = ''
     if File.exists?(song_file)
@@ -144,12 +148,12 @@ class Song < ActiveRecord::Base
         Mp3Info.open(song_file) { |mp3|
           song_title   = mp3.tag.title
           song_artist  = mp3.tag.artist
-          song_album   = mp3.tag.album
+          artist_music = mp3.tag.album
           song_track   = mp3.tag.tracknum
           song_genre   = mp3.tag.genre
         }
         song_title     = song_title.blank? ? self.title : song_title
-        self.update_attributes(:artist_name =>song_artist, :album_name =>song_album, :track =>song_track, :genre =>song_genre)
+        self.update_attributes(:artist_name =>song_artist, :album_name =>artist_music, :track =>song_track, :genre =>song_genre)
       rescue =>exp
         logger.error "Error in UpdateMetadataFromFile => #{exp.message}"
       end
@@ -200,11 +204,11 @@ class Song < ActiveRecord::Base
 
   
   def create_newsfeed
-    Post.create_newsfeed_for self, nil, self.song_album.band_id, " added"
+    Post.create_newsfeed_for self, nil, self.artist_music.artist_id, " added"
   end
 
   def artist
-    self.song_album.band
+    self.artist_music.artist
   end
   
   private  

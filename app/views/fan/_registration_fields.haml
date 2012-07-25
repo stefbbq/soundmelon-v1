@@ -1,10 +1,10 @@
 .registration
-  - if !@user.errors.blank? || !@is_band_data_valid
+  - if !@user.errors.blank? || !@is_artist_data_valid
     .registration-error
       %ul
         - for message in @user.errors.full_messages
           %li= "User #{message}".downcase
-        - for message in @band.errors.full_messages
+        - for message in @artist.errors.full_messages
           %li= "Artist #{message}".downcase
   .left
     - @is_invited ||=false
@@ -42,11 +42,11 @@
       You can now go ahead and register or you can also add an artist profile along with your normal profile by filling out the form below
     .field
       %label{:for => "name"} artist name
-      = text_field_tag 'band[name]', params[:band] ? params[:band][:name] : '', :'data-validate' => check_bandname_url
+      = text_field_tag 'artist[name]', params[:artist] ? params[:artist][:name] : '', :'data-validate' => check_artistname_url
       .artist-name-popout.field-error
     .field
       %label{:for => "username"} artist username
-      = text_field_tag 'band[mention_name]', params[:band] ? params[:band][:mention_name] : '', :'data-validatemn' => check_bandmentionname_url
+      = text_field_tag 'artist[mention_name]', params[:artist] ? params[:artist][:mention_name] : '', :'data-validatemn' => check_artistmentionname_url
       .artist-username-popout.field-error
     = submit_tag 'register me!', :size => "100", :class => 'join'
   .right

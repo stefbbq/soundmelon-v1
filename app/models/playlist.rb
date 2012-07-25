@@ -17,8 +17,8 @@ class Playlist < ActiveRecord::Base
     end
   end
   
-  def self.add_whole_album_songs_for(user_id, song_album)
-    song_album.songs.each do |song|
+  def self.add_artist_music_songs_for(user_id, artist_music)
+    artist_music.songs.each do |song|
       Playlist.find_or_create_by_user_id_and_song_id(user_id, song.id)
     end
   end

@@ -1,48 +1,52 @@
-- @band     ||= @artist
-- tabs      = [:latest_post, :music, :photo, :show, :member, :fan, :connection]
-- current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
-.items
-  = link_to 'latest posts', show_band_path(:band_name => @band.name),
-            :id                 =>'latest-posts', 
-            :remote             => 'true',
-            :class              => 0 == current ? 'ajaxopen backable iconactive selection-box active button-fill-artist' : 'ajaxopen backable iconactive selection-box'
-  = render '/bricks/rb_music_featured',            
-            :songs              => @featured_songs,
-            :is_admin           => false,
-            :band               => @band,
-            :selected           => 1 == current
-  =# render '/bricks/rb_music',
-            :song_album_count   => @song_album_count,
-            :song_albums        => @song_albums,
-            :is_admin           => false,
-            :band               => @band,
-            :selected           => 1 == current  
-  = render '/bricks/rb_photo',
-            :photo_album_count  => @photo_album_count,
-            :photo_albums       => @photo_albums,
-            :is_admin           => false,
-            :band               => @band,
-            :selected           => 2 == current
-  = render '/bricks/rb_show',
-            :show_count         => @show_count,
-            :artist_shows       => @artist_shows,
-            :is_admin           => false,
-            :artist             => @band,
-            :selected           => 3 == current
-  = render '/bricks/rb_member',
-            :artist_count       => @band_artist_count,
-            :band_artists       => @band_artists,
-            :band               => @band,
-            :is_admin           => false,
-            :selected           => 4 == current
-  = render '/bricks/rb_connections',
-            :connection_count   => @band_connection_count,
-            :connected_artists  => @connected_artists,
-            :band               => @band,
-            :selected           => 6 == current
-  = render '/bricks/rb_fan',
-            :fan_count          => @band_fan_count,
-            :band_fans          => @band_fans,
-            :band               => @band,
-            :selected           => 5 == current
-.fader
+- @artist     ||= @artist
+
+- if current_user != @artist
+  - tabs      = [:latest_post, :music, :photo, :show, :member, :fan, :connection]
+  - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
+  .items
+    = link_to 'latest posts', show_artist_path(@artist.name),
+              :id                 =>'latest-posts',
+              :remote             => 'true',
+              :class              => 0 == current ? 'ajaxopen backable iconactive selection-box active button-fill-artist' : 'ajaxopen backable iconactive selection-box'
+    = render '/bricks/rb_music_featured',
+              :songs              => @featured_songs,
+              :is_admin           => false,
+              :artist             => @artist,
+              :selected           => 1 == current
+    =# render '/bricks/rb_music',
+              :song_album_count   => @song_album_count,
+              :song_albums        => @song_albums,
+              :is_admin           => false,
+              :artist             => @artist,
+              :selected           => 1 == current
+    = render '/bricks/rb_photo',
+              :photo_album_count  => @photo_album_count,
+              :photo_albums       => @photo_albums,
+              :is_admin           => false,
+              :artist             => @artist,
+              :selected           => 2 == current
+    = render '/bricks/rb_show',
+              :show_count         => @show_count,
+              :artist_shows       => @artist_shows,
+              :is_admin           => false,
+              :artist             => @artist,
+              :selected           => 3 == current
+    = render '/bricks/rb_member',
+              :artist_count       => @artist_member_count,
+              :artist_members     => @artist_members,
+              :artist             => @artist,
+              :is_admin           => false,
+              :selected           => 4 == current
+    = render '/bricks/rb_connections',
+              :connection_count   => @artist_connection_count,
+              :connected_artists  => @connected_artists,
+              :artist             => @artist,
+              :selected           => 6 == current
+    = render '/bricks/rb_fan',
+              :fan_count          => @artist_fan_count,
+              :artist_fans        => @artist_fans,
+              :artist             => @artist,
+              :selected           => 5 == current
+  .fader
+- else
+  = render '/artist/right', :current =>current

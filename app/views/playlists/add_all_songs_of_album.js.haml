@@ -1,4 +1,4 @@
-!= "jQuery.facebox('added to playlist successfully');"
+faceboxContent('added to playlist successfully');
 var newPlayList = [#{list_of_play_items(@songs)}];
 if(newPlayList.length>0){addItemsToPlayList(newPlayList);}
-setTimeout('$(document).trigger(\"close.facebox\")',30)
+closeFacebox(1000);

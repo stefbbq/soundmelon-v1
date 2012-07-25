@@ -1,17 +1,17 @@
 - if @user
   $('#change-password input, #basic-info input').attr("disabled", false).removeClass('input-disabled');
   $('.lock-toggle').removeClass('lock-toggle').addClass('lock-toggle-open');
-  setTimeout('$(document).trigger(\"close.facebox\")',10);
+  closeFacebox(1000);
 - else
   - user_password = capture do
-    %b Password Verification
-    %hr
-    - if @tested
-      .notice= "Password Incorrect"
-    .content
+    .header
+      Password Verification
+    .normal-content.mini-content
       = form_for current_user, :url => ask_and_check_user_password_path, :html => {:remote => true, :class => 'ajaxopen'} do |f|
         .field
           %label{:for => "name"} Enter your password
           = f.password_field :password, :class => 'textfield'
-        = submit_tag 'Submit', :class =>'button'     
+        = submit_tag 'Submit', :class =>'button'
+    #notice.error
+      = "password incorrect" if @tested
   != "jQuery.facebox('#{escape_javascript user_password}');"

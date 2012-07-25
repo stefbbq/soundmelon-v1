@@ -4,7 +4,7 @@
 - else
   .blankbox
     - if @user.account_type
-      = link_to "Skip", invite_band_member_path,:class=>"button right"
+      = link_to "Skip", invite_artist_member_path,:class=>"button right"
     - else
       = link_to "Skip", fan_home_path,:class=>"button right"
   = render 'fan/edit_additional_info_form'

@@ -1,7 +1,7 @@
 .status-input
   = form_tag(user_posts_path, :class=>"ajaxload",:remote => true, :id => 'user_post_form') do
-    - if @band
-      = hidden_field_tag :band_id, @band.id
+    - if @artist
+      = hidden_field_tag :artist_id, @artist.id
     = text_area :post, :msg, :class => "input-box mention", :value => "share something...", :maxlength => 240
     %span 
       200

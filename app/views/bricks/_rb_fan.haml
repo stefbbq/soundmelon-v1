@@ -2,7 +2,7 @@
 - link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
 %div{:style=>"position: relative;"}
   - if fan_count >0 || @has_admin_access
-    = link_to band_followers_path(:band_name => band.name), {:remote =>:true, :id =>'fanbox', :class =>link_class} do
+    = link_to artist_followers_path(artist.name), {:remote =>:true, :id =>'fanbox', :class =>link_class} do
       %span.count{:id=>'followercount'}
         = fan_count
       - if fan_count > 1 || fan_count == 0
@@ -17,7 +17,7 @@
   .collection{:id =>'followerbox'}
     - if fan_count > 0
       %div
-        - band_fans.each do |artist_fan|
+        - artist_fans.each do |artist_fan|
           = render '/bricks/avatar', :item =>artist_fan, :id_prefix =>"artist_follower"
     - else
       .message= NO_FAN_MESSAGE

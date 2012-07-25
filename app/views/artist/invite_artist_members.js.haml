@@ -1,0 +1,6 @@
+- artist_invitation_form = capture do
+  = render :partial => 'invite_artist_member_form'
+$('.primary .left').html('#{escape_javascript(artist_invitation_form)}');
+$('.primary .right').html('#{escape_javascript(render "/artist/right", :current =>'invite_artistmate')}');
+closeFacebox(1000);
+scrollToTop();

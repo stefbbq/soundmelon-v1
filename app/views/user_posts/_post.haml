@@ -1,5 +1,5 @@
 - actor           = current_actor
-- band            = post.band_id.blank? ? nil : post.band
+- artist          = post.artist_id.blank? ? nil : post.artist
 - user            = post.user_id.blank? ? nil : post.user
 - post_item       = post.postitem
 - is_newsfeed     = post.is_newsfeed
@@ -8,8 +8,8 @@
 - unless is_newsfeed
   - if post_item
     - buzz_content = capture do
-      - if post.band_album_post?
-        = link_to band_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'action-buzz ajaxopen'} do
+      - if post.artist_album_post?
+        = link_to artist_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'action-buzz ajaxopen'} do
           %i
           %span buzz
       - elsif post.artist_show_post?
@@ -20,24 +20,24 @@
         = link_to song_buzz_path(post_item), {:remote => true, :class => 'action-buzz ajaxopen'} do
           %i
           %span buzz
-      - elsif post.song_album_post?
+      - elsif post.artist_music_post?
         = link_to album_buzz_path(post_item.album_name, post_item.id), {:remote => true, :class => 'action-buzz ajaxopen'} do
           %i
           %span buzz
   
-- is_author_artist_profile  = (@band && band) && @band == band
+- is_author_artist_profile  = (@artist && artist) && @artist == artist
 - is_author_fan_profile     = (@user && user) && @user == user
 - self_post                 = is_author_artist_profile || is_author_fan_profile
 - hide_thread_link          ||= false
 - divclass                  ||=''
 
-- self_owner      = post.user == current_user
-- self_actor      = user == actor || band == actor
+- self_owner      = post.user == actor
+- self_actor      = user == actor || artist == actor
 - item_div_class  = self_owner ? 'content' : 'content-mentioned'
 
 - writer_header = capture do
-  - if band
-    = is_author_artist_profile ? band.name : (link_to band.name, show_band_path(:band_name => band.name), :class => 'ajaxopen backable', :remote => :true, :title => band.name)
+  - if artist
+    = is_author_artist_profile ? artist.name : (link_to artist.name, show_artist_path(:artist_name => artist.name), :class => 'ajaxopen backable', :remote => :true, :title => artist.name)
   - elsif self_owner
     You
   -elsif user
@@ -76,11 +76,11 @@
           = get_fan_avatar(user)
         - else
           = link_to get_fan_avatar(user), (self_owner ? fan_home_url : fan_profile_path(user) ), :class =>'ajaxopen backable', :remote =>:true
-      - elsif band
+      - elsif artist
         - if is_author_artist_profile
-          = get_artist_avatar(band)
+          = get_artist_avatar(artist)
         - else
-          = link_to get_artist_avatar(band), show_band_path(band.name), :class =>'ajaxopen backable', :remote =>:true
+          = link_to get_artist_avatar(artist), show_artist_path(artist.name), :class =>'ajaxopen backable', :remote =>:true
     .content
       .header
         .title
@@ -94,7 +94,7 @@
         - if is_newsfeed
           #{newsfeed_message(post, post_item).last}
         - else
-          = post_msg_with_band_mention(post) unless post.is_newsfeed?
+          = post_msg_with_artist_mention(post) unless post.is_newsfeed?
           #{post_message(post, post_item).last}
     .clear
     - if post.ancestry && !hide_thread_link

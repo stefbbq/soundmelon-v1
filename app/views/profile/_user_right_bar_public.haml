@@ -17,11 +17,11 @@
       %span.artist-count
         = pluralize(@following_artist_count, 'artist')
       - if @following_artist_count >0
-    .band-box-content
+    .artist-box-content
       %div
-        - @following_artists.each do |band|
+        - @following_artists.each do |artist|
           .avatar
-            = link_to get_artist_avatar(band), show_band_path(:band_name => band.name)
+            = link_to get_artist_avatar(artist), show_artist_path(:artist_name => artist.name)
       .clear
   .clear
   #followingbox.box-wrapper
@@ -30,7 +30,7 @@
       %span.artist-count
         = pluralize(@following_count,'fan')
       - if @following_count >0
-    .band-box-content
+    .artist-box-content
       %div
         - @following_users.each do |fan_following|
           .avatar
@@ -42,7 +42,7 @@
       %span.artist-count
         = pluralize(@follower_count,'follower')
       - if @follower_count >0
-    .band-box-content
+    .artist-box-content
       %div
         - @follower_users.each do |fan_follower|
           .avatar

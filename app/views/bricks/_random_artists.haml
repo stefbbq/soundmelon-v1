@@ -1,12 +1,12 @@
-- @bands    = Band.random_artists 2, current
-- @randomA  = @bands.first
-- @randomB  = @bands.size > 1 ? @bands.last : nil
+- @artists  = Artist.random_artists 2, current
+- @randomA  = @artists.first
+- @randomB  = @artists.size > 1 ? @artists.last : nil
 - if @randomA
   .left
     .photo
       = get_artist_profile_image(@randomA)
     .overlay
-      = link_to show_band_path(@randomA.name), {:class =>'ajaxopen backable', :remote =>true} do
+      = link_to show_artist_path(@randomA.name), {:class =>'ajaxopen backable', :remote =>true} do
         artist
         %h2= @randomA.name
 - if @randomB
@@ -14,6 +14,6 @@
     .photo
       = get_artist_profile_image(@randomB)
     .overlay
-      = link_to show_band_path(@randomB.name), {:class =>'ajaxopen backable', :remote =>true} do
+      = link_to show_artist_path(@randomB.name), {:class =>'ajaxopen backable', :remote =>true} do
         artist
         %h2= @randomB.name

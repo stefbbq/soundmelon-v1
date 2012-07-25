@@ -1,9 +1,9 @@
 %h1{:style => "font-size:21px;line-height:26px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:10px;padding-top:0;padding-bottom:0;font-weight:normal;color:#4b5c66;"}
-  Hello #{@band_invitation.email}
+  Hello #{@artist_invitation.email}
 %p{:style => "color:#565656;font-size:14px;line-height:21px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:21px;padding-top:0;padding-bottom:0;font-weight:normal;"}
-  Your bandmate #{@user.fname} #{@user.lname} has invited you to join
+  Your artistmate #{@user.fname} #{@user.lname} has invited you to join
   %strong
-    #{@band.name}.
+    #{@artist.name}.
 %p{:style => "color:#565656;font-size:14px;line-height:21px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:21px;padding-top:0;padding-bottom:0;font-weight:normal;"}
   Please click the following link to accept invitation:
   #{@old_user_url}

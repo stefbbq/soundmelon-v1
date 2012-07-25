@@ -1,26 +1,26 @@
-- @band ||= @artist
+- @artist ||= @artist
 .live
-  .profile-image{:title =>"#{@band.name}"}
-    = get_artist_profile_image(@band)
+  .profile-image{:title =>"#{@artist.name}"}
+    = get_artist_profile_image(@artist)
   .links
     .top
       .header
         .name
-          %h2.full-name= @band.name
-          %h2= @band.mention_name
+          %h2.full-name= @artist.name
+          %h2= @artist.mention_name
         .actions
-          = link_to show_band_path(:band_name => @band.name), {:remote =>true, :id => "view-public-profile", :class =>'text-action ajaxopen backable'} do
+          = link_to show_artist_path(:artist_name => @artist.name), {:remote =>true, :id => "view-public-profile", :class =>'text-action ajaxopen backable'} do
             .icon-bg
             %i
             view public profile
-          = link_to '', "http://facebook.com/#{@band.facebook_page}", :target =>'_blank', :title =>"visit our Facebook page", :class =>"icon-action facebook-icon" unless @band.facebook_page.blank?
-          = link_to '', "http://twitter.com/#{@band.twitter_page}", :target =>'_blank', :title =>"visit our Twitter", :class =>"icon-action twitter-icon" unless @band.twitter_page.blank?
+          = link_to '', "http://facebook.com/#{@artist.facebook_page}", :target =>'_blank', :title =>"visit our Facebook page", :class =>"icon-action facebook-icon" unless @artist.facebook_page.blank?
+          = link_to '', "http://twitter.com/#{@artist.twitter_page}", :target =>'_blank', :title =>"visit our Twitter", :class =>"icon-action twitter-icon" unless @artist.twitter_page.blank?
       .sub-head
         %h3 
-          = "#{@band.genre}"
+          = "#{@artist.genre}"
       .description
-        = "#{pluralize(@band.mention_count, 'mention')} in the last #{MENTION_COUNT_FOR_LAST_N_HOURS} hours"
+        = "#{pluralize(@artist.mention_count, 'mention')} in the last #{MENTION_COUNT_FOR_LAST_N_HOURS} hours"
         %br
-        = "#{pluralize(@band.song_albums_count, 'song')} currently uploaded"
+        = "#{pluralize(@artist.song_albums_count, 'song')} currently uploaded"
     .bottom
-      = render "bricks/random_artists", :current => @band
+      = render "bricks/random_artists", :current => @artist

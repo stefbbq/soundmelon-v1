@@ -3,13 +3,17 @@ class ApplicationController < ActionController::Base
   #before_filter :http_basic_authenticate
   # this is needed to prevent XHR request form using layouts
   before_filter proc { |controller| (controller.action_has_layout = false) if controller.request.xhr? }
-  before_filter :check_user_browser
+  before_filter :check_user_browser, :set_current_actor
   
   after_filter :messages_and_posts_count
   
   helper_method :current_actor, :admin_login?
 
   protected
+
+  def set_current_actor
+    @actor = current_actor
+  end
 
   def check_user_browser
     agent = Agent.new request.env['HTTP_USER_AGENT']
@@ -21,8 +25,8 @@ class ApplicationController < ActionController::Base
   end
   
   def get_user_associated_objects
-    @following_artists        = current_user.following_band.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
-    @following_artist_count   = current_user.following_band.count
+    @following_artists        = current_user.following_artist.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
+    @following_artist_count   = current_user.following_artist.count
     @following_users          = current_user.following_user.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
     @following_count          = current_user.following_user.count
     @followers_users          = current_user.limited_followers
@@ -33,8 +37,8 @@ class ApplicationController < ActionController::Base
   end
 
   def get_fan_objects_for_right_column fan
-    @following_artists        = fan.following_band.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
-    @following_artist_count   = fan.following_band.count
+    @following_artists        = fan.following_artist.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
+    @following_artist_count   = fan.following_artist.count
     @following_users          = fan.following_user.order('RAND()').limit(NO_OF_FOLLOWING_TO_DISPLAY)
     @following_count          = fan.following_user.count
     @followers_users          = fan.limited_followers
@@ -49,40 +53,40 @@ class ApplicationController < ActionController::Base
     begin
       actor                      = current_actor
       @has_admin_access          = actor == artist
-      @song_album_count          = artist.song_albums.size
-      @photo_album_count         = artist.band_albums.size
+      @song_album_count          = artist.artist_musics.size
+      @photo_album_count         = artist.artist_albums.size
       @show_count                = artist.artist_shows.size
-      @band_artist_count         = artist.band_members.size
-      @band_fan_count            = artist.followers_count
-      @band_connection_count     = artist.connections_count
-      @song_albums               = artist.limited_song_albums
-      @featured_songs            = artist.limited_band_featured_songs
-      @photo_albums              = artist.limited_band_albums(2)
+      @artist_member_count       = artist.artist_members.size
+      @artist_fan_count          = artist.followers_count
+      @artist_connection_count   = artist.connections_count
+      @song_albums               = artist.limited_artist_musics
+      @featured_songs            = artist.limited_artist_featured_songs
+      @photo_albums              = artist.limited_artist_albums(2)
       @artist_shows              = artist.limited_artist_shows
-      @band_artists              = artist.limited_band_members
-      @band_fans                 = artist.limited_followers
-      @connected_artists         = artist.connected_artists
+      @artist_members            = artist.limited_artist_members
+      @artist_fans               = artist.limited_followers
+      @connected_artists         = artist.connected_artists      
     rescue =>exp
       logger.error "Error in Application::GetArtistObjectsForRightColumn :=> #{exp.message}"
     end
   end
 
-  def get_band_associated_objects artist
-    @band_members_count        = artist.band_members.count
-    @other_bands               = current_user.admin_artists(artist)    
-    get_band_mentioned_posts artist
+  def get_artist_associated_objects artist
+    @artist_members_count        = artist.artist_members.count
+    @other_artists               = current_user.admin_artists_list(artist)
+    get_artist_mentioned_posts artist
     messages_and_posts_count
     get_artist_objects_for_right_column(artist)
   end
 
-  def get_band_bulletins_and_posts artist
+  def get_artist_bulletins_and_posts artist
     @posts                     = artist.find_own_posts(params[:page])
     next_page                  = @posts.next_page
-    @load_more_path            = next_page ? band_more_posts_path(:band_name => artist.name, :page => next_page, :type => 'general') : nil
+    @load_more_path            = next_page ? artist_more_posts_path(:artist_name => artist.name, :page => next_page, :type => 'general') : nil
     @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
     @bulletins                 = artist.bulletins
     bulletin_next_page         = @bulletins.next_page
-    @load_more_bulletins_path  = bulletin_next_page ? band_more_bulletins_path(:band_name => artist.name, :page => bulletin_next_page) : nil
+    @load_more_bulletins_path  = bulletin_next_page ? artist_more_bulletins_path(:artist_name => artist.name, :page => bulletin_next_page) : nil
   end
 
   def get_current_fan_posts
@@ -92,7 +96,7 @@ class ApplicationController < ActionController::Base
     @load_more_path             = next_page ? more_post_path(:page => next_page) : nil
   end
 
-  def get_band_mentioned_posts artist
+  def get_artist_mentioned_posts artist
     @posts                      = artist.mentioned_in_posts(params[:page])    
     #@posts                      = artist.find_own_as_well_as_mentioned_posts(params[:page])
     @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
@@ -102,7 +106,7 @@ class ApplicationController < ActionController::Base
 
   # checks whether the logged in user is administrating the artist  
   def current_actor
-    session[:artist_id].blank? ? current_user : Band.find(session[:artist_id])
+    session[:artist_id].blank? ? current_user : Artist.find(session[:artist_id])
   end
 
   # sets the current artist id when a ban starts administrating the artist profile
