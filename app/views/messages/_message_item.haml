@@ -9,7 +9,7 @@
   - avatar        = sender.is_fan? ? get_fan_avatar(sender) : get_artist_avatar(message.sender)
   - sender_type   = message.sender_type
   - sender        = message.sender
-  .message.entry{:id=>"msg_box_#{message.id}"}
+  .message.post{:id=>"msg_box_#{message.id}"}
     %div
       .avatar
         - if self_message

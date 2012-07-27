@@ -3,10 +3,8 @@
   - conversation_first_item = conversation_receipts.first
   - conversation_item_count = conversation_receipts.size
   - unless conversation_first_item.blank?    
-    .message-conversation{:id =>"conversation_#{conversation.id}"}      
+    .post{:id =>"conversation_#{conversation.id}"}      
       = render 'reply_form', :conversation => conversation, :desplay => true
-      %br/
-      %br/
       .message-section
         = render 'message_item', :message =>conversation_first_item.message, :last_message =>true, :conv_id =>conversation.id
         - if conversation_item_count > 1
