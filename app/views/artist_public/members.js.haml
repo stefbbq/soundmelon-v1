@@ -1,9 +1,8 @@
-$('.primary .left').html('');
-- band_members = capture do
-  - @band_members.each do |user|
-    = render '/user_connections/item', :user => user, :connection_item => user, :is_user_fan => false
-$('.primary .left').html('#{escape_javascript(band_members)}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.selection-box').removeClass('active').removeClass('button-fill-artist');
-$('#members').addClass('active').addClass('button-fill-artist');
+- artist_members = capture do
+  .connections_list
+    - @artist_members.each do |user|
+      = render '/user_connections/item', :user => user, :connection_item => user, :is_user_fan => false
+$('.primary .left').html('#{escape_javascript(artist_members)}');
+$('.primary .right').html('#{escape_javascript(render 'right', :current =>'member')}');
+closeFacebox(1000);
 scrollToContainerTop();

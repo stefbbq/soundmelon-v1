@@ -57,40 +57,40 @@ class UserConnectionsController < ApplicationController
     end
   end
 
-  def follow_band
+  def follow_artist
     if request.xhr?
       begin
         @actor                  = current_actor
-        @band                   = Band.find_band(params)
-        @actor.follow(@band)
+        @artist                   = Artist.find_artist(params)
+        @actor.follow(@artist)
         @source_symbol          = params[:source]                
-        @last_follower_count    = @band.followers_count
+        @last_follower_count    = @artist.followers_count
         @last_following_count   = @actor.following_user_count
-        NotificationMail.follow_notification @band, @actor
+        NotificationMail.follow_notification @artist, @actor
       rescue => exp
-        logger.error "Error in UserConnections::FollowBand :=> #{exp.message}"
+        logger.error "Error in UserConnections::FollowArtist :=> #{exp.message}"
         render :nothing => true and return
       end
     else
-      redirect_to show_band_url(:band_name => params[:band_name]) and return
+      redirect_to show_artist_url(:artist_name => params[:artist_name]) and return
     end
   end
 
-  def unfollow_band
+  def unfollow_artist
     if request.xhr?
       begin
         @actor                  = current_actor
-        @band                   = Band.find_band(params)
-        @actor.stop_following(@band)
+        @artist                   = Artist.find_artist(params)
+        @actor.stop_following(@artist)
         @source_symbol          = params[:source]        
-        @last_follower_count    = @band.followers_count
-        @last_following_count   = @actor.following_band_count
+        @last_follower_count    = @artist.followers_count
+        @last_following_count   = @actor.following_artist_count
       rescue => exp
-        logger.error "Error in UserConnections::UnollowBand :=> #{exp.message}"
+        logger.error "Error in UserConnections::UnollowArtist :=> #{exp.message}"
         render :nothing => true and return
       end
     else
-      redirect_to show_band_url(:band_name => params[:band_name]) and return
+      redirect_to show_artist_url(:artist_name => params[:artist_name]) and return
     end
   end
 
@@ -98,21 +98,21 @@ class UserConnectionsController < ApplicationController
     @actor                  = current_actor
     if request.xhr?
       begin
-        @band                   = Band.find_band(params)
-        @actor.connect_artist(@band)        
-        @last_connection_count  = @band.connections_count
-        @connected              = @actor.connected_with?(@band)
+        @artist                   = Artist.find_artist(params)
+        @actor.connect_artist(@artist)        
+        @last_connection_count  = @artist.connections_count
+        @connected              = @actor.connected_with?(@artist)
         if @connected
-          NotificationMail.connect_notification @actor, @band
+          NotificationMail.connect_notification @actor, @artist
         else
-          NotificationMail.connect_request_notification @band, @actor
+          NotificationMail.connect_request_notification @artist, @actor
         end        
       rescue => exp
         logger.error "Error in UserConnections::ConnectArtist :=> #{exp.message}"
         render :nothing => true and return
       end
     else
-      redirect_to show_band_url(:band_name => params[:band_name]) and return
+      redirect_to show_artist_url(:artist_name => params[:artist_name]) and return
     end
   end
 
@@ -120,26 +120,26 @@ class UserConnectionsController < ApplicationController
     @actor                      = current_actor
     if request.xhr?
       begin        
-        @band                   = Band.find_band(params)
-        @actor.disconnect_artist(@band)
-        @last_connection_count  = @band.connections_count
+        @artist                   = Artist.find_artist(params)
+        @actor.disconnect_artist(@artist)
+        @last_connection_count  = @artist.connections_count
         @is_self_profile        = params[:self] && params[:self] == "1"
       rescue => exp
-        logger.error "Error in UserConnections::DisconnectBand :=> #{exp.message}"
+        logger.error "Error in UserConnections::DisconnectArtist :=> #{exp.message}"
         render :nothing => true and return
       end
     else
-      redirect_to show_band_url(:band_name => params[:band_name]) and return
+      redirect_to show_artist_url(:artist_name => params[:artist_name]) and return
     end
   end
 
-  def band_followers    
+  def artist_followers    
     begin
-      if params[:band_name]   # band item
+      if params[:artist_name]   # artist item
         @actor                  = current_actor
-        @band                   = Band.find_band params
-        @followers              = @band.followers params[:page]
-        get_artist_objects_for_right_column(@band)
+        @artist                   = Artist.find_artist params
+        @followers              = @artist.followers params[:page]
+        get_artist_objects_for_right_column(@artist)
       end
       respond_to do |format|
         format.js and return
@@ -153,11 +153,11 @@ class UserConnectionsController < ApplicationController
 
   def artist_connections
     begin
-      if params[:band_name]   # band item
+      if params[:artist_name]   # artist item
         @actor                  = current_actor
-        @band                   = Band.find_band params
-        @connections            = @band.connected_artists params[:page]
-        get_artist_objects_for_right_column(@band)
+        @artist                   = Artist.find_artist params
+        @connections            = @artist.connected_artists params[:page]
+        get_artist_objects_for_right_column(@artist)
       end
       respond_to do |format|
         format.js and return
@@ -190,7 +190,7 @@ class UserConnectionsController < ApplicationController
       if params[:id]
         @actor                  = current_actor
         @user                   = User.find(params[:id])
-        @fan_following_artists  = @user.following_bands.page(1).per(FOLLOWING_FOLLOWER_PER_PAGE)
+        @fan_following_artists  = @user.following_artists.page(1).per(FOLLOWING_FOLLOWER_PER_PAGE)
       end
       get_fan_objects_for_right_column(@user)
       respond_to do |format|

@@ -6,15 +6,15 @@
 .blankbox
   = link_to "Skip", fan_home_path,:class=>"button right"
 .blankbox
-  %h3 Invite bandmates
-  invite other people to join your band page
+  %h3 Invite artistmates
+  invite other people to join your artist page
 .content-box
   .registrationform
-    = form_for @band, :url=> invite_band_member_path,:method=>:post do |f|
-      = f.fields_for :band_invitations do |band_invitation|
-        = render :partial => 'band_invitation_fields', :locals => {:f => band_invitation}
+    = form_for @artist, :url=> invite_artist_member_path,:method=>:post do |f|
+      = f.fields_for :artist_invitations do |artist_invitation|
+        = render :partial => 'artist_invitation_fields', :locals => {:f => artist_invitation}
       %span.radiolabel
-        = link_to_add_fields "Add another", f, :band_invitations
+        = link_to_add_fields "Add another", f, :artist_invitations
       .right
         = f.submit("Send Invitations" ,:class=>"button")
       .clear

@@ -1,7 +1,7 @@
 - following = capture do
   .connections_list{:id =>"#{@user.class.name.downcase}_#{@user.id}_following_artists"}
-    - @fan_following_artists.each do |band|
-      = render '/user_connections/item', :user =>band, :connection_item =>@user, :is_user_fan =>false    
+    - @fan_following_artists.each do |artist|
+      = render '/user_connections/item', :user =>artist, :connection_item =>@user, :is_user_fan =>false    
   = paginate @fan_following_artists, :remote => true
 
 updateLeftSection('#{escape_javascript(following)}');

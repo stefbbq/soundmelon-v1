@@ -2,4 +2,4 @@
   - if item.is_fan?
     = link_to get_fan_avatar(item), fan_profile_path(item), :class =>'ajaxopen backable', :remote =>true, :title =>item.get_full_name
   - else
-    = link_to get_artist_avatar(item), show_band_path(:band_name => item.name), :class =>'ajaxopen backable', :remote =>true, :title =>item.name
+    = link_to get_artist_avatar(item), show_artist_path(:artist_name => item.name), :class =>'ajaxopen backable', :remote =>true, :title =>item.name

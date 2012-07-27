@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  before_filter :require_login, :except => [:check_bandname, :check_bandmentionname, :check_fanusername]
+  before_filter :require_login, :except => [:check_artistname, :check_artistmentionname, :check_fanusername]
   
   def index
     @actor                = current_actor
@@ -12,7 +12,7 @@ class SearchController < ApplicationController
     end
     
     if params[:f_page].blank? # only artist search      
-      @artist_search_results = Band.search do
+      @artist_search_results = Artist.search do
         fulltext params[:q]
         paginate :page => params[:a_page], :per_page => SEARCH_ARTIST_RESULT_PER_PAGE
       end
@@ -28,8 +28,8 @@ class SearchController < ApplicationController
   
   def autocomplete_suggestions
     @users          = User.where("activation_state = 'active' and (fname like :search_word or lname like :search_word)", :search_word => "#{params[:term]}%").select('Distinct fname, lname').limit(10)
-    @band_names     = Band.where("name like :search_word", :search_word => "#{params[:term]}%").select('Distinct name').limit(10).map{|band| band.name}
-    @band_genres    = Band.where("genre like :search_word", :search_word => "#{params[:term]}%").select('Distinct genre').limit(10).map{|band| band.genre}
+    @artist_names     = Artist.where("name like :search_word", :search_word => "#{params[:term]}%").select('Distinct name').limit(10).map{|artist| artist.name}
+    @artist_genres    = Artist.where("genre like :search_word", :search_word => "#{params[:term]}%").select('Distinct genre').limit(10).map{|artist| artist.genre}
     respond_to do |format|
       format.js
     end
@@ -50,16 +50,16 @@ class SearchController < ApplicationController
     end
   end
 
-  def check_bandname
-    if Band.where('name = ?', params[:band_name]).count == 0
+  def check_artistname
+    if Artist.where('name = ?', params[:artist_name]).count == 0
       render :nothing => true, :status => 200 and return
     else
       render :nothing => true, :status => 409 and return
     end
   end
 
-  def check_bandmentionname
-    if Band.where('mention_name = ?', "@#{params[:band_mention_name]}").count == 0
+  def check_artistmentionname
+    if Artist.where('mention_name = ?', "@#{params[:artist_mention_name]}").count == 0
       render :nothing => true, :status => 200 and return
     else
       render :nothing => true, :status => 409 and return

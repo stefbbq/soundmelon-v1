@@ -1,5 +1,5 @@
-- @band     ||= @artist
-- tabs      = [:latest_post, :music, :photo, :show, :member, :fan, :manage_profile, :invite_bandmate, :song, :connection]
+- @artist     ||= @artist
+- tabs      = [:latest_post, :music, :photo, :show, :member, :fan, :manage_profile, :invite_artistmate, :song, :connection]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 .items
   = link_to 'news feed & messages', 
@@ -10,42 +10,41 @@
   = render '/bricks/rb_music_featured',
             :songs              => @featured_songs,
             :is_admin           => true,
-            :band               => @band,
+            :artist             => @artist,
             :selected           => 8 == current
-  =# render '/bricks/rb_music',
-            :band               => @band,            
+  =# render '/bricks/rb_music',            
             :song_album_count   => @song_album_count,
             :song_albums        => @song_albums,
             :is_admin           => true,
-            :band               => @band,
+            :artist             => @artist,
             :selected           => 1 == current
   = render '/bricks/rb_photo',  
             :photo_album_count  => @photo_album_count,
             :photo_albums       => @photo_albums,
             :is_admin           => true,
-            :band               => @band,
+            :artist             => @artist,
             :selected           => 2 == current
   = render '/bricks/rb_show',
             :show_count         => @show_count,
             :artist_shows       => @artist_shows,
             :is_admin           => true,
-            :artist             => @band,
+            :artist             => @artist,
             :selected           => 3 == current
   = render '/bricks/rb_member',
-            :artist_count       => @band_artist_count,
-            :band_artists       => @band_artists,
-            :band               => @band,
+            :artist_count       => @artist_member_count,
+            :artist_members     => @artist_members,
+            :artist             => @artist,
             :is_admin           => true,
             :selected           => 4 == current
   = render '/bricks/rb_connections',
-            :connection_count   => @band_connection_count,
+            :connection_count   => @artist_connection_count,
             :connected_artists  => @connected_artists,
-            :band               => @band,
+            :artist             => @artist,
             :selected           => 10 == current
   = render '/bricks/rb_fan',
-            :fan_count          => @band_fan_count,
-            :band_fans          => @band_fans,
-            :band               => @band,
+            :fan_count          => @artist_fan_count,
+            :artist_fans        => @artist_fans,
+            :artist             => @artist,
             :selected           => 5 == current
   .divider
   = link_to 'manage your profile' ,
@@ -53,8 +52,8 @@
             :remote             => true,
             :id                 => 'manage_profile',
             :class              => 6 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'
-  = link_to 'manage bandmates' , 
-            bandmates_invitation_path(:band_name => @band.name),
+  = link_to 'manage artistmates' , 
+            artistmates_invitation_path(@artist.name),
             :remote             => true,
             :id                 => 'invite_artist',
             :class              => 7 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'

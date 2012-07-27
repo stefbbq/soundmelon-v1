@@ -15,14 +15,14 @@ USER_TYPE_ADMIN                   = 'admin'
 
 FEEDBACK_SUBJECTS                 = [
   "Music Player", "Search", "Fan Social", "Artist Social", "Music Publication", "Photo Publication",
-  "Shows Publication", "Buzz", "Profile management", "Notifications", "Invitation System", "Bandmates Management"
+  "Shows Publication", "Buzz", "Profile management", "Notifications", "Invitation System", "Artistmates Management"
 ]
 
-BAND_SONG_ALBUM_SHOW_LIMIT   = 4
-BAND_PHOTO_ALBUM_SHOW_LIMIT  = 4
-BAND_FAN_SHOW_LIMIT          = 5
-BAND_MEMBER_SHOW_LIMIT       = 5
-BAND_FOLLOWER_SHOW_LIMIT     = 5
+ARTIST_MUSIC_SHOW_LIMIT   = 4
+ARTIST_PHOTO_ALBUM_SHOW_LIMIT  = 4
+ARTIST_FAN_SHOW_LIMIT          = 5
+ARTIST_MEMBER_SHOW_LIMIT       = 5
+ARTIST_FOLLOWER_SHOW_LIMIT     = 5
 FOLLOWING_ARTIST_SHOW_LIMIT  = 10
 FOLLOWING_FAN_SHOW_LIMIT     = 5
 FOLLOWER_SHOW_LIMIT          = 5
@@ -36,6 +36,6 @@ NO_FOLLOWING_ARTIST_MESSAGE  = "not following any artist"
 NO_FOLLOWER_MESSAGE          = "no followers yet"
 NO_SONG_ALBUM_MESSAGE        = "no music yet"
 NO_PHOTO_ALBUM_MESSAGE       = "no photos yet"
-NO_BAND_ARTIST_MESSAGE       = "no band members"
+NO_ARTIST_MEMBER_MESSAGE     = "no artist members"
 NO_SHOW_DATE_MESSAGE         = "no dates set"
 NO_CONNECTION_MESSAGE        = "no connections yet"

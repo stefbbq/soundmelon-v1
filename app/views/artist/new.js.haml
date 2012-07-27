@@ -2,6 +2,6 @@ $('.primary .left').html('');
 - new_artist_profile_form = capture do
   %b New Artist Profile
   %hr
-  = render 'form', :action_url => create_band_path
+  = render 'form', :action_url => create_artist_path
 $('.primary .left').html('#{escape_javascript(new_artist_profile_form)}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);

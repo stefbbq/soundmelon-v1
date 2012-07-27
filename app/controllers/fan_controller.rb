@@ -26,20 +26,20 @@ class FanController < ApplicationController
     else
       if request.post?
         successful_signup           = false
-        @band                       = Band.new(params[:band])
-        if(params[:band][:name].blank? && params[:band][:mention_name].blank?)
-          @is_band_data_valid       = true          
+        @artist                       = Artist.new(params[:artist])
+        if(params[:artist][:name].blank? && params[:artist][:mention_name].blank?)
+          @is_artist_data_valid       = true          
         else          
-          @is_band_data_valid       = @band.valid?
+          @is_artist_data_valid       = @artist.valid?
         end        
         @user                       = User.new(params[:user])
-        if @is_band_data_valid
+        if @is_artist_data_valid
           if @user.save
-            @band.save
-            band_user               = @user.band_users.new
-            band_user.band_id       = @band.id
-            band_user.access_level  = 1
-            band_user.save
+            @artist.save
+            artist_user               = @user.artist_users.new
+            artist_user.artist_id       = @artist.id
+            artist_user.access_level  = 1
+            artist_user.save
             successful_signup       = true
           end          
         end        
@@ -53,8 +53,8 @@ class FanController < ApplicationController
           @user.email_confirmation  = @user.invitation.recipient_email
           @is_invited               = true
         end
-        @band                       = Band.new
-        @is_band_data_valid         = true
+        @artist                       = Artist.new
+        @is_artist_data_valid         = true
       end
     end    
   end
@@ -120,26 +120,26 @@ class FanController < ApplicationController
     end
   end
 
-  def invite_bandmates
+  def invite_artistmates
     redirect_to root_url and return unless current_user.account_type
     if request.post?
-      @band             = current_user.bands.first
-      @band.update_attributes(params[:band])
+      @artist             = current_user.artists.first
+      @artist.update_attributes(params[:artist])
       redirect_to fan_home_url and return
     else
-      @band             = Band.new
-      @band_invitations = @band.band_invitations.build
+      @artist             = Artist.new
+      @artist_invitations = @artist.artist_invitations.build
     end
   end
 
   def activate_invitation
     unless params[:id].blank?
-      band_invitation = BandInvitation.find_by_token(params[:id])
-      if band_invitation
-        band_user = BandUser.find_or_create_by_band_id_and_user_id(band_invitation.band_id, current_user.id)          
-        band_user.update_attribute(:access_level, band_invitation.access_level)
-        band_invitation.update_attribute(:token, nil)
-        redirect_to show_band_url(band_user.band.name), :notice => "You have successfully joined the band." and return
+      artist_invitation = ArtistInvitation.find_by_token(params[:id])
+      if artist_invitation
+        artist_user = ArtistUser.find_or_create_by_artist_id_and_user_id(artist_invitation.artist_id, current_user.id)          
+        artist_user.update_attribute(:access_level, artist_invitation.access_level)
+        artist_invitation.update_attribute(:token, nil)
+        redirect_to show_artist_url(artist_user.artist.name), :notice => "You have successfully joined the artist." and return
       else
         redirect_to fan_home_url ,:error => "Invitation token has been already used or token missmatch" and return
       end

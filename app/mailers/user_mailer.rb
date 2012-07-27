@@ -55,15 +55,15 @@ class UserMailer < ActionMailer::Base
     )
   end
   
-  def mate_invitation_email(band_invitation)
-    @band_invitation = band_invitation
-    @user = User.find(band_invitation.user_id)
-    @band = Band.find(@band_invitation.band_id)
-    @new_user_url = join_band_invitation_url(band_invitation.token, :old_user => 0 )
-    @old_user_url = join_band_invitation_url(band_invitation.token, :old_user => 1 )
+  def mate_invitation_email(artist_invitation)
+    @artist_invitation = artist_invitation
+    @user = User.find(artist_invitation.user_id)
+    @artist = Artist.find(@artist_invitation.artist_id)
+    @new_user_url = join_artist_invitation_url(artist_invitation.token, :old_user => 0 )
+    @old_user_url = join_artist_invitation_url(artist_invitation.token, :old_user => 1 )
       
     mail(
-      :to => band_invitation.email,
+      :to => artist_invitation.email,
       :subject => "#{@user.fname} #{@user.lname} has invited you to join their artist as a member on SoundMelon"
     )
   end

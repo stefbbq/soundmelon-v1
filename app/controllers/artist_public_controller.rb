@@ -3,11 +3,11 @@ class ArtistPublicController < ApplicationController
 
   def index
     begin
-      @band                       = Band.where(:name => params[:band_name]).includes(:band_members).first
-      @is_admin_of_band           = current_user.is_admin_of_band?(@band)
-      @band_members_count         = @band.band_members.count      
-      get_band_bulletins_and_posts(@band)
-      get_artist_objects_for_right_column(@band)      
+      @artist                       = Artist.where(:name => params[:artist_name]).includes(:artist_members).first
+      @is_admin_of_artist           = current_user.is_admin_of_artist?(@artist)
+      @artist_members_count         = @artist.artist_members.count      
+      get_artist_bulletins_and_posts(@artist)
+      get_artist_objects_for_right_column(@artist)      
     rescue  => exp
       logger.error "Error in ArtistPublic#Index :=> #{exp.message}"
       render :template =>'/bricks/page_missing' and return
@@ -20,14 +20,15 @@ class ArtistPublicController < ApplicationController
   
   def members    
     begin
-      @band         = Band.where(:name => params[:band_name]).includes(:band_members).first
-      @band_members = @band.band_members
-      get_artist_objects_for_right_column(@band)
+      @actor          = current_actor
+      @artist         = Artist.where(:name => params[:artist_name]).includes(:artist_members).first
+      @artist_members = @artist.artist_members      
+      get_artist_objects_for_right_column(@artist)
       respond_to do |format|
         format.js
         format.html
       end
-    rescue => exp
+    rescue => exp      
       logger.error "Error in ArtistPublic#Members :=> #{exp.message}"
       render :template =>'/bricks/page_missing' and return
       render :nothing => true and return
@@ -36,7 +37,7 @@ class ArtistPublicController < ApplicationController
 
   def store
     if request.xhr?
-      @band       = Band.where(:name => params[:band_name]).includes(:band_members).first
+      @artist       = Artist.where(:name => params[:artist_name]).includes(:artist_members).first
     else
       redirect_to root_url and return
     end
@@ -46,7 +47,7 @@ class ArtistPublicController < ApplicationController
     if request.xhr?
       begin
         @actor            = current_actor
-        to_artist         = Band.find(params[:id])
+        to_artist         = Artist.find(params[:id])
         receipt           = @actor.send_message(to_artist, params[:body], 'subject')
         NotificationMail.message_notification to_artist, @actor, receipt.message
       rescue =>exp
@@ -61,7 +62,7 @@ class ArtistPublicController < ApplicationController
   def new_message
     if request.xhr?
       begin
-        @band     = Band.find(params[:id])
+        @artist   = Artist.find(params[:id])
         @message  = ActsAsMessageable::Message.new
       rescue
         render :nothing => true and return

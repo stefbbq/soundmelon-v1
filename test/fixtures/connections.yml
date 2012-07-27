@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
 
 one:
-  band_id: 1
-  connected_band_id: 1
+  artist_id: 1
+  connected_artist_id: 1
   is_approved: false
 
 two:
-  band_id: 1
-  connected_band_id: 1
+  artist_id: 1
+  connected_artist_id: 1
   is_approved: false

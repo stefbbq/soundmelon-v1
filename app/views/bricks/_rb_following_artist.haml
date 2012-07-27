@@ -14,8 +14,8 @@
   .collection{:id =>'followingartistbox'}
     - if following_artist_count > 0
       %div
-        - following_artists.each do |band|
-          = render '/bricks/avatar', :item =>band
+        - following_artists.each do |artist|
+          = render '/bricks/avatar', :item =>artist
     - else
       .message
         = NO_FOLLOWING_MESSAGE

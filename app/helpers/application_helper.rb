@@ -40,31 +40,31 @@ module ApplicationHelper
     end
   end
 
-  def get_artist_avatar(band)
-    unless band.band_logo(true)    
+  def get_artist_avatar(artist)
+    unless artist.artist_logo(true)    
       image_tag('profile/artist-defaults-photo-thumbnail.jpg', :alt=>'')
     else
-      image_tag(band.band_logo.logo.url(:small), :alt=>'')
+      image_tag(artist.artist_logo.logo.url(:small), :alt=>'')
     end  
   end
   
-  def get_artist_avatar_large(band)
-    unless band.band_logo(true)    
+  def get_artist_avatar_large(artist)
+    unless artist.artist_logo(true)    
       image_tag('artist-defaults-photo-profile.jpg', :alt=>'')
     else
-      image_tag(band.band_logo.logo.url(:medium), :alt=>'')
+      image_tag(artist.artist_logo.logo.url(:medium), :alt=>'')
     end
   end
   
-  def get_artist_profile_image(band, self_logo = false)
+  def get_artist_profile_image(artist, self_logo = false)
     actor     = current_actor
-    self_logo = actor == band
+    self_logo = actor == artist
     random_profile_images = ["profile/artist-defaults-photo-profile-a.jpg", "profile/artist-defaults-photo-profile-b.jpg", "profile/artist-defaults-photo-profile-c.jpg", "profile/artist-defaults-photo-profile-d.jpg"]
     if self_logo
-      raw (render :partial => '/bricks/artist_profile_image', :locals => {:band => band})
+      raw (render :partial => '/bricks/artist_profile_image', :locals => {:artist => artist})
     else
-      if band.band_logo
-        image_tag(band.band_logo.logo.url(:large), :alt=>'')
+      if artist.artist_logo
+        image_tag(artist.artist_logo.logo.url(:large), :alt=>'')
       else
         image_tag(random_profile_images.sample, :alt=>'')
       end
@@ -80,7 +80,7 @@ module ApplicationHelper
     return avail_genre
   end
 
-  def genre_atuofill_band
+  def genre_atuofill_artist
     genres         = Genre.all
     avail_genre    = ''
     genres.each do |genre|
@@ -116,22 +116,22 @@ module ApplicationHelper
     mention_list_arr      = []
     mention_list_arr << user.following_users.to_a
     mention_list_arr << user.user_followers.to_a
-    mention_list_arr << user.following_bands.to_a
+    mention_list_arr << user.following_artists.to_a
     
     mention_list_arr.flatten.uniq.each do |mentionable_item|
       mention_name    = mentionable_item.mention_name
       display_name    = "#{mention_name} - #{mentionable_item.get_name}"
       object_type     = mentionable_item.class.to_s.downcase
       # reset object type to fan or artist (needs to be fixed in database)
-      object_type     = (object_type == "band") ? "artist" : "fan"
+      object_type     = (object_type == "artist") ? "artist" : "fan"
       auto_mention_list += "{name: \"#{display_name}\", id:\"#{mention_name}\", type:\"#{object_type}\"},"
     end
     return auto_mention_list.chomp(",")
   end
   
-  def band_follower_mention_lists band
+  def artist_follower_mention_lists artist
     auto_mention_list       = ''
-    mention_list_arr        = band.user_followers.to_a    
+    mention_list_arr        = artist.user_followers.to_a    
     mention_list_arr.flatten.uniq.each do |mentionable_item|
       mention_name    = mentionable_item.mention_name
       display_name    = "#{mentionable_item.get_name}(#{mention_name})"
@@ -157,8 +157,8 @@ module ApplicationHelper
     end
   end
   
-  def get_band_photo_album_teaser_photo(band_photo_album, type=:thumb, width=nil, height=nil)
-    cover_image = band_photo_album.cover_image
+  def get_artist_photo_album_teaser_photo(artist_photo_album, type=:thumb, width=nil, height=nil)
+    cover_image = artist_photo_album.cover_image
     if cover_image.blank?
       image_tag('no-image.png', :alt=>'')
     else
@@ -166,14 +166,14 @@ module ApplicationHelper
     end
   end
 
-  def can_admin?(band, user)
-    user.is_admin_of_band?(band)
+  def can_admin?(artist, user)
+    user.is_admin_of_artist?(artist)
   end
 
-  def post_msg_with_band_mention(post)    
+  def post_msg_with_artist_mention(post)    
     post_msg          = post.msg    
     mentioned_users   = post.mentioned_users
-    mentioned_bands   = post.mentioned_bands
+    mentioned_artists   = post.mentioned_artists
     unless mentioned_users.blank?
       user_mentions   = mentioned_users.split(',')
       for i in 0..user_mentions.size-2
@@ -184,12 +184,12 @@ module ApplicationHelper
         i = i+1
       end
     end
-    unless mentioned_bands.blank?
-      band_mentions = post.mentioned_bands.split(',')
+    unless mentioned_artists.blank?
+      artist_mentions = post.mentioned_artists.split(',')
 
-      band_mentions.each{|mb|
-        band_profile_link_html = "<a href='#{show_band_path(mb.gsub('@',''))}' class='ajaxopen backable' data-remote='true'>#{mb}</a>"
-        post_msg = post_msg.gsub(mb, band_profile_link_html)
+      artist_mentions.each{|mb|
+        artist_profile_link_html = "<a href='#{show_artist_path(mb.gsub('@',''))}' class='ajaxopen backable' data-remote='true'>#{mb}</a>"
+        post_msg = post_msg.gsub(mb, artist_profile_link_html)
       }
     end
     post_msg = Rinku.auto_link(post_msg)
@@ -200,35 +200,35 @@ module ApplicationHelper
     content         = ""
     message         = ""
     if post && postitem
-      if post.band_album_post?
-        band            = post.band
+      if post.artist_album_post?
+        artist        = post.artist
         album_name    = postitem.name
-        album_path    = "#{band_album_path(band.name, album_name)}"
+        album_path    = "#{artist_album_path(artist.name, album_name)}"
         content       += " added a new photo album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
-      elsif post.band_photo_post?
-        band          = post.band
-        album         = postitem.band_album
+      elsif post.artist_photo_post?
+        artist          = post.artist
+        album         = postitem.artist_album
         album_name    = album.name
-        album_path    = "#{band_album_path(band.name, album_name)}"
+        album_path    = "#{artist_album_path(artist.name, album_name)}"
         content       += " added a new photo to the <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a> album"
-        message       =  raw (render '/band_photos/band_photo', :photo =>postitem, :band_album =>album, :band =>band, :in_newsfeed =>true)
+        message       =  raw (render '/artist_photo/photo', :photo =>postitem, :artist_album =>album, :artist =>artist, :in_newsfeed =>true)
       elsif post.artist_show_post?
-        band          = postitem.artist
+        artist        = postitem.artist
         show_id       = postitem.id
         show_venue    = postitem.venue
         show_city     = postitem.city
-        show_path     = artist_show_path(band.name,show_id)
+        show_path     = artist_show_path(artist.name,show_id)
         content       += " has created a new <a href='#{show_path}' class='ajaxopen backable' data-remote=true>show</a> at #{show_venue} of #{show_city}"
       elsif post.song_post?
-        band            = post.band
-        album_name    = postitem.song_album.album_name
-        album_path    = "#{band_song_album_path(band.name, album_name)}"
+        artist        = post.artist
+        album_name    = postitem.artist_music.album_name
+        album_path    = "#{artist_music_path(artist.name, album_name)}"
         content       += " added a new song to the <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a> album"
-        message       = raw(render '/band_song_album/song_item', :song =>postitem, :band =>band, :in_newsfeed =>true)
-      elsif post.song_album_post?
-        band            = post.band
+        message       = raw(render '/artist_music/song_item', :song =>postitem, :artist =>artist, :in_newsfeed =>true)
+      elsif post.artist_music_post?
+        artist        = post.artist
         album_name    = postitem.album_name
-        album_path    = "#{band_song_album_path(band.name, album_name)}"
+        album_path    = "#{artist_music_path(artist.name, album_name)}"
         content       += " added a new music album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       end
     end
@@ -241,33 +241,33 @@ module ApplicationHelper
     content         = " wrote about "
     message         = ""
     if post && postitem
-      if post.band_album_post?
-        band          = postitem.band
+      if post.artist_album_post?
+        artist          = postitem.artist
         album_name    = postitem.name
-        album_path    = "#{band_album_path(band.name, album_name)}"
+        album_path    = "#{artist_album_path(artist.name, album_name)}"
         content       += "artist photo album <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
-      elsif post.band_photo_post?
-        band          = postitem.band_album.band
-        album         = postitem.band_album
+      elsif post.artist_photo_post?
+        artist          = postitem.artist_album.artist
+        album         = postitem.artist_album
         album_name    = album.name
-        album_path    = "#{band_album_path(band.name, album_name)}"
+        album_path    = "#{artist_album_path(artist.name, album_name)}"
         content       += "artist photo <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       elsif post.artist_show_post?
-        band          = postitem.artist
+        artist        = postitem.artist
         show_id       = postitem.id
         show_venue    = postitem.venue
         show_city     = postitem.city
-        show_path     = artist_show_path(band.name,show_id)
-        content       += "artist show <a href='#{show_path}' class='ajaxopen backable' remote=true>show</a>(at #{show_venue} of #{show_city})"
+        show_path     = artist_show_path(artist.name,show_id)
+        content       += "artist show <a href='#{show_path}' class='ajaxopen backable' remote='true'>show</a>(at #{show_venue} of #{show_city})"
       elsif post.song_post?
-        band          = postitem.song_album.band
-        album_name    = postitem.song_album.album_name
-        album_path    = "#{band_song_album_path(band.name, album_name)}?h=#{postitem.id}"
+        artist        = postitem.artist
+        album_name    = postitem.artist_music.album_name
+        album_path    = "#{artist_music_path(artist.name, album_name)}?h=#{postitem.id}"
         content       += " song <a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{postitem.title} </a>"
-      elsif post.song_album_post?
-        band          = postitem.band
+      elsif post.artist_music_post?
+        artist        = postitem.artist
         album_name    = postitem.album_name
-        album_path    = "#{band_song_album_path(band.name, album_name)}"
+        album_path    = "#{artist_music_path(artist.name, album_name)}"
         content       += "<a href='#{album_path}' class='ajaxopen backable' data-remote='true'> #{album_name} </a>"
       end
     end
@@ -283,12 +283,12 @@ module ApplicationHelper
     ogg           = song_detail[:ogg_song]
     title         = song_detail[:song_title]
     album_name    = song_detail[:song_album_name]
-    band_name     = song_detail[:song_album_band_name]
+    artist_name   = song_detail[:song_album_artist_name]
     song_album    = song_detail[:song_album]    
     album_image   = song_album ? get_album_cover(song_album).gsub("'", "\\\\'") : ''
     like          = song.voted_on_by?(actor) ? 1 : 0
     hash_str      = "{title: '#{title}', i:'#{id}'"
-    hash_str      += ",album:'#{album_name}', band: '#{band_name}', mp3:'#{mp3}', ogg: '#{ogg}'"
+    hash_str      += ",album:'#{album_name}', artist: '#{artist_name}', mp3:'#{mp3}', ogg: '#{ogg}'"
     hash_str      += ",image: '#{album_image}',like:#{like}}"
     hash_str
   end
@@ -313,29 +313,29 @@ module ApplicationHelper
       link = fan_profile_url(actor)
     else
       name = actor.name
-      link = show_band_url(actor.name)
+      link = show_artist_url(actor.name)
     end
     return {:name =>name, :link =>link}
   end
 
   def buzz_item_detail item
     case item.class.name
-    when 'SongAlbum'
+    when 'ArtistMusic'
       type    = 'Song Album'
       name    = item.album_name
-      artist  = item.band
+      artist  = item.artist
     when 'Song'
       type    = 'Song'
       name    = item.title
-      artist  = item.song_album.band
-    when 'BandAlbum'
+      artist  = item.song_album.artist
+    when 'ArtistAlbum'
       type    = 'Photo Album'
       name    = item.name
-      artist  = item.band
-    when 'BandPhoto'
+      artist  = item.artist
+    when 'ArtistPhoto'
       type    = 'Photo'
       name    = nil
-      artist  = item.band
+      artist  = item.artist
     when 'ArtistShow'
       type    = 'Show'
       name    = nil

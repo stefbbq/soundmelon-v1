@@ -1,5 +1,5 @@
 updateLiveSection('#{escape_javascript(render '/artist/live')}');
-updateLeftSection('#{escape_javascript(render '/artist/form', :action_url => update_band_path(@band.id))}');
+updateLeftSection('#{escape_javascript(render '/artist/form', :action_url => update_artist_path(@artist.id))}');
 updateRightSection('#{escape_javascript(render '/artist/right', :current =>'manage_profile')}');
 closeFacebox(10);
 scrollToTop();

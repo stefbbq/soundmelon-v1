@@ -1,0 +1,13 @@
+- artist_albums = capture do
+  - if @has_admin_access
+    .content-action-space
+      share photos of you or your gigs    
+      = link_to "add album", new_artist_album_path(:artist_name => @artist.name), :remote=>:true, :class=>"ajaxopen add-new"  
+  .div{:id =>"photo_album_box"}
+    - @artist_albums.each do |artist_album|
+      = render '/artist_photo/album', :artist_album =>artist_album, :show_all =>@show_all || false
+$('.primary .left').html('#{escape_javascript artist_albums}');
+setTimeout('$(document).trigger(\"close.facebox\")',10);
+$('.selection-box').removeClass('active').removeClass('button-fill-artist')
+$('#photos').addClass('active').addClass('button-fill-artist');
+scrollToTop();

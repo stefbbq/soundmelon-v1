@@ -6,21 +6,22 @@ class User < ActiveRecord::Base
   acts_as_follower
   
   has_many :user_posts, :order => "created_at desc"
-  #has_one :band_user
-  has_many :band_users, :dependent =>:destroy
-  has_many :bands, :through => :band_users
-  has_many :admin_bands, :through => :band_users, :source =>:band, :conditions =>'access_level = 1'
+  #has_one :artist_user
+  has_many :artist_users, :dependent =>:destroy
+  has_many :artists, :through => :artist_users
+  has_many :admin_artists, :through => :artist_users, :source =>:artist, :conditions =>'access_level = 1'
   has_one  :additional_info
   has_one  :payment_info
-  has_many :band_invitations
+  has_many :artist_invitations
   has_many :albums, :dependent =>:destroy
   has_one  :profile_pic, :dependent =>:destroy
-  has_many :band_albums, :dependent =>:destroy
-  has_many :band_photos, :dependent =>:destroy
+  has_many :artist_albums, :dependent =>:destroy
+  has_many :artist_photos, :dependent =>:destroy
   has_many :songs
   has_many :song_albums
   has_many :posts, :dependent => :destroy
   has_many :mention_posts
+  has_many :mentioned_posts, :as =>:mentionitem, :dependent => :destroy
   has_many :playlists, :dependent =>:destroy
   has_many :genre_users, :dependent =>:destroy
   has_many :genres, :through =>:genre_users
@@ -82,26 +83,26 @@ class User < ActiveRecord::Base
     info ? info.location : ''
   end
     
-  def is_admin_of_band?(band) 
-    admin_band_members_id_arr = band.band_members.where('band_users.access_level = 1').map{|band_member| band_member.id}
-    if admin_band_members_id_arr.include?(self.id)
+  def is_admin_of_artist?(artist) 
+    admin_artist_members_id_arr = artist.artist_members.where('artist_users.access_level = 1').map{|artist_member| artist_member.id}
+    if admin_artist_members_id_arr.include?(self.id)
       return true
     else
       return false
     end
   end
   
-  def is_member_of_band?(band)
-    band_members_id_arr = band.band_members.map{|band_member| band_member.id}
-    band_members_id_arr.include?(self.id) ? true : false
+  def is_member_of_artist?(artist)
+    artist_members_id_arr = artist.artist_members.map{|artist_member| artist_member.id}
+    artist_members_id_arr.include?(self.id) ? true : false
   end
   
-  #return all the bands in which the user is admin except the band that comes as argument
-  def admin_artists(band=nil)
-    if band
-      self.admin_bands.where('bands.id != ?', band.id)
+  #return all the artists in which the user is admin except the artist that comes as argument
+  def admin_artists_list(artist=nil)
+    if artist
+      self.admin_artists.where('artists.id != ?', artist.id)
     else
-      self.admin_bands
+      self.admin_artists
     end
   end
   
@@ -116,10 +117,10 @@ class User < ActiveRecord::Base
   def find_own_as_well_as_following_user_posts page=1
     user_as_well_as_following_users_id = [self.id]
     self.following_users.map{|follow|  user_as_well_as_following_users_id << follow.id}    
-    user_following_band_ids = self.following_bands.map{|band| band.id}
+    user_following_artist_ids = self.following_artists.map{|artist| artist.id}
     post_ids        = []
-#    posts           = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.band_id in (:user_following_band_ids))  and posts.is_deleted = :is_deleted and is_bulletin = false', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :user_following_band_ids => user_following_band_ids, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
-    posts           = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.band_id in (:user_following_band_ids))  and posts.is_deleted = :is_deleted', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :user_following_band_ids => user_following_band_ids, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
+#    posts           = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.artist_id in (:user_following_artist_ids))  and posts.is_deleted = :is_deleted and is_bulletin = false', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :user_following_artist_ids => user_following_artist_ids, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
+    posts           = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.artist_id in (:user_following_artist_ids))  and posts.is_deleted = :is_deleted', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :user_following_artist_ids => user_following_artist_ids, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
 #    #mark_mentioned_post_as_read post_ids
 #    #mark_replies_post_as_read post_ids
     return posts
@@ -163,13 +164,13 @@ class User < ActiveRecord::Base
   end
 
   # user has genres(collected from user's favourite genre, genres of songs he/she liked)
-  # songs from the bands of user's top genres(top based on liking count)
+  # songs from the artists of user's top genres(top based on liking count)
   def find_radio_feature_playlist_songs(number_of_songs = 5)    
-    song_items                 = []
-    user_top_genres            = Genre.find(self.top_genre_ids)    
-    bands_from_user_genres     = user_top_genres.map{|ug| ug.bands}
-    albums_of_user_genre_bands = bands_from_user_genres.flatten.map{|band| band.song_albums }.flatten
-    for album in albums_of_user_genre_bands
+    song_items                    = []
+    user_top_genres               = Genre.find(self.top_genre_ids)
+    artists_from_user_genres      = user_top_genres.map{|ug| ug.artists}
+    albums_of_user_genre_artists  = artists_from_user_genres.flatten.map{|artist| artist.artist_musicss }.flatten
+    for album in albums_of_user_genre_artists
       song_items << album.songs
     end    
     # if empty
@@ -197,11 +198,11 @@ class User < ActiveRecord::Base
   # removes every items belonged to it
   # removes every associated artist profiles if they don't belong to anyone else
   def remove_me
-    bands = self.bands
-    bands.each{|band|
+    artists = self.artists
+    artists.each{|artist|
       # if it belongs to only this user
-      if band.band_users.size == 1
-        band.remove_me
+      if artist.artist_users.size == 1
+        artist.remove_me
       end
     }
     full_name   = self.get_full_name
@@ -220,7 +221,7 @@ class User < ActiveRecord::Base
   end
 
   def deliver_pending_invitations
-    BandInvitation.for_email(self.email).each{|bi|
+    ArtistInvitation.for_email(self.email).each{|bi|
       bi.send_invitation
     }
   end

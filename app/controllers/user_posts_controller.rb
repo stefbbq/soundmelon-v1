@@ -4,25 +4,25 @@ class UserPostsController < ApplicationController
   def index
     if params[:type]
       if params[:type] == 'mentioned'
-        @posts = current_user.mentioned_posts(params[:page])
+        @posts            = current_user.mentioned_posts(params[:page])
       else
-        @posts = current_user.replies_post(params[:page])
+        @posts            = current_user.replies_post(params[:page])
       end
     elsif params[:id]
-      user = User.find params[:id]
-      @posts = user.find_own_posts(params[:page])
+      user                = User.find params[:id]
+      @posts              = user.find_own_posts(params[:page])
     else
-      @posts = current_user.find_own_as_well_as_following_user_posts(params[:page])
+      @posts              = current_user.find_own_as_well_as_following_user_posts(params[:page])
     end
     @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
     if request.xhr?
       next_page           = @posts.next_page
       if params[:type]
-        @load_more_path =  next_page ?  more_post_path(:page => next_page, :type => params[:type]) : nil
+        @load_more_path   =  next_page ?  more_post_path(:page => next_page, :type => params[:type]) : nil
       elsif params[:id]
-        @load_more_path =  next_page ?  user_more_post_path(user, :page => next_page) : nil
+        @load_more_path   =  next_page ?  user_more_post_path(user, :page => next_page) : nil
       else
-        @load_more_path =  next_page ?  more_post_path(:page => next_page) : nil
+        @load_more_path   =  next_page ?  more_post_path(:page => next_page) : nil
       end
     end
   end
@@ -39,17 +39,17 @@ class UserPostsController < ApplicationController
   end
  
   def destroy
-    @post = Post.where(:id => params[:id]).includes(:user, :band).first
+    @post = Post.where(:id => params[:id]).includes(:user, :artist).first
     if !@post.user.nil? && @post.user == current_user
       @post.is_deleted = true
-    elsif !@post.band.nil? && current_user.is_admin_of_band?(@post.band)   
+      @post.destroy
+    elsif !@post.artist.nil? && current_user.is_admin_of_artist?(@post.artist)   
       @post.is_deleted = true
-    end
-    if @post.save
-      respond_to do |format|
-        format.html { redirect_to fan_home_path }
-        format.js {render :layout => false }
-      end
+      @post.destroy
+    end    
+    respond_to do |format|
+      format.html { redirect_to fan_home_path }
+      format.js {render :layout => false }
     end
   end
   
@@ -58,13 +58,14 @@ class UserPostsController < ApplicationController
       begin
         actor                 = current_actor
         @parent_post          = Post.find(params[:id])
-        #        participating_users_and_band_mention_names_arr = @parent_post.owner_as_well_as_all_mentioned_users_and_bands_except(actor.id)
+        #        participating_users_and_artist_mention_names_arr = @parent_post.owner_as_well_as_all_mentioned_users_and_artists_except(actor.id)
       rescue =>exp
         logger.error "Error in UserPosts#NewReply :=> #{exp.message}"
-        render :nothing => true and return
+#        render :nothing => true and return
+        @parent_post          = nil
       end
       @post                   = Post.new
-      #      @post.msg               = participating_users_and_band_mention_names_arr.join(' ')
+      #      @post.msg               = participating_users_and_artist_mention_names_arr.join(' ')
       respond_to do |format|
         format.js {render :layout => false}
       end
@@ -76,10 +77,10 @@ class UserPostsController < ApplicationController
   def reply
     if request.xhr?
       begin
-        @parent_post              = Post.where('id = ?', params[:parent_post_id]).includes(:band,:user).first
+        @parent_post              = Post.where('id = ?', params[:parent_post_id]).includes(:artist,:user).first
         actor                     = current_actor
         @post                     = actor.posts.build(params[:post])
-        parent_post_writer_user   = @parent_post.band || @parent_post.user
+        parent_post_writer_user   = @parent_post.artist || @parent_post.user
       rescue =>exp
         logger.error "Error in UserPosts::Reply :=>#{exp.message}"
         render :nothing => true and return
@@ -120,14 +121,14 @@ class UserPostsController < ApplicationController
       get_user_associated_objects
       render :template =>'/user_posts/mentioned' and return
     else
-      @band                       = @user
-      @posts                      = @band.mentioned_in_posts(params[:page])
+      @artist                       = @user
+      @posts                      = @artist.mentioned_in_posts(params[:page])
       @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page                   = @posts.next_page
       @load_more_path             = next_page ? more_posts_path(next_page, :type => 'mentions') : nil
       messages_and_posts_count
       # get right column objects
-      get_artist_objects_for_right_column(@band)
+      get_artist_objects_for_right_column(@artist)
       render :template =>"/user_posts/mentions_post" and return
     end    
   end
@@ -144,14 +145,14 @@ class UserPostsController < ApplicationController
       get_user_associated_objects
       render :template =>"/user_posts/replies" and return
     else
-      @band                      = @user
-      @posts                     = @band.replies_post(params[:page])
+      @artist                      = @user
+      @posts                     = @artist.replies_post(params[:page])
       @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page                  = @posts.next_page
       @load_more_path            =  next_page ? more_posts_path(next_page, :type => 'replies') : nil
       messages_and_posts_count
       # get right column objects
-      get_artist_objects_for_right_column(@band)
+      get_artist_objects_for_right_column(@artist)
       render :template =>"/user_posts/replies_post" and return
     end
   end
@@ -159,10 +160,10 @@ class UserPostsController < ApplicationController
   def more_bulletins
     if request.xhr?
       begin
-        @band                       = Band.where(:name => params[:band_name]).first
-        @bulletins                  = @band.bulletins(params[:page])
+        @artist                       = Artist.where(:name => params[:artist_name]).first
+        @bulletins                  = @artist.bulletins(params[:page])
         bulletin_next_page          = @bulletins.next_page
-        @load_more_bulletins_path   = bulletin_next_page ? band_more_bulletins_path(:band_name => @band.name, :page => bulletin_next_page) : nil
+        @load_more_bulletins_path   = bulletin_next_page ? artist_more_bulletins_path(:artist_name => @artist.name, :page => bulletin_next_page) : nil
       rescue
         render :nothing => true and return
       end
@@ -174,22 +175,22 @@ class UserPostsController < ApplicationController
   def more_posts
     if request.xhr?
       begin
-        @band = Band.where(:name => params[:band_name]).first
+        @artist = Artist.where(:name => params[:artist_name]).first
         if params[:type] && params[:type] == 'general'
-          @posts          = @band.find_own_posts(params[:page])
+          @posts          = @artist.find_own_posts(params[:page])
           next_page       = @posts.next_page
-          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => params[:type]) : nil
-        elsif params[:type] && current_user.is_admin_of_band?(@band)
+          @load_more_path =  next_page ? artist_more_posts_path(:artist_name => @artist.name, :page => next_page, :type => params[:type]) : nil
+        elsif params[:type] && current_user.is_admin_of_artist?(@artist)
           if params[:type] == 'replies'
-            @posts = @band.replies_post(params[:page])
+            @posts = @artist.replies_post(params[:page])
           elsif params[:type] == 'mentions'
-            @posts = @band.mentioned_in_posts(params[:page])
+            @posts = @artist.mentioned_in_posts(params[:page])
           else
-            @posts    = @band.find_own_as_well_as_mentioned_posts(params[:page])
+            @posts    = @artist.find_own_as_well_as_mentioned_posts(params[:page])
           end
-          @is_admin_of_band = true
+          @is_admin_of_artist = true
           next_page   = @posts.next_page
-          @load_more_path =  next_page ? band_more_posts_path(:band_name => @band.name, :page => next_page, :type => params[:type]) : nil
+          @load_more_path =  next_page ? artist_more_posts_path(:artist_name => @artist.name, :page => next_page, :type => params[:type]) : nil
         else
           render :nothing => true and return
         end
@@ -205,7 +206,7 @@ class UserPostsController < ApplicationController
   def new_mention_post
     if request.xhr?
       begin
-        mention_item          = params[:artist_id].present? ? Band.find(params[:artist_id]) : User.find(params[:fan_id])
+        mention_item          = params[:artist_id].present? ? Artist.find(params[:artist_id]) : User.find(params[:fan_id])
       rescue =>exp
         logger.error "Error in UserPosts#NewReply :=> #{exp.message}"
         render :nothing => true and return
@@ -223,7 +224,7 @@ class UserPostsController < ApplicationController
   def create_mention_post
     if request.xhr?
       begin
-        #mention_item           = params[:artist_id].present? ? Band.find(params[:artist_id]) : User.find(params[:fan_id])
+        #mention_item           = params[:artist_id].present? ? Artist.find(params[:artist_id]) : User.find(params[:fan_id])
         actor                   = current_actor
         @post                   = actor.posts.build(params[:post])        
       rescue =>exp

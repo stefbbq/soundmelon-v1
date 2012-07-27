@@ -24,8 +24,7 @@ class ArtistShowController < ApplicationController
       @show_all         = true
       get_artist_objects_for_right_column(@artist)
       render :template =>"/artist_show/index" and return
-    rescue =>exp
-      logger.error "Error in ArtistShow#ArtistShow----------" unless @artist
+    rescue =>exp      
       logger.error "Error in ArtistShow#ArtistShow :=> #{exp.message}"
       @status = false
       render :nothing => true and return
@@ -35,12 +34,12 @@ class ArtistShowController < ApplicationController
   def show_detail
     @artist_show        = ArtistShow.find(params[:artist_show_id])
     unless request.xhr?
-      redirect_to show_band_path(params[:artist_name]) and return
+      redirect_to show_artist_path(params[:artist_name]) and return
     end
   end
 
   def new
-    redirect_to show_band_path(params[:artist_name]) and return unless request.xhr?
+    redirect_to show_artist_path(params[:artist_name]) and return unless request.xhr?
     if @has_admin_access
       @artist_show = ArtistShow.new
     else
@@ -66,7 +65,7 @@ class ArtistShowController < ApplicationController
   end
 
   def edit
-    redirect_to show_band_path(params[:artist_name]) and return unless request.xhr?
+    redirect_to show_artist_path(params[:artist_name]) and return unless request.xhr?
     begin
       unless @has_admin_access
         render :noting => true and return
@@ -78,7 +77,7 @@ class ArtistShowController < ApplicationController
   end
 
   def update
-    redirect_to show_band_path(params[:artist_name]) and return unless request.xhr?
+    redirect_to show_artist_path(params[:artist_name]) and return unless request.xhr?
     begin
       if @has_admin_access
         @artist_show = ArtistShow.find(params[:id])
@@ -107,7 +106,7 @@ class ArtistShowController < ApplicationController
         render :nothing => true and return
       end
     else
-      redirect_to show_band_url(params[:artist_name]) and return
+      redirect_to show_artist_url(params[:artist_name]) and return
     end
   end
 
@@ -116,7 +115,7 @@ class ArtistShowController < ApplicationController
   # finds the artist profile by artist_name parameter, and checks whether the current login is artist or fan
   # and accordingly sets the variable @has_admin_access to be used in views and other actions
   def check_and_set_admin_access
-    @artist           = Band.where(:name => params[:artist_name]).first
+    @artist           = Artist.where(:name => params[:artist_name]).first
     @actor            = current_actor
     @has_admin_access = @artist == @actor    
   end

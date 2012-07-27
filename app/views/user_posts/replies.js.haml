@@ -1,4 +1,3 @@
-$('#page-content').html("");
 $('#page-content').html('#{escape_javascript(render '/fan/live')}');
 $('#page-content').append("<div class='primary-container'><div class='primary'><div class='left'></div><div class='right'></div></div></div>");
 $('.primary .left').html('<div class="top"></div>');
@@ -8,3 +7,4 @@ $('.primary .left').append('#{escape_javascript(render 'bricks/fan_posts', :curr
 $('.primary .right').html('#{escape_javascript(render 'fan/right', :current=>'news_feed')}');
 setTimeout('$(document).trigger(\"close.facebox\")',10);
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
+scrollToContainerTop();

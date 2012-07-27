@@ -1,10 +1,10 @@
 - content = capture do
   - if @artists.blank?
-    You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_band_path, :class => 'ajaxopen', :remote => true}
+    You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_artist_path, :class => 'ajaxopen', :remote => true}
   - else
     - @artists.each do |artist|
       = render '/artist/artist_item', :artist =>artist
-    #{link_to 'create another artist profile?', new_band_path, :class => 'ajaxopen backable', :remote => true} You can add another artist profile to associate with your account!
+    #{link_to 'create another artist profile?', new_artist_path, :class => 'ajaxopen backable', :remote => true} You can add another artist profile to associate with your account!
 setUpPage();
 updateLiveSection('#{escape_javascript(render '/fan/live')}');
 updateLeftSection('#{escape_javascript(content)}');

@@ -1,0 +1,11 @@
+- if @status
+  faceboxContent('Album successfully deleted');
+  $('#musicbox #artist_music_#{@artist_music.id}').remove();
+  $('.primary .left #artist_music_#{@artist_music.id}').remove();
+  $('.featured').replaceWith('#{escape_javascript(render '/artist_music/featured_songs', :featured_songs =>@featured_songs)}');
+  var songList = [#{list_of_play_items(@featured_songs)}];
+  makeFeaturedSongList();  
+- else
+  faceboxContent("Something went wrong! Try again!");
+closeFacebox(1000);
+

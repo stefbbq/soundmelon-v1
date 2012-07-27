@@ -1,5 +1,5 @@
-- if band.band_logo(true)
-  = image_tag(band.band_logo.logo.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
+- if artist.artist_logo(true)
+  = image_tag(artist.artist_logo.logo.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
   .overlay
     = link_to new_logo_path, {:remote=>:true,:class=>'ajaxopen'} do
       %h2

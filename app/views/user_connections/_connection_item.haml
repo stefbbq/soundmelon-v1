@@ -1,6 +1,6 @@
 - status                      = true
-- if user.instance_of?(Band)
-  - link                      = show_band_path(user.name)
+- if user.instance_of?(Artist)
+  - link                      = show_artist_path(user.name)
   - image                     = get_artist_avatar(user)
   - name                      = user.name  
 - else

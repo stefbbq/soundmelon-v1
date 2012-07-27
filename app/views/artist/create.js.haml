@@ -2,14 +2,14 @@
 $('.primary .left').html('');
 - content = capture do
   - if @artists.blank?
-    You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_band_path, :class => 'ajaxopen', :remote => true}
+    You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_artist_path, :class => 'ajaxopen', :remote => true}
   - else
     - @artists.each do |artist|
       = render '/artist/artist_item', :artist =>artist
     .message
       New artist profile has been created.
     %hr
-    #{link_to 'create another one?', new_band_path, :class => 'ajaxopen backable', :remote => true} You can add another artist profile to associate with your account!
+    #{link_to 'create another one?', new_artist_path, :class => 'ajaxopen backable', :remote => true} You can add another artist profile to associate with your account!
 $('.primary .left').html('#{escape_javascript(content)}');
 $('.selection-box').removeClass('active').removeClass('button-fill-fan');
 $('#access-artist').addClass('active').addClass('button-fill-fan');

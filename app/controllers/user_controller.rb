@@ -14,10 +14,10 @@ class UserController < ApplicationController
         get_user_associated_objects
         render :template =>"/fan/index" and return
         #----------------------------------------------------------------------------------
-      elsif home_actor.instance_of?(Band)
-        @band                       = home_actor
-        @is_band                    = true
-        get_band_associated_objects(@band)
+      elsif home_actor.instance_of?(Artist)
+        @artist                       = home_actor
+        @is_artist                    = true
+        get_artist_associated_objects(@artist)
         render "/artist/index" and return
         #---------------------------------------------------------------------------------
       end
@@ -45,15 +45,15 @@ class UserController < ApplicationController
           get_user_associated_objects
           #----------------------------------------------------------------------------------
         else          
-          @band                      = Band.where(:name =>params[:artist_name]).first
-          set_current_fan_artist(@band.id)
+          @artist                      = Artist.where(:name =>params[:artist_name]).first
+          set_current_fan_artist(@artist.id)
           @is_artist                  = true
-          @posts                      = @band.mentioned_in_posts(params[:page])
+          @posts                      = @artist.mentioned_in_posts(params[:page])
           @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
           next_page                   = @posts.next_page
           @load_more_path             = next_page ? more_posts_path(next_page, :type => 'mentions') : nil
           #----------Get Objects------------------------------------------------------------
-          get_band_associated_objects(@band)
+          get_artist_associated_objects(@artist)
           #---------------------------------------------------------------------------------
         end
       rescue =>exp
@@ -75,9 +75,9 @@ class UserController < ApplicationController
         get_user_associated_objects
         render :template =>"/fan/manage_profile" and return
       else                # in case of artist profile login
-        @band             = @actor
-        @band_user        = BandUser.for_user_and_band(current_user, @band).first || BandUser.new
-        get_artist_objects_for_right_column(@band)
+        @artist             = @actor
+        @artist_user        = ArtistUser.for_user_and_artist(current_user, @artist).first || ArtistUser.new
+        get_artist_objects_for_right_column(@artist)
         render :template =>"/artist/edit" and return
       end
     rescue =>exp
@@ -111,7 +111,7 @@ class UserController < ApplicationController
   # renders the current fan's artist profiles
   def pull_artist_profiles
     @user     = current_user
-    @artists  = current_user.bands.includes(:song_albums, :songs)
+    @artists  = current_user.artists.includes(:artist_musics, :songs)
     get_fan_objects_for_right_column(@user)
     respond_to do |format|
       format.js

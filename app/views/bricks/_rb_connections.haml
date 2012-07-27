@@ -2,10 +2,10 @@
 - link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
 %div{:style=>"position: relative;"}
   - if connection_count > 0 || @has_admin_access
-    = link_to artist_connections_path(band.name), {:id=>'connections', :class=>link_class, :remote => true} do
+    = link_to artist_connections_path(artist.name), {:id=>'connections', :class=>link_class, :remote => true} do
       %span.count
         = connection_count
-      - if connection_count > 1 || connection_count == 0 #doesn't use pluarize since that would seperate text styling from number and label
+      - if connection_count > 1 || connection_count == 0
         connections
       - else
         connection
@@ -25,12 +25,12 @@
     - if @has_admin_access
       connection requests
       %hr
-      - connection_requests = band.connection_requests
+      - connection_requests = artist.connection_requests
       - connection_requests.each do |request|
-        - from_band = request.band
-        - unless from_band.blank?
-          %div{:id =>"connection_request_#{from_band.id}"}
-            = link_to from_band.name, show_band_path(from_band.name), :class =>'ajaxopen backable', :remote => :true
+        - from_artist = request.artist
+        - unless from_artist.blank?
+          %div{:id =>"connection_request_#{from_artist.id}"}
+            = link_to from_artist.name, show_artist_path(from_artist.name), :class =>'ajaxopen backable', :remote => :true
             %div{:style =>'float:right;padding-right:3px;'}
-              = link_to "accept", accept_artist_connection_path(from_band.name, :self => 1), :class =>'ajaxopen', :remote => :true
-              = link_to "ignore", reject_artist_connection_path(from_band.name, :self => 1), :class =>'ajaxopen', :remote => :true
+              = link_to "accept", accept_artist_connection_path(from_artist.name, :self => 1), :class =>'ajaxopen', :remote => :true
+              = link_to "ignore", reject_artist_connection_path(from_artist.name, :self => 1), :class =>'ajaxopen', :remote => :true

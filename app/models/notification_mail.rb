@@ -109,7 +109,7 @@ class NotificationMail
     if recipient_object.is_fan?
       recipient_users << recipient_object if recipient_object.notification_on?
     else
-      recipient_users = recipient_object.band_notified_users
+      recipient_users = recipient_object.artist_notified_users
     end
     recipient_users
   end

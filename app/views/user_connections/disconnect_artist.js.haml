@@ -1,13 +1,13 @@
-- avatar_div          = @is_self_profile ? "#{@band.class.name.downcase}_avatar_#{@band.id}" : "#{@actor.class.name.downcase}_avatar_#{@actor.id}"
-- left_collection_div = "#{@band.class.name.downcase}_#{@band.id}_connections"
-- item_div_id         = "connection_#{@band.class.name.downcase}_#{@band.id}"
+- avatar_div          = @is_self_profile ? "#{@artist.class.name.downcase}_avatar_#{@artist.id}" : "#{@actor.class.name.downcase}_avatar_#{@actor.id}"
+- left_collection_div = "#{@artist.class.name.downcase}_#{@artist.id}_connections"
+- item_div_id         = "connection_#{@artist.class.name.downcase}_#{@artist.id}"
 != "jQuery.facebox('Disconnected successfully');"
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
 - connection_content = capture do
-  = render '/bricks/artist_connection', :band =>@band, :actor =>@actor
-- if @actor != @band
+  = render '/bricks/artist_connection', :artist =>@artist, :actor =>@actor
+- if @actor != @artist
   != "$('.actions #connect_section').html('#{escape_javascript connection_content}');"
-if($('div#connection_request_#{@band.id}').length>0){$('div#connection_request_#{@band.id}').remove();}
+if($('div#connection_request_#{@artist.id}').length>0){$('div#connection_request_#{@artist.id}').remove();}
 if($('.primary .left ##{item_div_id}').length>0){$('.primary .left ##{item_div_id}').remove();}
 if($('.right #connectionbox ##{avatar_div}').length>0){$('.right #connectionbox ##{avatar_div}').remove();}
 $('#connections span.count').html("#{@last_connection_count}");

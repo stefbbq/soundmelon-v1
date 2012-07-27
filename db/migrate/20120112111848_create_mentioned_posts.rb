@@ -3,7 +3,7 @@ class CreateMentionedPosts < ActiveRecord::Migration
     create_table :mentioned_posts do |t|
       t.references :post
       t.references :user
-      t.references :band
+      t.references :artist
       t.integer :status
       t.timestamps
     end

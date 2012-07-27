@@ -1,11 +1,11 @@
 - actor = current_actor
-- is_current_artist = actor.instance_of?(Band) && (actor.id == artist.id)
+- is_current_artist = actor == artist.id
 .item
   .avatar
-    = link_to get_artist_avatar(artist), show_band_path(artist.name), :class =>'ajaxopen backable', :remote => :true
+    = link_to get_artist_avatar(artist), show_artist_path(artist.name), :class =>'ajaxopen backable', :remote => :true
   .content
     %h4
-      %strong= link_to artist.name, show_band_path(artist.name), :class =>'ajaxopen backable', :remote => :true
+      %strong= link_to artist.name, show_artist_path(artist.name), :class =>'ajaxopen backable', :remote => :true
       = pluralize(artist.followers_count, 'fan')
       with 
       = pluralize(artist.songs_count, 'song')

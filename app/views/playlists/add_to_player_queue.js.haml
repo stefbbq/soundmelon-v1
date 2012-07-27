@@ -6,4 +6,4 @@ var newPlayList = [#{list_of_play_items(@songs)}];
     addItemsToPlayList(newPlayList);
   playListChange(current_length,1);
   }
-!= "setTimeout('$(document).trigger(\"close.facebox\")',1000);"
+closeFacebox(1000);

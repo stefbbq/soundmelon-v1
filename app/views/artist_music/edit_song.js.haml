@@ -1,0 +1,17 @@
+- @is_updated ||= false
+- if @is_updated  
+  $('#artist_music_#{@song.artist_music_id} #song_#{@song.id}').replaceWith('#{escape_javascript(render '/artist_music/song_item', :song => @song)}');
+  if($('.right .featured_song_list a#song_#{@song.id}').length>0){$('.right .featured_song_list a#song_#{@song.id}').html('#{@song.title}');}
+  faceboxContent('Successfully updated song')
+  closeFacebox(1000);
+- else
+  - song_item = capture do
+    .header
+      Edit Song '#{@song.title}'
+    .normal-content.mini-content
+      = form_for @song, :url =>song_update_path(@artist.name, @song.id).to_s, :html => {:multipart => true, :remote => true } do |f|
+        .form
+          = f.label 'song title'
+          = f.text_field :title, :class => 'overlay-text-field'
+        = f.submit "Save", :disable_with => 'Saving...', :class => "generic-button"
+  faceboxContent('#{escape_javascript song_item}')

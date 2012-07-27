@@ -1,0 +1,39 @@
+.blankbox
+  %h3
+    = "Invite artistmates to join #{@artist.name}"
+  - if @msg
+    = @msg
+.content-box#artistmates-invitation
+  #update-msg
+  - if @artist.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@artist.errors.count, "error")
+        prohibited this record from being saved:
+      %ul
+        - @artist.errors.full_messages.each do |msg|
+          %li
+            = msg
+.content-box
+  .artist-invitation-form
+    = form_for @artist, :url=> send_artistmates_invitation_path(:artist_name => @artist.name), :html => {:method=>:post, :remote => true} do |f|
+      = radio_button_tag(:invitation_by_type, "email", {:checked => true})
+      %span.radiolabel By Email
+      = radio_button_tag(:invitation_by_type, "username")
+      %span.radiolabel By Username
+      &nbsp;&nbsp;&nbsp;&nbsp;or
+      = link_to 'search fan to invite', artist_search_fan_popup_path(@artist.name), :class =>'ajaxopen', :remote =>:true
+      %br/
+      %br/
+      #invitation_status_msg
+      = f.fields_for :artist_invitations do |artist_invitation|
+        - if artist_invitation.object.new_record?
+          = render :partial => 'artist_invitation_fields', :locals => {:f => artist_invitation, :first =>true}
+        - else
+          - hidden_field_tag :old_artist_invitation
+      %br/
+      %span.radiolabel
+        = link_to_add_fields "Add another", f, :artist_invitations
+      %span{:style=>'float:right'}
+        = f.submit("Send Invitations" ,:class=>"button")
+.clear

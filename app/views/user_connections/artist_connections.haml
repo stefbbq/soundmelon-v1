@@ -2,11 +2,11 @@
 .primary-container
   .primary
     .left
-      %b Connections of #{@band.name}
+      %b Connections of #{@artist.name}
       %hr/
-      .connections_list{:id =>"#{@band.class.name.downcase}_#{@band.id}_connections"}
+      .connections_list{:id =>"#{@artist.class.name.downcase}_#{@artist.id}_connections"}
         - @connections.each do |artist|
-          = render '/user_connections/connection_item', :user =>artist, :connection_item =>@band        
+          = render '/user_connections/connection_item', :user =>artist, :connection_item =>@artist        
         = paginate @connections, :remote => true
     .right
       = render '/artist_public/right', :current =>'connection'

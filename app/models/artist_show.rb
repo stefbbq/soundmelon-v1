@@ -1,7 +1,7 @@
 class ArtistShow < ActiveRecord::Base
   acts_as_votable
 
-  belongs_to :artist, :foreign_key =>'artist_id', :class_name =>'Band'
+  belongs_to :artist, :foreign_key =>'artist_id', :class_name =>'Artist'
   validates :show_date, :presence => true
   validates :venue, :presence => true
   validates :city, :presence => true
