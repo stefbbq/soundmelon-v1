@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   validates :email, :presence => true
   validates :fname, :presence => true
   validates :lname, :presence => true
-  validates :mention_name, :uniqueness => true
+  validates :mention_name, :uniqueness => true, :if =>:has_mention_name?
   validates :password, :presence => true, :on => :create 
   validates :password, :confirmation => true      
   validates :email, :uniqueness => true
@@ -69,9 +69,13 @@ class User < ActiveRecord::Base
 
   def sanitize_mention_name
     unless self.mention_name.blank?
-      self.mention_name = "@#{self.mention_name.parameterize}"
+      self.mention_name = "#{self.mention_name.parameterize}"
       self.mention_name = nil if self.mention_name.size == 1
     end  
+  end
+
+  def has_mention_name?
+    self.mention_name.present?
   end
   
   def get_full_name
@@ -117,7 +121,7 @@ class User < ActiveRecord::Base
   def find_own_as_well_as_following_user_posts page=1
     user_as_well_as_following_users_id = [self.id]
     self.following_users.map{|follow|  user_as_well_as_following_users_id << follow.id}    
-    user_following_artist_ids = self.following_artists.map{|artist| artist.id}
+    user_following_artist_ids   = self.following_artists.map{|artist| artist.id}
     post_ids        = []
 #    posts           = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.artist_id in (:user_following_artist_ids))  and posts.is_deleted = :is_deleted and is_bulletin = false', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :user_following_artist_ids => user_following_artist_ids, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
     posts           = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.artist_id in (:user_following_artist_ids))  and posts.is_deleted = :is_deleted', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :user_following_artist_ids => user_following_artist_ids, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
@@ -135,8 +139,8 @@ class User < ActiveRecord::Base
   end
   
   def mentioned_posts page=1
-    post_ids = []
-    posts = Post.joins(:mentioned_posts).where('mentioned_posts.user_id = ?',  self.id).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
+    post_ids          = []
+    posts             = Post.joins(:mentioned_posts).where('mentioned_posts.user_id = ?',  self.id).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
     mark_mentioned_post_as_read post_ids
     return posts
   end
@@ -150,15 +154,15 @@ class User < ActiveRecord::Base
   end
   
   def replies_post page=1
-    replies_post_ids = []
+    replies_post_ids  = []
     ancestry_post_ids = []
     Post.where('ancestry is not null and is_deleted = ?', false).map do |post| 
       replies_post_ids << post.id
       ancestry_post_ids << post.ancestry
     end
-    parent_posts = Post.where(:id => ancestry_post_ids, :user_id => self.id).map{|post| post.id}
-    post_ids=[]
-    posts = Post.where(:id => replies_post_ids, :ancestry => parent_posts).order('created_at desc').paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
+    parent_posts      = Post.where(:id => ancestry_post_ids, :user_id => self.id).map{|post| post.id}
+    post_ids          = []
+    posts             = Post.where(:id => replies_post_ids, :ancestry => parent_posts).order('created_at desc').paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
     mark_replies_post_as_read post_ids
     return posts
   end

@@ -53,7 +53,7 @@
             :id                 => 'manage_profile',
             :class              => 6 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'
   = link_to 'manage artistmates' , 
-            artistmates_invitation_path(@artist.name),
+            artistmates_invitation_path(@artist),
             :remote             => true,
             :id                 => 'invite_artist',
             :class              => 7 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'

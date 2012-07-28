@@ -1,4 +1,4 @@
-= form_tag artist_send_message_path(:artist_name => @artist.name, :id => @artist.id), :id => 'send_msg_form',:class=>"ajaxopen", :method=>:post,  :remote => :true do |f|
+= form_tag artist_send_message_path(@artist, @artist.id), :id => 'send_msg_form',:class=>"ajaxopen", :method=>:post,  :remote => :true do |f|
   .header
     type in your message
   .mini-content

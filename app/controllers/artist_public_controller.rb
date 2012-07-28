@@ -1,27 +1,32 @@
 class ArtistPublicController < ApplicationController
-  before_filter :require_login
+  before_filter :require_login, :except =>[:index]
 
-  def index
+  def index    
     begin
-      @artist                       = Artist.where(:name => params[:artist_name]).includes(:artist_members).first
-      @is_admin_of_artist           = current_user.is_admin_of_artist?(@artist)
-      @artist_members_count         = @artist.artist_members.count      
+      @artist                       = Artist.where(:mention_name => params[:artist_name]).includes(:artist_members).first
+      @artist_members_count         = @artist.artist_members.count
       get_artist_bulletins_and_posts(@artist)
-      get_artist_objects_for_right_column(@artist)      
+      get_artist_objects_for_right_column(@artist)
     rescue  => exp
       logger.error "Error in ArtistPublic#Index :=> #{exp.message}"
       render :template =>'/bricks/page_missing' and return
     end
-    respond_to do |format|
-      format.js
-      format.html
+    if current_user
+      respond_to do |format|
+        format.js
+        format.html
+      end
+    else
+      @song_items                   = @artist.songs.limit(5)
+      @no_login                     = false
+      render :template =>'/artist_public/publicprofile', :layout =>false
     end
   end
   
   def members    
     begin
       @actor          = current_actor
-      @artist         = Artist.where(:name => params[:artist_name]).includes(:artist_members).first
+      @artist         = Artist.where(:mention_name => params[:artist_name]).includes(:artist_members).first
       @artist_members = @artist.artist_members      
       get_artist_objects_for_right_column(@artist)
       respond_to do |format|
@@ -37,7 +42,7 @@ class ArtistPublicController < ApplicationController
 
   def store
     if request.xhr?
-      @artist       = Artist.where(:name => params[:artist_name]).includes(:artist_members).first
+      @artist       = Artist.where(:mention_name => params[:artist_name]).includes(:artist_members).first
     else
       redirect_to root_url and return
     end

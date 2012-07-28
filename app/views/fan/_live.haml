@@ -6,7 +6,7 @@
       .header
         .name
           %h2.full-name= @user.get_full_name
-          %h2= @user.mention_name
+          %h2= "@#{@user.mention_name}"
         .heading
       .sub-head
         = @user.get_full_address

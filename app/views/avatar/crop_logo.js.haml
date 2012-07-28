@@ -8,5 +8,5 @@
   != "$('form').submit(function(){($('.loader').html($('#globalloading').html()));return true; $(':submit').attr('disabled','disabled');});"
 - else
   != "$('.live .profile-image').html('#{escape_javascript(get_artist_profile_image(@artist, true))}');"
-  jQuery.facebox("Successfully Uploaded");
-  setTimeout('$(document).trigger(\"close.facebox\")',1000);
+  faceboxContent("Successfully Uploaded");
+  closeFacebox(1000);

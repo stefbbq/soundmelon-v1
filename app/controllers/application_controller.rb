@@ -82,11 +82,11 @@ class ApplicationController < ActionController::Base
   def get_artist_bulletins_and_posts artist
     @posts                     = artist.find_own_posts(params[:page])
     next_page                  = @posts.next_page
-    @load_more_path            = next_page ? artist_more_posts_path(:artist_name => artist.name, :page => next_page, :type => 'general') : nil
+    @load_more_path            = next_page ? artist_more_posts_path(artist, next_page, 'general') : nil
     @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
     @bulletins                 = artist.bulletins
     bulletin_next_page         = @bulletins.next_page
-    @load_more_bulletins_path  = bulletin_next_page ? artist_more_bulletins_path(:artist_name => artist.name, :page => bulletin_next_page) : nil
+    @load_more_bulletins_path  = bulletin_next_page ? artist_more_bulletins_path(artist, bulletin_next_page) : nil
   end
 
   def get_current_fan_posts

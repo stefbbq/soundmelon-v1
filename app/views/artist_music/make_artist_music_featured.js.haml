@@ -3,14 +3,14 @@
     - album_html = capture do
       .featured_album{:style =>'float:left;margin-left:5px;margin-right:10px;', :id=>"#{@artist_music.id}_featured"}
         .remove_button{:style=>'float:right;'}
-          = link_to image_tag('remove.png'), make_song_album_featured_path(:artist_name =>@artist_music.artist.name, :song_album_name =>@artist_music.album_name), :remote=>:true, :class=>"ajaxopen"        
-        = link_to get_album_cover_image(@artist_music, 'medium', '50px', '50px'), artist_album_songs_path(:artist_name =>@artist.name, :song_album_name => @artist_music.album_name), :remote=>:true, :class=>"ajaxopen"
+          = link_to image_tag('remove.png'), make_song_album_featured_path(@artist_music.artist, @artist_music.album_name), :remote=>:true, :class=>"ajaxopen"        
+        = link_to get_album_cover_image(@artist_music, 'medium', '50px', '50px'), artist_album_songs_path(@artist, @artist_music.album_name), :remote=>:true, :class=>"ajaxopen"
     $('.featured_albums').append('#{escape_javascript(album_html)}');
     closeFacebox(100);
   - else
     - new_add_button = capture do
       .new_featured_album{:style=>'height:40px;width:40px;padding-left:15px;padding-top:13px;margin-top:-10px;border:1px solid blue;float:left;'}
-        = link_to image_tag('add.png'), "javascript:void(0);",  :onclick =>"open_popup_for_song_albums('#{popup_for_feature_albums_path(:artist_name =>@artist.name)}');", :remote=>:true, :class=>"ajaxopen"          
+        = link_to image_tag('add.png'), "javascript:void(0);",  :onclick =>"open_popup_for_song_albums('#{popup_for_feature_albums_path(@artist)}');", :remote=>:true, :class=>"ajaxopen"          
     $('##{@artist_music.id}_featured').replaceWith('');
 - else
   faceboxContent('Error Occurred!#{@msg}');

@@ -121,7 +121,7 @@ class UserPostsController < ApplicationController
       get_user_associated_objects
       render :template =>'/user_posts/mentioned' and return
     else
-      @artist                       = @user
+      @artist                     = @user
       @posts                      = @artist.mentioned_in_posts(params[:page])
       @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page                   = @posts.next_page
@@ -145,7 +145,7 @@ class UserPostsController < ApplicationController
       get_user_associated_objects
       render :template =>"/user_posts/replies" and return
     else
-      @artist                      = @user
+      @artist                    = @user
       @posts                     = @artist.replies_post(params[:page])
       @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page                  = @posts.next_page
@@ -160,10 +160,10 @@ class UserPostsController < ApplicationController
   def more_bulletins
     if request.xhr?
       begin
-        @artist                       = Artist.where(:name => params[:artist_name]).first
+        @artist                     = Artist.where(:mention_name => params[:artist_name]).first
         @bulletins                  = @artist.bulletins(params[:page])
         bulletin_next_page          = @bulletins.next_page
-        @load_more_bulletins_path   = bulletin_next_page ? artist_more_bulletins_path(:artist_name => @artist.name, :page => bulletin_next_page) : nil
+        @load_more_bulletins_path   = bulletin_next_page ? artist_more_bulletins_path(@artist, bulletin_next_page) : nil
       rescue
         render :nothing => true and return
       end
@@ -175,11 +175,11 @@ class UserPostsController < ApplicationController
   def more_posts
     if request.xhr?
       begin
-        @artist = Artist.where(:name => params[:artist_name]).first
+        @artist           = Artist.where(:mention_name => params[:artist_name]).first
         if params[:type] && params[:type] == 'general'
           @posts          = @artist.find_own_posts(params[:page])
           next_page       = @posts.next_page
-          @load_more_path =  next_page ? artist_more_posts_path(:artist_name => @artist.name, :page => next_page, :type => params[:type]) : nil
+          @load_more_path =  next_page ? artist_more_posts_path(@artist, next_page, params[:type]) : nil
         elsif params[:type] && current_user.is_admin_of_artist?(@artist)
           if params[:type] == 'replies'
             @posts = @artist.replies_post(params[:page])
@@ -190,7 +190,7 @@ class UserPostsController < ApplicationController
           end
           @is_admin_of_artist = true
           next_page   = @posts.next_page
-          @load_more_path =  next_page ? artist_more_posts_path(:artist_name => @artist.name, :page => next_page, :type => params[:type]) : nil
+          @load_more_path =  next_page ? artist_more_posts_path(@artist, next_page, params[:type]) : nil
         else
           render :nothing => true and return
         end
@@ -212,7 +212,7 @@ class UserPostsController < ApplicationController
         render :nothing => true and return
       end
       @post                   = Post.new
-      @post.msg               = mention_item.mention_name if mention_item
+      @post.msg               = "@#{mention_item.mention_name}" if mention_item
       respond_to do |format|
         format.js {render :layout => false}
       end

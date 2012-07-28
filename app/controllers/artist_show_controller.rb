@@ -115,7 +115,7 @@ class ArtistShowController < ApplicationController
   # finds the artist profile by artist_name parameter, and checks whether the current login is artist or fan
   # and accordingly sets the variable @has_admin_access to be used in views and other actions
   def check_and_set_admin_access
-    @artist           = Artist.where(:name => params[:artist_name]).first
+    @artist           = Artist.where(:mention_name => params[:artist_name]).first
     @actor            = current_actor
     @has_admin_access = @artist == @actor    
   end

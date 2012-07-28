@@ -3,7 +3,7 @@ class ArtistController < ApplicationController
   
   def index
     begin
-      @artist = Artist.where(:name => params[:artist_name]).includes(:artist_members).first
+      @artist = Artist.where(:mention_name => params[:artist_name]).includes(:artist_members).first
       if @is_admin_of_artist         = current_user.is_admin_of_artist?(@artist)
         get_artist_associated_objects(@artist)        
       else
@@ -20,7 +20,7 @@ class ArtistController < ApplicationController
   end
   
   def new
-    @user = current_user
+    @user   = current_user
     get_user_associated_objects
     @artist = Artist.new
   end  
@@ -32,7 +32,7 @@ class ArtistController < ApplicationController
       artist_user.artist_id       = @artist.id
       artist_user.access_level  = 1
       artist_user.save
-      @artists  = current_user.artists.includes(:song_albums, :songs)
+      @artists  = current_user.artists.includes(:artist_musics, :songs)
     else
       render :action => 'new' and return
     end
@@ -93,7 +93,7 @@ class ArtistController < ApplicationController
   end
   
   def show
-    @artist               = Artist.where(:name => params[:artist_name]).includes(:artist_members).first
+    @artist               = Artist.where(:mention_name => params[:artist_name]).includes(:artist_members).first
     @artist_members_count = @artist.artist_members.count
     @is_admin_of_artist   = current_user.is_admin_of_artist?(@artist)
     respond_to do |format|
@@ -104,7 +104,7 @@ class ArtistController < ApplicationController
   
   def invite_artist_members
     begin
-      @artist      = Artist.where(:name => params[:artist_name]).first
+      @artist      = Artist.where(:mention_name => params[:artist_name]).first
       if current_user.is_admin_of_artist?(@artist)
         1.times { @artist.artist_invitations.new}
         get_artist_objects_for_right_column(@artist)
@@ -123,7 +123,7 @@ class ArtistController < ApplicationController
   
   def send_artist_member_invitation
     begin
-      @artist = Artist.where(:name => params[:artist_name]).first
+      @artist = Artist.where(:mention_name => params[:artist_name]).first
       if current_user.is_admin_of_artist?(@artist)
         invitation_email_array = []
         params['artist']['artist_invitations_attributes'].each do |key, value|
@@ -162,7 +162,7 @@ class ArtistController < ApplicationController
   end
 
   def search_fan_invitation
-    @artist = Artist.where(:name => params[:artist_name]).first
+    @artist = Artist.where(:mention_name => params[:artist_name]).first
     @fan    = User.find(params[:id])
     ArtistInvitation.create_invitation_for_artist_and_fan(current_user, @artist, @fan)
   end

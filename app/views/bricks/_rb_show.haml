@@ -2,9 +2,9 @@
 - link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
 %div{:style=>"position: relative;"}
   - if @has_admin_access || show_count > 0
-    = link_to artist_shows_path(artist.name), {:remote=>:true, :id=>'shows', :class=>link_class} do
+    = link_to artist_shows_path(artist), {:remote=>:true, :id=>'shows', :class=>link_class} do
       shows
-    = link_to "", new_artist_show_path(artist.name), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access
+    = link_to "", new_artist_show_path(artist), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access
   - else
     .selection-box-nohref
       shows
@@ -13,6 +13,6 @@
       %div
         - artist_shows.each do |show|
           %div{:id =>"artist_show_#{show.id}"}
-            = link_to show.show_date.strftime('%b %d') + " @#{show.venue}", artist_show_path(artist.name, show.id), :remote=>:true, :class=>"ajaxopen backable"
+            = link_to show.show_date.strftime('%b %d') + " @#{show.venue}", artist_show_path(artist, show.id), :remote=>:true, :class=>"ajaxopen backable"
     - else
       .message= NO_SHOW_DATE_MESSAGE

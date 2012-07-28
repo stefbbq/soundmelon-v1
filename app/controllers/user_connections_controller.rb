@@ -61,7 +61,7 @@ class UserConnectionsController < ApplicationController
     if request.xhr?
       begin
         @actor                  = current_actor
-        @artist                   = Artist.find_artist(params)
+        @artist                 = Artist.find_artist(params)
         @actor.follow(@artist)
         @source_symbol          = params[:source]                
         @last_follower_count    = @artist.followers_count
@@ -80,7 +80,7 @@ class UserConnectionsController < ApplicationController
     if request.xhr?
       begin
         @actor                  = current_actor
-        @artist                   = Artist.find_artist(params)
+        @artist                 = Artist.find_artist(params)
         @actor.stop_following(@artist)
         @source_symbol          = params[:source]        
         @last_follower_count    = @artist.followers_count
@@ -112,7 +112,7 @@ class UserConnectionsController < ApplicationController
         render :nothing => true and return
       end
     else
-      redirect_to show_artist_url(:artist_name => params[:artist_name]) and return
+      redirect_to show_artist_url(params[:artist_name]) and return
     end
   end
 
@@ -120,7 +120,7 @@ class UserConnectionsController < ApplicationController
     @actor                      = current_actor
     if request.xhr?
       begin        
-        @artist                   = Artist.find_artist(params)
+        @artist                 = Artist.find_artist(params)
         @actor.disconnect_artist(@artist)
         @last_connection_count  = @artist.connections_count
         @is_self_profile        = params[:self] && params[:self] == "1"
@@ -129,7 +129,7 @@ class UserConnectionsController < ApplicationController
         render :nothing => true and return
       end
     else
-      redirect_to show_artist_url(:artist_name => params[:artist_name]) and return
+      redirect_to show_artist_url(params[:artist_name]) and return
     end
   end
 

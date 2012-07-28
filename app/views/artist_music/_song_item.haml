@@ -1,7 +1,7 @@
 - highlighted_song_id = @highlighted_song_id.blank? ? 0 : @highlighted_song_id.to_i
 - artist              = artist || @artist
 - in_newsfeed         ||= false
-- artist_name         = artist.name
+- @no_login           ||= false
 .song[song]
   %i
   - if highlighted_song_id == song.id
@@ -13,13 +13,23 @@
   .artist-content-actions-sm
     - if @has_admin_access
       .text-actions
-        = link_to 'edit', song_edit_path(artist_name, song.id), :remote =>:true, :class =>'ajaxopen'
-        = link_to 'remove', delete_song_path(artist_name, song.id), :remote =>:true, :class =>'ajaxopen', :confirm => 'Are you sure?'
-    = link_to download_song_path(artist_name, song.id), {:title => "download"} do
-      %div{:class =>"download-sm-icon"}
-    = link_to 'javascript:void(0);', {:onclick =>"playSongFromAlbum(#{song_detail(song)});", :remote => true, :title => "play"} do
-      %div{:class =>"play-sm-icon"}
-    = link_to add_to_playlist_path(song.song_name_without_extension, song.id), {:remote => true, :class => 'ajaxopen', :title => "queue"} do
-      %div{:class =>"queue-sm-icon"}
-    = link_to song_buzz_path(song), {:remote => true, :class => 'ajaxopen', :title => "buzz"} do
-      %div{:class =>"buzz-sm-icon"}
+        = link_to 'edit', song_edit_path(artist, song.id), :remote =>:true, :class =>'ajaxopen'
+        = link_to 'remove', delete_song_path(artist, song.id), :remote =>:true, :class =>'ajaxopen', :confirm => 'Are you sure?'
+    - unless @no_login
+      = link_to download_song_path(artist, song.id), {:title => "download"} do
+        %div{:class =>"download-sm-icon"}
+      = link_to 'javascript:void(0);', {:onclick =>"playSongFromAlbum(#{song_detail(song)});", :remote => true, :title => "play"} do
+        %div{:class =>"play-sm-icon"}
+      = link_to add_to_playlist_path(song.song_name_without_extension, song.id), {:remote => true, :class => 'ajaxopen', :title => "queue"} do
+        %div{:class =>"queue-sm-icon"}
+      = link_to song_buzz_path(song), {:remote => true, :class => 'ajaxopen', :title => "buzz"} do
+        %div{:class =>"buzz-sm-icon"}
+    - else
+      = link_to download_song_path(artist, song.id), {:title => "download", :class =>'force-login'} do
+        %div{:class =>"download-sm-icon"}
+      = link_to 'javascript:void(0);', {:title => "play", :class =>'force-login'} do
+        %div{:class =>"play-sm-icon"}
+      = link_to add_to_playlist_path(song.song_name_without_extension, song.id), {:remote => true, :class => 'force-login', :title => "queue"} do
+        %div{:class =>"queue-sm-icon"}
+      = link_to song_buzz_path(song), {:remote => true, :class => 'force-login', :title => "buzz"} do
+        %div{:class =>"buzz-sm-icon"}

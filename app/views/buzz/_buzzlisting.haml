@@ -7,6 +7,3 @@
         %h2
           = date.to_date.strftime('%d')
     = render 'buzz_aggregate', :posts => buzzes    
-//-if !@load_more_path.nil?
-//  .read-more
-//    = link_to('read more', @load_more_path, :remote=>true, :class=>'ajaxload')

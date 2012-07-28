@@ -2,7 +2,7 @@
 - link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
 %div{:style=>"position: relative;"}
   - if connection_count > 0 || @has_admin_access
-    = link_to artist_connections_path(artist.name), {:id=>'connections', :class=>link_class, :remote => true} do
+    = link_to artist_connections_path(artist), {:id=>'connections', :class=>link_class, :remote => true} do
       %span.count
         = connection_count
       - if connection_count > 1 || connection_count == 0
@@ -30,7 +30,7 @@
         - from_artist = request.artist
         - unless from_artist.blank?
           %div{:id =>"connection_request_#{from_artist.id}"}
-            = link_to from_artist.name, show_artist_path(from_artist.name), :class =>'ajaxopen backable', :remote => :true
+            = link_to from_artist.name, show_artist_path(from_artist), :class =>'ajaxopen backable', :remote => :true
             %div{:style =>'float:right;padding-right:3px;'}
-              = link_to "accept", accept_artist_connection_path(from_artist.name, :self => 1), :class =>'ajaxopen', :remote => :true
-              = link_to "ignore", reject_artist_connection_path(from_artist.name, :self => 1), :class =>'ajaxopen', :remote => :true
+              = link_to "accept", accept_artist_connection_path(from_artist, :self => 1), :class =>'ajaxopen', :remote => :true
+              = link_to "ignore", reject_artist_connection_path(from_artist, :self => 1), :class =>'ajaxopen', :remote => :true

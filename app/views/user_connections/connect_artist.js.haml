@@ -1,8 +1,7 @@
 - if @connected
-  != "jQuery.facebox('Connected to artist successfully' );"
+  faceboxContent('Connected to artist successfully' );
 - else
-  != "jQuery.facebox('Connection request sent successfully' );"
-!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"   
+  faceboxContent('Connection request sent successfully' );
 - connection_content = capture do
   = render '/bricks/artist_connection', :artist =>@artist, :actor =>@actor
 - new_connected_item = capture do
@@ -23,4 +22,4 @@ if($('div#connection_request_#{@artist.id}').length>0){$('div#connection_request
   if($('#connectionbox .message').length>0){$('#connectionbox').html('#{escape_javascript new_connected_item}')}else{$('#connectionbox').prepend('#{escape_javascript new_connected_item}')};
   $('.primary .left .connections_list').append('#{escape_javascript left_list_item}')
   $('#connections span.count').html("#{@last_connection_count}");
-setTimeout('$(document).trigger(\"close.facebox\")',1000);
+  closeFacebox(1000);

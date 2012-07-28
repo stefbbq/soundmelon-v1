@@ -5,7 +5,7 @@
 - is_self_profile             = @actor == connection_item
 
 - if user.instance_of?(Artist)
-  - link                      = show_artist_path(user.name)
+  - link                      = show_artist_path(user)
   - image                     = get_artist_avatar(user)
   - name                      = user.name
   - location                  = nil
@@ -28,8 +28,8 @@
     - connector_unfollow_link   = unfollow_user_path(connector_item.id, source_symbol)
   - else
     - source_symbol             = is_search_item ? 4 : is_self_profile ? 2 : 3
-    - connector_follow_link     = follow_artist_path(connector_item.name, source_symbol)
-    - connector_unfollow_link   = unfollow_artist_path(connector_item.name, source_symbol)
+    - connector_follow_link     = follow_artist_path(connector_item, source_symbol)
+    - connector_unfollow_link   = unfollow_artist_path(connector_item, source_symbol)
 
   - if status
     - if is_following

@@ -2,9 +2,9 @@
 - link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
 %div{:style=>"position: relative;"}
   - if @has_admin_access || photo_album_count > 0
-    = link_to artist_albums_path(artist.name), {:remote =>:true, :id=>'photos', :class =>link_class} do
+    = link_to artist_albums_path(artist), {:remote =>:true, :id=>'photos', :class =>link_class} do
       photos
-    = link_to "", new_artist_album_path(:artist_name => artist.name), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access
+    = link_to "", new_artist_album_path(artist), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access
   - else
     .selection-box-nohref
       photos
@@ -14,14 +14,14 @@
         - photo_albums.each do |artist_photo_album|
           .song-album{:id => "artist_album_#{artist_photo_album.id}"}
             - if @has_admin_access
-              = link_to add_photos_to_album_path(artist.name, artist_photo_album.name), {:remote=>:true, :class=>"ajaxopen"} do
+              = link_to add_photos_to_album_path(artist, artist_photo_album.name), {:remote=>:true, :class=>"ajaxopen"} do
                 .icon-add{:style =>'float:left;margin-right:2px;'}
             %span{:style =>'float:left;'}
               %span.album-cover-image{:style =>'margin-right:5px;'}
                 = link_to get_artist_photo_album_teaser_photo(artist_photo_album), artist_album_path(:artist_name =>artist.name, :artist_album_name => artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
-              = link_to artist_photo_album.name, artist_album_path(artist.name, artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
+              = link_to artist_photo_album.name, artist_album_path(artist, artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
             - if @has_admin_access
-              = link_to delete_album_path(artist.name, artist_photo_album.name),{ :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen"} do
+              = link_to delete_album_path(artist, artist_photo_album.name),{ :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen"} do
                 .icon-remove{:style =>'float:left;'}
           %br/
     - else

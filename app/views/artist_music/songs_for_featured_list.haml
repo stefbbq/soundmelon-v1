@@ -15,7 +15,7 @@
             No song to set as featured.
           - else
             - for song in songs
-              = link_to song.title, make_song_featured_path(album.artist.name, album.album_name, song.id), :remote=>:true, :class=>"ajaxopen", :style=>'color:red;font-size:14px;'
+              = link_to song.title, make_song_featured_path(album.artist, album.album_name, song.id), :remote=>:true, :class=>"ajaxopen", :style=>'color:red;font-size:14px;'
               %br/
           %hr
 faceboxContent('#{escape_javascript popup_content}')

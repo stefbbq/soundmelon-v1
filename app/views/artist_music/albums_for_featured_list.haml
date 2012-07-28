@@ -9,6 +9,6 @@
         List of musics
         %hr/
         - for album in @artist_musics
-          = link_to album.album_name, make_artist_music_featured_path(album.artist.name, album.album_name), :remote=>:true, :class=>"ajaxopen", :style=>'color:red;font-size:14px;'
+          = link_to album.album_name, make_artist_music_featured_path(album.artist, album.album_name), :remote=>:true, :class=>"ajaxopen", :style=>'color:red;font-size:14px;'
           %br/
 faceboxContet('#{escape_javascript popup_content}');

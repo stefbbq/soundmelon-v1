@@ -1,4 +1,4 @@
 $(':submit').removeAttr('disabled');
-jQuery.facebox("Successfully cropped");
-setTimeout('$(document).trigger(\"close.facebox\")',1000);
-!= "$('.live .profile-image').html('#{escape_javascript(get_fan_profile_image(@user, true))}');"
+faceboxContent("Successfully cropped");
+closeFacebox(1000);
+$('.live .profile-image').html('#{escape_javascript(get_fan_profile_image(@user, true))}');

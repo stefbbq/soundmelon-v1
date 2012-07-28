@@ -1,6 +1,6 @@
 - status                      = true
 - if user.instance_of?(Artist)
-  - link                      = show_artist_path(user.name)
+  - link                      = show_artist_path(user)
   - image                     = get_artist_avatar(user)
   - name                      = user.name  
 - else
@@ -10,13 +10,13 @@
 - unless @actor.is_fan?
   - if @actor == user
     - unless connection_item.is_fan?
-      - connection_link       = remove_artist_connection_path(connection_item.name)
+      - connection_link       = remove_artist_connection_path(connection_item)
       - connection_link_text  = 'Disconnect'
       - change_connection     = true
       - item_div_id           = "connection_#{connection_item.class.name.downcase}_#{connection_item.id}"
   - elsif @actor == connection_item
     - unless connection_item.is_fan?
-      - connection_link       = remove_artist_connection_path(user.name, :self =>1)
+      - connection_link       = remove_artist_connection_path(user, :self =>1)
       - connection_link_text  = 'Disconnect'
       - change_connection     = true
       - item_div_id           = "connection_#{user.class.name.downcase}_#{user.id}"

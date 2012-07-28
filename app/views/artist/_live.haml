@@ -7,9 +7,9 @@
       .header
         .name
           %h2.full-name= @artist.name
-          %h2= @artist.mention_name
+          %h2= "@#{@artist.mention_name}"
         .actions
-          = link_to show_artist_path(:artist_name => @artist.name), {:remote =>true, :id => "view-public-profile", :class =>'text-action ajaxopen backable'} do
+          = link_to show_artist_path(@artist), {:remote =>true, :id => "view-public-profile", :class =>'text-action ajaxopen backable'} do
             .icon-bg
             %i
             view public profile

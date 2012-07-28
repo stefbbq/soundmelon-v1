@@ -1,6 +1,11 @@
-.site-logo
-  %a{:href => root_path, :class =>'ajaxopen backable', :id =>'homelogo'}
-    = image_tag 'base-logo.png'
+- if @actor
+  .site-logo
+    %a{:href => root_path, :class =>'ajaxopen backable', :id =>'homelogo'}
+      = image_tag 'base-logo.png'
 
-:javascript
-  $('#homelogo').live('click',function(){ $.ajax("#{root_path}");});
+  :javascript
+    $('#homelogo').live('click',function(){ $.ajax("#{root_path}");});
+- else
+  .site-logo
+    %a{:href => root_path, :target =>'_blank', :id =>'homelogo'}
+      = image_tag 'base-logo.png'

@@ -26,7 +26,10 @@
       = render 'user_posts/post_aggregate', :posts => posts
   -if !@load_more_path.nil?
     .read-more
-      = link_to('read more', @load_more_path, :remote=>true, :class=>'ajaxload')
+      - if @actor
+        = link_to('read more', @load_more_path, :remote=>true, :class=>'ajaxload')
+      - else
+        = link_to('read more', @load_more_path, :remote=>true, :class=>'force-login')
 - else
   .user_posts
     %span.msg

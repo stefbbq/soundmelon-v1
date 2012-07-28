@@ -82,10 +82,10 @@ class ArtistPhotoController < ApplicationController
                 :album_name     => @artist_album.name,
                 :image_string   => '',
                 :image_src      => (cover_image = @artist_album.cover_image) ? cover_image.image.url(:thumb) : '/assets/no-image.png',
-                :add_url        => "#{add_photos_to_album_path(@artist.name, @artist_album.name)}",
-                :album_url      => "#{artist_album_path(@artist.name, @artist_album.name)}",
-                :delete_url     => "#{delete_album_path(@artist.name, @artist_album.name)}",
-                :album_photos_url=>"#{artist_album_photos_path(@artist.name, @artist_album.name)}",
+                :add_url        => "#{add_photos_to_album_path(@artist, @artist_album.name)}",
+                :album_url      => "#{artist_album_path(@artist, @artist_album.name)}",
+                :delete_url     => "#{delete_album_path(@artist, @artist_album.name)}",
+                :album_photos_url=>"#{artist_album_photos_path(@artist, @artist_album.name)}",
                 :album_string   => "#{render_to_string('/artist_photo/_album', :layout =>false, :locals =>{:artist_album =>@artist_album})}",
                 :photo_string   => "#{render_to_string('/artist_photo/_photo', :layout =>false, :locals =>{:artist_album =>@artist_album, :photo =>@artist_photo})}"
               }
@@ -94,7 +94,7 @@ class ArtistPhotoController < ApplicationController
         else
           render :action => 'new'
         end
-      else
+      else        
         render :nothing => true and return
       end
     rescue =>exp
@@ -155,7 +155,7 @@ class ArtistPhotoController < ApplicationController
   def update
     if request.xhr?
       begin
-        @artist           = Artist.where(:name => params[:artist_name]).first
+        @artist           = Artist.where(:mention_name => params[:artist_name]).first
         @artist_album     = ArtistAlbum.where(:name => params[:artist_album_name], :artist_id => @artist.id).includes(:artist_photos).first
         unless @has_admin_access
           render :nothing => true and return
@@ -304,7 +304,7 @@ class ArtistPhotoController < ApplicationController
   # finds the artist profile by artist_name parameter, and checks whether the current login is artist or fan
   # and accordingly sets the variable @has_admin_access to be used in views and other actions
   def check_and_set_admin_access
-    @artist           = Artist.where(:name => params[:artist_name]).first
+    @artist           = Artist.where(:mention_name => params[:artist_name]).first
     @actor            = current_actor
     @has_admin_access = @artist == @actor
   end

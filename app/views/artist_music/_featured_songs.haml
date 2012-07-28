@@ -3,9 +3,9 @@
   - featured_songs.each do |song|
     - artist_music = song.artist_music
     - song_name  = song.title || song.song_name_without_extension
-    = link_to make_song_featured_path(artist_music.artist.name, artist_music.album_name, song.id), {:id =>"#{song.id}_featured", :remote=>:true, :class=>"ajaxopen featured-song feature-enabled", :title => 'remove from featured'} do
+    = link_to make_song_featured_path(artist_music.artist, artist_music.album_name, song.id), {:id =>"#{song.id}_featured", :remote=>:true, :class=>"ajaxopen featured-song feature-enabled", :title => 'remove from featured'} do
       %span= song_name.truncate(16)
       %span remove
   - (6 - featured_songs.size).times do |i|
-    = link_to "feature new song", popup_for_feature_songs_path(:artist_name =>@artist.name), :remote => :true, :class => "ajaxopen featured-song  placeholder", :title => 'choose a song to feature'
+    = link_to "feature new song", popup_for_feature_songs_path(@artist), :remote => :true, :class => "ajaxopen featured-song  placeholder", :title => 'choose a song to feature'
 .clear

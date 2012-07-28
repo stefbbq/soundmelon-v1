@@ -52,7 +52,7 @@ class Artist < ActiveRecord::Base
 
   def sanitize_mention_name
     unless self.mention_name.blank?
-      self.mention_name = "@#{self.mention_name.parameterize}"
+      self.mention_name = "#{self.mention_name.parameterize}"
       self.mention_name = nil if self.mention_name.size == 1
     end
   end
@@ -98,8 +98,8 @@ class Artist < ActiveRecord::Base
   end
 
   def mentioned_in_posts page = 1
-    post_ids = []
-    posts = Post.joins(:mentioned_posts).where('mentioned_posts.artist_id = ?',  self.id).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
+    post_ids  = []
+    posts     = Post.joins(:mentioned_posts).where('mentioned_posts.artist_id = ?',  self.id).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
     mark_mentioned_post_as_read post_ids
     return posts
   end
@@ -155,11 +155,15 @@ class Artist < ActiveRecord::Base
   end
 
   def self.find_artist condition_params
-    where(:name => condition_params[:artist_name]).first
+    if condition_params[:artist_name]
+      where(:mention_name => condition_params[:artist_name]).first
+    elsif condition_params[:id]
+      where(:id => condition_params[:id]).first
+    end
   end
 
   def self.find_artist_and_members condition_params
-    where(:name => condition_params[:artist_name]).includes(:artist_members).first
+    where(:mention_name => condition_params[:artist_name]).includes(:artist_members).first
   end
 
   def followers page = 1
@@ -231,6 +235,10 @@ class Artist < ActiveRecord::Base
 
   def get_name
     self.name
+  end
+
+  def to_param
+    self.mention_name.gsub('@','')
   end
 
   protected

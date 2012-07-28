@@ -25,45 +25,53 @@ $(document).ready( function(){
 
   $('[data-validatefanusername]').blur(function() {
     $this = $(this);
-    $.get($this.data('validatefanusername'), {
-      fan_user_name: $this.val()
-    }).success(function() {
-      $('.fan-username-popout').html('');
-    }).error(function() {
-      $('.fan-username-popout').html('<span>This username is unavailable</span>');
-    });
+    if($this.val().trim()!=''){
+      $.get($this.data('validatefanusername'), {
+        fan_user_name: $this.val()
+      }).success(function() {
+        $('.fan-username-popout').html('');
+      }).error(function() {
+        $('.fan-username-popout').html('<span>This username is unavailable</span>');
+      });
+    }
   });
 
   $('[data-validate]').blur(function() {
     $this = $(this);
-    $.get($this.data('validate'), {
-      artist_name: $this.val()
-    }).success(function() {
-      $('.artist-name-popout').html('');
-    }).error(function() {
-      $('.artist-name-popout').html('<span>This name is unavailable</span>');
-    });
+    if($this.val().trim()!=''){
+      $.get($this.data('validate'), {
+        artist_name: $this.val()
+      }).success(function() {
+        $('.artist-name-popout').html('');
+      }).error(function() {
+        $('.artist-name-popout').html('<span>This name is unavailable</span>');
+      });
+    }    
   });
 
   $('[data-validatemn]').blur(function() {
     $this = $(this);
-    $.get($this.data('validatemn'), {
-      artist_mention_name: $this.val()
-    }).success(function() {
-      $('.artist-username-popout').html('');
-    }).error(function() {
-      $('.artist-username-popout').html('<span>This username is unavailable</span>');
-    });
+    if($this.val().trim()!=''){
+      $.get($this.data('validatemn'), {
+        artist_mention_name: $this.val()
+      }).success(function() {
+        $('.artist-username-popout').html('');
+      }).error(function() {
+        $('.artist-username-popout').html('<span>This username is unavailable</span>');
+      });
+    }    
   });
 
-	//status input capture enter key
-	var openMention = false;
+  //status input capture enter key
+  var openMention = false;
   $('#post_msg').live("keyup", function(event) {
-		if($(".status-input .mentions-autocomplete-list").css("display") == "block"){
-			openMention = true;
-		} else {
-			window.setTimeout(function(){openMention = false;}, 50);
-		}
+    if($(".status-input .mentions-autocomplete-list").css("display") == "block"){
+      openMention = true;
+    } else {
+      window.setTimeout(function(){
+        openMention = false;
+      }, 50);
+    }
     if(event.keyCode == 13 && !event.shiftKey && openMention == false) {
       $(this).val($(this).val().trim());
       $(this).closest("form").submit();
@@ -90,18 +98,15 @@ $(document).ready( function(){
   });
                  
   $(".ajaxload").live('ajax:before', function() {
-    jQuery.facebox($('#globalloading').html());
-    $(':submit').attr('disabled','disabled');
+    jQuery.facebox($('#globalloading').html());    
   });
 		
   $(".ajaxload").live('ajax:success', function() {
-    $(document).trigger("close.facebox");
     $(':submit').removeAttr('disabled');
   });
 		                
   $("a.ajaxopen").live('ajax:before', function() {
-    jQuery.facebox($('#globalloading').html());
-    $(':submit').attr('disabled','disabled');
+    jQuery.facebox($('#globalloading').html());    
   });
 		                  
   $(document).delegate('a[rel*=topup]', 'click', function(e) {
@@ -121,7 +126,9 @@ $(document).ready( function(){
   
   $('a.backable').live('click', function(){    
     if(location.href != this.href){
-      history.pushState({sm:true},document.title, this.href);
+      history.pushState({
+        sm:true
+      },document.title, this.href);
     }
     return false;
   });
@@ -130,7 +137,9 @@ $(document).ready( function(){
     var url         = location.href;    
     if(event.originalEvent.state){      
       jQuery.facebox($('#globalloading').html());      
-      $.getScript(url,function(data, textStatus, jqxhr){$(document).trigger("close.facebox");});
+      $.getScript(url,function(data, textStatus, jqxhr){
+        //$(document).trigger("close.facebox");
+      });
     }
   });
 });
@@ -198,25 +207,29 @@ function scrollToContainerTop(){
   if($('#page-container').length>0){
     $('html, body').animate({
       scrollTop: $('#page-header').offset().top+$('#page-content .live').height
-      });
+    });
   }
 }
 
 // page content update
 function updatePageContent(live_content, left_content, right_content){
- setUpPage();
- // update live section
- updateLiveSection(live_content);
- // update left section
- updateLeftSection(left_content);
- // update right section
- updateRightSection(right_content);
- // close facebox if exists
- closeFacebox();
+  setUpPage();
+  // update live section
+  updateLiveSection(live_content);
+  // update left section
+  updateLeftSection(left_content);
+  // update right section
+  updateRightSection(right_content);
+  // close facebox if exists
+  closeFacebox();
 }
 function setUpPage(){  
-  if($('#page #page-content').length==0){$('#page').append('<div id="page-content"></div>');}
-  if($('#page-content .live').length==0){$('#page-content').append("<div class='live'></div>");}
+  if($('#page #page-content').length==0){
+    $('#page').append('<div id="page-content"></div>');
+  }
+  if($('#page-content .live').length==0){
+    $('#page-content').append("<div class='live'></div>");
+  }
   if($('#page-content .primary-container').length==0)
     $('#page-content').append("<div class='primary-container'></div>");
   if($('.primary-container .primary').length==0)

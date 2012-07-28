@@ -1,19 +1,21 @@
 class InvitationsController < ApplicationController
   
   def new
+    @has_message  = params[:source] && params[:source] == "1"          
     @invitation = Invitation.new    
   end
 
   def create
     begin
       @invitation             = Invitation.new(params[:invitation])
-#      @invitation.sender_id   = current_user if current_user
+      #      @invitation.sender_id   = current_user if current_user
       @sent                   = false
       @from_page              = params[:from_page].present? && params[:from_page]=='1'
+      @has_message            = params[:source] && params[:source] == "1"
       if @invitation.save
         if current_user
-#          @invitation.send_invitation_email
-#          @sent = true
+          #          @invitation.send_invitation_email
+          #          @sent = true
         else
           @sent = false
         end

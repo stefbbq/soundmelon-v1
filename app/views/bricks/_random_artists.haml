@@ -1,19 +1,30 @@
 - @artists  = Artist.random_artists 2, current
 - @randomA  = @artists.first
 - @randomB  = @artists.size > 1 ? @artists.last : nil
+- has_logged_user = current_user
 - if @randomA
   .left
     .photo
       = get_artist_profile_image(@randomA)
     .overlay
-      = link_to show_artist_path(@randomA.name), {:class =>'ajaxopen backable', :remote =>true} do
-        artist
-        %h2= @randomA.name
+      - if has_logged_user
+        = link_to show_artist_path(@randomA), {:class =>'ajaxopen backable', :remote =>true} do
+          artist
+          %h2= @randomA.name
+      - else
+        = link_to show_artist_path(@randomA) do
+          artist
+          %h2= @randomA.name
 - if @randomB
   .right
     .photo
       = get_artist_profile_image(@randomB)
     .overlay
-      = link_to show_artist_path(@randomB.name), {:class =>'ajaxopen backable', :remote =>true} do
-        artist
-        %h2= @randomB.name
+      - if has_logged_user
+        = link_to show_artist_path(@randomB), {:class =>'ajaxopen backable', :remote =>true} do
+          artist
+          %h2= @randomB.name
+      - else
+        = link_to show_artist_path(@randomB) do
+          artist
+          %h2= @randomB.name

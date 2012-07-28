@@ -3,8 +3,7 @@ class FanController < ApplicationController
   before_filter :logged_in_user, :only  => [:activate]
 
   def index    
-    @user                       = current_user
-    logger.debug ">>> CURRENT ID: #{@user}"
+    @user                       = current_user    
     @posts                      = current_user.find_own_as_well_as_following_user_posts(params[:page])
     @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
     next_page                   = @posts.next_page
@@ -25,14 +24,14 @@ class FanController < ApplicationController
       redirect_to fan_home_path
     else
       if request.post?
-        successful_signup           = false
+        successful_signup             = false
         @artist                       = Artist.new(params[:artist])
         if(params[:artist][:name].blank? && params[:artist][:mention_name].blank?)
           @is_artist_data_valid       = true          
         else          
           @is_artist_data_valid       = @artist.valid?
         end        
-        @user                       = User.new(params[:user])
+        @user                         = User.new(params[:user])
         if @is_artist_data_valid
           if @user.save
             @artist.save

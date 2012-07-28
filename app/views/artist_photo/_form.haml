@@ -9,7 +9,7 @@
   = "Update artist Album"
   %hr/
   = form_for @artist_album, :url => {:controller => 'artist_photo', :action => 'update'}, :html => {:remote =>true } do |f|
-    = hidden_field_tag :artist_name, @artist.name
+    = hidden_field_tag :artist_name, @artist.mention_name
     = hidden_field_tag :artist_album_name, @artist_album.name
     .field
       = f.label :name

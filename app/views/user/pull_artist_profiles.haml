@@ -2,10 +2,10 @@
 .primary-container
   .primary
     .left
-      - if @artists.blank?
+      - if @accessible_artists.blank?
         You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_artist_path, :class => 'ajaxopen', :remote => true}
       - else
-        - @artists.each do |artist|
+        - @accessible_artists.each do |artist|
           = render '/artist/artist_item', :artist =>artist
 
         #{link_to 'create another artist profile?', new_artist_path, :class => 'ajaxopen backable', :remote => true} You can add another artist profile to associate with your account!

@@ -5,7 +5,7 @@
       - if @has_admin_access
         .content-action-space
           share an upcoming gig
-          = link_to "add show", new_artist_show_path(:artist_name => @artist.name), :remote=>:true, :class=>"ajaxopen add-new", :title => "add new show"
+          = link_to "add show", new_artist_show_path(@artist), :remote=>:true, :class=>"ajaxopen add-new", :title => "add new show"
       .show-list
         - if @artist_shows.blank?
           Artist has not set any show dates!

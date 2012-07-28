@@ -12,5 +12,4 @@
         = render '/artist/fan_item', :user => user, :invited =>invited
     - else
       %h3 no results found for '#{params[:q]}'
-!= "$('.popup .content #search_fan_results').html('#{escape_javascript search_result}');"
-!= "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});"
+$('.popup .content #search_fan_results').html('#{escape_javascript search_result}');

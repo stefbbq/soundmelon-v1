@@ -1,6 +1,6 @@
 $('#page-content').html('#{escape_javascript(render '/artist/primary_content')}');
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
+closeFacebox(1000);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist');
 $('#feed-msg').addClass('active').addClass('button-fill-artist');
 scrollToTop();

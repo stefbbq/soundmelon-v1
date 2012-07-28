@@ -1,7 +1,8 @@
 - @artist ||= @artist
 - artist_admin_ids= ArtistUser.for_artist_id(@artist.id).map { |u| u.user_id}
 - actor           = current_actor
-- is_artist_admin = artist_admin_ids.include? current_user.id
+- is_artist_admin = actor ? (artist_admin_ids.include? current_user.id) : false
+- is_actor_fan    = actor ? actor.is_fan? : false
 - is_own_wall     = actor == @artist
 .live
   .profile-image{:title =>"#{@artist.name}"}
@@ -11,33 +12,34 @@
       .header
         .name
           %h2.full-name= @artist.name
-          %h2= @artist.mention_name
-        .actions
-          - if is_own_wall
-            = link_to user_home_path, {:class =>'ajaxopen text-action', :remote => true, :id => "administer"} do
-              .icon-bg
-              %i
-              administer
-          - else
-            - if is_artist_admin
-              = link_to change_login_path(@artist.name), {:class =>'ajaxopen text-action', :remote => :true, :id => "administer"} do
+          %h2= "@#{@artist.mention_name}"
+        - if actor
+          .actions
+            - if is_own_wall
+              = link_to user_home_path, {:class =>'ajaxopen text-action', :remote => true, :id => "administer"} do
                 .icon-bg
                 %i
-                admin
-            - if actor.is_fan?
-              - if actor.following?(@artist)
-                = link_to unfollow_artist_path(@artist.name, 1), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
-                  .icon-bg
-                  %i
-                  unfollow
-              - else
-                = link_to follow_artist_path(@artist.name, 1), {:id =>'follow-artist', :remote => true, :class => 'ajaxopen text-action'} do
-                  .icon-bg
-                  %i
-                  follow
+                administer
             - else
-              #connect_section
-                = render 'bricks/artist_connection', :actor =>actor, :artist => @artist
+              - if is_artist_admin
+                = link_to change_login_path(@artist), {:class =>'ajaxopen text-action', :remote => :true, :id => "administer"} do
+                  .icon-bg
+                  %i
+                  admin
+              - if actor.is_fan?
+                - if actor.following?(@artist)
+                  = link_to unfollow_artist_path(@artist, 1), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+                    .icon-bg
+                    %i
+                    unfollow
+                - else
+                  = link_to follow_artist_path(@artist, 1), {:id =>'follow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+                    .icon-bg
+                    %i
+                    follow
+              - else
+                #connect_section
+                  = render 'bricks/artist_connection', :actor =>actor, :artist => @artist
           = link_to '', "http://facebook.com/#{@artist.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @artist.facebook_page.blank?
           = link_to '', "http://twitter.com/#{@artist.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @artist.twitter_page.blank?
       .sub-head

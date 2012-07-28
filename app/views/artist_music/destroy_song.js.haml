@@ -5,7 +5,7 @@ $('div#song_stats_#{@song.artist_music_id}').html('#{pluralize(@song.artist_musi
   var songList = [#{list_of_play_items(@featured_songs)}];
   makeFeaturedSongList();
   - new_add_button = capture do
-    = link_to "feature new song", popup_for_feature_songs_path(@artist.name), :remote => :true, :class => "ajaxopen featured-song", :title => 'choose a song to feature'
+    = link_to "feature new song", popup_for_feature_songs_path(@artist), :remote => :true, :class => "ajaxopen featured-song", :title => 'choose a song to feature'
   $('.featured ##{@song.id}_featured').remove();
   $('.featured').append('#{escape_javascript(new_add_button)}');
 closeFacebox(1000);

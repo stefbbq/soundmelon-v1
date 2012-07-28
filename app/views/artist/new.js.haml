@@ -4,4 +4,4 @@ $('.primary .left').html('');
   %hr
   = render 'form', :action_url => create_artist_path
 $('.primary .left').html('#{escape_javascript(new_artist_profile_form)}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
+closeFacebox(1000);

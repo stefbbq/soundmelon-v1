@@ -2,6 +2,8 @@ Soundmelon::Application.routes.draw do
 
   resources :invitations  
 
+  get 'application/invitation/new(/:source)'  =>'invitations#new',                  :as => :new_invitation
+
   get "artist/index"
 
   # pages and feedback
@@ -127,8 +129,8 @@ Soundmelon::Application.routes.draw do
   match 'autocomplete/suggestions'            => 'search#autocomplete_suggestions',               :as => :autocomplete_suggestions
   match 'autocomplete/location/suggestions'   => 'search#location_autocomplete_suggestions',      :as => :location_autocomplete_suggestions
   get 'check/fanusername'                     => 'search#check_fanusername',                      :as => :check_fanusername
-  get 'check/artistname'                        => 'search#check_artistname',                     :as => :check_artistname
-  get 'check/artistmentionname'                 => 'search#check_artistmentionname',              :as => :check_artistmentionname
+  get 'check/artistname'                      => 'search#check_artistname',                       :as => :check_artistname
+  get 'check/artistmentionname'               => 'search#check_artistmentionname',                :as => :check_artistmentionname
   #get 'fan/sign_up/message' => 'users#fan_signup_sucessful_info', :as => successful_fan_signup
   #get 'musician/sign_up/message' => 'users#musician_signup_sucessful_info', :as => successful_musician_signup
 

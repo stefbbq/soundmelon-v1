@@ -45,7 +45,7 @@ class UserController < ApplicationController
           get_user_associated_objects
           #----------------------------------------------------------------------------------
         else          
-          @artist                      = Artist.where(:name =>params[:artist_name]).first
+          @artist                      = Artist.where(:mention_name =>params[:artist_name]).first
           set_current_fan_artist(@artist.id)
           @is_artist                  = true
           @posts                      = @artist.mentioned_in_posts(params[:page])
@@ -110,8 +110,8 @@ class UserController < ApplicationController
 
   # renders the current fan's artist profiles
   def pull_artist_profiles
-    @user     = current_user
-    @artists  = current_user.artists.includes(:artist_musics, :songs)
+    @user                 = current_user
+    @accessible_artists   = current_user.artists.includes(:artist_musics, :songs)
     get_fan_objects_for_right_column(@user)
     respond_to do |format|
       format.js

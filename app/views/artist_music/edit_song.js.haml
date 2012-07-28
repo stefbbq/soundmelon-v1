@@ -9,7 +9,7 @@
     .header
       Edit Song '#{@song.title}'
     .normal-content.mini-content
-      = form_for @song, :url =>song_update_path(@artist.name, @song.id).to_s, :html => {:multipart => true, :remote => true } do |f|
+      = form_for @song, :url =>song_update_path(@artist, @song.id).to_s, :html => {:multipart => true, :remote => true } do |f|
         .form
           = f.label 'song title'
           = f.text_field :title, :class => 'overlay-text-field'

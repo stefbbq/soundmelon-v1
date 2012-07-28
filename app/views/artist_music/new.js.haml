@@ -4,7 +4,7 @@
   .normal-content.mini-content
     = render :partial => "uploader"
     = form_for @song, :url => {:controller => 'artist_music', :action => 'create'}, :html => {:multipart => true} do |f|
-      = hidden_field_tag :artist_name, @artist.name
+      = hidden_field_tag :artist_name, @artist.mention_name
       .field
         = f.label "name"
         - if @artist_music

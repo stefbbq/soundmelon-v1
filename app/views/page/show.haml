@@ -1,9 +1,13 @@
-.live
-  = render @page_name
-  %br
-  %br
-  %br
-  %br
-  %br
-  %br
-  %br
+- if current_user
+  .live
+    = render @page_name
+    %br
+    %br
+    %br
+    %br
+    %br
+    %br
+    %br
+- else
+  %div{:style =>'padding-top:15px;padding-left:10px;'}
+    = render @page_name

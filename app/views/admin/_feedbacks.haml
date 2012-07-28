@@ -18,7 +18,7 @@
           - if feedback.user_type == 'User'
             = link_to user.get_full_name, fan_profile_path(user.id), :target =>'_blank'
           - else
-            = link_to user.name, show_artist_path(user.name), :target =>'_blank'
+            = link_to user.name, show_artist_path(user), :target =>'_blank'
         &nbsp;&nbsp;        
         = link_to 'Set as read', admin_feedback_handler_path(feedback.id, 2), :class =>'ajaxopen', :remote =>:true
         = link_to 'Remove', admin_feedback_handler_path(feedback.id, 1), :class =>'ajaxopen', :remote =>:true

@@ -55,6 +55,7 @@ class Song < ActiveRecord::Base
     artist_music_name               = artist_music ? artist_music.album_name : ''
     artist_music_artist             = artist_music ? artist_music.artist : nil
     artist_music_artist_name        = artist_music_artist ? artist_music_artist.name : ''
+    artist_music_artist_username    = artist_music_artist ? artist_music_artist.mention_name : ''
     mp3_song                        = self.song_mp3
     ogg_song                        = self.song_ogg    
     ogg_song_name_formatted         = ogg_song.gsub("'", "\\\\'")
@@ -69,6 +70,7 @@ class Song < ActiveRecord::Base
       :song_title               => song_title_formatted,
       :artist_music_name        => artist_music_name_formatted,
       :artist_music_artist_name => artist_name_formatted,
+      :artist_username          => artist_music_artist_username,
       :artist_music             => artist_music
     }
     detail

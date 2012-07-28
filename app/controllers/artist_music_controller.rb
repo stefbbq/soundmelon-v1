@@ -68,9 +68,9 @@ class ArtistMusicController < ApplicationController
                 :artist_music_id  => @artist_music.id,
                 :song_count_str   => @artist_music.songs.size,
                 :image_src        => '/assets/no-image.png',
-                :add_url          => "#{add_song_path(@artist.name, @artist_music.album_name)}",
-                :album_url        => "#{artist_music_path(@artist.name, @artist_music.album_name)}",
-                :delete_url       => "#{delete_artist_music_path(@artist.name, @artist_music.id)}",
+                :add_url          => "#{add_song_path(@artist, @artist_music.album_name)}",
+                :album_url        => "#{artist_music_path(@artist, @artist_music.album_name)}",
+                :delete_url       => "#{delete_artist_music_path(@artist, @artist_music.id)}",
                 :album_string     => "#{render_to_string('/artist_music/_artist_music',:layout =>false, :locals =>{:artist_music =>@artist_music, :show_all=>true})}",
                 :song_string      => "#{render_to_string('/artist_music/_song_item',:layout =>false, :locals =>{:song =>@song})}"
               }
@@ -358,7 +358,7 @@ class ArtistMusicController < ApplicationController
   # and accordingly sets the variable @has_admin_access to be used in views and other actions
   def check_and_set_admin_access
     begin
-      @artist           = Artist.where(:name => params[:artist_name]).first
+      @artist           = Artist.where(:mention_name => params[:artist_name]).first
       @actor            = current_actor
       @has_admin_access = @artist == @actor
     rescue

@@ -1,6 +1,6 @@
 class Post < ActiveRecord::Base
   belongs_to :user
-  belongs_to :artist, :foreign_key =>'artist_id', :class_name =>'Artist'
+  belongs_to :artist
   belongs_to :postitem, :polymorphic =>true
   has_many :mentioned_posts
   has_ancestry :orphan_strategy =>:rootify
@@ -48,7 +48,7 @@ class Post < ActiveRecord::Base
       :postitem_type  => item.class.name,
       :postitem_id    => item.id,
       :user_id        => user_id,
-      :artist_id        => artist_id,
+      :artist_id      => artist_id,
       :msg            => params[:msg]
     )
     post_item.delay.create_notification_email_for_post(actor, item)
@@ -118,23 +118,25 @@ class Post < ActiveRecord::Base
     end
   end
 
-  protected
+#  protected
 
   def update_mentioned_actors_in_post    
     if self.msg =~/@\w/      
-      splitted_post_msg     = self.msg.split(" ").map{|aa| "@#{aa.gsub(/[^0-9A-Za-z]/, '')}"}
+      splitted_post_msg       = self.msg.split(" ").map{|aa| "@#{aa.gsub(/[^0-9A-Za-z]/, '')}"}
+      splitted_post_msg       = splitted_post_msg.map{|aa| aa.gsub('@', '')}
       mentioned_artists       = Artist.find_artists_in_mentioned_post(splitted_post_msg)
-      mentioned_users       = User.find_users_in_mentioned_post(splitted_post_msg)      
-      self.mentioned_users  = mentioned_users.map{|mu| [mu.id,mu.mention_name]}.join(',')
+      mentioned_users         = User.find_users_in_mentioned_post(splitted_post_msg)
+      self.mentioned_users    = mentioned_users.map{|mu| [mu.id,mu.mention_name]}.join(',')
       self.mentioned_artists  = mentioned_artists.map{|mb| mb.mention_name}.join(',')      
     end
   end
 
   def check_and_save_mentioned_in_post
     if self.msg =~/@\w/
-      splitted_post_msg     = self.msg.split(" ").map{|aa| "@#{aa.gsub(/[^0-9A-Za-z]/, '')}"}
+      splitted_post_msg       = self.msg.split(" ").map{|aa| "@#{aa.gsub(/[^0-9A-Za-z]/, '')}"}
+      splitted_post_msg       = splitted_post_msg.map{|aa| aa.gsub('@', '')}
       mentioned_artists       = Artist.find_artists_in_mentioned_post(splitted_post_msg)
-      mentioned_users       = User.find_users_in_mentioned_post(splitted_post_msg)
+      mentioned_users         = User.find_users_in_mentioned_post(splitted_post_msg)
       MentionedPost.create_post_mentions(self, mentioned_users, mentioned_artists)
     end
   end

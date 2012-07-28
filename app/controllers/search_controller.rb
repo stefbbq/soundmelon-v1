@@ -27,7 +27,7 @@ class SearchController < ApplicationController
   end
   
   def autocomplete_suggestions
-    @users          = User.where("activation_state = 'active' and (fname like :search_word or lname like :search_word)", :search_word => "#{params[:term]}%").select('Distinct fname, lname').limit(10)
+    @users            = User.where("activation_state = 'active' and (fname like :search_word or lname like :search_word)", :search_word => "#{params[:term]}%").select('Distinct fname, lname').limit(10)
     @artist_names     = Artist.where("name like :search_word", :search_word => "#{params[:term]}%").select('Distinct name').limit(10).map{|artist| artist.name}
     @artist_genres    = Artist.where("genre like :search_word", :search_word => "#{params[:term]}%").select('Distinct genre').limit(10).map{|artist| artist.genre}
     respond_to do |format|
@@ -36,34 +36,37 @@ class SearchController < ApplicationController
   end
   
   def location_autocomplete_suggestions
-    @locations = AdditionalInfo.where("location like :search_word ", :search_word => "#{params[:term]}%").select('Distinct location').limit(10)
+    @locations        = AdditionalInfo.where("location like :search_word ", :search_word => "#{params[:term]}%").select('Distinct location').limit(10)
     respond_to do |format|
       format.js
     end
   end
   
   def check_fanusername
-    if User.where('mention_name = ?', "@#{params[:fan_user_name]}").count == 0
-      render :nothing => true, :status => 200 and return
+    if User.where('mention_name = ?', "#{params[:fan_user_name]}").count == 0
+      status_code = 200
     else
-      render :nothing => true, :status => 409 and return
-    end
+      status_code = 409
+    end    
+    render :nothing =>true, :status =>status_code and return
   end
 
   def check_artistname
     if Artist.where('name = ?', params[:artist_name]).count == 0
-      render :nothing => true, :status => 200 and return
+      status_code = 200
     else
-      render :nothing => true, :status => 409 and return
+      status_code = 409
     end
+    render :nothing =>true, :status =>status_code and return
   end
 
   def check_artistmentionname
-    if Artist.where('mention_name = ?', "@#{params[:artist_mention_name]}").count == 0
-      render :nothing => true, :status => 200 and return
+    if Artist.where('mention_name = ?', "#{params[:artist_mention_name]}").count == 0
+      status_code = 200
     else
-      render :nothing => true, :status => 409 and return
+      status_code = 409
     end
+    render :nothing =>true, :status =>status_code and return
   end
   
 end

@@ -1,4 +1,5 @@
-- actor           = current_actor
+- @actor          ||= current_actor
+- actor           = @actor
 - artist          = post.artist_id.blank? ? nil : post.artist
 - user            = post.user_id.blank? ? nil : post.user
 - post_item       = post.postitem
@@ -8,22 +9,23 @@
 - unless is_newsfeed
   - if post_item
     - buzz_content = capture do
-      - if post.artist_album_post?
-        = link_to artist_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'action-buzz ajaxopen'} do
-          %i
-          %span buzz
-      - elsif post.artist_show_post?
-        = link_to artist_show_buzz_path(post_item.artist.name, post_item.id), {:remote => true, :class => 'action-buzz ajaxopen'} do
-          %i
-          %span buzz
-      - elsif post.song_post?
-        = link_to song_buzz_path(post_item), {:remote => true, :class => 'action-buzz ajaxopen'} do
-          %i
-          %span buzz
-      - elsif post.artist_music_post?
-        = link_to album_buzz_path(post_item.album_name, post_item.id), {:remote => true, :class => 'action-buzz ajaxopen'} do
-          %i
-          %span buzz
+      - if actor
+        - if post.artist_album_post?
+          = link_to artist_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'action-buzz ajaxopen'} do
+            %i
+            %span buzz
+        - elsif post.artist_show_post?
+          = link_to artist_show_buzz_path(post_item.artist, post_item.id), {:remote => true, :class => 'action-buzz ajaxopen'} do
+            %i
+            %span buzz
+        - elsif post.song_post?
+          = link_to song_buzz_path(post_item), {:remote => true, :class => 'action-buzz ajaxopen'} do
+            %i
+            %span buzz
+        - elsif post.artist_music_post?
+          = link_to album_buzz_path(post_item.album_name, post_item.id), {:remote => true, :class => 'action-buzz ajaxopen'} do
+            %i
+            %span buzz
   
 - is_author_artist_profile  = (@artist && artist) && @artist == artist
 - is_author_fan_profile     = (@user && user) && @user == user
@@ -37,7 +39,7 @@
 
 - writer_header = capture do
   - if artist
-    = is_author_artist_profile ? artist.name : (link_to artist.name, show_artist_path(:artist_name => artist.name), :class => 'ajaxopen backable', :remote => :true, :title => artist.name)
+    = is_author_artist_profile ? artist.name : (link_to artist.name, show_artist_path(artist), :class => 'ajaxopen backable', :remote => :true, :title => artist.name)
   - elsif self_owner
     You
   -elsif user
@@ -45,11 +47,17 @@
 
 - content_header = capture do
   - if post.is_newsfeed?
-    #{newsfeed_message(post, post_item).first}
+    - if actor
+      #{newsfeed_message(post, post_item).first}
+    - else
+      #{newsfeed_message(post, post_item, 'force-login').first}
   - elsif post.is_bulletin
     has pinned this to their profile
   - elsif post_item
-    #{post_message(post, post_item).first}
+    - if actor
+      #{post_message(post, post_item).first}
+    - else
+      #{post_message(post, post_item, 'force-login').first}
   - else
     wrote this  
   #{timeago(post.created_at)}
@@ -57,16 +65,17 @@
 - action_section = ''
 - unless is_newsfeed
   - action_section = capture do
-    - unless buzz_content.blank?
-      #{buzz_content}
-    - if self_actor
-      = link_to user_post_path(post), :method=> :delete, :class => 'action-delete', :remote => true do
-        %i
-        %span delete
-    - else
-      = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote => true do
-        %i
-        %span reply
+    - if actor
+      - unless buzz_content.blank?
+        #{buzz_content}
+      - if self_actor
+        = link_to user_post_path(post), :method=> :delete, :class => 'action-delete', :remote => true do
+          %i
+          %span delete
+      - else
+        = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote => true do
+          %i
+          %span reply
 
 = div_for post, {:class => 'entry'} do
   %div{:class=>"#{divclass}"}
@@ -80,7 +89,7 @@
         - if is_author_artist_profile
           = get_artist_avatar(artist)
         - else
-          = link_to get_artist_avatar(artist), show_artist_path(artist.name), :class =>'ajaxopen backable', :remote =>:true
+          = link_to get_artist_avatar(artist), show_artist_path(artist), :class =>'ajaxopen backable', :remote =>:true
     .content
       .header
         .title
@@ -92,10 +101,16 @@
           #{action_section}
       .body
         - if is_newsfeed
-          #{newsfeed_message(post, post_item).last}
+          - if actor
+            #{newsfeed_message(post, post_item).last}
+          - else
+            #{newsfeed_message(post, post_item, 'force-login').last}
         - else
           = post_msg_with_artist_mention(post) unless post.is_newsfeed?
-          #{post_message(post, post_item).last}
+          - if actor
+            #{post_message(post, post_item).last}
+          - else
+            #{post_message(post, post_item, 'force-login').last}
     .clear
-    - if post.ancestry && !hide_thread_link
+    - if post.ancestry && !hide_thread_link && actor
       = link_to 'expand conversation', get_show_conversation_thread_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"

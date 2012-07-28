@@ -5,6 +5,6 @@ This is about : #{@feedback_subject},
 %hr/
 #{@content}
 %hr/
-- url = @user.is_fan? ? fan_profile_url(@user) : show_artist_url(@user.name)
+- url = @user.is_fan? ? fan_profile_url(@user) : show_artist_url(@user)
 Sent By : #{url}
 

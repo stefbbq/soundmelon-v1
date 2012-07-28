@@ -1,4 +1,6 @@
 - new_invitation_form = capture do
+  - if @has_message
+    To explore the SoundMelon community, you'll need to first request an invite below
   = render :partial =>'/invitations/form'
 - if @from_page
   $('#invitation_form_homepage').html('#{escape_javascript(render '/invitations/form', :from_page => 1)}');

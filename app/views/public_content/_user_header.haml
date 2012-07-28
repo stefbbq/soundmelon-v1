@@ -1,0 +1,18 @@
+.top-bar
+  = render :partial=>"/bricks/logo"
+  .session
+    .summary
+      = render '/public_content/session_header'    
+.bottom-bar
+  .music-player
+    = render :partial =>'layouts/player'
+  .search
+    = form_tag({:controller =>'search', :action => 'index'}, :method => "get", :remote =>true, :id =>'search', :class =>'force-login') do
+      %input.auto_search_complete{:value => "search", :name => "q", :type => "text", :class => 'search-input', :id =>'term'}
+:javascript
+  $('.search-input').focus(function() {
+    if($(this).val()=='search'){$(this).val('');}
+    });
+  $('.search-input').blur(function() {
+    if($(this).val()==''){$(this).val('search');}
+    });

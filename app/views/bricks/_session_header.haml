@@ -18,7 +18,7 @@
         %li
           switch back to yourself
       - other_admin_artists.each do |artist|
-        = link_to change_login_path(artist.name), {:class =>'ajaxopen', :remote =>true} do
+        = link_to change_login_path(artist), {:class =>'ajaxopen', :remote =>true} do
           %li
             access #{artist.name}  
 - else
