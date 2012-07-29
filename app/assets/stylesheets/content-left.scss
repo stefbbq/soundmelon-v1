@@ -122,28 +122,11 @@
 			height: 50px; 
 		}
   }
-
-	//
-	//message
-	.message-conversation {
-		padding-bottom: 10px;
-		&:not(:last-child) { border-bottom: 1px dashed rgba(white, .15); }
-		&:not(:first-of-type) { padding-top: 10px;}
-		&:first-of-type {
-			.message:first-child { padding-top: 0px !important; }
-		}
-		
-		.message {
-			border: none !important;
-			padding-bottom: 8px !important;
-			padding-top: 0px !important;
-		}
-	}
 	
 	//
 	//entries (messages, posts)
-	.entry-no-border { border: none !important; }
-  .entry {  
+	.post-no-border { border: none !important; }
+  .post {  
 		position: relative;
 		padding-bottom: 15px;
     &:not(:last-child) { border-bottom: 1px dashed rgba(white, .15); }
@@ -213,6 +196,12 @@
 			width: 20%;
 			text-align: right;
     }
+
+		.message {
+			border: none !important;
+			padding-bottom: 8px !important;
+			padding-top: 0px !important;
+		}
   }
 
 	//
