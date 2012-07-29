@@ -173,7 +173,7 @@ class User < ActiveRecord::Base
     song_items                    = []
     user_top_genres               = Genre.find(self.top_genre_ids)
     artists_from_user_genres      = user_top_genres.map{|ug| ug.artists}
-    albums_of_user_genre_artists  = artists_from_user_genres.flatten.map{|artist| artist.artist_musicss }.flatten
+    albums_of_user_genre_artists  = artists_from_user_genres.flatten.map{|artist| artist.artist_musics }.flatten
     for album in albums_of_user_genre_artists
       song_items << album.songs
     end    

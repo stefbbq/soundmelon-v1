@@ -14,6 +14,6 @@
   $('.primary .left .top').html('#{escape_javascript(render '/fan/social_header', :current =>'message')}');
   $('.primary .left').append('#{ escape_javascript(render '/messages/inbox_messages', :messages => @messages)}');
   $('.primary').append("<div class='right'></div>");
-  $('.primary .right').html('#{escape_javascript(render 'fan/right', :current=>'news_feed')}');  
-  setTimeout('$(document).trigger(\"close.facebox\")',10);      
+  $('.primary .right').html('#{escape_javascript(render 'fan/right', :current=>'news_feed')}');    
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
+closeFacebox(10);
