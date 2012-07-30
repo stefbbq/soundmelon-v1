@@ -10,8 +10,7 @@ $('#msg_box_#{@message.id} .righticons a#message_view_link').replaceWith("#{esca
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 
 $('div#msg_box_#{@message.id} .unread').remove();
-$('.ajaxload').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());});
-setTimeout('$(document).trigger(\"close.facebox\")',10);
+closeFacebox(10);
 
 - if @actor.is_fan?
   $('.primary .left .social-header').replaceWith('#{escape_javascript(render '/fan/social_header', :current =>'message')}');

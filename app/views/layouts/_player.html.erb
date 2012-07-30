@@ -1,6 +1,6 @@
 <% 
-  @song_items ||= current_user.find_radio_feature_playlist_songs
-  first_album = @song_items.first ? @song_items.first.artist_music : nil
+@song_items ||= current_user.find_radio_feature_playlist_songs
+first_album = @song_items.first ? @song_items.first.artist_music : nil
 %>
 
 <div id="sm_jplayer" class="jp-jplayer"></div>
@@ -10,8 +10,13 @@
       <div class="jp-controls">
         <a href="javascript:;" class="jp-pre" id="jp-pre"></a>
         <div class="play-pause">
-          <a href="javascript:;" class="jp-play"></a>
-          <a href="javascript:;" class="jp-pause"></a>
+          <% if @actor %><!-- logged-in user-->
+            <a href="javascript:;" class="jp-play"></a>
+            <a href="javascript:;" class="jp-pause"></a>
+          <% else %>
+            <a href="javascript:;" class="jp-play"></a>
+            <a href="javascript:;" class="jp-pause"></a>
+          <% end %>
         </div>
         <a href="javascript:;" class="jp-next" id="jp-next"></a>
         <div class="jp-volume-bar1" style="position: absolute !important;">
@@ -35,7 +40,11 @@
         </div>
       <% else %>
         <br/>
-        <span style="font-size:15px;">click play to listen to some tunes</span>
+        <% if @song_items.empty?  %>
+          <span style="font-size:15px;"><%= @artist.get_name %> has no featured songs</span>
+        <% else %>
+          <span style="font-size:15px;">click play to listen to some tunes</span>
+        <% end %>
       <% end %>
     </div>
   </div>

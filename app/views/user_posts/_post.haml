@@ -105,11 +105,12 @@
             #{newsfeed_message(post, post_item).last}
           - else
             #{newsfeed_message(post, post_item, 'force-login').last}
-        - else
-          = post_msg_with_artist_mention(post) unless post.is_newsfeed?
+        - else          
           - if actor
+            = post_msg_with_artist_mention(post) unless post.is_newsfeed?
             #{post_message(post, post_item).last}
           - else
+            = post_msg_with_artist_mention(post, 'force-login') unless post.is_newsfeed?
             #{post_message(post, post_item, 'force-login').last}
     .clear
     - if post.ancestry && !hide_thread_link && actor

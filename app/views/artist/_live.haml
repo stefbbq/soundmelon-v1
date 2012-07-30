@@ -21,6 +21,6 @@
       .description
         = "#{pluralize(@artist.mention_count, 'mention')} in the last #{MENTION_COUNT_FOR_LAST_N_HOURS} hours"
         %br
-        = "#{pluralize(@artist.song_albums_count, 'song')} currently uploaded"
+        = "#{pluralize(@artist.artist_musics_count, 'song')} currently uploaded"
     .bottom
       = render "bricks/random_artists", :current => @artist

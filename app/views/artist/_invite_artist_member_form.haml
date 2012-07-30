@@ -16,13 +16,13 @@
             = msg
 .content-box
   .artist-invitation-form
-    = form_for @artist, :url=> send_artistmates_invitation_path(:artist_name => @artist.name), :html => {:method=>:post, :remote => true} do |f|
+    = form_for @artist, :url=> send_artistmates_invitation_path(:artist_name => @artist), :html => {:method=>:post, :remote => true} do |f|
       = radio_button_tag(:invitation_by_type, "email", {:checked => true})
       %span.radiolabel By Email
       = radio_button_tag(:invitation_by_type, "username")
       %span.radiolabel By Username
       &nbsp;&nbsp;&nbsp;&nbsp;or
-      = link_to 'search fan to invite', artist_search_fan_popup_path(@artist.name), :class =>'ajaxopen', :remote =>:true
+      = link_to 'search fan to invite', artist_search_fan_popup_path(@artist), :class =>'ajaxopen', :remote =>:true
       %br/
       %br/
       #invitation_status_msg

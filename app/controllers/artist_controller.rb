@@ -143,7 +143,7 @@ class ArtistController < ApplicationController
   end
 
   def search_fan_popup
-    @artist = Artist.where(:name => params[:artist_name]).first
+    @artist = Artist.where(:mention_name => params[:artist_name]).first
   end
 
   def search_fan

@@ -3,7 +3,7 @@
     Search fan to invite
   .normal-content.mini-content
     = form_tag( {:controller =>'artist', :action => 'search_fan'}, :method => "post", :remote =>true, :id =>'search') do
-      = hidden_field_tag 'artist_name', @artist.name
+      = hidden_field_tag 'artist_name', @artist.mention_name
       = hidden_field_tag 'artist_id', @artist.id
       %input.auto_search_complete{:value =>'', :name => "q", :type => "text", :class => 'search-input', :id =>'term'}
     #search_fan_results

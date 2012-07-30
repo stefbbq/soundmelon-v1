@@ -47,7 +47,7 @@ class Artist < ActiveRecord::Base
   end
 
   def self.find_artists_in_mentioned_post mentioned_name_arr
-    return where(:mention_name => mentioned_name_arr).select('DISTINCT(id), mention_name').all
+    return where(:mention_name => mentioned_name_arr).select('DISTINCT(id), mention_name, name').all
   end
 
   def sanitize_mention_name
@@ -81,7 +81,7 @@ class Artist < ActiveRecord::Base
     self.mentioned_posts.where('artist_id = ? and created_at >= ?', self.id, MENTION_COUNT_FOR_LAST_N_HOURS.hours.from_now).count
   end
 
-  def song_albums_count
+  def artist_musics_count
     self.artist_musics.count
   end
 
@@ -147,7 +147,7 @@ class Artist < ActiveRecord::Base
   end
 
   def limited_artist_shows(n=SHOW_DATE_SHOW_LIMIT)
-    artist_shows.order('created_at desc').limit(n)
+    artist_shows.where('show_date >= now()').order('created_at desc').limit(n)
   end
 
   def limited_artist_featured_songs(n=ARTIST_FEATURED_SONG_LIMIT)
@@ -234,11 +234,11 @@ class Artist < ActiveRecord::Base
   end
 
   def get_name
-    self.name
+    "#{self.name}"
   end
 
   def to_param
-    self.mention_name.gsub('@','')
+    self.mention_name
   end
 
   protected

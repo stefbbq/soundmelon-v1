@@ -1,9 +1,9 @@
 module ApplicationHelper
 
   def timeago(time, options = {})
-    #options[:class] ||= "timeago"
-    #content_tag(:abbr, time.to_s, options.merge(:title => time.getutc.iso8601)) if time
-    "#{time_ago_in_words(time)} ago"
+    options[:class] ||= "timeago"
+    content_tag(:abbr, time.to_s, options.merge(:title => time.getutc.iso8601)) if time
+    #"#{time_ago_in_words(time)} ago"
   end
   
   def link_to_remove_fields(name, f)
@@ -169,7 +169,8 @@ module ApplicationHelper
     user.is_admin_of_artist?(artist)
   end
 
-  def post_msg_with_artist_mention(post)    
+  def post_msg_with_artist_mention post, link_class = nil
+    link_class          = 'ajaxopen backable' unless link_class
     post_msg            = post.msg
     mentioned_users     = post.mentioned_users
     mentioned_artists   = post.mentioned_artists
@@ -178,7 +179,7 @@ module ApplicationHelper
       for i in 0..user_mentions.size-2
         um_id           = user_mentions[i]
         um_name         = user_mentions[i+1]
-        fan_profile_link_html = "<a href='#{fan_profile_path(um_id)}' class='ajaxopen backable' data-remote='true'>@#{um_name}</a>"
+        fan_profile_link_html = "<a href='#{fan_profile_path(um_id)}' class='#{link_class}' data-remote='true'>@#{um_name}</a>"
         post_msg = post_msg.gsub("@#{um_name}", fan_profile_link_html)
         i = i+1
       end
@@ -186,7 +187,7 @@ module ApplicationHelper
     unless mentioned_artists.blank?
       artist_mentions   = post.mentioned_artists.split(',')
       artist_mentions.each{|mb|
-        artist_profile_link_html = "<a href='#{show_artist_path(mb)}' class='ajaxopen backable' data-remote='true'>@#{mb}</a>"
+        artist_profile_link_html = "<a href='#{show_artist_path(mb)}' class='#{link_class}' data-remote='true'>@#{mb}</a>"
         post_msg = post_msg.gsub("@#{mb}", artist_profile_link_html)
       }
     end

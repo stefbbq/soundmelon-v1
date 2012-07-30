@@ -1,4 +1,3 @@
-- @artist     ||= @artist
 - tabs      = [:latest_post, :music, :photo, :show, :member, :fan, :manage_profile, :invite_artistmate, :song, :connection]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 .items
@@ -11,7 +10,7 @@
             :songs              => @featured_songs,
             :is_admin           => true,
             :artist             => @artist,
-            :selected           => 8 == current
+            :selected           => 1 == current
   =# render '/bricks/rb_music',            
             :song_album_count   => @song_album_count,
             :song_albums        => @song_albums,

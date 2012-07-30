@@ -118,7 +118,7 @@ class Post < ActiveRecord::Base
     end
   end
 
-#  protected
+  protected
 
   def update_mentioned_actors_in_post    
     if self.msg =~/@\w/      

@@ -5,6 +5,8 @@
       %h2
         Show Date:
         = artist_show.show_date.strftime("%b %d, %Y")
+        - if artist_show.is_past_show?
+          [ Past Show ]
     .artist-content-actions
       = link_to artist_show_buzz_path(@artist, artist_show.id), {:remote => true, :class => 'ajaxopen'} do
         .buzz-icon

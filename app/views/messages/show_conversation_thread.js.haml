@@ -8,4 +8,4 @@
         = render 'message_item', :message => message_receipt.message
     .conversation-thread-bottom-border
 $("div#conversation_#{@conversation.id} .message-section").html('#{escape_javascript(conversation_messages_thread)}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
+closeFacebox(10);
