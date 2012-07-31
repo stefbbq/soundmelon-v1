@@ -48,10 +48,7 @@ class UserController < ApplicationController
           @artist                      = Artist.where(:mention_name =>params[:artist_name]).first
           set_current_fan_artist(@artist.id)
           @is_artist                  = true
-          @posts                      = @artist.mentioned_in_posts(params[:page])
-          @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-          next_page                   = @posts.next_page
-          @load_more_path             = next_page ? more_posts_path(next_page, :type => 'mentions') : nil
+          get_artist_mentioned_posts(@artist)
           #----------Get Objects------------------------------------------------------------
           get_artist_associated_objects(@artist)
           #---------------------------------------------------------------------------------

@@ -21,6 +21,9 @@
 	&:hover { @include sprite-img("sprites-40.png", 2, 2, 40px, 40px); }
 	&:active { @include sprite-img("sprites-40.png", 2, 3, 40px, 40px); }
 }
+.jp-play-dis {
+	@include sprite-img("sprites-40.png", 1, 4, 40px, 40px);		
+}
 .jp-pre { 
 	@include sprite-img("sprites-32.png", 2, 1, 32px, 32px); 
 	margin-bottom: 3px;

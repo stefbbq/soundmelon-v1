@@ -225,11 +225,11 @@ i {
 						width: 32px;
 						height: 32px;
 					}
-					.play-pause, .jp-play, .jp-pause {
+					.play-pause, .jp-play, .jp-pause, .jp-play-dis {
 						width: 40px;
 						height: 40px;
 					}
-					.jp-play, .jp-pause { display: block; }
+					.jp-play, .jp-pause, .jp-play-dis { display: block; }
 				}
 				.jp-volume-bar1 {
 					@include border-radius(4px);

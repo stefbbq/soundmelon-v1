@@ -33,3 +33,4 @@
   - search_result = capture do
     = render '/search/fan_result_items', :total_fan_count => total_fan_count, :fan_results =>fan_results, :connection_item => @user, :is_user_fan => false
   $('#page-content #results #fan-section').html('#{escape_javascript(search_result)}');
+closeFacebox(10);

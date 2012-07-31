@@ -122,10 +122,7 @@ class UserPostsController < ApplicationController
       render :template =>'/user_posts/mentioned' and return
     else
       @artist                     = @user
-      @posts                      = @artist.mentioned_in_posts(params[:page])
-      @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-      next_page                   = @posts.next_page
-      @load_more_path             = next_page ? more_posts_path(next_page, :type => 'mentions') : nil
+      get_artist_mentioned_posts(@artist)
       messages_and_posts_count
       # get right column objects
       get_artist_objects_for_right_column(@artist)

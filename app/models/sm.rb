@@ -14,7 +14,7 @@ class Sm
       when 'BandPhoto'
         itemtype = 'ArtistPhoto'
       end
-      post.update_attribute(:postitem_type, itemtype)      
+      post.update_column(:postitem_type, itemtype)
     end    
   end
 
