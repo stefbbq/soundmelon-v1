@@ -7,9 +7,6 @@
       or
       %span favourite genre
       picks
-      %br
-      %span notification
-      setting
   .content
     = form_for(:additional_info, {:url => create_additional_info_path, :remote => true, :class => 'ajaxopen'}) do |f|
       .field.f
@@ -41,7 +38,7 @@
       });
     },
     open: function(event, ui) {
-      $('ul.ui-autocomplete').removeClass(' ui-menu ui-widget ui-widget-content ui-corner-all');
+      $('ul.ui-autocomplete').removeClass('ui-menu ui-widget ui-widget-content ui-corner-all');
     }
   });
   $("#additional_info_favourite_genre").tokenInput(

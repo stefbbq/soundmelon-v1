@@ -67,7 +67,7 @@ class ArtistMusicController < ApplicationController
                 :album_name       => @artist_music.album_name,
                 :artist_music_id  => @artist_music.id,
                 :song_count_str   => @artist_music.songs.size,
-                :image_src        => '/assets/no-image.png',
+                :image_src        => '/assets/profile/artist-defaults-avatar.jpg',
                 :add_url          => "#{add_song_path(@artist, @artist_music.album_name)}",
                 :album_url        => "#{artist_music_path(@artist, @artist_music.album_name)}",
                 :delete_url       => "#{delete_artist_music_path(@artist, @artist_music.id)}",

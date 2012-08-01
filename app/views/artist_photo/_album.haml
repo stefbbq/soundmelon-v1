@@ -31,8 +31,8 @@
           %a{:href => "javascript:void(0);", :onclick => "$('#artist_album_#{artist_album.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
     .album-details
       - if show_all
-        .photo_gallery
+        .gallery
           - artist_album.artist_photos.each do |photo|
-            = render 'photo', :photo => photo, :artist_album =>artist_album
+            = render 'photo', :photo => photo, :artist_album => artist_album
   .clear
 .clear

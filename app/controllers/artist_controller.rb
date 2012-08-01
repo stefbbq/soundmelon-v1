@@ -133,7 +133,7 @@ class ArtistController < ApplicationController
         number_of_invitation = ArtistInvitation.create_invitation_for_artist current_user, @artist, invitation_email_array
         @msg = "#{number_of_invitation} invitations has been sent"
       else
-        logger.error "#User with username:{current_user.get_full_name} and user id #{current_user.id} tried to send invitation for artistmates to join a artist with artist id: #{@artist.id} which he is not a admin" 
+        logger.error "#User with username:{current_user.get_full_name} and user id #{current_user.id} tried to send invitation for bandmates to join a artist with artist id: #{@artist.id} which he is not a admin" 
         redirect_to fan_home_url, :notice => 'Your action has been reported to admin' and return
       end
     rescue =>exp

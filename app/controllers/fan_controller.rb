@@ -119,7 +119,7 @@ class FanController < ApplicationController
     end
   end
 
-  def invite_artistmates
+  def invite_bandmates
     redirect_to root_url and return unless current_user.account_type
     if request.post?
       @artist             = current_user.artists.first

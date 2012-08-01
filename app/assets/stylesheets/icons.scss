@@ -50,6 +50,8 @@
 .jp-rep-active {  @include sprite-img("sprites-32.png", 9, 3, 32px, 32px); }
 .jp-like { @include sprite-img("sprites-32.png", 8, 1, 32px, 32px); }
 .jp-like-active { @include sprite-img("sprites-32.png", 8, 3, 32px, 32px);}
+.jp-buzz { @include sprite-img("sprites-32.png", 10, 1, 32px, 32px); }
+.jp-buzz:active { @include sprite-img("sprites-32.png", 10, 3, 32px, 32px);}
 
 //notifications
 .notifications #replies {
@@ -93,7 +95,7 @@
 .buzz-icon { @include sprite-img("sprites-24.png", 4, 2, 24px, 24px); }
 
 .download-sm-icon { @include sprite-img("sprites-16.png", 1, 3, 16px, 16px); }
-.play-sm-icon { @include sprite-img("sprites-16.png", 2, 3, 16px, 16px); }
+#featured-songs .play, .play-sm-icon { @include sprite-img("sprites-16.png", 2, 3, 16px, 16px); }
 .queue-sm-icon { @include sprite-img("sprites-16.png", 3, 3, 16px, 16px); }
 .buzz-sm-icon { @include sprite-img("sprites-16.png", 4, 3, 16px, 16px); }
 

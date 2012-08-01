@@ -185,6 +185,15 @@
 	@include border-radius(50%);
 }
 
+//misc
+@mixin text-action(){
+	opacity: .5;
+	&:hover { opacity: 1; }
+}
+@mixin image-action(){
+	opacity: .85;
+	&:hover { opacity: 1; }
+}
 
 //box
 @mixin generic-item(){

@@ -24,7 +24,6 @@
         = NO_CONNECTION_MESSAGE
     - if @has_admin_access
       connection requests
-      %hr
       - connection_requests = artist.connection_requests
       - connection_requests.each do |request|
         - from_artist = request.artist

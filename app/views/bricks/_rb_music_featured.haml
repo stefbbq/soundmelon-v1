@@ -1,26 +1,26 @@
 - selected    ||=false
 - link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
 %div{:style=>"position: relative;"}
-  = link_to artist_musics_path(artist), {:remote=>:true, :id=>'music', :class=>link_class} do
+  = link_to artist_musics_path(artist), {:remote => :true, :id => 'music', :class => link_class} do
     music
-  = link_to "", new_artist_music_path(artist), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access
-  .collection{:id =>'featuredmusicbox'}
-    - if @featured_songs.size > 0      
-      .featured_song_list
-        %ul
+  = link_to "", new_artist_music_path(artist), :remote => :true, :class=>"ajaxopen right-icon-item icon-add" if @has_admin_access
+  .collection{:id =>'featured-songs'}
+    - if @featured_songs.size > 0
+      %ul
     - else
-      .message= "no featured music"
+      .message= "no featured songs"
+      
 :javascript
   var songList = [#{list_of_play_items(@featured_songs)}];
   makeFeaturedSongList();
   function makeFeaturedSongList(){
-    if(songList.length>0){if($('#featuredmusicbox .featured_song_list').length==0){$('#featuredmusicbox').html('<div class="featured_song_list"><ul></ul></div>');}}
-    else{$('#featuredmusicbox').html('<div class="message">no featured music</div>');}
+    if(songList.length>0){if($('#featured-songs .collection').length==0){$('#featured-songs').html('<ul></ul>');}}
+    else{$('#featured-songs').html('<div class="message">no featured songs</div>');}
     var liHtml='';
     for(var i=0;i<songList.length;i++){
-      liHtml+='<li style="list-style:none"><a href="javascript:void(0);" onclick="playFeaturedSong(' + i + ');"  title="Click to play">' + songList[i]['title'] + '</a><a class="play_list_next" href="javascript:void(0);" onclick="playFeaturedSong(' + i + ');" title="Click to play">play</a></li><br/>';
+      liHtml+='<li><a href="javascript:void(0);" onclick="playFeaturedSong(' + i + ');"  title="click to play">' + songList[i]['title'] + '</a><a class="play" href="javascript:void(0);" onclick="playFeaturedSong(' + i + ');" title="Click to play"></a></li>';
     }    
-    $('.featured_song_list ul').html(liHtml);
+    $('#featured-songs ul').html(liHtml);
   }
   function playFeaturedSong(index){    
     playSongFromAlbum(songList[index]);

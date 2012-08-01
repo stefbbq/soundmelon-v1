@@ -80,7 +80,7 @@ class ArtistPhotoController < ApplicationController
                 :photo_count_str=> @artist_album.artist_photos.size,
                 :upload         => @artist_photo.image.url(:thumb),
                 :album_name     => @artist_album.name,
-                :image_string   => '',
+                :image_string   => 'assets/profile/artist-defaults-avatar.jpg',
                 :image_src      => (cover_image = @artist_album.cover_image) ? cover_image.image.url(:thumb) : '/assets/no-image.png',
                 :add_url        => "#{add_photos_to_album_path(@artist, @artist_album.name)}",
                 :album_url      => "#{artist_album_path(@artist, @artist_album.name)}",

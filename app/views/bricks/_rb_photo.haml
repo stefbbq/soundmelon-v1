@@ -10,20 +10,10 @@
       photos
   .collection{:id =>'photobox'}
     - if photo_album_count > 0
-      %div
-        - photo_albums.each do |artist_photo_album|
-          .song-album{:id => "artist_album_#{artist_photo_album.id}"}
-            - if @has_admin_access
-              = link_to add_photos_to_album_path(artist, artist_photo_album.name), {:remote=>:true, :class=>"ajaxopen"} do
-                .icon-add{:style =>'float:left;margin-right:2px;'}
-            %span{:style =>'float:left;'}
-              %span.album-cover-image{:style =>'margin-right:5px;'}
-                = link_to get_artist_photo_album_teaser_photo(artist_photo_album), artist_album_path(:artist_name =>artist.name, :artist_album_name => artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
-              = link_to artist_photo_album.name, artist_album_path(artist, artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
-            - if @has_admin_access
-              = link_to delete_album_path(artist, artist_photo_album.name),{ :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen"} do
-                .icon-remove{:style =>'float:left;'}
-          %br/
+      - photo_albums.each do |artist_photo_album|
+        .album{:id => "artist_album_#{artist_photo_album.id}"}
+          .cover= link_to get_artist_photo_album_teaser_photo(artist_photo_album), artist_album_path(:artist_name =>artist.name, :artist_album_name => artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
+          .title= link_to artist_photo_album.name, artist_album_path(artist, artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
     - else
       .message= NO_PHOTO_ALBUM_MESSAGE
 - if @has_admin_access
@@ -35,7 +25,7 @@
       if($('.primary .left #artist_album_' + artist_album_id).length >0){
         $('.primary .left #artist_album_' + artist_album_id).remove();
       }
-      if($('#photobox div.song-album').length==0){
+      if($('#photobox div.album').length==0){
         $('#photobox').html("<div class='message'>#{NO_PHOTO_ALBUM_MESSAGE}</div>");
       }
     }

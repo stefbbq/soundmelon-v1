@@ -9,10 +9,10 @@
     - else
       .selection-box-nohref
         members
-  .collection
-    %div
-      - if artist_count >0
-        - artist_members.each do |artist|
-          = render '/bricks/avatar', :item =>artist
-      - else
-        .message= NO_ARTIST_MEMBER_MESSAGE
+    .collection
+      %div
+        - if artist_count >0
+          - artist_members.each do |artist|
+            = render '/bricks/avatar', :item =>artist
+        - else
+          .message= NO_ARTIST_MEMBER_MESSAGE

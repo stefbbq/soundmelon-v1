@@ -3,13 +3,13 @@
   - album_photos.each do |photo|
     = render 'photo', :photo => photo, :artist_album =>@artist_album
 - left_list_cover_image = capture do
-  - album_cover_image = (cover_image = @artist_album.cover_image) ? cover_image.image.url(:medium) : '/assets/no-image.png'
+  - album_cover_image = (cover_image = @artist_album.cover_image) ? cover_image.image.url(:medium) : '/assets/profile/artist-defaults-avatar.jpg'
   = link_to image_tag(album_cover_image, :height => '80px', :width=>'80px'), artist_album_photos_path(@artist.name, @artist_album.name), :remote=>:true, :class=>"ajaxopen"
 - album_new_cover_image = capture do
   = link_to get_artist_photo_album_teaser_photo(@artist_album), artist_album_path(@artist, @artist_album.name), :remote=>:true, :class=>"ajaxopen backable"
 faceboxContent("deleted successfully");
 if($('.left #photo_album_box #artist_album_#{@artist_album.id}').length>0){$('.left #photo_album_box #artist_album_#{@artist_album.id} .album_teaser_image').html('#{escape_javascript left_list_cover_image}');}
 if($('.right #photobox #artist_album_#{@artist_album.id}').length>0){$('.right #photobox #artist_album_#{@artist_album.id} .album-cover-image').html('#{escape_javascript album_new_cover_image}');}
-$('#artist_album_#{@artist_album.id} .photo_gallery').html('#{escape_javascript all_photos}');
+$('#artist_album_#{@artist_album.id} .gallery').html('#{escape_javascript all_photos}');
 $('div#photo_stat_#{@artist_album.id}').html('#{pluralize(album_photos.size,'photo')}');
 closeFacebox(100);

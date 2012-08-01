@@ -26,6 +26,14 @@ module ApplicationHelper
     end
   end
   
+  def get_fan_avatar_large(user)
+     if user.profile_pic
+       image_tag(user.profile_pic.avatar.url(:medium), :alt=>'')
+     else
+       image_tag('profile/fan-defaults-photo-avatar-large.jpg', :alt=>'')
+     end
+   end
+  
   def get_fan_profile_image(user, my_avatar = false)
     actor     = current_actor
     my_avatar = actor == user
@@ -42,7 +50,7 @@ module ApplicationHelper
 
   def get_artist_avatar(artist)
     unless artist.artist_logo(true)    
-      image_tag('profile/artist-defaults-photo-thumbnail.jpg', :alt=>'')
+      image_tag('profile/artist-defaults-avatar.jpg', :alt=>'')
     else
       image_tag(artist.artist_logo.logo.url(:small), :alt=>'')
     end  
@@ -50,7 +58,7 @@ module ApplicationHelper
   
   def get_artist_avatar_large(artist)
     unless artist.artist_logo(true)    
-      image_tag('artist-defaults-photo-profile.jpg', :alt=>'')
+      image_tag('profile/artist-defaults-avatar-large.jpg', :alt=>'')
     else
       image_tag(artist.artist_logo.logo.url(:medium), :alt=>'')
     end
@@ -142,7 +150,7 @@ module ApplicationHelper
   
   def get_album_cover_image(song_album, type=:small, width=nil, height=nil)
     if song_album.cover_img_content_type.nil?
-      image_tag('no-image.png', :alt=>'')
+      image_tag('profile/artist-defaults-avatar.jpg', :alt=>'')
     else
       (width.nil? and height.nil?) ? image_tag(song_album.cover_img.url(type), :alt=>'') : image_tag(song_album.cover_img.url(type), :width =>width,:height=>height, :alt=>'')
     end
@@ -150,7 +158,7 @@ module ApplicationHelper
 
   def get_album_cover(song_album, type=:small, width=nil, height=nil)
     if song_album.cover_img_content_type.nil?
-      '/assets/no-image.png'
+      '/assets/profile/artist-defaults-avatar.jpg'
     else
       song_album.cover_img.url(type)
     end
@@ -159,7 +167,7 @@ module ApplicationHelper
   def get_artist_photo_album_teaser_photo(artist_photo_album, type=:thumb, width=nil, height=nil)
     cover_image = artist_photo_album.cover_image
     if cover_image.blank?
-      image_tag('no-image.png', :alt=>'')
+      image_tag('profile/artist-defaults-avatar.jpg', :alt=>'')
     else
       (width.nil? and height.nil?) ? image_tag(cover_image.image.url(type), :alt=>'') : image_tag(cover_image.image.url(type), :alt=>'', :height =>height, :width=>width)
     end

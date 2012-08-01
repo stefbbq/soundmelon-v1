@@ -78,8 +78,8 @@
     .collection {
       @include border-radius(0 0 $detail-border-radius $detail-border-radius);
       background: rgba(white, .03);
-      padding: 8px 0 8px 8px;
-      width: $right-button-width;
+      padding: 8px;
+      width: $right-button-width - 8;
       text-align: left;
       color: #a7a7a7;
 			min-height: 36px;
@@ -94,30 +94,33 @@
       }
 
 			//photos, albums
-      .song-album {
+      .album {
+				@include image-action;
+				margin: 6px 0;
         border-bottom: 0.5px solid #303030;
-				margin: 4px 0;
 				height: 40px;
 				
 				.title {
 					display: inline-block;
 					padding-top: 10px;
-					margin-left: 4px;
+					margin-left: 10px;
 					float: left;
 				}
-	      .album-cover-image {
+	      .cover {
 					width: 32px;
 					height: 32px;
 					display: inline-block;
 	        padding-top: 2px;
 					background: rgba(white, .05);
-					float: left;					
+					float: left;
+					
+					img { @include border-radius($border-radius); }		
 	      }
       }
 
       .avatar {
         float: left;
-        padding: 0px 5px 0px 0px;
+        padding: 0px 6px 0px 0px;
         margin-top: 2px;
 
         img	{
@@ -127,79 +130,29 @@
           border: 0;
           outline: none;
         }
+				
+				&:last-child {
+					padding: 0px;
+				}
       }
     }
 
-    long-list { padding-top: 5px}
+		//featured songs
+		#featured-songs {
+			ul {
+				list-style: none; 
+				
+				li { 
+					@include image-action;
+					margin: 6px 0px;
+					
+					a { }
+					.play { float: right; margin-right: 4px;}
+				}
+			}
+		}
 
-    //albums
-    .album {
-      margin: 5px 2px;
-      background: #363636;
-
-      .album_teaser_image {
-        width: 80px;
-        height: 80px;
-        img {
-          margin-top: 10px;
-          width: 60px;
-          height: 60px;
-        }
-        float: left;
-      }
-
-      .album_name {
-        margin: 10px 0 0 65px;
-        width: 160px;
-        text-align: center;
-      }
-
-      a {
-        color: #fff;
-        line-height: 20px;
-        background: none;
-        display: block;
-        text-decoration: none;
-        &:hover{
-          color: #fafafa;
-          background: none;
-        }
-        &.selected{
-          color: #fafafa;
-          background: none;
-        }
-      }
-    }
-
-    #right_albumbox{
-      background: #4D4D4D;
-    }
-
-    //fans
-    .top_fans{
-      background: #4D4D4D;
-      a {
-        color: #fff;
-        line-height: 20px;
-        background: none;
-        display: inline-block;
-        text-decoration: none;
-        &:hover {
-          color: #fafafa;
-          background: none;
-        }
-        &.selected{
-          color: #fafafa;
-          background: none;
-        }
-        img{
-          width: 60px;
-          height: 60px;
-          border: 0;
-          margin: 2px;
-        }
-      }
-    }
+    long-list { padding-top: 5px; }
   }
 
   //misc

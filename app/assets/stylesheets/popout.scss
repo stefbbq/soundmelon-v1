@@ -31,13 +31,13 @@
 //playlist
 .jp-playlist {
   @include popout();
-  position:absolute;
-  z-index:1;
-  width:313px;
-  display:none;
-  left:418px;
-  top:54px;
-  padding:10px;
+  position: absolute;
+  z-index: 1;
+  width: 313px;
+  display: none;
+  left: 454px;
+  top: 55px;
+  padding: 10px;
 
 	li {
 	  padding: 3px 0;

@@ -8,10 +8,19 @@
       = get_artist_profile_image(@artist)
     .links
       .top
-        .header
-          .name
-            %h2.full-name= @artist.name
-            %h2= "@#{@artist.mention_name}"          
+        = render "bricks/random_artists", :current => @artist
+      .bottom
+        .name
+          %h1.full-name= @artist.name
+          %h1= "@#{@artist.mention_name}"
+        .sub-head
+          %span.genre
+            = "#{@artist.genre}"
+          from
+          %span.location
+            = "#{@artist.location}"
+        .description
+        .overlay
           .actions
             - if @actor
               - if is_own_wall
@@ -41,11 +50,5 @@
                     = render 'bricks/artist_connection', :actor =>@actor, :artist => @artist
             = link_to '', "http://facebook.com/#{@artist.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @artist.facebook_page.blank?
             = link_to '', "http://twitter.com/#{@artist.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @artist.twitter_page.blank?
-        .sub-head
-          %h3
-            = "#{@artist.genre}"
-        .description
-      .bottom
-        = render "bricks/random_artists", :current => @artist
 - else
   = render 'artist/live'

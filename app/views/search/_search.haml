@@ -7,6 +7,9 @@
   $('.search-input').focus(function() {
     if($(this).val()=='search'){$(this).val("");}
     });
+  $('.search-input').blur(function() {
+    if($(this).val()==''){$(this).val('search');}
+    });
   $('#search').submit(function(){
     var new_url = "#{search_index_path}?q=" + $('input#term').val();
     history.pushState({

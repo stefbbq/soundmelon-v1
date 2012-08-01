@@ -55,10 +55,10 @@ Soundmelon::Application.routes.draw do
   get 'home/artist/:artist_name'                => 'artist#index',                          :as => :manage_artist
 #  get 'edit/artist/:artist_name/:id'            => 'artist#edit',                    :as => :edit_artist
   match 'update/artist/:id'                     => 'artist#update',                         :as => :update_artist
-  get ':artist_name/artist/member/invitation'   => 'artist#invite_artist_members',          :as => :artistmates_invitation
+  get ':artist_name/artist/member/invitation'   => 'artist#invite_artist_members',          :as => :bandmates_invitation
   get ':artist_name/social'                     => 'artist#social',                         :as => :artist_social
   get ':artist_name/store'                      => 'artist#store',                          :as => :artist_store
-  match ':artist_name/artist/send/inviation'    => 'artist#send_artist_member_invitation',  :as => :send_artistmates_invitation
+  match ':artist_name/artist/send/inviation'    => 'artist#send_artist_member_invitation',  :as => :send_bandmates_invitation
   get ':artist_name/artist/search'              => 'artist#search_fan_popup',               :as => :artist_search_fan_popup
   get ':artist_name/:id/search/invitation'      => 'artist#search_fan_invitation',          :as => :artist_search_fan_invitation
   get "profile/additional_info"
@@ -67,7 +67,7 @@ Soundmelon::Application.routes.draw do
   get 'user/reset/password'                     => 'password_resets#index',                 :as => :password_reset
   post 'add/additional_info'                    => 'fan#add_additional_info',               :as => :create_additional_info
   post 'add/payment_info'                       => 'fan#add_payment_info',                  :as => :create_payment_info
-  match "invite/artistmates"                    => "fan#invite_artistmates" ,               :as => :invite_artist_member
+  match "invite/bandmates"                    => "fan#invite_bandmates" ,               :as => :invite_artist_member
   #get "invite/accept/:id/join" => "profile#activate_invitation" ,:as => "join_artist_invitation"
   match 'invitation/accept/:old_user/:id/join'  => 'fan#activate_invitation' ,              :as => :join_artist_invitation
   match "messages/sendmessage"                  => 'messages#send_message',                 :as => :send_message

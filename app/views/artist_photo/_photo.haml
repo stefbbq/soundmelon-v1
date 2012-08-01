@@ -2,28 +2,23 @@
 - @artist         = artist || @artist
 - in_newsfeed   ||=false
 - unless in_newsfeed
-  .album_photo[photo]
-    - if @has_admin_access && (photo.id == artist_album.cover_image_id)
-      album cover
-      %br
-    - else
-      - if @has_admin_access
-        = link_to "make album cover", make_cover_image_path(@artist, artist_album.name, photo.id), :remote => true, :class => 'ajaxopen'
-        %br
-    =link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), artist_album_photo_path(photo.id, artist_album.name, @artist), :remote => true, :class => 'ajaxopen', :title =>photo.caption
-    %br
+  .photo[photo]
+    =link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), artist_album_photo_path(photo.id, artist_album.name, @artist), :remote => true, :class => 'ajaxopen', :title => photo.caption
     - if @has_admin_access
-      - if photo.caption.blank?
-        = link_to 'Add Caption', edit_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => 'ajaxopen'
-      - else
-        = photo.caption
-        %br
-        = link_to 'Edit Caption',  edit_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => 'ajaxopen'
-      = link_to 'Delete', delete_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => 'ajaxopen'
-    - else
-      = photo.caption
+      .actions
+        - if (photo.id == artist_album.cover_image_id)
+          %span
+            album cover
+        - else
+          = link_to "set as cover", make_cover_image_path(@artist, artist_album.name, photo.id), :remote => true, :class => 'ajaxopen text'
+
+        - if photo.caption.blank?
+          = link_to 'add caption', edit_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => 'ajaxopen text'
+        - else
+          = link_to 'edit caption',  edit_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => 'ajaxopen text'
+
+        = link_to 'remove', delete_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => 'ajaxopen text'
 - else
-  .album_photo[photo]
-    =link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), artist_album_photo_path(photo.id, artist_album.name, @artist), :remote => true, :class => 'ajaxopen', :title =>photo.caption
-    %br
+  .photo[photo]
+    =link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), artist_album_photo_path(photo.id, artist_album.name, @artist), :remote => true, :class => 'ajaxopen', :title => photo.caption
     = photo.caption

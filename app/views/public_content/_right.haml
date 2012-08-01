@@ -8,19 +8,18 @@
   %div{:style=>"position: relative;"}
     .selection-box-nohref
       music
-    .collection{:id =>'featuredmusicbox'}
+    .collection{:id =>'featured-songs'}
       - if @featured_songs.size > 0
-        .featured_song_list
+        .songs
           %ul
             - @featured_songs.each do |song|
-              = link_to song.title, "javascript:void(0);", :class =>'force-login'
-              %br/
+              = link_to song.title, "javascript:void(0);", :class => 'force-login'
       - else
-        .message= "no featured music"
-
+        .message= MO_FEATURED_SONGS_MESSAGE
+        
   %div{:style=>"position: relative;"}
     - if @photo_album_count > 0
-      = link_to artist_albums_path(@artist), {:remote =>:true, :id=>'photos', :class =>link_class} do
+      = link_to artist_albums_path(@artist), {:remote =>:true, :id=> 'photos', :class =>link_class} do
         photos
     - else
       .selection-box-nohref

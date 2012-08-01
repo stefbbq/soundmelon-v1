@@ -12,18 +12,20 @@
 - if both_type_query
   - got_some_results    = (fan_results.size>0) || (artist_results.size>0)
   - search_result = capture do    
-    #results
-      - if got_some_results
-        #artist-section
-          - unless artist_results.blank?
-            = render '/search/artist_result_items', :total_artist_count => total_artist_count, :artist_results =>artist_results, :connection_item => @user, :is_user_fan => false
-        #fan-section
-          - unless fan_results.blank?
-            = render '/search/fan_result_items', :total_fan_count => total_fan_count, :fan_results =>fan_results, :connection_item => @user, :is_user_fan => false
-      - else
-        %h3 no results found for '#{params[:q]}'
+    .live.live-rounded
+      #results
+        - if got_some_results
+          #artist-section
+            - unless artist_results.blank?
+              = render '/search/artist_result_items', :total_artist_count => total_artist_count, :artist_results =>artist_results, :connection_item => @user, :is_user_fan => false
+          #fan-section
+            - unless fan_results.blank?
+              = render '/search/fan_result_items', :total_fan_count => total_fan_count, :fan_results =>fan_results, :connection_item => @user, :is_user_fan => false
+        - else
+          %h3 no results found for '#{params[:q]}'
   $('.auto_search_complete').autocomplete('close');
-  $('#page-content .live').html('#{escape_javascript(search_result)}');
+  $('#page-content .live').remove();
+  $('#page-content').append('#{escape_javascript(search_result)}');
   $('#page-content .primary-container').html('');
 - elsif artist_only_query
   - search_result = capture do
