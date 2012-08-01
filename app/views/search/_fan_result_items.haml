@@ -1,8 +1,8 @@
 .fans
   %h1
-    total
-    = total_fan_count
-    %span fans
+    top
+    %span fan
+    results
 = paginate fan_results, :remote =>:true, :params =>{:f_page =>fan_results.next_page}
 - fan_results.each do |user|
   = render '/user_connections/item_large_square', :user => user, :connection_item => @actor, :is_user_fan => false, :is_search_item =>true

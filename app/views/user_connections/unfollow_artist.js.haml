@@ -29,7 +29,7 @@
 - elsif @source_symbol == '4'
   - item_div_id     = "#{@artist.class.name.downcase}_#{@artist.id}"
   - follow_link     = "#{follow_artist_path(@artist, @source_symbol.to_i)}"
-  if($('#results .item##{item_div_id}').length>0){$('#results .item##{item_div_id} .actions a').attr('href','#{escape_javascript follow_link }').html('follow');}
+  if($('#results .item-large-square##{item_div_id}').length>0){$('#results .item-large-square##{item_div_id} .actions a').attr('href','#{escape_javascript follow_link }').html('follow');}
 
 faceboxContent('musician unfollowed successfully');
 closeFacebox(1000);

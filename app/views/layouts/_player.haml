@@ -95,7 +95,7 @@
     function updateTrackInfo(b,u,t,i,l){    
       var url         = '#{show_artist_url('abc').gsub("/abc", "")}/' + u;
       var artist_html = '<a href="'  + url + '" class="ajaxopen backable" data-remote="true">' + b +'</a>';
-      $('.info .artist-title').html(artist_html);
+      $('.info .artist-title').html("by " + artist_html);
       $('.info .song-title').html(t);
       $('.info img').attr('src', i);
       if(l){$('a#alike').addClass('jp-like-active');}

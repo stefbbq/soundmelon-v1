@@ -37,7 +37,6 @@
 	}
 
   .popup {
-		@include box-shadow(rgba(black, .4), 0px, 2px, 10px);
 		display: table-cell;
 		vertical-align: middle;
 		position: relative;
@@ -45,7 +44,7 @@
 		
 		.content-container {
 			@include border-radius($border-radius);
-			@include box-shadow(rgba(black, .8), 0px, 5px, 20px);
+			@include box-shadow(rgba(black, .8), 0px, 5px, 30px);
 			background: $overlay-bg-color;
 	    display: table;
 	    width: auto;

@@ -208,14 +208,14 @@ i {
 			top: -2px;
 
       .music-player {
-				width: ($page-width * .75) - 25;
+				width: ($page-width * .75) - 35;
         display: block;
         float: left;
 				margin-left: $base-content-clear;
 				position: relative;
         
 				//controls
-				.jp-gui { width: 240px; }
+				.jp-gui { width: 250px; }
 				.jp-controls {
 					width: 250px;
 					> * {
@@ -236,7 +236,7 @@ i {
 				.jp-volume-bar1 {
 					@include border-radius(4px);
 					@include box-shadow(rgba(white, .7), 0px, 1px, 0px);
-					margin: 17px 0 9px 40px;
+					margin: 17px 0 9px 46px;
           width: 70px;
           height: 7px;
           background-color: gray;
@@ -256,14 +256,14 @@ i {
 				.jp-volume-marker {
 					position: absolute;
 					top: 23px;
-					left: 129px;
+					left: 135px;
 				}
 				
 				//main info section	
 				.info {
 					@include border-radius($border-radius);
 					position: relative;
-					width: 420px;
+					width: 400px;
 					height: 44px;
 					margin-top: 7px;
 					background: rgba(black, .5);
@@ -282,25 +282,29 @@ i {
 					}
 					
 					//main
-					.main {
-						position: relative;
-						left: -20px; 
+					.main {  
+						width: 100%;
 						
 						.song-title { 
-							color: white; 
-							margin: -1px 0 -6px 0;
+							color: $text-highlight-color; 
+							margin: -1px 0 -5px 0;
 							font-weight: normal;
 							font-size: 15px;
 							display: block;
 						}
 						.artist-title {
-							color: $text-color;
 							font-size: 11px;
 							display: block;
+							color: $text-color;
+							
+							a { color: $text-color; }
+							a:hover { color: $text-highlight-color; }
 						}
 					}
 					
-					.jp-buzz, .jp-like, .jp-rep {display: inline-block; margin: 0px -2px; }
+					.jp-additional { margin-right: 6px; }
+					.jp-buzz, .jp-like, .jp-rep {display: inline-block; margin: 0px -1px; }
+					.jp-like { display: none; }
 				}
       }
 
@@ -311,7 +315,7 @@ i {
 
 	      > input {
 					@include border-radius($border-radius);
-		    	width: 200px;
+		    	width: 210px;
 					height: 20px;
 					padding: 4px 0 0 5px;					
 	        color: $text-faded-color;
@@ -391,6 +395,7 @@ i {
 	}
 	.fans h1 span { color: $fan-active-color; }
 	.artists h1 span { color: $artist-active-color; }
+	.pagination { display: none; }
 	
 	padding: 10px;
 }

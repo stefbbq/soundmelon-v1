@@ -1,8 +1,8 @@
 .artists
   %h1
-    total
-    = total_artist_count
-    %span artists
+    top
+    %span artist
+    results
 = paginate artist_results, :remote =>:true, :params =>{:a_page =>artist_results.next_page}
 - artist_results.each do |artist|
   = render '/user_connections/item_large_square', :user => artist, :connection_item => @actor, :is_user_fan => false, :is_search_item =>true

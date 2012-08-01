@@ -54,7 +54,3 @@
       - if change_connection
         .actions
           = link_to connection_link_text, connection_link, :remote =>:true, :class =>'ajaxopen'
-      - else
-        .actions
-          %a{:href => "#", :style => "opacity: .3"}
-            you
