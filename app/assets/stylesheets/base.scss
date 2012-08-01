@@ -286,7 +286,18 @@ i {
 						position: relative;
 						left: -20px; 
 						
-						
+						.song-title { 
+							color: white; 
+							margin: -1px 0 -6px 0;
+							font-weight: normal;
+							font-size: 15px;
+							display: block;
+						}
+						.artist-title {
+							color: $text-color;
+							font-size: 11px;
+							display: block;
+						}
 					}
 					
 					.jp-buzz, .jp-like, .jp-rep {display: inline-block; margin: 0px -2px; }
