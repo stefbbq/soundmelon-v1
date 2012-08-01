@@ -3,7 +3,7 @@ class ArtistLogo < ActiveRecord::Base
   has_attached_file :logo,
     :styles => {
     :small => ['50x50!', :jpg],
-    :medium =>['100x100#', :jpg],
+    :medium =>['160x160#', :jpg],
     :large => ['414x246#', :jpg]
     },
     :path => ":rails_root/public/sm/a/:normalized_file_name.:extension",

@@ -160,8 +160,8 @@ Soundmelon::Application.routes.draw do
   get ':artist_name/:album_name/plike'              => 'artist_photo#like_dislike',               :as => :like_artist_album
   
   #artist song albums and songs
-  get ':artist_name/music/new'               => 'artist_music#new',                        :as => :new_artist_music
-  get ':artist_name/musics'                  => 'artist_music#index',                      :as => :artist_musics
+  get ':artist_name/music/new'                      => 'artist_music#new',                        :as => :new_artist_music
+  get ':artist_name/music'                          => 'artist_music#index',                      :as => :artist_musics
   get ':artist_name/:artist_music_name/music'       => 'artist_music#artist_music',               :as => :artist_music
   get ':artist_name/music/songs/:artist_music_name' => 'artist_music#artist_music_songs',         :as => :artist_songs
   get ':artist_name/song/:id/edit'                  => 'artist_music#edit_song',                  :as => :song_edit

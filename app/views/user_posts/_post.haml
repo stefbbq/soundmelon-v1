@@ -39,9 +39,7 @@
 
 - writer_header = capture do
   - if artist
-    = is_author_artist_profile ? artist.name : (link_to artist.name, show_artist_path(artist), :class => 'ajaxopen backable', :remote => :true, :title => artist.name)
-  - elsif self_owner
-    You
+    = is_author_artist_profile ? artist.name : (link_to artist.name, show_artist_path(artist), :class => 'ajaxopen backable', :remote => :true, :title => artist.name)  
   -elsif user
     = is_author_fan_profile ? user.fname : (link_to user.get_full_name, fan_profile_path(post.user), :class => 'ajaxopen backable', :remote => :true, :title => user.get_full_name)
 
