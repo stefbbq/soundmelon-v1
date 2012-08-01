@@ -3,17 +3,13 @@ class ApplicationController < ActionController::Base
   #before_filter :http_basic_authenticate
   # this is needed to prevent XHR request form using layouts
   before_filter proc { |controller| (controller.action_has_layout = false) if controller.request.xhr? }
-  before_filter :check_user_browser, :set_current_actor
+  before_filter :check_user_browser, :current_actor
   
   after_filter :messages_and_posts_count
   
   helper_method :current_actor, :admin_login?
 
   protected
-
-  def set_current_actor
-    @actor = current_actor
-  end
 
   def check_user_browser
     agent = Agent.new request.env['HTTP_USER_AGENT']
@@ -106,12 +102,12 @@ class ApplicationController < ActionController::Base
 
   # checks whether the logged in user is administrating the artist  
   def current_actor
-    session[:artist_id].blank? ? current_user : Artist.find(session[:artist_id])
+    @actor = session[:artist_id].blank? ? current_user : Artist.find(session[:artist_id])    
   end
 
   # sets the current artist id when a ban starts administrating the artist profile
-  def set_current_fan_artist artist_id
-    session[:artist_id] = artist_id
+  def set_current_fan_artist artist_id    
+    session[:artist_id] = artist_id    
   end
 
   # removes the current artist id(when a ban leaves administrating the artist profile)

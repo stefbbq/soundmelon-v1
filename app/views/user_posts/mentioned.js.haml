@@ -7,5 +7,5 @@
   $('.primary .left').append('#{escape_javascript(render 'bricks/fan_posts', :current =>'mention')}');  
   $('.primary .right').html('#{escape_javascript(render 'fan/right', :current=>'news_feed')}');    
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
+closeFacebox(10);
 scrollToContainerTop();

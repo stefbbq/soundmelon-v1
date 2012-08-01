@@ -5,6 +5,6 @@ $('.primary .left .top').html('#{escape_javascript(render 'user_posts/status_fan
 $('.primary .left .top').append('#{escape_javascript(render 'fan/social_header', :current =>'reply')}');
 $('.primary .left').append('#{escape_javascript(render 'bricks/fan_posts', :current =>'reply')}');
 $('.primary .right').html('#{escape_javascript(render 'fan/right', :current=>'news_feed')}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
+closeFacebox(10);
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 scrollToContainerTop();

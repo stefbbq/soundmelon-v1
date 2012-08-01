@@ -7,7 +7,7 @@ SEARCH_FAN_RESULT_PER_PAGE        = 10
 READ                              = 1
 UNREAD                            = 0
 MENTION_COUNT_FOR_LAST_N_HOURS    = 48
-POST_PER_PAGE                     = 6
+POST_PER_PAGE                     = 15
 MESSAGES_PER_PAGE                 = 6
 WELCOME_MSG                       = 'welcome to the beta'
 

@@ -1,4 +1,5 @@
 - if @is_fan  
+  $.facebox("Your profile for '#{@actor.get_name}' has been removed.");
   location.href = '#{root_url}';
 - else    
   $('.top-bar .session .summary').html('#{escape_javascript(render '/bricks/session_header')}');

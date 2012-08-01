@@ -1,5 +1,5 @@
 $('#page-content').html('#{escape_javascript(render :partial => 'primary_content')}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
+closeFacebox(10);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist');
 $('#latest-posts').addClass('active').addClass('button-fill-artist');
 $('.left a').removeClass('active').removeClass('button-fill-artist');

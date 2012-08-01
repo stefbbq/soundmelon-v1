@@ -1,5 +1,4 @@
-- actor = current_actor
-- is_current_artist = actor == artist.id
+- is_current_artist = @actor == artist
 .item
   .avatar
     = link_to get_artist_avatar(artist), show_artist_path(artist), :class =>'ajaxopen backable', :remote => :true

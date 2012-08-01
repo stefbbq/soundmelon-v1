@@ -36,6 +36,7 @@ class ArtistPhotoController < ApplicationController
   end
 
   def show
+    redirect_to show_artist_path(params[:artist_name]) and return unless request.xhr?    
     begin      
       @artist_album     = ArtistAlbum.where('artist_id = ? and name = ?', @artist.id, params[:artist_album_name]).first
       @photo            = ArtistPhoto.find(params[:id])
@@ -70,7 +71,7 @@ class ArtistPhotoController < ApplicationController
         @artist_photo.user_id = current_user.id
         if @artist_photo.save
           @artist_album.save
-          flash[:notice] = "Successfully created upload."
+          flash[:notice]    = "Successfully created upload."          
           respond_to do |format|
             format.html {redirect_to user_home_url and return}
             format.json {render :json =>
@@ -86,7 +87,7 @@ class ArtistPhotoController < ApplicationController
                 :album_url      => "#{artist_album_path(@artist, @artist_album.name)}",
                 :delete_url     => "#{delete_album_path(@artist, @artist_album.name)}",
                 :album_photos_url=>"#{artist_album_photos_path(@artist, @artist_album.name)}",
-                :album_string   => "#{render_to_string('/artist_photo/_album', :layout =>false, :locals =>{:artist_album =>@artist_album})}",
+                :album_string   => "#{render_to_string('/artist_photo/_album', :layout =>false, :locals =>{:artist_album =>@artist_album, :has_admin_access=>true})}",
                 :photo_string   => "#{render_to_string('/artist_photo/_photo', :layout =>false, :locals =>{:artist_album =>@artist_album, :photo =>@artist_photo})}"
               }
             }

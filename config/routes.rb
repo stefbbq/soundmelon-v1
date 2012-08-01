@@ -33,8 +33,8 @@ Soundmelon::Application.routes.draw do
 
   #-------------------------------------------- followings, followers, follower artists, follower fans ---------------
   get 'fan/:id/followers(/:page)'               => 'user_connections#fan_followers',          :as => :fan_followers
-  get 'artist/followers/:artist_name(/:page)'   => 'user_connections#artist_followers',       :as => :artist_followers
-  get 'artist/connections/:artist_name(/:page)' => 'user_connections#artist_connections',     :as => :artist_connections
+  get ':artist_name/fans(/:page)'               => 'user_connections#artist_followers',       :as => :artist_followers
+  get ':artist_name/connections(/:page)'        => 'user_connections#artist_connections',     :as => :artist_connections
   get 'fan/following/fans/:id(/:page)'          => 'user_connections#fan_following_fans',     :as => :fan_following_fans # id: following items
   get 'fan/following/artists/:id(/:page)'       => 'user_connections#fan_following_artists',  :as => :fan_following_artists # id: following items
   
@@ -144,9 +144,9 @@ Soundmelon::Application.routes.draw do
   match ':artist_name/showremove/:artist_show_id'   => 'artist_show#destroy_show',                :as => :delete_artist_show
 
   resources :album_photos
-  get ':artist_name/album/new'                      => 'artist_photo#new',                        :as => :new_artist_album
-  get ':artist_name/albums'                         => 'artist_photo#index',                      :as => :artist_albums
-  get ':artist_name/:artist_album_name/palbum'      => 'artist_photo#artist_album',               :as => :artist_album
+  get ':artist_name/photos/new'                     => 'artist_photo#new',                        :as => :new_artist_album
+  get ':artist_name/photos'                         => 'artist_photo#index',                      :as => :artist_albums
+  get ':artist_name/:artist_album_name/photo'       => 'artist_photo#artist_album',               :as => :artist_album
   get ':artist_name/album/photos/:artist_album_name'=> 'artist_photo#artist_album_photos',        :as => :artist_album_photos
   get ':artist_name/:artist_album_name/photo/:id'   => 'artist_photo#show',                       :as => :artist_album_photo
   get ':artist_name/:artist_album_name/photos/add'  => 'artist_photo#add',                        :as => :add_photos_to_album
@@ -155,13 +155,13 @@ Soundmelon::Application.routes.draw do
   get ':artist_name/:album_name/photo/:id/cover'    => 'artist_photo#make_cover_image' ,          :as => :make_cover_image
   get ':artist_name/:album_name/photo/:id/edit'     => 'artist_photo#edit_photo' ,                :as => :edit_photo
   get ':artist_name/:album_name/photo/:id/delete'   => 'artist_photo#destroy' ,                   :as => :delete_photo
-  get ':artist_name/:album_name/ppublic'            => 'artist_photo#disable_enable_artist_album',:as => :disable_enable_artist_album
+  get ':artist_name/:album_name/photo/public'       => 'artist_photo#disable_enable_artist_album',:as => :disable_enable_artist_album
   match ':artist_name/:album_name/photo/:id/update' => 'artist_photo#update_photo',               :as => :update_artist_photo
   get ':artist_name/:album_name/plike'              => 'artist_photo#like_dislike',               :as => :like_artist_album
   
   #artist song albums and songs
-  get ':artist_name/artist/music/new'               => 'artist_music#new',                        :as => :new_artist_music
-  get ':artist_name/artist/musics'                  => 'artist_music#index',                      :as => :artist_musics
+  get ':artist_name/music/new'               => 'artist_music#new',                        :as => :new_artist_music
+  get ':artist_name/musics'                  => 'artist_music#index',                      :as => :artist_musics
   get ':artist_name/:artist_music_name/music'       => 'artist_music#artist_music',               :as => :artist_music
   get ':artist_name/music/songs/:artist_music_name' => 'artist_music#artist_music_songs',         :as => :artist_songs
   get ':artist_name/song/:id/edit'                  => 'artist_music#edit_song',                  :as => :song_edit

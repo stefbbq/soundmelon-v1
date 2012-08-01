@@ -15,8 +15,9 @@ class UserController < ApplicationController
         render :template =>"/fan/index" and return
         #----------------------------------------------------------------------------------
       elsif home_actor.instance_of?(Artist)
-        @artist                       = home_actor
-        @is_artist                    = true
+        @artist                     = home_actor
+        @is_artist                  = true
+        @from_home                  = true
         get_artist_associated_objects(@artist)
         render "/artist/index" and return
         #---------------------------------------------------------------------------------
@@ -45,7 +46,8 @@ class UserController < ApplicationController
           get_user_associated_objects
           #----------------------------------------------------------------------------------
         else          
-          @artist                      = Artist.where(:mention_name =>params[:artist_name]).first
+          @artist                     = Artist.where(:mention_name =>params[:artist_name]).first
+          @from_home                  = true
           set_current_fan_artist(@artist.id)
           @is_artist                  = true
           get_artist_mentioned_posts(@artist)
@@ -95,7 +97,7 @@ class UserController < ApplicationController
     @is_fan              = @actor.is_fan?
     @actor.remove_me
     if @is_fan
-      logout
+      logout      
     else
       reset_current_fan_artist  
       get_current_fan_posts

@@ -167,7 +167,7 @@ module ApplicationHelper
   def get_artist_photo_album_teaser_photo(artist_photo_album, type=:thumb, width=nil, height=nil)
     cover_image = artist_photo_album.cover_image
     if cover_image.blank?
-      image_tag('profile/artist-defaults-avatar.jpg', :alt=>'')
+      image_tag('profile/artist-defaults-avatar.jpg', :alt=>'', :height =>'35px', :width=>'35px')
     else
       (width.nil? and height.nil?) ? image_tag(cover_image.image.url(type), :alt=>'') : image_tag(cover_image.image.url(type), :alt=>'', :height =>height, :width=>width)
     end

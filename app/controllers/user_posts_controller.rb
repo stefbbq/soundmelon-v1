@@ -176,7 +176,7 @@ class UserPostsController < ApplicationController
         if params[:type] && params[:type] == 'general'
           @posts          = @artist.find_own_posts(params[:page])
           next_page       = @posts.next_page
-          @load_more_path =  next_page ? artist_more_posts_path(@artist, next_page, params[:type]) : nil
+          @load_more_path =  next_page ? artist_more_posts_path(@artist, params[:type], next_page) : nil
         elsif params[:type] && current_user.is_admin_of_artist?(@artist)
           if params[:type] == 'replies'
             @posts = @artist.replies_post(params[:page])
@@ -187,12 +187,13 @@ class UserPostsController < ApplicationController
           end
           @is_admin_of_artist = true
           next_page   = @posts.next_page
-          @load_more_path =  next_page ? artist_more_posts_path(@artist, next_page, params[:type]) : nil
+          @load_more_path =  next_page ? artist_more_posts_path(@artist, params[:type], next_page) : nil
         else
           render :nothing => true and return
         end
         @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
-      rescue
+      rescue =>exp
+        logger.error "Error in UserPosts::MorePosts :=>#{exp.message}"
         render :nothing => true and return
       end
     else

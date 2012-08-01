@@ -1,1 +1,2 @@
-faceboxContent('#{escape_javascript(render 'form_logo')}');
+!= "jQuery.facebox('#{escape_javascript(render 'form_logo')} ' );"
+!= "$('form').submit(function(){($('.loader').html($('#globalloading').html()));return true; $(':submit').attr('disabled','disabled');});"

@@ -12,7 +12,7 @@
     - if photo_album_count > 0
       - photo_albums.each do |artist_photo_album|
         .album{:id => "artist_album_#{artist_photo_album.id}"}
-          .cover= link_to get_artist_photo_album_teaser_photo(artist_photo_album), artist_album_path(:artist_name =>artist.name, :artist_album_name => artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
+          .cover= link_to get_artist_photo_album_teaser_photo(artist_photo_album), artist_album_path(artist, artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
           .title= link_to artist_photo_album.name, artist_album_path(artist, artist_photo_album.name), :remote=>:true, :class=>"ajaxopen backable"
     - else
       .message= NO_PHOTO_ALBUM_MESSAGE

@@ -1,5 +1,4 @@
-- has_current_user ||= true
-- link_class        = @has_current_user ? 'ajaxopen backable' : 'force-login'
+- link_class        = @actor ? 'ajaxopen backable' : 'force-login'
 .avatar{:id =>"#{item.class.name.downcase}_avatar_#{item.id}"}
   - if item.is_fan?
     = link_to get_fan_avatar(item), fan_profile_path(item), :class =>link_class, :remote =>true, :title =>item.get_full_name
