@@ -100,7 +100,7 @@ class NotificationMail
     
   def self.queue_notification_email  notification_type, subject, recipient_user, actor_user, action_item, content_item
 #    UserMailer.delay.general_notification_email(notification_type, subject, recipient_user, actor_user, action_item, content_item)
-    UserMailer.general_notification_email(notification_type, subject, recipient_user, actor_user, action_item, content_item).deliver
+    UserMailer.general_notification_email(notification_type, subject, recipient_user, actor_user, action_item, content_item).deliver unless Rails.env=='development'
   end
 
   # collects the users to be notified based on their setting for email notification

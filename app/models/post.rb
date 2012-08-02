@@ -2,7 +2,7 @@ class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :artist
   belongs_to :postitem, :polymorphic =>true
-  has_many :mentioned_posts
+  has_many :mentioned_posts, :dependent =>:destroy
   has_ancestry :orphan_strategy =>:rootify
   before_save :update_mentioned_actors_in_post
   after_save :check_and_save_mentioned_in_post

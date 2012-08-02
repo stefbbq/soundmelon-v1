@@ -2,8 +2,8 @@ module ApplicationHelper
 
   def timeago(time, options = {})
     options[:class] ||= "timeago"
-    content_tag(:abbr, time.to_s, options.merge(:title => time.getutc.iso8601)) if time
-    #"#{time_ago_in_words(time)} ago"
+    #content_tag(:abbr, time.to_s, options.merge(:title => time.getutc.iso8601)) if time
+    "#{time_ago_in_words(time)} ago"
   end
   
   def link_to_remove_fields(name, f)

@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
       @has_admin_access          = actor == artist
       @song_album_count          = artist.artist_musics.size
       @photo_album_count         = artist.artist_albums.size
-      @show_count                = artist.artist_shows.size
+      @show_count                = artist.upcoming_shows_count
       @artist_member_count       = artist.artist_members.size
       @artist_fan_count          = artist.followers_count
       @artist_connection_count   = artist.connections_count
@@ -76,6 +76,7 @@ class ApplicationController < ActionController::Base
     @artist_members_count        = artist.artist_members.count
     @other_artists               = current_user.admin_artists_list(artist)
     get_artist_mentioned_posts artist
+#    get_artist_bulletins_and_posts artist
     messages_and_posts_count
     get_artist_objects_for_right_column(artist)
   end
@@ -98,11 +99,12 @@ class ApplicationController < ActionController::Base
   end
 
   def get_artist_mentioned_posts artist
-    @posts                      = artist.mentioned_in_posts(params[:page])    
-    #@posts                      = artist.find_own_as_well_as_mentioned_posts(params[:page])
+#    @posts                      = artist.mentioned_in_posts(params[:page])
+    @posts                      = artist.find_own_as_well_as_mentioned_posts(params[:page])
     @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
     next_page                   = @posts.next_page
-    @load_more_path             = next_page ? artist_more_posts_path(artist, 'mentions', next_page) : nil
+#    @load_more_path             = next_page ? artist_more_posts_path(artist, 'mentions', next_page) : nil
+    @load_more_path             = next_page ? artist_more_posts_path(artist, 'general', next_page) : nil
   end
 
   # checks whether the logged in user is administrating the artist  
@@ -143,12 +145,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def messages_and_posts_count
-    actor                         = current_actor
-    if actor      
-      @unread_mentioned_count     ||= actor.unread_mentioned_post_count
-      @unread_post_replies_count  ||= actor.unread_post_replies_count      
-      @unread_messages_count      ||= actor.receipts.inbox.unread.not_trash.size
+  def messages_and_posts_count    
+    if @actor
+      @unread_mentioned_count     ||= @actor.unread_mentioned_post_count
+      @unread_post_replies_count  ||= @actor.unread_post_replies_count
+      @unread_messages_count      ||= @actor.receipts.inbox.unread.not_trash.size
     end
   end
   

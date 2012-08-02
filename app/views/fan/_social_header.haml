@@ -10,32 +10,26 @@
       {:remote => true, 
        :class=> 1 == current ? "backable iconactive ajaxopen highlight active button-fill-fan" : "backable iconactive ajaxopen",
        :id => 'mentions' } do
-    - if @unread_mentioned_count > 0
-      mentions
+    - if @unread_mentioned_count > 0      
       %b
-        = @unread_mentioned_count
-        new
+        = pluralize(@unread_mentioned_count,'new mention')
     - else
       mentions
   = link_to replies_path,
       {:remote => true, 
        :class=> 2 == current ? "backable iconactive ajaxopen highlight active button-fill-fan" : "backable iconactive ajaxopen",
        :id => 'replies' } do
-    - if @unread_post_replies_count > 0
-      replies
+    - if @unread_post_replies_count > 0      
       %b
-        = @unread_post_replies_count
-        new
+        = pluralize(@unread_post_replies_count, 'new reply')
     - else
       replies
   = link_to user_inbox_path,
       {:remote => true, 
        :class=> 3 == current ? "backable inbox iconactive ajaxopen highlight active button-fill-fan" : "backable inbox iconactive ajaxopen",
        :id => 'messages' } do
-    - if @unread_messages_count > 0
-      messages
+    - if @unread_messages_count > 0      
       %b
-        = @unread_messages_count
-        new
+        = pluralize(@unread_messages_count, 'new message')
     - else
       messages

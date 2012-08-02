@@ -18,6 +18,7 @@ class UserController < ApplicationController
         @artist                     = home_actor
         @is_artist                  = true
         @from_home                  = true
+        @is_home                    = true
         get_artist_associated_objects(@artist)
         render "/artist/index" and return
         #---------------------------------------------------------------------------------
@@ -50,6 +51,7 @@ class UserController < ApplicationController
           @from_home                  = true
           set_current_fan_artist(@artist.id)
           @is_artist                  = true
+          @is_home                    = true
           get_artist_mentioned_posts(@artist)
           #----------Get Objects------------------------------------------------------------
           get_artist_associated_objects(@artist)

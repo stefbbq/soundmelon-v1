@@ -1,5 +1,5 @@
-- tabs      = [:mention, :reply, :message]
-- current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
+- tabs        = [:mention, :reply, :message]
+- current     = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 - artist      = artist || @artist
 - if artist 
   .social-header
@@ -8,31 +8,26 @@
          :class=> 0 == current ? "backable iconactive ajaxload highlight active button-fill-artist" : "backable iconactive ajaxload",
          :id => 'mentions' } do
       - if @unread_mentioned_count > 0
-        mentions
+        latest posts & 
         %b
-          = @unread_mentioned_count
-          new
+          = pluralize(@unread_mentioned_count,'new mention')
       - else
-        mentions
+        latest posts & mentions
     = link_to replies_path,
         {:remote => true, 
          :class=> 1 == current ? "backable iconactive ajaxload highlight active button-fill-artist" : "backable iconactive ajaxload",
          :id => 'replies' } do
-      - if @unread_post_replies_count > 0
-        replies
+      - if @unread_post_replies_count > 0        
         %b
-          = @unread_post_replies_count
-          new
+          = pluralize(@unread_post_replies_count, 'new reply')
       - else
         replies
     = link_to user_inbox_path,
         {:remote => true, 
          :class=> 2 == current ? "backable inbox iconactive ajaxload highlight active button-fill-artist" : "backable inbox iconactive ajaxload",
          :id => 'messages' } do
-      - if @unread_messages_count > 0
-        messages
+      - if @unread_messages_count > 0        
         %b
-          = @unread_messages_count
-          new
+          = pluralize(@unread_messages_count, 'new message')
       - else
         messages

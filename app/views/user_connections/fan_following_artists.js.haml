@@ -5,6 +5,6 @@
   = paginate @fan_following_artists, :remote => true
 
 updateLeftSection('#{escape_javascript(following)}');
-updateRightSection('#{escape_javascript(render '/fan_public/right', :current =>'following_artist')}');
+updateRightSection('#{escape_javascript(render '/fan/right', :current =>'following_artist')}');
 closeFacebox(10);
 scrollToContainerTop();

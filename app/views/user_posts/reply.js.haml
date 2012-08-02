@@ -4,4 +4,4 @@
 - if @saved_successfully 
   != "if($('.user_posts #date_#{date}').length==0){$('.user_posts').prepend('<date class=\"date\" id=\"date_#{date}\"><div><h1>#{month}</h1><h2>#{day}</h2></div> </date>');}"
   != "$('#{escape_javascript(render 'user_posts/post', :post => @post)}').insertAfter($('.user_posts #date_#{date}'));"
-!= "setTimeout('$(document).trigger(\"close.facebox\")',10);"
+closeFacebox(1);

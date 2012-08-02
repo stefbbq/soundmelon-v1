@@ -6,7 +6,7 @@
           = link_to image_tag('remove.png'), make_song_album_featured_path(@artist_music.artist, @artist_music.album_name), :remote=>:true, :class=>"ajaxopen"        
         = link_to get_album_cover_image(@artist_music, 'medium', '50px', '50px'), artist_album_songs_path(@artist, @artist_music.album_name), :remote=>:true, :class=>"ajaxopen"
     $('.featured_albums').append('#{escape_javascript(album_html)}');
-    closeFacebox(100);
+    closeFacebox(1);
   - else
     - new_add_button = capture do
       .new_featured_album{:style=>'height:40px;width:40px;padding-left:15px;padding-top:13px;margin-top:-10px;border:1px solid blue;float:left;'}

@@ -1,7 +1,6 @@
-$('.primary .left').html('');
 - new_artist_profile_form = capture do
   %b New Artist Profile
   %hr
   = render 'form', :action_url => create_artist_path
-$('.primary .left').html('#{escape_javascript(new_artist_profile_form)}');
-closeFacebox(1000);
+updateLeftSection('#{escape_javascript(new_artist_profile_form)}');
+closeFacebox(1);

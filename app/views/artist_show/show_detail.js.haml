@@ -10,5 +10,5 @@
     collapse
 $('#artist_show_#{@artist_show.id} .show_details').html('#{escape_javascript artist_show_detail}');
 $('#expand_link_#{@artist_show.id}').replaceWith('#{escape_javascript hide_show_detail}');
-closeFacebox(10);
+closeFacebox(1);
 scrollToTop();

@@ -21,8 +21,8 @@
       .description
       .overlay
         .actions
-          - if @actor
-            - unless is_own_wall              
+          - if @actor                      
+            - unless is_own_wall
               - if is_artist_admin
                 = link_to change_login_path(@artist), {:class =>'ajaxopen text-action', :remote => :true, :id => "administer"} do
                   .icon-bg
@@ -43,15 +43,10 @@
                 #connect_section
                   = render 'bricks/artist_connection', :actor =>@actor, :artist => @artist
             - else
-              - if @is_home
+              - if @from_home
                 = link_to show_artist_path(@artist), {:remote =>true, :id => "view-public-profile", :class =>'text-action ajaxopen backable'} do
                   .icon-bg
                   %i
                   view public profile
-              - else
-                = link_to user_home_path, {:class =>'ajaxopen text-action backable', :remote => :true, :id => "administer"} do
-                  .icon-bg
-                  %i
-                  admin
           = link_to '', "http://facebook.com/#{@artist.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @artist.facebook_page.blank?
           = link_to '', "http://twitter.com/#{@artist.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @artist.twitter_page.blank?

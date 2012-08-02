@@ -7,4 +7,4 @@
 if($('.show-list').length > 0){if($('.show-list .artist_show').length>0){$('.show-list').append('#{escape_javascript new_show_left_list_html}');}else{$('.show-list').html('#{escape_javascript new_show_left_list_html}');}}
 if($('#showbox artist_show_#{@artist_show.id}').length ==0){if($('#showbox .message').length>0){$('#showbox').html('#{escape_javascript(new_show_list_html)}');}else{$('#showbox').prepend('#{escape_javascript(new_show_list_html)}');}}
 faceboxContent("Added New Show");
-closeFacebox(20);
+closeFacebox(1000);

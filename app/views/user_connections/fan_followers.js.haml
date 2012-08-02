@@ -4,6 +4,6 @@
       = render '/user_connections/item', :user =>user, :connection_item =>@user, :is_user_fan =>true
   = paginate @followers, :remote => true
 updateLeftSection('#{escape_javascript(followers)}');
-updateRightSection('#{escape_javascript(render '/fan_public/right', :current =>'follower_user')}');
+updateRightSection('#{escape_javascript(render '/fan/right', :current =>'follower_user')}');
 closeFacebox(10);
 scrollToContainerTop();

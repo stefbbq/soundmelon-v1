@@ -1,10 +1,10 @@
 - if @status
-  faceboxContent('Show successfully removed');
+  faceboxContent('show successfully removed');
   $('#showbox #artist_show_#{@artist_show.id}').remove();
   $('#artist_show_#{@artist_show.id}').remove();
   $('#artist_show_#{@artist_show.id}').remove();
   if($('.show-list').length > 0){if($('.show-list .artist_show').length==0){$('.show-list').html('Artist has not set any show dates!');}}
 - else
   faceboxContent("Something went wrong! Try again!");
-closeFacebox();
+closeFacebox(1000);
 

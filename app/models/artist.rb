@@ -150,6 +150,10 @@ class Artist < ActiveRecord::Base
     artist_shows.where('show_date >= now()').order('created_at desc').limit(n)
   end
 
+  def upcoming_shows_count
+    artist_shows.where('show_date >= now()').count
+  end
+
   def limited_artist_featured_songs(n=ARTIST_FEATURED_SONG_LIMIT)
     songs.featured.order('rand()').limit(n)
   end

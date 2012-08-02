@@ -7,7 +7,7 @@
     collapse
 $('#artist_album_#{@artist_album.id} .album-details').html('#{escape_javascript artist_album_photos}');
 $('#expand_link_#{@artist_album.id}').replaceWith('#{escape_javascript hide_album_photos}');    
-setTimeout('$(document).trigger(\"close.facebox\")',10);
+closeFacebox(1);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist')
 $('#photos').addClass('active').addClass('button-fill-artist');
 scrollToTop();
