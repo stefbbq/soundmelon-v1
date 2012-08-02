@@ -32,7 +32,9 @@
                 NEW
           .actions
             - if last_message
-              = link_to "add a message" ,"javascript:void(0);", :onclick =>"$('#reply_form_div_#{conv_id}').toggle();", :class => 'add-message'
+              = link_to "javascript:void(0);", :class=>'action-reply', :remote => true, :onclick => "$('#reply_form_div_#{conv_id}').toggle();" do
+                %i
+                %span reply
             = link_to message_path(message), :method => :delete, :class => 'action-delete ajaxload', :remote => true do
               %i
               %span delete

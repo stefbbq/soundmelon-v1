@@ -199,10 +199,15 @@
 
 		.message {
 			border: none !important;
-			padding-bottom: 8px !important;
 			padding-top: 0px !important;
 		}
   }
+
+	.message-post {
+		@extend .post;
+		background: none !important;
+		&:hover { background: none !important; }
+	}
 
 	//
 	//entry buttons

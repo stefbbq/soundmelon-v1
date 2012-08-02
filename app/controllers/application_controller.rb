@@ -13,10 +13,15 @@ class ApplicationController < ActionController::Base
 
   def check_user_browser
     agent = Agent.new request.env['HTTP_USER_AGENT']
-    puts agent.version
-    puts agent.name
-    if agent.name == "IE" && agent.version == "8.0" || agent.version == "7.0" || agent.version == "6.0"
-      render :template =>'/bricks/page_for_ie', :layout => false and return
+    if agent.name.to_s == "IE"
+      case agent.version
+        when "6.0"
+          render :template =>'/bricks/page_for_ie', :layout => false and return
+        when "7.0"
+          render :template =>'/bricks/page_for_ie', :layout => false and return
+        when "8.0"
+          render :template =>'/bricks/page_for_ie', :layout => false and return        
+      end
     end    
   end
   

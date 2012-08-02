@@ -3,9 +3,8 @@
   - conversation_first_item = conversation_receipts.first
   - conversation_item_count = conversation_receipts.size
   - unless conversation_first_item.blank?    
-    .post{:id =>"conversation_#{conversation.id}"}      
+    %div{:id =>"conversation_#{conversation.id}"}      
       = render 'reply_form', :conversation => conversation, :desplay => true
-      .message-section
-        = render 'message_item', :message =>conversation_first_item.message, :last_message =>true, :conv_id =>conversation.id
-        - if conversation_item_count > 1
-          = link_to "expand conversation", conversation_thread_view_path(conversation.id), :remote =>:true, :class =>'ajaxopen toggle-thread'
+      = render 'message_item', :message =>conversation_first_item.message, :last_message => true, :conv_id =>conversation.id
+      - if conversation_item_count > 1
+        = link_to "expand conversation", conversation_thread_view_path(conversation.id), :remote =>:true, :class =>'ajaxopen toggle-thread'
