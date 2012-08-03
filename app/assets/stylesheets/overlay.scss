@@ -179,9 +179,10 @@
 		text-transform: lowercase;
 		width: 100%;
 		top: 100%;
-		padding-top: 5px;
+		margin-top: 6px !important;
 		left: 0px;
 		position: absolute;
+	  li { margin-top: 3px; display: block; }
 	}
 
 	.normal-content {
@@ -192,6 +193,7 @@
 			padding: 0px; 
 			margin: 0 0 10px 0;	
 		}
+		
 		h2 { margin: 0px; padding: 0px; text-align: center; }
 		textarea { 
 			@include overlay-form-input-box; 

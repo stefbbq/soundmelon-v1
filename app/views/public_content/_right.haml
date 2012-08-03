@@ -1,11 +1,11 @@
 - link_class = 'selection-box force-login'
-.items
+.items.public-items
   = link_to 'latest posts', show_artist_path(@artist),
             :id                 => 'latest-posts',
             :remote             => 'true',
             :class              => 'iconactive selection-box active button-fill-artist force-login'
 
-  %div{:style=>"position: relative;"}
+  %div
     .selection-box-nohref
       music
     .collection{:id =>'featured-songs'}
@@ -13,31 +13,31 @@
         .songs
           %ul
             - @featured_songs.each do |song|
-              = link_to song.title, "javascript:void(0);", :class => 'force-login'
+              %li
+                = link_to song.title, "javascript:void(0);", :onclick => "playFeaturedSong(' + i + ');"
+                %a.play{:href => "javascript:void(0);", :title => "click to play", :onclick => "playFeaturedSong(' + i + ');"}
       - else
         .message= MO_FEATURED_SONGS_MESSAGE
         
-  %div{:style=>"position: relative;"}
+  %div
     - if @photo_album_count > 0
-      = link_to artist_albums_path(@artist), {:remote =>:true, :id=> 'photos', :class =>link_class} do
+      = link_to artist_albums_path(@artist), {:remote =>:true, :id=> 'photos', :class => link_class} do
         photos
     - else
       .selection-box-nohref
         photos
     .collection
       - if @photo_album_count > 0
-        %div
-          - @photo_albums.each do |artist_photo_album|
-            .song-album{:id => "artist_album_#{artist_photo_album.id}"}
-              %span{:style =>'float:left;'}
-                %span.album-cover-image{:style =>'margin-right:5px;'}
-                  = link_to get_artist_photo_album_teaser_photo(artist_photo_album), artist_album_path(@artist, artist_photo_album.name), :remote=>:true, :class=>"force-login"
+        - @photo_albums.each do |artist_photo_album|
+          .album{:id => "artist_album_#{artist_photo_album.id}"}
+            .cover= link_to get_artist_photo_album_teaser_photo(artist_photo_album), artist_album_path(@artist, artist_photo_album.name), :remote => :true, :class => "force-login"
+            .title= link_to artist_photo_album.name, artist_album_path(@artist, artist_photo_album.name), :remote => :true, :class => "force-login]"
       - else
         .message= NO_PHOTO_ALBUM_MESSAGE
 
-  %div{:style=>"position: relative;"}
+  %div
     - if @show_count > 0
-      = link_to artist_shows_path(@artist), {:remote=>:true, :id=>'shows', :class=>link_class} do
+      = link_to artist_shows_path(@artist), {:remote=>:true, :id=>'shows', :class => link_class} do
         shows
     - else
       .selection-box-nohref
@@ -47,51 +47,13 @@
         %div
           - @artist_shows.each do |show|
             %div
-              = link_to show.show_date.strftime('%b %d') + " @#{show.venue}", artist_show_path(@artist, show.id), :remote=>:true, :class=>"force-login"
+              = link_to show.show_date.strftime('%b %d') + " @#{show.venue}", artist_show_path(@artist, show.id), :remote => :true, :class => "force-login"
       - else
         .message= NO_SHOW_DATE_MESSAGE
   
-  - if @artist.is_member_public?
-    %div{:style=>"position: relative;"}
-      - if @artist_member_count > 0
-        = link_to artist_members_path(@artist), {:remote=>:true, :id=> "members", :class => link_class} do
-          members
-      - else
-        .selection-box-nohref
-          members
-      .collection
-        %div
-          - if @artist_member_count >0
-            - @artist_members.each do |artist|
-              = render '/bricks/avatar', :item =>artist, :has_current_user =>false
-          - else
-            .message= NO_ARTIST_MEMBER_MESSAGE
-
-  %div{:style=>"position: relative;"}
-    - if @artist_connection_count > 0
-      = link_to artist_connections_path(@artist), {:id=>'connections', :class=>link_class, :remote => true} do
-        %span.count
-          = @artist_connection_count
-        - if @artist_connection_count > 1 || @artist_connection_count == 0
-          connections
-        - else
-          connection
-    - else
-      .selection-box-nohref
-        %span.count
-          0
-        connections    
-    .collection
-      %div
-        - if @artist_connection_count >0
-          - @connected_artists.each do |artist|
-            = render '/bricks/avatar', :item =>artist, :has_current_user =>false
-        - else
-          .message= = NO_CONNECTION_MESSAGE
-  
-  %div{:style=>"position: relative;"}
+  %div
     - if @artist_fan_count >0
-      = link_to artist_followers_path(@artist), {:remote =>:true, :id =>'fanbox', :class =>link_class} do
+      = link_to artist_followers_path(@artist), {:remote =>:true, :id =>'fanbox', :class => link_class} do
         %span.count{:id=>'followercount'}
           = @artist_fan_count
         - if @artist_fan_count > 1 || @artist_fan_count == 0
@@ -107,6 +69,7 @@
       - if @artist_fan_count > 0
         %div
           - @artist_fans.each do |artist_fan|
-            = render '/bricks/avatar', :item =>artist_fan, :id_prefix =>"artist_follower", :has_current_user =>false
+            = render '/bricks/avatar', :item =>artist_fan, :id_prefix =>"artist_follower", :has_current_user => false
       - else
         .message= NO_FAN_MESSAGE
+.fader

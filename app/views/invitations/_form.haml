@@ -3,10 +3,10 @@
 - source      = params[:source] ? 1 : 0
 = form_for @invitation, :remote => true, :id => 'homepage_invitation_form' do |f|
   = hidden_field_tag :from_page, from_page
-  = hidden_field_tag :source, source
-  = f.label :recipient_email, current_user ? "email" : "email"
-  = f.text_field :recipient_email, :class => "base-input-box", :style => "width: 300px;"
-  = f.submit 'submit', :class => "base-highlight-button"
+  = hidden_field_tag :source, source  
+  email
+  = f.text_field :recipient_email, :class => 'overlay-text-field', :style => "width: 300px; margin-bottom: 10px;"
+  = f.submit 'submit', :class => "generic-button"
 - if !@invitation.errors.blank?
   .error
     %ul

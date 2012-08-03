@@ -32,12 +32,12 @@
           %a#alike.jp-like{:href => "javascript:;", :onclick => "doLike();", :title => "like"}
           %a.jp-rep{:href => "javascript:;", :title => "show/hide playlist"}
       - else
-        - if @song_items.empty?
-          %span{:style => "font-size:15px;"}
-            = @artist.get_name
+        .note
+          - if @song_items.empty?
+            %span= @artist.get_name
             has no featured songs
-        - else
-          %span{:style => "font-size:15px;"} click play to listen to some tunes
+          - else
+            %a.jo-play{:href => "javascript:;"} click play to listen to some tunes
 #jp-playlist.jp-playlist
   .pointer
   %ul
@@ -55,7 +55,7 @@
       },
       play: function(event){afterPlayStart();},
       pause: function(event){afterPlayPause();},
-      ended:function(event){
+      ended: function(event){
         playListNext();
       },
       swfPath: "#{asset_path("Jplayer.swf")}",supplied: "m4a,oga",wmode: "window"

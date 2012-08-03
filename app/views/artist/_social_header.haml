@@ -8,11 +8,11 @@
          :class=> 0 == current ? "backable iconactive ajaxload highlight active button-fill-artist" : "backable iconactive ajaxload",
          :id => 'mentions' } do
       - if @unread_mentioned_count > 0
-        latest posts & 
+        your posts & 
         %b
           = pluralize(@unread_mentioned_count,'new mention')
       - else
-        latest posts & mentions
+        your posts & mentions
     = link_to replies_path,
         {:remote => true, 
          :class=> 1 == current ? "backable iconactive ajaxload highlight active button-fill-artist" : "backable iconactive ajaxload",

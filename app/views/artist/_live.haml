@@ -12,17 +12,11 @@
       .name
         %h1.full-name= @artist.name
         %h1= "@#{@artist.mention_name}"
-      .sub-head
-        %span.genre
-          = "#{@artist.genre}"
-        from
-        %span.location
-          = "#{@artist.location}"
       .description
-      .overlay
+      .overlay.overlay-info
         .actions
           - if @actor
-            - unless is_own_wall              
+            - unless is_own_wall
               - if is_artist_admin
                 = link_to change_login_path(@artist), {:class =>'ajaxopen text-action', :remote => :true, :id => "administer"} do
                   .icon-bg
@@ -41,10 +35,10 @@
                     follow
               - else
                 #connect_section
-                  = render 'bricks/artist_connection', :actor =>@actor, :artist => @artist
+                  = render 'bricks/artist_connection', :actor => @actor, :artist => @artist
             - else
               - if @is_home
-                = link_to show_artist_path(@artist), {:remote =>true, :id => "view-public-profile", :class =>'text-action ajaxopen backable'} do
+                = link_to show_artist_path(@artist), {:remote => true, :id => "view-public-profile", :class => 'text-action ajaxopen backable'} do
                   .icon-bg
                   %i
                   view public profile
@@ -55,3 +49,8 @@
                   admin
           = link_to '', "http://facebook.com/#{@artist.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @artist.facebook_page.blank?
           = link_to '', "http://twitter.com/#{@artist.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @artist.twitter_page.blank?
+        .heading
+          = "#{@artist.genre}"
+          artist from
+          %span
+            = "#{@artist.location}"

@@ -272,6 +272,17 @@ i {
 					text-align: center;					
 					float: left;
 					
+					//text
+					.note {
+						@include single-text-shadow(rgba(black, .4), 0px, 2px, 4px);
+						color: $text-color;
+						font-size: 13px;
+						display: block;
+						margin-top: 12px;
+						span { color: $text-highlight-color; }
+						a { background: none !important; }
+					}
+					
 					//album art
 					img {
 						@include border-radius($border-radius/2);

@@ -1,6 +1,6 @@
 - selected    ||=false
 - link_class  = selected ? 'selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
-%div{:style=>"position: relative;"}
+%div
   - if @has_admin_access || song_album_count > 0
     = link_to artist_musics_path(artist), {:remote=>:true, :id=>'music', :class=>link_class} do
       music

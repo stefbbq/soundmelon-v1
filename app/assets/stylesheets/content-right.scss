@@ -21,6 +21,10 @@
     > div, > a {
       margin-bottom: 8px;
     }
+
+		> div {
+			position: relative;
+		}
 		
    	//selection
     .selection-box {

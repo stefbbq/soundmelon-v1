@@ -1,6 +1,7 @@
 //live wall elements
 
 @import 'compass/css3';
+@import 'compass/utilities/text/ellipsis';
 @import 'vars';
 @import 'mixins';
 
@@ -141,7 +142,7 @@
 				float: left; 
 			}
 			.left-default {
-				background: url(live/live-default-left.jpg); 
+				background: url(live/live-default-left.jpg);
 			}
 			.right {
 				position: relative;
@@ -164,8 +165,7 @@
 		background: rgba(black, .7);
 		text-align: right;
 		
-		
-		a {
+		a, span {
 			margin: -4px 0 0 20px;		
 			display: inline-block;
 			font-size: 12px;
@@ -176,6 +176,21 @@
 			&:last-child { margin-right: 20px; }
 		}
 		
+		.heading {
+			@include ellipsis;
+			overflow: hidden;
+			width: 260px; 
+			position: relative;
+			margin-left: 12px;
+			color: $text-faded-color;
+			span, a {
+				@include ellipsis;				
+				color: $text-slight-faded-color;
+				margin: -4px 0px;
+				font-size: 16px;
+			}
+		}
+		
 		h2 {
 			@include single-text-shadow(rgba(black, .4), 0px, 3px, 3px);	
 			padding: 0px;
@@ -183,6 +198,10 @@
 			display: inline-block;
 			color: white;
 		}
+	}
+	
+	.overlay-info {
+		text-align: left;
 	}
 }
 
