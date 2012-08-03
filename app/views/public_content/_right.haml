@@ -73,3 +73,19 @@
       - else
         .message= NO_FAN_MESSAGE
 .fader
+
+:javascript
+  var songList = [#{list_of_play_items(@featured_songs)}];
+  makeFeaturedSongList();
+  function makeFeaturedSongList(){
+    if(songList.length>0){if($('#featured-songs .collection').length==0){$('#featured-songs').html('<ul></ul>');}}
+    else{$('#featured-songs').html('<div class="message">no featured songs</div>');}
+    var liHtml='';
+    for(var i=0;i<songList.length;i++){
+      liHtml+='<li><a href="javascript:void(0);" onclick="playFeaturedSong(' + i + ');"  title="click to play">' + songList[i]['title'] + '</a><a class="play" href="javascript:void(0);" onclick="playFeaturedSong(' + i + ');" title="Click to play"></a></li>';
+    }
+    $('#featured-songs ul').html(liHtml);
+  }
+  function playFeaturedSong(index){
+    playSongFromAlbum(songList[index]);
+  }

@@ -1,3 +1,3 @@
 #{@artist.get_name} is using
 = link_to "SoundMelon Beta", root_path, :target=>'_blank', :title =>"SoundMelon"
-= link_to "login or request an invite", new_invitation_path(1), :remote =>:true, :id =>'logout', :class =>'request-invite'
+= link_to "login or request an invite", new_loginvitation_path(@artist), :remote =>:true, :id =>'logout', :class =>'request-invite'

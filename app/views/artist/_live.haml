@@ -41,12 +41,7 @@
                 = link_to show_artist_path(@artist), {:remote => true, :id => "view-public-profile", :class => 'text-action ajaxopen backable'} do
                   .icon-bg
                   %i
-                  view public profile
-              - else
-                = link_to user_home_path, {:class =>'ajaxopen text-action backable', :remote => :true, :id => "administer"} do
-                  .icon-bg
-                  %i
-                  admin
+                  view public profile              
           = link_to '', "http://facebook.com/#{@artist.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @artist.facebook_page.blank?
           = link_to '', "http://twitter.com/#{@artist.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @artist.twitter_page.blank?
         .heading

@@ -1,0 +1,13 @@
+$('.error').html('');
+- if @success
+  - message = @sent ? 'Invitation is on it\'s way, thanks!' : 'Thanks for signing up, we\'ll send you an invite in no time!'    
+  $('#facebox .content').html("<div class='success'><h2>#{message}</h2></div>");
+  closeFacebox(2500);
+- else
+  - invitation_errors = capture do
+    .error
+      %ul
+      - @invitation.errors.full_messages.each do |error_msg|
+        %li
+          = error_msg
+  $('#invitation_errors').html('#{escape_javascript(invitation_errors)}');

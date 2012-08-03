@@ -1,0 +1,13 @@
+- new_login_or_invitation_form = capture do
+  .header
+    login or request an invite so one day you can!
+  .normal-content.mini-content
+    #login_errors
+    = render '/bricks/popup_login', :return_path =>@return_url
+  .normal-content.mini-content
+    %h3
+      request invitation
+    #invitation_errors
+    = render :partial =>'/invitations/popup_form'
+  .error
+!= "jQuery.facebox('#{escape_javascript(new_login_or_invitation_form)}');"

@@ -1,0 +1,6 @@
+$('.error').html('');
+- login_error = capture do
+  .error
+    %ul
+      = @failed_login
+$('#login_errors').html('#{escape_javascript(login_error)}');

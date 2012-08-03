@@ -1,0 +1,17 @@
+-if @failed_login
+  .login-error
+    = @failed_login
+%h3
+  already registered? login here!
+= form_tag login_path, :remote =>:true do
+  email
+  = text_field_tag :email, params[:email], :class => 'overlay-text-field', :style => "width: 200px; margin-bottom: 10px;margin-left:25px;"
+  %br/
+  password
+  = password_field_tag :password,nil, :class => 'overlay-text-field', :style => "width: 200px; margin-bottom: 10px;"
+  = hidden_field_tag :return_url, @return_url
+  #remember-me
+    = check_box_tag :remember_me, 1, params[:remember_me]
+    = label_tag :remember_me
+  = submit_tag "submit"
+  = link_to 'forgot your password?', password_resets_path, :remote => :true, :id => 'password-reset', :style=>'color:black;'

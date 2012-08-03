@@ -8,6 +8,7 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
     = yield(:head)
+    = render '/layouts/analytics'
   - if current_user #user logged in
     %body
       #feedback
@@ -24,6 +25,7 @@
               = yield
       = render :partial => "bricks/footer"
   - else #splash
+    - @user ||= User.new
     %body.splash-body
       .splash
         .left-decoration

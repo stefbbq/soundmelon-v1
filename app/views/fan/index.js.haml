@@ -8,7 +8,7 @@ $('.primary .left .top').append('#{escape_javascript(render '/fan/social_header'
 $('.primary .left').append('#{escape_javascript(render '/bricks/fan_posts')}');
 $('.primary').append('<div class="right"></div>');
 $('.primary .right').html('#{escape_javascript(render '/fan/right')}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
+closeFacebox(10);
 $('.selection-box').removeClass('active').removeClass('button-fill-fan');
 $('#feed-msg').addClass('active').addClass('button-fill-fan');
 $('.left a').removeClass('active').removeClass('button-fill-fan');

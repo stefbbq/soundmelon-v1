@@ -36,3 +36,8 @@
                 .icon-bg
                 %i
                 mention
+            - else
+              = link_to fan_home_path, {:id => "mention-fan", :remote => :true, :class => "ajaxopen text-action"} do
+                .icon-bg
+                %i
+                you

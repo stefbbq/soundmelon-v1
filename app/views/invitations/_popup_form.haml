@@ -1,9 +1,5 @@
 - @invitation ||= Invitation.new
-- from_page   ||= 0
-- source      = params[:source] ? 1 : 0
-= form_for @invitation, :remote => true, :id => 'homepage_invitation_form' do |f|
-  = hidden_field_tag :from_page, from_page
-  = hidden_field_tag :source, source  
+= form_for @invitation, :url =>{:controller=>'invitations', :action =>'create_invitation'}, :remote => true, :id => 'homepage_invitation_form' do |f|    
   email
   = f.text_field :recipient_email, :class => 'overlay-text-field', :style => "width: 300px; margin-bottom: 10px;"
   = f.submit 'submit', :class => "generic-buttonl"

@@ -1,10 +1,12 @@
 - new_invitation_form = capture do
   .header
     - if @has_message
-      login or request an invite so one day you can!
-  .normal-content.mini-content  
+      login or request an invite so one day you can!    
+  .normal-content.mini-content
+    %h3
+      request invitation
     = render :partial =>'/invitations/form'
-  .error  
+  .error
 - if @from_page
   $('#invitation_form_homepage').html('#{escape_javascript(render '/invitations/form', :from_page => 1)}');
 - else

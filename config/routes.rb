@@ -2,7 +2,7 @@ Soundmelon::Application.routes.draw do
 
   resources :invitations  
 
-  get 'application/invitation/new(/:source)'  =>'invitations#new',                  :as => :new_invitation
+  get 'application/loginvitation/:artist_name'=>'invitations#login_or_invitation',  :as => :new_loginvitation
 
   get "artist/index"
 

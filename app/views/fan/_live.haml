@@ -11,3 +11,8 @@
       .sub-head
         = @user.get_full_address
       .overlay
+        .actions
+          = link_to fan_profile_path(@user.id), {:id => "mention-fan", :remote => :true, :class => "ajaxopen text-action backable"} do
+            .icon-bg
+            %i
+            view public profile

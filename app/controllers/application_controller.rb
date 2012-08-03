@@ -52,8 +52,7 @@ class ApplicationController < ActionController::Base
   # instantiates all artist objects for rendering in right column
   def get_artist_objects_for_right_column artist
     begin
-      actor                      = current_actor
-      @has_admin_access          = actor == artist
+      @has_admin_access          = @actor == artist
       @song_album_count          = artist.artist_musics.size
       @photo_album_count         = artist.artist_albums.size
       @show_count                = artist.upcoming_shows_count

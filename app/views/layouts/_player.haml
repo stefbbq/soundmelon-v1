@@ -1,5 +1,7 @@
-- @song_items ||= current_user.find_radio_feature_playlist_songs
-- first_album = @song_items.first ? @song_items.first.artist_music : nil
+- @song_items     ||= current_user.find_radio_feature_playlist_songs
+- has_some_songs  = !@song_items.blank?
+- first_album     = @song_items.first ? @song_items.first.artist_music : nil
+- has_some_user   = !@actor.blank?
 #sm_jplayer.jp-jplayer
 #jp_primary-wrapper.jp-audio
   .jp-type-single
@@ -7,7 +9,7 @@
       .jp-controls
         %a#jp-pre.jp-pre{:href => "javascript:;"}
         .play-pause
-          - if @actor
+          - if has_some_songs
             / logged-in user
             %a.jp-play{:href => "javascript:;"}
             %a.jp-pause{:href => "javascript:;"}
@@ -19,7 +21,7 @@
             .jp-volume-bar-thumb
         .jp-volume-marker
     .info
-      - if @actor
+      - if has_some_songs
         = get_album_cover_image(first_album) if first_album
         .main
           %span.song-title
@@ -37,7 +39,7 @@
             %span= @artist.get_name
             has no featured songs
           - else
-            %a.jo-play{:href => "javascript:;"} click play to listen to some tunes
+            %a.jp-play{:href => "javascript:;"} click play to listen to some tunes
 #jp-playlist.jp-playlist
   .pointer
   %ul
