@@ -3,12 +3,15 @@
   .primary
     .left
       - if @has_admin_access
-        = render 'featured_songs', :featured_songs =>@artist.featured_songs
-        .content-action-space
-          share your music
-          = link_to "add album", new_artist_music_path(@artist), :remote=>:true, :class=>"ajaxopen add-new", :title =>'add new album'
+        = render 'featured_songs', :featured_songs =>@artist.featured_songs        
       .album-list
-        - @artist_musics.each do |music|
-          = render 'artist_music', :artist_music =>music, :show_all =>@show_all || false
+        - if @artist_music_list.empty?
+          - if @has_admin_access
+            .add-action-space{:style=>'padding:50px;'}
+              share your music
+              = link_to "add music", new_artist_music_path(@artist), :remote=>:true, :class=>"ajaxopen add-new", :title =>'add new album'
+        - else
+          - @artist_music_list.each do |music|
+            = render 'artist_music', :artist_music =>music, :show_all =>@show_all || false
     .right
       = render "/artist_public/right", :current =>'music'

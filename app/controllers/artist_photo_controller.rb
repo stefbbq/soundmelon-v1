@@ -4,7 +4,7 @@ class ArtistPhotoController < ApplicationController
   
   def index
     begin      
-      @artist_albums      = @artist.artist_albums.includes('artist_photos')
+      @artist_album_list  = @artist.artist_albums.includes('artist_photos')
       get_artist_objects_for_right_column(@artist)
     rescue =>exp
       logger.error "Error in ArtistPhoto::Index :=> #{exp.message}"
@@ -18,10 +18,10 @@ class ArtistPhotoController < ApplicationController
 
   def artist_album
     begin
-      @artist_album     = ArtistAlbum.where('artist_id = ? and name = ?', @artist.id, params[:artist_album_name]).includes('artist_photos').first
-      @status           = true
-      @artist_albums    = [@artist_album]
-      @show_all         = true
+      @artist_album       = ArtistAlbum.where('artist_id = ? and name = ?', @artist.id, params[:artist_album_name]).includes('artist_photos').first
+      @status             = true
+      @artist_album_list  = [@artist_album]
+      @show_all           = true
       get_artist_objects_for_right_column(@artist)
       render :template =>"/artist_photo/index" and return
     rescue =>exp
@@ -66,7 +66,12 @@ class ArtistPhotoController < ApplicationController
         if params[:album_name].blank?
           params[:album_name] = Time.now.strftime("%Y-%m-%d")
         end
-        @artist_album         = ArtistAlbum.where(:name => params[:album_name], :artist_id => @artist.id).first || ArtistAlbum.create(:name=>params[:album_name], :user_id => current_user.id, :artist_id => @artist.id)
+        @artist_album         = ArtistAlbum.where(:name => params[:album_name], :artist_id => @artist.id).first
+        unless @artist_album
+          @artist_album       = ArtistAlbum.create(:name=>params[:album_name], :user_id => current_user.id, :artist_id => @artist.id)
+          # delay to avoid the same created_at timestamp for both song album and songs
+          sleep 1
+        end
         @artist_photo         = @artist_album.artist_photos.build(newparams[:artist_photo])
         @artist_photo.user_id = current_user.id
         if @artist_photo.save

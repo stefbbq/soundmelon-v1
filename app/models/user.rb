@@ -171,7 +171,7 @@ class User < ActiveRecord::Base
   # songs from the artists of user's top genres(top based on liking count)
   def find_radio_feature_playlist_songs(number_of_songs = 5)    
     song_items                    = []
-    user_top_genres               = Genre.find(self.top_genre_ids)
+    user_top_genres               = Genre.where('id in (?)',self.top_genre_ids)
     artists_from_user_genres      = user_top_genres.map{|ug| ug.artists}
     albums_of_user_genre_artists  = artists_from_user_genres.flatten.map{|artist| artist.artist_musics }.flatten
     for album in albums_of_user_genre_artists

@@ -31,13 +31,16 @@
         }
         if($('.left .album-list').length >0){
           if($('.left .album-list #artist_music_' + dat.artist_music_id).length == 0){
-            $('.left .album-list').append(dat.album_string);
+            if($('.left .album-list .artist-music').length>0)
+              $('.left .album-list').append(dat.album_string);
+            else
+              $('.left .album-list').html(dat.album_string);
           }else{
             if($('.left .album-list #artist_music_' + dat.artist_music_id + ' .album-details').length > 0){
               $('.left .album-list #artist_music_' + dat.artist_music_id + ' .album-details').append(dat.song_string);
             }
           }
-        }
+        }        
       },
       onSelect : function(event,data) {
         $("#song_song").uploadifySettings('scriptData', { 'album_name' : $('#album_name').val(), 'artist_name' : $('#artist_name').val() });

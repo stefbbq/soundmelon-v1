@@ -30,7 +30,10 @@
 
         if($('#photo_album_box').length >0){
           if($('#photo_album_box #artist_album_' + dat.artist_album_id).length == 0){
-            $('#photo_album_box').append(dat.album_string);
+            if($('.left #photo_album_box .artist-content').length>0)
+              $('#photo_album_box').append(dat.album_string);
+            else
+              $('#photo_album_box').html(dat.album_string);
           }else{
             if($('#photo_album_box #artist_album_' + dat.artist_album_id + ' .album-details .gallery').length > 0){
               $('#photo_album_box #artist_album_' + dat.artist_album_id + ' .album-details .gallery').append(dat.photo_string);

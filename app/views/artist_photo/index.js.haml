@@ -1,13 +1,14 @@
 - artist_albums = capture do
-  - if @has_admin_access
-    .content-action-space
-      share photos of you or your gigs    
-      = link_to "add album", new_artist_album_path(@artist), :remote=>:true, :class=>"ajaxopen add-new"  
-  .div{:id =>"photo_album_box"}
-    - @artist_albums.each do |artist_album|
-      = render '/artist_photo/album', :artist_album =>artist_album, :show_all =>@show_all || false
-$('.primary .left').html('#{escape_javascript artist_albums}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);
-$('.selection-box').removeClass('active').removeClass('button-fill-artist')
-$('#photos').addClass('active').addClass('button-fill-artist');
+  #photo_album_box
+    - if @artist_album_list.empty?
+      - if @has_admin_access
+        .add-action-space
+          share photos of you or your gigs
+          = link_to "add album", new_artist_album_path(@artist), :remote=>:true, :class=>"ajaxopen add-new"
+    - else
+      - @artist_album_list.each do |artist_album|
+        = render '/artist_photo/album', :artist_album =>artist_album, :show_all =>@show_all || false
+updateLeftSection('#{escape_javascript artist_albums}');
+updateRightSection('#{escape_javascript(render '/artist_public/right', :current => 'photo')}');
+closeFacebox(1);
 scrollToTop();

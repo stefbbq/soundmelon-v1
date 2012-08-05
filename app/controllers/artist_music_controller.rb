@@ -5,7 +5,7 @@ class ArtistMusicController < ApplicationController
 
   def index
     begin      
-      @artist_musics        = @artist.artist_musics.includes(:songs)
+      @artist_music_list  = @artist.artist_musics.includes(:songs)
       get_artist_objects_for_right_column(@artist)
     rescue =>exp
       logger.error "Error in ArtistArtistMusic#Index :=> #{exp.message}"
@@ -20,7 +20,7 @@ class ArtistMusicController < ApplicationController
   def artist_music
     begin      
       @artist_music       = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).includes(:songs).first
-      @artist_musics      = [@artist_music]
+      @artist_music_list  = [@artist_music]
       @show_all           = true
       @highlighted_song_id= params[:h]
       get_artist_objects_for_right_column(@artist)
@@ -53,7 +53,12 @@ class ArtistMusicController < ApplicationController
         if params[:album_name].blank?
           params[:album_name] = @artist.name + Time.now.strftime("%Y-%m-%d")
         end
-        @artist_music         = ArtistMusic.where(:album_name => params[:album_name], :artist_id => @artist.id).first || ArtistMusic.create(:album_name=>params[:album_name], :user_id => current_user.id, :artist_id => @artist.id)
+        @artist_music         = ArtistMusic.where(:album_name => params[:album_name], :artist_id => @artist.id).first        
+        unless @artist_music
+          ArtistMusic.create(:album_name=>params[:album_name], :user_id => current_user.id, :artist_id => @artist.id)
+          # delay to avoid the same created_at timestamp for both song album and songs
+          sleep 1
+        end        
         @song                 = @artist_music.songs.build(newparams[:song])
         @song.user_id         = current_user.id
         if @song.save

@@ -2,12 +2,14 @@
 .primary-container
   .primary
     .left
-      - if @has_admin_access
-        .content-action-space
-          share photos of you or your gigs
-          = link_to "add album", new_artist_album_path(@artist), :remote=>:true, :class=>"ajaxopen add-new"
       #photo_album_box
-        - @artist_albums.each do |artist_album|
-          = render '/artist_photo/album', :artist_album =>artist_album, :show_all =>@show_all || false
+        - if @artist_album_list.empty?
+          - if @has_admin_access
+            .add-action-space
+              share photos of you or your gigs
+              = link_to "add album", new_artist_album_path(@artist), :remote=>:true, :class=>"ajaxopen add-new"
+        - else
+          - @artist_album_list.each do |artist_album|
+            = render '/artist_photo/album', :artist_album =>artist_album, :show_all =>@show_all || false
     .right
       = render '/artist_public/right', :current => 'photo'

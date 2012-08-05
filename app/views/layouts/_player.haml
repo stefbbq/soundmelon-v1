@@ -21,25 +21,26 @@
             .jp-volume-bar-thumb
         .jp-volume-marker
     .info
-      - if has_some_songs
+      .note
+        - if @song_items.empty?
+          - if @artist.blank?
+            no songs
+          - else
+            %span= @artist.get_name
+            has no featured songs
+        - else
+          %a.jpp-play{:href => "javascript:;", :onclick =>"playListChange(0,1);"} click play to listen to some tunes            
+      .main{:style =>'display:none;'}
         = get_album_cover_image(first_album) if first_album
-        .main
-          %span.song-title
-          %span.artist-title
-          .jp-progress
-            .jp-seek-bar
-              .jp-play-bar
+        %span.song-title
+        %span.artist-title
+        .jp-progress
+          .jp-seek-bar
+            .jp-play-bar
         .jp-additional
           %a#buzz.jp-buzz.ajaxopen{"data-remote" => "true", :href => "javascript:;", :onclick => "doBuzz();", :title => "buzz"}
           %a#alike.jp-like{:href => "javascript:;", :onclick => "doLike();", :title => "like"}
-          %a.jp-rep{:href => "javascript:;", :title => "show/hide playlist"}
-      - else
-        .note
-          - if @song_items.empty?
-            %span= @artist.get_name
-            has no featured songs
-          - else
-            %a.jp-play{:href => "javascript:;"} click play to listen to some tunes
+          %a.jp-rep{:href => "javascript:;", :title => "show/hide playlist"}      
 #jp-playlist.jp-playlist
   .pointer
   %ul
@@ -49,6 +50,7 @@
   var currentTrack        = 0;
   var currentTrackItemId  = 0;
   var player              = $("#sm_jplayer");
+  var firstLoad           = 1;
   $(document).ready(function(){
     player.jPlayer({
       ready: function(event){
@@ -94,16 +96,21 @@
         playListChange(0, 0);
     }
 
-    function updateTrackInfo(b,u,t,i,l){    
-      var url         = '#{show_artist_url('abc').gsub("/abc", "")}/' + u;
-      var artist_html = '<a href="'  + url + '" class="ajaxopen backable" data-remote="true">' + b +'</a>';
-      $('.info .artist-title').html("by " + artist_html);
-      $('.info .song-title').html(t);
-      $('.info img').attr('src', i);
-      if(l){$('a#alike').addClass('jp-like-active');}
-      else{$('a#alike').removeClass('jp-like-active');}
-      //enable like/dislike
-      $('a#alike').on('click', doLike);   
+    function updateTrackInfo(b,u,t,i,l){
+      if(!firstLoad)
+      {      
+        var url         = '#{show_artist_url('abc').gsub("/abc", "")}/' + u;
+        var artist_html = currentUser ? '<a href="'  + url + '" class="ajaxopen backable" data-remote="true">' + b +'</a>' : b;
+        $('.info .note').hide();
+        $('.info .main').show();
+        $('.info .artist-title').html("by " + artist_html);
+        $('.info .song-title').html(t);
+        $('.info img').attr('src', i);
+        if(l){$('a#alike').addClass('jp-like-active');}
+        else{$('a#alike').removeClass('jp-like-active');}
+        //enable like/dislike
+        $('a#alike').on('click', doLike);
+      }
     }
   
     function trackInfoForEmptyPlaylist(){
@@ -135,8 +142,7 @@
     }
 
     // Switch track
-    function playListChange(index, play) {
-      if(currentUser==1){
+    function playListChange(index, play) {      
         plLength            = playList.length;
         playing_featured    = false;
         if(index >= 0 && index < plLength){
@@ -145,9 +151,9 @@
           updateTrackInfo(item.artist,item.artist_username, item.title, item.image, item.like)
           setSongToPlay(play, item.mp3, item.ogg);
           currentTrack        = index;
-        }      
-      }   
+        }            
       updateButtons();
+      firstLoad = 0;
     }
   
     function updateButtons(){

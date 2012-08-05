@@ -50,6 +50,7 @@ class UserController < ApplicationController
           @artist                     = Artist.where(:mention_name =>params[:artist_name]).first
           @from_home                  = true
           set_current_fan_artist(@artist.id)
+          @actor                      = current_actor
           @is_artist                  = true
           @is_home                    = true
           get_artist_mentioned_posts(@artist)

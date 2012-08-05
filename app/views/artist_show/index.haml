@@ -2,15 +2,14 @@
 .primary-container
   .primary
     .left
-      - if @has_admin_access
-        .content-action-space
-          share an upcoming gig
-          = link_to "add show", new_artist_show_path(@artist), :remote=>:true, :class=>"ajaxopen add-new", :title => "add new show"
       .show-list
-        - if @all_artist_shows.blank?
-          Artist has not set any show dates!
+        - if @artist_show_list.blank?
+          - if @has_admin_access
+            .add-action-space
+              share an upcoming gig
+              = link_to "add show", new_artist_show_path(@artist), :remote=>:true, :class=>"ajaxopen add-new", :title => "add new show"
         - else
-          - @all_artist_shows.each do |artist_show|
+          - @artist_show_list.each do |artist_show|
             = render '/artist_show/show', :artist_show => artist_show
     .right
       = render "/artist_public/right", :current =>'show'
