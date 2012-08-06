@@ -40,3 +40,7 @@ NO_PHOTO_ALBUM_MESSAGE       = "no photos yet"
 NO_ARTIST_MEMBER_MESSAGE     = "no artist members"
 NO_SHOW_DATE_MESSAGE         = "no upcoming shows"
 NO_CONNECTION_MESSAGE        = "no connections yet"
+
+
+# application code specific
+CURRENT_TRACK_VAR_NAME       = 'curItNum'

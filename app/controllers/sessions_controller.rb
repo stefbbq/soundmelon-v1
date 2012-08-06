@@ -23,7 +23,8 @@ class SessionsController < ApplicationController
   end
   
   def destroy
-    logout    
+    logout
+    cookies.delete(CURRENT_TRACK_VAR_NAME.to_sym)#destroys the currentTrackNumber cookie after logout
     redirect_to root_url, :notice => 'Logged out'
   end
   

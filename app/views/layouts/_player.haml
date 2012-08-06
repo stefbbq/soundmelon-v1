@@ -29,7 +29,7 @@
             %span= @artist.get_name
             has no featured songs
         - else
-          %a.jpp-play{:href => "javascript:;", :onclick =>"playListChange(0,1);"} click play to listen to some tunes            
+          %a.jpp-play{:href => "javascript:;", :onclick =>"playListChange(currentTrack, 1);"} click play to listen to some tunes
       .main{:style =>'display:none;'}
         = get_album_cover_image(first_album) if first_album
         %span.song-title
@@ -46,12 +46,15 @@
   %ul
 :javascript
   //
+  var currentTrackVarName = '#{CURRENT_TRACK_VAR_NAME}';
   var currentUser         = #{current_user ? 1 : 0};
   var currentTrack        = 0;
   var currentTrackItemId  = 0;
   var player              = $("#sm_jplayer");
-  var firstLoad           = 1;
+  var firstLoad           = 1; 
+
   $(document).ready(function(){
+    setCurrentTrack();
     player.jPlayer({
       ready: function(event){
         makePlayList(0);
@@ -90,6 +93,22 @@
       }
     }
   ); // Listen for Next Track button click
+  
+  //checks for currently playing track
+  function setCurrentTrack(){
+    if(currentUser==1){
+      try{
+        if($.cookie(currentTrackVarName))
+        {
+          currentTrack = parseInt($.cookie(currentTrackVarName));
+          $('.info .note').hide();
+          $('.info .main').show();
+          firstLoad    = 0;
+        }
+      }catch(err){}
+    }
+    return currentTrack;
+  }
 
     function playListStart(){
       if(playList.length>0 && currentUser==1)
@@ -154,6 +173,9 @@
         }            
       updateButtons();
       firstLoad = 0;
+      try{
+        $.cookie(currentTrackVarName, '' + index, { expires: 1 });
+      }catch(err){}      
     }
   
     function updateButtons(){
