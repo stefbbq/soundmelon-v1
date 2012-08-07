@@ -1,10 +1,8 @@
 .header
   - if @artist_music
-    = "Buzz : #{@artist_music.album_name}"
+    = "#{@artist_music.album_name}"
   - else
-    = "Buzz : #{@song.title}"
-
+    = "#{@song.title}"
 = render 'buzzlisting', :buzzes_by_date =>@buzzes_by_dates
 .normal-content.mini-content
   = render 'buzz_form'
-

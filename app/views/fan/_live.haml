@@ -6,13 +6,10 @@
       = render "bricks/random_artists", :current => nil
     .bottom
       .name
+        %h1 welcome to the beta
         %h1.full-name= @user.get_full_name
-        %h1= "@#{@user.mention_name}"
-      .sub-head
-        = @user.get_full_address
-      .overlay
+      .overlay.overlay-info
         .actions
-          = link_to fan_profile_path(@user.id), {:id => "mention-fan", :remote => :true, :class => "ajaxopen text-action backable"} do
-            .icon-bg
-            %i
-            view public profile
+          = link_to "provide feedback", feedback_start_path, :remote => true, :class => "ajaxopen text-action-no-img backable"
+        .heading
+          %span codebase 246 | August 6th, 2012

@@ -11,10 +11,6 @@
     = render '/layouts/analytics'
   - if current_user #user logged in
     %body
-      #feedback
-        .date July 17th, 2012
-        .commit codebase 220
-        = link_to "provide feedback", feedback_start_path, :remote => true, :class => "ajaxopen"
       #base-container
         #page-container
           #page-top-fade

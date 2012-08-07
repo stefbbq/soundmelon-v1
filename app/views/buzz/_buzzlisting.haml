@@ -1,4 +1,4 @@
-.buzz_list
+.buzz-window
   - buzzes_by_date.each do |date, buzzes|
     %date{:id =>"date_#{date.split('-').join()}"}
       %div
@@ -6,4 +6,4 @@
           = date.to_date.strftime('%b')
         %h2
           = date.to_date.strftime('%d')
-    = render 'buzz_aggregate', :posts => buzzes    
+    = render 'buzz_aggregate', :posts => buzzes

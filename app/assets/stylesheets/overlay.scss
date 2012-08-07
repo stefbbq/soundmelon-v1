@@ -78,10 +78,55 @@
 		}
 	}
 
-  .buzz_list {
+  .buzz-window {
     height: 300px;
 		width: 600px;
     overflow: auto; 
+
+		.post {
+			position: relative;
+			margin-left: 15px; 
+	    &:not(:last-child) { border-bottom: 1px dashed rgba(black, .25); }
+			&:not(:first-of-type) { padding-top: 15px; }
+			
+			> div {
+				@include generic-item(black);
+			}
+			
+			.content {
+				margin-left: 4px;
+				float: left;
+				width: 100%;
+
+				//post title and actions
+				.buzz-header {
+					width: 100%;
+					font-size: 13px;
+					overflow: hidden;
+
+					.title {
+						float: left;
+					}
+					.actions {
+						display: none;
+						position: absolute;
+						right: 4px;
+					}
+				}
+				
+				.body {
+					margin-top: 2px;
+					font-size: 11px;
+				}
+			}
+
+	    .righticons {
+				float: right;
+				width: 20%;
+				text-align: right;
+	    }
+			
+		}
 	}
 	
   .loading, .image {

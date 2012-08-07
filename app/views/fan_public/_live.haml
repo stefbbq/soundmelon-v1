@@ -10,9 +10,7 @@
       .name
         %h1.full-name= @user.get_full_name
         %h1= "@#{@user.mention_name}"
-      .sub-head
-        = @user.get_full_address
-      .overlay
+      .overlay.overlay-info
         - unless is_own_wall
           .actions
             - if actor.is_fan?
@@ -41,3 +39,5 @@
                 .icon-bg
                 %i
                 you
+          .heading
+            %span= @user.get_full_address

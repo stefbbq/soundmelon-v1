@@ -7,7 +7,7 @@
       200
       %span characters remaining
     .submit
-      = submit_tag('post',:class => "post-btn")
+      = submit_tag('post', :class => "post-btn")
     .clear
 
 :javascript
@@ -29,7 +29,7 @@
   
   var maxChar = 200;
 
-  $(".post-btn").attr('disabled','disabled');
+  $(".post-btn").attr('disabled', 'disabled');
   $('.input-box').keyup(function() {
     $('.status-input form > span').html((maxChar - $(this).val().length) + "<span> characters remaining</span>");
     if($(this).val() == ''){ //0

@@ -101,7 +101,6 @@
       .album {
 				@include image-action;
 				margin: 6px 0;
-        border-bottom: 0.5px solid #303030;
 				height: 40px;
 				
 				.title {

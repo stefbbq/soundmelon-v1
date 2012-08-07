@@ -45,6 +45,10 @@
 }
 .jp-volume-marker { @include sprite-img("sprites-16.png", 1, 2, 16px, 16px); }
 
+//player playlist
+.playlist-delete { @include sprite-img("sprites-16.png", 5, 4, 16px, 16px); }
+.playlist-play { @include sprite-img("sprites-16.png", 2, 4, 16px, 16px); }
+
 //player actions
 .jp-rep { @include sprite-img("sprites-32.png", 9, 1, 32px, 32px); }
 .jp-rep-active {  @include sprite-img("sprites-32.png", 9, 3, 32px, 32px); }

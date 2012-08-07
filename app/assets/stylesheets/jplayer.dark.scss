@@ -428,17 +428,6 @@ div.searchlist {
   margin:-20px 0 0 1px;
 }
 
-
-a.play_list_close, a.play_list_next{background:url(close.png) no-repeat;
-                                    position:absolute;
-                                    padding:2px 8px!important;
-                                    text-indent:-9999px;
-                                    right:30px;
-}
-a.play_list_next{background:url(list_next.png) no-repeat;
-                 right:11px;
-}
-
 div.jp-video div.jp-video-play {
   background: transparent url(jplayer.dark.video.play.png) no-repeat center;
   cursor: pointer;

@@ -10,34 +10,33 @@
   - self_owner = post.user == current_user ? true : false
 - item_div_class = self_owner ? 'content' : 'content-mentioned'
 = div_for post do
-  %div{:class=>"#{divclass}"}
-    %div{:class => 'content'}
-      .post-header
-        .title
-          %strong
-            - if artist
-              = artist.name
-            - elsif self_owner
-              You
-            - elsif user
-              = user.fname
-          %span
-            wrote this #{time_ago_in_words(post.created_at)} ago
-        .post-body
-          = post_msg_with_artist_mention(post)
-        .actions
-          - if self_owner
-            = link_to user_post_path(post), :method=> :delete, :class=>'action-delete', :remote=>true do
-              %i
-              %span delete
-          - if @artist && !self_owner
-            = link_to new_post_reply_path(post, :artist_id => @artist.id), :class=>'action-reply ajaxopen', :remote=>true do
-              %i
-              %span reply
-          -elsif !self_owner
-            = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote=>true do
-              %i
-              %span reply        
-      .clear
-    - if post.ancestry && !hide_thread_link
-      = link_to 'expand conversation', get_conversation_thread_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"
+  .content
+    .buzz-header
+      .title
+        %strong
+          - if artist
+            = artist.name
+          - elsif self_owner
+            You
+          - elsif user
+            = user.fname
+        %span
+          wrote this #{time_ago_in_words(post.created_at)} ago
+      .actions
+        - if self_owner
+          = link_to user_post_path(post), :method => :delete, :class=>'action-delete', :remote=>true do
+            %i
+            %span delete
+        - if @artist && !self_owner
+          = link_to new_post_reply_path(post, :artist_id => @artist.id), :class=>'action-reply ajaxopen', :remote=>true do
+            %i
+            %span reply
+        -elsif !self_owner
+          = link_to new_post_reply_path(post), :class =>'action-reply ajaxopen', :remote=>true do
+            %i
+            %span reply        
+    .body
+      = post_msg_with_artist_mention(post)
+  .clear
+  - if post.ancestry && !hide_thread_link
+    = link_to 'expand conversation', get_conversation_thread_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"

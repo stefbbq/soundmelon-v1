@@ -52,7 +52,7 @@
 				left: 12px;
 				
 				h1 {
-					@include single-text-shadow(rgba(black, .5), 0px, 3px, 5px);
+					@include single-text-shadow(rgba(black, .25), 0px, 3px, 5px);
 					margin: 0px;
 					font-size: 20px;
 					display: inline-block;
@@ -107,10 +107,15 @@
 						left: 0px;
 						margin: -4px 0px;
 						width: 24px;
-						height: 24px;
+						height: 100%;
 						background: black;
 						opacity: .45;
 					}
+				}
+				
+				.text-action-no-img {
+					@extend .text-action;
+					padding-left: 6px;
 				}
 				
 				.icon-action {

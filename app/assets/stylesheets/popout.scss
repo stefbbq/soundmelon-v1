@@ -9,7 +9,7 @@
   height: 13px;
   width: 21px;
   position: absolute;
-  margin: -22px 0 0 155px;
+  margin: -17px 0 0 155px;
 }
 
 
@@ -35,30 +35,36 @@
   z-index: 1;
   width: 313px;
   display: none;
-  left: 454px;
+  left: 459px;
   top: 55px;
-  padding: 10px;
+	padding: 5px 0;
 
 	li {
-	  padding: 3px 0;
-		margin: 0px;
-		
-		&:last-child {
-			border: none;
-		}
+		&:last-child { border: none; }
+		&:hover { background: rgba(black, .1); }
 	}
 	.current {
 	  background: rgba(black, .45);
 		color: white;
-		margin: 0px -10px;
-		padding-left: 16px !important;
 		border-bottom: none;			
 		
 		a {
 			@include single-text-shadow(rgba(black, .75), 0px, -1px, 0px);
 			color: #e3e3e3 !important;		
 		}
-		.play_list_close, .play_list_next { display: none; }
+		&:hover { background: rgba(black, .45); }
+		.playlist-delete, .playlist-play { display: none; }
+	}
+	
+	.playlist-delete, .playlist-play { 
+		display: inline-block; 
+		float: right; 
+		margin-left: 4px;
+		opacity: .7;
+		
+		&:hover {
+			opacity: 1;
+		}
 	}
 }
 
@@ -66,18 +72,19 @@
 .switch-popout {
 	@include popout();
 	position: absolute;
-	right: -5px;
-	top: 35px;
+	right: -6px;
+	top: 37px;
 	display: none;
 	text-align: left;
 	width: 200px;
 	z-index: 150;
 	
 	.pointer {
-		margin: -12px 0 0 45%;
+		margin: -17px 0 0 45%;
 	}
 	
 	li { 
+		margin: 0 -10px;
 		&:hover { background: rgba(black, .15); }
 	}
 }
@@ -152,14 +159,17 @@ li {
 	width: 240px;
 	left: 200px;
 	z-index: 1000;
+	padding: 0px;
 	
-	li { margin-left: 0px !important; padding-left: 0px !important; color: $text-on-light; }
+	li { color: $text-on-light; padding: 5px 10px; margin: 0px; }
+	li:last-child { margin-bottom: 5px; }
 	b { color: black; }
 	
 	span {
 		float: right;
 		color: $text-faded-on-light;
 	}
+	.active { background: rgba(black, .1); }
 }
 
 
