@@ -20,11 +20,12 @@ class MessagesController < ApplicationController
         messages_and_posts_count
         get_artist_objects_for_right_column(@artist) #unless @from_header_link
       end
-      @messages         = @user.mailbox.conversations.page(params[:page]).per(MESSAGES_PER_PAGE).includes(:receipts, :messages)
-      num_pages         = @messages.num_pages
-      current_page      = @messages.current_page
-      next_page         = current_page < num_pages ? current_page + 1 : nil
-      @load_more_path   =  next_page ?  more_inbox_messages_path(:page => next_page) : nil
+      @messages                 = @user.mailbox.conversations.page(params[:page]).per(MESSAGES_PER_PAGE).includes(:receipts, :messages)
+      num_pages                 = @messages.num_pages
+      current_page              = @messages.current_page
+      next_page                 = current_page < num_pages ? current_page + 1 : nil
+      @load_more_path           = next_page ?  more_inbox_messages_path(:page => next_page) : nil
+      @has_link_access          = true
     rescue =>exp
       logger.error "Error in Messages::Inbox =>#{exp.message}"
       render :nothing => true
@@ -39,6 +40,7 @@ class MessagesController < ApplicationController
     current_page      = @messages.current_page
     next_page         = current_page < num_pages ? current_page + 1 : nil
     @load_more_path   =  next_page ?  more_inbox_messages_path(:page => next_page) : nil
+    @has_link_access  = true
   end
 
   def show

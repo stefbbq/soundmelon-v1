@@ -25,6 +25,7 @@ class UserPostsController < ApplicationController
         @load_more_path   =  next_page ?  more_post_path(:page => next_page) : nil
       end
     end
+    @has_link_access      = true
   end
   
   def create
@@ -111,7 +112,8 @@ class UserPostsController < ApplicationController
   end
   
   def mentioned
-    @user                         = current_actor
+    @user                         = @actor
+    @has_link_access              = true
     if @user.is_fan?
       @posts                      = @user.mentioned_posts(params[:page])
       @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
@@ -131,7 +133,8 @@ class UserPostsController < ApplicationController
   end
   
   def replies
-    @user   = current_actor
+    @user                 = @actor
+    @has_link_access      = true
     if @user.is_fan?
       @posts                      = @user.replies_post(params[:page])
       @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}

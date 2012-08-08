@@ -1,7 +1,13 @@
 - tabs      = [:latest_post, :music, :photo, :show, :member, :fan, :manage_profile, :invite_artistmate, :song, :connection]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 .items
-  = link_to 'news feed & messages', 
+  - if @is_public
+    = link_to 'latest posts', show_artist_path(@artist),
+            :id                 =>'latest-posts',
+            :remote             => 'true',
+            :class              => 0 == current ? 'ajaxopen backable iconactive selection-box active button-fill-artist' : 'ajaxopen backable iconactive selection-box'
+  - else
+    = link_to 'news feed & messages',
             mentioned_path,
             :id                 => 'feed-msg',
             :remote             => true,
@@ -45,20 +51,21 @@
             :artist_fans        => @artist_fans,
             :artist             => @artist,
             :selected           => 5 == current
-  .divider
-  = link_to 'manage your profile' ,
-            manage_profile_path,
-            :remote             => true,
-            :id                 => 'manage_profile',
-            :class              => 6 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'
-  =# link_to 'manage bandmates' , 
-            bandmates_invitation_path(@artist),
-            :remote             => true,
-            :id                 => 'invite_artist',
-            :class              => 7 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'
-  = link_to 'remove your profile',
-            remove_my_profile_path,
-            :remote             => true,
-            :class              => 'ajaxopen selection-text',
-            :confirm            => "This will remove your artist profile and delete all the data. And this action cannot be undone. Are you sure to continue?"
+  - unless @is_public
+    .divider
+    = link_to 'manage your profile' ,
+              manage_profile_path,
+              :remote             => true,
+              :id                 => 'manage_profile',
+              :class              => 6 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'
+    =# link_to 'manage bandmates' ,
+              bandmates_invitation_path(@artist),
+              :remote             => true,
+              :id                 => 'invite_artist',
+              :class              => 7 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'
+    = link_to 'remove your profile',
+              remove_my_profile_path,
+              :remote             => true,
+              :class              => 'ajaxopen selection-text',
+              :confirm            => "This will remove your artist profile and delete all the data. And this action cannot be undone. Are you sure to continue?"
 .fader

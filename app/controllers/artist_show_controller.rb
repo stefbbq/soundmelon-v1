@@ -50,7 +50,8 @@ class ArtistShowController < ApplicationController
   def create
     begin
       if @has_admin_access
-        @artist_show = @artist.artist_shows.build(params[:artist_show])
+        @has_link_access  = true
+        @artist_show      = @artist.artist_shows.build(params[:artist_show])
         if @artist_show.save
         else
           render :action => 'new'
@@ -70,6 +71,7 @@ class ArtistShowController < ApplicationController
       unless @has_admin_access
         render :noting => true and return
       end
+      @has_link_access  = true
     rescue =>exp
       logger.error "Error in ArtistShow#Edit :=> #{exp.message}"
       render :nothing => true and return
@@ -85,6 +87,7 @@ class ArtistShowController < ApplicationController
       else
         render :noting => true and return
       end
+      @has_link_access  = true
     rescue =>exp
       logger.info {"Error in ArtistShow::Update :#{exp.message}"}
       render :nothing => true and return
@@ -122,6 +125,7 @@ class ArtistShowController < ApplicationController
         @has_link_access  = @has_admin_access
       else
         @artist           = Artist.where(:mention_name => params[:artist_name]).first
+        @has_admin_access = @artist == @actor
         @is_public        = true
         @has_link_access  = false        
       end

@@ -1,7 +1,50 @@
-- form_post_path = @artist_photo_album ? artist_album_buzz_post_path(@artist_photo_album.name, @artist_photo_album) : photo_buzz_post_path(@photo)
-.statusinput
- = form_tag(form_post_path, :class=>"ajaxopen", :remote => true, :id => 'buzz_form') do  
-  = text_area_tag :msg, nil, :maxlength => 200, :cols => 50, :rows => 3
-  .postbtn
-   = submit_tag('Post',:class=>"button blue right")
-  .clear
+- form_post_path = @artist_photo_album ? artist_album_buzz_post_path(@artist_photo_album, @artist_photo_album) : photo_buzz_post_path(@photo)
+- initial_text   = "write a comment..."
+.status-input.buzz-input
+  = form_tag(form_post_path, :class=>"ajaxopen", :remote => true, :id => 'buzz_form') do
+    = text_area_tag :msg, initial_text, :class => "autosubmit input-box", :maxlength => 240
+    %span
+      200
+      %span characters remaining
+    .submit
+      = submit_tag('post', :class => "post-btn")
+    .clear
+
+:javascript
+  $('textarea.mention').mentionsInput({
+    onDataRequest:function (mode, query, callback) {
+      var data = [#{user_mention_lists current_user}];
+      data = _.filter(data, function(item) { return item.id.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+      callback.call(this, data);
+    }
+  });
+  $('.buzz-input .input-box').focus(function() {
+    if($(this).val()=='#{initial_text}')
+      $(this).val('');
+  });
+  $('.buzz-input .input-box').blur(function() {
+    if($(this).val()=='')
+      $(this).val('#{initial_text}');
+  });
+
+  var maxChar = 200;
+
+  $(".buzz-input .post-btn").attr('disabled', 'disabled');
+  $('.buzz-input .input-box').keyup(function() {
+    $('.buzz-input form > span').html((maxChar - $(this).val().length) + "<span> characters remaining</span>");
+    if($(this).val() == ''){ //0
+      $('.buzz-input form > span').attr('class', '');
+      $(".post-btn").attr('disabled','disabled');
+    } else if ($(this).val().length <= (maxChar - 10)){ //over 0, below 200
+      $('.buzz-input form > span').attr('class', 'okay');
+      $('.buzz-input .post-btn').css({ opacity: 1 });
+      $(".buzz-input .post-btn").removeAttr('disabled');
+      $('.buzz-input .mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 8);
+    } else if ($(this).val().length > (maxChar - 10) && $(this).val().length < maxChar) {
+      $('.buzz-input form > span').attr('class', 'warning');
+    } else { //over 200
+      $('.buzz-input form > span').html((maxChar - $(this).val().length) + "<span> no more than 200 characters</span>");
+      $('.buzz-input form > span').attr('class', 'over');
+      $(".buzz-input .post-btn").attr('disabled','disabled');
+    }
+  })

@@ -155,7 +155,7 @@ Soundmelon::Application.routes.draw do
   get ':artist_name/:album_name/photo/:id/cover'    => 'artist_photo#make_cover_image' ,          :as => :make_cover_image
   get ':artist_name/:album_name/photo/:id/edit'     => 'artist_photo#edit_photo' ,                :as => :edit_photo
   get ':artist_name/:album_name/photo/:id/delete'   => 'artist_photo#destroy' ,                   :as => :delete_photo
-  get ':artist_name/:album_name/photo/public'       => 'artist_photo#disable_enable_artist_album',:as => :disable_enable_artist_album
+  get ':artist_name/:album_name/album/public'       => 'artist_photo#disable_enable_artist_album',:as => :disable_enable_artist_album
   match ':artist_name/:album_name/photo/:id/update' => 'artist_photo#update_photo',               :as => :update_artist_photo
   get ':artist_name/:album_name/plike'              => 'artist_photo#like_dislike',               :as => :like_artist_album
   

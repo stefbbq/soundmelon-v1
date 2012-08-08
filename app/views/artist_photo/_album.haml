@@ -20,13 +20,16 @@
       .controls
         = link_to "add", add_photos_to_album_path(artist_album.artist, artist_album.name), {:remote=>:true, :class=>"ajaxopen", :title =>"add new photo"}
         = link_to "edit", edit_album_path(@artist, artist_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"edit_link_#{artist_album.id}"
-        = link_to artist_album.disabled? ? 'enable' : 'disable', disable_enable_artist_album_path(@artist, artist_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{artist_album.id}"
-        = link_to "remove", delete_album_path(@artist, artist_album.name), :remote=>:true, :class=>"ajaxopen"
+        = link_to artist_album.disabled? ? 'enable' : 'disable', disable_enable_artist_album_path('home', artist_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{artist_album.id}"
+        = link_to "remove", delete_album_path('home', artist_album.name), :remote=>:true, :class=>"ajaxopen"
         =# link_to "like/dislike", like_artist_album_path(@artist, :album_name => artist_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"like_dislike_link_#{artist_album.id}"
     .toggle
       .toggle-thread
         - unless show_all
-          = link_to "expand", artist_album_photos_path(@artist, artist_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_album.id}"
+          - if @has_link_access
+            = link_to "expand", artist_album_photos_path('home', artist_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_album.id}"
+          - else
+            = link_to "expand", artist_album_photos_path(@artist, artist_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_album.id}"
         - else
           %a{:href => "javascript:void(0);", :onclick => "$('#artist_album_#{artist_album.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
     .album-details

@@ -54,7 +54,7 @@ class ArtistPhotoController < ApplicationController
     redirect_to show_artist_path(params[:artist_name]) and return unless request.xhr?    
     if @has_admin_access
       @artist_photo     = ArtistPhoto.new
-    else
+    else      
       render :nothing => true and return
     end
   end
@@ -62,6 +62,7 @@ class ArtistPhotoController < ApplicationController
   def create
     begin
       if @has_admin_access
+        @has_link_access = true
         newparams = coerce(params)
         if params[:album_name].blank?
           params[:album_name] = Time.now.strftime("%Y-%m-%d")
@@ -88,10 +89,10 @@ class ArtistPhotoController < ApplicationController
                 :album_name     => @artist_album.name,
                 :image_string   => 'assets/profile/artist-defaults-avatar.jpg',
                 :image_src      => (cover_image = @artist_album.cover_image) ? cover_image.image.url(:thumb) : '/assets/no-image.png',
-                :add_url        => "#{add_photos_to_album_path(@artist, @artist_album.name)}",
-                :album_url      => "#{artist_album_path(@artist, @artist_album.name)}",
-                :delete_url     => "#{delete_album_path(@artist, @artist_album.name)}",
-                :album_photos_url=>"#{artist_album_photos_path(@artist, @artist_album.name)}",
+                :add_url        => "#{add_photos_to_album_path('home', @artist_album)}",
+                :album_url      => "#{artist_album_path('home', @artist_album)}",
+                :delete_url     => "#{delete_album_path('home', @artist_album)}",
+                :album_photos_url=>"#{artist_album_photos_path('home', @artist_album)}",
                 :album_string   => "#{render_to_string('/artist_photo/_album', :layout =>false, :locals =>{:artist_album =>@artist_album, :has_admin_access=>true})}",
                 :photo_string   => "#{render_to_string('/artist_photo/_photo', :layout =>false, :locals =>{:artist_album =>@artist_album, :photo =>@artist_photo})}"
               }
@@ -167,6 +168,7 @@ class ArtistPhotoController < ApplicationController
           render :nothing => true and return
         end
         @artist_album.update_attributes(params[:artist_album])
+        @has_link_access = true
       rescue =>exp
         logger.info exp.message
         render :nothing => true and return
@@ -202,6 +204,7 @@ class ArtistPhotoController < ApplicationController
         unless @has_admin_access
           render :nothing => true and return
         end
+        @has_link_access    = true
       rescue =>excp
         logger.error "Error in ArtistPhoto::EditPhoto :#{excp.message}"
         render :nothing   => true and return
@@ -220,6 +223,7 @@ class ArtistPhotoController < ApplicationController
           render :nothing => true and return
         end
         @artist_photo.update_attributes(params[:artist_photo])
+        @has_link_access    = true
       rescue =>exp
         logger.error "Error in ArtistPhoto#UpdatePhoto :=> #{exp.message}"
         render :nothing   => true and return
@@ -237,7 +241,8 @@ class ArtistPhotoController < ApplicationController
         unless @has_admin_access
           render :nothing => true and return
         end
-        @artist_album.set_the_cover_image(@artist_photo, true)        
+        @artist_album.set_the_cover_image(@artist_photo, true)
+        @has_link_access    = true
       rescue =>exp
         logger.error "Error in ArtistPhoto#MakeCoverImage :=> #{exp.message}"
         render :nothing   => true and return
@@ -257,6 +262,7 @@ class ArtistPhotoController < ApplicationController
         end
         @artist_photo.destroy
         @artist_album.choose_cover_image
+        @has_link_access    = true
       rescue =>exp
         logger.error "Error in ArtistPhoto::Destroy :=>#{exp.message}"
         render :nothing => true and return
@@ -272,7 +278,7 @@ class ArtistPhotoController < ApplicationController
       @is_admin_of_artist = current_user.is_member_of_artist?(@artist)
       @artist_album       = ArtistAlbum.where('artist_id = ? and name = ?', @artist.id, params[:album_name]).includes('artist_photos').first
       @artist_album.update_attribute(:disabled, !@artist_album.disabled)
-      @status             = true
+      @status             = true      
     rescue =>exp
       logger.error "Error in ArtistPhoto::DisableEnableArtistAlbum :#{exp.message}"
       @status             = false
@@ -317,6 +323,7 @@ class ArtistPhotoController < ApplicationController
         @has_link_access  = @has_admin_access
       else
         @artist           = Artist.where(:mention_name => params[:artist_name]).first
+        @has_admin_access = @artist == @actor
         @is_public        = true
         @has_link_access  = false
       end      

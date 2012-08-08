@@ -1,7 +1,8 @@
-- form_post_path = @artist_music ? artist_music_buzz_post_path(@artist_music.album_name, @artist_music) : song_buzz_post_path(@song)
+- form_post_path = @artist_music ? artist_music_buzz_post_path(@artist_music, @artist_music) : song_buzz_post_path(@song)
+- initial_text   = "write a comment..."
 .status-input.buzz-input
   = form_tag(form_post_path, :class=>"ajaxopen", :remote => true, :id => 'buzz_form') do
-    = text_area_tag :msg, :nil, :class => "autosubmit input-box", :value => "write a comment...", :maxlength => 240
+    = text_area_tag :msg, initial_text, :class => "autosubmit input-box", :maxlength => 240
     %span
       200
       %span characters remaining
@@ -17,12 +18,12 @@
     }
   });
   $('.buzz-input .input-box').focus(function() {
-    if($(this).val()=='share something...')
+    if($(this).val()=='#{initial_text}')
       $(this).val('');
   });
   $('.buzz-input .input-box').blur(function() {
     if($(this).val()=='')
-      $(this).val('share something...');
+      $(this).val('#{initial_text}');
   });
 
   var maxChar = 200;

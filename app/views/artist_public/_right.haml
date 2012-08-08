@@ -1,4 +1,4 @@
-- if @actor != @artist
+-if @is_public
   - tabs      = [:latest_post, :music, :photo, :show, :member, :fan, :connection]
   - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
   

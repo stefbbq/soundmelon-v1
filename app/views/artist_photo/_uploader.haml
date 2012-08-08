@@ -61,10 +61,10 @@
 
   function get_list_album_html(id, album_name, add_url, album_url, delete_url, img_src){
     var html_str = "<div class='song-album' id='artist_album_" + id + "'>";
-    html_str      += "<a href='" + add_url + "' class='ajaxopen' data-remote='true'><div class='icon-add' style='float:left;margin-right:2px;'></div></a>";
+    //html_str      += "<a href='" + add_url + "' class='ajaxopen' data-remote='true'><div class='icon-add' style='float:left;margin-right:2px;'></div></a>";
     html_str      += "<span style='float:left;'><span class='album-cover-image' style='margin-left:5px;'><a href='" + album_url + "' class='ajaxopen' data-remote='true'><img alt='' src='" + img_src + "'/></a></span>";
     html_str      += "<a href='" + album_url + "' class='ajaxopen' data-remote='true'>" + album_name + "</a></span>";
-    html_str      += "<a href='" + delete_url + "' class='ajaxopen' data-confirm='Are you sure?' data-remote='true'><div class='icon-remove' style='float:left;'></div></a>";
+    //html_str      += "<a href='" + delete_url + "' class='ajaxopen' data-confirm='Are you sure?' data-remote='true'><div class='icon-remove' style='float:left;'></div></a>";
     html_str      +="</div>"
     return html_str;
   } 

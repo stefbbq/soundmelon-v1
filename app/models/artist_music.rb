@@ -78,5 +78,9 @@ class ArtistMusic < ActiveRecord::Base
   def create_newsfeed
     Post.create_newsfeed_for self, nil, self.artist_id, " created"
   end
+
+  def to_param
+    self.album_name
+  end
   
 end

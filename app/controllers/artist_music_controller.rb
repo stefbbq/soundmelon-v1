@@ -49,13 +49,14 @@ class ArtistMusicController < ApplicationController
   def create
     begin
       if @has_admin_access
+        @has_link_access = true
         newparams = coerce(params)
         if params[:album_name].blank?
           params[:album_name] = @artist.name + Time.now.strftime("%Y-%m-%d")
         end
         @artist_music         = ArtistMusic.where(:album_name => params[:album_name], :artist_id => @artist.id).first        
         unless @artist_music
-          ArtistMusic.create(:album_name=>params[:album_name], :user_id => current_user.id, :artist_id => @artist.id)
+          @artist_music       = ArtistMusic.create(:album_name=>params[:album_name], :user_id => current_user.id, :artist_id => @artist.id)
           # delay to avoid the same created_at timestamp for both song album and songs
           sleep 1
         end        
@@ -98,7 +99,8 @@ class ArtistMusicController < ApplicationController
       begin
         @artist_music       = ArtistMusic.where(:album_name => params[:artist_music_name], :artist_id => @artist.id).first
         if @has_admin_access
-          @song           = Song.new
+          @song             = Song.new
+          @has_link_access  = true
         else
           # render :nothing => true and return
         end
@@ -129,7 +131,8 @@ class ArtistMusicController < ApplicationController
     redirect_to show_artist_path(params[:artist_name]) and return unless request.xhr?
     begin
       if @has_admin_access
-        @artist_music = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).includes(:songs).first
+        @artist_music       = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).includes(:songs).first
+        @has_link_access    = true
       else
         render :nothing => true and return
       end
@@ -146,6 +149,7 @@ class ArtistMusicController < ApplicationController
         @artist_music       = ArtistMusic.where('artist_id = ? and id = ?', @artist.id, params[:id]).first
         @artist_music.update_attributes(params[:artist_music])
         @is_updated         = true
+        @has_link_access    = true
         render :action => 'edit_artist_music' and return
       else
         render :nothing => true and return
@@ -207,6 +211,7 @@ class ArtistMusicController < ApplicationController
         unless @has_admin_access
           render :nothing => true and return
         end
+        @has_link_access  = true
       rescue =>exp
         logger.error "Error in ArtistArtistMusic#EditSong :=> #{exp.message}"
         render :nothing => true and return
@@ -224,7 +229,8 @@ class ArtistMusicController < ApplicationController
         if @has_admin_access
           @song.update_attributes(params[:song])
           @song.delay.update_metadata_to_file
-          @is_updated = true
+          @is_updated           = true
+          @has_link_access      = true
           render :action => 'edit_song' and return
         end
       rescue =>exp
@@ -323,6 +329,7 @@ class ArtistMusicController < ApplicationController
     begin
       @artist_musics        = @artist.artist_musics.includes('songs')
       @status               = true
+      @has_link_access      = true
     rescue => exp
       logger.error "Error in ArtistArtistMusic::SongsForFeaturedList :=>#{exp.message}"
       @status               = false
@@ -371,6 +378,7 @@ class ArtistMusicController < ApplicationController
         @has_link_access  = @has_admin_access
       else
         @artist           = Artist.where(:mention_name => params[:artist_name]).first
+        @has_admin_access = @artist == @actor
         @is_public        = true
         @has_link_access  = false
       end
