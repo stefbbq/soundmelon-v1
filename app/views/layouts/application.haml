@@ -10,7 +10,7 @@
     = yield(:head)
     = render '/layouts/analytics'
   - if current_user #user logged in
-    %body
+    %body{:onload =>"loaded_url='#{request.url}';"}
       #base-container
         #page-container
           #page-top-fade
@@ -22,7 +22,7 @@
       = render :partial => "bricks/footer"
   - else #splash
     - @user ||= User.new
-    %body.splash-body
+    %body.splash-body{:onload =>"loaded_url='#{request.url}';"}
       .splash
         .left-decoration
         .right-decoration
@@ -45,8 +45,8 @@
         .footer
           .links
             %a{:href => "http://blog.soundmelon.com", :title => "visit the SoundMelon blog", :target => "_blank"} blog
-            %a{:href => "#", :title => "learn more", :style => "opacity: .4;"} about
-            %a{:href => "#", :title => "read legal notice", :style => "opacity: .4;"} legal
+            %a{:href => "#", :title => "learn more", :style => 'opacity: .4;'} about
+            %a{:href => "#", :title => "read legal notice", :style => 'opacity: .4;'} legal
             %span
               &copy; 2012 SoundMelon Inc, All Rights Reserved.
           .social

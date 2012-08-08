@@ -2,7 +2,7 @@
   .show-list
     - if @artist_show_list.blank?
       .add-action-space
-        - if @has_admin_access
+        - if @has_link_access
           share an upcoming gig
           = link_to "add show", new_artist_show_path(@artist), :remote=>:true, :class=>"ajaxopen add-new", :title => "add new show"
     - else

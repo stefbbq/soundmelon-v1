@@ -1,10 +1,10 @@
 - song_albums = capture do
-  - if @has_admin_access
+  - if @has_link_access
     = render 'featured_songs', :featured_songs =>@artist.featured_songs
   .clear
   .album-list
     - if @artist_music_list.empty?
-      - if @has_admin_access
+      - if @has_link_access
         .add-action-space
           share your music
           = link_to "add music", new_artist_music_path(@artist), :remote=>:true, :class=>"ajaxopen add-new", :title =>'add new album'

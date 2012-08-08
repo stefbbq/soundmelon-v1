@@ -1,12 +1,16 @@
 class ArtistPublicController < ApplicationController
   before_filter :require_login, :except =>[:index]
-
+  before_filter :check_and_set_admin_access, :only =>[:members]
+  
   def index    
     begin
       @artist                       = Artist.where(:mention_name => params[:artist_name]).includes(:artist_members).first
       @artist_members_count         = @artist.artist_members.count
       get_artist_bulletins_and_posts(@artist)
       get_artist_objects_for_right_column(@artist)
+      # for public profile
+      @is_public                    = true
+      @has_link_access              = false
     rescue  => exp
       logger.error "Error in ArtistPublic#Index :=> #{exp.message}"
       render :template =>'/bricks/page_missing' and return
@@ -24,10 +28,8 @@ class ArtistPublicController < ApplicationController
   end
   
   def members    
-    begin
-      @actor          = current_actor
-      @artist         = Artist.where(:mention_name => params[:artist_name]).includes(:artist_members).first
-      @artist_members = @artist.artist_members      
+    begin      
+      @artist_members               = @artist.artist_members
       get_artist_objects_for_right_column(@artist)
       respond_to do |format|
         format.js
@@ -74,6 +76,27 @@ class ArtistPublicController < ApplicationController
       end
     else
       redirect_to root_url and return
+    end
+  end
+
+  protected
+
+  def check_and_set_admin_access
+    begin
+      if params[:artist_name] == 'home'
+        @artist           = @actor
+        @has_admin_access = @artist == @actor
+        @has_link_access  = @has_admin_access        
+      else        
+        @artist         = Artist.where(:mention_name => params[:artist_name]).includes(:artist_members).first
+        @is_public        = true
+        @has_link_access  = false
+      end
+    rescue
+      @artist             = nil
+    end
+    unless @artist
+      render :template =>"bricks/page_missing" and return
     end
   end
   

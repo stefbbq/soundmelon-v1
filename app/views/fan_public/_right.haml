@@ -1,4 +1,4 @@
-- if @actor != @user
+-if @is_public
   - tabs      = [:latest_post, :following_artist, :following_fan, :follower_user]
   - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
   .items

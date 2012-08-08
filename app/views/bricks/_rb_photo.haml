@@ -1,10 +1,14 @@
 - selected    ||=false
 - link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
+- unless @is_public
+  - header_link = artist_albums_path('home')
+- else
+  - header_link = artist_albums_path(artist)
 %div
-  - if @has_admin_access || photo_album_count > 0
-    = link_to artist_albums_path(artist), {:remote => :true, :id => 'photos', :class => link_class} do
+  - if @has_link_access || photo_album_count > 0
+    = link_to header_link, {:remote => :true, :id => 'photos', :class => link_class} do
       photos
-    = link_to "", new_artist_album_path(artist), :remote => :true, :class => "ajaxopen right-icon-item icon-add" if @has_admin_access
+    = link_to "", new_artist_album_path(artist), :remote => :true, :class => "ajaxopen right-icon-item icon-add" if @has_link_access
   - else
     .selection-box-nohref
       photos
@@ -16,7 +20,7 @@
           .title= link_to artist_photo_album.name, artist_album_path(artist, artist_photo_album.name), :remote => :true, :class => "ajaxopen backable"
     - else
       .message= NO_PHOTO_ALBUM_MESSAGE
-- if @has_admin_access
+- if @has_link_access
   :javascript
     function updateAfterPhotoAlbumRemoval(artist_album_id){
       if($('.right #photobox #artist_album_' + artist_album_id).length>0){

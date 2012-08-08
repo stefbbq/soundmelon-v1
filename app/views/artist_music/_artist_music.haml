@@ -26,7 +26,7 @@
     .stat{:id =>"song_stats_#{artist_music.id}"}
       =# "$#{artist_music.price}"
       %span{:id =>'song_count'}= pluralize(artist_music.song_count, 'song')
-    - if @has_admin_access
+    - if @has_link_access
       .controls
         = link_to "add", add_song_path(@artist, artist_music.album_name ), :remote => true, :class => 'ajaxopen', :title => "add song"
         = link_to 'edit', edit_artist_music_path(@artist, artist_music.album_name ), :remote => true, :class => 'ajaxopen edit', :title => "edit album"
@@ -43,7 +43,7 @@
       - if show_all
         - artist_music.songs.each do |song|
           = render '/artist_music/song_item', :song =>song
-- if @has_admin_access
+- if @has_link_access
   = link_to "", add_song_path(@artist, artist_music.album_name ), :remote => true, :class => 'ajaxopen'
   .clear
 .clear

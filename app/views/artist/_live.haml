@@ -4,7 +4,7 @@
 - is_artist_admin = @actor ? (artist_admin_ids.include? current_user.id) : false
 .live
   .profile-image{:title =>"#{@artist.name}"}
-    = get_artist_profile_image(@artist)
+    = get_artist_profile_image(@artist, !@is_public)
   .links
     .top
       = render "bricks/random_artists", :current => @artist
@@ -37,11 +37,16 @@
                 #connect_section
                   = render 'bricks/artist_connection', :actor => @actor, :artist => @artist
             - else
-              - if @is_home
+              - unless @has_link_access
+                = link_to user_home_path, {:remote => true, :id => "administer", :class => 'text-action ajaxopen backable'} do
+                  .icon-bg
+                  %i
+                  admin
+              - else
                 = link_to show_artist_path(@artist), {:remote => true, :id => "view-public-profile", :class => 'text-action ajaxopen backable'} do
                   .icon-bg
                   %i
-                  view public profile              
+                  view public profile                        
           = link_to '', "http://facebook.com/#{@artist.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @artist.facebook_page.blank?
           = link_to '', "http://twitter.com/#{@artist.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @artist.twitter_page.blank?
         .heading

@@ -34,10 +34,8 @@ module ApplicationHelper
      end
    end
   
-  def get_fan_profile_image(user, my_avatar = false)
-    actor     = current_actor
-    my_avatar = actor == user
-    if my_avatar       
+  def get_fan_profile_image(user, my_avatar = false)    
+    if my_avatar
       raw (render :partial => '/bricks/fan_profile_image', :locals => {:user => user})
     else
       if user.profile_pic
@@ -64,9 +62,7 @@ module ApplicationHelper
     end
   end
   
-  def get_artist_profile_image(artist, self_logo = false)
-    actor     = current_actor
-    self_logo = actor == artist
+  def get_artist_profile_image(artist, self_logo = false)    
     random_profile_images = ["profile/artist-defaults-photo-profile-a.jpg", "profile/artist-defaults-photo-profile-b.jpg", "profile/artist-defaults-photo-profile-c.jpg", "profile/artist-defaults-photo-profile-d.jpg"]
     if self_logo
       raw (render :partial => '/bricks/artist_profile_image', :locals => {:artist => artist})

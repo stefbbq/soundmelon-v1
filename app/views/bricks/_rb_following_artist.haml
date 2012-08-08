@@ -1,8 +1,13 @@
 - selected    ||=false
 - link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-fan backable' : 'selection-box iconactive ajaxload backable'
+- unless @is_public
+  - header_link = fan_following_artists_path('home')
+- else
+  - header_link = fan_following_artists_path(user)
+
 %div
   - if following_artist_count > 0
-    = link_to fan_following_artists_path(:id => user.id), {:id => 'following-artist', :class => link_class, :remote => true} do
+    = link_to header_link, {:id => 'following-artist', :class => link_class, :remote => true} do
       following
       %span.count{:id=>'followingartistcount'}
         = pluralize(following_artist_count, 'artist')

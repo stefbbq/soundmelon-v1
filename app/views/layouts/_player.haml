@@ -50,8 +50,7 @@
   var currentUser         = #{current_user ? 1 : 0};
   var currentTrack        = 0;
   var currentTrackItemId  = 0;
-  var player              = $("#sm_jplayer");
-  var firstLoad           = 1; 
+  var player              = $("#sm_jplayer");  
 
   $(document).ready(function(){
     setCurrentTrack();
@@ -86,7 +85,8 @@
       playListPrev();
     }
   }
-  ); // Listen for Previous Track button click
+  );
+  // Listen for Previous Track button click
     $("#jp-next").click(function(event) {
       if(currentUser==1){
         playListNext();event.stopPropagation();
@@ -102,8 +102,7 @@
         {
           currentTrack = parseInt($.cookie(currentTrackVarName));
           $('.info .note').hide();
-          $('.info .main').show();
-          firstLoad    = 0;
+          $('.info .main').show();          
         }
       }catch(err){}
     }
@@ -115,21 +114,16 @@
         playListChange(0, 0);
     }
 
-    function updateTrackInfo(b,u,t,i,l){
-      if(!firstLoad)
-      {      
-        var url         = '#{show_artist_url('abc').gsub("/abc", "")}/' + u;
-        var artist_html = currentUser ? '<a href="'  + url + '" class="ajaxopen backable" data-remote="true">' + b +'</a>' : b;
-        $('.info .note').hide();
-        $('.info .main').show();
-        $('.info .artist-title').html("by " + artist_html);
-        $('.info .song-title').html(t);
-        $('.info img').attr('src', i);
-        if(l){$('a#alike').addClass('jp-like-active');}
-        else{$('a#alike').removeClass('jp-like-active');}
-        //enable like/dislike
-        $('a#alike').on('click', doLike);
-      }
+    function updateTrackInfo(b,u,t,i,l){            
+      var url         = '#{show_artist_url('abc').gsub("/abc", "")}/' + u;
+      var artist_html = currentUser ? '<a href="'  + url + '" class="ajaxopen backable" data-remote="true">' + b +'</a>' : b;
+      $('.info .artist-title').html("by " + artist_html);
+      $('.info .song-title').html(t);
+      $('.info img').attr('src', i);
+      if(l){$('a#alike').addClass('jp-like-active');}
+      else{$('a#alike').removeClass('jp-like-active');}
+      //enable like/dislike
+      $('a#alike').on('click', doLike);      
     }
   
     function trackInfoForEmptyPlaylist(){
@@ -143,6 +137,8 @@
 
     function afterPlayStart(){
       var index = currentTrack;
+      $('.info .note').hide();
+      $('.info .main').show();      
       if(!player.data('jPlayer').status.paused){
         $('.jp-playlist ul li').removeClass('current');
         $("li#litem_" + index).addClass('current');

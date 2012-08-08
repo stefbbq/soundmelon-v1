@@ -17,8 +17,8 @@ class UserController < ApplicationController
       elsif home_actor.instance_of?(Artist)
         @artist                     = home_actor
         @is_artist                  = true
-        @from_home                  = true
-        @is_home                    = true
+        @from_home                  = true        
+        @has_link_access            = true
         get_artist_associated_objects(@artist)
         render "/artist/index" and return
         #---------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ class UserController < ApplicationController
           set_current_fan_artist(@artist.id)
           @actor                      = current_actor
           @is_artist                  = true
-          @is_home                    = true
+          @has_link_access            = true
           get_artist_mentioned_posts(@artist)
           #----------Get Objects------------------------------------------------------------
           get_artist_associated_objects(@artist)

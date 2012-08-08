@@ -15,6 +15,7 @@ class FanPublicController < ApplicationController
       next_page               = @posts.next_page
       @load_more_path         = next_page ? user_more_post_path(@user, :page => next_page) : nil
       get_fan_objects_for_right_column(@user)
+      @is_public              = true
     else
       redirect_to fan_home_path, :error => "No user has been found with this user id" and return
     end
@@ -33,6 +34,7 @@ class FanPublicController < ApplicationController
         next_page             = @posts.next_page
         @load_more_path       = next_page ? user_more_post_path(@user, :page => next_page) : nil
         get_fan_objects_for_right_column(@user)
+        @is_public            = true
       else
         render :nothing =>true and return
       end

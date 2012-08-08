@@ -1,8 +1,13 @@
 - selected    ||=false
 - link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
+- unless @is_public
+  - header_link = artist_followers_path('home')
+- else
+  - header_link = artist_followers_path(artist)
+
 %div
-  - if fan_count >0 || @has_admin_access
-    = link_to artist_followers_path(artist), {:remote =>:true, :id =>'fanbox', :class =>link_class} do
+  - if fan_count >0 || @has_link_access
+    = link_to header_link, {:remote =>:true, :id =>'fanbox', :class =>link_class} do
       %span.count{:id=>'followercount'}
         = fan_count
       - if fan_count > 1 || fan_count == 0

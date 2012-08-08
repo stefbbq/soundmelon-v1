@@ -1,6 +1,6 @@
 class ArtistPhotoController < ApplicationController
   before_filter :require_login
-  before_filter :check_and_set_admin_access
+  before_filter :check_and_set_admin_access 
   
   def index
     begin      
@@ -310,9 +310,22 @@ class ArtistPhotoController < ApplicationController
   # finds the artist profile by artist_name parameter, and checks whether the current login is artist or fan
   # and accordingly sets the variable @has_admin_access to be used in views and other actions
   def check_and_set_admin_access
-    @artist           = Artist.where(:mention_name => params[:artist_name]).first
-    @actor            = current_actor
-    @has_admin_access = @artist == @actor
+    begin
+      if params[:artist_name] == 'home'
+        @artist           = @actor
+        @has_admin_access = @artist == @actor
+        @has_link_access  = @has_admin_access
+      else
+        @artist           = Artist.where(:mention_name => params[:artist_name]).first
+        @is_public        = true
+        @has_link_access  = false
+      end      
+    rescue
+      @artist             = nil
+    end
+    unless @artist
+      render :template =>"bricks/page_missing" and return
+    end
   end
   
 end

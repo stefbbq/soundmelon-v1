@@ -11,7 +11,7 @@
     .title
       = song.title
   .artist-content-actions-sm
-    - if @has_admin_access
+    - if @has_link_access
       .text-actions
         = link_to 'edit', song_edit_path(artist, song.id), :remote =>:true, :class =>'ajaxopen'
         = link_to 'remove', delete_song_path(artist, song.id), :remote =>:true, :class =>'ajaxopen', :confirm => 'Are you sure?'

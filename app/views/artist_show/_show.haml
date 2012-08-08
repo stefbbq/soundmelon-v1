@@ -12,7 +12,7 @@
         .buzz-icon
         buzz
   .bottom
-    - if @has_admin_access
+    - if @has_link_access
       .controls
         = link_to "edit", edit_artist_show_path(@artist, artist_show.id), :remote=>:true, :class=>"ajaxopen"
         = link_to "remove", delete_artist_show_path(@artist, artist_show.id), :remote=>:true, :class=>"ajaxopen"

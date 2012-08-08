@@ -7,15 +7,15 @@ Soundmelon::Application.routes.draw do
   get "artist/index"
 
   # pages and feedback
-  get "feedbacks"                             => "user#feedback_page",              :as => :feedback_start
-  match "/feedback/send"                      => "user#give_feedback",              :as => :send_feedback
-  get 'page/:page_name'                       => 'page#show',                       :as => :page
+  get "feedbacks"                               => "user#feedback_page",              :as => :feedback_start
+  match "/feedback/send"                        => "user#give_feedback",              :as => :send_feedback
+  get 'page/:page_name'                         => 'page#show',                       :as => :page
   #global
   get "search/index"
-  get 'logout'                                => 'sessions#destroy',                :as => :logout
-  post 'login'                                => 'sessions#create',                 :as => :login
+  get 'logout'                                  => 'sessions#destroy',                :as => :logout
+  match 'login'                                 => 'sessions#create',                 :as => :login
 
-  get 'ChangeLogin(/:artist_name)'            => 'user#change_login',               :as => :change_login
+  get 'ChangeLogin(/:artist_name)'              => 'user#change_login',               :as => :change_login
 
   # administrator section
   get '/home/admin/feedbacks'                   => 'admin#feedbacks',                 :as => :admin_feedbacks_list
@@ -32,11 +32,11 @@ Soundmelon::Application.routes.draw do
   match 'home/messages'                         => 'messages#inbox',                  :as => :user_inbox #messages
 
   #-------------------------------------------- followings, followers, follower artists, follower fans ---------------
-  get 'fan/:id/followers(/:page)'               => 'user_connections#fan_followers',          :as => :fan_followers
+  get ':id/followers(/:page)'                   => 'user_connections#fan_followers',          :as => :fan_followers
   get ':artist_name/fans(/:page)'               => 'user_connections#artist_followers',       :as => :artist_followers
   get ':artist_name/connections(/:page)'        => 'user_connections#artist_connections',     :as => :artist_connections
-  get 'fan/following/fans/:id(/:page)'          => 'user_connections#fan_following_fans',     :as => :fan_following_fans # id: following items
-  get 'fan/following/artists/:id(/:page)'       => 'user_connections#fan_following_artists',  :as => :fan_following_artists # id: following items
+  get ':id/following/fans(/:page)'              => 'user_connections#fan_following_fans',     :as => :fan_following_fans # id: following items
+  get ':id/following/artists(/:page)'           => 'user_connections#fan_following_artists',  :as => :fan_following_artists # id: following items
   
   #fan functions
   get 'home/artists'                            => 'user#pull_artist_profiles',             :as => :associated_artist
@@ -178,7 +178,6 @@ Soundmelon::Application.routes.draw do
   get ':song_name/:id/like(/:do_like)'              => 'artist_music#do_like_dislike_song',       :as => :like_song
   
   root :to => 'home#index'
-
   
   #--------------------------------------------UserConnections----------------------------------------------------
   # follow/un-follow artist

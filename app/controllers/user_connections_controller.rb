@@ -1,5 +1,7 @@
 class UserConnectionsController < ApplicationController
   before_filter :require_login
+  before_filter :check_and_set_admin_access, :only =>[:artist_connections, :artist_followers]
+  before_filter :check_and_set_admin_access_fan, :only =>[:fan_followers, :fan_following_artists, :fan_following_fans ]
 
   # from the list of own profile[1]
   # from fan's profile(update fan's right list of followers)[2]
@@ -135,12 +137,8 @@ class UserConnectionsController < ApplicationController
 
   def artist_followers    
     begin
-      if params[:artist_name]   # artist item
-        @actor                  = current_actor
-        @artist                   = Artist.find_artist params
-        @followers              = @artist.followers params[:page]
-        get_artist_objects_for_right_column(@artist)
-      end
+      @followers              = @artist.followers params[:page]
+      get_artist_objects_for_right_column(@artist)
       respond_to do |format|
         format.js and return
         format.html and return
@@ -152,13 +150,9 @@ class UserConnectionsController < ApplicationController
   end
 
   def artist_connections
-    begin
-      if params[:artist_name]   # artist item
-        @actor                  = current_actor
-        @artist                   = Artist.find_artist params
-        @connections            = @artist.connected_artists params[:page]
-        get_artist_objects_for_right_column(@artist)
-      end
+    begin      
+      @connections            = @artist.connected_artists params[:page]
+      get_artist_objects_for_right_column(@artist)      
       respond_to do |format|
         format.js and return
         format.html and return
@@ -170,9 +164,7 @@ class UserConnectionsController < ApplicationController
   end
 
   def fan_followers    
-    begin
-      @actor                    = current_actor
-      @user                     = User.find(params[:id])
+    begin    
       @followers                = @user.followers params[:page]
       get_fan_objects_for_right_column(@user)
       respond_to do |format|
@@ -186,12 +178,8 @@ class UserConnectionsController < ApplicationController
   end
 
   def fan_following_artists    
-    begin
-      if params[:id]
-        @actor                  = current_actor
-        @user                   = User.find(params[:id])
-        @fan_following_artists  = @user.following_artists.page(1).per(FOLLOWING_FOLLOWER_PER_PAGE)
-      end
+    begin          
+      @fan_following_artists  = @user.following_artists.page(1).per(FOLLOWING_FOLLOWER_PER_PAGE)      
       get_fan_objects_for_right_column(@user)
       respond_to do |format|
         format.js and return
@@ -204,12 +192,8 @@ class UserConnectionsController < ApplicationController
   end
 
   def fan_following_fans    
-    begin
-      if params[:id]
-        @actor                  = current_actor
-        @user                   = User.find(params[:id])        
-        @following_fans         = @user.following_users.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)
-      end
+    begin 
+      @following_fans         = @user.following_users.page(params[:page]).per(FOLLOWING_FOLLOWER_PER_PAGE)    
       get_fan_objects_for_right_column(@user)
       respond_to do |format|
         format.js and return
@@ -218,6 +202,47 @@ class UserConnectionsController < ApplicationController
     rescue => exp
       logger.error "Error in UserConnections#FanFollowingFans : #{exp.message}"
       render :nothing => true and return
+    end
+  end
+
+  protected
+
+  def check_and_set_admin_access_fan
+    begin
+      if params[:id] == 'home'
+        @user             = @actor
+        @has_admin_access = @artist == @actor
+        @has_link_access  = @has_admin_access
+      else
+        @user             = User.find(params[:id])
+        @is_public        = true
+        @has_link_access  = false
+      end
+    rescue
+      @user             = nil
+    end
+    unless @user
+      render :template =>"bricks/page_missing" and return
+    end
+  end
+
+
+  def check_and_set_admin_access
+    begin
+      if params[:artist_name] == 'home'
+        @artist           = @actor
+        @has_admin_access = @artist == @actor
+        @has_link_access  = @has_admin_access
+      else
+        @artist           = Artist.where(:mention_name => params[:artist_name]).first
+        @is_public        = true
+        @has_link_access  = false
+      end
+    rescue
+      @artist             = nil
+    end
+    unless @artist
+      render :template =>"bricks/page_missing" and return
     end
   end
     

@@ -7,4 +7,4 @@
           = render '/user_connections/item', :user => user, :connection_item => @user, :is_user_fan => true
       = paginate @followers, :remote => true
     .right
-      = render '/fan_public/right', :current =>'follower_user'
+      = render '/fan/right', :current =>'follower_user'

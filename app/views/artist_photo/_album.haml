@@ -16,7 +16,7 @@
   .bottom
     .stat{:id =>"photo_stat_#{artist_album.id}"}
       = pluralize(artist_album.photo_count, 'photo')
-    - if @has_admin_access
+    - if @has_link_access
       .controls
         = link_to "add", add_photos_to_album_path(artist_album.artist, artist_album.name), {:remote=>:true, :class=>"ajaxopen", :title =>"add new photo"}
         = link_to "edit", edit_album_path(@artist, artist_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"edit_link_#{artist_album.id}"
