@@ -330,6 +330,10 @@
 	
 	//
 	//content areas
+	.instruct-img {
+		float: right;
+	}
+	
 	.area {
 		@include border-radius($border-radius / 2);
 		background: $content-box-color;
@@ -504,7 +508,7 @@
 		}
 	}
 	
-	.content-action-space {
+	.content-actions {
 		display: block; 
 		margin: 5px 0 18px 0; 
 		text-align: right; 

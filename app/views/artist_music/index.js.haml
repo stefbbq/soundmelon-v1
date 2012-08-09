@@ -1,16 +1,15 @@
 - song_albums = capture do
-  - if @has_link_access
-    = render 'featured_songs', :featured_songs =>@artist.featured_songs
   .clear
   .album-list
-    - if @artist_music_list.empty?
-      - if @has_link_access
-        .add-action-space
-          share your music
-          = link_to "add music", new_artist_music_path(@artist), :remote=>:true, :class=>"ajaxopen add-new", :title =>'add new album'
-    - else
-      - @artist_music_list.each do |music|
-        = render 'artist_music', :artist_music =>music, :show_all =>@show_all || false
+    - if @has_link_access
+      .content-actions
+        = link_to "add album", new_artist_music_path(@artist), :remote=>:true, :class=>"ajaxopen add-new", :title =>'add new album'
+      - if @artist_music_list.empty?
+        %img{:src => "/assets/tutorial/artist-instruct-music.png", :class => "instruct-img"}
+      - else
+        = render 'featured_songs', :featured_songs =>@artist.featured_songs
+    - @artist_music_list.each do |music|
+      = render 'artist_music', :artist_music =>music, :show_all =>@show_all || false
 $('.primary .left').html('#{escape_javascript song_albums}'); 
 $('.primary .right').html('#{escape_javascript(render "/artist_public/right", :current =>'music')}');
 closeFacebox(100);
