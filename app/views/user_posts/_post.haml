@@ -107,10 +107,6 @@
         .actions
           #{action_section}
       .body
-        = post.id
-        %br/
-        = post.ancestry
-        %br/
         - if is_newsfeed
           - if actor
             #{newsfeed_message(post, post_item).last}
