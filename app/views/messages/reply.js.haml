@@ -3,4 +3,4 @@
 - if @new_message
   $('#conversation_#{@conversation.id} a.add-message').remove();  
   $('#conversation_#{@conversation.id} .message-section').prepend('#{escape_javascript(render 'message_item', :message =>@new_message, :newest_message =>true, :last_message =>true, :conv_id =>@conversation.id)}');
-closeFacebox(100);
+closeFacebox(1);

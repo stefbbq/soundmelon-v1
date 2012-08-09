@@ -29,9 +29,9 @@ class UserPostsController < ApplicationController
   end
   
   def create
-    actor = current_actor
-    @post = actor.posts.build(params[:post])
-    if @post.save
+    actor     = @actor
+    @new_post = actor.posts.build(params[:post])
+    if @new_post.save
       respond_to do |format|
         format.html { redirect_to fan_home_path, notice: 'Successfully Posted.' }
         format.js {render :layout => false }
@@ -40,14 +40,17 @@ class UserPostsController < ApplicationController
   end
  
   def destroy
-    @post = Post.where(:id => params[:id]).includes(:user, :artist).first
-    if !@post.user.nil? && @post.user == current_user
-      @post.is_deleted = true
-      @post.destroy
-    elsif !@post.artist.nil? && current_user.is_admin_of_artist?(@post.artist)   
-      @post.is_deleted = true
-      @post.destroy
-    end    
+    begin
+      @post               = Post.where(:id => params[:id]).includes(:user, :artist).first
+      @parent_post_id     = @post.ancestry
+      actor_has_access    = @actor.is_fan? ? (@post.user_id == @actor.id) : (@post.artist_id == @actor.id)
+      if actor_has_access
+        @post.destroy
+      end
+    rescue =>exp
+      logger.error "Error in UserPosts::Destroy :=>#{exp.message}"
+      @post = nil
+    end
     respond_to do |format|
       format.html { redirect_to fan_home_path }
       format.js {render :layout => false }
@@ -57,15 +60,15 @@ class UserPostsController < ApplicationController
   def new_reply
     if request.xhr?
       begin
-        actor                 = current_actor
+        actor                 = @actor
         @parent_post          = Post.find(params[:id])
         #        participating_users_and_artist_mention_names_arr = @parent_post.owner_as_well_as_all_mentioned_users_and_artists_except(actor.id)
       rescue =>exp
         logger.error "Error in UserPosts#NewReply :=> #{exp.message}"
-#        render :nothing => true and return
+        #        render :nothing => true and return
         @parent_post          = nil
       end
-      @post                   = Post.new
+      @new_post               = Post.new
       #      @post.msg               = participating_users_and_artist_mention_names_arr.join(' ')
       respond_to do |format|
         format.js {render :layout => false}
@@ -78,18 +81,23 @@ class UserPostsController < ApplicationController
   def reply
     if request.xhr?
       begin
-        @parent_post              = Post.where('id = ?', params[:parent_post_id]).includes(:artist,:user).first
-        actor                     = current_actor
-        @post                     = actor.posts.build(params[:post])
-        parent_post_writer_user   = @parent_post.artist || @parent_post.user
+        @parent_post                = Post.where('id = ?', params[:parent_post_id]).includes(:artist,:user).first
+        actor                       = @actor
+        params[:post][:reply_to_id] = params[:parent_post_id]
+        @post                       = actor.posts.build(params[:post])
+        parent_post_writer_user     = @parent_post.artist || @parent_post.user
       rescue =>exp
+        @parent_post              = nil
         logger.error "Error in UserPosts::Reply :=>#{exp.message}"
         render :nothing => true and return
       end
-      @post.parent_id = @parent_post.id
-      if @post.save
-        NotificationMail.reply_notification parent_post_writer_user, actor, @post
-        @saved_successfully = true
+      # only if the parent post still exists
+      if @parent_post
+        @post.parent_id             = @parent_post.id
+        if @post.save
+          NotificationMail.reply_notification parent_post_writer_user, actor, @post
+          @saved_successfully = true
+        end
       end
       respond_to do |format|
         format.js {render :layout => false}
@@ -101,8 +109,8 @@ class UserPostsController < ApplicationController
   
   def show_conversation_thread
     if request.xhr?
-      @post       = Post.where(:id => params[:id]).first
-      @posts      = @post.path
+      @main_post  = Post.where(:id => params[:id]).first
+      @posts      = @main_post.path      
       respond_to do |format|
         format.js {render :layout => false}
       end
@@ -133,8 +141,8 @@ class UserPostsController < ApplicationController
   end
   
   def replies
-    @user                 = @actor
-    @has_link_access      = true
+    @user                         = @actor
+    @has_link_access              = true
     if @user.is_fan?
       @posts                      = @user.replies_post(params[:page])
       @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}

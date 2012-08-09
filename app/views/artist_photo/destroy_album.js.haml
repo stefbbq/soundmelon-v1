@@ -1,6 +1,11 @@
 - if @status
   faceboxContent('Album successfully deleted');
   updateAfterPhotoAlbumRemoval('#{@artist_album.id}');
+  - empty_list_content = capture do
+    .content-actions
+      = link_to "add album", new_artist_album_path('home'), :remote=>:true, :class=>"ajaxopen add-new"
+    %img{:src => "/assets/tutorial/artist-instruct-photos.png", :class => "instruct-img"}
+  if($('.left #photo_album_box').length > 0){if($('.left #photo_album_box .artist_album').length==0){$('.left #photo_album_box').html('#{escape_javascript(empty_list_content)}');}}
 - else
   faceboxContent("Something went wrong! Try again!");
 closeFacebox(100);

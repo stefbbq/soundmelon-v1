@@ -1,15 +1,15 @@
-- date  = @post.created_at.strftime("%Y%m%d")
-- month = @post.created_at.strftime("%b")
-- day   = @post.created_at.strftime(" %d")
+- date  = @new_post.created_at.strftime("%Y%m%d")
+- month = @new_post.created_at.strftime("%b")
+- day   = @new_post.created_at.strftime(" %d")
 != "$('#user_post_form')[0].reset();"
 if($('.user_posts .msg').length>0){$('.user_posts').html('');}
 $('.status-input input[type=checkbox]').attr("disabled", "disabled");
 $('.status-input .pin .text').css('color', '#555');
 $('.post-btn').css({ opacity: .6 });
-- if @post.is_bulletin
+- if @new_post.is_bulletin
   != "if($('#pin-board div').length==0){$('.pinned-posts').prepend('<date id=\"pin-board\"><div><h1>pinned</h1></div></date>');}"
-  != "$('.pinned-posts').append('#{escape_javascript(render 'user_posts/post', :post => @post)}');"
+  != "$('.pinned-posts').append('#{escape_javascript(render 'user_posts/post', :post => @new_post)}');"
 - else
   != "if($('.user_posts #date_#{date}').length==0){$('.user_posts').prepend('<date id=\"date_#{date}\"><div><h1>#{month}</h1><h2>#{day}</h2></div></date>');}"
-  != "$('#{escape_javascript(render 'user_posts/post', :post => @post)}').insertAfter($('.user_posts #date_#{date}'));"
+  != "$('#{escape_javascript(render 'user_posts/post', :post => @new_post)}').insertAfter($('.user_posts #date_#{date}'));"
 closeFacebox(100);

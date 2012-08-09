@@ -1,10 +1,25 @@
-- @actor          ||= current_actor
 - actor           = @actor
 - artist          = post.artist_id.blank? ? nil : post.artist
 - user            = post.user_id.blank? ? nil : post.user
 - post_item       = post.postitem
 - is_newsfeed     = post.is_newsfeed
 - buzz_content    = ""
+
+
+- is_author_artist_profile  = (@artist && artist) && @artist == artist
+- is_author_fan_profile     = (@user && user) && @user == user
+- self_post                 = is_author_artist_profile || is_author_fan_profile
+- hide_thread_link          ||= false
+- hide_reply_link           ||= false
+- divclass                  ||= ''
+- post_div_id               ||= "post_#{post.id}"
+
+- self_owner      = post.user == actor
+- self_actor      = user == actor || artist == actor
+- item_div_class  = self_owner ? 'content' : 'content-mentioned'
+- reply_form_div  = "post_reply_form_div_#{post.id}"
+- reply_form_id   = "post_reply_form_#{post.id}"
+- can_have_reply  = !hide_reply_link && !is_newsfeed
 
 - unless is_newsfeed
   - if post_item
@@ -27,21 +42,12 @@
             %i
             %span buzz
   
-- is_author_artist_profile  = (@artist && artist) && @artist == artist
-- is_author_fan_profile     = (@user && user) && @user == user
-- self_post                 = is_author_artist_profile || is_author_fan_profile
-- hide_thread_link          ||= false
-- divclass                  ||=''
-
-- self_owner      = post.user == actor
-- self_actor      = user == actor || artist == actor
-- item_div_class  = self_owner ? 'content' : 'content-mentioned'
 
 - writer_header = capture do
   - if artist
     = is_author_artist_profile ? artist.name : (link_to artist.name, show_artist_path(artist), :class => 'ajaxopen backable', :remote => :true, :title => artist.name)  
   -elsif user
-    = is_author_fan_profile ? user.fname : (link_to user.get_full_name, fan_profile_path(post.user), :class => 'ajaxopen backable', :remote => :true, :title => user.get_full_name)
+    = is_author_fan_profile ? user.get_full_name : (link_to user.get_full_name, fan_profile_path(post.user), :class => 'ajaxopen backable', :remote => :true, :title => user.get_full_name)
 
 - content_header = capture do
   - if post.is_newsfeed?
@@ -59,7 +65,6 @@
   - else
     wrote this  
   #{timeago(post.created_at)}
-
 - action_section = ''
 - unless is_newsfeed
   - action_section = capture do
@@ -71,12 +76,16 @@
           %i
           %span delete
       - else
-        = link_to new_post_reply_path(post), :class=>'action-reply ajaxopen', :remote => true do
-          %i
-          %span reply
+        - if can_have_reply          
+          = link_to "javascript:void(0);", :class=>'action-reply', :onclick =>"$('##{reply_form_div}').toggle();" do
+            %i
+            %span reply
 
-= div_for post, {:class => 'entry'} do
+%div{:class => 'post entry', :id=>post_div_id}
   %div{:class=>"#{divclass}"}
+    - if can_have_reply
+      .post-reply-form{:id =>reply_form_div, :style =>'display:none;margin-top:5px;'}
+        = render '/user_posts/reply_form', :parent_post =>post, :form_id =>reply_form_id
     .avatar
       - if user
         - if is_author_fan_profile
@@ -98,6 +107,10 @@
         .actions
           #{action_section}
       .body
+        = post.id
+        %br/
+        = post.ancestry
+        %br/
         - if is_newsfeed
           - if actor
             #{newsfeed_message(post, post_item).last}
@@ -111,5 +124,5 @@
             = post_msg_with_artist_mention(post, 'force-login') unless post.is_newsfeed?
             #{post_message(post, post_item, 'force-login').last}
     .clear
-    - if post.ancestry && !hide_thread_link && actor
+    - if post.ancestry && !hide_thread_link && actor      
       = link_to 'expand conversation', get_show_conversation_thread_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"

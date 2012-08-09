@@ -3,7 +3,11 @@
   $('#showbox #artist_show_#{@artist_show.id}').remove();
   $('#artist_show_#{@artist_show.id}').remove();
   $('#artist_show_#{@artist_show.id}').remove();
-  if($('.show-list').length > 0){if($('.show-list .artist_show').length==0){$('.show-list').html('Artist has not set any show dates!');}}
+  - empty_list_content = capture do
+    .content-actions
+      = link_to "add show", new_artist_show_path('home'), :remote=>:true, :class=>"ajaxopen add-new", :title => "add new show"
+    %img{:src => "/assets/tutorial/artist-instruct-shows.png", :class => "instruct-img"}
+  if($('.show-list').length > 0){if($('.show-list .artist_show').length==0){$('.show-list').html('#{escape_javascript(empty_list_content)}');}}
 - else
   faceboxContent("Something went wrong! Try again!");
 closeFacebox(1000);

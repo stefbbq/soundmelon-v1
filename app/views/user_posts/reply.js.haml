@@ -1,7 +1,19 @@
-- date  = @post.created_at.strftime("%Y%m%d")
-- month = @post.created_at.strftime("%b")
-- day   = @post.created_at.strftime(" %d")
-- if @saved_successfully 
-  != "if($('.user_posts #date_#{date}').length==0){$('.user_posts').prepend('<date class=\"date\" id=\"date_#{date}\"><div><h1>#{month}</h1><h2>#{day}</h2></div> </date>');}"
-  != "$('#{escape_javascript(render 'user_posts/post', :post => @post)}').insertAfter($('.user_posts #date_#{date}'));"
-closeFacebox(1);
+- if @saved_successfully
+  - date            = @post.created_at.strftime("%Y%m%d")
+  - month           = @post.created_at.strftime("%b")
+  - day             = @post.created_at.strftime(" %d")
+  - parent_div      = "post_#{@parent_post.id}";
+  - reply_form_div  = "post_reply_form_div_#{@parent_post.id}"
+  - reply_form_id   = "post_reply_form_#{@parent_post.id}"  
+  :plain    
+    $('form##{reply_form_id}')[0].reset();
+    $('form##{reply_form_id} textarea').css('height','25px');
+    $('div##{reply_form_div}').hide();
+
+    if($('.user_posts #date_#{date}').length==0){$('.user_posts').prepend('<date class=\"date\" id=\"date_#{date}\"><div><h1>#{month}</h1><h2>#{day}</h2></div> </date>');}
+    $('#{escape_javascript(render 'user_posts/post', :post => @post)}').insertAfter($('.user_posts #date_#{date}'));
+    closeFacebox(1);
+- else
+  - if @parent_post.blank?
+    facebooxContent('post you are trying to reply has already been removed');
+    closeFacebox(1000);

@@ -11,10 +11,11 @@ class ArtistPhoto < ActiveRecord::Base
     :path => ":rails_root/public/sm/artist/photos/:normalized_file_name.:extension",
     :url => "/sm/artist/photos/:normalized_file_name.:extension",
     :styles => {
-      :large  => ["800x800>", :jpeg],
-      :medium => ["300x300>", :jpeg],
-      :thumb  => ["35x35#", :jpeg]
-    }
+      :large  => ["800x800#", :jpeg],
+      :medium => ["300x300#", :jpeg],
+      :thumb  => ["35x35!", :jpeg]
+    },
+    :processors => [:resizer]
 
 #  validates_attachment_content_type :image, :content_type => ['image/jpeg', 'image/png', 'image/jpg']
   validates_attachment_size :image, :less_than => 5.megabytes
@@ -47,4 +48,10 @@ class ArtistPhoto < ActiveRecord::Base
   def artist
     self.artist_album.artist
   end
+
+
+  def reprocess
+    self.image.reprocess!
+  end
+
 end

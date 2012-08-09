@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120722070901) do
+ActiveRecord::Schema.define(:version => 20120809104308) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -245,6 +245,16 @@ ActiveRecord::Schema.define(:version => 20120722070901) do
   add_index "messages", ["ancestry"], :name => "index_messages_on_ancestry"
   add_index "messages", ["sent_messageable_id", "received_messageable_id"], :name => "acts_as_messageable_ids"
 
+  create_table "newsfeeds", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.string   "newsitem_type"
+    t.integer  "newsitem_id"
+    t.string   "msg"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "notifications", :force => true do |t|
     t.string   "type"
     t.text     "body"
@@ -309,6 +319,7 @@ ActiveRecord::Schema.define(:version => 20120722070901) do
     t.string   "postitem_type"
     t.integer  "postitem_id"
     t.boolean  "is_newsfeed",          :default => false
+    t.integer  "reply_to_id"
   end
 
   add_index "posts", ["ancestry"], :name => "index_posts_on_ancestry"
@@ -388,6 +399,7 @@ ActiveRecord::Schema.define(:version => 20120722070901) do
     t.datetime "last_activity_at"
     t.string   "mention_name"
     t.text     "bio"
+    t.string   "user_type"
     t.integer  "invitation_id"
     t.integer  "invitation_limit"
     t.string   "user_account_type"

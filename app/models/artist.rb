@@ -113,15 +113,11 @@ class Artist < ActiveRecord::Base
   end
 
   def replies_post page = 1
-    replies_post_ids = []
-    ancestry_post_ids = []
-    Post.where('ancestry is not null and is_deleted = ?', false).map do |post|
-      replies_post_ids << post.id
-      ancestry_post_ids << post.ancestry
-    end
-    parent_posts = Post.where(:id => ancestry_post_ids, :artist_id => self.id).map{|post| post.id}
-    post_ids = []
-    posts = Post.where(:id => replies_post_ids, :ancestry => parent_posts).order('created_at desc').paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
+    artist_post_ids   = Post.where('artist_id = ?', self.id).map{|post| post.id}
+    posts             = Post.where('reply_to_id in (?)', artist_post_ids).order('created_at desc').paginate(:page => page, :per_page => POST_PER_PAGE)
+    puts "res"
+    post_ids          = posts.map{|post| post.id}
+    puts "#{post_ids.inspect}"
     mark_replies_post_as_read post_ids
     return posts
   end
@@ -258,15 +254,8 @@ class Artist < ActiveRecord::Base
   end
 
   def unread_post_replies
-    replies_post_ids = []
-    ancestry_post_ids = []
-    Post.where('ancestry is not null and is_read = ? and is_deleted = ?', UNREAD, false).map do |post|
-      replies_post_ids << post.id
-      ancestry_post_ids << post.ancestry
-    end
-    parent_posts = Post.where(:id => ancestry_post_ids, :artist_id => self.id).map{|post| post.id}
-    Post.where(:id => replies_post_ids, :ancestry => parent_posts, :is_read => UNREAD)
-    #Post.joins('INNER JOIN posts as c').where('posts.id = c.ancestry and c.ancestry is not null and c.is_read = ? and posts.user_id = ?', UNREAD, self.id)
+    user_post_ids = Post.where('artist_id = ?', self.id).map{|post| post.id}
+    Post.where('reply_to_id in (?) and is_read = ?', user_post_ids, UNREAD)    
   end
 
 end

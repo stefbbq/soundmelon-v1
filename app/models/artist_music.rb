@@ -20,9 +20,10 @@ class ArtistMusic < ActiveRecord::Base
     :small =>   ['35x35#',:jpg],
     :medium =>  ['100x100>',:jpg],
     :large =>   ['300x180#',:jpg]
-  },
+    },
     :path   => ":rails_root/public/sm/artist/song/photos/:normalized_file_name.:extension",
-    :url    => "/sm/artist/song/photos/:normalized_file_name.:extension"
+    :url    => "/sm/artist/song/photos/:normalized_file_name.:extension",
+    :processors => [:resizer]
 
   validates_attachment_content_type :cover_img, :content_type => ['image/jpeg', 'image/png', 'image/jpg']
   validates_attachment_size :cover_img, :less_than => 5.megabytes

@@ -1,22 +1,12 @@
-.status-input
- = form_tag(post_reply_path, :class=>"ajaxopen", :remote => true, :id => 'user_post_form') do
-  = hidden_field_tag :parent_post_id, @parent_post.id if @parent_post  
-  = hidden_field_tag :artist_id, @artist.id if @artist
-  = text_area :post, :msg, :class=>"input-box mention" ,:maxlength => 200, :cols => 50, :rows => 10
+- parent_post ||= nil
+- artist      ||= nil
+- form_id     ||= 'user_post_form'
+.post-reply-input
+ = form_tag(post_reply_path, :class=>"ajaxopen", :remote => true, :id => form_id) do
+  = hidden_field_tag :parent_post_id, parent_post.id if parent_post  
+  = hidden_field_tag :artist_id, artist.id if artist
+  = text_area :post, :msg, :class=>"input-box mention" ,:maxlength => 200, :cols => 100, :rows => 3
   .postbtn
-   = submit_tag('Post',:class=>"button blue right")
+   = submit_tag('Reply',:class=>"button blue")
   .clear
   %span.inputerror
-
-:javascript
-$(function () {
-  $('textarea.mention').mentionsInput({
-    onDataRequest:function (mode, query, callback) {
-      var data = [
-      #{user_mention_lists current_user}
-      ];
-      data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
-      callback.call(this, data);
-    }
-  });
-});

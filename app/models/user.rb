@@ -154,15 +154,9 @@ class User < ActiveRecord::Base
   end
   
   def replies_post page=1
-    replies_post_ids  = []
-    ancestry_post_ids = []
-    Post.where('ancestry is not null and is_deleted = ?', false).map do |post| 
-      replies_post_ids << post.id
-      ancestry_post_ids << post.ancestry
-    end
-    parent_posts      = Post.where(:id => ancestry_post_ids, :user_id => self.id).map{|post| post.id}
-    post_ids          = []
-    posts             = Post.where(:id => replies_post_ids, :ancestry => parent_posts).order('created_at desc').paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
+    user_post_ids     = Post.where('user_id = ?', self.id).map{|post| post.id}
+    posts             = Post.where('reply_to_id in (?)', user_post_ids).order('created_at desc').paginate(:page => page, :per_page => POST_PER_PAGE)
+    post_ids          = posts.map{|post| post.id}
     mark_replies_post_as_read post_ids
     return posts
   end
@@ -175,7 +169,7 @@ class User < ActiveRecord::Base
     artists_from_user_genres      = user_top_genres.map{|ug| ug.artists}
     albums_of_user_genre_artists  = artists_from_user_genres.flatten.map{|artist| artist.artist_musics }.flatten
     for album in albums_of_user_genre_artists
-      song_items << album.songs
+      song_items << album.songs.processed
     end    
     # if empty
     song_items = Song.all(:limit =>number_of_songs) if song_items.empty?
@@ -251,7 +245,7 @@ class User < ActiveRecord::Base
     self.invitation = Invitation.find_by_token(token)
   end
   
-  private
+#  private
 
   def set_invitation_limit
     self.invitation_limit = 5
@@ -276,15 +270,8 @@ class User < ActiveRecord::Base
   end
   
   def unread_post_replies
-    replies_post_ids = []
-    ancestry_post_ids = []
-    Post.where('ancestry is not null and is_read = ? and is_deleted = ?', UNREAD, false).map do |post| 
-      replies_post_ids << post.id
-      ancestry_post_ids << post.ancestry
-    end
-    parent_posts = Post.where(:id => ancestry_post_ids, :user_id => self.id).map{|post| post.id}
-    Post.where(:id => replies_post_ids, :ancestry => parent_posts, :is_read => UNREAD)
-    #Post.joins('INNER JOIN posts as c').where('posts.id = c.ancestry and c.ancestry is not null and c.is_read = ? and posts.user_id = ?', UNREAD, self.id)
+    user_post_ids = Post.where('user_id = ? and is_newsfeed = 0', self.id).map{|post| post.id}
+    Post.where('reply_to_id in (?) and is_read = ?', user_post_ids, UNREAD)
   end
   
 end

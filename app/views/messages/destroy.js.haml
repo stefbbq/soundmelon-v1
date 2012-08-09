@@ -10,4 +10,4 @@ $('.session .notifications').html('#{escape_javascript(render '/bricks/notificat
   $('.primary .left .social-header').replaceWith('#{escape_javascript(render '/fan/social_header', :current =>'message')}');
 - else
   $('.primary .left .social-header').replaceWith('#{escape_javascript(render '/artist/social_header', :artist =>@actor, :current =>'message')}');
-setTimeout('$(document).trigger(\"close.facebox\")',10);  
+closeFacebox(10);

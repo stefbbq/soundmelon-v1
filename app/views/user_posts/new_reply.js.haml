@@ -1,2 +1,2 @@
-!= "jQuery.facebox('#{escape_javascript(render 'reply_form')} ' );"
+!= "jQuery.facebox('#{escape_javascript(render 'reply_form', :parent_post =>@parent_post, :artist =>@artist)}');"
 != "$('.ajaxopen').bind('ajax:before', function() {jQuery.facebox($('#globalloading').html());$(':submit').attr('disabled','disabled');});" 

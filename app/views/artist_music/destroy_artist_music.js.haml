@@ -1,10 +1,15 @@
 - if @status
-  faceboxContent('Album successfully deleted');
+  faceboxContent('album successfully deleted');
   $('#musicbox #artist_music_#{@artist_music.id}').remove();
   $('.primary .left #artist_music_#{@artist_music.id}').remove();
   $('.featured').replaceWith('#{escape_javascript(render '/artist_music/featured_songs', :featured_songs =>@featured_songs)}');
   var songList = [#{list_of_play_items(@featured_songs)}];
-  makeFeaturedSongList();  
+  makeFeaturedSongList();
+  - empty_list_content = capture do
+    .content-actions
+      = link_to "add album", new_artist_music_path('home'), :remote=>:true, :class=>"ajaxopen add-new", :title =>'add new album'
+    %img{:src => "/assets/tutorial/artist-instruct-music.png", :class => "instruct-img"}
+  if($('.left .album-list').length > 0){if($('.left .album-list .artist_music').length==0){$('.left .album-list').html('#{escape_javascript(empty_list_content)}');}}
 - else
   faceboxContent("Something went wrong! Try again!");
 closeFacebox(1000);

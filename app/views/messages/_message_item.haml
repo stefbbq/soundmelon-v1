@@ -41,6 +41,6 @@
             = link_to message_path(message), :class=>'action-view ajaxload', :remote => true do
               %i
               %span read
-        .body{:id =>"msg_content_#{message.id}"}
+        .body{:id =>"msg_content_#{message.id}"}          
           = message.body.truncate(40)
       .clear
