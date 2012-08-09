@@ -22,7 +22,7 @@
         .jp-volume-marker
     .info
       .note
-        - if @song_items.empty?
+        - unless has_some_songs
           - if @artist.blank?
             no songs
           - else
@@ -77,7 +77,8 @@
       drag:function(event, ui){
         $('.jp-volume-bar-thumb').css('left', (ui.position.left * 1.2) + '%');
       }
-    });
+    });    
+      
   });
   
   $("#jp-pre").click(function() {
@@ -96,7 +97,7 @@
   
   //checks for currently playing track
   function setCurrentTrack(){
-    if(currentUser==1){
+    if(currentUser==1 && playList.length > 0){
       try{
         if($.cookie(currentTrackVarName))
         {

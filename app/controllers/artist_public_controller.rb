@@ -21,8 +21,7 @@ class ArtistPublicController < ApplicationController
         format.html
       end
     else
-      @song_items                   = @artist.songs.limit(5)
-      @no_login                     = false
+      @song_items                   = @artist.songs.processed.limit(5)      
       render :template =>'/artist_public/publicprofile', :layout =>false
     end
   end
@@ -88,7 +87,7 @@ class ArtistPublicController < ApplicationController
         @has_admin_access = @artist == @actor
         @has_link_access  = @has_admin_access        
       else        
-        @artist         = Artist.where(:mention_name => params[:artist_name]).includes(:artist_members).first
+        @artist           = Artist.where(:mention_name => params[:artist_name]).includes(:artist_members).first
         @is_public        = true
         @has_link_access  = false
       end

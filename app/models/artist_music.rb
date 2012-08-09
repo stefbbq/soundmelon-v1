@@ -48,6 +48,10 @@ class ArtistMusic < ActiveRecord::Base
   def download_filename
     "#{self.id}_#{self.album_name}_#{sel.id}.zip"
   end
+  
+  def has_some_processed_songs?
+    !self.songs.processed.empty?
+  end
 
   # create a zipped archive file of all the tracks in an album
   def songs_bundle(songs = self.songs)

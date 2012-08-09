@@ -7,7 +7,7 @@ class Song < ActiveRecord::Base
   has_many    :playlists  
   scope :processed, :conditions =>["is_processed = ?", true]
   scope :featured, :conditions =>["is_featured = ?", true]
-  scope :nonfeatured, :conditions =>["is_featured = ?", false]
+  scope :nonfeatured, :conditions =>["is_featured = ? and is_processed = ?", false, true]
 
   has_attached_file :song,    
     :path => ":rails_root/public/assets/artists/music/:id/:style/:normalized_attachment_file_name",
@@ -195,22 +195,29 @@ class Song < ActiveRecord::Base
     self.delay.convert_song(enforced_conversion)
     # first read from the file
     self.delay.update_metadata_from_file
-    #    # then update to the file read from the file
+    # then update to the file read from the file
     self.delay.update_metadata_to_file
+    # create newsfeed after processing
+    self.create_newsfeed    
   end
 
   def voted_on_by? voter
     up_vote = ActsAsVotable::Vote.find_by_voter_id_and_voter_type_and_votable_id_and_votable_type_and_vote_flag(voter.id,voter.class.name,self.id,self.class.name,1)
     !up_vote.blank?
   end
-
   
   def create_newsfeed
-    Post.create_newsfeed_for self, nil, self.artist_music.artist_id, " added"
+    if self.processed?
+      Post.create_newsfeed_for self, nil, self.artist_music.artist_id, " added"
+    end    
   end
 
   def artist
     self.artist_music.artist
+  end
+
+  def processed?
+    self.is_processed
   end
   
   private  

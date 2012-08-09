@@ -1,53 +1,56 @@
-- show_all ||=false
-- artist_songs_link = @has_link_access ? artist_songs_path('home', artist_music) : artist_songs_path(@artist, artist_music)
-.artist-content[artist_music]
-  .top
-    .cover
-      = link_to get_album_cover_image(artist_music, 'medium'), artist_songs_link, :remote =>:true, :class =>"ajaxopen cover-anchor"
-    .info
-      = link_to artist_songs_link, {:remote=>:true, :class=>"ajaxopen title"} do
-        %h2= artist_music.album_name
-      %h4 
-        added
-        = artist_music.created_at.strftime("%b %d, %Y")
-    .artist-content-actions
-      = link_to download_artist_music_path(@artist, artist_music.id) do
-        %div{:class =>"download-icon"}
-        download
-      = link_to add_album_to_player_playlist_path(artist_music), {:remote => true, :class => 'ajaxopen'} do
-        %div{:class =>"play-icon"}
-        play
-      = link_to add_album_to_playlist_path(artist_music), {:remote => true, :class => 'ajaxopen'} do
-        %div{:class =>"queue-icon"}
-        queue
-      = link_to album_buzz_path(artist_music.album_name, artist_music.id), {:remote => true, :class => 'ajaxopen'} do
-        %div{:class =>"buzz-icon"}
-        buzz
-  .bottom
-    .stat{:id =>"song_stats_#{artist_music.id}"}
-      =# "$#{artist_music.price}"
-      %span{:id =>'song_count'}= pluralize(artist_music.song_count, 'song')
-    - if @has_link_access
-      .controls
-        = link_to "add", add_song_path('home', artist_music ), :remote => true, :class => 'ajaxopen', :title => "add song"
-        = link_to 'edit', edit_artist_music_path('home', artist_music), :remote => true, :class => 'ajaxopen edit', :title => "edit album"
-        = link_to artist_music.disabled? ? 'enable' : 'disable', disable_enable_artist_music_path('home', artist_music), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{artist_music.id}"
-        = link_to 'remove', delete_artist_music_path('home', artist_music.id), :remote=>:true, :class=>"ajaxopen"
-    .toggle
-      - unless show_all
-        .toggle-thread
-          - if @has_link_access
-            = link_to "expand", artist_songs_path('home', artist_music), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_music.id}"
-          - else
-            = link_to "expand", artist_songs_path(@artist, artist_music), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_music.id}"
-      - else
-        .toggle-thread
-          %a{:href => "javascript:void(0);", :onclick => "$('#artist_music_#{artist_music.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
-    .album-details
-      - if show_all
-        - artist_music.songs.each do |song|
-          = render '/artist_music/song_item', :song =>song
-- if @has_link_access
-  = link_to "", add_song_path('home', artist_music), :remote => true, :class => 'ajaxopen'
+- show_all              ||=false
+- artist_songs_link     = @has_link_access ? artist_songs_path('home', artist_music) : artist_songs_path(@artist, artist_music)
+- has_processed_songs   = artist_music.has_some_processed_songs?
+- publicly_visible      = (has_processed_songs || @has_link_access)
+- if publicly_visible
+  .artist-content[artist_music]
+    .top
+      .cover
+        = link_to get_album_cover_image(artist_music, 'medium'), artist_songs_link, :remote =>:true, :class =>"ajaxopen cover-anchor"
+      .info
+        = link_to artist_songs_link, {:remote=>:true, :class=>"ajaxopen title"} do
+          %h2= artist_music.album_name
+        %h4
+          added
+          = artist_music.created_at.strftime("%b %d, %Y")
+      .artist-content-actions
+        = link_to download_artist_music_path(@artist, artist_music.id) do
+          %div{:class =>"download-icon"}
+          download
+        = link_to add_album_to_player_playlist_path(artist_music), {:remote => true, :class => 'ajaxopen'} do
+          %div{:class =>"play-icon"}
+          play
+        = link_to add_album_to_playlist_path(artist_music), {:remote => true, :class => 'ajaxopen'} do
+          %div{:class =>"queue-icon"}
+          queue
+        = link_to album_buzz_path(artist_music.album_name, artist_music.id), {:remote => true, :class => 'ajaxopen'} do
+          %div{:class =>"buzz-icon"}
+          buzz
+    .bottom
+      .stat{:id =>"song_stats_#{artist_music.id}"}
+        =# "$#{artist_music.price}"
+        %span{:id =>'song_count'}= pluralize(artist_music.song_count, 'song')
+      - if @has_link_access
+        .controls
+          = link_to "add", add_song_path('home', artist_music ), :remote => true, :class => 'ajaxopen', :title => "add song"
+          = link_to 'edit', edit_artist_music_path('home', artist_music), :remote => true, :class => 'ajaxopen edit', :title => "edit album"
+          = link_to artist_music.disabled? ? 'enable' : 'disable', disable_enable_artist_music_path('home', artist_music), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{artist_music.id}"
+          = link_to 'remove', delete_artist_music_path('home', artist_music.id), :remote=>:true, :class=>"ajaxopen"
+      .toggle
+        - unless show_all
+          .toggle-thread
+            - if @has_link_access
+              = link_to "expand", artist_songs_path('home', artist_music), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_music.id}"
+            - else
+              = link_to "expand", artist_songs_path(@artist, artist_music), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_music.id}"
+        - else
+          .toggle-thread
+            %a{:href => "javascript:void(0);", :onclick => "$('#artist_music_#{artist_music.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
+      .album-details
+        - if show_all
+          - artist_music.songs.each do |song|
+            = render '/artist_music/song_item', :song =>song
+  - if @has_link_access
+    = link_to "", add_song_path('home', artist_music), :remote => true, :class => 'ajaxopen'
+    .clear
   .clear
-.clear

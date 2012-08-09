@@ -172,7 +172,7 @@ class User < ActiveRecord::Base
       song_items << album.songs.processed
     end    
     # if empty
-    song_items = Song.all(:limit =>number_of_songs) if song_items.empty?
+    song_items = Song.processed(:limit =>number_of_songs) if song_items.empty?
     song_items.flatten
   end
 
