@@ -5,7 +5,7 @@
 - else
   - header_link = artist_musics_path(artist)
 %div
-  - if @has_link_access || song_album_count > 0
+  - if @has_link_access || artist_music_count > 0
     = link_to header_link, {:remote=>:true, :id=>'music', :class=>link_class} do
       music
     = link_to "", new_artist_music_path('home'), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_link_access
@@ -13,9 +13,9 @@
     .selection-box-nohref
       music
   .collection{:id =>'musicbox'}
-    - if song_album_count > 0
+    - if artist_music_count > 0
       %div
-        - song_albums.each do |song_album|
+        - artist_musics.each do |song_album|
           .album{:id => "song_album_#{song_album.id}"}
             - if @has_link_access
               = link_to image_tag('add.png'), add_songs_to_album_path(artist, song_album.album_name ), :remote => true, :class => 'ajaxopen backable'

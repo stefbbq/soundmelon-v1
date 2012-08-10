@@ -10,7 +10,7 @@
         %h1.full-name= @user.get_full_name
       .overlay.overlay-info
         .actions
-          %a{:onclick => "javascript:fanTutorial();", :class => "text-action-no-img"}
+          %a{:onclick => "javascript:fanTutorial();", :class => "text-action-no-img", :id=>'tutorial-link'}
             tutorial
           = link_to "provide feedback", feedback_start_path, :remote => true, :class => "ajaxopen text-action-no-img"
         .heading

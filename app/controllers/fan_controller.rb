@@ -67,9 +67,10 @@ class FanController < ApplicationController
       messages_and_posts_count
       @confirmation_thanks  = true
       @additional_info      = @user.additional_info
-      @payment_info         = @user.payment_info      
+      @payment_info         = @user.payment_info
+      @firstLogin           = true
       #      render 'fan/additional_info' and return
-      redirect_to root_url, :notice => 'User was successfully activated.'
+      redirect_to root_url, :notice => 'User was successfully activated.'      
     else
       redirect_to root_url, :notice => 'Unable to activate your account. Try Again!'
     end

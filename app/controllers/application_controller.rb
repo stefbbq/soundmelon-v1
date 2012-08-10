@@ -53,13 +53,13 @@ class ApplicationController < ActionController::Base
   def get_artist_objects_for_right_column artist
     begin
       @has_admin_access          = @actor == artist
-      @song_album_count          = artist.artist_musics.size
+      @artist_music_count        = artist.artist_musics.size
       @photo_album_count         = artist.artist_albums.size
       @show_count                = artist.upcoming_shows_count
       @artist_member_count       = artist.artist_members.size
       @artist_fan_count          = artist.followers_count
       @artist_connection_count   = artist.connections_count
-      @song_albums               = artist.limited_artist_musics
+      @artist_musics             = artist.limited_artist_musics
       @featured_songs            = artist.limited_artist_featured_songs
       @photo_albums              = artist.limited_artist_albums(2)
       @artist_shows              = artist.limited_artist_shows

@@ -23,8 +23,8 @@
     .info
       .note
         - unless has_some_songs
-          - if @artist.blank?
-            no songs
+          - if has_some_user
+            %span= "no songs online!"
           - else
             %span= @artist.get_name
             has no featured songs
@@ -102,6 +102,8 @@
         if($.cookie(currentTrackVarName))
         {
           currentTrack = parseInt($.cookie(currentTrackVarName));
+          if(currentTrack>=playList.length)
+            currentTrack = 0;
           $('.info .note').hide();
           $('.info .main').show();          
         }
