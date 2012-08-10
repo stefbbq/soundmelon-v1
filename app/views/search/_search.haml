@@ -14,5 +14,8 @@
     var new_url = "#{search_index_path}?q=" + $('input#term').val();
     history.pushState({
       sm:true
-    }, document.title, new_url);    
+    }, document.title, new_url);
+    try{
+       _gaq.push(['_trackPageview', new_url]);
+    }catch(err){}
   });

@@ -129,18 +129,24 @@ $(document).ready( function(){
       history.pushState({
         sm:true
       },document.title, this.href);
+      try{
+       _gaq.push(['_trackPageview', this.href]);
+      }catch(err){}
     }
     return false;
   });
   
   $(window).bind("popstate", function(event){
     var url         = location.href;    
-    if(event.originalEvent.state){      
-      jQuery.facebox($('#globalloading').html());      
+    try{
+      if(loaded_url!=url){
+      jQuery.facebox($('#globalloading').html());
       $.getScript(url,function(data, textStatus, jqxhr){
-        //$(document).trigger("close.facebox");
       });
+      loaded_url = url;
+      _gaq.push(['_trackPageview', url]);
     }
+    }catch(e){}
   });
 });
 

@@ -1,11 +1,11 @@
 !!!
 %html
   %head
-    %title SoundMelon
-    = stylesheet_link_tag    "application"
+    %title SoundMelon    
     /[if IE]
-      = stylesheet_link_tag  "/stylesheets/ie9"
+    = stylesheet_link_tag  "/stylesheets/ie9"
     = javascript_include_tag "application"
+    = stylesheet_link_tag    "application"
     = csrf_meta_tags
     = yield(:head)
     = render '/layouts/analytics'
