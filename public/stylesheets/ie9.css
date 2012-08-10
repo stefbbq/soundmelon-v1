@@ -1,7 +1,7 @@
 /*buttons and popouts*/
 .selection-box, .selection-box-nohref, .social-header > a, .toggle-thread { background: #333; }
 .selection-box:hover, .social-header > a:hover, .toggle-thread:hover { background: #444; }
-.live .actions .text-action, .summary .button, .left .actions > a, .jp-playlist, .switch-popout, .field-error { background: #ccc; }
+.live .actions .text-action, .live .actions .text-action-no-img, .tutorial .controls .next, .summary .button, .left .actions > a, .jp-playlist, .switch-popout, .field-error { background: #ccc; }
 
 /*user colors*/
 .button-fill-fan { background: #ffc000 !important; }
