@@ -208,12 +208,6 @@
 		border: none !important;
 	}
 
-	.message-post {
-		@extend .post;
-		background: none !important;
-		&:hover { background: none !important; }
-	}
-
 	//
 	//entry buttons
 	.add-message {
@@ -321,6 +315,28 @@
 	}
 	date#pin-board {
 		margin-top: 24px;
+	}
+	
+	//messages
+	.message-conversation {
+		position: relative;
+		padding-bottom: 15px;
+    &:not(:last-child) { border-bottom: 1px dashed rgba(white, .15); }
+		&:not(:first-of-type) { padding-top: 15px; }
+		
+		.conversation-thread {
+			border: none;
+			margin: 15px 0 10px 0;
+			padding: 0px;
+		}
+		
+		.message-section > .post { 
+			padding: 0px !important; 
+		}
+		
+		.conversation-thread-container .post:last-child {
+			margin-bottom: -22px !important;
+		}
 	}
 	
 	//read more button

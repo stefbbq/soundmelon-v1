@@ -12,6 +12,7 @@
 - hide_thread_link          ||= false
 - hide_reply_link           ||= false
 - divclass                  ||= ''
+- postclass                 ||= ''
 - post_div_id               ||= "post_#{post.id}"
 
 - self_owner      = post.user == actor
@@ -81,7 +82,7 @@
             %i
             %span reply
 
-%div{:class => 'post entry', :id=>post_div_id}
+.post.entry{:class => "#{postclass}", :id => post_div_id}
   %div{:class=>"#{divclass}"}
     - if can_have_reply
       .post-reply-form{:id =>reply_form_div, :style =>'display:none;margin-top:5px;'}

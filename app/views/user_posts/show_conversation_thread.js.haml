@@ -2,7 +2,7 @@
   - last_post  = @posts.pop
   - first_post = @posts.shift
   - all_posts  = capture do
-    = render 'user_posts/post', :post => last_post, :hide_thread_link => false, :hide_reply_link =>false, :post_div_id =>"reply_post_#{last_post.id}", :divclass =>"last-post-#{last_post.id}"
+    = render 'user_posts/post', :post => last_post, :hide_thread_link => false, :hide_reply_link =>false, :post_div_id =>"reply_post_#{last_post.id}", :divclass =>"last-post-#{last_post.id}", :postclass => "no-border"
     .conversation-thread{:id =>"post_thread_#{last_post.id}"}
       .conversation-thread-top-border
       .conversation-thread-container
@@ -12,7 +12,7 @@
       .conversation-thread-bottom-border
 
   - hide_show_conversation = capture do
-    %a{:href => "javascript:void(0);", :class =>'toggle-thread', :onclick => "$('#post_thread_#{@main_post.id}').toggle();$('#expand_link_#{@main_post.id}').show();"}
+    %a{:href => "javascript:void(0);", :class =>'toggle-thread', :onclick => "$('#post_thread_#{@main_post.id}').toggle();$('#expand_link_#{@main_post.id}').show();$('#reply_post_#{last_post.id}').removeClass('no-border');"}
       collapse conversation
 
   - expand_conversation_link = capture do
