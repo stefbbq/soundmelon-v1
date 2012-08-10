@@ -203,6 +203,11 @@
 		}
   }
 
+	//post no border
+	.no-border {
+		border: none !important;
+	}
+
 	.message-post {
 		@extend .post;
 		background: none !important;
@@ -267,6 +272,8 @@
 	//post thread
 	.conversation-thread {
 		margin-bottom: 20px;
+		padding-bottom: 15px;
+    border-bottom: 1px dashed rgba(white, .15);
 		
 		.toggle-thread {
 			margin: 5px auto 0px auto;

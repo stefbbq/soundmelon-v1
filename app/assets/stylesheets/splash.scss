@@ -35,7 +35,7 @@
 		
 		.main {
 			@include border-radius($border-radius $border-radius 0 0);
-			height: 240px;
+			height: 278px;
 			background: url(base-page-bg-shaded-flipped.jpg) center bottom no-repeat;
 			border-bottom: 1px solid #333;
 		}
@@ -45,47 +45,53 @@
 			width: 100%;
 
 			img {
-				margin-top: 42px;
+				margin-top: 32px;
 				margin-left: 17px;
 			}
-
-		  h2 { 
-				@include single-text-shadow(rgba(black, .6), 0px, 3px, 5px);
-				margin: 10px 0 20px 0;
-				color: #ddd;
+			span, h3 { @include single-text-shadow(rgba(black, .6), 0px, 3px, 5px); }
+			span {
+				margin: 5px 180px 10px 180px;
+				color: $text-color;
+				display: block;
+			}
+			
+		  h3 { 
+				margin-top: 13px;
+				color: white;
+				display: block;
 		  }
 		}
 		
-		.note {
-			width: 100%;
+		.request-form {
 			position: absolute;
-			top: 50%;
-			height: 50%;
-			margin: auto;
+			display: block;
+			top: 256px;
+			width: 100%;
 			text-align: center;
 
-			> div {
-				margin-top: 60px;
-				overflow: hidden; 
-				
-				h2 { margin-bottom: 10px; color: $text-highlight-color; }
-				input[type=text] { height: 19px; }
-				input[type=submit] { margin: 0px; position: relative; top: 1px;}
-			}
+			input[type=text] { height: 19px; }
+			input[type=submit] { margin: 0px; position: relative; top: 1px;}
+		}
+		
+		//collage image
+		.collage-img {
+			position: absolute;
+			left: -26px;
+			top: 307px;
 		}
 		
 		//invitation form
-		#invitation_form_homepage {
-			margin-top: 20px;
-			
+		#invitation_form_homepage {			
+			.error, .success { 
+				margin-top: -4px;
+				font-size: 11px; 
+			}
 			.error {
-				margin-top: 5px;
 				color: $text-error-color;
 				list-style-type: none;
 				text-transform: lowercase;
 			}
 			.success {
-				margin-top: 15px;
 				color: $generic-active-color;
 			}
 		}
@@ -188,7 +194,7 @@
 		}
 		#remember-me {
 			position: absolute;
-			left: 40px;
+			left: 39px;
 			top: 31px;
 		}
 	}

@@ -5,8 +5,8 @@
   = hidden_field_tag :from_page, from_page
   = hidden_field_tag :source, source  
   email
-  = f.text_field :recipient_email, :class => 'overlay-text-field', :style => "width: 300px; margin-bottom: 10px;"
-  = f.submit 'submit', :class => "generic-buttonl"
+  = f.text_field :recipient_email, :class => 'base-input-box', :style => "width: 300px; margin-bottom: 10px;"
+  = f.submit 'submit', :class => "base-highlight-button"
 - if !@invitation.errors.blank?
   .error
     %ul

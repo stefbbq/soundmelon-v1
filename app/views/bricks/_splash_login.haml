@@ -15,5 +15,11 @@
     = link_to 'forgot your password?', password_resets_path, :remote => :true, :id => 'password-reset'
   .logo
     = image_tag 'base-logo-big.png'
-    %h2
-      your music community
+    %span
+      SoundMelon is a social media platform that enables a community of artists, 
+      music lovers and venue owners to connect in new ways.
+    %h3 
+      We’re in closed beta, but you request an invite below!
+  .request-form
+    #invitation_form_homepage
+      = render '/invitations/form', :from_page => 1

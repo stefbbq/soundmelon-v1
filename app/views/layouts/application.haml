@@ -36,12 +36,8 @@
               = render '/fan/registration_fields'
           - else #login
             = render "/bricks/splash_login"
-            .note
-              %div
-                %h2 SoundMelon is currently in closed beta
-                %span Enter in your email address to request an invite!
-                #invitation_form_homepage
-                  = render '/invitations/form', :from_page => 1
+
+            %img{:src => "/assets/special/splash-collage.jpg", :class => "collage-img"}
         .footer
           .links
             %a{:href => "http://blog.soundmelon.com", :title => "visit the SoundMelon blog", :target => "_blank"} blog

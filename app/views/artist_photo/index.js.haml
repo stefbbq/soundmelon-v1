@@ -5,8 +5,6 @@
         = link_to "add album", new_artist_album_path('home'), :remote=>:true, :class=>"ajaxopen add-new"
       - if @artist_album_list.empty?
         %img{:src => "/assets/tutorial/artist-instruct-photos.png", :class => "instruct-img"}
-      - else
-        = render 'featured_songs', :featured_songs =>@artist.featured_songs
     - @artist_album_list.each do |artist_album|
       = render '/artist_photo/album', :artist_album =>artist_album, :show_all =>@show_all || false
 updateLeftSection('#{escape_javascript artist_albums}');
