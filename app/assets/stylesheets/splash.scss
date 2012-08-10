@@ -101,10 +101,10 @@
 			height: 120px;
 			
 			.logo img {
-				margin-top: 10px;
+				margin-top: 5px;
 			}
 			
-			h2 { margin: -5px 0 10px 0;}
+			h3 { margin: -8px 0 10px 0;}
 		}
 	}
 	
@@ -221,6 +221,35 @@
 .registration {
 	padding-top: 40px;
 	
+	.field { position: relative; }
+	
+	//
+	//error popouts
+	.field-error {
+		@include popout($object-error-color);
+		padding: 0px !important;
+		color: black;
+		position: absolute;
+		bottom: 0px;
+
+		span { 
+			display: block;
+			margin: 3px 8px;
+		}
+	}
+	.fan-username-popout {
+		right: 295px;
+		width: 190px;
+	}
+	.artist-name-popout {
+		right: 305px;
+		width: 160px;
+	}
+	.artist-username-popout {
+		right: 330px;
+		width: 190px;
+	}
+	
 	.left {
 		width: 400px;
 		float: left;
@@ -265,13 +294,14 @@
 .registration-error {
   @include border-radius($border-radius);
 	position: absolute;
-	top: 94px;
+	top: 520px;
 	left: 175px;
   margin: 0 auto;
   width: 450px;
 	background: black;
   border: 2px solid $text-error-color;
   padding-bottom: 0;
+	z-index: 1000;
 
   h2 {
     text-align: left;
@@ -303,31 +333,4 @@
 	display: inline-block;
 	color: $text-error-color;
 	input { border-bottom: 1px solid $text-error-color !important;}
-}
-
-
-//
-//error popouts
-.field-error {
-	@include popout($object-error-color);
-	position: absolute;
-	color: black;
-	
-	bottom: 0px;
-	span { 
-		display: block;
-		margin: 3px 8px	; 
-	}
-}
-.fan-username-popout {
-	right: 290px;
-	width: 190px;
-}
-.artist-name-popout {
-	right: 305px;
-	width: 160px;
-}
-.artist-username-popout {
-	right: 330px;
-	width: 190px;
 }
