@@ -1,4 +1,4 @@
-- form_post_path = @artist_music ? artist_music_buzz_post_path(@artist_music, @artist_music) : song_buzz_post_path(@song)
+- form_post_path = @artist_music ? artist_music_buzz_post_path(@artist_music, @artist_music.id) : song_buzz_post_path(@song)
 - initial_text   = "write a comment..."
 .status-input.buzz-input
   = form_tag(form_post_path, :class=>"ajaxopen", :remote => true, :id => 'buzz_form') do
