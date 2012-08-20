@@ -10,9 +10,10 @@
         = render :partial => '/fan/edit_additional_info_form'
       .content-box#notification-setting
         = render :partial => '/fan/notification_setting_form'
-      .content-box#change-password
-        #change-password-msg
-        = render :partial => '/fan/change_password_form'
+      - unless @user.is_external?
+        .content-box#change-password
+          #change-password-msg
+          = render :partial => '/fan/change_password_form'
     .right
       = render "/fan/right", :current =>'manage_profile'
 :javascript

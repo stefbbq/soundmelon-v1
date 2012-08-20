@@ -86,7 +86,7 @@ class UserPostsController < ApplicationController
         params[:post][:reply_to_id] = params[:parent_post_id]
         @post                       = actor.posts.build(params[:post])
         parent_post_writer_user     = @parent_post.artist || @parent_post.user
-      rescue =>exp
+      rescue =>exp        
         @parent_post              = nil
         logger.error "Error in UserPosts::Reply :=>#{exp.message}"
         render :nothing => true and return
@@ -217,6 +217,7 @@ class UserPostsController < ApplicationController
       begin
         mention_item          = params[:artist_id].present? ? Artist.find(params[:artist_id]) : User.find(params[:fan_id])
       rescue =>exp
+        puts "#{exp.message}"
         logger.error "Error in UserPosts#NewReply :=> #{exp.message}"
         render :nothing => true and return
       end
@@ -234,7 +235,7 @@ class UserPostsController < ApplicationController
     if request.xhr?
       begin
         #mention_item           = params[:artist_id].present? ? Artist.find(params[:artist_id]) : User.find(params[:fan_id])
-        actor                   = current_actor
+        actor                   = @actor
         @post                   = actor.posts.build(params[:post])        
       rescue =>exp
         logger.error "Error in UserPosts::CreateMentionPost :=>#{exp.message}"

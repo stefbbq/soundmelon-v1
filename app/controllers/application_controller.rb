@@ -107,8 +107,11 @@ class ApplicationController < ActionController::Base
   end
 
   # checks whether the logged in user is administrating the artist  
-  def current_actor
-    @actor = session[:artist_id].blank? ? current_user : Artist.find(session[:artist_id])    
+  def current_actor    
+    begin
+      @actor = session[:artist_id].blank? ? current_user : Artist.find(session[:artist_id])
+    rescue      
+    end
   end
 
   # sets the current artist id when a ban starts administrating the artist profile

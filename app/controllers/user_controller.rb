@@ -3,14 +3,13 @@ class UserController < ApplicationController
 
   def index
     begin
-      home_actor                    = current_actor
-      if home_actor == current_user
-        @user                       = current_user
+      home_actor                    = current_actor      
+      if home_actor.is_fan?
+        @user                       = home_actor
         @is_fan                     = true
         #----------Get Objects------------------------------------------------------------
         get_current_fan_posts
-        messages_and_posts_count
-        @song_items                 = current_user.find_radio_feature_playlist_songs
+        messages_and_posts_count        
         get_user_associated_objects
         render :template =>"/fan/index" and return
         #----------------------------------------------------------------------------------
@@ -23,6 +22,7 @@ class UserController < ApplicationController
         render "/artist/index" and return
         #---------------------------------------------------------------------------------
       end
+      @song_items                   = current_user.find_radio_feature_playlist_songs unless request.xhr?
     rescue =>exp
       logger.error "Error in User#Index => #{exp.message}"
       render :nothing =>true and return
@@ -36,19 +36,18 @@ class UserController < ApplicationController
   def change_login
     if request.xhr?
       begin
-        if params[:artist_name].blank?
+        if params[:artist_name].blank?          
           @user                       = current_user          
           reset_current_fan_artist
           @is_fan                     = true
           #----------Get Objects------------------------------------------------------------
           get_current_fan_posts
           messages_and_posts_count
-          @song_items                 = @user.find_radio_feature_playlist_songs
           get_user_associated_objects
           #----------------------------------------------------------------------------------
         else          
           @artist                     = Artist.where(:mention_name =>params[:artist_name]).first
-          @from_home                  = true
+          @from_home                  = true          
           set_current_fan_artist(@artist.id)
           @actor                      = current_actor
           @is_artist                  = true
@@ -63,14 +62,13 @@ class UserController < ApplicationController
         render :nothing =>true and return
       end
     else
-      redirect_to fan_home_path and return
+      redirect_to user_home_path and return
     end
   end
 
   # renders the form for updating the current actor(fan/artist) profile details
   def manage_profile
-    begin
-      @actor              = current_actor
+    begin      
       if @actor.is_fan?    # in case of fan profile login
         @user             = @actor
         @additional_info  = current_user.additional_info
@@ -113,7 +111,7 @@ class UserController < ApplicationController
   # renders the current fan's artist profiles
   def pull_artist_profiles
     @user                 = current_user
-    @accessible_artists   = current_user.artists.includes(:artist_musics, :songs)
+    @accessible_artists   = @user.artists.includes(:artist_musics, :songs)
     get_fan_objects_for_right_column(@user)
     respond_to do |format|
       format.js

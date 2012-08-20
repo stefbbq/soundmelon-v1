@@ -124,9 +124,10 @@ $(document).ready( function(){
     e.preventDefault();
   });
   
-  $('a.backable').live('click', function(){    
-    if(location.href != this.href){
-      history.pushState({
+  $('a.backable').live('click', function(){
+    var pushToQueue = location.href != this.href
+    if(pushToQueue){
+      History.pushState({
         sm:true
       },document.title, this.href);
       try{
@@ -138,8 +139,9 @@ $(document).ready( function(){
   
   $(window).bind("popstate", function(event){
     var url         = location.href;    
+    var shouldGetPage   = loaded_url != url    
     try{
-      if(loaded_url!=url){
+      if(shouldGetPage){
       jQuery.facebox($('#globalloading').html());
       $.getScript(url,function(data, textStatus, jqxhr){
       });

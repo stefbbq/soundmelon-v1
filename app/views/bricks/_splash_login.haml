@@ -13,6 +13,7 @@
         = label_tag :remember_me
       = submit_tag "", :class => 'exec-login'
     = link_to 'forgot your password?', password_resets_path, :remote => :true, :id => 'password-reset'
+    = link_to 'FLogin', auth_at_provider_path(:provider => :facebook)
   .logo
     = image_tag 'base-logo-big.png'
     %span

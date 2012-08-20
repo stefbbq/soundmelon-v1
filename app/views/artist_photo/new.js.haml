@@ -17,7 +17,7 @@
         - f.submit "Upload"
     #uploaded
     / temporary accept button, needs proper cancel/accept, with no accept option on no data input
-    %a.generic-button{:href => "javascript:$(document).trigger('close.facebox')"}
+    %a.generic-button{:href => "javascript:void(0);", :onclick=>"closeFacebox();"}
       accept
   #notice.error
     = notice

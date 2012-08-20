@@ -1,5 +1,12 @@
 class User < ActiveRecord::Base
-  authenticates_with_sorcery!
+#  authenticates_with_sorcery!
+  
+  authenticates_with_sorcery! do |config|
+    config.authentications_class = Authentication
+  end
+
+  has_many :authentications, :dependent => :destroy
+  accepts_nested_attributes_for :authentications
 
   acts_as_messageable
   acts_as_followable
@@ -21,7 +28,7 @@ class User < ActiveRecord::Base
   has_many :song_albums
   has_many :posts, :dependent => :destroy
   has_many :mention_posts
-  has_many :mentioned_posts, :as =>:mentionitem, :dependent => :destroy
+  has_many :mentioned_posts, :as =>:mentionitem#, :dependent => :destroy
   has_many :playlists, :dependent =>:destroy
   has_many :genre_users, :dependent =>:destroy
   has_many :genres, :through =>:genre_users
@@ -32,15 +39,15 @@ class User < ActiveRecord::Base
     :limit      => 3
            
   attr_accessor :email_confirmation, :password_confirmation
-  attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :tac, :mention_name, :invitation_token
+  attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :authentications_attributes, :tac, :mention_name, :invitation_token
   
   validates :email, :presence => true
   validates :fname, :presence => true
-  validates :lname, :presence => true
+  validates :lname, :presence => true, :unless =>:is_external?
   validates :mention_name, :uniqueness => true, :if =>:has_mention_name?
   validates :password, :presence => true, :on => :create 
   validates :password, :confirmation => true      
-  validates :email, :uniqueness => true
+  validates :email, :uniqueness => true, :unless =>:is_external?
   validates :email, :confirmation => true
   validates :email, :email_format => true  
   validates :tac, :acceptance => true
@@ -76,7 +83,7 @@ class User < ActiveRecord::Base
 
   def has_mention_name?
     self.mention_name.present?
-  end
+  end  
   
   def get_full_name
     "#{self.fname} #{self.lname}"

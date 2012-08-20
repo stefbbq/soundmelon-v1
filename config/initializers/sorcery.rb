@@ -2,7 +2,7 @@
 # The default is nothing which will include only core features (password encryption, login/logout).
 # Available submodules are: :user_activation, :http_basic_auth, :remember_me,
 # :reset_password, :session_timeout, :brute_force_protection, :activity_logging, :external
-Rails.application.config.sorcery.submodules = [:remember_me, :reset_password, :user_activation, :activity_logging, :http_basic_auth]
+Rails.application.config.sorcery.submodules = [:remember_me, :reset_password, :user_activation, :activity_logging, :http_basic_auth, :external]
 
 # Here you can configure each submodule's features.
 Rails.application.config.sorcery.configure do |config|
@@ -36,7 +36,7 @@ Rails.application.config.sorcery.configure do |config|
   #config.register_last_activity_time = true                         # will register the time of last user action, every action.
                                                                                                                                           
   # -- external --
-  # config.external_providers = []                                    # What providers are supported by this app,
+   config.external_providers = [:facebook]                            # What providers are supported by this app,
                                                                       # i.e. [:twitter, :facebook, :github] .
   # config.ca_file = 'path/to/ca_file'                                # Path to ca_file. By default use a internal ca-bundle.crt.
                                                                       # You can change it by your local ca_file.
@@ -44,13 +44,16 @@ Rails.application.config.sorcery.configure do |config|
 
   # config.twitter.key = "eYVNBjBDi33aa9GkA3w"
   # config.twitter.secret = "XpbeSdCoaKSmQGSeokz5qcUATClRW5u08QWNfv71N8"
-  # config.twitter.callback_url = "http://0.0.0.0:3000/oauth/callback?provider=twitter"
+  # config.twitter.callback_url = "http://localhost:3000/oauth/callback?provider=twitter"
   # config.twitter.user_info_mapping = {:email => "screen_name"}
   #
-  # config.facebook.key = "34cebc81c08a521bc66e212f947d73ec"
-  # config.facebook.secret = "5b458d179f61d4f036ee66a497ffbcd0"
-  # config.facebook.callback_url = "http://0.0.0.0:3000/oauth/callback?provider=facebook"
-  # config.facebook.user_info_mapping = {:email => "name"}
+   config.facebook.key = "455523311144867"
+   config.facebook.secret = "6d7a1e5b978458f14b683be448ee76d3"
+   config.facebook.callback_url = "http://localhost:3000/oauth/callback?provider=facebook"
+   config.facebook.user_info_mapping = {:email => "email", :fname =>"name"}
+   config.facebook.scope = "email,offline_access"
+   config.facebook.display = "popup"
+     
   #
   # config.github.key = ""
   # config.github.secret = ""
@@ -178,7 +181,7 @@ Rails.application.config.sorcery.configure do |config|
                                                                                       # the user defined logged out?
 
     # -- external --
-    # user.authentications_class = nil                                                # class which holds the various
+     user.authentications_class = Authentication                                      # class which holds the various
                                                                                       # external provider data for this
                                                                                       # user.
 

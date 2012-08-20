@@ -11,7 +11,7 @@ class HomeController < ApplicationController
         @user.email_confirmation  = @user.invitation.recipient_email
       end
       if request.xhr?
-        render :template =>"/bricks/login"
+        render :template =>"/bricks/login"        
       else
         render :template =>'/fan/signup'
       end      

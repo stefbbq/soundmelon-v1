@@ -39,7 +39,8 @@ class ArtistMusicController < ApplicationController
   def new
     redirect_to show_artist_url(params[:artist_name]) and return unless request.xhr?
     if @has_admin_access
-      @song = Song.new
+      @song         = Song.new
+      @artist_music = ArtistMusic.new
     else
       render :nothing => true and return
     end
@@ -59,7 +60,18 @@ class ArtistMusicController < ApplicationController
           @artist_music       = ArtistMusic.create(:album_name=>params[:album_name], :user_id => current_user.id, :artist_id => @artist.id)
           # delay to avoid the same created_at timestamp for both song album and songs
           sleep 1
-        end        
+        end
+        # update cover image
+        if params[:music_cover_image].present?
+#          @artist_music.update
+#          @artist_music.update_attributes(params[:artist_music])
+           begin
+            @artist_music.update_attribute(:cover_img, params[:music_cover_image])
+           rescue =>exp
+             logger.error "Error : #{exp.message}"
+           end
+        end
+
         @song                 = @artist_music.songs.build(newparams[:song])
         @song.user_id         = current_user.id
         if @song.save
@@ -364,9 +376,7 @@ class ArtistMusicController < ApplicationController
     else
       params
     end
-  end
-
-  private
+  end  
 
   # finds the artist profile by artist_name parameter, and checks whether the current login is artist or fan
   # and accordingly sets the variable @has_admin_access to be used in views and other actions

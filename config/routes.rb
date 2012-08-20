@@ -1,5 +1,9 @@
 Soundmelon::Application.routes.draw do
 
+  # oauth login routes
+  match "oauth/callback" => "oauths#callback", :as => :oauth_callback
+  match "oauth/:provider" => "oauths#oauth", :as => :auth_at_provider
+
   resources :invitations  
 
   get 'application/loginvitation/:artist_name'=>'invitations#login_or_invitation',  :as => :new_loginvitation

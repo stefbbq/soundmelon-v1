@@ -7,7 +7,8 @@
     %h3
       and your username is
       %span= @user.mention_name
-    %h5 click the lock to enable changes
+    - unless @user.is_external?
+      %h5 click the lock to enable changes
   .content.manage-basic
     = form_for :user, :url => update_basic_info_path, :html => {:remote => true, :class => 'ajaxopen', :id =>'fan_basic_info'}  do |f|
       .field
@@ -18,10 +19,12 @@
         %label{:for=>"name"}
           last
         = f.text_field :lname
-      .lock-toggle
-      = submit_tag 'update it, it\'s legal', :class => 'button', :id =>'basic_form_submit', :disabled =>:true
+      - unless @user.is_external?
+        .lock-toggle
+      = submit_tag 'update it, it\'s legal', :class => 'button', :id =>'basic_form_submit', :disabled =>!@user.is_external
 :javascript  
-  $('#basic-info input').attr('disabled', true).addClass('input-disabled');
+  if(#{!@user.is_external?})
+    $('#basic-info input').attr('disabled', true).addClass('input-disabled');
   $('#basic-info .lock-toggle').live('click',function(){
     $.ajax('#{ask_and_check_user_password_path}',{remote:true});
   });

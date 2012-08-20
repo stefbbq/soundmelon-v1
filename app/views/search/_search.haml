@@ -12,7 +12,7 @@
     });
   $('#search').submit(function(){
     var new_url = "#{search_index_path}?q=" + $('input#term').val();
-    history.pushState({
+    History.pushState({
       sm:true
     }, document.title, new_url);
     try{
