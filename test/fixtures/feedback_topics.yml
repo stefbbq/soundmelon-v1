@@ -1,9 +1,16 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
-
-one:
-  name: MyString
-  emails: 
-
-two:
-  name: MyString
-  emails: 
+---
+feedback_topics_001:
+  id: 1
+  name: Bug
+  info: !!null 
+  emails: ritushishir@gmail.com  
+feedback_topics_002:
+  id: 2
+  name: Suggestion
+  info: !!null 
+  emails: ritushishir@gmail.com  
+feedback_topics_003:
+  id: 3
+  name: Comment
+  info: !!null 
+  emails: ritushishir@gmail.com  

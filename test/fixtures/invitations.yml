@@ -1,0 +1,13 @@
+
+valid_invitation:
+  id: 100
+  sender_id: 1
+  recipient_email: validemailid@gmail.com
+  token: 67eb7c6071afbb2f2989bf0a244ce8507b66e789
+  sent_at: 2012-06-18 06:01:16.000000000Z  
+invalid_invitation:
+  id: 17
+  sender_id: 1
+  recipient_email: gangagmail.com
+  token: 67eb7c6071afbb2f2989bf0a244ce8507b66d616
+  sent_at: 2012-06-18 06:01:16.000000000Z  

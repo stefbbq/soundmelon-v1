@@ -132,6 +132,8 @@ class Song < ActiveRecord::Base
         # delete original file
         #        File.delete song_file
         self.update_attributes(:song_file_name =>new_file_name_mp3,:file_name =>song_file_name_base, :is_processed =>true)
+        # create newsfeed after processing
+        self.create_newsfeed
       end
     end
   end
@@ -196,9 +198,7 @@ class Song < ActiveRecord::Base
     # first read from the file
     self.delay.update_metadata_from_file
     # then update to the file read from the file
-    self.delay.update_metadata_to_file
-    # create newsfeed after processing
-    self.create_newsfeed    
+    self.delay.update_metadata_to_file    
   end
 
   def voted_on_by? voter
@@ -206,7 +206,7 @@ class Song < ActiveRecord::Base
     !up_vote.blank?
   end
   
-  def create_newsfeed
+  def create_newsfeed    
     if self.processed?
       Post.create_newsfeed_for self, nil, self.artist_music.artist_id, " added"
     end    

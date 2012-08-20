@@ -1,11 +1,11 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+---
+artist_albums_001:
+  id: 33
+  artist_id: 1
+  user_id: 1
+  name: '2012-08-10'
+  created_at: 2012-08-10 04:02:50.000000000Z
+  updated_at: 2012-08-10 04:02:52.000000000Z
+  photo_count: 1
+  disabled: 0
+  cover_image_id: 88

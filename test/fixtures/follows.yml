@@ -1,0 +1,71 @@
+---
+follows_001:
+  id: 1
+  followable_id: 1
+  followable_type: User
+  follower_id: 3
+  follower_type: User
+  blocked: 0  
+follows_002:
+  id: 2
+  followable_id: 2
+  followable_type: User
+  follower_id: 3
+  follower_type: User
+  blocked: 0  
+follows_003:
+  id: 4
+  followable_id: 2
+  followable_type: User
+  follower_id: 11
+  follower_type: User
+  blocked: 0  
+follows_004:
+  id: 6
+  followable_id: 12
+  followable_type: User
+  follower_id: 11
+  follower_type: User
+  blocked: 0  
+follows_005:
+  id: 8
+  followable_id: 6
+  followable_type: Band
+  follower_id: 11
+  follower_type: User
+  blocked: 0  
+follows_006:
+  id: 15
+  followable_id: 2
+  followable_type: User
+  follower_id: 16
+  follower_type: User
+  blocked: 0  
+follows_007:
+  id: 16
+  followable_id: 4
+  followable_type: Band
+  follower_id: 16
+  follower_type: User
+  blocked: 0  
+follows_008:
+  id: 19
+  followable_id: 5
+  followable_type: Band
+  follower_id: 12
+  follower_type: User
+  blocked: 0  
+follows_009:
+  id: 20
+  followable_id: 17
+  followable_type: User
+  follower_id: 12
+  follower_type: User
+  blocked: 0  
+follows_010:
+  id: 21
+  followable_id: 12
+  followable_type: User
+  follower_id: 17
+  follower_type: User
+  blocked: 0

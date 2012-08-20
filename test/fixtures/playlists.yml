@@ -1,0 +1,37 @@
+---
+playlists_001:
+  id: 1
+  user_id: 22
+  song_id: 3  
+playlists_002:
+  id: 2
+  user_id: 22
+  song_id: 1  
+playlists_003:
+  id: 3
+  user_id: 22
+  song_id: 2  
+playlists_004:
+  id: 4
+  user_id: 1
+  song_id: 57  
+playlists_005:
+  id: 5
+  user_id: 1
+  song_id: 73  
+playlists_006:
+  id: 6
+  user_id: 1
+  song_id: 74  
+playlists_007:
+  id: 7
+  user_id: 1
+  song_id: 75  
+playlists_008:
+  id: 8
+  user_id: 1
+  song_id: 82  
+playlists_009:
+  id: 9
+  user_id: 1
+  song_id: 80  

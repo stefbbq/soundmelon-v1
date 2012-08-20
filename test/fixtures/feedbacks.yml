@@ -1,15 +1,49 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
-
-one:
+---
+feedbacks_001:
+  id: 1
   feedback_topic_id: 1
-  name: MyString
-  email: 
-  content: MyText
-  is_solved: false
-
-two:
+  user_type: Artist
+  user_id: 1
+  content: test content  
+  subject: Music Player
+  is_read: 0
+feedbacks_002:
+  id: 2
   feedback_topic_id: 1
-  name: MyString
-  email: 
-  content: MyText
-  is_solved: false
+  user_type: Artist
+  user_id: 1
+  content: comment  
+  subject: Music Player
+  is_read: 1
+feedbacks_003:
+  id: 3
+  feedback_topic_id: 1
+  user_type: Artist
+  user_id: 1
+  content: Hi  
+  subject: Music Player
+  is_read: 0
+feedbacks_004:
+  id: 4
+  feedback_topic_id: 1
+  user_type: User
+  user_id: 1
+  content: Hello this is test!
+  subject: Music Player
+  is_read: 0
+feedbacks_005:
+  id: 5
+  feedback_topic_id: 1
+  user_type: User
+  user_id: 1
+  content: kkkkkkkkk  
+  subject: Music Player
+  is_read: 0
+feedbacks_006:
+  id: 6
+  feedback_topic_id: 1
+  user_type: User
+  user_id: 1
+  content: Feeback testing  
+  subject: Music Player
+  is_read: 0

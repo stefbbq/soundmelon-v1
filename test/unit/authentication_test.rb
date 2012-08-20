@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class WallPostsControllerTest < ActionController::TestCase
+class AuthenticationTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

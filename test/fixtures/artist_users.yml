@@ -1,11 +1,64 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+---
+artist_users_001:
+  id: 3
+  user_id: 1
+  artist_id: 1
+  access_level: 1
+  is_deleted: 0
+  notification_on: 1
+artist_users_002:
+  id: 5
+  user_id: 10
+  artist_id: 3
+  access_level: 1
+  is_deleted: 0  
+  notification_on: 1
+artist_users_003:
+  id: 6
+  user_id: 13
+  artist_id: 4
+  access_level: 1
+  is_deleted: 0  
+  notification_on: 1
+artist_users_004:
+  id: 7
+  user_id: 12
+  artist_id: 5
+  access_level: 1
+  is_deleted: 0  
+  notification_on: 1
+artist_users_005:
+  id: 8
+  user_id: 14
+  artist_id: 6
+  access_level: 1
+  is_deleted: 0  
+  notification_on: 1
+artist_users_006:
+  id: 9
+  user_id: 11
+  artist_id: 7
+  access_level: 1
+  is_deleted: 0  
+  notification_on: 1
+artist_users_007:
+  id: 10
+  user_id: 22
+  artist_id: 8
+  access_level: 1
+  is_deleted: 0  
+  notification_on: 1
+artist_users_008:
+  id: 12
+  user_id: 1
+  artist_id: 9
+  access_level: 1
+  is_deleted: 0  
+  notification_on: 1
+artist_users_009:
+  id: 14
+  user_id: 1
+  artist_id: 10
+  access_level: 1
+  is_deleted: 0  
+  notification_on: 1

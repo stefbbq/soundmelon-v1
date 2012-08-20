@@ -11,7 +11,6 @@
             = date.to_date.strftime('%d')
       = render 'user_posts/post_aggregate', :posts => posts
   var fDateDiv = $('date##{first_date_div}');  
-  //$(fDateDiv[$(fDateDiv).length-1]).remove();
   != "$('.user_posts').append('#{escape_javascript(posts_html)}');"
   != "$('.read-more a').attr('href','#{@load_more_path}');"  
   -if @load_more_path.nil?

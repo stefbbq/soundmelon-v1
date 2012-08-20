@@ -30,7 +30,7 @@ gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'rubyzip'
-gem 'mailboxer'
+gem 'mailboxer', '0.7.0'
 gem 'user-agent', '~> 1.0.0'
 gem "rinku", "~> 1.7.0"
 
@@ -56,6 +56,7 @@ gem 'jquery-rails'
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
+  gem 'minitest'
 end
 
 group :development do

@@ -1,11 +1,286 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+---
+posts_001:
+  id: 1155
+  user_id: 1
+  artist_id: !!null 
+  msg: post A
+  created_at: 2012-08-09 10:59:48.000000000Z
+  updated_at: 2012-08-09 10:59:48.000000000Z
+  is_deleted: 0
+  ancestry: !!null 
+  is_bulletin: 0
+  is_read: 0
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: !!null 
+posts_002:
+  id: 1156
+  user_id: 22
+  artist_id: !!null 
+  msg: reply to post A
+  created_at: 2012-08-09 11:00:01.000000000Z
+  updated_at: 2012-08-09 11:00:01.000000000Z
+  is_deleted: 0
+  ancestry: '1155'
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1155
+posts_003:
+  id: 1157
+  user_id: 1
+  artist_id: !!null 
+  msg: Reply to reply to post A
+  created_at: 2012-08-09 11:00:34.000000000Z
+  updated_at: 2012-08-09 11:00:34.000000000Z
+  is_deleted: 0
+  ancestry: 1155/1156
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1156
+posts_004:
+  id: 1159
+  user_id: 1
+  artist_id: !!null 
+  msg: reply to post#1156
+  created_at: 2012-08-09 11:11:08.000000000Z
+  updated_at: 2012-08-09 11:11:08.000000000Z
+  is_deleted: 0
+  ancestry: 1155/1156
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1156
+posts_005:
+  id: 1160
+  user_id: 22
+  artist_id: !!null 
+  msg: ! 'reply to #1159'
+  created_at: 2012-08-09 11:11:31.000000000Z
+  updated_at: 2012-08-09 11:11:31.000000000Z
+  is_deleted: 0
+  ancestry: 1155/1156/1159
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1159
+posts_006:
+  id: 1163
+  user_id: 22
+  artist_id: !!null 
+  msg: reply to artist bulletin
+  created_at: 2012-08-09 11:17:36.000000000Z
+  updated_at: 2012-08-09 11:18:00.000000000Z
+  is_deleted: 0
+  ancestry: !!null 
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1162
+posts_007:
+  id: 1164
+  user_id: 22
+  artist_id: !!null 
+  msg: this is what?
+  created_at: 2012-08-09 11:18:56.000000000Z
+  updated_at: 2012-08-09 11:18:56.000000000Z
+  is_deleted: 0
+  ancestry: 1155/1156/1159
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1159
+posts_008:
+  id: 1165
+  user_id: 22
+  artist_id: !!null 
+  msg: three minutes ago
+  created_at: 2012-08-09 11:19:35.000000000Z
+  updated_at: 2012-08-09 11:32:58.000000000Z
+  is_deleted: 0
+  ancestry: !!null 
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1161
+posts_009:
+  id: 1167
+  user_id: 22
+  artist_id: !!null 
+  msg: Reply to Post A
+  created_at: 2012-08-09 11:36:42.000000000Z
+  updated_at: 2012-08-09 11:37:09.000000000Z
+  is_deleted: 0
+  ancestry: !!null 
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1166
+posts_010:
+  id: 1169
+  user_id: 22
+  artist_id: !!null 
+  msg: reply to post 100
+  created_at: 2012-08-09 11:43:34.000000000Z
+  updated_at: 2012-08-09 11:44:00.000000000Z
+  is_deleted: 0
+  ancestry: !!null 
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1168
+posts_011:
+  id: 1170
+  user_id: !!null 
+  artist_id: 1
+  msg: Hello this is reply from Steam Walker!
+  created_at: 2012-08-09 11:47:23.000000000Z
+  updated_at: 2012-08-09 11:47:23.000000000Z
+  is_deleted: 0
+  ancestry: '1169'
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1169
+posts_012:
+  id: 1171
+  user_id: 22
+  artist_id: !!null 
+  msg: reply again to steamwalker
+  created_at: 2012-08-09 11:48:10.000000000Z
+  updated_at: 2012-08-09 11:48:10.000000000Z
+  is_deleted: 0
+  ancestry: 1169/1170
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1170
+posts_013:
+  id: 1172
+  user_id: !!null 
+  artist_id: 1
+  msg: hello again!
+  created_at: 2012-08-09 11:48:38.000000000Z
+  updated_at: 2012-08-09 11:48:38.000000000Z
+  is_deleted: 0
+  ancestry: !!null 
+  is_bulletin: 0
+  is_read: 0
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: !!null 
+posts_014:
+  id: 1173
+  user_id: 22
+  artist_id: !!null 
+  msg: Hi from Shishir
+  created_at: 2012-08-09 11:48:57.000000000Z
+  updated_at: 2012-08-09 11:48:57.000000000Z
+  is_deleted: 0
+  ancestry: '1172'
+  is_bulletin: 0
+  is_read: 1
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: !!null 
+  postitem_id: !!null 
+  is_newsfeed: 0
+  reply_to_id: 1172
+posts_015:
+  id: 1175
+  user_id: !!null 
+  artist_id: 1
+  msg: ! ' added'
+  created_at: 2012-08-10 03:43:59.000000000Z
+  updated_at: 2012-08-10 03:43:59.000000000Z
+  is_deleted: 0
+  ancestry: !!null 
+  is_bulletin: 0
+  is_read: 0
+  mentioned_users: !!null 
+  mentioned_user_ids: !!null 
+  mentioned_artists: !!null 
+  mentioned_artist_ids: !!null 
+  postitem_type: ArtistShow
+  postitem_id: 65
+  is_newsfeed: 1
+  reply_to_id: !!null 

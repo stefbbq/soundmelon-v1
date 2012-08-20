@@ -1,0 +1,40 @@
+---
+artists_genres_001:
+  artist_id: 1
+  genre_id: 9
+artists_genres_002:
+  artist_id: 1
+  genre_id: 7
+artists_genres_003:
+  artist_id: 5
+  genre_id: 20
+artists_genres_004:
+  artist_id: 5
+  genre_id: 22
+artists_genres_005:
+  artist_id: 5
+  genre_id: 18
+artists_genres_006:
+  artist_id: 5
+  genre_id: 20
+artists_genres_007:
+  artist_id: 5
+  genre_id: 22
+artists_genres_008:
+  artist_id: 5
+  genre_id: 18
+artists_genres_009:
+  artist_id: 8
+  genre_id: 1
+artists_genres_010:
+  artist_id: 9
+  genre_id: 2
+artists_genres_011:
+  artist_id: 10
+  genre_id: 4
+artists_genres_012:
+  artist_id: 1
+  genre_id: 2
+artists_genres_013:
+  artist_id: 1
+  genre_id: 5

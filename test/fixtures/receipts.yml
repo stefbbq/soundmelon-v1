@@ -1,0 +1,83 @@
+---
+receipts_001:
+  id: 213
+  receiver_id: 2
+  receiver_type: User
+  notification_id: 107
+  read: 1
+  trashed: 0
+  deleted: 0
+  mailbox_type: inbox  
+receipts_002:
+  id: 214
+  receiver_id: 22
+  receiver_type: User
+  notification_id: 107
+  read: 1
+  trashed: 0
+  deleted: 0
+  mailbox_type: sentbox  
+receipts_003:
+  id: 215
+  receiver_id: 22
+  receiver_type: User
+  notification_id: 108
+  read: 1
+  trashed: 0
+  deleted: 0
+  mailbox_type: inbox  
+receipts_004:
+  id: 216
+  receiver_id: 2
+  receiver_type: User
+  notification_id: 108
+  read: 1
+  trashed: 0
+  deleted: 0
+  mailbox_type: sentbox  
+receipts_005:
+  id: 217
+  receiver_id: 22
+  receiver_type: User
+  notification_id: 109
+  read: 1
+  trashed: 0
+  deleted: 0
+  mailbox_type: inbox
+receipts_006:
+  id: 218
+  receiver_id: 2
+  receiver_type: User
+  notification_id: 109
+  read: 1
+  trashed: 0
+  deleted: 0
+  mailbox_type: sentbox  
+receipts_007:
+  id: 219
+  receiver_id: 22
+  receiver_type: User
+  notification_id: 110
+  read: 1
+  trashed: 0
+  deleted: 0
+  mailbox_type: inbox  
+receipts_008:
+  id: 220
+  receiver_id: 2
+  receiver_type: User
+  notification_id: 110
+  read: 1
+  trashed: 0
+  deleted: 0
+  mailbox_type: sentbox  
+receipts_009:
+  id: 221
+  receiver_id: 22
+  receiver_type: User
+  notification_id: 111
+  read: 1
+  trashed: 0
+  deleted: 0
+  mailbox_type: inbox
+  

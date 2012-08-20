@@ -1,11 +1,54 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+---
+genres_001:
+  id: 1
+  name: Blues
+  parent_id: !!null   
+genres_002:
+  id: 2
+  name: coustic Blues
+  parent_id: 1  
+genres_003:
+  id: 3
+  name: Chicago Blues
+  parent_id: 1  
+genres_004:
+  id: 4
+  name: Classic Blues
+  parent_id: 1  
+genres_005:
+  id: 5
+  name: Contemporary Blues
+  parent_id: 1  
+genres_006:
+  id: 6
+  name: Country Blues
+  parent_id: 1  
+genres_007:
+  id: 7
+  name: Delta Blues
+  parent_id: 1  
+genres_008:
+  id: 8
+  name: Electric Blues
+  parent_id: 1  
+genres_009:
+  id: 9
+  name: Classical 
+genres_010:
+  id: 10
+  name: Country  
+genres_011:
+  id: 11
+  name: Hip-Hop  
+genres_012:
+  id: 12
+  name: Instrumental  
+genres_013:
+  id: 13
+  name: Jazz  
+genres_014:
+  id: 14
+  name: Latino  
+genres_015:
+  id: 15
+  name: Opera  

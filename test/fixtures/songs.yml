@@ -1,11 +1,85 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+---
+songs_001:
+  id: 129
+  user_id: 1
+  artist_music_id: 32
+  description: !!null 
+  song_file_name: arth2.mp3
+  song_content_type: ! '[audio/mpeg]'
+  song_file_size: 4805697
+  song_updated_at: 2012-08-12 12:09:34.000000000Z
+  total_played: 0
+  created_at: 2012-08-12 12:09:34.000000000Z
+  updated_at: 2012-08-12 12:09:50.000000000Z
+  is_processed: 1
+  file_name: arth2
+  title: arth2
+  album_name: Arth
+  artist_name: Jagjit Singh
+  genre: !!null 
+  track: '2'
+  year: !!null 
+  is_featured: 0
+songs_002:
+  id: 130
+  user_id: 1
+  artist_music_id: 32
+  description: !!null 
+  song_file_name: zbachnatasakdinamabinatimrosath.mp3
+  song_content_type: ! '[audio/ogg, video/ogg]'
+  song_file_size: 1013863
+  song_updated_at: 2012-08-13 03:23:37.000000000Z
+  total_played: 0
+  created_at: 2012-08-13 03:23:37.000000000Z
+  updated_at: 2012-08-13 03:23:45.000000000Z
+  is_processed: 1
+  file_name: zbachnatasakdinamabinatimrosath
+  title: zBachnaTaSakdinaMaBinaTimrosath
+  album_name: !!null 
+  artist_name: !!null 
+  genre: !!null 
+  track: !!null 
+  year: !!null 
+  is_featured: 0
+songs_003:
+  id: 131
+  user_id: 1
+  artist_music_id: 32
+  description: !!null 
+  song_file_name: zbachnatasakdinamabinatimrosath.mp3
+  song_content_type: ! '[audio/ogg, video/ogg]'
+  song_file_size: 1013863
+  song_updated_at: 2012-08-13 03:24:15.000000000Z
+  total_played: 0
+  created_at: 2012-08-13 03:24:15.000000000Z
+  updated_at: 2012-08-13 03:24:20.000000000Z
+  is_processed: 1
+  file_name: zbachnatasakdinamabinatimrosath
+  title: zBachnaTaSakdinaMaBinaTimrosath
+  album_name: !!null 
+  artist_name: !!null 
+  genre: !!null 
+  track: !!null 
+  year: !!null 
+  is_featured: 0
+songs_004:
+  id: 132
+  user_id: 1
+  artist_music_id: 32
+  description: !!null 
+  song_file_name: arth2.mp3
+  song_content_type: ! '[audio/mpeg]'
+  song_file_size: 4805697
+  song_updated_at: 2012-08-13 03:24:18.000000000Z
+  total_played: 0
+  created_at: 2012-08-13 03:24:18.000000000Z
+  updated_at: 2012-08-13 03:24:35.000000000Z
+  is_processed: 1
+  file_name: arth2
+  title: arth2
+  album_name: Arth
+  artist_name: Jagjit Singh
+  genre: !!null 
+  track: '2'
+  year: !!null 
+  is_featured: 0

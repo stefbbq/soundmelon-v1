@@ -51,8 +51,7 @@ class ArtistPublicController < ApplicationController
 
   def send_message
     if request.xhr?
-      begin
-        @actor            = current_actor
+      begin        
         to_artist         = Artist.find(params[:id])
         receipt           = @actor.send_message(to_artist, params[:body], 'subject')
         NotificationMail.message_notification to_artist, @actor, receipt.message

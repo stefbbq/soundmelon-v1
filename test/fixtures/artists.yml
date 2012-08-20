@@ -1,11 +1,64 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+---
+artists_001:
+  id: 1
+  name: SteamWalker
+  genre: Hard Rock  
+  bio: ! "Steam Walker is Hard Rock band from Sillicon Valley formed in 2000 with
+    a group member of four namely: Stefan Soc (aka Steammer), Nav Raj(aka Death Hammer),
+    Bardan Rana (aka  Mr. Bless) and Harrison Bond (aka Gems Bond)."
+  location: Las Vegas
+  artist_logo_url: !!null 
+  website: http://steamwalker.net
+  mention_name: dreamer
+  facebook_page: ritushishir
+  twitter_page: ritushishir
+  is_member_public: 1
+artists_002:
+  id: 2
+  name: Tim's Band
+  genre: rock  
+  bio: !!null 
+  location: !!null 
+  artist_logo_url: !!null 
+  website: !!null 
+  mention_name: timsband
+  facebook_page: ritushishir
+  twitter_page: ritushishir
+  is_member_public: 1
+artists_003:
+  id: 3
+  name: Silence on Europa
+  genre: metal  
+  bio: Toronto-born musical outfit encroaching on the folk, prog and metal genres
+    with voracious ferocity.
+  location: Toronto
+  artist_logo_url: !!null 
+  website: www.silenceoneuropa.com
+  mention_name: soe
+  facebook_page: ritushishir
+  twitter_page: ritushishir
+  is_member_public: 0
+artists_004:
+  id: 4
+  name: Timband
+  genre: blues, pop  
+  bio: We are an awesome band.  Fake.  But awesome
+  location: Calgary
+  artist_logo_url: !!null 
+  website: www.timsband.com
+  mention_name: timband
+  facebook_page: ritushishir
+  twitter_page: ritushishir
+  is_member_public: 1
+artists_005:
+  id: 5
+  name: RailsHimalaya
+  genre: !!null 
+  bio: ''
+  location: Kirtipur, Kathmandu, Nepal
+  artist_logo_url: !!null 
+  website: ''
+  mention_name: railshimalaya
+  facebook_page: ritushishir
+  twitter_page: ritushishir
+  is_member_public: 0

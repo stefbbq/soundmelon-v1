@@ -1,11 +1,513 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+---
+users_001:
+  id: 1
+  email: ritushishir@gmail.com
+  fname: Stefan
+  lname: Soc
+  crypted_password: $2a$10$CnHjJsn98Uw2.MpovoMzMOx8P3WLWBc.qv2Jo3HsZLhLifnPI2/RO
+  salt: ixyqMy4wE53cmtBH9v1b
+  account_type: 1
+  created_at: 2011-12-26 13:51:28.000000000Z
+  updated_at: 2012-08-17 08:53:43.000000000Z
+  reset_password_token: hiewjUGkWeTsQ8dwCAwQ
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: 2012-07-08 05:56:39.000000000Z
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: 2012-08-18 06:20:53.000000000Z
+  last_logout_at: 2012-08-17 08:53:43.000000000Z
+  last_activity_at: 2012-08-18 06:21:08.000000000Z
+  mention_name: mrbless
+  bio: !!null   
+  invitation_id: 36
+  invitation_limit: 95
+  user_account_type: admin
+  notification_on: 0
+  remember_me_token: !!null 
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_002:
+  id: 2
+  email: nav1982@gmail.com
+  fname: Raj nav
+  lname: Vinady
+  crypted_password: $2a$10$q8X/jx96zjqdFzk1GFCJserq4Th4bSypln3xMAAJSEJ1V4uA9OowW
+  salt: TT15fRQ2JwVyqsdSfpBp
+  account_type: 0
+  created_at: 2011-12-26 14:21:54.000000000Z
+  updated_at: 2012-07-26 12:28:42.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: 2012-01-09 15:58:00.000000000Z
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: 2012-07-28 06:14:19.000000000Z
+  last_logout_at: 2012-07-15 08:20:37.000000000Z
+  last_activity_at: 2012-07-28 09:08:26.000000000Z
+  mention_name: prince
+  bio: !!null   
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: admin
+  notification_on: 1
+  remember_me_token: 9LxBfoqYZZqsgfEWagAOdw
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_003:
+  id: 3
+  email: mrbless@gmail.com
+  fname: Bless
+  lname: Rana
+  crypted_password: $2a$10$TwERslXcLb5o9MYE7vkeq.nOEiGPqz.EBXG/iCeFIa0ON/3JGdslW
+  salt: rrqTg3nn8JnbT4VNDYNJ
+  account_type: 0
+  created_at: 2011-12-26 14:22:43.000000000Z
+  updated_at: 2012-07-26 12:28:42.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: !!null 
+  last_logout_at: 2011-12-26 14:38:34.000000000Z
+  last_activity_at: 2011-12-26 14:38:27.000000000Z
+  mention_name: bbb
+  bio: !!null   
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: !!null 
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_004:
+  id: 9
+  email: bardan+123@rubyngems.com
+  fname: Jeniffeer
+  lname: Hajmola
+  crypted_password: $2a$10$aGMqsl7PZPipzdmOrQbu.eZavxVlX2j3LGbL3XOD7xOxtZMJRNU3C
+  salt: t2rphDfgmi2Yssx4RzEw
+  account_type: 1
+  created_at: 2012-01-24 14:39:04.000000000Z
+  updated_at: 2012-07-26 12:28:42.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: 2012-01-31 14:55:07.000000000Z
+  last_logout_at: 2012-01-31 15:24:18.000000000Z
+  last_activity_at: 2012-01-31 15:21:17.000000000Z
+  mention_name: nixmo
+  bio: !!null
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: X2VrKz_fbA5dhbyX-TnKAQ
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_005:
+  id: 10
+  email: bardan+1234@rubyngems.com
+  fname: CS
+  lname: BS
+  crypted_password: $2a$10$dkFOZ6EoNTc7rx.79VzzeuIci5SUBig2XWUoIaQbvSUwG7fh7dW.a
+  salt: qsUsfi7YJG4renf7Wgqt
+  account_type: 1
+  created_at: 2012-01-24 14:51:50.000000000Z
+  updated_at: 2012-07-26 12:28:42.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: pending
+  activation_token: 5oAx7mFD5YdSzHVxVpxx
+  activation_token_expires_at: !!null 
+  last_login_at: !!null 
+  last_logout_at: !!null 
+  last_activity_at: !!null 
+  mention_name: bscs
+  bio: !!null 
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: PT9SHdZs8EOXqWuntsv2ng
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_006:
+  id: 11
+  email: ollie148@hotmail.com
+  fname: Tim
+  lname: Oliver
+  crypted_password: $2a$10$Opava.k0h0/ZjVaJsOsShORU.UPg3fUn34gQsVPAAvVmOhF4s9xS.
+  salt: aCSWGUyorY2TNQpRysFo
+  account_type: 0
+  created_at: 2012-01-24 15:26:26.000000000Z
+  updated_at: 2012-07-26 12:28:43.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: 2012-06-19 01:29:24.000000000Z
+  last_logout_at: 2012-06-19 02:25:15.000000000Z
+  last_activity_at: 2012-06-19 02:23:27.000000000Z
+  mention_name: tim-oliver
+  bio: !!null 
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: Ihdfe4sDugsdjDiY-iX7pg
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_007:
+  id: 12
+  email: stefan.soc@gmail.com
+  fname: Stefan
+  lname: Soc
+  crypted_password: $2a$10$SEzlcMkoytJOtY2a2MQQG.h/Ds/Th5L7jAtB4XSEKe7IULxKDAgjm
+  salt: 2szf3zvDDn1v95fqcbSd
+  account_type: 0
+  created_at: 2012-01-24 15:26:45.000000000Z
+  updated_at: 2012-07-26 12:28:43.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: 2012-06-16 05:30:14.000000000Z
+  last_logout_at: 2012-06-18 04:11:13.000000000Z
+  last_activity_at: 2012-06-18 04:11:11.000000000Z
+  mention_name: stefbbq
+  bio: !!null   
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: TBwJ6AvxoZePMBUtFcm_sQ
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_008:
+  id: 13
+  email: tim@steamwalker.net
+  fname: Joe
+  lname: Doe
+  crypted_password: $2a$10$l0vPUeOO7H0R6Q0P2Hn5T.jCsjVmSSf38W4Vcyn818Qamwpg34jbO
+  salt: BJPywAN7nmg3EBSHDUYs
+  account_type: 1
+  created_at: 2012-01-24 16:01:12.000000000Z
+  updated_at: 2012-07-26 12:28:43.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: 2012-02-02 01:45:18.000000000Z
+  last_logout_at: 2012-02-02 01:48:00.000000000Z
+  last_activity_at: 2012-02-02 01:47:55.000000000Z
+  mention_name: joe-doe
+  bio: !!null   
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: NSmU0fCy-O6OYNUoNpmv3A
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_009:
+  id: 14
+  email: stefan.soc@me.com
+  fname: Stefan
+  lname: Soc
+  crypted_password: $2a$10$Xz.5bKlns86dnrfo2yBXyuYRlS43249F5ZS4VswleX2F74W2SBX2e
+  salt: eRHtrDjyXdbkj8zGp4rn
+  account_type: 0
+  created_at: 2012-02-12 15:32:25.000000000Z
+  updated_at: 2012-07-26 12:28:43.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: 2012-02-12 15:35:29.000000000Z
+  last_logout_at: 2012-02-12 15:34:24.000000000Z
+  last_activity_at: 2012-02-12 15:51:20.000000000Z
+  mention_name: stef
+  bio: !!null   
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: VsYfu6ghRqEMCGEdhgCH6g
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_010:
+  id: 15
+  email: jeffedmondson@hotmail.ca
+  fname: Jeff
+  lname: Edmondson
+  crypted_password: $2a$10$Llnk9glpaonmnyASmlLu7OPxdbDLybJahNNwQjTR5KijkDG9plYti
+  salt: BA1g7vkQ4MERrvstU41R
+  account_type: 0
+  created_at: 2012-02-18 03:10:54.000000000Z
+  updated_at: 2012-07-26 12:28:43.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: 2012-04-24 05:49:16.000000000Z
+  last_logout_at: !!null 
+  last_activity_at: 2012-04-24 05:49:32.000000000Z
+  mention_name: jeff
+  bio: !!null   
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: bUhpCiSoHfaW14pwAmuuEQ
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_011:
+  id: 16
+  email: bardan+999@rubyngems.com
+  fname: Roller
+  lname: Coaster
+  crypted_password: $2a$10$/wgbfbXfN4HfIhBjcPNsseMpOhPUq4qzv1gLkyJZLtyhKY2AqK9zC
+  salt: jkhTSsV1MgubAtqTtuzq
+  account_type: 0
+  created_at: 2012-02-26 14:51:31.000000000Z
+  updated_at: 2012-07-26 12:28:43.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: 2012-02-27 15:11:21.000000000Z
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: 2012-02-27 15:18:28.000000000Z
+  last_logout_at: !!null 
+  last_activity_at: 2012-02-27 15:55:43.000000000Z
+  mention_name: rocker
+  bio: !!null   
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: ZknU7ur_HnHN48z9jKb2Wg
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_012:
+  id: 17
+  email: contact@borischan.net
+  fname: Boris
+  lname: Chan
+  crypted_password: $2a$10$XJ0vo9Ru.ILrLR8L.g0yK.USAzHKAyeS8Gna5YDC0Hyah9DIM/GVS
+  salt: Zzwe7G9pPoEqTVUsydxw
+  account_type: 0
+  created_at: 2012-03-04 20:39:18.000000000Z
+  updated_at: 2012-07-26 12:28:43.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: 2012-06-15 17:17:29.000000000Z
+  last_logout_at: !!null 
+  last_activity_at: 2012-06-15 17:17:29.000000000Z
+  mention_name: boris
+  bio: !!null   
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: nany6d1hXRfF5HNE69tMVw
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_013:
+  id: 18
+  email: mikedeturris@gmail.com
+  fname: Mike
+  lname: De Turris
+  crypted_password: $2a$10$I1pvIXZkeTBi5hlG/8P9demELqkfvZl/hA9D/JByaxU.Hw8U4P.6a
+  salt: qnahJsNANnjTwxQABBbw
+  account_type: 0
+  created_at: 2012-03-07 03:57:40.000000000Z
+  updated_at: 2012-07-26 12:28:43.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: !!null 
+  last_logout_at: !!null 
+  last_activity_at: 2012-03-07 04:04:27.000000000Z
+  mention_name: mike-de-turris
+  bio: !!null   
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: f9goj-I7KOwug5a7dBaWqA
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+pending_user_account:
+  id: 19
+  email: Busettoj@gmail.com
+  fname: Joey
+  lname: Busetto
+  crypted_password: $2a$10$j921ADK5.Eu9R/1GlN8wAO9EQl1mcZttYPV6JrTEFnk5JVgggazdm
+  salt: aarpZhgmDnJt4dgqpafB
+  account_type: 0
+  created_at: 2012-03-13 16:59:41.000000000Z
+  updated_at: 2012-07-15 09:00:56.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: pending
+  activation_token: NxBngywgzCE8gL7PDAjX
+  activation_token_expires_at: !!null 
+  last_login_at: !!null 
+  last_logout_at: !!null 
+  last_activity_at: !!null 
+  mention_name: ''
+  bio: !!null   
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: jD1j3XV-lPE_K6V4vQq1eA
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_015:
+  id: 20
+  email: hickzee@yahoo.com
+  fname: Jason
+  lname: Hicks
+  crypted_password: $2a$10$oEPwu0wdpDCfd7PSKbAeDueENfvE.MxNi/5sASfIDRHuVnEPZAbNW
+  salt: jucp2qaGxfqu35dmxUBK
+  account_type: 0
+  created_at: 2012-04-09 18:41:01.000000000Z
+  updated_at: 2012-07-26 12:28:43.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: !!null 
+  last_logout_at: !!null 
+  last_activity_at: 2012-04-09 18:48:05.000000000Z
+  mention_name: hickzee
+  bio: !!null   
+  invitation_id: !!null 
+  invitation_limit: !!null 
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: DRHkpqAzs6RZXcIIHZaVDA
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 
+users_016:
+  id: 22
+  email: ritushishir@facebook.com
+  fname: Shishir
+  lname: Paudyal
+  crypted_password: $2a$10$uDFRTkWwrCr/j.uuvXWuruPiodGFjT2MOuHxR2KkckI4jcfKwepCi
+  salt: pgr9pKsJHiidLYkJXusz
+  account_type: 0
+  created_at: 2012-06-08 09:31:45.000000000Z
+  updated_at: 2012-08-10 14:19:51.000000000Z
+  reset_password_token: !!null 
+  reset_password_token_expires_at: !!null 
+  reset_password_email_sent_at: !!null 
+  activation_state: active
+  activation_token: !!null 
+  activation_token_expires_at: !!null 
+  last_login_at: 2012-08-10 10:50:33.000000000Z
+  last_logout_at: 2012-08-10 14:19:51.000000000Z
+  last_activity_at: 2012-08-10 14:19:47.000000000Z
+  mention_name: ritushishir123
+  bio: !!null   
+  invitation_id: 1
+  invitation_limit: 5
+  user_account_type: !!null 
+  notification_on: 1
+  remember_me_token: !!null 
+  remember_me_token_expires_at: !!null 
+  is_external: 0
+  oauth_id: !!null 
+  oauth_type: !!null 
+  oauth_token: !!null 
+  oauth_token_secret: !!null 

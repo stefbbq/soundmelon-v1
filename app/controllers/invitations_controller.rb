@@ -12,16 +12,13 @@ class InvitationsController < ApplicationController
       @from_page              = params[:from_page].present? && params[:from_page]=='1'
       @has_message            = params[:source] && params[:source] == "1"
       if @invitation.save
-        if current_user
-          #          @invitation.send_invitation_email
-          #          @sent = true
-        else
+        unless current_user
           @sent = false
         end
       else
         render :action => 'new'
       end      
-    rescue =>exp
+    rescue =>exp      
       logger.info "Error: #{exp.message}"
       render :nothing => true and return
     end
@@ -38,7 +35,7 @@ class InvitationsController < ApplicationController
       if @invitation.save        
         @success = true
       end
-    rescue =>exp
+    rescue =>exp      
       logger.info "Error: #{exp.message}"
       render :nothing => true and return
     end

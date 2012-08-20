@@ -1,8 +1,7 @@
 class SearchController < ApplicationController
   before_filter :require_login, :except => [:check_artistname, :check_artistmentionname, :check_fanusername]
   
-  def index
-    @actor                = current_actor
+  def index    
     if params[:a_page].blank? # only fan search      
       @fan_search_results = User.search do
         fulltext params[:q]
