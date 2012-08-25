@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
 #  authenticates_with_sorcery!
   
+  include UserEntity
+
   authenticates_with_sorcery! do |config|
     config.authentications_class = Authentication
   end
@@ -12,11 +14,14 @@ class User < ActiveRecord::Base
   acts_as_followable
   acts_as_follower
   
-  has_many :user_posts, :order => "created_at desc"
-  #has_one :artist_user
+  has_many :user_posts, :order => "created_at desc"  
   has_many :artist_users, :dependent =>:destroy
   has_many :artists, :through => :artist_users
-  has_many :admin_artists, :through => :artist_users, :source =>:artist, :conditions =>'access_level = 1'
+  has_many :admin_artists, :through => :artist_users, :source =>:artist, :conditions => 'access_level = 1'
+  has_many :venue_users, :dependent =>:destroy
+  has_many :venues, :through => :venue_users, :source =>:venue
+  has_many :admin_venues, :through => :venue_users, :source => :venue, :conditions => 'access_level = 1'
+  
   has_one  :additional_info
   has_one  :payment_info
   has_many :artist_invitations
@@ -26,9 +31,9 @@ class User < ActiveRecord::Base
   has_many :artist_photos, :dependent =>:destroy
   has_many :songs
   has_many :song_albums
-  has_many :posts, :dependent => :destroy
+  has_many :posts, :as=>:useritem, :dependent => :destroy
   has_many :mention_posts
-  has_many :mentioned_posts, :as =>:mentionitem#, :dependent => :destroy
+  has_many :mentioned_posts, :as =>:mentionitem
   has_many :playlists, :dependent =>:destroy
   has_many :genre_users, :dependent =>:destroy
   has_many :genres, :through =>:genre_users
@@ -68,11 +73,7 @@ class User < ActiveRecord::Base
 
   def self.human_attribute_name(attr,options={})
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
-  end 
-  
-  def self.find_users_in_mentioned_post mentioned_name_arr
-    return where(:mention_name => mentioned_name_arr).select('DISTINCT(id), mention_name').all
-  end
+  end   
 
   def sanitize_mention_name
     unless self.mention_name.blank?
@@ -110,33 +111,32 @@ class User < ActiveRecord::Base
   
   #return all the artists in which the user is admin except the artist that comes as argument
   def admin_artists_list(artist=nil)
-    if artist
+    if artist && artist.instance_of?(Artist)
       self.admin_artists.where('artists.id != ?', artist.id)
     else
       self.admin_artists
     end
   end
-  
-  def find_own_as_well_as_mentioned_posts page=1   
-    Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id = :current_user_id and posts.is_deleted = :is_deleted)',  :current_user_id => self.id, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE)
+
+  def is_admin_of_venue?(venue)
+    admin_venue_members_id_arr = venue.venue_members.where('venue_users.access_level = 1').map{|venue_member| venue_member.id}
+    admin_venue_members_id_arr.include?(self.id)    
   end
-  
-  def find_own_posts page=1   
-    Post.where('posts.user_id = :current_user_id and posts.is_deleted = :is_deleted',  :current_user_id => self.id, :is_deleted => false).order('created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE)
+
+  def is_member_of_venue?(venue)
+    venue_members_id_arr = venue.venue_members.map{|venue_member| venue_member.id}
+    venue_members_id_arr.include?(self.id) ? true : false
   end
-  
-  def find_own_as_well_as_following_user_posts page=1
-    user_as_well_as_following_users_id = [self.id]
-    self.following_users.map{|follow|  user_as_well_as_following_users_id << follow.id}    
-    user_following_artist_ids   = self.following_artists.map{|artist| artist.id}
-    post_ids        = []
-#    posts           = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.artist_id in (:user_following_artist_ids))  and posts.is_deleted = :is_deleted and is_bulletin = false', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :user_following_artist_ids => user_following_artist_ids, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
-    posts           = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.artist_id in (:user_following_artist_ids))  and posts.is_deleted = :is_deleted', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :user_following_artist_ids => user_following_artist_ids, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
-#    #mark_mentioned_post_as_read post_ids
-#    #mark_replies_post_as_read post_ids
-    return posts
-  end
-  
+
+  #return all the venues in which the user is admin except the artist that comes as argument
+  def admin_venues_list(venue=nil)
+    if venue && venue.instance_of?(Venue)
+      self.admin_venues.where('venues.id != ?', venue.id)
+    else
+      self.admin_venues
+    end
+  end  
+      
   def is_part_of_post? post
     if(post.user == self || post.mentioned_posts.map{|mentioned_post| mentioned_post.user.id}.include?(self.id))
       return true
@@ -145,29 +145,6 @@ class User < ActiveRecord::Base
     end
   end
   
-  def mentioned_posts page=1
-    post_ids          = []
-    posts             = Post.joins(:mentioned_posts).where('mentioned_posts.user_id = ?',  self.id).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}
-    mark_mentioned_post_as_read post_ids
-    return posts
-  end
-  
-  def unread_mentioned_post_count
-    MentionedPost.where(:user_id => self.id, :status => UNREAD).count
-  end
-    
-  def unread_post_replies_count
-    unread_post_replies.count
-  end
-  
-  def replies_post page=1
-    user_post_ids     = Post.where('user_id = ?', self.id).map{|post| post.id}
-    posts             = Post.where('reply_to_id in (?)', user_post_ids).order('created_at desc').paginate(:page => page, :per_page => POST_PER_PAGE)
-    post_ids          = posts.map{|post| post.id}
-    mark_replies_post_as_read post_ids
-    return posts
-  end
-
   # user has genres(collected from user's favourite genre, genres of songs he/she liked)
   # songs from the artists of user's top genres(top based on liking count)
   def find_radio_feature_playlist_songs(number_of_songs = 5)    
@@ -191,10 +168,6 @@ class User < ActiveRecord::Base
     self.followers_by_type('User').order('rand()').limit(NO_OF_FOLLOWER_TO_DISPLAY)
   end
 
-  def is_fan?
-    true
-  end
-
   def assign_admin_role
     self.update_attribute(:user_account_type, USER_TYPE_ADMIN)
   end
@@ -215,10 +188,6 @@ class User < ActiveRecord::Base
     self.remove_from_index!
     self.destroy
     UserMailer.fan_removal_notification_email(full_name, email).deliver
-  end
-
-  def get_name
-    self.get_full_name
   end
 
   def name
@@ -264,21 +233,6 @@ class User < ActiveRecord::Base
   
   def generate_remember_token
     self.remember_me_token = SecureRandom.urlsafe_base64
-  end  
-
-  def mark_mentioned_post_as_read post_ids
-    MentionedPost.where(:post_id => post_ids, :user_id => self.id).update_all(:status => READ)
-  end
-  
-  def mark_replies_post_as_read post_ids
-    unread_replies_post_ids = unread_post_replies.map{|post| post.id}
-    post_need_to_be_marked_as_read = post_ids & unread_replies_post_ids
-    Post.where(:id => post_need_to_be_marked_as_read).update_all(:is_read => READ)
-  end
-  
-  def unread_post_replies
-    user_post_ids = Post.where('user_id = ? and is_newsfeed = 0', self.id).map{|post| post.id}
-    Post.where('reply_to_id in (?) and is_read = ?', user_post_ids, UNREAD)
   end
   
 end

@@ -19,7 +19,7 @@
           - album_link = artist_album_path('home', artist_photo_album.name)
         - else
           - album_link = artist_album_path(artist, artist_photo_album.name)
-        .album{:id => "artist_album_#{artist_photo_album.id}"}
+        .album{:id => "album_#{artist_photo_album.id}"}
           .cover= link_to get_artist_photo_album_teaser_photo(artist_photo_album), album_link, :remote => :true, :class => "ajaxopen backable"
           .title= link_to artist_photo_album.name, album_link, :remote => :true, :class => "ajaxopen backable"
     - else
@@ -27,11 +27,11 @@
 - if @has_link_access
   :javascript
     function updateAfterPhotoAlbumRemoval(artist_album_id){
-      if($('.right #photobox #artist_album_' + artist_album_id).length>0){
-        $('.right #photobox #artist_album_' + artist_album_id).remove();
+      if($('.right #photobox #album_' + artist_album_id).length>0){
+        $('.right #photobox #album_' + artist_album_id).remove();
       }
-      if($('.primary .left #artist_album_' + artist_album_id).length >0){
-        $('.primary .left #artist_album_' + artist_album_id).remove();
+      if($('.primary .left #album_' + artist_album_id).length >0){
+        $('.primary .left #album_' + artist_album_id).remove();
       }
       if($('#photobox div.album').length==0){
         $('#photobox').html("<div class='message'>#{NO_PHOTO_ALBUM_MESSAGE}</div>");

@@ -1,0 +1,10 @@
+= render "/venue/live"
+.primary-container
+  .primary
+    .left
+      .top
+        = render '/user_posts/status_venue'
+        = render '/venue/social_header', :default_active => true, :current => "mentions"
+      = render "/bricks/venue_posts"
+    .right
+      = render "/venue/right"

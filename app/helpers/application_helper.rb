@@ -27,12 +27,12 @@ module ApplicationHelper
   end
   
   def get_fan_avatar_large(user)
-     if user.profile_pic
-       image_tag(user.profile_pic.avatar.url(:medium), :alt=>'')
-     else
-       image_tag('profile/fan-defaults-photo-avatar-large.jpg', :alt=>'')
-     end
-   end
+    if user.profile_pic
+      image_tag(user.profile_pic.avatar.url(:medium), :alt=>'')
+    else
+      image_tag('profile/fan-defaults-photo-avatar-large.jpg', :alt=>'')
+    end
+  end
   
   def get_fan_profile_image(user, my_avatar = false)    
     if my_avatar
@@ -52,6 +52,18 @@ module ApplicationHelper
     else
       image_tag(artist.artist_logo.logo.url(:small), :alt=>'')
     end  
+  end
+
+  def get_venue_avatar(venue)
+    unless venue.venue_logo(true)
+      image_tag('profile/artist-defaults-avatar.jpg', :alt=>'')
+    else
+      image_tag(venue.venue_logo.logo.url(:small), :alt=>'')
+    end
+  end
+
+  def get_avatar useritem
+    useritem.is_fan? ? get_fan_avatar(useritem) : (useritem.is_artist? ? get_artist_avatar(useritem) : get_venue_avatar(useritem))
   end
   
   def get_artist_avatar_large(artist)
@@ -73,6 +85,19 @@ module ApplicationHelper
         image_tag(random_profile_images.sample, :alt=>'')
       end
     end    
+  end
+
+  def get_venue_profile_image(venue, self_logo = false)
+    random_profile_images = ["profile/artist-defaults-photo-profile-a.jpg", "profile/artist-defaults-photo-profile-b.jpg", "profile/artist-defaults-photo-profile-c.jpg", "profile/artist-defaults-photo-profile-d.jpg"]
+    if self_logo
+      raw (render :partial => '/bricks/venue_profile_image', :locals => {:venue => venue})
+    else
+      if venue.venue_logo
+        image_tag(venue.venue_logo.logo.url(:large), :alt=>'')
+      else
+        image_tag(random_profile_images.sample, :alt=>'')
+      end
+    end
   end
   
   def genre_atuofill
@@ -120,13 +145,14 @@ module ApplicationHelper
     mention_list_arr << user.following_users.to_a
     mention_list_arr << user.user_followers.to_a
     mention_list_arr << user.following_artists.to_a
+    mention_list_arr << user.following_venues.to_a
     
     mention_list_arr.flatten.uniq.each do |mentionable_item|
       mention_name      = "@#{mentionable_item.mention_name}"
       display_name      = "#{mention_name} - #{mentionable_item.get_name}"
       object_type       = mentionable_item.class.to_s.downcase
       # reset object type to fan or artist (needs to be fixed in database)
-      object_type       = (object_type == "artist") ? "artist" : "fan"
+      object_type       = (object_type == "user") ? "fan" : object_type
       auto_mention_list += "{name: \"#{display_name}\", id:\"#{mention_name}\", type:\"#{object_type}\"},"
     end
     return auto_mention_list.chomp(",")
@@ -169,31 +195,40 @@ module ApplicationHelper
     end
   end
 
+  def get_photo_album_teaser_photo(photo_album, type=:thumb, width=nil, height=nil)
+    cover_image = photo_album.cover_image
+    if cover_image.blank?
+      image_tag('profile/artist-defaults-avatar.jpg', :alt=>'', :height =>'35px', :width=>'35px')
+    else
+      (width.nil? and height.nil?) ? image_tag(cover_image.image.url(type), :alt=>'') : image_tag(cover_image.image.url(type), :alt=>'', :height =>height, :width=>width)
+    end
+  end
+
   def can_admin?(artist, user)
     user.is_admin_of_artist?(artist)
   end
 
-  def post_msg_with_artist_mention post, link_class = nil
+  def post_msg_with_mention post, link_class = nil
     link_class          = 'ajaxopen backable' unless link_class
     post_msg            = post.msg
-    mentioned_users     = post.mentioned_users
-    mentioned_artists   = post.mentioned_artists
-    unless mentioned_users.blank?
-      user_mentions     = mentioned_users.split(',')
-      for i in 0..user_mentions.size-2
-        um_id           = user_mentions[i]
-        um_name         = user_mentions[i+1]
-        fan_profile_link_html = "<a href='#{fan_profile_path(um_id)}' class='#{link_class}' data-remote='true'>@#{um_name}</a>"
-        post_msg = post_msg.gsub("@#{um_name}", fan_profile_link_html)
-        i = i+1
+    mention_post_ids    = post.mention_post_ids
+    if mention_post_ids
+      mention_posts     = MentionedPost.where("id in (?)", mention_post_ids.split(','))
+      mention_posts.each do |mention_item|
+        mention_id   = mention_item.mentionitem_id
+        mention_type = mention_item.mentionitem_type
+        mention_name = mention_item.mentionitem_name
+        if mention_type == 'User'
+          fan_profile_link_html = "<a href='#{fan_profile_path(mention_id)}' class='#{link_class}' data-remote='true'>@#{mention_name}</a>"
+          post_msg = post_msg.gsub("@#{mention_name}", fan_profile_link_html)
+        elsif mention_type == 'Artist'
+          artist_profile_link_html = "<a href='#{show_artist_path(mention_name)}' class='#{link_class}' data-remote='true'>@#{mention_name}</a>"
+          post_msg = post_msg.gsub("@#{mention_name}", artist_profile_link_html)
+        elsif mention_type == 'Venue'
+          artist_profile_link_html = "<a href='#{show_venue_path(mention_name)}' class='#{link_class}' data-remote='true'>@#{mention_name}</a>"
+          post_msg = post_msg.gsub("@#{mention_name}", artist_profile_link_html)
+        end
       end
-    end
-    unless mentioned_artists.blank?
-      artist_mentions   = post.mentioned_artists.split(',')
-      artist_mentions.each{|mb|
-        artist_profile_link_html = "<a href='#{show_artist_path(mb)}' class='#{link_class}' data-remote='true'>@#{mb}</a>"
-        post_msg = post_msg.gsub("@#{mb}", artist_profile_link_html)
-      }
     end
     post_msg = Rinku.auto_link(post_msg, :all, 'target="_blank"')
     post_msg.html_safe
@@ -204,22 +239,21 @@ module ApplicationHelper
     message         = ""
     link_class      = 'ajaxopen backable' unless link_class
     if post && postitem
-      if post.artist_album_post?
-        artist        = post.artist
-        album_name    = postitem.name
-        album_path    = "#{artist_album_path(artist, album_name)}"
+      if post.album_post?
+        album_detail  = album_name_and_url(postitem)
+        album_path    = album_detail.first
+        album_name    = album_detail.last
         content       += " added a new photo album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
-      elsif post.artist_photo_post?
-        artist        = post.artist
-        album         = postitem.artist_album
-        album_name    = album.name
-        album_path    = "#{artist_album_path(artist, album_name)}"
+      elsif post.photo_post?
+        album_detail  = album_name_and_url(postitem.album)
+        album_path    = album_detail.first
+        album_name    = album_detail.last                        
         content       += " added a new photo to the <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a> album"
         message       =  raw (render '/artist_photo/photo', :photo =>postitem, :artist_album =>album, :artist =>artist, :in_newsfeed =>true)
       elsif post.artist_show_post?
         artist        = postitem.artist
         show_id       = postitem.id
-        show_venue    = postitem.venue
+        show_venue    = postitem.get_venue_name
         show_city     = postitem.city
         show_path     = artist_show_path(artist, show_id)
         content       += " has created a new <a href='#{show_path}' class='#{link_class}' data-remote=true>show</a> at #{show_venue} of #{show_city}"
@@ -246,21 +280,20 @@ module ApplicationHelper
     content         = " wrote about "
     message         = ""
     if post && postitem
-      if post.artist_album_post?
-        artist        = postitem.artist
-        album_name    = postitem.name
-        album_path    = "#{artist_album_path(artist, album_name)}"
-        content       += "artist photo album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
-      elsif post.artist_photo_post?
-        artist        = postitem.artist_album.artist
-        album         = postitem.artist_album
-        album_name    = album.name
-        album_path    = "#{artist_album_path(artist, album_name)}"
-        content       += "artist photo <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+      if post.album_post?
+        album_detail  = album_name_and_url(postitem)
+        album_path    = album_detail.first
+        album_name    = album_detail.last
+        content       += " photo album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+      elsif post.photo_post?        
+        album_detail  = album_name_and_url(postitem.album)
+        album_path    = album_detail.first
+        album_name    = album_detail.last                
+        content       += " photo <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
       elsif post.artist_show_post?
         artist        = postitem.artist
         show_id       = postitem.id
-        show_venue    = postitem.venue
+        show_venue    = postitem.get_venue_name
         show_city     = postitem.city
         show_path     = artist_show_path(artist, show_id)
         content       += "artist show <a href='#{show_path}' class='#{link_class}' remote='true'>show</a>(at #{show_venue} of #{show_city})"
@@ -277,6 +310,18 @@ module ApplicationHelper
       end
     end
     [content.html_safe, message.html_safe]
+  end
+
+  def album_name_and_url album
+    useritem    = album.useritem
+    album_name  = album.name
+    album_path  = ''
+    if useritem.is_artist?
+      album_path    = "#{artist_album_path(useritem, album_name)}"
+    elsif useritem.is_venue?
+      album_path    = "#{venue_album_path(useritem, album_name)}"
+    end
+    [album_name, album_path]
   end
 
   # prepares the detail for individual song
@@ -314,12 +359,17 @@ module ApplicationHelper
 
   # returns detail for actor
   def actor_detail actor
+    name  = ''
+    link  = 'javascript:void(0)'
     if actor.is_fan?
       name = actor.get_full_name
       link = fan_profile_url(actor)
-    else
+    elsif actor.is_artist?
       name = actor.name
       link = show_artist_url(actor)
+    elsif actor.is_venue?
+      name = actor.name
+      link = show_venue_url(actor)
     end
     return {:name =>name, :link =>link}
   end
@@ -334,18 +384,18 @@ module ApplicationHelper
       type    = 'Song'
       name    = item.title
       artist  = item.song_album.artist
-    when 'ArtistAlbum'
-      type    = 'Photo Album'
-      name    = item.name
-      artist  = item.artist
-    when 'ArtistPhoto'
-      type    = 'Photo'
-      name    = nil
-      artist  = item.artist
     when 'ArtistShow'
       type    = 'Show'
       name    = nil
       artist  = item.artist
+    when 'Album'
+      type    = 'Photo Album'
+      name    = item.name
+      artist  = item.artist
+    when 'Photo'
+      type    = 'Photo'
+      name    = nil
+      artist  = item.artist    
     end
     return {:type =>type, :name =>name, :artist =>artist}
   end

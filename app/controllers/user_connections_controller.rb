@@ -1,6 +1,6 @@
 class UserConnectionsController < ApplicationController
   before_filter :require_login
-  before_filter :check_and_set_admin_access, :only =>[:artist_connections, :artist_followers]
+  before_filter :check_and_set_admin_access, :only =>[:artist_connections, :artist_followers, :venue_followers]
   before_filter :check_and_set_admin_access_fan, :only =>[:fan_followers, :fan_following_artists, :fan_following_fans ]
 
   # from the list of own profile[1]
@@ -93,6 +93,43 @@ class UserConnectionsController < ApplicationController
       end
     else
       redirect_to show_artist_url(:artist_name => params[:artist_name]) and return
+    end
+  end
+
+  def follow_venue
+    if request.xhr?
+      begin
+        @actor                  = current_actor
+        @venue                  = Venue.find_by_mention_name(params[:venue_name])
+        @actor.follow(@venue)
+        @source_symbol          = params[:source]
+        @last_follower_count    = @venue.followers_count
+        @last_following_count   = @actor.following_user_count
+        NotificationMail.follow_notification @venue, @actor
+      rescue => exp
+        logger.error "Error in UserConnections::FollowVenue :=> #{exp.message}"
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_venue_url(params[:venue_name]) and return
+    end
+  end
+
+  def unfollow_venue
+    if request.xhr?
+      begin
+        @actor                  = current_actor
+        @venue                  = Venue.find_by_mention_name(params[:venue_name])
+        @actor.stop_following(@venue)
+        @source_symbol          = params[:source]
+        @last_follower_count    = @venue.followers_count
+        @last_following_count   = @actor.following_venue_count
+      rescue => exp
+        logger.error "Error in UserConnections::UnollowArtist :=> #{exp.message}"
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_venue_url(params[:venue_name]) and return
     end
   end
 
@@ -205,6 +242,22 @@ class UserConnectionsController < ApplicationController
     end
   end
 
+  def venue_followers
+    begin      
+      @followers              = @venue.followers params[:page]      
+      get_venue_objects_for_right_column(@venue)
+      respond_to do |format|
+        format.js and return
+        format.html and return
+      end
+    rescue =>exp
+      logger.error "#{@followers.class.name}"
+      logger.error "Error in UserConnections#VenueFollowers : #{exp.message}"
+      render :nothing => true and return
+    end
+  end
+
+
   protected
 
   def check_and_set_admin_access_fan
@@ -229,19 +282,33 @@ class UserConnectionsController < ApplicationController
 
   def check_and_set_admin_access
     begin
-      if params[:artist_name] == 'home'
-        @artist           = @actor
-        @has_admin_access = @artist == @actor
-        @has_link_access  = @has_admin_access
-      else
-        @artist           = Artist.where(:mention_name => params[:artist_name]).first
-        @is_public        = true
-        @has_link_access  = false
+      if params[:artist_name].present?
+        if params[:artist_name] == 'home'
+          @artist           = @actor
+          @has_admin_access = true
+          @has_link_access  = @has_admin_access
+        else
+          @artist           = Artist.where(:mention_name => params[:artist_name]).first
+          @is_public        = true
+          @has_link_access  = false
+        end
+      elsif params[:venue_name].present?
+        if params[:venue_name] == 'home'
+          @venue            = @actor
+          @has_admin_access = true
+          @has_link_access  = @has_admin_access
+        else
+          @venue            = Venue.where(:mention_name => params[:venue_name]).first
+          @is_public        = true
+          @has_link_access  = false
+        end
       end
-    rescue
+    rescue =>exp
+      logger.error "Error in UserConnections::CheckAndSetAdminAccess :=>#{exp.message }"
       @artist             = nil
-    end
-    unless @artist
+      @venue              = nil
+    end    
+    if not (@artist || @venue )
       render :template =>"bricks/page_missing" and return
     end
   end

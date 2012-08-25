@@ -1,0 +1,13 @@
+- album_photos = capture do
+  .gallery
+    - @album.photos.each do |photo|
+      = render 'photo', :photo => photo, :album => @album
+- hide_album_photos = capture do
+  %a{:href => "javascript:void(0);", :onclick => "$('#album_#{@album.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
+    collapse
+$('#album_#{@album.id} .album-details').html('#{escape_javascript album_photos}');
+$('#expand_link_#{@album.id}').replaceWith('#{escape_javascript hide_album_photos}');    
+closeFacebox(1);
+$('.selection-box').removeClass('active').removeClass('button-fill-artist')
+$('#photos').addClass('active').addClass('button-fill-artist');
+scrollToTop();

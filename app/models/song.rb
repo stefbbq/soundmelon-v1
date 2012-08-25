@@ -208,11 +208,15 @@ class Song < ActiveRecord::Base
   
   def create_newsfeed    
     if self.processed?
-      Post.create_newsfeed_for self, nil, self.artist_music.artist_id, " added"
+      Post.create_newsfeed_for self, nil, 'Artist', self.artist_music.artist_id, " added"
     end    
   end
 
   def artist
+    self.artist_music.artist
+  end
+
+  def useritem
     self.artist_music.artist
   end
 

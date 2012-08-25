@@ -1,0 +1,12 @@
+= render :partial=>"/venue/live"
+.primary-container
+  .primary
+    .left
+      %b Followers of #{@venue.name}
+      %hr/
+      .connections_list{:id =>"#{@venue.class.name.downcase}_#{@venue.id}_followers"}
+        - @followers.map(&:follower).each do |user|
+          = render '/user_connections/item', :user => user, :connection_item => @venue, :is_user_fan => true
+      = paginate @followers, :remote => true
+    .right
+      = render '/venue/right', :current =>'fan'

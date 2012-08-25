@@ -1,0 +1,54 @@
+- is_own_wall     = @actor == @venue
+- is_actor_fan    = @actor ? @actor.is_fan? : false
+- venue_admin_ids = VenueUser.for_venue_id(@venue.id).map { |u| u.user_id}
+- is_venue_admin  = @actor ? (venue_admin_ids.include? current_user.id) : false
+.live
+  .profile-image{:title =>"#{@venue.name}"}
+    = get_venue_profile_image(@venue, !@is_public)
+  .links
+    .top
+      = render "bricks/random_artists", :current => nil
+    .bottom
+      .name
+        %h1.full-name= @venue.name
+        %h1= "@#{@venue.mention_name}"
+      .description
+      .overlay.overlay-info
+        .actions
+          - if @actor
+            - unless is_own_wall
+              - if is_venue_admin
+                = link_to change_login_venue_path(@venue), {:class =>'ajaxopen text-action', :remote => :true, :id => "administer"} do
+                  .icon-bg
+                  %i
+                  admin
+              - if is_actor_fan
+                - if @actor.following?(@venue)
+                  = link_to unfollow_venue_path(@venue, 1), {:id =>'unfollow-venue', :remote => true, :class => 'ajaxopen text-action'} do
+                    .icon-bg
+                    %i
+                    unfollow
+                - else
+                  = link_to follow_venue_path(@venue, 1), {:id =>'follow-venue', :remote => true, :class => 'ajaxopen text-action'} do
+                    .icon-bg
+                    %i
+                    follow
+              - else
+                #connect_section
+                  = render 'bricks/venue_connection', :actor => @actor, :venue => @venue
+            - else              
+              - unless @has_link_access
+                = link_to user_home_path, {:remote => true, :id => "administer", :class => 'text-action ajaxopen backable'} do
+                  .icon-bg
+                  %i
+                  admin
+              - else
+                = link_to show_venue_path(@venue), {:remote => true, :id => "view-public-profile", :class => 'text-action ajaxopen backable'} do
+                  .icon-bg
+                  %i
+                  view public profile                        
+          = link_to '', "http://facebook.com/#{@venue.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @venue.facebook_page.blank?
+          = link_to '', "http://twitter.com/#{@venue.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @venue.twitter_page.blank?
+        .heading
+          %span
+            = "#{@venue.location}"

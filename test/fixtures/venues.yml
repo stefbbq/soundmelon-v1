@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: 
+  info: 
+  est_date: 
+  country: 
+  state: 
+  city: 
+  address: 
+  latitude: 
+  longitude: 
+  mapped_address: 
+  profile_completeness: 
+  is_private: false
+
+two:
+  name: 
+  info: 
+  est_date: 
+  country: 
+  state: 
+  city: 
+  address: 
+  latitude: 
+  longitude: 
+  mapped_address: 
+  profile_completeness: 
+  is_private: false

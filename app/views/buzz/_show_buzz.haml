@@ -1,6 +1,6 @@
 .header
   - if @artist_show
-    = " Buzz : Artist Show on #{@artist_show.show_date} @#{@artist_show.venue} "
+    = " Buzz : Artist Show on #{@artist_show.show_date} @#{@artist_show.venue_name} "
 = render 'buzzlisting', :buzzes_by_date =>@buzzes_by_dates
 .normal-content.mini-content
   = render 'show_buzz_form'

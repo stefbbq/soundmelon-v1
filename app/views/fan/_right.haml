@@ -1,4 +1,4 @@
-- tabs      = [:news_feed, :following_artist, :following_fan, :follower_user, :manage_profile, :access_profile]
+- tabs      = [:news_feed, :following_artist, :following_fan, :follower_user, :manage_profile, :access_profile, :access_venue]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 .items
   - if @is_public
@@ -36,6 +36,10 @@
               :id                       =>'access-artist',
               :remote                   => true,
               :class                    => 5 == current ? 'active button-fill-fan selection-box ajaxopen backable' : 'selection-box ajaxopen backable'
+    = link_to 'access venue profile', associated_venue_path,
+              :id                       =>'access-venue',
+              :remote                   => true,
+              :class                    => 6 == current ? 'active button-fill-fan selection-box ajaxopen backable' : 'selection-box ajaxopen backable'
     /= link_to 'invite friends', new_invitation_path, :id=>'invite-friends', :remote => true, :class => 'selection-box ajaxopen'
     = link_to 'remove your profile',
               remove_my_profile_path,

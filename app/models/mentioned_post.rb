@@ -5,20 +5,15 @@ class MentionedPost < ActiveRecord::Base
   belongs_to :artist
   belongs_to :post
   belongs_to :mentionitem, :polymorphic =>true
-  def self.create_post_mentions(post, mentioned_users, mentioned_artists)
-    mentioned_posts = []
-    actor           = post.writer_actor
-    mentioned_users.each do |mentioned_user| 
-      mentioned_posts << self.new(:post_id => post.id, :user_id => mentioned_user.id, :status => UNREAD)
-      NotificationMail.mention_notification mentioned_user, actor, post
-    end
-    
-    mentioned_artists.each do |mentioned_artist| 
-      mentioned_posts << self.new(:post_id => post.id, :artist_id => mentioned_artist.id, :status => UNREAD)
-      NotificationMail.mention_notification mentioned_artist, actor, post
-    end
-    
-    self.import mentioned_posts
-  end
   
+  def self.create_post_mentions(post, mentioned_items)
+    mentioned_posts = []
+    actor           = post.writer_actor    
+    mentioned_items.each do |mentioned_item|
+      mentioned_posts << mentioned_item.mentioned_posts.build(:post_id => post.id, :mentionitem_name =>mentioned_item.mention_name, :status => UNREAD)
+      NotificationMail.mention_notification mentioned_item, actor, post if actor
+    end        
+    self.import mentioned_posts    
+  end
+
 end

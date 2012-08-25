@@ -2,11 +2,14 @@
   - content_for(:head) do
     = stylesheet_link_tag "jquery.Jcrop"
     = javascript_include_tag "jquery.Jcrop.min", "avatar"
-  != "$('.live .profile-image').html('#{escape_javascript(get_artist_profile_image(@artist, true))}');"
+  != "$('.live .profile-image').html('#{escape_javascript(get_artist_profile_image(@item, true))}');"
   != "jQuery.facebox('#{escape_javascript(render 'crop_form_logo')} ' );"
   != "$('#cropbox').Jcrop({onChange: update_crop, onSelect: update_crop, setSelect: [0, 0, 414, 246], aspectRatio: 1.68});"
   != "$('form').submit(function(){($('.loader').html($('#globalloading').html()));return true; $(':submit').attr('disabled','disabled');});"
 - else
-  != "$('.live .profile-image').html('#{escape_javascript(get_artist_profile_image(@artist, true))}');"
+  - if @item.is_artist?
+    != "$('.live .profile-image').html('#{escape_javascript(get_artist_profile_image(@item, true))}');"
+  - else
+    != "$('.live .profile-image').html('#{escape_javascript(get_venue_profile_image(@item, true))}');"
   faceboxContent("Successfully Uploaded");
   closeFacebox(1000);

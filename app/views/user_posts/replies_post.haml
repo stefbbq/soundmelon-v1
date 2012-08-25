@@ -1,10 +1,22 @@
-= render :partial=>"/artist/live"
-.primary-container
-  .primary
-    .left
-      .top
-        = render '/user_posts/status_artist'
-        = render '/artist/social_header', :current =>'reply'
-      = render "/bricks/artist_posts", :current =>'reply'
-    .right
-      = render "/artist/right"
+- if @artist
+  = render :partial=>"/artist/live"
+  .primary-container
+    .primary
+      .left
+        .top
+          = render '/user_posts/status_artist'
+          = render '/artist/social_header', :current =>'reply'
+        = render "/bricks/artist_posts", :current =>'reply'
+      .right
+        = render "/artist/right"
+- elsif @venue
+  = render :partial=>"/venue/live"
+  .primary-container
+    .primary
+      .left
+        .top
+          = render '/user_posts/status_venue'
+          = render '/venue/social_header', :current =>'reply'
+        = render "/bricks/venue_posts", :current =>'reply'
+      .right
+        = render "/venue/right"

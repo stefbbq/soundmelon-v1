@@ -40,6 +40,13 @@ class SearchController < ApplicationController
       format.js
     end
   end
+
+  def venue_autocomplete_suggestions
+    @venues          = Venue.where("name like :search_word ", :search_word => "#{params[:term]}%").select('Distinct name, city').limit(10)
+    respond_to do |format|
+      format.js
+    end
+  end
   
   def check_fanusername
     if User.where('mention_name = ?', "#{params[:fan_user_name]}").count == 0

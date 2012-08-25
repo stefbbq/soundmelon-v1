@@ -1,0 +1,15 @@
+- if venue.venue_logo(true)
+  = image_tag(venue.venue_logo.logo.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
+  .overlay
+    = link_to new_logo_path, {:remote=>:true,:class=>'ajaxopen'} do
+      %h2
+        upload
+    = link_to delete_logo_path, {:remote=>:true} do
+      %h2
+        remove
+- else
+  = image_tag('profile/artist-defaults-photo-profile-add.jpg')
+  .overlay
+    = link_to new_logo_path, {:remote=>:true} do
+      %h2
+        add

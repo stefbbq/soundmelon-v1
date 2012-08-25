@@ -1,0 +1,40 @@
+- show_all        ||=false
+.artist-content[album]
+  .top
+    .cover
+      = link_to get_photo_album_teaser_photo(album, :medium, '60px;', '60px;'), album_photos_path(@venue, album.name), :remote=>:true, :class=>"ajaxopen"
+    .info
+      = link_to venue_album_photos_path(@venue, album.name),{ :remote=>:true, :class=>"ajaxopen"} do
+        %h2= album.name
+      %h4
+        added
+        = album.created_at.strftime("%b %d, %Y")
+    .artist-content-actions
+      = link_to photo_album_buzz_path(album.name, album.id), {:remote => true, :class => 'ajaxopen'} do
+        .buzz-icon
+        buzz
+  .bottom
+    .stat{:id =>"photo_stat_#{album.id}"}
+      = pluralize(album.photos.size, 'photo')
+    - if @has_link_access
+      .controls
+        = link_to "add", add_photos_to_venue_album_path('home', album.name), {:remote=>:true, :class=>"ajaxopen", :title =>"add new photo"}
+        = link_to "edit", edit_venue_album_path('home', album.name), :remote=>:true, :class=>"ajaxopen", :id =>"edit_link_#{album.id}"
+        = link_to album.disabled? ? 'enable' : 'disable', disable_enable_album_path('home', album.name), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{album.id}"
+        = link_to "remove", delete_venue_album_path('home', album.name), :remote=>:true, :class=>"ajaxopen"
+    .toggle
+      .toggle-thread
+        - unless show_all
+          - if @has_link_access
+            = link_to "expand", venue_album_photos_path('home', album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{album.id}"
+          - else
+            = link_to "expand", venue_album_photos_path(@venue, album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{album.id}"
+        - else
+          %a{:href => "javascript:void(0);", :onclick => "$('#album_#{album.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
+    .album-details
+      - if show_all
+        .gallery
+          - album.photos.each do |photo|
+            = render 'photo', :photo => photo, :album => album
+  .clear
+.clear

@@ -1,0 +1,35 @@
+- avatar_div = "#{@actor.class.name.downcase}_avatar_#{@actor.id}"
+- item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}"
+- follow_content = capture do
+  = link_to follow_venue_path(@venue), {:id =>'follow-venue', :remote => true, :class => 'ajaxopen text-action'} do
+    .icon-bg
+    %i
+    follow
+
+- if @source_symbol == '1'
+  - item_div_id   = "#{@actor.class.name.downcase}_#{@actor.id}"
+  $('.actions #unfollow-venue').replaceWith('#{escape_javascript follow_content}');
+  if($("#followerbox ##{avatar_div}").length>0){$("#followerbox ##{avatar_div}").remove();}
+  if($("#followerbox div.avatar").length==0){$("#followerbox").html("<div class='message'>#{NO_FAN_MESSAGE}</div>");}
+  $('#fanbox span.count').html("#{@last_follower_count}");
+  if($('.primary .left .connections_list ##{item_div_id}').length>0){$('.primary .left .connections_list ##{item_div_id}').remove();}
+
+- elsif @source_symbol == '2'
+  - item_div_id   = "#{@venue.class.name.downcase}_#{@venue.id}"
+  $('.actions #unfollow-venue').replaceWith('#{escape_javascript follow_content}');
+  if($('.right #followingvenuebox ##{@venue.class.name.downcase}_avatar_#{@venue.id}').length>0){$('.right #followingvenuebox ##{@venue.class.name.downcase}_avatar_#{@venue.id}').remove();}
+  if($('.right #followingvenuebox div.avatar').length==0){$('.right #followingvenuebox').html("<div class='message'>#{NO_FOLLOWING_ARTIST_MESSAGE}</div>");}
+  $('a#following-venue span.count').html("#{pluralize(@last_following_count, 'venue')}");
+  if($('.primary .left .connections_list ##{item_div_id}').length>0){$('.primary .left .connections_list ##{item_div_id}').remove();}
+
+- elsif @source_symbol == '3'
+  - item_div_id     = "#{@venue.class.name.downcase}_#{@venue.id}"
+  - follow_link     = "#{follow_venue_path(@venue.name,@source_symbol.to_i)}"
+  if($('.primary .left .connections_list ##{item_div_id}').length>0){$('.primary .left .connections_list ##{item_div_id} .actions a').attr('href','#{escape_javascript follow_link }').html('follow');}
+- elsif @source_symbol == '4'
+  - item_div_id     = "#{@venue.class.name.downcase}_#{@venue.id}"
+  - follow_link     = "#{follow_venue_path(@venue, @source_symbol.to_i)}"
+  if($('#results .item-large-square##{item_div_id}').length>0){$('#results .item-large-square##{item_div_id} .actions a').attr('href','#{escape_javascript follow_link }').html('follow');}
+
+faceboxContent('musician unfollowed successfully');
+closeFacebox(1000);

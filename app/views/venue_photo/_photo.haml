@@ -1,0 +1,24 @@
+- venue        ||=nil
+- @venue       = venue || @venue
+- in_newsfeed   ||=false
+- link_class    = @actor ? 'ajaxopen' : 'force-login'
+- unless in_newsfeed
+  .photo[photo]
+    =link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), venue_album_photo_path(@venue, album.name, photo.id), :remote => true, :class => link_class, :title => photo.caption
+    - if @has_link_access
+      .actions
+        - if (photo.id == album.cover_image_id)
+          %span
+            album cover
+        - else
+          = link_to "set as cover", make_cover_image_venue_path(@venue, album.name, photo.id), :remote => true, :class => 'ajaxopen text'
+        - if photo.caption.blank?
+          = link_to 'add caption', edit_venue_photo_path(@venue, album.name, photo.id), :remote => true, :class => 'ajaxopen text'
+        - else
+          = link_to 'edit caption',  edit_venue_photo_path(@venue, album.name, photo.id), :remote => true, :class => 'ajaxopen text'
+
+        = link_to 'remove', delete_venue_photo_path(@venue, album.name, photo.id), :remote => true, :class => 'ajaxopen text'
+- else
+  .photo[photo]
+    =link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), venue_album_photo_path(@venue, album.name, photo.id), :remote => true, :class => link_class, :title => photo.caption
+    = photo.caption

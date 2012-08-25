@@ -1,0 +1,8 @@
+- artist_shows = capture do  
+  .show-list
+    - @artist_show_list.each do |artist_show|
+      = render '/artist_show/show', :artist_show =>artist_show, :show_all =>@show_all || false
+updateLeftSection('#{escape_javascript artist_shows}');
+updateRightSection('#{escape_javascript(render 'venue/right', :current =>'show')}');
+closeFacebox(1);
+scrollToTop();

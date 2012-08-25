@@ -1,14 +1,15 @@
 - actor           = @actor
-- artist          = post.artist_id.blank? ? nil : post.artist
+- useritem        = post.useritem_id.blank? ? nil : post.useritem
 - user            = post.user_id.blank? ? nil : post.user
 - post_item       = post.postitem
 - is_newsfeed     = post.is_newsfeed
 - buzz_content    = ""
 
+- @useritem       = @useritem || @venue
 
-- is_author_artist_profile  = (@artist && artist) && @artist == artist
+- is_author_useritem_profile= (@useritem && useritem) && @useritem == useritem
 - is_author_fan_profile     = (@user && user) && @user == user
-- self_post                 = is_author_artist_profile || is_author_fan_profile
+- self_post                 = is_author_useritem_profile || is_author_fan_profile
 - hide_thread_link          ||= false
 - hide_reply_link           ||= false
 - divclass                  ||= ''
@@ -16,7 +17,7 @@
 - post_div_id               ||= "post_#{post.id}"
 
 - self_owner      = post.user == actor
-- self_actor      = user == actor || artist == actor
+- self_actor      = user == actor || useritem == actor
 - item_div_class  = self_owner ? 'content' : 'content-mentioned'
 - reply_form_div  = "post_reply_form_div_#{post.id}"
 - reply_form_id   = "post_reply_form_#{post.id}"
@@ -26,8 +27,8 @@
   - if post_item
     - buzz_content = capture do
       - if actor
-        - if post.artist_album_post?
-          = link_to artist_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'action-buzz ajaxopen'} do
+        - if post.album_post?
+          = link_to photo_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'action-buzz ajaxopen'} do
             %i
             %span buzz
         - elsif post.artist_show_post?
@@ -45,8 +46,9 @@
   
 
 - writer_header = capture do
-  - if artist
-    = is_author_artist_profile ? artist.name : (link_to artist.name, show_artist_path(artist), :class => 'ajaxopen backable', :remote => :true, :title => artist.name)  
+  - if useritem
+    - link_detail = actor_detail(useritem)
+    = is_author_useritem_profile ? useritem.name : (link_to link_detail[:name], link_detail[:link], :class => 'ajaxopen backable', :remote => :true, :title => link_detail[:name])
   -elsif user
     = is_author_fan_profile ? user.get_full_name : (link_to user.get_full_name, fan_profile_path(post.user), :class => 'ajaxopen backable', :remote => :true, :title => user.get_full_name)
 
@@ -93,11 +95,12 @@
           = get_fan_avatar(user)
         - else
           = link_to get_fan_avatar(user), (self_owner ? fan_home_url : fan_profile_path(user) ), :class =>'ajaxopen backable', :remote =>:true
-      - elsif artist
-        - if is_author_artist_profile
-          = get_artist_avatar(artist)
+      - elsif useritem
+        - if is_author_useritem_profile
+          = get_avatar(useritem)
         - else
-          = link_to get_artist_avatar(artist), show_artist_path(artist), :class =>'ajaxopen backable', :remote =>:true
+          - link_detail = actor_detail(useritem)
+          = link_to get_avatar(useritem), link_detail[:link], :class =>'ajaxopen backable', :remote =>:true
     .content
       .header
         .title
@@ -115,10 +118,10 @@
             #{newsfeed_message(post, post_item, 'force-login').last}
         - else
           - if actor
-            = post_msg_with_artist_mention(post) unless post.is_newsfeed?
+            = post_msg_with_mention(post) unless post.is_newsfeed?
             #{post_message(post, post_item).last}
           - else
-            = post_msg_with_artist_mention(post, 'force-login') unless post.is_newsfeed?
+            = post_msg_with_mention(post, 'force-login') unless post.is_newsfeed?
             #{post_message(post, post_item, 'force-login').last}
     .clear
     - if post.ancestry && !hide_thread_link && actor      

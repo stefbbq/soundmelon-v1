@@ -1,0 +1,6 @@
+= form_tag artist_send_message_path(@artist, @artist.id), :id => 'send_msg_form',:class=>"ajaxopen", :method=>:post,  :remote => :true do |f|
+  .header
+    type in your message
+  .mini-content
+    = text_area_tag :body,'',{:class=>'input-box',:rows=>5,:cols=>50 ,:maxlength => 200}
+    %input{:name => 'send', :id=>'send_message_btn', :type => 'submit', :value => 'Send' ,:class=>'button blue right'} 

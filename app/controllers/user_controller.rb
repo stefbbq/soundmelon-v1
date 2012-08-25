@@ -3,17 +3,18 @@ class UserController < ApplicationController
 
   def index
     begin
-      home_actor                    = current_actor      
+      home_actor                    = current_actor
+      @song_items                   = current_user.find_radio_feature_playlist_songs unless request.xhr?
+      messages_and_posts_count      
       if home_actor.is_fan?
         @user                       = home_actor
         @is_fan                     = true
         #----------Get Objects------------------------------------------------------------
-        get_current_fan_posts
-        messages_and_posts_count        
+        get_current_fan_posts          
         get_user_associated_objects
         render :template =>"/fan/index" and return
         #----------------------------------------------------------------------------------
-      elsif home_actor.instance_of?(Artist)
+      elsif home_actor.is_artist?
         @artist                     = home_actor
         @is_artist                  = true
         @from_home                  = true        
@@ -21,8 +22,14 @@ class UserController < ApplicationController
         get_artist_associated_objects(@artist)
         render "/artist/index" and return
         #---------------------------------------------------------------------------------
-      end
-      @song_items                   = current_user.find_radio_feature_playlist_songs unless request.xhr?
+      elsif home_actor.is_venue?
+        @venue                      = home_actor
+        @is_venue                   = true
+        @from_home                  = true
+        @has_link_access            = true
+        get_venue_objects_for_right_column(@venue)
+        render "/venue/index" and return
+      end            
     rescue =>exp
       logger.error "Error in User#Index => #{exp.message}"
       render :nothing =>true and return
@@ -36,26 +43,38 @@ class UserController < ApplicationController
   def change_login
     if request.xhr?
       begin
-        if params[:artist_name].blank?          
-          @user                       = current_user          
-          reset_current_fan_artist
-          @is_fan                     = true
-          #----------Get Objects------------------------------------------------------------
-          get_current_fan_posts
-          messages_and_posts_count
-          get_user_associated_objects
-          #----------------------------------------------------------------------------------
-        else          
+        if params[:artist_name].present?
           @artist                     = Artist.where(:mention_name =>params[:artist_name]).first
-          @from_home                  = true          
-          set_current_fan_artist(@artist.id)
-          @actor                      = current_actor
+          @from_home                  = true
+          set_current_useritem(@artist)
+          @actor                      = current_actor          
           @is_artist                  = true
           @has_link_access            = true
           get_artist_mentioned_posts(@artist)
           #----------Get Objects------------------------------------------------------------
           get_artist_associated_objects(@artist)
           #---------------------------------------------------------------------------------
+        elsif params[:venue_name].present?
+          @venue                      = Venue.where(:mention_name =>params[:venue_name]).first
+          @from_home                  = true
+          set_current_useritem(@venue)
+          @actor                      = current_actor          
+          @is_venue                   = true
+          @has_link_access            = true
+          messages_and_posts_count
+#          get_artist_mentioned_posts(@artist)
+          #----------Get Objects------------------------------------------------------------
+          get_venue_objects_for_right_column(@venue)
+          #---------------------------------------------------------------------------------
+        else
+          @user                       = current_user
+          reset_current_useritem
+          @is_fan                     = true
+          #----------Get Objects------------------------------------------------------------
+          get_current_fan_posts
+          messages_and_posts_count
+          get_user_associated_objects
+          #----------------------------------------------------------------------------------
         end
       rescue =>exp
         logger.error "Error in User#ChangeLogin => #{exp.message}"
@@ -66,19 +85,27 @@ class UserController < ApplicationController
     end
   end
 
-  # renders the form for updating the current actor(fan/artist) profile details
+  # renders the form for updating the current actor(fan/artist/venue) profile details
   def manage_profile
-    begin      
+    begin
+      @has_link_access             = true
       if @actor.is_fan?    # in case of fan profile login
-        @user             = @actor
-        @additional_info  = current_user.additional_info
+        @user                     = @actor
+        @additional_info          = current_user.additional_info
         get_user_associated_objects
         render :template =>"/fan/manage_profile" and return
-      else                # in case of artist profile login
-        @artist             = @actor
-        @artist_user        = ArtistUser.for_user_and_artist(current_user, @artist).first || ArtistUser.new
+      elsif @actor.is_artist?                # in case of artist profile login
+        @user                     = current_user
+        @artist                   = @actor
+        @artist_user              = ArtistUser.for_user_and_artist(current_user, @artist).first || ArtistUser.new
         get_artist_objects_for_right_column(@artist)
         render :template =>"/artist/edit" and return
+      elsif @actor.is_venue?                 # in case of venue profile login
+        @user                     = current_user
+        @venue                    = @actor
+        @venue_user               = VenueUser.for_user_and_venue(current_user, @venue).first || VenueUser.new
+        get_venue_objects_for_right_column(@venue)
+        render :template =>"/venue/edit" and return
       end
     rescue =>exp
       logger.error "Error in User#ManageProfile :=> #{exp.message}"
@@ -100,7 +127,7 @@ class UserController < ApplicationController
     if @is_fan
       logout      
     else
-      reset_current_fan_artist  
+      reset_current_useritem
       get_current_fan_posts
       messages_and_posts_count
       @song_items                 = current_user.find_radio_feature_playlist_songs
@@ -112,6 +139,17 @@ class UserController < ApplicationController
   def pull_artist_profiles
     @user                 = current_user
     @accessible_artists   = @user.artists.includes(:artist_musics, :songs)
+    get_fan_objects_for_right_column(@user)
+    respond_to do |format|
+      format.js
+      format.html
+    end
+  end
+
+  # renders the current fan's venue profiles
+  def pull_venue_profiles
+    @user                 = current_user
+    @accessible_venues    = @user.venues#.includes(:artist_musics, :songs)
     get_fan_objects_for_right_column(@user)
     respond_to do |format|
       format.js

@@ -1,3 +1,3 @@
 faceboxContent("Updated successfully");
-$('.primary .left #artist_album_#{@artist_album.id}').replaceWith('#{escape_javascript(render 'album', :artist_album => @artist_album, :show_all =>true)}');
+$('.primary .left #album_#{@artist_album.id}').replaceWith('#{escape_javascript(render 'album', :artist_album => @artist_album, :show_all =>true)}');
 closeFacebox(100);

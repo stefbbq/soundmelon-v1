@@ -1,0 +1,5 @@
+%h1{:style => "font-size:21px;line-height:26px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:10px;padding-top:0;padding-bottom:0;font-weight:normal;color:#4b5c66;"}
+  Hey #{@fan.get_name},
+%p{:style => "color:#565656;font-size:14px;line-height:21px;font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:21px;padding-top:0;padding-bottom:0;font-weight:normal;"}
+  - if @is_member
+    An venue profile '#{@venue}', you were a member of, on #{link_to "SoundMelon", "http://soundmelon.com"} has been removed on #{Date.today.to_s}.

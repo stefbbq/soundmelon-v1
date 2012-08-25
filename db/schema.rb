@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120809104308) do
+ActiveRecord::Schema.define(:version => 20120825100107) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -28,6 +28,11 @@ ActiveRecord::Schema.define(:version => 20120809104308) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "useritem_type"
+    t.integer  "useritem_id"
+    t.integer  "photo_count",    :default => 0
+    t.boolean  "disabled",       :default => false
+    t.integer  "cover_image_id"
   end
 
   create_table "artist_albums", :force => true do |t|
@@ -93,11 +98,12 @@ ActiveRecord::Schema.define(:version => 20120809104308) do
   create_table "artist_shows", :force => true do |t|
     t.integer  "artist_id",  :null => false
     t.date     "show_date",  :null => false
-    t.string   "venue",      :null => false
+    t.string   "venue_name", :null => false
     t.text     "more_info"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "city"
+    t.integer  "venue_id"
   end
 
   create_table "artist_users", :force => true do |t|
@@ -128,6 +134,14 @@ ActiveRecord::Schema.define(:version => 20120809104308) do
   create_table "artists_genres", :id => false, :force => true do |t|
     t.integer "artist_id", :null => false
     t.integer "genre_id",  :null => false
+  end
+
+  create_table "authentications", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.string   "provider",   :null => false
+    t.string   "uid",        :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "connections", :force => true do |t|
@@ -218,11 +232,12 @@ ActiveRecord::Schema.define(:version => 20120809104308) do
 
   create_table "mentioned_posts", :force => true do |t|
     t.integer  "post_id"
-    t.integer  "user_id"
-    t.integer  "artist_id"
     t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "mentionitem_type"
+    t.integer  "mentionitem_id"
+    t.string   "mentionitem_name"
   end
 
   create_table "messages", :force => true do |t|
@@ -244,6 +259,16 @@ ActiveRecord::Schema.define(:version => 20120809104308) do
 
   add_index "messages", ["ancestry"], :name => "index_messages_on_ancestry"
   add_index "messages", ["sent_messageable_id", "received_messageable_id"], :name => "acts_as_messageable_ids"
+
+  create_table "newsfeeds", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.string   "newsitem_type"
+    t.integer  "newsitem_id"
+    t.string   "msg"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "notifications", :force => true do |t|
     t.string   "type"
@@ -283,6 +308,8 @@ ActiveRecord::Schema.define(:version => 20120809104308) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.string   "caption"
+    t.integer  "user_id"
   end
 
   create_table "playlists", :force => true do |t|
@@ -298,18 +325,17 @@ ActiveRecord::Schema.define(:version => 20120809104308) do
     t.string   "msg"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_deleted",           :default => false
+    t.boolean  "is_deleted",       :default => false
     t.string   "ancestry"
-    t.boolean  "is_bulletin",          :default => false
-    t.boolean  "is_read",              :default => false
-    t.string   "mentioned_users"
-    t.string   "mentioned_user_ids"
-    t.string   "mentioned_artists"
-    t.string   "mentioned_artist_ids"
+    t.boolean  "is_bulletin",      :default => false
+    t.boolean  "is_read",          :default => false
     t.string   "postitem_type"
     t.integer  "postitem_id"
-    t.boolean  "is_newsfeed",          :default => false
+    t.boolean  "is_newsfeed",      :default => false
     t.integer  "reply_to_id"
+    t.string   "useritem_type"
+    t.integer  "useritem_id"
+    t.string   "mention_post_ids"
   end
 
   add_index "posts", ["ancestry"], :name => "index_posts_on_ancestry"
@@ -361,6 +387,16 @@ ActiveRecord::Schema.define(:version => 20120809104308) do
     t.boolean  "is_featured",       :default => false
   end
 
+  create_table "user_item_connections", :force => true do |t|
+    t.string   "useritem_type"
+    t.integer  "useritem_id"
+    t.string   "connected_useritem_type"
+    t.integer  "connected_useritem_id"
+    t.boolean  "is_approved",             :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "user_posts", :force => true do |t|
     t.integer  "user_id",                       :null => false
     t.string   "post"
@@ -371,8 +407,8 @@ ActiveRecord::Schema.define(:version => 20120809104308) do
 
   create_table "users", :force => true do |t|
     t.string   "email",                                              :null => false
-    t.string   "fname",                                              :null => false
-    t.string   "lname",                                              :null => false
+    t.string   "fname"
+    t.string   "lname"
     t.string   "crypted_password"
     t.string   "salt"
     t.boolean  "account_type",                    :default => false
@@ -389,18 +425,64 @@ ActiveRecord::Schema.define(:version => 20120809104308) do
     t.datetime "last_activity_at"
     t.string   "mention_name"
     t.text     "bio"
+    t.string   "user_type"
     t.integer  "invitation_id"
     t.integer  "invitation_limit"
     t.string   "user_account_type"
     t.boolean  "notification_on",                 :default => true
     t.string   "remember_me_token"
     t.datetime "remember_me_token_expires_at"
+    t.boolean  "is_external",                     :default => false
+    t.string   "oauth_id"
+    t.string   "oauth_type"
+    t.string   "oauth_token"
+    t.string   "oauth_token_secret"
   end
 
   add_index "users", ["activation_token"], :name => "index_users_on_activation_token"
   add_index "users", ["last_logout_at", "last_activity_at"], :name => "index_users_on_last_logout_at_and_last_activity_at"
   add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token"
+
+  create_table "venue_logos", :force => true do |t|
+    t.integer  "venue_id"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "venue_users", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "venue_id"
+    t.integer  "access_level"
+    t.boolean  "notification_on"
+    t.boolean  "is_suspended"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "venues", :force => true do |t|
+    t.string   "name"
+    t.text     "info"
+    t.date     "est_date"
+    t.string   "country"
+    t.string   "state"
+    t.string   "city"
+    t.string   "address"
+    t.integer  "latitude"
+    t.integer  "longitude"
+    t.string   "mapped_address"
+    t.integer  "profile_completeness"
+    t.boolean  "is_private",           :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "mention_name"
+    t.string   "facebook_page"
+    t.string   "twitter_page"
+  end
 
   create_table "votes", :force => true do |t|
     t.integer  "votable_id"

@@ -7,7 +7,7 @@
   - if @action_item.blank?
     #{link_to name, link } has mentioned you on SoundMelon.
   - else
-    #{link_to name, link } has mentioned your artist "#{@action_item.get_name}" on SoundMelon.
+    #{link_to name, link } has mentioned your #{@action_item.class.name.downcase} "#{@action_item.get_name}" on SoundMelon.
 %hr
 #{@content_item.msg}
 %hr/

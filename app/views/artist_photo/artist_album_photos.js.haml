@@ -1,11 +1,11 @@
 - artist_album_photos = capture do
   .gallery
-    - @artist_album.artist_photos.each do |photo|
+    - @artist_album.photos.each do |photo|
       = render 'photo', :photo => photo, :artist_album => @artist_album
 - hide_album_photos = capture do
-  %a{:href => "javascript:void(0);", :onclick => "$('#artist_album_#{@artist_album.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
+  %a{:href => "javascript:void(0);", :onclick => "$('#album_#{@artist_album.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}
     collapse
-$('#artist_album_#{@artist_album.id} .album-details').html('#{escape_javascript artist_album_photos}');
+$('#album_#{@artist_album.id} .album-details').html('#{escape_javascript artist_album_photos}');
 $('#expand_link_#{@artist_album.id}').replaceWith('#{escape_javascript hide_album_photos}');    
 closeFacebox(1);
 $('.selection-box').removeClass('active').removeClass('button-fill-artist')

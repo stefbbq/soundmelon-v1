@@ -1,10 +1,19 @@
-$('#page-content').html('#{escape_javascript(render '/artist/live')}');
-$('#page-content').append("<div class='primary-container'><div class='primary'><div class='left'></div><div class='right'></div></div></div>");
-$('.primary .left').html('<div class="top"></div>');
-$('.primary .left .top').html('#{escape_javascript(render '/user_posts/status_artist')}');
-$('.primary .left .top').append('#{escape_javascript(render '/artist/social_header', :current =>'reply')}');
-$('.primary .left').append('#{escape_javascript(render '/bricks/artist_posts', :current =>'reply')}');
-$('.primary .right').html('#{escape_javascript(render 'artist/right', :current=>'news_feed')}');
+- if @artist
+  $('#page-content').html('#{escape_javascript(render '/artist/live')}');
+  $('#page-content').append("<div class='primary-container'><div class='primary'><div class='left'></div><div class='right'></div></div></div>");
+  $('.primary .left').html('<div class="top"></div>');
+  $('.primary .left .top').html('#{escape_javascript(render '/user_posts/status_artist')}');
+  $('.primary .left .top').append('#{escape_javascript(render '/artist/social_header', :current =>'reply')}');
+  $('.primary .left').append('#{escape_javascript(render '/bricks/artist_posts', :current =>'reply')}');
+  $('.primary .right').html('#{escape_javascript(render '/artist/right', :current=>'news_feed')}');
+- elsif @venue
+  $('#page-content').html('#{escape_javascript(render '/venue/live')}');
+  $('#page-content').append("<div class='primary-container'><div class='primary'><div class='left'></div><div class='right'></div></div></div>");
+  $('.primary .left').html('<div class="top"></div>');
+  $('.primary .left .top').html('#{escape_javascript(render '/user_posts/status_venue')}');
+  $('.primary .left .top').append('#{escape_javascript(render '/venue/social_header', :current =>'reply')}');
+  $('.primary .left').append('#{escape_javascript(render '/bricks/venue_posts', :current =>'reply')}');
+  $('.primary .right').html('#{escape_javascript(render '/venue/right', :current=>'news_feed')}');
 $('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
 closeFacebox(1);
 scrollToContainerTop();

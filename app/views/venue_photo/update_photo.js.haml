@@ -1,0 +1,3 @@
+faceboxContent("Updated successfully");
+$('#photo_#{@photo.id}').replaceWith('#{escape_javascript(render 'photo', :photo => @photo, :album =>@album)}')
+closeFacebox(10);

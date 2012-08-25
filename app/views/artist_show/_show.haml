@@ -1,4 +1,5 @@
 - show_all ||=false
+- @artist ||= artist_show.artist
 .artist-content[artist_show]
   .top
     .cover
@@ -29,7 +30,11 @@
       - if show_all
         %hr/
         Venue:
-        = @artist_show.venue
+        - venue = @artist_show.venue
+        - if venue.blank?
+          = @artist_show.get_venue_name
+        - else
+          = link_to venue.name, show_venue_path(venue), :class =>'ajaxopen backable', :remote =>:true
         %br/
         City:
         = @artist_show.city

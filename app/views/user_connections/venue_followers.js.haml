@@ -1,0 +1,11 @@
+- followers = capture do
+  %b Followers of #{@venue.name}
+  %hr/
+  .connections_list{:id =>"#{@venue.class.name.downcase}_#{@venue.id}_followers"}
+    - @followers.map(&:follower).each do |user|
+      = render '/user_connections/item', :user =>user, :connection_item =>@venue, :is_user_fan =>true
+  = paginate @followers, :remote => true
+updateLeftSection('#{escape_javascript(followers)}');
+updateRightSection('#{escape_javascript(render '/venue/right', :current =>'fan')}');
+closeFacebox(10);
+scrollToContainerTop();

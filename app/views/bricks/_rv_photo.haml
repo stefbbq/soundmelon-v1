@@ -1,0 +1,39 @@
+- selected    ||=false
+- link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
+- unless @is_public
+  - header_link = venue_albums_path('home')
+- else
+  - header_link = venue_albums_path(user_item)
+%div
+  - if @has_link_access || photo_album_count > 0
+    = link_to header_link, {:remote => :true, :id => 'photos', :class => link_class} do
+      photos
+    = link_to "", new_venue_album_path('home'), :remote => :true, :class => "ajaxopen right-icon-item icon-add" if @has_link_access
+  - else
+    .selection-box-nohref
+      photos
+  .collection{:id =>'photobox'}
+    - if photo_album_count > 0
+      - photo_albums.each do |venue_photo_album|
+        - if @has_link_access
+          - album_link = venue_album_path('home', venue_photo_album.name)
+        - else
+          - album_link = venue_album_path(user_item, venue_photo_album.name)
+        .album{:id => "album_#{venue_photo_album.id}"}
+          .cover= link_to get_photo_album_teaser_photo(venue_photo_album), album_link, :remote => :true, :class => "ajaxopen backable"
+          .title= link_to venue_photo_album.name, album_link, :remote => :true, :class => "ajaxopen backable"
+    - else
+      .message= NO_PHOTO_ALBUM_MESSAGE
+- if @has_link_access
+  :javascript
+    function updateAfterPhotoAlbumRemoval(venue_album_id){
+      if($('.right #photobox #album_' + venue_album_id).length>0){
+        $('.right #photobox #album_' + venue_album_id).remove();
+      }
+      if($('.primary .left #album_' + venue_album_id).length >0){
+        $('.primary .left #album_' + venue_album_id).remove();
+      }
+      if($('#photobox div.album').length==0){
+        $('#photobox').html("<div class='message'>#{NO_PHOTO_ALBUM_MESSAGE}</div>");
+      }
+    }

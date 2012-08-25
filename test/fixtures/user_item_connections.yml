@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  item_type: MyString
+  item_id: 1
+  connected_item_type: MyString
+  connected_item_id: 
+  is_approved: false
+
+two:
+  item_type: MyString
+  item_id: 1
+  connected_item_type: MyString
+  connected_item_id: 
+  is_approved: false

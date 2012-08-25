@@ -60,6 +60,7 @@ class ArtistController < ApplicationController
   
   def update
     @artist     = Artist.find(params[:id])
+    @user       = current_user
     get_artist_objects_for_right_column(@artist)
     if current_user.is_admin_of_artist?(@artist)
       if @artist.update_attributes(params[:artist])

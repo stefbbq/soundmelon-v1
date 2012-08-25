@@ -1,0 +1,7 @@
+$('#page-content').html('#{escape_javascript(render :partial => 'primary_content')}');
+closeFacebox(10);
+$('.selection-box').removeClass('active').removeClass('button-fill-artist');
+$('#latest-posts').addClass('active').addClass('button-fill-artist');
+$('.left a').removeClass('active').removeClass('button-fill-artist');
+$('#user-post .selection-box').addClass('active').addClass('button-fill-artist');
+scrollToTop();

@@ -1,11 +1,12 @@
-- artist                    = post.artist_id.blank? ? nil : post.artist
+- useritem                  = post.useritem_id.blank? ? nil : post.useritem
 - user                      = post.user_id.blank? ? nil : post.user
-- is_author_artist_profile  = (@artist && artist ) && @artist.id == artist.id
+- @useritem                 = @artist || @venue
+- is_author_useritem_profile= (@useritem && useritem ) && @useritem.id == useritem.id
 - is_author_fan_profile     = (@user && user ) && @user.id == user.id
 - hide_thread_link          ||= false
 - divclass                  ||=''
--if @artist && @is_admin_of_artist
-  - self_owner = post.artist_id == @artist.id ? true : false
+-if @useritem && @is_admin_of_useritem
+  - self_owner = useritem == @useritem ? true : false
 - else
   - self_owner = post.user == current_user ? true : false
 - item_div_class = self_owner ? 'content' : 'content-mentioned'
@@ -14,8 +15,8 @@
     .buzz-header
       .title
         %strong
-          - if artist
-            = artist.name
+          - if useritem
+            = useritem.name
           - elsif self_owner
             You
           - elsif user
@@ -27,8 +28,8 @@
           = link_to user_post_path(post), :method => :delete, :class=>'action-delete', :remote=>true do
             %i
             %span delete
-        - if @artist && !self_owner
-          = link_to new_post_reply_path(post, :artist_id => @artist.id), :class=>'action-reply ajaxopen', :remote=>true do
+        - if @useritem && !self_owner
+          = link_to new_post_reply_path(post, :useritem_id => @useritem.id), :class=>'action-reply ajaxopen', :remote=>true do
             %i
             %span reply
         -elsif !self_owner
@@ -36,7 +37,7 @@
             %i
             %span reply        
     .body
-      = post_msg_with_artist_mention(post)
+      = post_msg_with_mention(post)
   .clear
   - if post.ancestry && !hide_thread_link
     = link_to 'expand conversation', get_conversation_thread_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}"

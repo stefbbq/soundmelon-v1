@@ -54,6 +54,21 @@ class UserMailer < ActionMailer::Base
       :subject  => subject
     )
   end
+
+  def venue_removal_notification_email fan, venue_name, connection_type
+    @fan          = fan
+    @venue        = venue_name
+    if connection_type == 'member'
+      subject     = "Your venue profile #{@venue} has been removed from SoundMelon"
+      @is_member  = true
+    end
+
+    mail(
+      :to       => @fan.email,
+      :subject  => subject
+    )
+  end
+
   
   def mate_invitation_email(artist_invitation)
     @artist_invitation = artist_invitation

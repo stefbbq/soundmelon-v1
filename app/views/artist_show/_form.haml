@@ -4,12 +4,14 @@
   = form_for @artist_show, :url => {:controller => 'artist_show', :action => @artist_show.new_record? ? 'create' : 'update'}, :html => {:remote =>true } do |f|
     = hidden_field_tag :artist_name, @artist.mention_name
     = hidden_field_tag :id, @artist_show.id
+    = f.hidden_field :venue_id
     .field
       = f.label "date"
       = f.text_field :show_date, :readonly =>true, :class => 'overlay-text-field'
     .field
       = f.label :venue
-      = f.text_field :venue, :class => 'overlay-text-field'
+      =# f.text_field :venue, :class => 'overlay-text-field'
+      %input.venue_search_auto_complete{:value => @artist_show.venue_name, :name => "artist_show[venue_name]", :type => "text", :class => 'search-input', :id =>'term'}
     .field
       = f.label :city
       = f.text_field :city, :class => 'overlay-text-field'
@@ -22,3 +24,26 @@
         %li= error_msg
 :javascript
   $('.popup .content #artist_show_show_date').datepicker({dateFormat:'yy-mm-dd', gotoCurrent: true, minDate:0 });
+    $('.popup .venue_search_auto_complete').autocomplete({
+    minLength: 3,
+    delay: 600,
+    source: function(request, response) {
+      $.ajax({
+        url: "/autocomplete/venue/suggestions.js",
+        dataType: "json",
+        data: {
+          term: request.term
+        },
+        success: function( data ){
+          response( data );
+        }
+      });
+    },    
+    open: function(event, ui) {
+      //$('ul.ui-autocomplete').addClass('search-autocomplete').prepend('<div class="pointer"></div>').removeClass('ui-menu ui-widget ui-widget-content ui-corner-all');
+    },
+    select: function(event, ui) {
+      $('.popup input#term').val(ui.item.label);
+      $('.popup input#artist_show_city').val(ui.item.city);      
+    }
+  });

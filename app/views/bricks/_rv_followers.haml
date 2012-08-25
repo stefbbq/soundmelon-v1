@@ -1,0 +1,28 @@
+- selected    ||=false
+- link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
+- unless @is_public
+  - header_link = venue_followers_path('home')
+- else
+  - header_link = venue_followers_path(user_item)
+
+%div
+  - if follower_count >0 || @has_link_access
+    = link_to header_link, {:remote =>:true, :id =>'fanbox', :class =>link_class} do
+      %span.count{:id=>'followercount'}
+        = follower_count
+      - if follower_count > 1 || follower_count == 0
+        followers
+      - else
+        follower
+  - else
+    .selection-box-nohref{:id=>'fanbox'}
+      %span.count{:id=>'followercount'}
+        0
+      fan
+  .collection{:id =>'followerbox'}
+    - if follower_count > 0
+      %div
+        - followers.each do |artist_fan|
+          = render '/bricks/avatar', :item =>artist_fan
+    - else
+      .message= NO_FAN_MESSAGE

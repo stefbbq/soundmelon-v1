@@ -1,0 +1,26 @@
+- selected    ||=false
+- link_class  = selected ? 'active selection-box iconactive ajaxload button-fill-artist backable' : 'selection-box iconactive ajaxload backable'
+- unless @is_public
+  - header_link = venue_shows_path('home')
+- else
+  - header_link = venue_shows_path(user_item)
+%div
+  - if @has_link_access || show_count > 0
+    = link_to header_link, {:remote=>:true, :id=>'shows', :class=>link_class} do
+      shows    
+  - else
+    .selection-box-nohref
+      shows
+  .collection{:id =>'showbox'}
+    - if show_count > 0
+      %div
+        - shows.each do |show|
+          - artist      = show.artist
+          - artist_link = show_artist_path(artist)
+          %div{:id =>"venue_show_#{show.id}"}
+            on
+            = show.show_date.strftime('%b %d')
+            by
+            = link_to artist.name, artist_link, :remote=>:true, :class=>"ajaxopen backable"
+    - else
+      .message= NO_SHOW_DATE_MESSAGE

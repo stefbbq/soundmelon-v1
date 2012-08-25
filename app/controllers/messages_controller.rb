@@ -10,15 +10,17 @@ class MessagesController < ApplicationController
   def inbox
     begin
       @from_header_link = params[:top].present?
-      @user = current_actor
+      @user             = current_actor
+      messages_and_posts_count
       if @user.is_fan?
         get_user_associated_objects #unless @from_header_link
-        #TODO: not get called automatically so calling explicitly. Need to investigate
-        messages_and_posts_count
-      else
-        @artist                       = @user
-        messages_and_posts_count
+        #TODO: not get called automatically so calling explicitly. Need to investigate        
+      elsif @user.is_artist?
+        @artist                       = @user        
         get_artist_objects_for_right_column(@artist) #unless @from_header_link
+      elsif @user.is_venue?
+        @venue                        = @user
+        get_venue_objects_for_right_column(@venue) #unless @from_header_link
       end
       @messages                 = @user.mailbox.conversations.page(params[:page]).per(MESSAGES_PER_PAGE).includes(:receipts, :messages)
       num_pages                 = @messages.num_pages

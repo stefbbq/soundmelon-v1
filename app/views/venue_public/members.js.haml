@@ -1,0 +1,8 @@
+- artist_members = capture do
+  .connections_list
+    - @artist_members.each do |user|
+      = render '/user_connections/item', :user => user, :connection_item => user, :is_user_fan => false
+updateLeftSection('#{escape_javascript(artist_members)}');
+updateRightSection('#{escape_javascript(render 'right', :current =>'member')}');
+closeFacebox(1);
+scrollToContainerTop();

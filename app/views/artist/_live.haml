@@ -1,5 +1,7 @@
 - is_own_wall     = @actor == @artist
 - is_actor_fan    = @actor ? @actor.is_fan? : false
+- is_actor_artist = @actor ? @actor.is_artist? : false
+- is_actor_venue  = @actor ? @actor.is_venue? : false
 - artist_admin_ids= ArtistUser.for_artist_id(@artist.id).map { |u| u.user_id}
 - is_artist_admin = @actor ? (artist_admin_ids.include? current_user.id) : false
 .live
@@ -33,7 +35,7 @@
                     .icon-bg
                     %i
                     follow
-              - else
+              - elsif is_actor_artist
                 #connect_section
                   = render 'bricks/artist_connection', :actor => @actor, :artist => @artist
             - else

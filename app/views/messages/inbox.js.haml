@@ -6,8 +6,14 @@
   $('.primary .left .top').html('#{escape_javascript(render '/artist/social_header', :current =>'message')}');
   $('.primary .left').append('#{ escape_javascript(render '/messages/inbox_messages', :messages => @messages, :artist =>@artist)}');
   $('.primary .right').html('#{escape_javascript(render '/artist/right')}');
+- elsif @venue  
+  $('#page-content').html('#{escape_javascript(render '/venue/live')}');
+  $('#page-content').append("<div class='primary-container'><div class='primary'><div class='left'></div><div class='right'></div></div></div>");
+  $('.primary .left').html('<div class="top"></div>');
+  $('.primary .left .top').html('#{escape_javascript(render '/venue/social_header', :current =>'message')}');
+  $('.primary .left').append('#{ escape_javascript(render '/messages/inbox_messages', :messages => @messages, :artist =>@artist)}');
+  $('.primary .right').html('#{escape_javascript(render '/venue/right')}');
 - else
-  $('#page-content').html("");
   $('#page-content').html('#{escape_javascript(render '/fan/live')}');
   $('#page-content').append("<div class='primary-container'><div class='primary'><div class='left'><div class='right'><div><div></div></div>");
   $('.primary .left').html('<div class="top"></div>');

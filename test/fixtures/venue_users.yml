@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  venue_id: 1
+  access_level: 1
+  notification_on: false
+  is_suspended: false
+
+two:
+  user_id: 1
+  venue_id: 1
+  access_level: 1
+  notification_on: false
+  is_suspended: false

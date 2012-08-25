@@ -1,0 +1,3 @@
+faceboxContent("Updated successfully");
+$('.primary .left #album_#{@album.id}').replaceWith('#{escape_javascript(render 'album', :album => @album, :show_all =>true)}');
+closeFacebox(100);

@@ -1,0 +1,43 @@
+!!!
+%html
+  %head
+    %title SoundMelon
+    = stylesheet_link_tag    "application"
+    /[if IE]
+      = stylesheet_link_tag  "/stylesheets/ie9"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+    = yield(:head)  
+  %body
+    #base-container
+      #page-container
+        #page-top-fade
+        #page
+          #page-header
+            = render :partial => "/public_content/user_header"
+          #page-content
+            = render :partial => "/public_content/primary_content"
+    = render :partial => "/public_content/footer"
+  .globalloading.hide{:id => "globalloading"}
+    .center
+      %h1
+        loading
+      .loading-img
+        = image_tag("loading.gif")
+:javascript
+  $('a').ajaxComplete(function() {
+    $("abbr.timeago").timeago();
+  });
+  $(document).ready(function() {
+    $("abbr.timeago").timeago(); 
+
+    $("a.force-login").click(function(event){
+      $('a#logout').trigger('click');
+      return false;      
+    });
+
+    $("form.force-login").submit(function(event){
+      $('a#logout').trigger('click');
+      return false;      
+    });    
+  });

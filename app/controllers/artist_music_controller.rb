@@ -397,6 +397,8 @@ class ArtistMusicController < ApplicationController
     end
     unless @artist
       render :template =>"bricks/page_missing" and return
+    else
+      redirect_to user_home_path and return unless @artist.is_artist?
     end
   end
 

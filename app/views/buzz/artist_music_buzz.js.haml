@@ -1,1 +1,4 @@
-faceboxContent('#{escape_javascript(render 'buzz')}');
+- if @status
+  faceboxContent('#{escape_javascript(render 'buzz')}');
+- else
+  faceboxContent('this item is not available');

@@ -1,0 +1,5 @@
+- if @status
+  - if @venue_album
+    $('a#like_dislike_link_#{@album.id}').text('Status Changed!');
+- else
+  alert('There was an error!');

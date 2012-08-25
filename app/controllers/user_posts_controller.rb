@@ -85,7 +85,7 @@ class UserPostsController < ApplicationController
         actor                       = @actor
         params[:post][:reply_to_id] = params[:parent_post_id]
         @post                       = actor.posts.build(params[:post])
-        parent_post_writer_user     = @parent_post.artist || @parent_post.user
+        parent_post_writer_user     = @parent_post.writer_actor
       rescue =>exp        
         @parent_post              = nil
         logger.error "Error in UserPosts::Reply :=>#{exp.message}"
@@ -123,19 +123,26 @@ class UserPostsController < ApplicationController
     @user                         = @actor
     @has_link_access              = true
     if @user.is_fan?
-      @posts                      = @user.mentioned_posts(params[:page])
+      @posts                      = @user.item_mentioned_posts(params[:page])
       @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       next_page                   = @posts.next_page
       @load_more_path             = next_page ? more_post_path(next_page, :type=>'mentioned') : nil
       messages_and_posts_count
       get_user_associated_objects
       render :template =>'/user_posts/mentioned' and return
-    else
+    elsif @user.is_artist?
       @artist                     = @user
       get_artist_mentioned_posts(@artist)
       messages_and_posts_count
       # get right column objects
       get_artist_objects_for_right_column(@artist)
+      render :template =>"/user_posts/mentions_post" and return
+    elsif @user.is_venue?
+      @venue                     = @user
+      get_venue_mentioned_posts(@venue)
+      messages_and_posts_count
+      # get right column objects
+      get_venue_objects_for_right_column(@venue)
       render :template =>"/user_posts/mentions_post" and return
     end    
   end
@@ -152,7 +159,7 @@ class UserPostsController < ApplicationController
       # get right column objects
       get_user_associated_objects
       render :template =>"/user_posts/replies" and return
-    else
+    elsif @user.is_artist?
       @artist                    = @user
       @posts                     = @artist.replies_post(params[:page])
       @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
@@ -162,16 +169,33 @@ class UserPostsController < ApplicationController
       # get right column objects
       get_artist_objects_for_right_column(@artist)
       render :template =>"/user_posts/replies_post" and return
+    elsif @user.is_venue?
+      @venue                     = @user
+      @posts                     = @venue.replies_post(params[:page])
+      @posts_order_by_dates      = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
+      next_page                  = @posts.next_page
+      @load_more_path            =  next_page ? more_posts_path(next_page, :type => 'replies') : nil
+      messages_and_posts_count
+      # get right column objects
+      get_venue_objects_for_right_column(@venue)
+      render :template =>"/user_posts/replies_post" and return
     end
   end
 
   def more_bulletins
     if request.xhr?
       begin
-        @artist                     = Artist.where(:mention_name => params[:artist_name]).first
-        @bulletins                  = @artist.bulletins(params[:page])
-        bulletin_next_page          = @bulletins.next_page
-        @load_more_bulletins_path   = bulletin_next_page ? artist_more_bulletins_path(@artist, bulletin_next_page) : nil
+        if params[:artist_name].present?
+          @artist                     = Artist.where(:mention_name => params[:artist_name]).first
+          @bulletins                  = @artist.bulletins(params[:page])
+          bulletin_next_page          = @bulletins.next_page
+          @load_more_bulletins_path   = bulletin_next_page ? artist_more_bulletins_path(@artist, bulletin_next_page) : nil
+        elsif params[:venue_name].present?
+          @venue                      = Venue.where(:mention_name => params[:venue_name]).first
+          @bulletins                  = @venue.bulletins(params[:page])
+          bulletin_next_page          = @bulletins.next_page
+          @load_more_bulletins_path   = bulletin_next_page ? venue_more_bulletins_path(@venue, bulletin_next_page) : nil
+        end
       rescue
         render :nothing => true and return
       end
@@ -183,24 +207,47 @@ class UserPostsController < ApplicationController
   def more_posts
     if request.xhr?
       begin
-        @artist           = Artist.where(:mention_name => params[:artist_name]).first
-        if params[:type] && params[:type] == 'general'
-          @posts          = @artist.find_own_posts(params[:page])
-          next_page       = @posts.next_page
-          @load_more_path =  next_page ? artist_more_posts_path(@artist, params[:type], next_page) : nil
-        elsif params[:type] && current_user.is_admin_of_artist?(@artist)
-          if params[:type] == 'replies'
-            @posts = @artist.replies_post(params[:page])
-          elsif params[:type] == 'mentions'
-            @posts = @artist.mentioned_in_posts(params[:page])
+        @posts              = []
+        if params[:artist_name].present?
+          @artist           = Artist.where(:mention_name => params[:artist_name]).first
+          if params[:type] && params[:type] == 'general'
+            @posts          = @artist.find_own_posts(params[:page])
+            next_page       = @posts.next_page
+            @load_more_path =  next_page ? artist_more_posts_path(@artist, params[:type], next_page) : nil
+          elsif params[:type] && current_user.is_admin_of_artist?(@artist)
+            if params[:type] == 'replies'
+              @posts = @artist.replies_post(params[:page])
+            elsif params[:type] == 'mentions'
+              @posts = @artist.mentioned_in_posts(params[:page])
+            else
+              @posts    = @artist.find_own_as_well_as_mentioned_posts(params[:page])
+            end
+            @is_admin_of_artist = true
+            next_page   = @posts.next_page
+            @load_more_path =  next_page ? artist_more_posts_path(@artist, params[:type], next_page) : nil
           else
-            @posts    = @artist.find_own_as_well_as_mentioned_posts(params[:page])
+            render :nothing => true and return
           end
-          @is_admin_of_artist = true
-          next_page   = @posts.next_page
-          @load_more_path =  next_page ? artist_more_posts_path(@artist, params[:type], next_page) : nil
-        else
-          render :nothing => true and return
+        elsif params[:venue_name].present?
+          @venue           = Venue.where(:mention_name => params[:venue_name]).first
+          if params[:type] && params[:type] == 'general'
+            @posts          = @venue.find_own_posts(params[:page])
+            next_page       = @posts.next_page
+            @load_more_path =  next_page ? venue_more_posts_path(@venue, params[:type], next_page) : nil
+          elsif params[:type] && current_user.is_admin_of_venue?(@venue)
+            if params[:type] == 'replies'
+              @posts = @venue.replies_post(params[:page])
+            elsif params[:type] == 'mentions'
+              @posts = @venue.mentioned_in_posts(params[:page])
+            else
+              @posts    = @venue.find_own_as_well_as_mentioned_posts(params[:page])
+            end
+            @is_admin_of_venue = true
+            next_page   = @posts.next_page
+            @load_more_path =  next_page ? venue_more_posts_path(@venue, params[:type], next_page) : nil
+          else
+            render :nothing => true and return
+          end
         end
         @posts_order_by_dates = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
       rescue =>exp

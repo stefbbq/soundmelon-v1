@@ -1,3 +1,6 @@
 faceboxContent("Successfully deleted");
 closeFacebox(1000);
-$('.profile-image').html('#{escape_javascript(get_artist_profile_image(@artist,true))}');
+- if @item.is_artist?
+  $('.profile-image').html('#{escape_javascript(get_artist_profile_image(@item,true))}');
+- else
+  $('.profile-image').html('#{escape_javascript(get_venue_profile_image(@item,true))}');

@@ -1,0 +1,6 @@
+- new_venue_profile_form = capture do
+  %b New Venue Profile
+  %hr
+  = render 'form', :action_url => create_venue_path
+updateLeftSection('#{escape_javascript(new_venue_profile_form)}');
+closeFacebox(1);

@@ -1,0 +1,5 @@
+- data = []
+- @venues.each do |venue|
+  - data << {"label" => "#{venue.name}", "value" => "#{venue.name}", "city" =>"#{venue.city}"}
+
+= raw data.to_json

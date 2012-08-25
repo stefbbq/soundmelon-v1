@@ -3,7 +3,7 @@
     #error_explanation
       %h2
         = pluralize(@artist.errors.count, "error")
-        prohibited this new artist profile from being saved:
+        prohibited this artist profile from being saved:
       %ul
         - @artist.errors.full_messages.each do |msg|
           %li

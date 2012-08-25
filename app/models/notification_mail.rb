@@ -15,8 +15,11 @@ class NotificationMail
     if recipient_object.is_fan?      
       subject         = "#{actor_object.get_name} has started to follow you on SoundMelon"
       action_item     = nil
-    else      
+    elsif recipient_object.is_artist?
       subject         = "#{actor_object.get_name} has started to follow your artist  #{recipient_object.get_name} on SoundMelon"
+      action_item     = recipient_object
+    elsif recipient_object.is_venue?
+      subject         = "#{actor_object.get_name} has started to follow your venue #{recipient_object.get_name} on SoundMelon"
       action_item     = recipient_object
     end
     recipient_users   = self.get_notification_recipient_users recipient_object
@@ -48,8 +51,11 @@ class NotificationMail
     if recipient_object.is_fan?      
       subject         = "#{actor_object.get_name} has sent you a message on SoundMelon"
       action_item     = nil
-    else      
+    elsif recipient_object.is_artist?
       subject         = "#{actor_object.get_name} has sent a message to your artist #{recipient_object.get_name} on SoundMelon"
+      action_item     = recipient_object
+    elsif recipient_object.is_a?
+      subject         = "#{actor_object.get_name} has sent a message to your venue #{recipient_object.get_name} on SoundMelon"
       action_item     = recipient_object
     end
     notification_type = 'message'
@@ -62,7 +68,7 @@ class NotificationMail
 
   def self.buzz_notification recipient_user, actor_user, buzz_item, buzz
     notification_type = 'buzz'
-    subject           = "#{actor_user.get_name} has buzzed on your artist item on SoundMelon"
+    subject           = "#{actor_user.get_name} has buzzed on your #{buzz_item.useritem.class.name.downcase} item on SoundMelon"
     NotificationMail.queue_notification_email(notification_type, subject, recipient_user, actor_user, buzz_item, buzz)
   end
 
@@ -70,8 +76,11 @@ class NotificationMail
     if recipient_object.is_fan?
       subject         = "#{actor_object.get_name} has replied you on SoundMelon"
       action_item     = nil
-    else
+    elsif recipient_object.is_artist?
       subject         = "#{actor_object.get_name} has replied to your artist  #{recipient_object.get_name} on SoundMelon"
+      action_item     = recipient_object
+    elsif recipient_object.is_artist?
+      subject         = "#{actor_object.get_name} has replied to your venue  #{recipient_object.get_name} on SoundMelon"
       action_item     = recipient_object
     end
     notification_type = 'reply'
@@ -86,8 +95,11 @@ class NotificationMail
     if recipient_object.is_fan?
       subject         = "#{actor_object.get_name} has mentioned you in a post on SoundMelon"
       action_item     = nil
-    else
+    elsif recipient_object.is_artist?
       subject         = "#{actor_object.get_name} has mentioned your artist #{recipient_object.get_name} in a post on SoundMelon"
+      action_item     = recipient_object
+    elsif  recipient_object.is_venue?
+      subject         = "#{actor_object.get_name} has mentioned your venue #{recipient_object.get_name} in a post on SoundMelon"
       action_item     = recipient_object
     end
     notification_type = 'mention'    
@@ -108,8 +120,10 @@ class NotificationMail
     recipient_users   = []
     if recipient_object.is_fan?
       recipient_users << recipient_object if recipient_object.notification_on?
-    else
+    elsif recipient_object.is_artist?
       recipient_users = recipient_object.artist_notified_users
+    elsif  recipient_object.is_venue?
+      recipient_users = recipient_object.venue_notified_users
     end
     recipient_users
   end

@@ -1,0 +1,14 @@
+= render :partial=>"/venue/live"
+.primary-container
+  .primary
+    .left
+      #photo_album_box
+        - if @has_link_access
+          .content-actions
+            = link_to "add album", new_venue_album_path('home'), :remote=>:true, :class=>"ajaxopen add-new"
+          - if @album_list.empty?
+            %img{:src => "/assets/tutorial/artist-instruct-photos.png", :class => "instruct-img"}
+        - @album_list.each do |album|
+          = render '/venue_photo/album', :album =>album, :show_all =>@show_all || false
+    .right
+      = render '/venue/right', :current => 'photo'

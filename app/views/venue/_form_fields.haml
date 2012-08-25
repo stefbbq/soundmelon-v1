@@ -1,0 +1,116 @@
+- is_new = @venue.new_record?
+- venue_user_notification_status = @venue_user ? @venue_user.notification_on : false
+.content-box#venue-edit
+  .area.form.venue-basic
+    #update-msg
+    .details
+      - if is_new
+        %h3
+          your
+          %span name
+        %h3
+          your
+          %span username
+      - else
+        %h3
+          your name is
+          %span{:id =>'venuename'}= @venue.name
+        %h3
+          permanent username is
+          %span= @venue.mention_name        
+        %h5 click the lock to enable changes
+    .content{:id=>'basic-info'}
+      - if is_new
+        .field
+          %label{:for=>"name"}
+            name
+          = f.text_field :name
+        .field
+          %label{:for=>"username"}
+            username
+          = f.text_field :mention_name
+      - else
+        .field
+          %label{:for=>"name"}
+            name
+          = f.text_field :name
+        .lock-toggle
+        = f.submit 'changes are swell', :class => 'button'
+.content-box#venue-edit
+  .area.form.toggle-replace
+    .details
+      - if is_new
+        %h3
+          your
+          %span location, info
+          and
+          %span external links
+      - else
+        %h3
+          change your
+          %span location, info
+          and
+          %span external links      
+    .content
+      .field
+        %label{:for=>"location"}
+          country
+        = f.text_field :country, :class => 'textfield long'
+      .field
+        %label{:for=>"location"}
+          state
+        = f.text_field :state, :class => 'textfield long'
+      .field
+        %label{:for=>"location"}
+          city
+        = f.text_field :city, :class => 'textfield long'
+      .field
+        %label{:for=>"location"}
+          address
+        = f.text_field :address, :class => 'textfield long'
+      .field
+        %label{:for=>"bio"}
+          info
+        = f.text_area :info, :rows => 5, :cols => 50, :class => 'text-area-field long'
+      .field
+        %label{:for=>"location"}
+          established on
+        = f.text_field :est_date, :class => 'textfield long', :readonly =>true      
+      .field
+        %label{:for=>"facebook"}
+          facebook
+        = f.text_field :facebook_page, :class => 'textfield long'
+      .field
+        %label{:for=>"twitter"}
+          twitter
+        = f.text_field :twitter_page, :class => 'textfield long'
+      - if is_new
+        = f.submit 'create profile', :class => 'button'
+      - else
+        = f.submit 'save to memory', :class => 'button'
+- unless is_new
+  .content-box#venue-edit
+    .area.form.toggle-sole
+      #notification-setting-msg.msg
+      .details
+        %h3
+          %span email notifications
+      .content
+        %form
+          .field.notification-toggle
+            %label
+              toggle
+            = check_box_tag :notification, venue_user_notification_status, venue_user_notification_status, :onchange =>"$.ajax('#{update_venue_notification_setting_url(@venue.id)}');"
+- unless is_new
+  :javascript
+    $('#basic-info input').attr('disabled', true).addClass('input-disabled');
+    $('#basic-info .lock-toggle').live('click',function(){
+      $.ajax('#{ask_and_check_user_password_path}',{remote:true});
+    });
+:javascript  
+  $('#venue_est_date').datepicker({dateFormat:'yy-mm-dd', gotoCurrent: true});
+  $('input[type=checkbox]').checkbox();
+  $('.left input[type=checkbox]').checkbox({
+    cls:'control-toggle',
+    empty: '/assets/empty.png'
+  });

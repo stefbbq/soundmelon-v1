@@ -18,7 +18,8 @@
         %h3
           permanent username is
           %span= @artist.mention_name
-        %h5 click the lock to enable changes
+        - unless @user.is_external?
+          %h5 click the lock to enable changes
     .content{:id=>'basic-info'}
       - if is_new
         .field
@@ -34,7 +35,8 @@
           %label{:for=>"name"}
             name
           = f.text_field :name
-        .lock-toggle
+        - unless @user.is_external?
+          .lock-toggle
         = f.submit 'changes are swell', :class => 'button'
 .content-box#artist-edit
   .area.form.toggle-replace
@@ -101,7 +103,8 @@
             = check_box_tag :notification, artist_user_notification_status, artist_user_notification_status, :onchange =>"$.ajax('#{update_artist_notification_setting_url(@artist.id)}');"
 - unless is_new
   :javascript
-    $('#basic-info input').attr('disabled', true).addClass('input-disabled');
+    if(#{!@user.is_external?})
+      $('#basic-info input').attr('disabled', true).addClass('input-disabled');    
     $('#basic-info .lock-toggle').live('click',function(){
       $.ajax('#{ask_and_check_user_password_path}',{remote:true});
     });

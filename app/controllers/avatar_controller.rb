@@ -59,7 +59,7 @@ class AvatarController < ApplicationController
 
   def new_logo
     begin
-      @artist_logo      = ArtistLogo.new(:artist_id=>@artist.id)      
+      @item_logo        = @item.is_artist? ? ArtistLogo.new(:artist_id=>@item.id) : VenueLogo.new(:venue_id=>@item.id)
     rescue =>exp
       logger.error "Error in Avatar::NewLogo :=> #{exp.message}"
     end
@@ -70,14 +70,14 @@ class AvatarController < ApplicationController
 
   def create_logo
     begin      
-      @artist_logo    = @artist.build_artist_logo(params[:artist_logo])
+      @item_logo        = @item.is_artist? ? @item.build_artist_logo(params[:artist_logo]) : @item.build_venue_logo(params[:venue_logo])
     rescue =>exp
       logger.error "Error in AvatarCreateLogo :=> #{exp.message}"
-      @artist         = nil
+      @item         = nil
     end
     respond_to do |format|
-      if @artist_logo.save
-        @original_geometry = @artist_logo.logo_geometry(:original)
+      if @item_logo.save
+        @original_geometry = @item_logo.logo_geometry(:original)
         set_height_and_width @original_geometry
         format.js { render :action => 'crop_logo' and return }
       else
@@ -89,8 +89,9 @@ class AvatarController < ApplicationController
   def edit_logo    
   end
 
-  def update_logo    
-    if @artist_logo.update_attributes(params[:artist_logo])
+  def update_logo
+    status = @item_logo.respond_to?('artist_id') ? @item_logo.update_attributes(params[:artist_logo]) : @item_logo.update_attributes(params[:venue_logo])
+    if status
       respond_to do |format|
         format.js
       end
@@ -103,8 +104,8 @@ class AvatarController < ApplicationController
   end
 
   def delete_logo    
-    redirect_to fan_home_url and return unless @artist_logo
-    if @artist_logo.delete
+    redirect_to fan_home_url and return unless @item_logo
+    if @item_logo.delete
       respond_to do |format|
         format.js
       end
@@ -120,9 +121,12 @@ class AvatarController < ApplicationController
         if @actor.is_fan?
           @user           = @actor
           @profile_pic    = @actor.profile_pic
-        else
-          @artist         = @actor
-          @artist_logo    = @actor.artist_logo
+        elsif @actor.is_artist?
+          @item           = @actor
+          @item_logo      = @actor.artist_logo
+        elsif @actor.is_venue?
+          @item           = @actor
+          @item_logo      = @actor.venue_logo
         end
       rescue =>exp
         logger.error "Error in Avatar::SetActorAndEntities :=> #{exp.message}"

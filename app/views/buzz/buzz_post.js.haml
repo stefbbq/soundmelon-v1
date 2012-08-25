@@ -1,13 +1,16 @@
-- wall_post_div_id = "#{@actor.class.name}_post_wall_#{@actor.id}"
-- date  = @buzz.created_at.strftime("%Y%m%d")
-- month = @buzz.created_at.strftime("%b")
-- day   = @buzz.created_at.strftime(" %d")
-:plain
-  if($('##{wall_post_div_id}').length>0){
-    if($('.user_posts #date_#{date}').length==0){
-      $('.user_posts').prepend('<date id=\"date_#{date}\"><div><h1>#{month}</h1><h2>#{day}</h2></div></date>');
+- if @status
+  - wall_post_div_id = "#{@actor.class.name}_post_wall_#{@actor.id}"
+  - date  = @buzz.created_at.strftime("%Y%m%d")
+  - month = @buzz.created_at.strftime("%b")
+  - day   = @buzz.created_at.strftime(" %d")
+  :plain
+    if($('##{wall_post_div_id}').length>0){
+      if($('.user_posts #date_#{date}').length==0){
+        $('.user_posts').prepend('<date id=\"date_#{date}\"><div><h1>#{month}</h1><h2>#{day}</h2></div></date>');
+      }
+      $('#{escape_javascript(render 'user_posts/post', :post => @buzz)}').insertAfter($('.user_posts #date_#{date}'));
     }
-    $('#{escape_javascript(render 'user_posts/post', :post => @buzz)}').insertAfter($('.user_posts #date_#{date}'));
-  }
-faceboxContent('added successfully');
+  faceboxContent('added successfully');
+- else
+  faceboxContent('the requested item is not available');
 closeFacebox(1000)

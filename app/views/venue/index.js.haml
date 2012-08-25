@@ -1,0 +1,6 @@
+$('#page-content').html('#{escape_javascript(render '/venue/primary_content')}');
+$('.session .notifications').html('#{escape_javascript(render '/bricks/notifications')}');
+closeFacebox(1);
+$('.selection-box').removeClass('active').removeClass('button-fill-artist');
+$('#feed-msg').addClass('active').addClass('button-fill-artist');
+scrollToTop();

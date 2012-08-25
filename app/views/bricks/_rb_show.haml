@@ -21,6 +21,6 @@
           - else
             - show_link = artist_show_path(artist, show.id)
           %div{:id =>"artist_show_#{show.id}"}
-            = link_to show.show_date.strftime('%b %d') + " @#{show.venue}", show_link, :remote=>:true, :class=>"ajaxopen backable"
+            = link_to show.show_date.strftime('%b %d') + " @#{show.get_venue_name}", show_link, :remote=>:true, :class=>"ajaxopen backable"
     - else
       .message= NO_SHOW_DATE_MESSAGE

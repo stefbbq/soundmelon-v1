@@ -1,0 +1,12 @@
+= venue_form = capture do
+  - if @venue.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@venue.errors.count, "error")
+        prohibited this venue profile from being saved:
+      %ul
+        - @venue.errors.full_messages.each do |msg|
+          %li
+            = msg
+  = form_for @venue, :url => action_url, :html => {:multipart => true, :remote => true, :class => 'venue-form' } do |f|
+    = render :partial => '/venue/form_fields', :locals =>{:f => f}

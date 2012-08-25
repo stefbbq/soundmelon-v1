@@ -1,11 +1,11 @@
 class ArtistShowController < ApplicationController
   before_filter :require_login
   before_filter :check_and_set_admin_access, :only =>[:index, :new, :create, :edit, :update, :destroy_show, :artist_show]
-  before_filter :instantiate_artist_show, :only =>[:edit, :destroy_show, :artist_show, :like_dislike_artist_show]
+  before_filter :instantiate_artist_show, :only =>[:edit, :destroy_show, :artist_show, :like_dislike_artist_show, :show_detail]
 
   def index
     begin
-      @artist_show_list = @artist.artist_shows
+      @artist_show_list = @artist.artist_shows.includes('venue')
       get_artist_objects_for_right_column(@artist)
     rescue =>exp
       logger.error "Error in ArtistShow#Index :=> #{exp.message}"
@@ -31,8 +31,7 @@ class ArtistShowController < ApplicationController
     end
   end
 
-  def show_detail
-    @artist_show        = ArtistShow.find(params[:artist_show_id])
+  def show_detail    
     unless request.xhr?
       redirect_to show_artist_path(params[:artist_name]) and return
     end
@@ -134,12 +133,14 @@ class ArtistShowController < ApplicationController
     end
     unless @artist
       render :template =>"bricks/page_missing" and return
+    else
+      redirect_to user_home_path and return unless @artist.is_artist?
     end
   end
 
   def instantiate_artist_show
     begin
-      @artist_show      = ArtistShow.find(params[:artist_show_id])
+      @artist_show      = ArtistShow.where(:id =>params[:artist_show_id]).includes('venue').first
     rescue
       @artist_show        = nil
     end

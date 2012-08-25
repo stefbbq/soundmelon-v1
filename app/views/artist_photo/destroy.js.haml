@@ -1,4 +1,4 @@
-- album_photos  = @artist_album.artist_photos
+- album_photos  = @artist_album.photos
 - all_photos    = capture do
   - album_photos.each do |photo|
     = render 'photo', :photo => photo, :artist_album =>@artist_album
@@ -8,8 +8,8 @@
 - album_new_cover_image = capture do
   = link_to get_artist_photo_album_teaser_photo(@artist_album), artist_album_path(@artist, @artist_album.name), :remote=>:true, :class=>"ajaxopen backable"
 faceboxContent("deleted successfully");
-if($('.left #photo_album_box #artist_album_#{@artist_album.id}').length>0){$('.left #photo_album_box #artist_album_#{@artist_album.id} .album_teaser_image').html('#{escape_javascript left_list_cover_image}');}
-if($('.right #photobox #artist_album_#{@artist_album.id}').length>0){$('.right #photobox #artist_album_#{@artist_album.id} .album-cover-image').html('#{escape_javascript album_new_cover_image}');}
-$('#artist_album_#{@artist_album.id} .gallery').html('#{escape_javascript all_photos}');
+if($('.left #photo_album_box #album_#{@artist_album.id}').length>0){$('.left #photo_album_box #album_#{@artist_album.id} .album_teaser_image').html('#{escape_javascript left_list_cover_image}');}
+if($('.right #photobox #album_#{@artist_album.id}').length>0){$('.right #photobox #album_#{@artist_album.id} .album-cover-image').html('#{escape_javascript album_new_cover_image}');}
+$('#album_#{@artist_album.id} .gallery').html('#{escape_javascript all_photos}');
 $('div#photo_stat_#{@artist_album.id}').html('#{pluralize(album_photos.size,'photo')}');
 closeFacebox(1000);

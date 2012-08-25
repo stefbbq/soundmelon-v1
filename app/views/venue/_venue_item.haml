@@ -1,0 +1,13 @@
+- is_current_venue = @actor == venue
+.item
+  .avatar
+    = link_to get_venue_avatar(venue), show_venue_path(venue), :class =>'ajaxopen backable', :remote => :true
+  .content
+    %h4
+      %strong= link_to venue.name, show_venue_path(venue), :class =>'ajaxopen backable', :remote => :true
+      = pluralize(8, 'show')      
+  .actions
+    - if is_current_venue
+      currently administrating
+    - else
+      = link_to "access", change_login_venue_path(venue), :class =>'ajaxopen', :remote =>:true

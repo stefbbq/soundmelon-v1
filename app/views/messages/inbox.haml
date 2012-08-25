@@ -1,4 +1,4 @@
-= render :partial=> @user.is_fan? ? "/fan/live" : "/artist/live"
+= render :partial=> @user.is_fan? ? "/fan/live" : @user.is_artist? ? "/artist/live" : "/venue/live"
 .primary-container
   - if @user.is_fan?
     .primary
@@ -9,7 +9,7 @@
       .right
         = render "/fan/right"
       .clear
-  - else
+  - elsif @user.is_artist?
     .primary
       .left
         .top
@@ -17,4 +17,13 @@
         = render "messages/inbox_messages", :messages => @messages
       .right
         = render "/artist/right"
+      .clear
+  - elsif @user.is_venue?
+    .primary
+      .left
+        .top
+          = render '/venue/social_header', :current =>'message'
+        = render "messages/inbox_messages", :messages => @messages
+      .right
+        = render "/venue/right"
       .clear

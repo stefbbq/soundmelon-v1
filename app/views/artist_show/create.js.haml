@@ -1,6 +1,6 @@
 - new_show_list_html = capture do
   .artist_show{:id =>"artist_show_#{@artist_show.id}"}
-    = link_to @artist_show.show_date.strftime('%b %d') + " @#{@artist_show.venue}", artist_show_path('home', @artist_show.id), :remote=>:true, :class=>"ajaxopen backable"
+    = link_to @artist_show.show_date.strftime('%b %d') + " @#{@artist_show.get_venue_name}", artist_show_path('home', @artist_show.id), :remote=>:true, :class=>"ajaxopen backable"
 - new_show_left_list_html = capture do
   = render 'show', :artist_show =>@artist_show
 

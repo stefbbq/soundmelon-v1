@@ -1,0 +1,6 @@
+- if @status
+  - if @album
+    $('a#public_view_link_#{@album.id}').text('#{@album.disabled? ? 'enable' : 'disable'}');
+- else
+  alert('There was an error!');
+closeFacebox(100);
