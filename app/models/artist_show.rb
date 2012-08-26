@@ -23,7 +23,7 @@ class ArtistShow < ActiveRecord::Base
   end
 
   def create_newsfeed
-    Post.create_newsfeed_for self, nil, self.artist_id, " added"
+    Post.create_newsfeed_for self, nil, 'Artist', self.artist_id, " created"
   end
 
   def useritem

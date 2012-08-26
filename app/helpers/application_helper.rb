@@ -241,15 +241,21 @@ module ApplicationHelper
     if post && postitem
       if post.album_post?
         album_detail  = album_name_and_url(postitem)
-        album_path    = album_detail.first
-        album_name    = album_detail.last
+        album_name    = album_detail.first
+        album_path    = album_detail.last        
         content       += " added a new photo album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
       elsif post.photo_post?
-        album_detail  = album_name_and_url(postitem.album)
-        album_path    = album_detail.first
-        album_name    = album_detail.last                        
+        album         = postitem.album
+        album_detail  = album_name_and_url(album)
+        album_name    = album_detail.first
+        album_path    = album_detail.last        
+        useritem      = album.useritem
         content       += " added a new photo to the <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a> album"
-        message       =  raw (render '/artist_photo/photo', :photo =>postitem, :artist_album =>album, :artist =>artist, :in_newsfeed =>true)
+        if useritem.is_artist?
+          message       =  raw (render '/artist_photo/photo', :photo =>postitem, :artist_album =>album, :artist =>useritem, :in_newsfeed =>true)
+        elsif useritem.is_venue?
+          message       =  raw (render '/venue_photo/photo', :photo =>postitem, :album =>album, :venue =>useritem, :in_newsfeed =>true)
+        end
       elsif post.artist_show_post?
         artist        = postitem.artist
         show_id       = postitem.id
@@ -258,13 +264,13 @@ module ApplicationHelper
         show_path     = artist_show_path(artist, show_id)
         content       += " has created a new <a href='#{show_path}' class='#{link_class}' data-remote=true>show</a> at #{show_venue} of #{show_city}"
       elsif post.song_post?
-        artist        = post.artist
+        artist        = postitem.artist
         album_name    = postitem.artist_music.album_name
         album_path    = "#{artist_music_path(artist, album_name)}"
         content       += " added a new song to the <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a> album"
         message       = raw(render '/artist_music/song_item', :song =>postitem, :artist =>artist, :in_newsfeed =>true)
       elsif post.artist_music_post?
-        artist        = post.artist
+        artist        = postitem.artist
         album_name    = postitem.album_name
         album_path    = "#{artist_music_path(artist, album_name)}"
         content       += " added a new music album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"

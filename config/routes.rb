@@ -110,8 +110,8 @@ Soundmelon::Application.routes.draw do
   match 'user/:id/posts/more/:page'             =>'user_posts#index',                       :as => :user_more_post
   match ':artist_name/bulletins/more/:page'     =>'user_posts#more_bulletins',              :as => :artist_more_bulletins
   match ':artist_name/:type/posts/more/:page'   =>'user_posts#more_posts',                  :as => :artist_more_posts
-  match ':venue_name/venue/bulletins/more/:page'     =>'user_posts#more_bulletins',         :as => :artist_more_bulletins
-  match ':venue_name/venue/:type/posts/more/:page'   =>'user_posts#more_posts',             :as => :artist_more_posts
+  match ':venue_name/venue/bulletins/more/:page'     =>'user_posts#more_bulletins',         :as => :venue_more_bulletins
+  match ':venue_name/venue/:type/posts/more/:page'   =>'user_posts#more_posts',             :as => :venue_more_posts
 
   match 'update/basic/profile'                => 'fan#update_basic_info',                   :as => :update_basic_info
   match 'update/additional/info'              => 'fan#update_additional_info',              :as => :update_additional_info

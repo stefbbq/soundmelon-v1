@@ -97,8 +97,8 @@ module UserEntity
   end
 
   def replies_post page=1
-    venue_post_ids  = self.posts.where('is_newsfeed is false').map{|post| post.id}
-    posts           = Post.where('reply_to_id in (?)', venue_post_ids).order('created_at desc')
+    item_post_ids   = self.posts.where('is_newsfeed is false').map{|post| post.id}
+    posts           = Post.where('reply_to_id in (?)', item_post_ids).order('created_at desc')
                           .paginate(:page => page, :per_page => POST_PER_PAGE)
     post_ids        = posts.map{|post| post.id}
     mark_replies_post_as_read post_ids
