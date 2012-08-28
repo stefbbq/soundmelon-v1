@@ -10,36 +10,40 @@ class FanController < ApplicationController
       redirect_to user_home_path
     else
       if request.post?
-        successful_signup             = false
-        @artist                       = Artist.new(params[:artist])
-        if(params[:artist][:name].blank? && params[:artist][:mention_name].blank?)
-          @is_artist_data_valid       = true          
-        else          
-          @is_artist_data_valid       = @artist.valid?
-        end        
-        @user                         = User.new(params[:user])
-        if @is_artist_data_valid
-          if @user.save
-            @artist.save
-            artist_user               = @user.artist_users.new
-            artist_user.artist_id     = @artist.id
-            artist_user.access_level  = 1
-            artist_user.save
-            successful_signup         = true
-          end          
-        end        
-        if successful_signup          
-          render :action =>'signup_success' and return          
+        session[:user_params]   ||= {:invitation_token =>params[:invitation_token]}
+        session[:user_params].deep_merge!(params[:user]) if params[:user]
+        @user                     = User.new(session[:user_params])
+        @user.current_step        = session[:user_step]
+        if @user.valid?
+          if params[:back_button]
+            @user.previous_step
+          elsif @user.last_step?
+            @user.save if @user.all_valid?
+          else            
+            @user.build_location
+            @user.next_step
+          end
+          session[:user_step]     = @user.current_step          
+        end
+        
+        unless @user.new_record?
+          session[:user_step]   = nil
+          session[:user_params] = nil
+          flash[:notice]        = "Account created!"
+          render :action        =>'signup_success' and return
         end
       else
-        @user                         = User.new(:invitation_token => params[:invitation_token])
+        session[:user_params]   = nil
+        session[:user_step]     = nil
+        session[:user_params]   ||= {:invitation_token =>params[:invitation_token]}
+        @user                   = User.new(session[:user_params])
+        @user.invitation_token  = params[:invitation_token]
+        @user.current_step      = session[:user_step]
         if @user.invitation
           @user.email                 = @user.invitation.recipient_email
           @user.email_confirmation    = @user.invitation.recipient_email
           @is_invited                 = true
-        end
-        @artist                       = Artist.new
-        @is_artist_data_valid         = true
+        end        
       end
     end    
   end

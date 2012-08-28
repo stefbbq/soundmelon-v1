@@ -3,7 +3,7 @@ var newPlayList = [#{list_of_play_items(@songs)}];
   if(newPlayList.length>0){
   var current_length = playList.length;
   if(newPlayList.length>0)
-    addItemsToPlayList(newPlayList);
-  playListChange(current_length,1);
+    addItemsToPlayList(newPlayList, 0);
+  //playListChange(current_length,1);
   }
 closeFacebox(1000);

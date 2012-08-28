@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120825100107) do
+ActiveRecord::Schema.define(:version => 20120828040404) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -174,6 +174,15 @@ ActiveRecord::Schema.define(:version => 20120825100107) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "favorite_items", :force => true do |t|
+    t.string   "item_type"
+    t.integer  "item_id"
+    t.string   "favoreditem_type"
+    t.integer  "favoreditem_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "feedback_topics", :force => true do |t|
     t.string   "name"
     t.string   "info"
@@ -221,6 +230,16 @@ ActiveRecord::Schema.define(:version => 20120825100107) do
     t.datetime "updated_at"
   end
 
+  create_table "genres_users", :id => false, :force => true do |t|
+    t.integer "user_id",  :null => false
+    t.integer "genre_id", :null => false
+  end
+
+  create_table "genres_venues", :id => false, :force => true do |t|
+    t.integer "venue_id", :null => false
+    t.integer "genre_id", :null => false
+  end
+
   create_table "invitations", :force => true do |t|
     t.integer  "sender_id"
     t.string   "recipient_email"
@@ -228,6 +247,20 @@ ActiveRecord::Schema.define(:version => 20120825100107) do
     t.datetime "sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "locations", :force => true do |t|
+    t.string   "item_type"
+    t.integer  "item_id"
+    t.string   "name"
+    t.string   "fmt_name"
+    t.string   "lat"
+    t.string   "lng"
+    t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "is_valid",   :default => false
+    t.string   "country"
   end
 
   create_table "mentioned_posts", :force => true do |t|

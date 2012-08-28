@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
-#  authenticates_with_sorcery!
-  
+   
   include UserEntity
 
   authenticates_with_sorcery! do |config|
@@ -22,7 +21,8 @@ class User < ActiveRecord::Base
   has_many :venues, :through => :venue_users, :source =>:venue
   has_many :admin_venues, :through => :venue_users, :source => :venue, :conditions => 'access_level = 1'
   
-  has_one  :additional_info
+  has_one  :additional_info, :dependent =>:destroy
+  has_one  :location, :as =>:item, :dependent =>:destroy
   has_one  :payment_info
   has_many :artist_invitations
   has_many :albums, :dependent =>:destroy
@@ -36,26 +36,33 @@ class User < ActiveRecord::Base
   has_many :mentioned_posts, :as =>:mentionitem
   has_many :playlists, :dependent =>:destroy
   has_many :genre_users, :dependent =>:destroy
-  has_many :genres, :through =>:genre_users
+  has_many :favorite_items, :as =>:item, :dependent => :destroy
+  has_and_belongs_to_many :genres
+  
+#  has_many :top_genres,
+#    :class_name => 'GenreUser',
+#    :order      => 'liking_count',
+#    :limit      => 3
 
-  has_many :top_genres,
-    :class_name => 'GenreUser',
-    :order      => 'liking_count',
-    :limit      => 3
-           
+  attr_writer :current_step
   attr_accessor :email_confirmation, :password_confirmation
   attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :authentications_attributes, :tac, :mention_name, :invitation_token
-  
-  validates :email, :presence => true
-  validates :fname, :presence => true
+  attr_accessible :additional_info_attributes
+  accepts_nested_attributes_for :additional_info
+  attr_accessible :location_attributes
+  accepts_nested_attributes_for :location
+
+  validates :email, :presence => true, :if => lambda { |o| o.current_step == o.steps.first }
+  validates :fname, :presence => true, :if => lambda { |o| o.current_step == o.steps.first }
   validates :lname, :presence => true, :unless =>:is_external?
-  validates :mention_name, :uniqueness => true, :if =>:has_mention_name?
-  validates :password, :presence => true, :on => :create 
-  validates :password, :confirmation => true      
+  validates :mention_name, :uniqueness => true, :if =>:has_mention_name? #&& lambda { |o| o.current_step == o.steps.first }
+  validates :password, :presence => true, :on => :create, :if => lambda { |o| o.current_step == o.steps.first }
+  validates :password, :confirmation => true, :if => lambda { |o| o.current_step == o.steps.first }
   validates :email, :uniqueness => true, :unless =>:is_external?
-  validates :email, :confirmation => true
-  validates :email, :email_format => true  
-  validates :tac, :acceptance => true
+  validates :email, :confirmation => true, :if => lambda { |o| o.current_step == o.steps.first }
+  validates :email, :email_format => true, :if => lambda { |o| o.current_step == o.steps.first }
+  validates :tac, :acceptance => true, :if => lambda { |o| o.current_step == o.steps[1] }
+  
   before_validation :sanitize_mention_name
   before_create :generate_remember_token
   
@@ -70,6 +77,38 @@ class User < ActiveRecord::Base
     :lname => 'Last Name',
     :tac   => 'Terms and Condition'
   }
+
+  def current_step
+    @current_step || steps.first
+  end
+
+  def steps
+#    %w[basic_info tac location artist_venue_suggestion social_media]
+    %w[basic_info tac location]
+  end
+
+  def next_step
+    self.current_step = steps[steps.index(current_step)+1]
+  end
+
+  def previous_step
+    self.current_step = steps[steps.index(current_step)-1]
+  end
+
+  def first_step?
+    current_step == steps.first
+  end
+
+  def last_step?
+    current_step == steps.last
+  end
+
+  def all_valid?
+    steps.all? do |step|
+      self.current_step = step
+      valid?
+    end
+  end
 
   def self.human_attribute_name(attr,options={})
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
@@ -149,15 +188,27 @@ class User < ActiveRecord::Base
   # songs from the artists of user's top genres(top based on liking count)
   def find_radio_feature_playlist_songs(number_of_songs = 5)    
     song_items                    = []
-    user_top_genres               = Genre.where('id in (?)',self.top_genre_ids)
-    artists_from_user_genres      = user_top_genres.map{|ug| ug.artists}
-    albums_of_user_genre_artists  = artists_from_user_genres.flatten.map{|artist| artist.artist_musics }.flatten
+#    user_top_genres               = Genre.where('id in (?)',self.top_genre_ids)
+    user_top_genres               = self.genres
+    artists_from_user_genres      = user_top_genres.map(&:artists).flatten
+    albums_of_user_genre_artists  = artists_from_user_genres.map(&:artist_musics).flatten
     for album in albums_of_user_genre_artists
-      song_items << album.songs.processed
-    end    
+      song_items << album.songs.processed.flatten
+    end
+    song_items = song_items.flatten    
+    song_items = song_items[0, number_of_songs ]    
     # if empty
     song_items = Song.processed(:limit =>number_of_songs) if song_items.empty?
-    song_items.flatten
+    song_items
+  end
+
+  def find_radio_songs excluding_song_ids = [0]
+    radio_songs             = []
+    fav_genres              = self.genres
+    artists_from_fav_genres = fav_genres.map(&:artists).flatten
+    artist_musics           = artists_from_fav_genres.map(&:artist_musics).flatten
+    radio_songs             = artist_musics.map{|am| am.songs.processed_except(excluding_song_ids)}
+    radio_songs.flatten
   end
 
   def followers page = 1
@@ -209,7 +260,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :invitation_id
 
   has_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
-  belongs_to :invitation
+  belongs_to :invitation, :dependent =>:destroy
 
   before_create :set_invitation_limit  
 
@@ -221,7 +272,7 @@ class User < ActiveRecord::Base
     self.invitation = Invitation.find_by_token(token)
   end
   
-#  private
+  #  private
 
   def set_invitation_limit
     self.invitation_limit = 5

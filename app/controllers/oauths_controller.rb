@@ -9,7 +9,9 @@ class OauthsController < ApplicationController
 
   def callback
     provider = params[:provider]
-    unless params[:error].present?
+    if params[:error].present? or params[:error_code].present?
+      redirect_to root_path and return
+    else
       if @user = login_from(provider)
         redirect_to fan_home_path, :notice => "Logged in from #{provider.titleize}!"
       else
@@ -24,9 +26,7 @@ class OauthsController < ApplicationController
           logger.error "Error in Oauth::Callback :=>#{exp.message}"
           redirect_to root_path, :alert => "Failed to login from #{provider.titleize}!"
         end
-      end
-    else      
-      redirect_to root_path and return
+      end      
     end
   end
 

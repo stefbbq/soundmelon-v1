@@ -1,23 +1,24 @@
-- if @user.email        
-  = form_for :user, :url=>fan_registration_path do |f|
-    = render '/bricks/splash_login'
-    = render '/fan/registration_fields'
-  
-  :javascript
-    $(document).ready(function() {
-      $("#genre").tokenInput(
-        [
-        #{genre_atuofill}
-        ],
-        {
-          theme: "facebook"
-        }
-      );
-    });
-- else  
-  .note
-    %div
-      %h2 SoundMelon is currently in closed beta
-      %span Enter in your email address to request an invite!
-      #invitation_form_homepage
-        = render '/invitations/form', :from_page => 1
+- if false
+  - if @user.email
+    = form_for :user, :url=>fan_registration_path do |f|
+      = render '/bricks/splash_login'
+      = render "/fan/registration_form_#{@user.current_step}", :f =>f
+
+    :javascript
+      $(document).ready(function() {
+        $("#genre").tokenInput(
+          [
+          #{genre_atuofill}
+          ],
+          {
+            theme: "facebook"
+          }
+        );
+      });
+  - else
+    .note
+      %div
+        %h2 SoundMelon is currently in closed beta
+        %span Enter in your email address to request an invite!
+        #invitation_form_homepage
+          = render '/invitations/form', :from_page => 1

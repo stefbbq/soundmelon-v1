@@ -1,0 +1,27 @@
+= javascript_include_tag "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"
+= hidden_field :user, :invitation_token
+.field
+  = f.fields_for :location_attributes do |ff|
+    = ff.hidden_field :name
+    = ff.hidden_field :lat
+    = ff.hidden_field :lng
+    = ff.hidden_field :url
+    %label{:for => "name"} Your Location
+    = ff.text_field :formatted_name, :size =>200, :placeholder =>''
+
+:javascript    
+  var input = document.getElementById('user_location_attributes_formatted_name');
+  var options = {
+    types: ['(cities)'],
+    componentRestrictions: {country: 'ca'},
+    place_changed : function(){
+    var place = autocomplete.getPlace();    
+    $('input#user_location_attributes_name').val(place.name);
+    if(place.geometry){
+      $('input#user_location_attributes_lat').val(place.geometry.location.Xa);
+      $('input#user_location_attributes_lng').val(place.geometry.location.Ya);
+      $('input#user_location_attributes_url').val(place.url);
+    }
+    }
+  };
+  autocomplete = new google.maps.places.Autocomplete(input, options);  

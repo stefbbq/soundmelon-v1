@@ -15,8 +15,9 @@ class Artist < ActiveRecord::Base
   has_many :posts, :as =>:useritem, :dependent => :destroy
   has_many :mentioned_posts, :as =>:mentionitem, :dependent => :destroy
   has_many :songs, :through => :artist_musics
+  has_many :favorite_items, :as =>:item, :dependent => :destroy
   has_and_belongs_to_many :genres
-  has_one :artist_logo , :dependent =>:destroy
+  has_one :artist_logo, :dependent =>:destroy
   attr_reader :genre_tokens
 
   has_many :connections, :dependent =>:destroy

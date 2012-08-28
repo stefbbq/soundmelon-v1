@@ -1,8 +1,8 @@
 class AdditionalInfo < ActiveRecord::Base
   belongs_to      :user
-  attr_protected  :user_id
+#  attr_protected  :user_id
   validates       :location, :presence => true
-  
+#  validates :location, :presence => { :message => "You should provide your location"}
   after_save      :update_user_genres
   
   searchable do

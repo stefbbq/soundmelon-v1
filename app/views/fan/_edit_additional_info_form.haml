@@ -2,8 +2,7 @@
   #additional-info-msg.msg
   .details
     %h3
-      change your  
-      %span location, birthday
+      change your        
       or
       %span favourite genre
       picks
@@ -14,10 +13,7 @@
         = f.select :gender, [['male',1],['female', '0']]
       .field.set-age
         %label{:for => "name"} age
-        = f.text_field :age, :size => 5, :class => 'textfield long'
-      .field
-        %label{:for => "name"} location
-        = f.text_field :location, :size => 40, :class => 'textfield location-auto-search-complete long'
+        = f.text_field :age, :size => 5, :class => 'textfield long'      
       .field
         %label{:for => "name"} favourite genres
         = f.text_field :favourite_genre, :size => 30, :class => 'textfield long'

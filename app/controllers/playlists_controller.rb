@@ -1,6 +1,18 @@
 class PlaylistsController < ApplicationController
   before_filter :require_login
   before_filter :check_xhr_request
+
+  def add_radio_songs
+    song_sn      = params[:song_sn].present? ? params[:song_sn] : "0"
+    exclude_songs= song_sn.split(',')
+    user         = current_user
+    radio_songs  = user.find_radio_songs exclude_songs
+    unless radio_songs.empty?
+      @songs     = radio_songs[0, 3] # return only first 3
+    else
+      @songs     = []
+    end
+  end
   
   def add
     begin

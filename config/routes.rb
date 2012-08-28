@@ -62,6 +62,7 @@ Soundmelon::Application.routes.draw do
   get 'home/new/venue'                          => 'venue#new',                             :as => :new_venue
   post 'home/create/venue'                      => 'venue#create',                          :as => :create_venue
   match 'home/manage/profile'                   => 'user#manage_profile',                   :as => :manage_profile #manage session profile
+  match '/home/setup/fan/profile'              => 'fan#profile_setup',                     :as => :profile_setup
     
   #fan public
   match 'fan/(:id)'                             => 'fan_public#index',                      :as => :fan_profile
@@ -258,7 +259,8 @@ Soundmelon::Application.routes.draw do
   #song download
   get ':artist_name/:id/download'         => 'artist_music#download',                     :as => :download_song
   
-  #playlist  
+  #playlist
+  get 'playlist/add/songs/list'           => 'playlists#add_radio_songs',                 :as => :add_radio_song_to_playlist
   get 'playlist/:song_name/:id/add'       => 'playlists#add',                             :as => :add_to_playlist
   get 'playlist/:song_name/:id/remove'    => 'playlists#remove',                          :as => :remove_from_playlist
   get 'playlistPlayer/:id/add'            => 'playlists#add_to_player_queue',             :as => :add_album_to_player_playlist

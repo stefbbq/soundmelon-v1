@@ -8,12 +8,16 @@ class Venue < ActiveRecord::Base
   has_many :venue_members, :through => :venue_users, :source => :user
   has_many :venue_admin_users, :through => :venue_users, :source => :user, :conditions =>'access_level = 1'
   has_many :venue_notified_users, :through => :venue_users, :source => :user, :conditions =>'venue_users.access_level = 1 and venue_users.notification_on is true'
-  has_one :venue_logo
+  has_one :venue_logo, :dependent =>:destroy
   has_many :artist_shows, :order =>'show_date desc', :dependent =>:nullify
   has_many :albums, :as =>:useritem, :dependent =>:destroy
   has_many :posts, :as =>:useritem, :dependent => :destroy
   has_many :mentioned_posts, :as =>:mentionitem, :dependent => :destroy
 
+  has_many :favorite_items, :as =>:item, :dependent => :destroy
+  has_one  :location, :as =>:item, :dependent =>:destroy
+  has_and_belongs_to_many :genres
+  
   validates :name, :presence =>:true
   validates :address, :presence =>:true
 

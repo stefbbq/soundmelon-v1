@@ -331,7 +331,7 @@ module ApplicationHelper
   end
 
   # prepares the detail for individual song
-  def song_detail song
+  def song_detail song, is_radio = false
     actor             = current_user
     song_detail       = song.song_detail
     id                = song_detail[:id]
@@ -346,16 +346,16 @@ module ApplicationHelper
     like              = actor ? (song.voted_on_by?(actor) ? 1 : 0) : 0
     hash_str          = "{title: '#{title}', i:'#{id}'"
     hash_str          += ",album:'#{album_name}', artist: '#{artist_name}', artist_username:'#{artist_username}', mp3:'#{mp3}', ogg: '#{ogg}'"
-    hash_str          += ",image: '#{album_image}',like:#{like}}"
+    hash_str          += ",image: '#{album_image}',like:#{like}, radio: #{is_radio}}"
     hash_str
   end
 
   # prepares the detail for list of songs
-  def list_of_play_items songs
+  def list_of_play_items songs, is_radio = false
     list_str  = ""
     unless songs.blank?
       for i in 0..songs.size-1
-        hash_str      = song_detail(songs[i])
+        hash_str      = song_detail(songs[i], is_radio)
         list_str      += hash_str
         list_str      +="," if i <= songs.size
       end

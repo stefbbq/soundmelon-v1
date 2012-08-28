@@ -50,13 +50,16 @@
   var currentUser         = #{current_user ? 1 : 0};
   var currentTrack        = 0;
   var currentTrackItemId  = 0;
-  var player              = $("#sm_jplayer");  
+  var player              = $("#sm_jplayer");
+  var playerRadioMode     = 0;
+  var radioSongLastCounter= 0;
+  var playedSIds          = "";
 
   $(document).ready(function(){
     setCurrentTrack();
     player.jPlayer({
       ready: function(event){
-        makePlayList(0);
+        makePlayList(0,1);
         $('.jp-volume-bar-thumb').css('left', event.jPlayer.options.volume * 70 - 8 + 'px');
       },
       play: function(event){afterPlayStart();},
@@ -88,13 +91,19 @@
   }
   );
   // Listen for Previous Track button click
-    $("#jp-next").click(function(event) {
+  $("#jp-next").click(function(event) {
       if(currentUser==1){
         playListNext();event.stopPropagation();
       }
     }
   ); // Listen for Next Track button click
-  
+    
+  function addRadioSongs(){
+    //radioSongLastCounter    
+    var radioSongUrl = "#{add_radio_song_to_playlist_path}";
+    $.ajax({url: radioSongUrl + "?song_sn=" + playedSIds});
+  }
+
   //checks for currently playing track
   function setCurrentTrack(){
     if(currentUser==1 && playList.length > 0){
@@ -112,234 +121,250 @@
     return currentTrack;
   }
 
-    function playListStart(){
-      if(playList.length>0 && currentUser==1)
-        playListChange(0, 0);
-    }
+  function playListStart(){
+    if(playList.length>0 && currentUser==1)
+      playListChange(0, 0);
+  }
 
-    function updateTrackInfo(b,u,t,i,l){            
-      var url         = '#{show_artist_url('abc').gsub("/abc", "")}/' + u;
-      var artist_html = currentUser ? '<a href="'  + url + '" class="ajaxopen backable" data-remote="true">' + b +'</a>' : b;
-      $('.info .artist-title').html("by " + artist_html);
-      $('.info .song-title').html(t);
-      $('.info img').attr('src', i);
-      if(l){$('a#alike').addClass('jp-like-active');}
-      else{$('a#alike').removeClass('jp-like-active');}
-      //enable like/dislike
-      $('a#alike').on('click', doLike);      
-    }
-  
-    function trackInfoForEmptyPlaylist(){
-      $('.info .artist-title').html('');
-      $('.info .song-title').html('');
-      $('.info img').attr('src', '/assets/no-image.png');
-      //disable like/dislike
-      $('a#alike').off('click');
-      player.jPlayer( "clearMedia" );
-    }
+  function updateTrackInfo(b,u,t,i,l){
+    var url         = '#{show_artist_url('abc').gsub("/abc", "")}/' + u;
+    var artist_html = currentUser ? '<a href="'  + url + '" class="ajaxopen backable" data-remote="true">' + b +'</a>' : b;
+    $('.info .artist-title').html("by " + artist_html);
+    $('.info .song-title').html(t);
+    $('.info img').attr('src', i);
+    if(l){$('a#alike').addClass('jp-like-active');}
+    else{$('a#alike').removeClass('jp-like-active');}
+    //enable like/dislike
+    $('a#alike').on('click', doLike);
+  }
 
-    function afterPlayStart(){
-      var index = currentTrack;
-      $('.info .note').hide();
-      $('.info .main').show();      
-      if(!player.data('jPlayer').status.paused){
-        $('.jp-playlist ul li').removeClass('current');
-        $("li#litem_" + index).addClass('current');
-      }
-    }
-    function afterPlayPause(){
+  function trackInfoForEmptyPlaylist(){
+    $('.info .artist-title').html('');
+    $('.info .song-title').html('');
+    $('.info img').attr('src', '/assets/no-image.png');
+    //disable like/dislike
+    $('a#alike').off('click');
+    player.jPlayer( "clearMedia" );
+  }
+
+  function afterPlayStart(){
+    var index = currentTrack;
+    $('.info .note').hide();
+    $('.info .main').show();
+    if(!player.data('jPlayer').status.paused){
       $('.jp-playlist ul li').removeClass('current');
+      $("li#litem_" + index).addClass('current');
     }
+    if(index == playList.length - 1)
+      addRadioSongs();
+  }
+  function afterPlayPause(){
+    $('.jp-playlist ul li').removeClass('current');
+  }
 
-    function enableDisablePrev(state){
-      $('#jp-pre').attr('class',state ? 'jp-pre' : 'jp-pre-dis');
-    }
+  function enableDisablePrev(state){
+    $('#jp-pre').attr('class',state ? 'jp-pre' : 'jp-pre-dis');
+  }
 
-    function enableDisableNext(state){
-      $('#jp-next').attr('class', state ? 'jp-next' : 'jp-next-dis');
-    }
+  function enableDisableNext(state){
+    $('#jp-next').attr('class', state ? 'jp-next' : 'jp-next-dis');
+  }
 
-    // Switch track
-    function playListChange(index, play) {      
-        plLength            = playList.length;
-        playing_featured    = false;
-        if(index >= 0 && index < plLength){
-          var item            = playList[index];
-          currentTrackItemId  = item.i;
-          updateTrackInfo(item.artist,item.artist_username, item.title, item.image, item.like)
-          setSongToPlay(play, item.mp3, item.ogg);
-          currentTrack        = index;
-        }            
-      updateButtons();
-      firstLoad = 0;
-      try{
-        $.cookie(currentTrackVarName, '' + index, { expires: 1 });
-      }catch(err){}      
+  // Switch track
+  function playListChange(index, play) {
+    plLength            = playList.length;
+    playing_featured    = false;
+    if(index >= 0 && index < plLength){
+      var item            = playList[index];
+      currentTrackItemId  = item.i;
+      updateTrackInfo(item.artist,item.artist_username, item.title, item.image, item.like)
+      setSongToPlay(play, item.mp3, item.ogg);
+      currentTrack        = index;
     }
-  
-    function updateButtons(){
-      var enableState1 = currentUser == 1 ? currentTrack != 0 : false;
-      var enableState2 = currentUser == 1 ? (currentTrack != playList.length - 1) : false;    
-      enableDisablePrev(enableState1);
-      enableDisableNext(enableState2);
-    }
-  
-    // Set song for the player
-    function setSongToPlay(start_play, song, song_another){
-      player.jPlayer("setMedia", { m4a:song, oga:song_another});
-      if(start_play == 1){ player.jPlayer('play'); }
-    }
+  updateButtons();
+  firstLoad = 0;
+  try{
+      $.cookie(currentTrackVarName, '' + index, { expires: 1 });
+    }catch(err){}
+  }
 
-    // Play next track. If already on last track, start back at the begining
-    function playListNext() {
-      playListChange(currentTrack + 1, 1);
-    }
+  function updateButtons(){
+    var enableState1 = currentUser == 1 ? currentTrack != 0 : false;
+    var enableState2 = currentUser == 1 ? (currentTrack != playList.length - 1) : false;
+    enableDisablePrev(enableState1);
+    enableDisableNext(enableState2);
+  }
 
-    // Play previous track. If already on first track, start back at the end
-    function playListPrev() {
-      playListChange(currentTrack - 1, 1);
-    }
+  // Set song for the player
+  function setSongToPlay(start_play, song, song_another){
+    player.jPlayer("setMedia", { m4a:song, oga:song_another});
+    if(start_play == 1){ player.jPlayer('play'); }
+  }
 
-    // Play song from the song list in albums
-    function playSongFromAlbum(song_detail){
-      makePlaylistEmpty();
-      addSingleSongToPlaylist(song_detail);
-      setSongToPlay(1, song_detail.mp3, song_detail.ogg);
-      currentTrackItemId = song_detail.i;
-      updateTrackInfo(song_detail.artist,song_detail.artist_username, song_detail.title, song_detail.image, song_detail.like);
-    }
-    // makes fresh playlist
-    function makePlayList(startPlay){
-      if(playList.length >0){
-        var liHtml='';
-        for(var i=0;i<playList.length;i++){liHtml+='<li id="litem_' + i + '"><a href="javascript:void(0);" id="item_' + i + '" onclick="playListChange(' + i + ',1);">' + playList[i]['title'] + '</a><a class="playlist-delete" href="javascript:void(0);" onclick="removeListItem(' + i + ');"></a><a class="playlist-play" href="javascript:void(0);" onclick="playListChange(' + i + ',1);"></a></li>';}
-        $('.jp-playlist ul').html(liHtml);      
+  // Play next track. If already on last track, start back at the begining
+  function playListNext() {
+    playListChange(currentTrack + 1, 1);
+  }
+
+  // Play previous track. If already on first track, start back at the end
+  function playListPrev() {
+    playListChange(currentTrack - 1, 1);
+  }
+
+  // Play song from the song list in albums
+  function playSongFromAlbum(song_detail){
+    makePlaylistEmpty();
+    addSingleSongToPlaylist(song_detail);
+    setSongToPlay(1, song_detail.mp3, song_detail.ogg);
+    currentTrackItemId = song_detail.i;
+    updateTrackInfo(song_detail.artist,song_detail.artist_username, song_detail.title, song_detail.image, song_detail.like);
+  }
+  // makes fresh playlist, second parameter is to change playlist or not
+  function makePlayList(startPlay, playlistchange){
+    if(playList.length >0){
+      var liHtml = getPlayListItemContent(playList, 0)
+      $('.jp-playlist ul').html(liHtml);
+      if(playlistchange)
         playListChange(currentTrack, startPlay);
-      }
-      else{
-        updateButtons();
-        player.jPlayer('stop');$('.jp-playlist ul').html('<li>Playlist is empty</li>');
-        trackInfoForEmptyPlaylist();
-      }
     }
-  
-    // adds items to existing playlist
-    function addItemsToPlayList(itemsList){
-      if(itemsList.length >0){
-        // add data
-        var currentLength = playList.length;
-        for(var i=0;i<itemsList.length;i++){
-          playList.push(itemsList[i]);
+    else{
+      updateButtons();
+      player.jPlayer('stop');$('.jp-playlist ul').html('<li>Playlist is empty</li>');
+      trackInfoForEmptyPlaylist();
+    }
+  }
+
+  function getPlayListItemContent(list, start_counter){
+    liHtml   = '';
+    var i    = start_counter;
+    for(var j= 0; j < list.length; j++){
+      playItem = list[j];
+      item_i   = playItem.i;
+      playedSIds += item_i + ',';
+      li_class = playItem.radio== true ? 'r_item' : 'p_item';
+      liHtml += '<li id="litem_' + i + '" class="' + li_class + '"><a href="javascript:void(0);" id="item_' + i + '" onclick="playListChange(' + i + ',1);">' + playList[i]['title'] + '</a><a class="playlist-delete" href="javascript:void(0);" onclick="removeListItem(' + i + ',' + item_i + ');"></a><a class="playlist-play" href="javascript:void(0);" onclick="playListChange(' + i + ',1);"></a></li>';
+      i++;
+    }
+    return liHtml;
+  }
+
+  // adds items to existing playlist
+  function addItemsToPlayList(itemsList, addToLast){
+    if(itemsList.length >0){
+      // add data at the end or in between
+      var currentLength = playList.length;
+      try{
+        if(addToLast){            
+            playList  = playList.concat(itemsList);
+            var liHtml= getPlayListItemContent(itemsList, currentLength);
+            $('.jp-playlist ul li').length>0 ? $('.jp-playlist ul').append(liHtml) : $('.jp-playlist ul').html(liHtml);
+        }else{
+          counter     = currentTrack + 1;          
+          pl_2nd_half = playList.splice(counter, playList.length - counter);
+          new_2nd_half= itemsList.concat(pl_2nd_half);
+          firstHalfLen= playList.length;
+          playList    = playList.concat(new_2nd_half);
+          var liHtml  = getPlayListItemContent(new_2nd_half, firstHalfLen);
+          console.log(firstHalfLen + ' : ' + currentLength );
+          if($('.jp-playlist ul li').length>0){
+            for(var j = firstHalfLen; j < currentLength; j++)
+              $('.jp-playlist ul #litem_' + j).remove();
+              console.log(liHtml);            
+            $('.jp-playlist ul').append(liHtml);
+          }else
+            $('.jp-playlist ul').html(liHtml);
         }
-        // update UI
-        var liHtml='';
-        var i     = playList.length;
-        for(var i=currentLength; i<playList.length;i++){
-          liHtml  += '<li id="litem_' + i + '">';
-          liHtml  += '<a href="javascript:void(0);" id="item_' + i + '" onclick="playListChange(' + i + ',1);">' + playList[i]['title'] + '</a>';
-          liHtml  += '<a class="playlist-delete" href="javascript:void(0);" onclick="removeListItem(' + i + ');"></a>' ;
-          liHtml  += '<a class="playlist-play" href="javascript:void(0);" onclick="playListChange(' + i + ',1);"></a></li>';
+      }catch(err){console.log(err)};
+      updateButtons();
+    }
+  }
+
+  function makePlaylistEmpty(){
+    playList = [];
+    $('.jp-playlist ul').html('');
+  }
+
+  function addSingleSongToPlaylist(song_detail){
+    currentTrack  = 0;
+    playList      = [song_detail];
+    makePlayList(1,1);
+  }
+
+  function removeListItem(index, i_id){
+    if(currentUser==1){
+      var shouldPlay  = player.data('jPlayer').status.paused ? 0 : 1
+      playList.splice(index,1);
+      $('.jp-playlist #litem_' + i_id).remove();
+      makePlayList(shouldPlay,0);
+    }
+    if(playList.length == 1)
+      addRadioSongs();
+  }
+
+  function doLike(){
+    //only for logged-in user
+    if(currentUser==1){
+      var item      = playList[currentTrack];
+      var item_id   = currentTrackItemId;
+      var url       =  '#{request.base_url}/' + item.title + "/" + item_id + '/like';
+      if(!$('a#alike').hasClass('jp-like-active')){url += "/1";}
+      $.ajax({type: 'get',url: url, success:function(data){
+          var data  = eval('(' + data + ')');
+          item.like = data.like;
+          if(data.like){$('a#alike').addClass('jp-like-active')}else{$('a#alike').removeClass('jp-like-active');}
         }
-        if($('.jp-playlist ul li').length>0){
-          $('.jp-playlist ul').append(liHtml);
-        }else
-          $('.jp-playlist ul').html(liHtml);
-        updateButtons();
       }
+    );
     }
+    else{
+      $('a#logout').trigger('click');
+      return false;
+    }
+  }
 
-    function makePlaylistEmpty(){
-      playList = [];
-      $('.jp-playlist ul').html('');
+  function doBuzz(){
+    //only for logged-in user
+    if(currentUser==1){
+      var item_id   = currentTrackItemId;
+      var url       = '#{request.base_url}/buzz/' + item_id;
+      $.getScript(url);
     }
-  
-    function addSingleSongToPlaylist(song_detail){
-      currentTrack  = 0;
-      playList      = [song_detail];
-      makePlayList(1);
+    else{
+      $('a#logout').trigger('click');
+      return false;
     }
+  }
 
-    function removeListItem(index){
-      if(currentUser==1){
-        var shouldPlay  = player.data('jPlayer').status.paused ? 0 : 1
-        if(currentTrack == index){
-          if(currentTrack==playList.length-1)
-            currentTrack = currentTrack - 1;
-          else
-            currentTrack = currentTrack + 1;
-          player.jPlayer('stop');
-          shouldPlay    = 0;
-        }
-        playList.splice(index,1);
-        makePlayList(shouldPlay);
-      }
+  configPlaylist();
+  
+  function configPlaylist(){
+    $(".jp-rep").click(invokePlaylist);
+  }
+  
+  function invokePlaylist() {
+    if(!($('.jp-rep').hasClass('jp-rep-active'))){
+      $('.jp-playlist').show();
+      $('.jp-rep').addClass('jp-rep-active');
+      $('.jp-rep').off('click');
     }
+  }
+  
+  var mouse_is_inside = false;
+  $('.jp-playlist').hover(function(){
+    mouse_is_inside=true;
+  }, function(){
+    mouse_is_inside=false;
+  });
 
-    function doLike(){
-      //only for logged-in user
-      if(currentUser==1){
-        var item      = playList[currentTrack];
-        var item_id   = currentTrackItemId;
-        var url       =  '#{request.base_url}/' + item.title + "/" + item_id + '/like';
-        if(!$('a#alike').hasClass('jp-like-active')){url += "/1";}
-        $.ajax({type: 'get',url: url, success:function(data){
-            var data  = eval('(' + data + ')');
-            item.like = data.like;
-            if(data.like){$('a#alike').addClass('jp-like-active')}else{$('a#alike').removeClass('jp-like-active');}
-          }
-        }
-      );
-      }
-      else{
-        $('a#logout').trigger('click');
-        return false;
-      }
+  $("body").mouseup(function(){
+    if(!mouse_is_inside){
+      $('.jp-rep').removeClass('jp-rep-active');
+      $('.jp-playlist').hide();
+      window.setTimeout(configPlaylist, 1000, true);
     }
+  });
 
-    function doBuzz(){
-      //only for logged-in user
-      if(currentUser==1){
-        var item_id   = currentTrackItemId;
-        var url       = '#{request.base_url}/buzz/' + item_id;      
-        $.getScript(url);
-      }
-      else{
-        $('a#logout').trigger('click');
-        return false;
-      }
-    }
-  
-    configPlaylist();
-  
-    function configPlaylist(){
-      $(".jp-rep").click(invokePlaylist);
-    }
-  
-    function invokePlaylist() {
-      if(!($('.jp-rep').hasClass('jp-rep-active'))){
-        $('.jp-playlist').show();
-        $('.jp-rep').addClass('jp-rep-active');
-        $('.jp-rep').off('click');
-      }
-    }
-  
-    var mouse_is_inside = false;
-    $('.jp-playlist').hover(function(){
-      mouse_is_inside=true;
-    }, function(){
-      mouse_is_inside=false;
-    });
-
-    $("body").mouseup(function(){
-      if(!mouse_is_inside){
-        $('.jp-rep').removeClass('jp-rep-active');
-        $('.jp-playlist').hide();
-        window.setTimeout(configPlaylist, 1000, true);
-      }
-    });
-  
-    var playList = [#{list_of_play_items(@song_items)}];
-
+  var playList = [#{list_of_play_items(@song_items)}];
 :css
   input [type='range'] {
     -webkit-appearance: none !important;

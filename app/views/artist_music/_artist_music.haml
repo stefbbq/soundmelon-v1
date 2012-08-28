@@ -17,10 +17,10 @@
         = link_to download_artist_music_path(@artist, artist_music.id) do
           %div{:class =>"download-icon"}
           download
-        = link_to add_album_to_player_playlist_path(artist_music), {:remote => true, :class => 'ajaxopen'} do
+        = link_to add_album_to_player_playlist_path(artist_music.id), {:remote => true, :class => 'ajaxopen'} do
           %div{:class =>"play-icon"}
           play
-        = link_to add_album_to_playlist_path(artist_music), {:remote => true, :class => 'ajaxopen'} do
+        = link_to add_album_to_playlist_path(artist_music.id), {:remote => true, :class => 'ajaxopen'} do
           %div{:class =>"queue-icon"}
           queue
         = link_to album_buzz_path(artist_music.album_name, artist_music.id), {:remote => true, :class => 'ajaxopen'} do

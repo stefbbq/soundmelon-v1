@@ -4,7 +4,8 @@ class Song < ActiveRecord::Base
   belongs_to  :user
   belongs_to  :artist_music
   has_many    :posts, :as =>:postitem, :dependent => :destroy
-  has_many    :playlists  
+  has_many    :playlists
+  scope :processed_except, lambda{|ids| where('is_processed is true and id not in (?)', ids)}
   scope :processed, :conditions =>["is_processed = ?", true]
   scope :featured, :conditions =>["is_featured = ?", true]
   scope :nonfeatured, :conditions =>["is_featured = ? and is_processed = ?", false, true]
@@ -77,19 +78,19 @@ class Song < ActiveRecord::Base
   end
 
   def do_like_by user
-    artist_music      = self.artist_music(:include =>:artist)
-    artist            = artist_music.artist
-    genres            = artist ? artist.genre : []
-    genres            = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
-    GenreUser.add_genre_and_users genres, user
+#    artist_music      = self.artist_music(:include =>:artist)
+#    artist            = artist_music.artist
+#    genres            = artist ? artist.genre : []
+#    genres            = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
+#    GenreUser.add_genre_and_users genres, user
   end
 
   def do_dislike_by user
-    artist_music      = self.artist_music(:include =>:artist)
-    artist            = artist_music.artist
-    genres            = artist ? artist.genre : []
-    genres            = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
-    GenreUser.remove_genre_and_users genres, user
+#    artist_music      = self.artist_music(:include =>:artist)
+#    artist            = artist_music.artist
+#    genres            = artist ? artist.genre : []
+#    genres            = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
+#    GenreUser.remove_genre_and_users genres, user
   end
 
   def song_mp3

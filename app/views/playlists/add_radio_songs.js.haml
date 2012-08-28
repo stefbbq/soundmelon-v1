@@ -1,0 +1,8 @@
+var newPlayList = [#{list_of_play_items(@songs, true)}];
+:plain
+  if(newPlayList.length>0){
+  var current_length = playList.length;
+  if(newPlayList.length>0)
+    addItemsToPlayList(newPlayList,1);
+  }
+closeFacebox(1);

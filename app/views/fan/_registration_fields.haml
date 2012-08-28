@@ -1,52 +1,11 @@
 .registration
-  - if !@user.errors.blank? || !@is_artist_data_valid
+  - if !@user.errors.blank?
     .registration-error
       %ul
-        - for message in @user.errors.full_messages
-          %li= "User #{message}".downcase
-        - for message in @artist.errors.full_messages
-          %li= "Artist #{message}".downcase
+        - @user.errors.full_messages.each do |message|
+          %li= "#{message}".downcase
   .left
-    - @is_invited ||=false
-    - if params[:email]
-      - @user.email ||= params[:email]
-    - if params[:fname]
-      - @user.fname ||= params[:fname]
-    - if params[:lname]
-      - @user.lname ||= params[:lname]
-    = hidden_field :user, :invitation_token
-    .field
-      %label{:for => "namea"} first name
-      = text_field :user, :fname
-    .field
-      %label{:for => "emaila"} last name
-      = text_field :user, :lname
-    .field
-      %label{:for => "mention_namea"} username
-      = text_field :user, :mention_name, :'data-validatefanusername' => check_fanusername_url
-      .fan-username-popout.field-error
-    .field
-      %label{:for => "websitea"} email
-      = text_field :user, :email, :readonly => @is_invited
-    .field
-      %label{:for => "websitea"} re-enter email
-      = text_field :user, :email_confirmation, :readonly => @is_invited
-    %br/
-    .field
-      %label{:for => "websitea"} password
-      = password_field :user, :password
-    .field
-      %label{:for => "websitea"} re-enter password
-      = password_field :user, :password_confirmation
-    .info
-      You can now go ahead and register or you can also add an artist profile along with your normal profile by filling out the form below
-    .field
-      %label{:for => "name"} artist name
-      = text_field_tag 'artist[name]', params[:artist] ? params[:artist][:name] : '', :'data-validate' => check_artistname_url
-      .artist-name-popout.field-error
-    .field
-      %label{:for => "username"} artist username
-      = text_field_tag 'artist[mention_name]', params[:artist] ? params[:artist][:mention_name] : '', :'data-validatemn' => check_artistmentionname_url
-      .artist-username-popout.field-error
-    = submit_tag 'register me!', :size => "100", :class => 'join'
-  .right
+     %input{:type =>'hidden', :name =>'invitation_token', :value =>params[:invitation_token]}
+    = render "registration_form_#{@user.current_step}", :f =>f
+    = submit_tag 'Next Step', :size => "100", :class => 'join'
+  .rightj

@@ -26,6 +26,43 @@ module UserEntity
     self.get_full_name
   end
 
+
+  def add_favorite_venues venues
+    fav_venues_limit    = 3
+    existing_fav_venues = self.favorite_items.for_venues.map(&:favoreditem)
+    new_venues          = venues - existing_fav_venues
+    existing_fav_count  = existing_fav_venues.size
+    new_venues.each do |v|
+      fav_item = self.favorite_items.build
+      fav_item.favoreditem = v
+      fav_item.save
+    end
+  end
+
+  def add_favorite_artists artists
+    fav_artists_limit     = 3
+    existing_fav_artists  = self.favorite_items.for_artists.map(&:favoreditem)
+    new_artists           = artists - existing_fav_artists
+    existing_fav_count    = existing_fav_artists.size
+    new_artists.each do |a|
+      fav_item = self.favorite_items.build
+      fav_item.favoreditem = a
+      fav_item.save
+    end
+  end
+
+  def add_favorite_genres genres
+    fav_genres_limit     = 3
+    existing_fav_genres  = self.favorite_items.for_genres.map(&:favoreditem)
+    new_genres           = genres - existing_fav_genres
+    existing_fav_count   = existing_fav_genres.size
+    new_genres.each do |g|
+      fav_item = self.favorite_items.build
+      fav_item.favoreditem = g
+      fav_item.save
+    end
+  end 
+
   def inbox page=1
     self.received_messages.paginate(:page => page, :per_page => MESSAGES_PER_PAGE)
   end
