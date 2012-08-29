@@ -62,40 +62,50 @@ class ArtistMusicController < ApplicationController
           sleep 1
         end
         # update cover image
-        if params[:music_cover_image].present?
-#          @artist_music.update
-#          @artist_music.update_attributes(params[:artist_music])
-           begin
-            @artist_music.update_attribute(:cover_img, params[:music_cover_image])
-           rescue =>exp
-             logger.error "Error : #{exp.message}"
-           end
-        end
-
-        @song                 = @artist_music.songs.build(newparams[:song])
-        @song.user_id         = current_user.id
-        if @song.save
-          flash[:notice] = "Song successfully uploaded."
-          respond_to do |format|
-            format.html {redirect_to manage_artist_url(:artist_name => @artist.name) and return}
-            format.json {
-              render :json => {
-                :result           => 'success',
-                :upload           => @song.song_file_name,
-                :album_name       => @artist_music.album_name,
-                :artist_music_id  => @artist_music.id,
-                :song_count_str   => @artist_music.songs.size,
-                :image_src        => '/assets/profile/artist-defaults-avatar.jpg',
-                :add_url          => "#{add_song_path(@artist, @artist_music.album_name)}",
-                :album_url        => "#{artist_music_path(@artist, @artist_music.album_name)}",
-                :delete_url       => "#{delete_artist_music_path(@artist, @artist_music.id)}",
-                :album_string     => "#{render_to_string('/artist_music/_artist_music',:layout =>false, :locals =>{:artist_music =>@artist_music, :show_all=>true})}",
-                :song_string      => "#{render_to_string('/artist_music/_song_item',:layout =>false, :locals =>{:song =>@song})}"
+        if @is_photo          
+          begin
+            @status = @artist_music.update_attributes(newparams[:artist_music])            
+            respond_to do |format|
+              format.html {redirect_to user_home_url and return}
+              format.json {
+                render :json => {
+                  :type             => 'image',
+                  :result           => @status ? 1 : 0,
+                  :image_src        => @artist_music.cover_img.url(:medium),
+                  :artist_music_id  => @artist_music.id
+                }
               }
-            }
+            end
+          rescue =>exp
+            logger.error "Error : #{exp.message}"
           end
         else
-          render :action => 'new'
+          @song                 = @artist_music.songs.build(newparams[:song])
+          @song.user_id         = current_user.id
+          if @song.save
+            flash[:notice] = "Song successfully uploaded."
+            respond_to do |format|
+              format.html {redirect_to user_home_url and return}
+              format.json {
+                render :json => {
+                  :type             => 'song',
+                  :result           => 'success',
+                  :upload           => @song.song_file_name,
+                  :album_name       => @artist_music.album_name,
+                  :artist_music_id  => @artist_music.id,
+                  :song_count_str   => @artist_music.songs.size,
+                  :image_src        => '/assets/profile/artist-defaults-avatar.jpg',
+                  :add_url          => "#{add_song_path(@artist, @artist_music.album_name)}",
+                  :album_url        => "#{artist_music_path(@artist, @artist_music.album_name)}",
+                  :delete_url       => "#{delete_artist_music_path(@artist, @artist_music.id)}",
+                  :album_string     => "#{render_to_string('/artist_music/_artist_music',:layout =>false, :locals =>{:artist_music =>@artist_music, :show_all=>true})}",
+                  :song_string      => "#{render_to_string('/artist_music/_song_item',:layout =>false, :locals =>{:song =>@song})}"
+                }
+              }
+            end
+          else
+            render :action => 'new'
+          end
         end
       else
         render :nothing => true and return
@@ -128,7 +138,7 @@ class ArtistMusicController < ApplicationController
 
   def artist_music_songs
     if request.xhr?
-      begin        
+      begin
         @artist_music = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).includes(:songs).first
       rescue
         render :nothing => true and return
@@ -312,7 +322,7 @@ class ArtistMusicController < ApplicationController
 
   # lists artist's song albums to choose from for setting as featured album
   def albums_for_featured_list
-    begin      
+    begin
       @artist_musics      = @artist.artist_musics.where('featured is false')
       @status             = true
     rescue
@@ -367,20 +377,37 @@ class ArtistMusicController < ApplicationController
   private
 
   def coerce(params)
-    if params[:song].nil?
-      h                             = Hash.new
-      h[:song]                      = Hash.new
-      h[:song][:song]               = params[:Filedata]
-      h[:song][:song].content_type  = MIME::Types.type_for(h[:song][:song].original_filename).to_s
-      h
+    params_item = ''
+    if params[:fileext].present? && params[:fileext] == "*.mp3;*.wav;*.ogg;*.wma;*.flac" # need to update list if other is added in possible type of song formats in uploader ui
+      @is_song  = true
+      if params[:song].nil?
+        h                             = Hash.new
+        h[:song]                      = Hash.new
+        h[:song][:song]               = params[:Filedata]
+        h[:song][:song].content_type  = MIME::Types.type_for(h[:song][:song].original_filename).to_s
+        params_item = h
+      else
+        params_item = params
+      end
     else
-      params
+      @is_photo = true
+      if params[:music_photo].nil?
+        h                                          = Hash.new
+        h[:artist_music]                           = Hash.new
+        h[:artist_music][:cover_img]               = params[:Filedata]
+        h[:artist_music][:cover_img].content_type  = MIME::Types.type_for(h[:artist_music][:cover_img].original_filename).to_s
+        params_item = h
+      else
+        params_item = params
+      end
     end
-  end  
+    logger.error "Params : #{params_item}"
+    params_item
+  end
 
   # finds the artist profile by artist_name parameter, and checks whether the current login is artist or fan
   # and accordingly sets the variable @has_admin_access to be used in views and other actions
-  def check_and_set_admin_access    
+  def check_and_set_admin_access
     begin
       if params[:artist_name] == 'home'
         @artist           = @actor

@@ -82,6 +82,9 @@
             if($('.left .album-list #artist_music_' + dat.artist_music_id).length > 0){
               $('.left .album-list #artist_music_' + dat.artist_music_id + ' .cover img').attr('src', dat.image_src);
             }
+            if($('.content .cover img').length > 0){
+              $('.content .cover img').attr('src', dat.image_src);
+            }
           }
         }        
       },
