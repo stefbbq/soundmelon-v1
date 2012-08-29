@@ -1,4 +1,6 @@
 $('#basic-info .msg').html('#{escape_javascript(@msg)}');
-$('.top-bar .session .summary').html('#{escape_javascript(render '/bricks/session_header')}');
-$('#basic-info .details h3 span#namespan').html('#{current_user.get_full_name}');
-$('.live .full-name').html('#{current_user.get_full_name}');
+- if @status
+  $('.top-bar .session .summary').html('#{escape_javascript(render '/bricks/session_header')}');
+  $('#basic-info .details h3 span#namespan').html('#{current_user.get_full_name}');
+  $('#basic-info .details h3 span#emailspan').html('#{current_user.email}');
+  $('.live .full-name').html('#{current_user.get_full_name}');

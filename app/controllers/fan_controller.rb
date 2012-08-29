@@ -146,21 +146,21 @@ class FanController < ApplicationController
   def update_basic_info
     if request.xhr?
       begin
-        if params[:user][:fname].blank? || params[:user][:fname].blank?
-          @msg = 'first and last names cannot be blank'
-        else
-          current_user.fname = params[:user][:fname]
-          current_user.lname = params[:user][:lname]
-          if current_user.save
-            @msg = 'info updated successfully'
+          user       = current_user
+          user.fname = params[:user][:fname]
+          user.lname = params[:user][:lname]
+          user.email = params[:user][:email]
+          if user.save
+            @msg    = 'info updated successfully'
+            @status = true
           else
-            @msg = 'something went wrong, try again'
+            @msg = "Error: #{user.errors.full_messages.join(',')}"
           end
-        end
         respond_to do |format|
           format.js and return
         end
-      rescue
+      rescue =>excp
+        logger.error "Error in Fan::UpdateBasicInfo :=> #{excp.message}"
         render :nothing => true and return
       end
     else

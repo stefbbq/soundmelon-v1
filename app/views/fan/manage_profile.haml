@@ -16,5 +16,8 @@
           = render :partial => '/fan/change_password_form'
     .right
       = render "/fan/right", :current =>'manage_profile'
-:javascript
-  $('.left input').ezMark();
+:javascript      
+  $('.lock-toggle').bind('click',function(){
+    $.ajax({url:'#{ask_and_check_user_password_path}'});
+  });
+  

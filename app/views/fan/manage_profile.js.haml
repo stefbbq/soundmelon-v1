@@ -14,4 +14,10 @@ updateLeftSection('#{escape_javascript(manage_profile_forms)}');
 updateRightSection('#{escape_javascript(render '/fan/right', :current =>'manage_profile')}');
 scrollToTop();
 closeFacebox(10);
-
+:plain
+if(#{!@user.is_external?}){
+  $('.lock-toggle').bind('click',function(event){
+    $.ajax('#{ask_and_check_user_password_path}',{remote:true});
+    event.stopPropagation();
+  });
+}

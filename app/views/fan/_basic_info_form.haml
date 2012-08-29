@@ -4,9 +4,13 @@
     %h3
       your name is
       %span{:id =>'namespan'}= @user.get_full_name
+    - if @user.mention_name
+      %h3
+        your username is
+        %span= @user.mention_name
     %h3
-      and your username is
-      %span= @user.mention_name
+      and your email is
+      %span{:id =>'emailspan'}= @user.email
     - unless @user.is_external?
       %h5 click the lock to enable changes
   .content.manage-basic
@@ -19,12 +23,13 @@
         %label{:for=>"name"}
           last
         = f.text_field :lname
+      .field
+        %label{:for=>"name"}
+          email
+        = f.text_field :email
       - unless @user.is_external?
         .lock-toggle
       = submit_tag 'update it, it\'s legal', :class => 'button', :id =>'basic_form_submit', :disabled =>!@user.is_external
 :javascript  
   if(#{!@user.is_external?})
-    $('#basic-info input').attr('disabled', true).addClass('input-disabled');
-  $('#basic-info .lock-toggle').live('click',function(){
-    $.ajax('#{ask_and_check_user_password_path}',{remote:true});
-  });
+    $('#basic-info input').attr('disabled', true).addClass('input-disabled');  
