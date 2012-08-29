@@ -25,7 +25,7 @@ class ArtistMusic < ActiveRecord::Base
     :url    => "/sm/artist/song/photos/:normalized_file_name.:extension",
     :processors => [:resizer]
 
-  validates_attachment_content_type :cover_img, :content_type => ['image/jpeg', 'image/png', 'image/jpg']
+  validates_attachment_content_type :cover_img, :content_type => ['image/jpeg', 'image/png', 'image/jpg','[image/jpeg]', '[image/png]', '[image/jpg]']
   validates_attachment_size :cover_img, :less_than => 5.megabytes
 
   Paperclip.interpolates :normalized_file_name do |attachment, style|

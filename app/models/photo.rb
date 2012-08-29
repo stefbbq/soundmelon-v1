@@ -14,7 +14,7 @@ class Photo < ActiveRecord::Base
     },
     :processors => [:resizer]
   
-  #validates_attachment_content_type :image, :content_type => ['image/jpeg', 'image/png', 'image/jpg'] 
+  validates_attachment_content_type :image, :content_type => ['image/jpeg', 'image/png', 'image/jpg', '[image/jpeg]', '[image/png]', '[image/jpg]']
   validates_attachment_size :image, :less_than => 3.megabytes
   validates_attachment_presence :image
    

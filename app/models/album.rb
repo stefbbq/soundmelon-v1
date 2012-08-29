@@ -1,7 +1,7 @@
 class Album < ActiveRecord::Base
   belongs_to :user
   belongs_to :useritem, :polymorphic =>true
-  has_many :photos
+  has_many :photos, :after_add => :set_cover_image, :dependent =>:destroy
   has_many  :posts, :as =>:postitem, :dependent => :destroy  
   belongs_to :cover_image, :class_name =>'Photo'
   

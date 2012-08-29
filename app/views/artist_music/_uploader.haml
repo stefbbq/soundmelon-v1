@@ -1,21 +1,25 @@
 = javascript_include_tag "swfobject.js", "jquery.uploadify.v2.1.0.js"
 - session_key = Rails.application.config.session_options[:key]
 :javascript
-  var song_counter = 1;
+  var song_counter    = 1;
+  var uploadQueueSize = 0;  
   $(document).ready(function() {	   
     $('#song_song').click(function(event){
         event.preventDefault();
       });
+
       $('#song_song').uploadify({
         uploader : '/uploadify/uploadify.swf',
         cancelImg : '/uploadify/cancel.png',
         multi : true,
-        auto : true,
+        auto : false,
         fileExt:  '*.mp3;*.wav;*.ogg;*.wma;*.flac',
         fileDesc: 'Audio Files',
         script : '/artist_music/create',
         onComplete : function(event, queueID, fileObj, response, data) {
-         var dat = eval('(' + response + ')');         
+         var dat = eval('(' + response + ')');
+         var upload_type = dat.type
+         if(upload_type == 'song'){
          $('#uploaded').append(song_counter + "  " + dat.upload+'<br />');
          $('#album_name').val(dat.album_name);
          $('#album_name').attr("disabled", true);
@@ -40,10 +44,19 @@
               $('.left .album-list #artist_music_' + dat.artist_music_id + ' .album-details').append(dat.song_string);
             }
           }
-        }        
+        }
+        changeUploadCount(-1);
+        setAcceptButton();
+        }
       },
       onSelect : function(event,data) {
-        $("#song_song").uploadifySettings('scriptData', { 'album_name' : $('#album_name').val(), 'artist_name' : $('#artist_name').val() });
+        $("#song_song").uploadifySettings('scriptData', { 'album_name' : $('#album_name').val(), 'artist_name' : $('#artist_name').val(), 'music_cover_image':$('#album_cover_image').val() });
+        changeUploadCount(1);
+        setAcceptButton();        
+      },
+      onCancel : function(event, data){
+        changeUploadCount(-1);
+        setAcceptButton();        
       },
       scriptData : {
         '_http_accept': 'application/javascript',
@@ -52,11 +65,55 @@
         '#{session_key}' : encodeURIComponent('#{u cookies[session_key]}'),
         'authenticity_token': encodeURIComponent($('meta[name=csrf-token]').attr('content'))  }
       });
+      
+      // album cover image
+      $('#album_cover_image').uploadify({
+        uploader        : '/uploadify/uploadify.swf',
+        cancelImg       : '/uploadify/cancel.png',
+        multi           : false,
+        auto            : "#{@artist_music.id.present? ? true : false}",
+        'fileExt'       : '*.jpg;*.png;*.jpeg',
+        fileDesc        : 'Image Files',
+        script          : '/artist_music/create',
+        onComplete      : function(event, queueID, fileObj, response, data) {
+        var dat = eval('(' + response + ')');
+        if(dat.type == 'image' && dat.result == 1){
+          if($('.left .album-list').length >0){
+            if($('.left .album-list #artist_music_' + dat.artist_music_id).length > 0){
+              $('.left .album-list #artist_music_' + dat.artist_music_id + ' .cover img').attr('src', dat.image_src);
+            }
+          }
+        }        
+      },
+      onSelect : function(event,data) {
+        $("#album_cover_image").uploadifySettings('scriptData', { 'album_name' : $('#album_name').val(), 'artist_name' : $('#artist_name').val() });
+      },
+      scriptData : {
+        '_http_accept': 'application/javascript',
+        'format' : 'json',
+        '_method': 'post',
+        '#{session_key}' : encodeURIComponent('#{u cookies[session_key]}'),
+        'authenticity_token': encodeURIComponent($('meta[name=csrf-token]').attr('content'))  }
+      });
+
       $('#upload_submit').click(function(event){
         event.preventDefault();
         $('#song_song').uploadifyUpload();
       });
   });
+  
+  function setAcceptButton(){
+    if(uploadQueueSize==0)
+      $('.content a#acceptbttn').hide();
+    else
+      $('.content a#acceptbttn').show();
+  }
+  function changeUploadCount(number){
+    if(number == 0)
+      uploadQueueSize = 0;
+    else
+      uploadQueueSize = uploadQueueSize + number;
+  }
 
   function get_list_album_html(id, album_name, add_url, album_url,delete_url, img_src){
     var html_str  =  "<div class='song-album' id='artist_music_" + id + "'>";

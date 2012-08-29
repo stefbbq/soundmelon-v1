@@ -12,13 +12,16 @@
         - else
           = text_field_tag :album_name, nil, :class => 'overlay-text-field'
       .field
-        = f.label "upload"
+        = f.label "album cover"
+        = file_field_tag 'album_cover_image'
+        = f.label "songs"
         = f.file_field :song
         - f.submit "Upload"
       #uploaded
-    / temporary accept button, needs proper cancel/accept, with no accept option on no data input
-    %a.generic-button{:href => "javascript:$(document).trigger('close.facebox')" }
+    %a.generic-button1{:href => "javascript:$('#song_song').uploadifyUpload();javascript:$('#album_cover_image').uploadifyUpload();", :id =>'acceptbttn', :style =>'display:none;'}
       accept
+    %a.generic-button{:href => "javascript:void(0);", :onclick =>"closeFacebox();" }
+      cancel
   #notice.error
     = notice
 faceboxContent('#{escape_javascript create_form}')
