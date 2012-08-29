@@ -252,6 +252,13 @@
 			right: 16px;
 			padding: 4px 10px;
 		}
+    .generic-button1 {
+			@include overlay-button;
+			position: absolute;
+			bottom: -8px;
+			right: 86px;
+			padding: 4px 10px;
+		}
 		
 		#uploaded {
 			color: $text-faded-on-light;
