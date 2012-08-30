@@ -1,0 +1,35 @@
+= javascript_include_tag "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"
+%h3
+  Set your location
+#location_info.content-box
+  = form_for(:location, {:url => profile_item_setup_path, :remote => true}) do |ff|
+    = hidden_field_tag :setup_item_type, '0'
+    = ff.hidden_field :name
+    = ff.hidden_field :lat
+    = ff.hidden_field :lng
+    = ff.hidden_field :url
+    .fields
+      %label{:for => "name"} Your Location
+      %br
+      = ff.text_field :formatted_name, {:size => 40, :class => 'textfield', :placeholder1 =>''}
+    %br
+    = ff.submit 'Submit', :class => 'button'
+    = ff.submit 'Next step', :class => 'button' if @user.location
+    .clear
+
+:javascript
+  var input = document.getElementById('location_formatted_name');
+  var options = {
+    types: ['(cities)'],
+    componentRestrictions: {country: 'ca'},
+    place_changed : function(){
+    var place = autocomplete.getPlace();
+    $('input#location_name').val(place.name);
+    if(place.geometry){
+      $('input#location_lat').val(place.geometry.location.Xa);
+      $('input#location_lng').val(place.geometry.location.Ya);
+      $('input#location_url').val(place.url);
+    }
+    }
+  };
+  autocomplete = new google.maps.places.Autocomplete(input, options);

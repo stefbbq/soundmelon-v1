@@ -1,6 +1,3 @@
-.blankbox
-  %h3 find friends
-  wanna follow people you know? do it here
 #homefeed.homefeed.center
   .feedbox
     %h3
@@ -8,8 +5,7 @@
     #hotmail.hide
       .fetchbox
         %h1
-          %span.shaded Find you friends on
-          Msn
+          %span.shaded MSN
         = form_tag fetch_contacts_url,:id=>"msn1", :class=>"ajaxopen", :remote => true do
           = hidden_field_tag :emailtype, "Hotmail"
           .fields
@@ -21,16 +17,16 @@
             = password_field_tag :password, nil, :class => 'passwordfield textfield'
             .clear
           %br/
+          .error-msg-2
+          %br/
           = submit_tag 'Connect',:id=>"msn",:class => 'contact_fetch button right'
   .feedbox
     %h3
       %a{:href => "#yahoo", :rel => "topup"} Yahoo
     #yahoo.hide
       .fetchbox
-        %h1
-          %a{:href => "#"} bind
-          %span.shaded Find you friends on
-          Yahoo
+        %h1 
+          %span.shaded Yahoo
         = form_tag fetch_contacts_url,:class=>"ajaxopen", :remote => true do
           = hidden_field_tag :emailtype, "Yahoo"
           .fields
@@ -42,6 +38,8 @@
             = password_field_tag :password, nil, :class => 'passwordfield textfield'
             .clear
           %br/
+          .error-msg-1
+          %br/
           = submit_tag 'Connect',:class => 'contact_fetch button right'
   .feedbox
     %h3
@@ -49,8 +47,7 @@
     #gmail.hide
       .fetchbox
         %h1
-          %span.shaded Find you friends on
-          Gmail
+          %span.shaded Gmail
         = form_tag fetch_contacts_url, :remote => true,:class=>"ajaxopen" do
           = hidden_field_tag :emailtype, "GMail"
           .fields
@@ -61,6 +58,8 @@
             %label Password
             = password_field_tag :password, nil, :class => 'passwordfield textfield'
             .clear
+          %br/
+          .error-msg-3
           %br/
           = submit_tag 'Connect',:class => 'contact_fetch button right'
   .clear

@@ -1,13 +1,12 @@
 = javascript_include_tag "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"
 = hidden_field :user, :invitation_token
 .field
-  = f.fields_for :location_attributes do |ff|
-    = ff.hidden_field :name
-    = ff.hidden_field :lat
-    = ff.hidden_field :lng
-    = ff.hidden_field :url
-    %label{:for => "name"} Your Location
-    = ff.text_field :formatted_name, :size =>200, :placeholder =>''
+  %input{:id =>'user_location_attributes_name', :type =>'hidden', :name =>'user[location_attributes][name]'}
+  %input{:id =>'user_location_attributes_lat', :type =>'hidden', :name =>'user[location_attributes][lat]'}
+  %input{:id =>'user_location_attributes_lng', :type =>'hidden', :name =>'user[location_attributes][lng]'}
+  %input{:id =>'user_location_attributes_url', :type =>'hidden', :name =>'user[location_attributes][url]'}
+  %label{:for => "name"} Your Location
+  %input{:id =>'user_location_attributes_formatted_name', :type =>'text', :name =>'user[location_attributes][formatted_name]', :size =>200, :placeholder =>''}
 
 :javascript    
   var input = document.getElementById('user_location_attributes_formatted_name');

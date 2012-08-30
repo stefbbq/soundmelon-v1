@@ -1,0 +1,8 @@
+$('.registration-error').html('').hide();
+- unless @user.errors.blank?
+  - error_message = capture do
+    %ul
+      - @user.errors.full_messages.each do |message|
+        %li= "#{message}".downcase
+  $('.registration-error').html('#{escape_javascript(error_message)}').show();
+$('.field-space').html('#{escape_javascript(render "registration_form_#{@user.current_step}")}');

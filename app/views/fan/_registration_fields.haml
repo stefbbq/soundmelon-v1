@@ -5,7 +5,7 @@
         - @user.errors.full_messages.each do |message|
           %li= "#{message}".downcase
   .left
-     %input{:type =>'hidden', :name =>'invitation_token', :value =>params[:invitation_token]}
+    %input{:type =>'hidden', :name =>'invitation_token', :value =>params[:invitation_token]}
     = render "registration_form_#{@user.current_step}", :f =>f
     = submit_tag 'Next Step', :size => "100", :class => 'join'
   .rightj

@@ -5,9 +5,18 @@ module UserEntity
   end
 
   module ClassMethods
+
     def find_in_mentioned_post mentioned_name_arr
       return self.where(:mention_name => mentioned_name_arr).select('DISTINCT(id), mention_name').all
     end
+
+    def suggested_items input_params      
+      location_name = input_params[:location_name]
+      item_name     = input_params[:name]
+      items_ids     = input_params[:id]
+      self.where("id in (?) or name like '%?%'", items_ids, item_name)
+    end
+
   end
       
   def is_fan?

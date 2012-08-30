@@ -5,7 +5,6 @@ class Album < ActiveRecord::Base
   has_many  :posts, :as =>:postitem, :dependent => :destroy  
   belongs_to :cover_image, :class_name =>'Photo'
   
-
   after_create :create_newsfeed
 
   scope :published, :conditions =>["disabled = ?", false]

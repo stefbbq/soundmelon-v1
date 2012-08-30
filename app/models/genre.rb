@@ -6,8 +6,22 @@ class Genre < ActiveRecord::Base
   has_and_belongs_to_many :artists
   has_and_belongs_to_many :venues
 
-  def get_artists_for_genres
-    artists = self.artists    
+  def self.get_artists_for_genres genres, limit = 5
+    artists = []
+    genres.each do |genre|
+      artists << genre.artists.flatten
+    end
+    artists = Artist.limit(limit) if artists.blank?
+    artists.flatten.uniq
   end
 
+  def self.get_venues_for_genres genres, limit = 5
+    venues = []
+    genres.each do |genre|
+      venues << genre.venues.flatten
+    end
+    venues = Venue.limit(limit) if venues.blank?
+    venues.flatten.uniq
+  end
+  
 end

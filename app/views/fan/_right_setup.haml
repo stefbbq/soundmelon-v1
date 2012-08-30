@@ -1,0 +1,28 @@
+- tabs      = [:location, :genre, :fav_item, :social]
+- current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
+.items
+  = link_to 'Fav Genres', profile_setup_path(:tab_id =>1),
+            :id                     =>'tab_link_1',
+            :remote                 => true,
+            :class                  => 1 == current ? 'active button-fill-fan selection-box iconactive ajaxload backable' : 'selection-box iconactive ajaxload iconactive backable'
+  = link_to 'Fav Artists', profile_setup_path(:tab_id =>2),
+            :id                     =>'tab_link_2',
+            :remote                 => true,
+            :class                  => 2 == current ? 'active button-fill-fan selection-box iconactive ajaxload backable' : 'selection-box iconactive ajaxload iconactive backable'
+  = link_to 'Fav Venues', profile_setup_path(:tab_id =>3),
+            :id                     =>'tab_link_3',
+            :remote                 => true,
+            :class                  => 3 == current ? 'active button-fill-fan selection-box iconactive ajaxload backable' : 'selection-box iconactive ajaxload iconactive backable'
+  = link_to 'Create Profiles', profile_setup_path(:tab_id =>4),
+            :id                     =>'tab_link_4',
+            :remote                 => true,
+            :class                  => 4 == current ? 'active button-fill-fan selection-box iconactive ajaxload backable' : 'selection-box iconactive ajaxload iconactive backable'
+  = link_to 'Suggestions', profile_setup_path(:tab_id =>5),
+            :id                     =>'tab_link_5',
+            :remote                 => true,
+            :class                  => 5 == current ? 'active button-fill-fan selection-box iconactive ajaxload backable' : 'selection-box iconactive ajaxload iconactive backable'
+  = link_to 'Find friends on SM', profile_setup_path(:tab_id =>6),
+            :id                     =>'tab_link_6',
+            :remote                 => true,
+            :class                  => 6 == current ? 'active button-fill-fan selection-box iconactive ajaxload backable' : 'selection-box iconactive ajaxload iconactive backable'
+.fader

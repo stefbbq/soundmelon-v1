@@ -1,0 +1,16 @@
+- if @item_type == '1'  
+  - render_file = '/fan/setup_genres'
+- elsif  @item_type == '2'  
+  - render_file = '/fan/setup_favorite_artists'
+- elsif  @item_type == '3'  
+  - render_file = '/fan/setup_favorite_venues'
+- elsif  @item_type == '4'
+  - render_file = '/fan/setup_profiles'
+- elsif  @item_type == '5'
+  - render_file =  '/fan/setup_item_suggestions'
+- elsif  @item_type == '6'
+  - render_file = '/fan/setup_social'
+$('.left').html('#{escape_javascript(render "#{render_file}")}');
+$('.right a.active').removeClass('active button-fill-fan');
+$(".right a#tab_link_#{@item_type.to_i}").addClass('active button-fill-fan');
+closeFacebox(1);

@@ -68,5 +68,13 @@ class Venue < ActiveRecord::Base
       UserMailer.venue_removal_notification_email(venue_member, venue_name, 'member').deliver
     }
   end
+
+  def self.find_venues_from_location location = nil, limit = 5
+    if location
+      venues = location.find_nearby_venues
+    end
+    venues  = self.limit(limit) if venues.blank?
+    venues
+  end
   
 end

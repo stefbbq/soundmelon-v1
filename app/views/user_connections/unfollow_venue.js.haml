@@ -31,5 +31,5 @@
   - follow_link     = "#{follow_venue_path(@venue, @source_symbol.to_i)}"
   if($('#results .item-large-square##{item_div_id}').length>0){$('#results .item-large-square##{item_div_id} .actions a').attr('href','#{escape_javascript follow_link }').html('follow');}
 
-faceboxContent('musician unfollowed successfully');
+faceboxContent('venue unfollowed successfully');
 closeFacebox(1000);

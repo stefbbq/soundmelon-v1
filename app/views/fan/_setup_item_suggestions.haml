@@ -1,0 +1,25 @@
+%h3
+  Here are some Artists & Venues suggested for you!
+
+#location_info.content-box
+  = form_for(:user, {:url => profile_item_setup_path, :remote => true}) do |ff|
+    = hidden_field_tag :setup_item_type, '4'
+    .fields
+      %label{:for => "name"}
+      - unless @suggested_artists.blank?
+        %h3
+          Artists
+        .connections_list
+          - @suggested_artists.each do |artist|
+            = render 'user_connections/item', :item =>artist, :user =>artist, :connection_item =>nil, :is_user_fan =>false, :hide_link =>true
+
+      - unless @suggested_venues.blank?
+        %br
+        %h3
+          Venues
+        .connections_list
+          - @suggested_venues.each do |venue|
+            = render 'user_connections/item', :item =>venue, :user =>venue, :connection_item =>nil, :is_user_fan =>false, :hide_link =>true
+      
+      = ff.submit 'Next Step', :class => 'button'      
+    .clear

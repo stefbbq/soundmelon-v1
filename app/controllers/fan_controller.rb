@@ -19,13 +19,13 @@ class FanController < ApplicationController
             @user.previous_step
           elsif @user.last_step?
             @user.save if @user.all_valid?
-          else            
+          else
             @user.build_location
             @user.next_step
           end
-          session[:user_step]     = @user.current_step          
+          session[:user_step]     = @user.current_step
         end
-        
+
         unless @user.new_record?
           session[:user_step]   = nil
           session[:user_params] = nil
@@ -43,9 +43,9 @@ class FanController < ApplicationController
           @user.email                 = @user.invitation.recipient_email
           @user.email_confirmation    = @user.invitation.recipient_email
           @is_invited                 = true
-        end        
+        end
       end
-    end    
+    end
   end
   
   def activate
@@ -61,7 +61,7 @@ class FanController < ApplicationController
         @payment_info         = @user.payment_info
         @firstLogin           = true
         #      render 'fan/additional_info' and return
-        redirect_to user_home_url, :notice => 'User was successfully activated.' and return
+        redirect_to profile_setup_url, :notice => 'User was successfully activated.' and return
       else        
         redirect_to root_url, :notice => 'Unable to activate your account. Try Again!' and return
       end
@@ -146,16 +146,16 @@ class FanController < ApplicationController
   def update_basic_info
     if request.xhr?
       begin
-          user       = current_user
-          user.fname = params[:user][:fname]
-          user.lname = params[:user][:lname]
-          user.email = params[:user][:email]
-          if user.save
-            @msg    = 'info updated successfully'
-            @status = true
-          else
-            @msg = "Error: #{user.errors.full_messages.join(',')}"
-          end
+        user       = current_user
+        user.fname = params[:user][:fname]
+        user.lname = params[:user][:lname]
+        user.email = params[:user][:email]
+        if user.save
+          @msg    = 'info updated successfully'
+          @status = true
+        else
+          @msg = "Error: #{user.errors.full_messages.join(',')}"
+        end
         respond_to do |format|
           format.js and return
         end
@@ -213,4 +213,58 @@ class FanController < ApplicationController
   def signup_success
   end
   
+  def profile_setup
+    @user ||= current_user
+    @item_type = params[:tab_id]
+    case @item_type
+    when '2'
+      @artists               = Genre.get_artists_for_genres current_user.genres
+    when '3'
+      @venues                = Venue.find_venues_from_location @user.location
+    when '5'
+      @suggested_artists     = Artist.suggested_items({:id =>@user.favorite_items.for_artists.map(&:favoreditem_id)})
+      @suggested_venues      = Venue.suggested_items({:id =>@user.favorite_items.for_venues.map(&:favoreditem_id)})
+    end
+  end
+
+  def update_fan_items
+    @user         = current_user
+    @item_type    = params[:setup_item_type]
+    case @item_type
+    when '0'  # location
+      @location   = @user.build_location(params[:location])
+      if @location.save
+        @status   = true
+      else        
+        @status = 'Next step' == params[:commit]
+      end
+    when '1'  # favorites genres
+      genre_names   = params[:fan_genres]
+      genre_names   = genre_names.present? ? genre_names.split(',') : []
+      genres        = Genre.where('name in (?)', genre_names)
+      @user.genres  = genres
+      @status       = true
+      
+      #setup for another tab
+      @artists      = Genre.get_artists_for_genres current_user.genres
+    when '2'  # favorite artists
+      artist_ids    = params[:user_artists].present? ? params[:user_artists] : []
+      artists       = Artist.where('id in (?)', artist_ids)
+      @user.add_favorite_artists artists
+      @status       = true
+      
+      #setup for another tab
+      @venues      = Venue.find_venues_from_location @user.location
+    when '3'  # favorite venues
+      venue_ids    = params[:user_venues].present? ? params[:user_venues] : []
+      venues       = Venue.where('id in (?)', venue_ids)
+      @user.add_favorite_venues venues
+      @status       = true
+
+      #setup for another tab
+      @suggested_artists     = Artist.suggested_items({:id =>@user.favorite_items.for_artists.map(&:favoreditem_id)})
+      @suggested_venues      = Venue.suggested_items({:id =>@user.favorite_items.for_venues.map(&:favoreditem_id)})     
+    end    
+  end
+
 end

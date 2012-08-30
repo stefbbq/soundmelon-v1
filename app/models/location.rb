@@ -1,8 +1,9 @@
 class Location < ActiveRecord::Base
   belongs_to :item, :polymorphic =>true
   validates :name, :presence =>true
-
-  attr_accessible :formatted_name
+  validates :fmt_name, :presence =>true
+  
+  attr_accessible :formatted_name, :name, :lat, :lng, :url
   
   before_validation :do_setup
 
@@ -19,6 +20,13 @@ class Location < ActiveRecord::Base
   def should_validate?
     self_item = self.item
     !self_item.blank? && !self_item.last_step?
+  end  
+
+  def find_nearby_venues limit = 5
+    venues  = []
+    name    = self.name
+    fm_name = self.fmt_name
+    venues
   end
   
 end

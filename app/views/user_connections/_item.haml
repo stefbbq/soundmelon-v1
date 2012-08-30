@@ -1,3 +1,4 @@
+- hide_link                   ||= false
 - status                      = true
 - is_search_item              ||= false
 - change_connection           = false
@@ -8,6 +9,11 @@
   - link                      = show_artist_path(user)
   - image                     = get_artist_avatar(user)
   - name                      = user.name
+  - location                  = nil
+- elsif user.is_venue?
+  - link                      = show_venue_path(user)
+  - image                     = get_venue_avatar(user)
+  - name                      = user.get_full_name
   - location                  = nil
 - elsif user.instance_of?(User)
   - link                      = fan_profile_path(user.id)
@@ -20,16 +26,20 @@
 - change_connection           = !is_user_actor && @actor.is_fan?
 
 - if change_connection
-  - connector_item              = is_user_actor ? connection_item : user
+  - connector_item              = is_user_actor ? (connection_item ? connection_item : user ) : user
   - is_following                = @actor.following?(user)
   - if connector_item.is_fan?
     - source_symbol             = is_search_item ? 4 : is_self_profile ? 1 : 3
     - connector_follow_link     = follow_user_path(connector_item.id, source_symbol)
     - connector_unfollow_link   = unfollow_user_path(connector_item.id, source_symbol)
-  - else
+  - elsif connector_item.is_artist?
     - source_symbol             = is_search_item ? 4 : is_self_profile ? 2 : 3
     - connector_follow_link     = follow_artist_path(connector_item, source_symbol)
     - connector_unfollow_link   = unfollow_artist_path(connector_item, source_symbol)
+  - elsif connector_item.is_venue?
+    - source_symbol             = is_search_item ? 4 : is_self_profile ? 2 : 3
+    - connector_follow_link     = follow_venue_path(connector_item, source_symbol)
+    - connector_unfollow_link   = unfollow_venue_path(connector_item, source_symbol)
 
   - if status
     - if is_following
@@ -39,14 +49,19 @@
       - connection_link_text    = 'follow'
       - connection_link         = connector_follow_link
 
-- if status
-  - item_div_id               = is_user_fan ? "#{user.class.name.downcase}_#{user.id}_following_#{connection_item.class.name.downcase}_#{connection_item.id}" : "#{connection_item.class.name.downcase}_#{connection_item.id}_following_#{user.class.name.downcase}_#{user.id}"
+- if status  
   - item_div_id               = "#{user.class.name.downcase}_#{user.id}"
   .item{:id => item_div_id}
-    = link_to image, link, :remote =>:true, :class => 'ajaxopen backable avatar'
+    - unless hide_link
+      = link_to image, link, :remote =>:true, :class => 'ajaxopen backable avatar'
+    - else
+      = image
     .content
       %h4
-        %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'
+        - unless hide_link
+          %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'
+        - else
+          %strong= name
         - unless location.blank?
           #{location}
     - if change_connection

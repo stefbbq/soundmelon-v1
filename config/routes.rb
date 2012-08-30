@@ -62,7 +62,9 @@ Soundmelon::Application.routes.draw do
   get 'home/new/venue'                          => 'venue#new',                             :as => :new_venue
   post 'home/create/venue'                      => 'venue#create',                          :as => :create_venue
   match 'home/manage/profile'                   => 'user#manage_profile',                   :as => :manage_profile #manage session profile
-  match '/home/setup/fan/profile'              => 'fan#profile_setup',                     :as => :profile_setup
+  match '/home/setup/fan/profile'               => 'fan#profile_setup',                     :as => :profile_setup
+  match '/home/setup/fan/location'              => 'fan#update_fan_items',                  :as => :profile_item_setup
+  
     
   #fan public
   match 'fan/(:id)'                             => 'fan_public#index',                      :as => :fan_profile
@@ -144,6 +146,7 @@ Soundmelon::Application.routes.draw do
   get ':album_name/photo/:id'                 => 'photos#show',                             :as => :album_photo
   
   #invitation
+  match 'contacs/fetch/login/:emailtype'      => "invite#fetch_contacts_login",             :as => :fetch_contacts_form
   match 'contacs/fetch'                       => "invite#fetch_contacts",                   :as => :fetch_contacts
   post 'send/invitation'                      => "invite#send_invitation",                  :as => :send_invitation
  

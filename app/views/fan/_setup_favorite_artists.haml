@@ -1,0 +1,18 @@
+%h3
+  Choose your favorite Artists
+
+#location_info.content-box
+  = form_for(:user, {:url => profile_item_setup_path, :remote => true}) do |ff|
+    = hidden_field_tag :setup_item_type, '2'
+    .fields
+      %label{:for => "name"}
+      %br
+      - @artists.each do |artist|
+        = get_artist_avatar(artist)
+        %br/
+        = check_box_tag 'user_artists[]', artist.id
+        = artist.name        
+        %br
+      = ff.submit 'Submit', :class => 'button'
+      = ff.submit 'skip this', :class => 'button'
+    .clear

@@ -1,0 +1,19 @@
+- if @item_type == '0'
+  - if @status
+    $('.left').html('#{escape_javascript(render '/fan/setup_genres')}');
+  - else
+    alert('Location name cannot be blank');
+- elsif  @item_type == '1'  
+  - if @status
+    $('.left').html('#{escape_javascript(render '/fan/setup_favorite_artists')}');
+- elsif  @item_type == '2'
+  - if @status
+    $('.left').html('#{escape_javascript(render '/fan/setup_favorite_venues')}');
+- elsif  @item_type == '3'
+  - if @status
+    $('.left').html('#{escape_javascript(render '/fan/setup_item_suggestions')}');
+- elsif  @item_type == '4'
+  $('.left').html('#{escape_javascript(render '/fan/setup_social')}');
+$('.right a.active').removeClass('active button-fill-fan');
+$(".right a#tab_link_#{@item_type.to_i+2}").addClass('active button-fill-fan');
+
