@@ -1,18 +1,20 @@
-%h3
-  Choose your favorite Venues
+%h3 Choose your favorite Venues
 
 #location_info.content-box
   = form_for(:user, {:url => profile_item_setup_path, :remote => true}) do |ff|
     = hidden_field_tag :setup_item_type, '3'
-    .fields
-      %label{:for => "name"}
-      %br
-      - @venues.each do |venue|       
-        = get_venue_avatar(venue)
-        %br/        
-        = check_box_tag 'user_venues[]', venue.id
-        = venue.name
-        %br
-      = ff.submit 'Submit', :class => 'button'
+    .content-box
+      .area.form
+        .details
+          select some venues
+        .content
+          .field
+            %br
+            - @venues.each do |venue|
+              = get_venue_avatar(venue)              
+              = check_box_tag 'user_venues[]', venue.id
+              = venue.name
+              %br
       = ff.submit 'skip this', :class => 'button'
+      = ff.submit 'continue', :class => 'button'      
     .clear

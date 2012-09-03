@@ -3,7 +3,7 @@ class Artist < ActiveRecord::Base
   
   acts_as_messageable
   acts_as_followable
-
+  
   has_many :artist_users, :dependent => :destroy
   has_many :artist_members, :through => :artist_users, :source => :user
   has_many :artist_admin_users, :through => :artist_users, :source => :user, :conditions =>'access_level = 1'
@@ -18,13 +18,20 @@ class Artist < ActiveRecord::Base
   has_many :favorite_items, :as =>:item, :dependent => :destroy
   has_and_belongs_to_many :genres
   has_one :artist_logo, :dependent =>:destroy
-  attr_reader :genre_tokens
+  has_many :artist_influencers
+  attr_reader :genre_tokens,:artist_influencer_tokens, :influencer_list
+  attr_writer :current_step
 
+  has_one  :location, :as =>:item, :dependent =>:destroy
   has_many :connections, :dependent =>:destroy
-  has_many :connected_artists, :through =>:connections, :source =>:connected_artist, :conditions =>["is_approved = ?", true]
+  
+  has_many :user_item_connections, :as =>:useritem
 
   accepts_nested_attributes_for :artist_invitations , :reject_if => proc { |attributes| attributes['email'].blank? }
-
+  accepts_nested_attributes_for :genres
+  attr_accessible :name, :mention_name, :facebook_page, :genre_tokens, :artist_influencer_tokens, :bio, :website, :twitter_page, :location_attributes, :est_date, :influencer_list
+  accepts_nested_attributes_for :location
+  
   validates :name, :presence => true
   validates :name, :uniqueness => true
   validates :mention_name, :presence => true
@@ -47,13 +54,24 @@ class Artist < ActiveRecord::Base
     self.genre_ids = ids.split(",")
   end
 
+  def artist_influencer_tokens=(names)
+    names.split(',').each do |name| 
+      ArtistInfluencer.find_or_create_by_name_and_artist_id(name, self.id)
+    end    
+  end
+
   def sanitize_mention_name
     unless self.mention_name.blank?
       self.mention_name = "#{self.mention_name.parameterize}"
       self.mention_name = nil if self.mention_name.size == 1
     end
-  end  
+  end
 
+  def location_name
+    loc = self.location
+    loc ? loc.fmt_name : ''
+  end
+  
   def is_part_of_post? post
     if(post.artist == self || post.mentioned_posts.map{|mentioned_post| mentioned_post.artist.id}.include?(self.id))
       return true
@@ -133,35 +151,35 @@ class Artist < ActiveRecord::Base
     self.songs.featured.limit(6)
   end
 
-  # artist connections
-  # has made request to connect with artist
-  def connection_requested_for? artist
-    Connection.connection_requested? self, artist
-  end
-
-  def connected_with? artist
-    Connection.connected?(self, artist)
-  end
-
-  def connected_artists page = 1
-    Connection.connected_artists_with self, page
-  end
-
-  def connections_count
-    Connection.connection_count_for self
-  end
-
-  def connect_artist artist
-    Connection.add_connection_between self, artist
-  end
-
-  def disconnect_artist artist
-    Connection.remove_connection_between self, artist
-  end
-
-  def connection_requests
-    Connection.requested_connections_for self
-  end
+#  # artist connections
+#  # has made request to connect with artist
+#  def connection_requested_for? artist
+#    Connection.connection_requested? self, artist
+#  end
+#
+#  def connected_with? artist
+#    Connection.connected?(self, artist)
+#  end
+#
+#  def connected_artists page = 1
+#    Connection.connected_artists_with self, page
+#  end
+#
+#  def connections_count
+#    Connection.connection_count_for self
+#  end
+#
+#  def connect_artist artist
+#    Connection.add_connection_between self, artist
+#  end
+#
+#  def disconnect_artist artist
+#    Connection.remove_connection_between self, artist
+#  end
+#
+#  def connection_requests
+#    Connection.requested_connections_for self
+#  end
 
   # removes the self,
   # removes every items belonged to it
@@ -187,6 +205,39 @@ class Artist < ActiveRecord::Base
 
   def to_param
     self.mention_name
+  end
+
+  # steps for artist registration  
+  def current_step
+    @current_step || steps.first
+  end
+
+  def steps
+#    [['basic_info', true, true], ['location', true, true], ['genres', true, true], ['influencer', true, true], ['bandmates', true, true], ['bio', true, true]]
+    [['basic_info', true, true], ['location', true, true], ['genres', true, true]]
+  end
+
+  def next_step
+    self.current_step = steps[steps.index(current_step)+1]
+  end
+
+  def previous_step
+    self.current_step = steps[steps.index(current_step)-1]
+  end
+
+  def first_step?
+    current_step == steps.first
+  end
+
+  def last_step?
+    current_step == steps.last
+  end
+
+  def all_valid?
+    steps.all? do |step|
+      self.current_step = step
+      valid?
+    end
   end
 
 end

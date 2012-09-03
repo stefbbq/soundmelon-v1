@@ -4,6 +4,7 @@
 - is_actor_venue  = @actor ? @actor.is_venue? : false
 - artist_admin_ids= ArtistUser.for_artist_id(@artist.id).map { |u| u.user_id}
 - is_artist_admin = @actor ? (artist_admin_ids.include? current_user.id) : false
+- location        = @artist.location_name
 .live
   .profile-image{:title =>"#{@artist.name}"}
     = get_artist_profile_image(@artist, !@is_public)
@@ -53,6 +54,8 @@
           = link_to '', "http://twitter.com/#{@artist.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @artist.twitter_page.blank?
         .heading
           = "#{@artist.genre}"
-          artist from
-          %span
-            = "#{@artist.location}"
+          artist
+          - unless location.blank?
+            from
+            %span
+              = "#{location}"

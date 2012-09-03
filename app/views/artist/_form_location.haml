@@ -1,0 +1,57 @@
+- location = current_user.location
+= javascript_include_tag "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"
+%h3 Artist Location
+.content-box
+  .area.form.artist-basic
+    .details
+      Set the location for the Artist
+    .content
+      .field
+        - if location
+          = hidden_field_tag :name, location.name
+          = hidden_field_tag :lat, location.lat
+          = hidden_field_tag :lng, location.lng
+          = hidden_field_tag :url, location.url
+        %input{:id =>'artist_location_attributes_lat', :type =>'hidden', :name =>'artist[location_attributes][lat]'}
+        %input{:id =>'artist_location_attributes_lng', :type =>'hidden', :name =>'artist[location_attributes][lng]'}
+        %input{:id =>'artist_location_attributes_url', :type =>'hidden', :name =>'artist[location_attributes][url]'}
+        - if location
+          Artist location is same as your location?
+          = check_box_tag :location_as_fan, 1, false, {:onchange =>"setSelfData();"}
+        %hr/
+        If not, set location,
+        %br/
+        %input{:id =>'artist_location_attributes_place_name', :type =>'text', :name =>'artist[location_attributes][place_name]', :size =>60, :placeholder =>''}
+
+:javascript
+  var input = document.getElementById('artist_location_attributes_place_name');
+  var options = {
+    types: ['(cities)'],
+    componentRestrictions: {country: 'ca'},
+    place_changed : function(){
+    var place = autocomplete.getPlace();    
+    if(place.geometry){
+      document.getElementById('artist_location_attributes_lat').value = place.geometry.location.Xa;
+      document.getElementById('artist_location_attributes_lng').value = place.geometry.location.Ya;
+      document.getElementById('artist_location_attributes_url').value = place.url;
+    }
+   }
+  };
+  autocomplete = new google.maps.places.Autocomplete(input, options);
+
+  function setSelfData(){
+    if(document.getElementById('location_as_fan').checked){
+      document.getElementById('artist_location_attributes_place_name').value = document.getElementById('name').value;
+      document.getElementById('artist_location_attributes_lat').value = document.getElementById('lat').value;
+      document.getElementById('artist_location_attributes_lng').value = document.getElementById('lng').value;
+      document.getElementById('artist_location_attributes_url').value = document.getElementById('url').value;
+      input.value = document.getElementById('fname').value;
+    }
+    else{
+      document.getElementById('artist_location_attributes_place_name').value = '';
+      document.getElementById('artist_location_attributes_lat').value = '';
+      document.getElementById('artist_location_attributes_lng').value = '';
+      document.getElementById('artist_location_attributes_url ').value = '';
+      input.value = '';
+    }
+  }

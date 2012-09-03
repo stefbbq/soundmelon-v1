@@ -1,0 +1,16 @@
+%h3 Select some genres
+.content-box
+  .area.form
+    .details
+      select genres
+    .content{:id=>'basic-info'}
+      = f.text_field :genre_tokens,{ :size => 40, :class => 'textfield'}
+
+:javascript
+  $("#venue_genre_tokens").tokenInput(
+    [#{genre_atuofill}],
+    {
+      preventDuplicates: true,
+      theme: "facebook",
+      prePopulate: [#{genre_prepopullate(@venue.genres)}]
+  });

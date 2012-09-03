@@ -1,12 +1,13 @@
-= venue_form = capture do
+= form_for @venue, :url => action_url, :html => {:multipart => true, :remote =>:true, :class => 'venue-form' } do |f|
   - if @venue.errors.any?
     #error_explanation
       %h2
         = pluralize(@venue.errors.count, "error")
-        prohibited this venue profile from being saved:
+        occurred
       %ul
         - @venue.errors.full_messages.each do |msg|
           %li
             = msg
-  = form_for @venue, :url => action_url, :html => {:multipart => true, :remote => true, :class => 'venue-form' } do |f|
-    = render :partial => '/venue/form_fields', :locals =>{:f => f}
+  = render "/venue/form_#{@venue.current_step.first}", :f => f
+  = f.submit "Back", :name => "back_button" unless @venue.first_step?
+  = f.submit "Continue"  

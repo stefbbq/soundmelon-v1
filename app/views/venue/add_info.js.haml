@@ -1,0 +1,15 @@
+- if @status
+  - unless @artists.blank?
+    - html_to_render = capture do
+      = render 'venue/form_connection'
+    $('.popup .left').html('#{escape_javascript(html_to_render)}');
+  - else
+    - html_to_render = capture do
+      Your Venue Profile has been created.
+      %br/      
+    $('.popup .left').html('#{escape_javascript(html_to_render)}');
+    setTimeout("self.close();",5000);
+- else
+  - html_to_render = capture do
+    = render 'venue/form_add_info'
+  $('.popup .left').html("#{escape_javascript(html_to_render)}");

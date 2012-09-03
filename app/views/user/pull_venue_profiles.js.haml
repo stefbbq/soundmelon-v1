@@ -1,10 +1,11 @@
 - content = capture do
   - if @accessible_venues.blank?
-    You have no venue profiles associated with your account, would you like to #{link_to 'create one?', new_venue_path, :class => 'ajaxopen backable', :remote => true}
+    You have no venue profiles associated with your account, would you like to #{link_to 'create one?', new_venue_path, :class => 'ajaxopenwindow'}
   - else
-    - @accessible_venues.each do |venue|
-      = render '/venue/venue_item', :venue =>venue
-    #{link_to 'create another venue profile?', new_venue_path, :class => 'ajaxopen backable', :remote => true} You can add another venue profile to associate with your account!
+    .venue-list
+      - @accessible_venues.each do |venue|
+        = render '/venue/venue_item', :venue =>venue
+    #{link_to 'create another venue profile?', new_venue_path, :class => 'ajaxopenwindow'} You can add another venue profile to associate with your account!
 setUpPage();
 updateLiveSection('#{escape_javascript(render '/fan/live')}');
 updateLeftSection('#{escape_javascript(content)}');

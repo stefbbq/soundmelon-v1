@@ -1,15 +1,19 @@
 class Location < ActiveRecord::Base
   belongs_to :item, :polymorphic =>true
   validates :name, :presence =>true
-  validates :fmt_name, :presence =>true
   
-  attr_accessible :formatted_name, :name, :lat, :lng, :url
+  attr_accessible :place_name, :name, :lat, :lng, :url
   
   before_validation :do_setup
 
   def formatted_name=(name)
     self.fmt_name = name
     self.name     = self.fmt_name unless self.name
+  end
+
+  def place_name=(name)
+    self.fmt_name = name
+    self.name     = name.split(',').first
   end
 
   def do_setup

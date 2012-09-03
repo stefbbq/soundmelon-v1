@@ -1,25 +1,49 @@
 class VenueController < ApplicationController
-
+  layout 'layouts/popup', :only =>[:new, :create, :add_info]
+  
   def index    
   end
 
   def new
-    @user     = @actor
-    get_user_associated_objects
-    @venue    = Venue.new
+    @user                  = current_user
+    session[:venue_params] ||= {}
+    @venue                 = Venue.new(session[:venue_params])
+    @venue.current_step    = session[:venue_step]    
+    #    get_user_associated_objects    
   end
 
-  def create
-    @venue     = current_user.venues.build(params[:venue])
-    venue_user = current_user.venue_users.new
-    if @venue.save
-      venue_user.venue_id      = @venue.id
-      venue_user.access_level  = 1
-      venue_user.save
-      @venues  = current_user.venues
-    else
-      render :action => 'new' and return
+  def create    
+    begin
+      session[:venue_params]   ||= {}
+      session[:venue_params].deep_merge!(params[:venue]) if params[:venue]      
+      @venue                   = Venue.new(session[:venue_params])
+      @venue.current_step      = session[:venue_step]
+      if @venue.valid?
+        if params[:back_button]
+          @venue.previous_step
+        elsif @venue.last_step?
+          if @venue.all_valid? && @venue.save
+            venue_user                 = current_user.venue_users.new
+            venue_user.venue_id       = @venue.id
+            venue_user.access_level    = 1
+            venue_user.save
+          end
+        else
+          @venue.next_step
+        end
+        session[:venue_step]     = @venue.current_step
+      end      
+    rescue =>excp
+      logger.error "Error in Venue::Create :#{excp.message}"
     end
+
+    if @venue.new_record?
+      render "new" and return
+    else
+      session[:venue_step]  = session[:venue_params] = nil
+      flash[:notice]        = "Venue profile created"
+      redirect_to venue_add_info_path(@venue.id) and return
+    end    
   end
 
   def edit
@@ -57,6 +81,27 @@ class VenueController < ApplicationController
       end
     else
       redirect_to fan_home_url and return
+    end
+  end
+
+  def state_options
+    render :partial =>'venue/state_selection' and return
+  end
+
+  def add_info
+    begin
+      @venue = Venue.find params[:id]
+    rescue =>exp
+      logger.errror "Error in Venue::AddInfo :=>#{exp.message}"
+    end
+    if @venue
+      if request.get?
+      else
+        @status     = @venue.update_attributes(params[:venue])
+        if @status
+          @artists  = Genre.get_artists_for_genres @venue.genres
+        end
+      end
     end
   end
 

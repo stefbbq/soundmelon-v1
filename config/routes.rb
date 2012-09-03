@@ -57,10 +57,15 @@ Soundmelon::Application.routes.draw do
   #fan functions
   get 'home/artists'                            => 'user#pull_artist_profiles',             :as => :associated_artist
   get 'home/new/artist'                         => 'artist#new',                            :as => :new_artist
+  match 'home/setup/artist/profile/:id'         => 'artist#setup_profile',                  :as => :artist_setup
+  match 'home/setup/artist/info/:id'            => 'artist#add_info',                       :as => :add_artist_info
   post 'home/create/artist'                     => 'artist#create',                         :as => :create_artist
   get 'home/venues'                             => 'user#pull_venue_profiles',              :as => :associated_venue
   get 'home/new/venue'                          => 'venue#new',                             :as => :new_venue
   post 'home/create/venue'                      => 'venue#create',                          :as => :create_venue
+  match 'home/venue/location/state'             => 'venue#state_options',                   :as => :venue_state_options
+  get 'home/setup/venue/profile/:id'            => 'venue#setup_profile',                   :as => :venue_setup
+  match 'home/setup/venue/info/:id'             => 'venue#add_info',                        :as => :venue_add_info
   match 'home/manage/profile'                   => 'user#manage_profile',                   :as => :manage_profile #manage session profile
   match '/home/setup/fan/profile'               => 'fan#profile_setup',                     :as => :profile_setup
   match '/home/setup/fan/location'              => 'fan#update_fan_items',                  :as => :profile_item_setup
@@ -229,10 +234,15 @@ Soundmelon::Application.routes.draw do
   get 'unfollow/artist/:artist_name/:source'       => 'user_connections#unfollow_artist',         :as => :unfollow_artist
   get 'follow/venue/:venue_name/:source'           => 'user_connections#follow_venue',            :as => :follow_venue
   get 'unfollow/venue/:venue_name/:source'         => 'user_connections#unfollow_venue',          :as => :unfollow_venue
-  get 'connection/request/artist/:artist_name'     => 'user_connections#connect_artist',          :as => :connect_artist
+  get 'connection/request/artist/:artist_name/(/:id)'              => 'user_connections#connect_artist',    :as => :connect_artist
+  get 'connection/request/artist/venue/:artist_name/(/:venue_id)'  => 'user_connections#connect_artist',    :as => :connect_artist_from_venue
   get 'connection/accept/artist/:artist_name'      => 'user_connections#connect_artist',          :as => :accept_artist_connection
   get 'connection/reject/artist/:artist_name'      => 'user_connections#disconnect_artist',       :as => :reject_artist_connection
   get 'connection/remove/artist/:artist_name'      => 'user_connections#disconnect_artist',       :as => :remove_artist_connection
+  get 'connection/request/venue/:venue_id(/:id)'  => 'user_connections#connect_artist',          :as => :connect_venue
+  get 'connection/accept/venue/:venue_id'          => 'user_connections#connect_venue',           :as => :accept_venue_connection
+  get 'connection/reject/venue/:venue_id'          => 'user_connections#disconnect_venue',        :as => :reject_venue_connection
+  get 'connection/remove/venue/:venue_id'          => 'user_connections#disconnect_venue',        :as => :remove_venue_connection
   
   # follow/un-follow fan
   get 'follow/fan/:id/:source'            => 'user_connections#follow',                           :as => :follow_user

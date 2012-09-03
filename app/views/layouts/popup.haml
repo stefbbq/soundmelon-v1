@@ -1,0 +1,27 @@
+!!!
+%html
+  %head
+    %title
+      = @title || "SoundMelon"
+    /[if IE]
+      = stylesheet_link_tag  "/stylesheets/ie9"
+    = javascript_include_tag "application"
+    = stylesheet_link_tag    "application"
+    = csrf_meta_tags
+    = yield(:head)
+    = render '/layouts/analytics'
+  - if current_user #user logged in
+    %body
+      #base-container
+        #page-container
+          #page.popup
+            #page-header
+              = render :partial=>"/bricks/logo"
+            #page-content
+              = yield
+    .globalloading.hide{:id => "globalloading"}
+      .center
+        %h1
+          loading
+        .loading-img
+          = image_tag("loading.gif")

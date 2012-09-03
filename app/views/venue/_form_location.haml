@@ -1,0 +1,37 @@
+%h3 Here, enter the address for your venue
+.area.form.artist-basic
+  .content{:id=>'basic-info'}    
+    .field
+      %label{:for=>"name"}
+        Country
+      = f.country_select :country, {priority: %w(US CA)}, prompt: 'Please select a country', :onchange =>"setStateOptions();", :length =>'100'
+    .field
+      %label{:for=>"username"}
+        Province
+        %br/
+        State
+      = render partial: 'state_selection', locals: {parent_region: f.object.country}      
+    .field
+      %label{:for=>"username"}
+        City
+      = f.text_field :city
+    .field
+      %label{:for=>"username"}
+        Address
+      = f.text_field :address
+
+:javascript
+  function setStateOptions(){
+    select_country = $('#venue_country')    
+    country_code = select_country.val();
+    $('select#venue_state').attr('disabled', true);
+    url = "#{venue_state_options_path}?parent_region=" + country_code;
+    $.ajax({
+      url:url,
+      success:function(a){
+        $('#venue_state_code_wrapper').html(a);
+      },
+      error:function(a){}
+      }
+    );
+  }

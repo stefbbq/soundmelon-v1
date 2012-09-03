@@ -2,6 +2,16 @@ class UserItemConnection < ActiveRecord::Base
   belongs_to :useritem, :polymorphic =>true
   belongs_to :connected_useritem, :polymorphic =>true
 
+  scope :for_artists, :conditions =>"connected_useritem_type = 'Artist'"
+  scope :for_artist, lambda{|artist| where('connected_useritem_type = ? and connected_useritem_idid = ?', 'Artist', artist.id)}
+  scope :for_artist_id, lambda{|artist_id| where('connected_useritem_type = ? and connected_useritem_id = ?', 'Artist', artist_id)}
+  scope :for_venues, :conditions =>"connected_useritem_type = 'Venue'"
+  scope :for_venue, lambda{|venue| where('connected_useritem_type = ? and connected_useritem_id = ?', 'Venue', venue.id)}
+  scope :for_venue_id, lambda{|venue_id| where('connected_useritem_type = ? and connected_useritem_id = ?', 'Venue', venue_id)}
+  scope :for_user, lambda{|user| where('user_id = ?', user.id)}
+  scope :for_user_and_artist, lambda{|user, artist| where('user_id = ? and artist_id = ?', user.id, artist.id)}
+  scope :for_this_and_this, lambda{|item1, item2| where('useritem_type = ? and connected_useritem_type = ? and useritem_id = ? and connected_useritem_id = ?', item1.class.name, item2.class.name, item1.id, item2.id)}
+
   NOT_CONNECTED = 0
   REQUESTED     = 1
   CONNECTED     = 2
@@ -44,11 +54,11 @@ class UserItemConnection < ActiveRecord::Base
 
   # connection from artist1 to artist2
   def self.connection_between useritem1, useritem2
-    Connection.where("(useritem_type = ? and useritem_id = ? and connected_useritem_type = ? and connected_useritem_id = ?)",useritem1.class.name, useritem1.id, useritem2.class.name, useritem2.id).first
+    self.where("(useritem_type = ? and useritem_id = ? and connected_useritem_type = ? and connected_useritem_id = ?)",useritem1.class.name, useritem1.id, useritem2.class.name, useritem2.id).first
   end
 
   def associated_connection
-    self.class.find_by_artist_id_and_connected_artist_id(self.connected_artist_id, self.artist_id)
+    self.class.find_by_useritem_id_and_useritem_type_and_connected_useritem_id_and_connected_useritem_type(self.connected_useritem_id,self.connected_useritem_id, self.useritem_id, self.useritem_type)
   end
 
   # connection requested from useritem1 to useritem2
@@ -86,9 +96,9 @@ class UserItemConnection < ActiveRecord::Base
   # all connection requests for particular useritem
   def self.requested_connections_for useritem, limit = 0
     if limit > 0
-      Connection.where("(connected_useritem_type = ? and connected_useritem_id = ?) and is_approved is false",useritem.class.name, useritem.id).limit(limit)
+      UserItemConnection.where("(connected_useritem_type = ? and connected_useritem_id = ?) and is_approved is false", useritem.class.name, useritem.id).limit(limit)
     else
-      Connection.where("(connected_useritem_type = ? and connected_artist_id = ?) and is_approved is false", useritem.class.name, useritem.id)
+      UserItemConnection.where("(connected_useritem_type = ? and connected_useritem_id = ?) and is_approved is false", useritem.class.name, useritem.id)
     end
   end
 
@@ -104,6 +114,6 @@ class UserItemConnection < ActiveRecord::Base
   end
 
   def self.connection_count_for useritem
-   useritem.connections.where('is_approved is true').size
+   self.where('useritem_type = ? and is_approved is true', useritem.class.name).size
   end
 end

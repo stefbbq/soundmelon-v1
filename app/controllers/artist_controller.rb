@@ -1,5 +1,6 @@
 class ArtistController < ApplicationController
   before_filter :require_login
+  layout 'layouts/popup', :only =>[:new, :create, :setup_profile]
   
   def index
     begin
@@ -20,24 +21,83 @@ class ArtistController < ApplicationController
   end
   
   def new
-    @user   = current_user
-    get_user_associated_objects
-    @artist = Artist.new
+    @user                   = current_user
+    session[:artist_params] = {}
+    session[:artist_step]   = nil
+    @artist                 = Artist.new(session[:artist_params])
+    @artist.current_step    = session[:artist_step]
+    get_user_associated_objects        
   end  
-  
+
   def create
-    @artist     = current_user.artists.build(params[:artist])
-    artist_user = current_user.artist_users.new
-    if @artist.save
-      artist_user.artist_id       = @artist.id
-      artist_user.access_level  = 1
-      artist_user.save
-      @artists  = current_user.artists.includes(:artist_musics, :songs)
-    else
-      render :action => 'new' and return
-    end
+    if request.post?
+      begin
+        session[:artist_params]   ||= {}
+        session[:artist_params].deep_merge!(params[:artist]) if params[:artist]        
+        @artist                   = Artist.new(session[:artist_params])
+        @artist.current_step      = session[:artist_step]      
+        if @artist.valid?
+          if params[:back_button]
+            @artist.previous_step
+          elsif @artist.last_step?
+            if @artist.all_valid? && @artist.save              
+              artist_user                 = current_user.artist_users.new
+              artist_user.artist_id       = @artist.id
+              artist_user.access_level    = 1
+              artist_user.save
+            end            
+          else
+            @artist.next_step
+          end
+          session[:artist_step]     = @artist.current_step
+        end        
+      rescue =>excp
+        logger.error "Error in Artist::Create :#{excp.message}"
+      end
+      
+      if @artist.new_record?
+        render "new" and return
+      else
+        session[:artist_step] = session[:artist_params] = nil
+        flash[:notice]        = "Artist profile created"
+        @artist_list          = Genre.get_artists_for_genres(@artist.genres)
+        render 'setup_profile' and return
+      end
+    end    
   end
   
+  def setup_profile
+    begin
+      @artist       = Artist.find params[:id]
+      @artist_list  = Genre.get_artists_for_genres(@artist.genres)      
+    rescue =>excp
+    end
+    unless request.get?
+     names   = []
+     if params[:user_artists].present?
+       names = Artist.where("id in (?)", params[:user_artists]).map(&:name)
+     end
+     if params[:artist] && params[:artist][:influencer_list].present?
+       names << params[:artist][:influencer_list]
+     end
+     @artist.artist_influencer_tokens=names.join(',')
+     render 'artist_bandmates' and return
+    end
+  end
+
+  def artist_bandmates
+  end
+
+  def add_info
+    begin
+      @artist = Artist.find params[:id]
+    rescue =>excp      
+    end
+    if params[:artist]
+      @status = @artist.update_attributes(params[:artist])
+    end
+  end
+
   def edit    
     begin      
       @artist       = Artist.find(params[:id])

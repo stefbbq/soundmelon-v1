@@ -7,12 +7,3 @@
       - elsif true
         .setup-space
           = render 'fan/setup_location'
-      - else
-        .blankboxs
-          = link_to "Skip", fan_home_path,:class=>"button right"
-        = render 'fan/edit_additional_info_form'
-        = render 'fan/find_friends_form'
-        = render 'fan/payment_info_form'
-    .right
-      = render '/fan/right_setup'
-    

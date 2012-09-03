@@ -134,7 +134,15 @@ class UserConnectionsController < ApplicationController
   end
 
   def connect_artist
-    @actor                  = current_actor
+    # requesting actor item
+    if params[:id].present?
+      @actor = Artist.find params[:id]
+    elsif params[:venue_id].present?
+      @actor = Venue.find params[:venue_id]
+    else
+      @actor = current_actor
+    end
+    
     if request.xhr?
       begin
         @artist                   = Artist.find_artist(params)
@@ -156,9 +164,56 @@ class UserConnectionsController < ApplicationController
   end
 
   def disconnect_artist
-    @actor                      = current_actor
+    # requesting actor item
+    if params[:id].present?
+      @actor = Artist.find params[:id]
+    elsif params[:venue_id].present?
+      @actor = Venue.find params[:venue_id]
+    else
+      @actor                  = current_actor
+    end
+    
     if request.xhr?
       begin        
+        @artist                 = Artist.find_artist(params)
+        @actor.disconnect_artist(@artist)
+        @last_connection_count  = @artist.connections_count
+        @is_self_profile        = params[:self] && params[:self] == "1"
+      rescue => exp
+        logger.error "Error in UserConnections::DisconnectArtist :=> #{exp.message}"
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_artist_url(params[:artist_name]) and return
+    end
+  end
+
+  def connect_venue
+    @actor                      = current_actor
+    if request.xhr?
+      begin
+        @artist                 = Artist.find_artist(params)
+        @actor.connect_artist(@artist)
+        @last_connection_count  = @artist.connections_count
+        @connected              = @actor.connected_with?(@artist)
+        if @connected
+          NotificationMail.connect_notification @actor, @artist
+        else
+          NotificationMail.connect_request_notification @artist, @actor
+        end
+      rescue => exp
+        logger.error "Error in UserConnections::ConnectArtist :=> #{exp.message}"
+        render :nothing => true and return
+      end
+    else
+      redirect_to show_artist_url(params[:artist_name]) and return
+    end
+  end
+
+  def disconnect_venue
+    @actor                      = current_actor
+    if request.xhr?
+      begin
         @artist                 = Artist.find_artist(params)
         @actor.disconnect_artist(@artist)
         @last_connection_count  = @artist.connections_count

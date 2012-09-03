@@ -18,8 +18,21 @@ class Venue < ActiveRecord::Base
   has_one  :location, :as =>:item, :dependent =>:destroy
   has_and_belongs_to_many :genres
   
-  validates :name, :presence =>:true
-  validates :address, :presence =>:true
+  validates :name, :presence =>:true, :if => lambda { |o| o.first_step? }
+  validates :mention_name, :presence =>:true, :if => lambda { |o| o.first_step? }
+  validates :city, :presence =>:true, :if => lambda { |o| o.current_step.first == "location" }
+  validates :address, :presence =>:true, :if => lambda { |o| o.current_step.first == "location" }
+
+  attr_reader :genre_tokens
+  attr_writer :current_step
+  
+  attr_accessible :genre_tokens, :name, :mention_name, :est_date, :country, :state, :city, :address, :facebook_page, :twitter_page, :info
+  accepts_nested_attributes_for :genres
+
+  def genre_tokens=(ids)
+#    self.genre_ids = ids.split(",")
+    self.genres = Genre.where(" name in (?)", ids.split(','))
+  end
 
   def location
     [self.address,self.city, self.state, self.country].compact.join(',')
@@ -75,6 +88,38 @@ class Venue < ActiveRecord::Base
     end
     venues  = self.limit(limit) if venues.blank?
     venues
+  end
+
+    # steps for artist registration
+  def current_step
+    @current_step || steps.first
+  end
+
+  def steps
+    [['basic_info', true, true], ['location', true, true], ['genres', true, true]]
+  end
+
+  def next_step
+    self.current_step = steps[steps.index(current_step)+1]
+  end
+
+  def previous_step
+    self.current_step = steps[steps.index(current_step)-1]
+  end
+
+  def first_step?
+    current_step == steps.first
+  end
+
+  def last_step?
+    current_step == steps.last
+  end
+
+  def all_valid?
+    steps.all? do |step|
+      self.current_step = step
+      valid?
+    end
   end
   
 end

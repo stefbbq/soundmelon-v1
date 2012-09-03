@@ -50,8 +50,8 @@ class FanController < ApplicationController
   
   def activate
     begin      
-      if @user = User.load_from_activation_token(params[:id])
-        if @user.activate!
+      if @user = User.load_from_activation_token(params[:id])       
+        if @user.activate!        
           session[:user_id]     = @user.id
           @user.deliver_pending_invitations
         end

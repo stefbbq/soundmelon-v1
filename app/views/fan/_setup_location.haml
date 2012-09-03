@@ -8,17 +8,20 @@
     = ff.hidden_field :lat
     = ff.hidden_field :lng
     = ff.hidden_field :url
-    .fields
-      %label{:for => "name"} Your Location
-      %br
-      = ff.text_field :formatted_name, {:size => 40, :class => 'textfield', :placeholder1 =>''}
+    .content-box
+      .area.form.artist-basic
+        .details
+          your location
+        .content
+          .field
+            %input{:id =>'location_attributes_place_name', :type =>'text', :name =>'location_attributes[place_name]', :size =>60, :placeholder =>''}
     %br
     = ff.submit 'Submit', :class => 'button'
     = ff.submit 'Next step', :class => 'button' if @user.location
     .clear
 
-:javascript
-  var input = document.getElementById('location_formatted_name');
+:javascript  
+  var input = document.getElementById('location_attributes_place_name');
   var options = {
     types: ['(cities)'],
     componentRestrictions: {country: 'ca'},

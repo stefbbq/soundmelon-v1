@@ -108,6 +108,14 @@ $(document).ready( function(){
   $("a.ajaxopen").live('ajax:before', function() {
     jQuery.facebox($('#globalloading').html());    
   });
+  
+  $("a.ajaxopenwindow").live('click', function() {
+    newwindow=window.open(this.href, 'soundmelon', 'height=500,width=700,left=45%,resizable=no,toolbar=no,location=no,status=no');
+    if (window.focus) {
+      newwindow.focus()
+      }
+    return false;
+  });
 		                  
   $(document).delegate('a[rel*=topup]', 'click', function(e) {
     $.facebox({
@@ -131,7 +139,7 @@ $(document).ready( function(){
         sm:true
       },document.title, this.href);
       try{
-       _gaq.push(['_trackPageview', this.href]);
+        _gaq.push(['_trackPageview', this.href]);
       }catch(err){}
     }
     return false;
@@ -142,12 +150,12 @@ $(document).ready( function(){
     var shouldGetPage   = loaded_url != url    
     try{
       if(shouldGetPage){
-      jQuery.facebox($('#globalloading').html());
-      $.getScript(url,function(data, textStatus, jqxhr){
-      });
-      loaded_url = url;
-      _gaq.push(['_trackPageview', url]);
-    }
+        jQuery.facebox($('#globalloading').html());
+        $.getScript(url,function(data, textStatus, jqxhr){
+          });
+        loaded_url = url;
+        _gaq.push(['_trackPageview', url]);
+      }
     }catch(e){}
   });
 });
@@ -192,35 +200,35 @@ function set_right_height(height){
   if(height)
     target.css('height', height);
   else
-    target.css('height', resizeTarget.height());
-}
+  target.css('height', resizeTarget.height());
+  }
 
-function scrollToElement(elementIdOrClass){
+  function scrollToElement(elementIdOrClass){
   if($(elementIdOrClass).length>0){
-    $('html body').animate({
-      scrollTop: $(elementIdOrClass).offset().top
+  $('html body').animate({
+    scrollTop: $(elementIdOrClass).offset().top
     });
   }
-}
+  }
 
-function scrollToTop(){
+  function scrollToTop(){
   if($('#page-header').length>0){
-    $('html, body').animate({
-      scrollTop: $('#page-header').offset().top-$('#page-header').height
+  $('html, body').animate({
+    scrollTop: $('#page-header').offset().top-$('#page-header').height
     });
   }
-}
+  }
 
-function scrollToContainerTop(){
+  function scrollToContainerTop(){
   if($('#page-container').length>0){
-    $('html, body').animate({
-      scrollTop: $('#page-header').offset().top+$('#page-content .live').height
+  $('html, body').animate({
+    scrollTop: $('#page-header').offset().top+$('#page-content .live').height
     });
   }
-}
+  }
 
-// page content update
-function updatePageContent(live_content, left_content, right_content){
+  // page content update
+  function updatePageContent(live_content, left_content, right_content){
   setUpPage();
   // update live section
   updateLiveSection(live_content);
@@ -230,57 +238,57 @@ function updatePageContent(live_content, left_content, right_content){
   updateRightSection(right_content);
   // close facebox if exists
   closeFacebox();
-}
-function setUpPage(){  
+  }
+  function setUpPage(){
   if($('#page #page-content').length==0){
-    $('#page').append('<div id="page-content"></div>');
+  $('#page').append('<div id="page-content"></div>');
   }
   if($('#page-content .live').length==0){
-    $('#page-content').append("<div class='live'></div>");
+  $('#page-content').append("<div class='live'></div>");
   }
   if($('#page-content .primary-container').length==0)
-    $('#page-content').append("<div class='primary-container'></div>");
+  $('#page-content').append("<div class='primary-container'></div>");
   if($('.primary-container .primary').length==0)
-    $('.primary-container').append("<div class='primary'><div class='left'><div class='top'></div></div><div class='right'></div></div>");
-}
-function updateLiveSection(content){
+  $('.primary-container').append("<div class='primary'><div class='left'><div class='top'></div></div><div class='right'></div></div>");
+  }
+  function updateLiveSection(content){
   var pageContent = $('#page-content .live');
   if(pageContent.length==0){
-    $('#page-content').prepend("<div class='live'></div>");
-    pageContent.html(content);
+  $('#page-content').prepend("<div class='live'></div>");
+  pageContent.html(content);
   }
   else
-    pageContent.replaceWith(content);
-}
-function updateLeftSection(content){
-  $('.primary-container .primary .left').html(content);
-}
-function updateRightSection(content){
-  $('.primary-container .primary .right').html(content);
-}
-function closeFacebox(time){
-  setTimeout('$(document).trigger(\"close.facebox\")',time);
-}
-function faceboxContent(content){
-  $('#facebox .content').html(content);
-}
-//cursor position jquery
-new function($) {
-  $.fn.getCursorPosition = function() {
-    var pos = 0;
-    var el = $(this).get(0);
-    // IE Support
-    if (document.selection) {
-      el.focus();
-      var Sel = document.selection.createRange();
-      var SelLength = document.selection.createRange().text.length;
-      Sel.moveStart('character', -el.value.length);
-      pos = Sel.text.length - SelLength;
-    }
-    // Firefox support
-    else if (el.selectionStart || el.selectionStart == '0')
-      pos = el.selectionStart;
-
-    return pos;
+  pageContent.replaceWith(content);
   }
+  function updateLeftSection(content){
+  $('.primary-container .primary .left').html(content);
+  }
+  function updateRightSection(content){
+  $('.primary-container .primary .right').html(content);
+  }
+  function closeFacebox(time){
+  setTimeout('$(document).trigger(\"close.facebox\")',time);
+  }
+  function faceboxContent(content){
+  $('#facebox .content').html(content);
+  }
+  //cursor position jquery
+  new function($) {
+  $.fn.getCursorPosition = function() {
+  var pos = 0;
+  var el = $(this).get(0);
+  // IE Support
+  if (document.selection) {
+  el.focus();
+  var Sel = document.selection.createRange();
+  var SelLength = document.selection.createRange().text.length;
+  Sel.moveStart('character', -el.value.length);
+  pos = Sel.text.length - SelLength;
+  }
+  // Firefox support
+  else if (el.selectionStart || el.selectionStart == '0')
+  pos = el.selectionStart;
+
+return pos;
+}
 } (jQuery);

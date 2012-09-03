@@ -1,0 +1,10 @@
+%h3 Here are some artists you can connect your venue profile with
+.artist-list{:style =>'height:200px;width:100%;overflow:auto;'}
+  - @artists.each do |artist|
+    = get_artist_avatar(artist)
+    = artist.name
+    %br/
+    = link_to "Connect", connect_artist_from_venue_path(artist, @venue.id), :title =>"Connect with '#{artist.name}'", :class =>'ajaxopen', :remote =>:true
+    %br/
+%hr/
+= link_to "Finish", "javascript:void(0);", :onclick =>"self.close();"

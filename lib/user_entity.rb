@@ -35,6 +35,43 @@ module UserEntity
     self.get_full_name
   end
 
+  # artist connections
+  # has made request to connect with artist
+  def connection_requested_for? item
+    UserItemConnection.connection_requested? self, item
+  end
+
+  def connected_with? item
+    UserItemConnection.connected?(self, item)
+  end
+
+  def connected_artists page = 1
+    UserItemConnection.connected_artists_with self, page
+  end
+
+  def connected_venues page = 1
+    UserItemConnection.connected_artists_with self, page
+  end
+
+  def connections_count
+    UserItemConnection.connection_count_for self
+  end
+
+  def connect_artist artist
+    UserItemConnection.add_connection_between self, artist
+  end
+
+  def connect_venue venue
+    UserItemConnection.add_connection_between self, venue
+  end  
+
+  def disconnect_artist artist
+    UserItemConnection.remove_connection_between self, artist
+  end
+
+  def connection_requests
+    UserItemConnection.requested_connections_for self
+  end
 
   def add_favorite_venues venues
     fav_venues_limit    = 3

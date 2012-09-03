@@ -1,0 +1,22 @@
+%h3 Start with the name, user name for Venue and its date of foundation
+.area.form.artist-basic 
+  .content{:id=>'basic-info'}        
+    .field
+      %label{:for=>"name"}
+        name
+      = f.text_field :name
+    .field
+      %label{:for=>"username"}
+    .field
+      %label{:for=>"username"}
+        username
+      = f.text_field :mention_name
+    .field
+      %label{:for=>"username"}
+    .field
+      %label{:for=>"username"}
+        date of foundation
+      = f.text_field :est_date, {:editable =>false}    
+
+:javascript
+  $('#venue_est_date').datepicker({dateFormat:'yy-mm-dd'});

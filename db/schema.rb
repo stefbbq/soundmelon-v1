@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120828040404) do
+ActiveRecord::Schema.define(:version => 20120902015949) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -44,6 +44,14 @@ ActiveRecord::Schema.define(:version => 20120828040404) do
     t.integer  "photo_count",    :default => 0
     t.boolean  "disabled",       :default => false
     t.integer  "cover_image_id"
+  end
+
+  create_table "artist_influencers", :force => true do |t|
+    t.string   "name"
+    t.integer  "artist_id"
+    t.integer  "artist_item_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "artist_invitations", :force => true do |t|
@@ -129,6 +137,7 @@ ActiveRecord::Schema.define(:version => 20120828040404) do
     t.string   "facebook_page"
     t.string   "twitter_page"
     t.boolean  "is_member_public", :default => true
+    t.date     "est_date"
   end
 
   create_table "artists_genres", :id => false, :force => true do |t|

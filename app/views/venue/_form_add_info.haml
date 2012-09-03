@@ -1,0 +1,19 @@
+%h3 Add some introductory text about your Venue
+= form_for @venue, :url => venue_add_info_path(@venue.id), :html => {:multipart => true, :remote =>:true, :class => 'venue-form' } do |f|
+  - if @venue.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@venue.errors.count, "error")
+        occurred
+      %ul
+        - @venue.errors.full_messages.each do |msg|
+          %li
+            = msg
+  .content-box
+    .area.form
+      .content{:id=>'basic-info'}
+        .details
+          about the artist
+        .field
+          = f.text_area :info, {:row =>3, :col =>30}
+  = f.submit "continue"

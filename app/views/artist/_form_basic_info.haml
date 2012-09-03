@@ -1,0 +1,27 @@
+%h3 Start with name and the user name for the Artist profile and its date of foundation
+- is_new = @artist.new_record?
+.area.form.artist-basic
+  .content{:id=>'basic-info'}
+    .details
+      name, mention name & date of foundation for Artist
+    - if is_new
+      .field
+        %label{:for=>"name"}
+          name
+        = f.text_field :name
+      .field
+        %label{:for=>"username"}
+          username
+        = f.text_field :mention_name
+      .field
+        %label{:for=>"username"}
+          date of foundation
+        = f.text_field :est_date, {:editable =>false}
+    - else
+      .field
+        %label{:for=>"name"}
+          name
+        = f.text_field :name
+
+:javascript
+  $('#artist_est_date').datepicker({dateFormat:'yy-mm-dd'});

@@ -1,15 +1,17 @@
-= artist_form = capture do 
-  - if @artist.errors.any? 
+= form_for @artist, :url => action_url, :html => {:multipart => true, :class => 'artist-form' } do |f|
+  - if @artist.errors.any?
     #error_explanation
       %h2
         = pluralize(@artist.errors.count, "error")
-        prohibited this artist profile from being saved:
+        occurred
       %ul
         - @artist.errors.full_messages.each do |msg|
           %li
             = msg
-  = form_for @artist, :url => action_url, :html => {:multipart => true, :remote => true, :class => 'artist-form' } do |f|
-    = render :partial => '/artist/form_fields', :locals =>{:f => f}
+  = render "/artist/form_#{@artist.current_step.first}", :f =>f
+  = f.submit "Back", :name => "back_button" unless @artist.first_step?
+  = f.submit "Continue"
+  
 :javascript
   $(document).ready(function() {    
     $("#artist_genre_tokens").tokenInput(
@@ -19,9 +21,7 @@
       {
         theme: "",
         prePopulate:
-        [
-        #{genre_prepopullate @artist.genres}
-        ]
+        []
       }
     );
   });

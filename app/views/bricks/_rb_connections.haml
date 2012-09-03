@@ -30,7 +30,7 @@
       connection requests
       - connection_requests = artist.connection_requests
       - connection_requests.each do |request|
-        - from_artist = request.artist
+        - from_artist = request.connected_useritem
         - unless from_artist.blank?
           %div{:id =>"connection_request_#{from_artist.id}"}
             = link_to from_artist.name, show_artist_path(from_artist), :class =>'ajaxopen backable', :remote => :true
