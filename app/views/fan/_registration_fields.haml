@@ -5,7 +5,14 @@
         - @user.errors.full_messages.each do |message|
           %li= "#{message}".downcase
   .left
-    %input{:type =>'hidden', :name =>'invitation_token', :value =>params[:invitation_token]}
-    = render "registration_form_#{@user.current_step}", :f =>f
-    = submit_tag 'Next Step', :size => "100", :class => 'join'
-  .rightj
+    .header
+      %span enter your basic info or
+      = link_to auth_at_provider_path(:provider => :facebook), :id => "facebook-login" do
+        %img{:src => 'assets/splash/splash-hrefimg-fb.png'}
+        %span sign-up with facebook
+    .form
+      %input{:type =>'hidden', :name =>'invitation_token', :value =>params[:invitation_token]}
+      = render "registration_form_#{@user.current_step}", :f =>f
+      = submit_tag 'continue', :size => "100", :id => 'continue'
+  .right
+    %img{:src => "/assets/splash/splash-signup-fan-info.jpg"}

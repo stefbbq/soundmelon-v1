@@ -2,25 +2,37 @@
   .login-error
     = @failed_login
 .main
-  .login
-    %h3
-      login    
-    = form_tag login_path do
-      = text_field_tag :email, params[:email], :class => "field base-text-field"
-      = password_field_tag :password,nil, :class => "field base-text-field"
-      #remember-me
-        = check_box_tag :remember_me, 1, params[:remember_me]
-        = label_tag :remember_me
-      = submit_tag "", :class => 'exec-login'
-    = link_to 'forgot your password?', password_resets_path, :remote => :true, :id => 'password-reset'
-    = link_to 'FLogin', auth_at_provider_path(:provider => :facebook)
-  .logo
-    = image_tag 'base-logo-big.png'
-    %span
-      SoundMelon is a social media platform that enables a community of artists, 
-      music lovers and venue owners to connect in new ways.
-    %h3 
-      We’re in closed beta, but you can request an invite below!
-  .request-form
-    #invitation_form_homepage
-      = render '/invitations/form', :from_page => 1
+  .top
+    .logo
+      = image_tag 'base-logo-big.png'
+    .access
+      .login
+        = link_to auth_at_provider_path(:provider => :facebook), :id => "facebook-login" do
+          %img{:src => 'assets/splash/splash-hrefimg-fb.png'}
+          %span login with facebook
+        %img{:src => "assets/splash/splash-seperator.png"}
+        = form_tag login_path do
+          = text_field_tag :email, params[:email], :value => "eMail", :class => "field splash-input-box", :id => "login-email-input"
+          = password_field_tag :password, nil, :value => "password", :class => "field splash-input-box", :id => "login-password-input"
+          #remember-me
+            = check_box_tag :remember_me, 1, params[:remember_me]
+            = label_tag :remember_me
+          = submit_tag "", :id => "login-button", :value => "login", :class => 'base-highlight-button'
+        = link_to 'forgot your password?', password_resets_path, :remote => :true, :id => 'password-reset'
+      %img{:src => "assets/splash/splash-or.png"}
+      .sign-up
+        #invitation_form_homepage
+          = render '/invitations/form', :from_page => 1
+  .bottom
+    .pitch
+:javascript
+  $('#login-email-input').focus(function() {
+   if($(this).val()=='eMail'){
+     $(this).val('');
+   }
+  });
+  $('#login-password-input').focus(function() {
+   if($(this).val()=='password'){
+     $(this).val('');
+   }
+  });

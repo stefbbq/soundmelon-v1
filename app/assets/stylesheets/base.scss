@@ -11,7 +11,7 @@
 html, body {
   padding: 0px;
   margin: 0px;
-  font-family: "Trebuchet MS", arial, verdana, tahoma;
+  font-family: FuturaBook, "Trebuchet MS", arial, verdana, tahoma;
   font-size: 13px;  
 	font-weight: normal;
   color: $text-color; 
@@ -56,12 +56,24 @@ i {
 }
 
 //
+//fonts
+@font-face {
+font-family: FuturaBook;
+src: url('FuturaBook.ttf')
+}
+@font-face {
+font-family: FuturaLight;
+src: url('FuturaLight.ttf')
+}
+
+//
 //basic controls
 .base-button { @include base-button(); }
-.base-highlight-button { @include base-highlight-button(); }
+.base-highlight-button { @include base-highlight-button(#eee); }
 .base-text-field { @include base-text-field(); }
 .overlay-text-field { @include overlay-text-field(); }
 .base-input-box { @include base-form-input-box(); margin: 0px; }
+.splash-input-box { @include splash-form-input-box(); margin: 0px; }
 
 //
 //main, base, page content

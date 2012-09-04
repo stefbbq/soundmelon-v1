@@ -4,14 +4,20 @@
 @import 'compass/css3';
 @import 'vars';
 
+.button-rules {
+	padding: 7px 7px 1px 7px;	
+	font-size: $base-button-font-size;
+	font-family: FuturaBook;
+}
+
 //control styles: button
 @mixin base-button-nohref {
+	@extend .button-rules;
 	@include linear-gradient(#393939, #313131);
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
 	@include border-radius($detail-border-radius);
 	border: none;
-	padding: 4px 5px;
-	font-size: $base-button-font-size;
+
 	color: $base-button-font-color;
 	a {
 		text-decoration: none;
@@ -28,13 +34,12 @@
 }
 
 @mixin base-highlight-button($color: $inverted-object-bg-color) {
+	@extend .button-rules;	
 	@include linear-gradient($color, darken($color, 15));
 	@include box-shadow(rgba(black, .2), 0px, 2px, 3px);
 	@include border-radius($detail-border-radius);
 	@include single-text-shadow(lighten($color, 20), 0px, 1px, 0px);
 	border: none;
-	padding: 4px 5px;	
-	font-size: $base-button-font-size;
 	color: black;
 	
 	&:hover {
@@ -133,8 +138,8 @@
 	background: white;
 	border: 2px solid #aaa;
 	
-	&:hover {	background: #fff; border: 2px solid #888;}
-	&:focus {	background: #fff;	border: 2px solid #888;}
+	&:hover {	background: #fff; border: 2px solid #888; }
+	&:focus {	background: #fff;	border: 2px solid #888; }
 }
 
 //control style: toggle
@@ -217,6 +222,24 @@
 	width:$w;
 	height:$h;
 	background-color:$c; 
+}
+
+//
+//splash specific controls
+@mixin splash-form-input-box {
+	@extend .button-rules;
+	@include border-radius($border-radius / 2);	
+	outline: none;
+	width: 214px;
+	height: 20px;
+	background: rgba(white, .6);
+	border: 1px solid rgba(white, .7);
+	color: rgba(black, .5);
+	font-size: 16px;
+	margin: 0 0 7px 0 !important;
+	
+	&:hover { background: rgba(white, .8); border: 1px solid white; color: black; @include box-shadow(rgba(white, .5), 0px, 0px, 5px); }
+	&:focus { background: rgba(white, .8); border: 1px solid white; color: black; @include box-shadow(rgba(white, .5), 0px, 0px, 5px); }
 }
 
 //basic linear gradient

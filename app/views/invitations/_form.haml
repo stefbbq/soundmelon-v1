@@ -1,11 +1,12 @@
 - @invitation ||= Invitation.new
 - from_page   ||= 0
 - source      = params[:source] ? 1 : 0
+%span SoundMelon is in closed beta
+%h2 Sign up for an invite
 = form_for @invitation, :remote => true, :id => 'homepage_invitation_form' do |f|
   = hidden_field_tag :from_page, from_page
-  = hidden_field_tag :source, source  
-  email
-  = f.text_field :recipient_email, :class => 'base-input-box', :style => "width: 300px; margin-bottom: 10px;"
+  = hidden_field_tag :source, source
+  = f.text_field :recipient_email, :value => "eMail", :class => 'splash-input-box', :id => "signup-email-input"
   = f.submit 'submit', :class => "base-highlight-button"
 - if !@invitation.errors.blank?
   .error
@@ -13,3 +14,9 @@
     - @invitation.errors.full_messages.each do |error_msg|
       %li
         = error_msg
+:javascript
+  $('#signup-email-input').focus(function() {
+   if($(this).val()=='eMail'){
+     $(this).val('');
+   }
+  });

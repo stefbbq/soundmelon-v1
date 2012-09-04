@@ -17,11 +17,15 @@
 //main splash
 .splash {
 	width: 800px;
-	height: 550px;
+	height: 580px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	
+	.top { 
+		background: url(splash/splash-home-top-bg.jpg) bottom no-repeat;
+		height: 296px;
+	}
 	.content {
 		position: absolute;
 		top: -50%;
@@ -45,8 +49,7 @@
 			width: 100%;
 
 			img {
-				margin-top: 32px;
-				margin-left: 17px;
+				margin: -20px 0 0 13px;
 			}
 			span, h3 { @include single-text-shadow(rgba(black, .6), 0px, 3px, 5px); }
 			span {
@@ -80,30 +83,11 @@
 			top: 307px;
 		}
 		
-		//invitation form
-		#invitation_form_homepage {			
-			.error, .success { 
-				margin-top: -4px;
-				font-size: 11px; 
-			}
-			.error {
-				color: $text-error-color;
-				list-style-type: none;
-				text-transform: lowercase;
-			}
-			.success {
-				color: $generic-active-color;
-			}
-		}
-		
 		//no login adjustments
 		.no-login {
 			height: 120px;
 			
-			.logo img {
-				margin-top: 5px;
-			}
-			
+			> img { margin: 0px auto; display: block; }
 			h3 { margin: -8px 0 10px 0;}
 		}
 	}
@@ -160,68 +144,162 @@
 }
 
 //
-//login
-.login {
-	float: right; 
-	margin: 10px 10px 0 0;
-	width: 417px; 
+//access area (login and signup)
+.access {
+	margin: 27px auto 0 auto;
+	width: 660px;
 	position: relative;
 	
-	div, h3 { float: left; }
-	h3 { margin: 10px 10px 0 0; }
+	> div, > img { float: left; }
+	> img { margin: 40px 30px 0 30px; }
 	
-	.exec-login {
-		border: none;
-		cursor: pointer;
-		padding: 0px;
-		float: left;
-	}
+	//
+	//existing user
+	.login {
+		width: 230px; 
 	
-	#password-reset {
-		position: absolute;
-		top: 33px;
-		left: 215px;
-		font-size: $font-size-minor;
-		color: $text-faded-color;
-	}
-	
-	form {
-		.field { float: left;	}
-		input[type=text], input[type=password] {
-			position: relative;
-			min-width: 165px !important;
-			width: 165px !important;
+		img { margin: 10px 0; }
+		#facebook-login { width: 216px; }
+
+		//form
+		#password-reset {
+			position: absolute;
+			top: 142px;
+			left: 7px;
+			font-size: $font-size-minor;
+			color: $text-faded-color;
 		}
 		#remember-me {
 			position: absolute;
-			left: 39px;
-			top: 31px;
+			left: 5px;
+			top: 125px;
+		}
+		#remember-me, #password-reset {
+			color: $text-color; 
+			font-family: FuturaBook;
+			opacity: .5;
+			&:hover { opacity: 1; }
+		}
+		form {
+			.field { float: left;	}
+			input[type=text], input[type=password] { }
+		}
+
+		label {
+			text-transform: lowercase;
 		}
 	}
 	
-	#remember-me, #password-reset {
-		color: $text-color; 
-		opacity: .5;
-		&:hover { opacity: 1; }
+	//
+	//sign-up for invite
+	.sign-up {
+		width: 280px;
+		
+		span { display: block; margin: 10px 0 0 5px; }
+		h2 { 
+			margin: 0px 0 0 5px; 
+			color: $text-highlight-color;
+			font-family: FuturaBook;
+		}
+		
+		.splash-input-box {
+			width: 284px;
+		}
+		
+		//invitation form
+		#invitation_form_homepage {			
+			form { 
+				position: absolute; 
+				top: 54px;
+			}
+			
+			.error, .success { 
+				position: absolute;
+				top: 100px;
+				right: 68px;
+			}
+			.error {
+				color: $text-error-color;
+				list-style-type: none;
+				text-transform: lowercase;
+			}
+			.success {
+				color: $generic-active-color;
+			}
+		}
+		
 	}
-	label {
-		text-transform: lowercase;
+
+	//buttons
+	.base-highlight-button {
+		float: right; 
+		margin: 0px;
+		height: 30px !important;
 	}
 }
 
 .login-error {
 	color: rgba($text-error-color, .9);
 	position: absolute;
-	top: 21px;
-	right: 435px;
+	top: 247px;
+	left: 310px;
 }
 
 //
 //registration
-.registration {
-	padding-top: 40px;
-	
+.registration {	
 	.field { position: relative; }
+		
+	.left {
+		background: rgba(white, .025);
+		width: 57%;
+		height: 429px;
+		float: left;
+		
+		.header, .form { margin-right: 15px; float: right; }
+		.header {
+			margin-top: 40px;
+			> span { font-size: $base-button-font-size; vertical-align: bottom;  }
+		}
+		
+		.form {
+			margin-top: 30px;
+			
+			label {
+				text-align: right;
+				display: inline-block;
+				margin-right: 10px;
+				width: 170px;
+			}
+			input[type=text], input[type=password] {
+				@include base-text-field;
+				width: 200px;
+				display: inline-block;
+				margin-right: 0px; 
+			}
+			.info {
+				font-size: 11px;
+				width: 350px;
+				margin: 16px 17px 5px 29px;
+				text-align: right;
+				float: right;
+				color: $text-slight-faded-color;
+			}
+		}
+	}
+	
+	.right {
+		width: 43%;
+		float: right;
+		img { float: left; margin: 100px 0 0 15px; }
+	}
+	
+	#continue {
+		@include base-highlight-button($generic-active-color);
+		margin-top: 35px; 
+		height: 30px;
+		float: right !important;
+	}
 	
 	//
 	//error popouts
@@ -248,46 +326,6 @@
 	.artist-username-popout {
 		right: 330px;
 		width: 190px;
-	}
-	
-	.left {
-		width: 400px;
-		float: left;
-		padding-left: 40px;
-		
-		label {
-			width: 170px;
-			text-align: right;
-			display: inline-block;
-			margin-right: 10px;
-		}
-		input[type=text], input[type=password] {
-			@include base-text-field;
-			width: 200px;
-			display: inline-block;
-		}
-		.info {
-			font-size: 11px;
-			width: 350px;
-			margin: 16px 17px 5px 29px;
-			text-align: right;
-			float: right;
-			color: $text-slight-faded-color;
-		}
-	}
-	
-	.right {
-		width: 360px;
-		background: url(signup-explanation.png) left 3px no-repeat;
-		height: 365px;
-		float: right;
-	}
-	
-	.join {
-		@include base-highlight-button($generic-active-color);
-		margin: 10px 16px 0 0;
-		height: 24px;
-		float: right !important;
 	}
 }
 
@@ -326,11 +364,22 @@
 
 //
 //error states
-#invitation_form_homepage .field_with_errors input {
-	border: 2px solid $text-error-color !important;
-}
 .field_with_errors {
 	display: inline-block;
 	color: $text-error-color;
-	input { border-bottom: 1px solid $text-error-color !important;}
+	input { border-bottom: 1px solid $text-error-color !important; }
+}
+
+//
+//universal
+#facebook-login {
+	@include base-highlight-button(#80a4ea);
+	display: block;
+	text-align: center;
+	height: 30px;
+	display: inline-block;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	img { margin: 0px; }
+	span { margin-bottom: 4px; vertical-align: bottom; display: inline-block; }
 }
