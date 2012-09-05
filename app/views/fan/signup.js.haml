@@ -1,8 +1,21 @@
-$('.registration-error').html('').hide();
-- unless @user.errors.blank?
-  - error_message = capture do
-    %ul
-      - @user.errors.full_messages.each do |message|
-        %li= "#{message}".downcase
-  $('.registration-error').html('#{escape_javascript(error_message)}').show();
-$('.field-space').html('#{escape_javascript(render "registration_form_#{@user.current_step}")}');
+- if @other_user
+  faceboxContent('Your facebook email has not been invited yet. Please, request an invitation');
+- else
+  - if @existing_user    
+    location.href = '#{root_url}';    
+  - else
+    - if @no_user
+      faceboxContent('Your facebook email has not been invited yet. Please, request an invitation.');
+    - else
+      $('.registration-error').html('').hide();
+      - unless @user.errors.blank?
+        - error_message = capture do
+          %ul
+            - @user.errors.full_messages.each do |message|
+              %li= "#{message}".downcase
+        $('.registration-error').html('#{escape_javascript(error_message)}').show();
+      $('.field-space').html('#{escape_javascript(render "fan/registration_form_#{@user.current_step}")}');
+      closeFacebox(1);
+
+
+  

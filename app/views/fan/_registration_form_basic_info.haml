@@ -6,6 +6,7 @@
 - if params[:lname]
   - @user.lname ||= params[:lname]
 = hidden_field :user, :invitation_token
+= hidden_field :user, :is_external
 .field
   %label{:for => "namea"} first name
   = text_field :user, :fname

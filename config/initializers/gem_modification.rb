@@ -1,41 +1,57 @@
-## this method automatically creates a new user from the data in the external user hash.
-## The mappings from user hash fields to user db fields are set at controller config.
-## If the hash field you would like to map is nested, use slashes. For example, Given a hash like:
-##
-##   "user" => {"name"=>"moishe"}
-##
-## You will set the mapping:
-##
-##   {:username => "user/name"}
-##
-## And this will cause 'moishe' to be set as the value of :username field.
-## Note: Be careful. This method skips validations model.
-## Instead you can pass a block, if the block returns false the user will not be created
-##
-##   create_from(provider) {|user| user.some_check }
-##
-#Sorcery::Controller::Submodules::External::InstanceMethods.module_eval do
-#  def create_from(provider)
-#    provider    = provider.to_sym
-#    @provider   = Config.send(provider)
-#    @user_hash  = @provider.get_user_hash
-#    config      = user_class.sorcery_config
-#
-#    attrs = user_attrs(@provider.user_info_mapping, @user_hash)
-##    logger.error "=====> #{attrs.inspect} =>>>"
-#    user_class.transaction do
-#      @user = user_class.new()
-#      attrs.each do |k,v|
-#        @user.send(:"#{k}=", v)
-#      end
-#
-#      if block_given?
-#        return false unless yield @user
-#      end
-#
-#      @user.save(:validate => false)
-#      user_class.sorcery_config.authentications_class.create!({config.authentications_user_id_attribute_name => @user.id, config.provider_attribute_name => provider, config.provider_uid_attribute_name => @user_hash[:uid]})
-#    end
-#    @user
-#  end
-#end
+
+module Sorcery
+  module Controller
+    module Submodules
+      module External
+        module InstanceMethods
+
+          # sends user to authenticate at the provider's website.
+          # after authentication the user is redirected to the callback defined in the provider config
+          def login_at(provider, args = {})
+            logger.error "Accessing ....#{Time.now.to_s} - #{args}"
+            @provider     = Config.send(provider)
+            arg_string    = ""
+            args.each do |key, value|
+              arg_string  += "&#{key}=#{value}"
+            end            
+            if @provider.callback_url.present? && @provider.callback_url[0] == '/'
+              uri = URI.parse(request.url.gsub(/\?.*$/,''))
+              uri.path = ''
+              uri.query = nil
+              uri.scheme = 'https' if(request.env['HTTP_X_FORWARDED_PROTO'] == 'https')
+              host = uri.to_s
+              
+              callback_url = "#{host}#{@provider.callback_url}"
+              callback_url += "#{arg_string}" unless arg_string.blank?
+              @provider.callback_url = callback_url
+              logger.error "Calling the url #{callback_url} -- #{@provider.callback_url}"                          
+            end            
+            if @provider.has_callback?
+              redirect_to @provider.login_url(params,session)
+            else
+              #@provider.login(args)
+            end
+          end
+
+          def get_user_detail provider
+            @provider   = Config.send(provider)
+            @provider.process_callback(params,session)
+            @user_hash  = @provider.get_user_hash
+            @user_hash
+            h                               = {}
+            h[:user]                        = {}
+            h[:user][:email]                = @user_hash[:user_info]["email"]
+            h[:user][:email_confirmation]   = @user_hash[:user_info]["email"]
+            h[:user][:fname]                = @user_hash[:user_info]["first_name"]
+            h[:user][:lname]                = @user_hash[:user_info]["last_name"]
+            h[:user][:mention_name]         = @user_hash[:user_info]["username"]
+            h[:user][:is_external]          = true
+            h[:uid]                         = @user_hash[:user_info]["id"]
+            h
+          end
+          
+        end
+      end
+    end
+  end
+end

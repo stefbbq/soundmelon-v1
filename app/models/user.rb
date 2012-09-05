@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
 
   attr_writer :current_step
   attr_accessor :email_confirmation, :password_confirmation
-  attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :authentications_attributes, :tac, :mention_name, :invitation_token
+  attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :authentications_attributes, :tac, :mention_name, :invitation_token, :is_external
   attr_accessible :additional_info_attributes
   accepts_nested_attributes_for :additional_info
   attr_accessible :location_attributes
@@ -56,8 +56,8 @@ class User < ActiveRecord::Base
   validates :fname, :presence => true, :if => lambda { |o| o.current_step == o.steps.first }
   validates :lname, :presence => true, :unless =>:is_external?
   validates :mention_name, :uniqueness => true, :if =>:has_mention_name? #&& lambda { |o| o.current_step == o.steps.first }
-  validates :password, :presence => true, :on => :create, :if => lambda { |o| o.current_step == o.steps.first }
-  validates :password, :confirmation => true, :if => lambda { |o| o.current_step == o.steps.first }
+  validates :password, :presence => true, :on => :create, :if => lambda { |o| o.current_step == o.steps.first && !o.is_external? }
+  validates :password, :confirmation => true, :if => lambda { |o| o.current_step == o.steps.first && !o.is_external? }
   validates :email, :uniqueness => true, :unless =>:is_external?
   validates :email, :confirmation => true, :if => lambda { |o| o.current_step == o.steps.first }
   validates :email, :email_format => true, :if => lambda { |o| o.current_step == o.steps.first }
