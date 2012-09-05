@@ -214,8 +214,9 @@ class FanController < ApplicationController
   end
   
   def profile_setup
-    @user ||= current_user
-    @item_type = params[:tab_id]
+    @user       ||= current_user
+    @item_type  = params[:tab_id]
+    @firstLogin           = true
     case @item_type
     when '2'
       @artists               = Genre.get_artists_for_genres current_user.genres
@@ -232,7 +233,7 @@ class FanController < ApplicationController
     @item_type    = params[:setup_item_type]
     case @item_type
     when '0'  # location
-      @location   = @user.build_location(params[:location])
+      @location   = @user.build_location(params[:location_attributes])
       if @location.save
         @status   = true
       else        
@@ -248,22 +249,28 @@ class FanController < ApplicationController
       #setup for another tab
       @artists      = Genre.get_artists_for_genres current_user.genres
     when '2'  # favorite artists
-      artist_ids    = params[:user_artists].present? ? params[:user_artists] : []
-      artists       = Artist.where('id in (?)', artist_ids)
-      @user.add_favorite_artists artists
-      @status       = true
-      
-      #setup for another tab
-      @venues      = Venue.find_venues_from_location @user.location
-    when '3'  # favorite venues
-      venue_ids    = params[:user_venues].present? ? params[:user_venues] : []
-      venues       = Venue.where('id in (?)', venue_ids)
-      @user.add_favorite_venues venues
-      @status       = true
-
+#      artist_ids    = params[:user_artists].present? ? params[:user_artists] : []
+#      artists       = Artist.where('id in (?)', artist_ids)
+#      @user.add_favorite_artists artists
+#      @status       = true
+#
+#      setup for another tab
+#      @venues      = Venue.find_venues_from_location @user.location
       #setup for another tab
       @suggested_artists     = Artist.suggested_items({:id =>@user.favorite_items.for_artists.map(&:favoreditem_id)})
-      @suggested_venues      = Venue.suggested_items({:id =>@user.favorite_items.for_venues.map(&:favoreditem_id)})     
+      @suggested_venues      = Venue.suggested_items({:id =>@user.favorite_items.for_venues.map(&:favoreditem_id)})
+      if @suggested_artists.empty? && @suggested_venues.empty?
+        @item_type = '3'
+      end
+    when '3'  # favorite venues
+#      venue_ids    = params[:user_venues].present? ? params[:user_venues] : []
+#      venues       = Venue.where('id in (?)', venue_ids)
+#      @user.add_favorite_venues venues
+#      @status       = true
+#
+#      setup for another tab
+#      @suggested_artists     = Artist.suggested_items({:id =>@user.favorite_items.for_artists.map(&:favoreditem_id)})
+#      @suggested_venues      = Venue.suggested_items({:id =>@user.favorite_items.for_venues.map(&:favoreditem_id)})
     end    
   end
 

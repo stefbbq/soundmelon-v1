@@ -32,14 +32,10 @@
               :id                       =>'manage-profile',
               :remote                   => true,
               :class                    => 4 == current ? 'active button-fill-fan selection-box ajaxopen backable' : 'selection-box ajaxopen backable'
-    = link_to 'access artist profiles', associated_artist_path,
-              :id                       =>'access-artist',
+    = link_to 'access your profiles', associated_profiles_path,
+              :id                       =>'access-profile',
               :remote                   => true,
-              :class                    => 5 == current ? 'active button-fill-fan selection-box ajaxopen backable' : 'selection-box ajaxopen backable'
-    = link_to 'access venue profiles', associated_venue_path,
-              :id                       =>'access-venue',
-              :remote                   => true,
-              :class                    => 6 == current ? 'active button-fill-fan selection-box ajaxopen backable' : 'selection-box ajaxopen backable'
+              :class                    => 5 == current ? 'active button-fill-fan selection-box ajaxopen backable' : 'selection-box ajaxopen backable'    
     /= link_to 'invite friends', new_invitation_path, :id=>'invite-friends', :remote => true, :class => 'selection-box ajaxopen'
     = link_to 'remove your profile',
               remove_my_profile_path,

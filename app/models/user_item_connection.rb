@@ -90,7 +90,7 @@ class UserItemConnection < ActiveRecord::Base
   # all approved connections for particular artist
   def self.approved_connections_for useritem
 #    Connection.where("(artist_id = ?) and is_approved is true", artist.id).page(page).per(ARTIST_CONNECTION_PER_PAGE)
-    Connection.where("(useritem_type = ? and useritem_id = ?) and is_approved is true", useritem.class.name, useritem.id)
+    self.where("(useritem_type = ? and useritem_id = ?) and is_approved is true", useritem.class.name, useritem.id)
   end
 
   # all connection requests for particular useritem
@@ -103,10 +103,16 @@ class UserItemConnection < ActiveRecord::Base
   end
 
   #[TODO]
-  def self.connected_useritems_with useritem, page = 1
-#    connections           = self.approved_connections_for(useritem)
-#    connected_artist_ids  = connections.map{|con| con.connected_useritem_id}
-#    Artist.where('id in (?)', connected_artist_ids ).page(page).per(ARTIST_CONNECTION_PER_PAGE)
+  def self.connected_artists_with useritem, page = 1    
+    connections           = self.approved_connections_for(useritem).for_artists
+    connected_artist_ids  = connections.map{|con| con.connected_useritem_id}
+    Artist.where('id in (?)', connected_artist_ids ).page(page).per(ARTIST_CONNECTION_PER_PAGE)
+  end
+
+  def self.connected_venues_with useritem, page = 1
+    connections           = self.approved_connections_for(useritem).for_venues
+    connected_artist_ids  = connections.map{|con| con.connected_useritem_id}
+    Venue.where('id in (?)', connected_artist_ids ).page(page).per(ARTIST_CONNECTION_PER_PAGE)
   end
 
   def approved?

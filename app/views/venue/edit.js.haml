@@ -1,5 +1,5 @@
 updateLiveSection('#{escape_javascript(render '/venue/live')}');
-updateLeftSection('#{escape_javascript(render '/venue/form', :action_url => update_venue_path(@venue.id))}');
+updateLeftSection('#{escape_javascript(render '/venue/edit_form', :action_url => update_venue_path(@venue.id))}');
 updateRightSection('#{escape_javascript(render '/venue/right', :current =>'manage_profile')}');
 closeFacebox(10);
 scrollToTop();

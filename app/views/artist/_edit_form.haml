@@ -1,0 +1,25 @@
+= form_for @artist, :url => action_url, :html => {:multipart => true, :remote =>:true, :class => 'artist-form' } do |f|
+  - if @artist.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@artist.errors.count, "error")
+        occurred
+      %ul
+        - @artist.errors.full_messages.each do |msg|
+          %li
+            = msg
+  = render "/artist/form_fields", :f =>f
+  
+:javascript
+  $(document).ready(function() {    
+    $("#artist_genre_tokens").tokenInput(
+      [
+      #{genre_atuofill_artist}
+      ],
+      {
+        theme: "",
+        prePopulate:
+        [#{genre_prepopullate @artist.genres}]
+      }
+    );
+  });

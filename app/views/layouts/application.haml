@@ -55,8 +55,11 @@
         = image_tag("loading.gif")
 
 :javascript  
-  if(#{!@firstLogin.blank?})
+  if(#{!@firstLogin.blank?})    
     $('#tutorial-link').trigger('click');
+  
+  var first_login = #{!@firstLogin.blank?};
+
   $('a').ajaxComplete(function() {
     $("abbr.timeago").timeago();
   });

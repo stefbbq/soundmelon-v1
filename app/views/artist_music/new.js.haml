@@ -1,19 +1,23 @@
 - create_form = capture do
   .header
-    create an album
+    - unless @artist_music.new_record?
+      add to '#{@artist_music.album_name}'
+    - else
+      create an album
   .normal-content.mini-content
     = render :partial => "uploader"
     = form_for @song, :url => {:controller => 'artist_music', :action => 'create'}, :html => {:multipart => true} do |f|
       = hidden_field_tag :artist_name, @artist.mention_name
-      .field
-        = f.label "name"
-        - if @artist_music
-          = text_field_tag :album_name, @artist_music.album_name, :class => 'overlay-text-field', :disabled => true
+      .field 
+        - unless @artist_music.new_record?
+          =# text_field_tag :album_name, @artist_music.album_name, :class => 'overlay-text-field', :disabled => true
         - else
+          = f.label "name"
           = text_field_tag :album_name, nil, :class => 'overlay-text-field'
       .field
-        = f.label "album cover"
-        = file_field_tag 'album_cover_image'
+        - if @artist_music.new_record?
+          = f.label "album cover"
+          = file_field_tag 'album_cover_image'
         = f.label "songs"
         = f.file_field :song
         - f.submit "Upload"

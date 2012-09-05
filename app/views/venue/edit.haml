@@ -2,6 +2,6 @@
 .primary-container
   .primary
     .left
-      = render '/venue/form', :action_url => update_venue_path(@venue.id)
+      = render '/venue/edit_form', :action_url => update_venue_path(@venue.id)
     .right
       = render "/venue/right", :current =>'manage_profile'

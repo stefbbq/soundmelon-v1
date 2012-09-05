@@ -1,7 +1,7 @@
 # Handling all the stuffs related to artist music
 class ArtistMusicController < ApplicationController
   before_filter :require_login
-  before_filter :check_and_set_admin_access, :except =>[:download_album, :download, :do_like_dislike_song ]
+  before_filter :check_and_set_admin_access, :except =>[:download_album, :download, :do_like_dislike_song]
 
   def index
     begin      
@@ -301,21 +301,24 @@ class ArtistMusicController < ApplicationController
       end
       render :text =>"{like:#{@liked}}" and return
     rescue =>exp
-      logger.error "Error in ArtistArtistMusic::DoLikeSong :=> #{exp.message}"
+      logger.error "Error in ArtistMusic::DoLikeSong :=> #{exp.message}"
       render :nothing => true and return
     end
   end
 
   def disable_enable_artist_music
-    begin
-      @artist                     = Artist.where(:name => params[:artist_name]).first
+    begin      
       if @has_admin_access
-        @artist_music             = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).includes(:songs).first
+        @artist_music             = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).first      
       end
       if @artist_music
-        @artist_music.update_attribute(:disabled,!@artist_music.disabled)
+        @status      = true
+        @artist_music.update_attribute(:disabled, !@artist_music.disabled)
+      else
+        @status      = false
       end
-    rescue
+    rescue =>excp
+      logger.error "Error in ArtistMusic::DisableEnableArtistMusic :=>#{excp.message}"
       render :nothing => true and return
     end
   end
@@ -334,7 +337,7 @@ class ArtistMusicController < ApplicationController
   # sets the requested song album as featured album
   def make_artist_music_featured
     begin
-      if @has_amdin_access
+      if @has_admin_access
         @artist_music       = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).first
       end
       if @artist_music
@@ -407,12 +410,12 @@ class ArtistMusicController < ApplicationController
 
   # finds the artist profile by artist_name parameter, and checks whether the current login is artist or fan
   # and accordingly sets the variable @has_admin_access to be used in views and other actions
-  def check_and_set_admin_access
+  def check_and_set_admin_access    
     begin
       if params[:artist_name] == 'home'
         @artist           = @actor
         @has_admin_access = @artist == @actor
-        @has_link_access  = @has_admin_access
+        @has_link_access  = @has_admin_access        
       else
         @artist           = Artist.where(:mention_name => params[:artist_name]).first
         @has_admin_access = @artist == @actor

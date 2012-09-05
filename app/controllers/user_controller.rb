@@ -136,20 +136,10 @@ class UserController < ApplicationController
   end
 
   # renders the current fan's artist profiles
-  def pull_artist_profiles
+  def pull_profiles
     @user                 = current_user
     @accessible_artists   = @user.artists.includes(:artist_musics, :songs)
-    get_fan_objects_for_right_column(@user)
-    respond_to do |format|
-      format.js
-      format.html
-    end
-  end
-
-  # renders the current fan's venue profiles
-  def pull_venue_profiles
-    @user                 = current_user
-    @accessible_venues    = @user.venues#.includes(:artist_musics, :songs)
+    @accessible_venues    = @user.venues
     get_fan_objects_for_right_column(@user)
     respond_to do |format|
       format.js

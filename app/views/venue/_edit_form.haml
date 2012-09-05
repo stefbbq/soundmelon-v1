@@ -1,0 +1,11 @@
+= form_for @venue, :url => action_url, :html => {:multipart => true, :remote =>:true, :class => 'venue-form' } do |f|
+  - if @venue.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@venue.errors.count, "error")
+        occurred
+      %ul
+        - @venue.errors.full_messages.each do |msg|
+          %li
+            = msg
+  = render "/venue/form_fields", :f => f  

@@ -55,12 +55,11 @@ Soundmelon::Application.routes.draw do
   get ':id/following/artists(/:page)'           => 'user_connections#fan_following_artists',  :as => :fan_following_artists # id: following items
   
   #fan functions
-  get 'home/artists'                            => 'user#pull_artist_profiles',             :as => :associated_artist
+  get 'home/profiles/fan'                       => 'user#pull_profiles',                    :as => :associated_profiles
   get 'home/new/artist'                         => 'artist#new',                            :as => :new_artist
   match 'home/setup/artist/profile/:id'         => 'artist#setup_profile',                  :as => :artist_setup
   match 'home/setup/artist/info/:id'            => 'artist#add_info',                       :as => :add_artist_info
-  post 'home/create/artist'                     => 'artist#create',                         :as => :create_artist
-  get 'home/venues'                             => 'user#pull_venue_profiles',              :as => :associated_venue
+  post 'home/create/artist'                     => 'artist#create',                         :as => :create_artist  
   get 'home/new/venue'                          => 'venue#new',                             :as => :new_venue
   post 'home/create/venue'                      => 'venue#create',                          :as => :create_venue
   match 'home/venue/location/state'             => 'venue#state_options',                   :as => :venue_state_options

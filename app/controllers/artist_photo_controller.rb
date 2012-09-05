@@ -132,9 +132,7 @@ class ArtistPhotoController < ApplicationController
         @artist_album       = @artist.albums.where(:name =>params[:album_name]).first
         if @has_admin_access
           @post_url         = '/artist_photo/create'
-          @artist_photo     = Photo.new
-        else
-          # render :nothing => true and return
+          @artist_photo     = Photo.new        
         end
         render :action    => 'new', :format => 'js' and return
       rescue =>exp
