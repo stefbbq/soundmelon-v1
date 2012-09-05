@@ -1,12 +1,57 @@
 - parent_post ||= nil
 - artist      ||= nil
 - form_id     ||= 'user_post_form'
-.post-reply-input
- = form_tag(post_reply_path, :class=>"ajaxopen", :remote => true, :id => form_id) do
-  = hidden_field_tag :parent_post_id, parent_post.id if parent_post  
-  = hidden_field_tag :artist_id, artist.id if artist
-  = text_area :post, :msg, :class=>"input-box mention" ,:maxlength => 200, :cols => 100, :rows => 3
-  .postbtn
-   = submit_tag('Reply',:class=>"button blue")
-  .clear
-  %span.inputerror
+#post-reply-input.post-reply-input.status-input
+  = form_tag(post_reply_path, :class=>"ajaxopen", :remote => true, :id => form_id) do
+    = hidden_field_tag :parent_post_id, parent_post.id if parent_post
+    = hidden_field_tag :artist_id, artist.id if artist
+    = text_area :post, :msg, :class => "input-box mention base-input-box", :maxlength => 240
+    %span 
+      200
+      %span characters remaining
+    .submit
+      = submit_tag('reply', :class => "post-btn base-highlight-button", :id =>"post-btn")
+    .inputerror
+    .clear
+  %img{:src => "assets/conversation-thread-start.png"}
+
+:javascript
+  $('textarea.mention').mentionsInput({
+    onDataRequest:function (mode, query, callback) {
+      var data = [#{user_mention_lists current_user}];
+      data = _.filter(data, function(item) { return item.id.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+      callback.call(this, data);
+    }
+  });
+  $('#post-reply-input .input-box').focus(function() {
+    if($(this).val()=='share something...')
+      $(this).val('');
+  });
+  $('#post-reply-input .input-box').blur(function() {
+    if($(this).val()=='')
+      $(this).val('share something...');
+  });
+
+  var maxChar = 200;
+
+  $("#post-reply-input #post-btn").attr('disabled', 'disabled');
+  $('#post-reply-input .input-box').keyup(function() {
+    $('#post-reply-input form > span').html((maxChar - $(this).val().length) + "<span> characters remaining</span>");
+    if($(this).val() == ''){ //0
+      $('#post-reply-input #post-btn').css({ opacity: .4 });	      
+      $('#post-reply-input form > span').attr('class', '');
+      $("#post-reply-input #post-btn").attr('disabled','disabled');
+    } else if ($(this).val().length <= (maxChar - 10)){ //over 0, below 200
+      $('#post-reply-input form > span').attr('class', 'okay');
+      $('#post-reply-input #post-btn').css({ opacity: 1 });	
+      $("#post-reply-input #post-btn").removeAttr('disabled');
+      $('#post-reply-input .mentions-autocomplete-list').css('top', $('#post-reply-input .input-box').height() - 2);
+    } else if ($(this).val().length > (maxChar - 10) && $(this).val().length < maxChar) { 
+      $('#post-reply-input form > span').attr('class', 'warning');
+    } else { //over 200
+      $('#post-reply-input form > span').html((maxChar - $(this).val().length) + "<span> no more than 200 characters</span>");
+      $('#post-reply-input #post-btn').css({ opacity: .4 });	
+      $('#post-reply-input form > span').attr('class', 'over');			
+      $("#post-reply-input #post-btn").attr('disabled','disabled');
+    }
+  })

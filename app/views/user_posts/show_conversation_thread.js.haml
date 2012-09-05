@@ -16,8 +16,9 @@
       collapse conversation
 
   - expand_conversation_link = capture do
-    %a{:href => "javascript:void(0);", :id =>"expand_link_#{last_post.id}", :class =>'toggle-thread', :onclick => "$('#post_thread_#{@main_post.id}').show();$(this).hide();"}
-      expand conversation
+    %a{:href => "javascript:void(0);", :id =>"expand_link_#{last_post.id}", :class =>'toggle-thread', :onclick => "$('#post_thread_#{@main_post.id}').show();$(this).hide();$('#reply_post_#{last_post.id}').addClass('no-border');"}
+      %i
+      see conversation
 
   $('#post_#{@main_post.id}').replaceWith("#{escape_javascript all_posts}");
   $('#expand_link_#{last_post.id}').replaceWith("#{escape_javascript expand_conversation_link}");

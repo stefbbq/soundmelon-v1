@@ -7,7 +7,7 @@
   = hidden_field_tag :from_page, from_page
   = hidden_field_tag :source, source
   = f.text_field :recipient_email, :value => "eMail", :class => 'splash-input-box', :id => "signup-email-input"
-  = f.submit 'submit', :class => "base-highlight-button"
+  = f.submit 'submit', :class => "splash-highlight-button"
 - if !@invitation.errors.blank?
   .error
     %ul

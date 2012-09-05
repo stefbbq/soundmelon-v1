@@ -7,27 +7,37 @@
   - @user.lname ||= params[:lname]
 = hidden_field :user, :invitation_token
 = hidden_field :user, :is_external
-.field
-  %label{:for => "namea"} first name
-  = text_field :user, :fname
-.field
-  %label{:for => "emaila"} last name
-  = text_field :user, :lname
-.field
-  %label{:for => "mention_namea"} username
-  = text_field :user, :mention_name, :'data-validatefanusername' => check_fanusername_url
-  .fan-username-popout.field-error
-.field
-  %label{:for => "websitea"} email
-  = text_field :user, :email, :readonly => @is_invited
-.field
-  %label{:for => "websitea"} re-enter email
-  = text_field :user, :email_confirmation, :readonly => @is_invited
-%br/
-.field
-  %label{:for => "websitea"} password
-  = password_field :user, :password
-.field
-  %label{:for => "websitea"} re-enter password
-  = password_field :user, :password_confirmation
-  
+.left
+  .header
+    %span enter your basic info or
+    = link_to auth_at_provider_path(:provider => :facebook, :inv_id =>params[:invitation_token]), :id => "facebook-login" do
+      %img{:src => '/assets/splash/splash-hrefimg-fb.png'}
+      %span sign-up with facebook
+  .form
+    %input{:type =>'hidden', :name =>'invitation_token', :value =>params[:invitation_token]}
+      .field
+        %label{:for => "namea"} first name
+        = text_field :user, :fname
+      .field
+        %label{:for => "emaila"} last name
+        = text_field :user, :lname
+      .field
+        %label{:for => "mention_namea"} username
+        = text_field :user, :mention_name, :'data-validatefanusername' => check_fanusername_url
+        .fan-username-popout.field-error
+      .field
+        %label{:for => "websitea"} email
+        = text_field :user, :email, :readonly => @is_invited
+      .field
+        %label{:for => "websitea"} re-enter email
+        = text_field :user, :email_confirmation, :readonly => @is_invited
+      %br/
+      .field
+        %label{:for => "websitea"} password
+        = password_field :user, :password
+      .field
+        %label{:for => "websitea"} re-enter password
+        = password_field :user, :password_confirmation
+    = submit_tag 'continue', :size => "100", :id => 'continue'
+.right
+  %img{:src => "/assets/splash/splash-signup-fan-info.jpg"}

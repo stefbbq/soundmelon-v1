@@ -17,7 +17,7 @@
           #remember-me
             = check_box_tag :remember_me, 1, params[:remember_me]
             = label_tag :remember_me
-          = submit_tag "", :id => "login-button", :value => "login", :class => 'base-highlight-button'
+          = submit_tag "", :id => "login-button", :value => "login", :class => 'splash-highlight-button'
         = link_to 'forgot your password?', password_resets_path, :remote => :true, :id => 'password-reset'
       %img{:src => "assets/splash/splash-or.png"}
       .sign-up

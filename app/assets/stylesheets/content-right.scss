@@ -29,7 +29,8 @@
    	//selection
     .selection-box {
       @include base-button;
-      padding: 15px 0px 2px 8px;
+			@extend .big-signature-button-rules;
+      padding: 18px 0px 2px 8px;
       width: $right-button-width;
       clear: both;
       display: block;
@@ -43,8 +44,9 @@
       }
     }
     .selection-box-nohref {
-			@include base-button-nohref;      
-		  padding: 15px 0px 5px 8px;
+			@include base-button-nohref;    
+			@extend .big-signature-button-rules;  
+		  padding: 18px 0px 2px 8px;
       width: $right-button-width;
       clear: both;
       display: block;

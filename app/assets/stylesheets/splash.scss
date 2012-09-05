@@ -13,8 +13,6 @@
 	overflow: hidden;
 }
 
-//
-//main splash
 .splash {
 	width: 800px;
 	height: 580px;
@@ -143,6 +141,8 @@
 	}
 }
 
+
+
 //
 //access area (login and signup)
 .access {
@@ -190,10 +190,14 @@
 		}
 	}
 	
+	
+	
 	//
 	//sign-up for invite
 	.sign-up {
 		width: 280px;
+		position: absolute;
+		left: 360px;
 		
 		span { display: block; margin: 10px 0 0 5px; }
 		h2 { 
@@ -226,12 +230,11 @@
 			.success {
 				color: $generic-active-color;
 			}
-		}
-		
+		}	
 	}
-
+	
 	//buttons
-	.base-highlight-button {
+	.splash-highlight-button {
 		float: right; 
 		margin: 0px;
 		height: 30px !important;
@@ -259,7 +262,13 @@
 		.header, .form { margin-right: 15px; float: right; }
 		.header {
 			margin-top: 40px;
-			> span { font-size: $base-button-font-size; vertical-align: bottom;  }
+			> span { 
+				display: inline-block; 
+				font-size: $base-button-font-size; 
+				font-family: FuturaBook; 
+				vertical-align: bottom;
+				margin: 0 4px 3px 0;
+			}
 		}
 		
 		.form {
@@ -296,6 +305,7 @@
 	
 	#continue {
 		@include base-highlight-button($generic-active-color);
+		@extend .big-signature-button-rules;
 		margin-top: 35px; 
 		height: 30px;
 		float: right !important;
@@ -362,6 +372,24 @@
 	padding: 0px !important; 
 }
 
+
+
+//
+//terms of service
+#terms {
+	@include border-radius($border-radius);
+	width: 80%;
+	height: 260px;
+	padding: 8px;
+	margin: 50px auto 0 auto;
+	overflow: scroll;
+	border: 2px solid $text-faded-color;
+	background: black;
+	
+	span { margin-left: 20px; display: inline-block; }
+	h2 { text-align: center; margin-top: 0px;}
+}
+
 //
 //error states
 .field_with_errors {
@@ -374,6 +402,7 @@
 //universal
 #facebook-login {
 	@include base-highlight-button(#80a4ea);
+	@extend .big-signature-button-rules;
 	display: block;
 	text-align: center;
 	height: 30px;

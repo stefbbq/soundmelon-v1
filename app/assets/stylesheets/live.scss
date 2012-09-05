@@ -93,8 +93,9 @@
 				.text-action {
 					@include base-highlight-button();
 					position: relative;
-					padding-left: 28px;
-					
+					font-size: 14px;
+					padding: 4px 6px 4px 28px;
+										
 					i {
 						position: absolute;
 						left: 0px;

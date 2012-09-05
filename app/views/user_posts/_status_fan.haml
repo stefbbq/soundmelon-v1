@@ -1,4 +1,4 @@
-.status-input
+#status-input.status-input
   = form_tag(user_posts_path, :class=>"ajaxload",:remote => true, :id => 'user_post_form') do
     - if @artist
       = hidden_field_tag :artist_id, @artist.id
@@ -7,7 +7,7 @@
       200
       %span characters remaining
     .submit
-      = submit_tag('post', :class => "post-btn")
+      = submit_tag('post', :id => "post-btn", :class => "post-btn")
     .clear
 
 :javascript
@@ -18,33 +18,35 @@
       callback.call(this, data);
     }
   });
-  $('.status-input .input-box').focus(function() {
+  $('#status-input .input-box').focus(function() {
     if($(this).val()=='share something...')
       $(this).val('');
   });
-  $('.status-input .input-box').blur(function() {
+  $('#status-input .input-box').blur(function() {
     if($(this).val()=='')
       $(this).val('share something...');
   });
   
   var maxChar = 200;
 
-  $(".post-btn").attr('disabled', 'disabled');
-  $('.input-box').keyup(function() {
-    $('.status-input form > span').html((maxChar - $(this).val().length) + "<span> characters remaining</span>");
+  $("#status-input #post-btn").attr('disabled', 'disabled');
+  $('#status-input .input-box').keyup(function() {
+    $('#status-input form > span').html((maxChar - $(this).val().length) + "<span> characters remaining</span>");
     if($(this).val() == ''){ //0
-      $('.status-input form > span').attr('class', '');
-      $(".post-btn").attr('disabled','disabled');
+      $('#status-input #post-btn').css({ opacity: .4 });	
+      $('#status-input form > span').attr('class', '');
+      $("#status-input #post-btn").attr('disabled','disabled');
     } else if ($(this).val().length <= (maxChar - 10)){ //over 0, below 200
-      $('.status-input form > span').attr('class', 'okay');
-      $('.post-btn').css({ opacity: 1 });	
-      $(".post-btn").removeAttr('disabled');
-      $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 8);
+      $('#status-input form > span').attr('class', 'okay');
+      $('#status-input #post-btn').css({ opacity: 1 });	
+      $("#status-input #post-btn").removeAttr('disabled');
+      $('#status-input .mentions-autocomplete-list').css('top', $('#status-input .input-box').height() + 8);
     } else if ($(this).val().length > (maxChar - 10) && $(this).val().length < maxChar) { 
-      $('.status-input form > span').attr('class', 'warning');
+      $('#status-input form > span').attr('class', 'warning');
     } else { //over 200
-      $('.status-input form > span').html((maxChar - $(this).val().length) + "<span> no more than 200 characters</span>");
-      $('.status-input form > span').attr('class', 'over');			
-      $(".post-btn").attr('disabled','disabled');
+      $('#status-input form > span').html((maxChar - $(this).val().length) + "<span> no more than 200 characters</span>");
+      $('#status-input #post-btn').css({ opacity: .4 });	
+      $('#status-input form > span').attr('class', 'over');			
+      $("#status-input #post-btn").attr('disabled','disabled');
     }
   })

@@ -1,4 +1,5 @@
 - conv_id            ||=0
+- conv_count         ||=0
 - last_message       ||=false
 - newest_message     ||=false
 - unless message.blank?
@@ -30,6 +31,10 @@
             - if newest_message
               .unread
                 NEW
+            - if conv_count > 1
+              = link_to conversation_thread_view_path(conv_id), :remote =>:true, :class =>'ajaxopen toggle-thread' do
+                %i
+                see conversation
           .actions
             - if last_message
               = link_to "javascript:void(0);", :class=>'action-reply', :remote => true, :onclick => "$('#reply_form_div_#{conv_id}').toggle();" do

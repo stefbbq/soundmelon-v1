@@ -5,29 +5,26 @@
   .social-header
     = link_to mentioned_path,
         {:remote => true, 
-         :class=> 0 == current ? "backable iconactive ajaxload highlight active button-fill-artist" : "backable iconactive ajaxload",
+         :class=> 0 == current ? "backable iconactive ajaxload highlight active button-fill-artist start" : "backable iconactive ajaxload start",
          :id => 'mentions' } do
       - if @unread_mentioned_count > 0
         your posts & 
-        %b
-          = pluralize(@unread_mentioned_count,'new mention')
+        = pluralize(@unread_mentioned_count,'new mention')
       - else
         your posts & mentions
     = link_to replies_path,
         {:remote => true, 
-         :class=> 1 == current ? "backable iconactive ajaxload highlight active button-fill-artist" : "backable iconactive ajaxload",
+         :class=> 1 == current ? "backable iconactive ajaxload highlight active button-fill-artist end" : "backable iconactive ajaxload end",
          :id => 'replies' } do
-      - if @unread_post_replies_count > 0        
-        %b
-          = pluralize(@unread_post_replies_count, 'new reply')
+      - if @unread_post_replies_count > 0
+        = pluralize(@unread_post_replies_count, 'new reply')
       - else
         replies
     = link_to user_inbox_path,
         {:remote => true, 
          :class=> 2 == current ? "backable inbox iconactive ajaxload highlight active button-fill-artist" : "backable inbox iconactive ajaxload",
          :id => 'messages' } do
-      - if @unread_messages_count > 0        
-        %b
-          = pluralize(@unread_messages_count, 'new message')
+      - if @unread_messages_count > 0
+        = pluralize(@unread_messages_count, 'new message')
       - else
         messages
