@@ -33,9 +33,11 @@ a {
 }
 
 //headings
+h1, h2, h3 { font-family: FuturaLight; }
 h1 {
 	font-size: 24px;
 	font-weight: normal;
+	b { color: white; }
 }
 h2 {
 	font-size: 18px;
@@ -609,6 +611,82 @@ src: url('FuturaLight.ttf')
 #contact_list {height:220px;overflow:auto;}
 .recaptcha_theme_red #recaptcha_response_field {left:-4px;}
 
+
+
+//
+//profile setup
+.profile-setup {
+	.header {
+		padding: 50px 0 0 130px;
+		
+		h1 { 
+			margin: 0px; 
+			display: inline-block; 
+			color: $fan-active-color;
+		}
+		h3 {
+			text-transform: uppercase;
+			display: inline-block;
+		}
+	}
+
+	.content-custom {
+		width: 700px;
+		margin: 70px auto 0 auto;
+		padding-bottom: 100px;
+		
+		form { 
+			a { 
+				width: 345px;
+				display: inline-block;
+				text-align: center; 
+				opacity: .80;
+				
+				&:hover { opacity: 1; }
+				
+				img { display: block; margin: auto;}
+				h2 { }
+			}
+			
+			.yahoo { color: #9601ae; }
+			.hotmail { color: #0589d5; }
+			.gmail { color: #df0000; }
+		}
+		
+		.content-box {
+			.details { width: 245px; }
+			.field input { margin-left: 20px; width: 310px; }
+		}
+		
+		.submit { 
+			text-align: center; margin-top: 30px; 
+		}
+		.submit-form {
+			float: right;
+			margin-top: 0px;
+		}
+		
+		//social step
+		.social-form {
+			width: 300px;
+			display: inline-block;
+			vertical-align: top;
+		}
+		.user-contact-list {
+			@include border-radius($border-radius);
+			width: 348px;
+			padding: 5px;
+			display: inline-block;
+			margin: -30px 0 30px 36px;
+			border: 1px solid #333;
+			background: #151515;
+			
+			h2 { border-bottom: 1px solid #555; }
+		}
+	}
+}
+
+
 //
 //sections (elements with specfic fan, artist or venue treatments)
 .button-fill-fan {
@@ -617,6 +695,8 @@ src: url('FuturaLight.ttf')
 .button-fill-artist {
 	@include linear-gradient-important($artist-active-color, darken($artist-active-color, 18));
 }
+
+
 
 //
 //else

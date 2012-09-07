@@ -1,24 +1,17 @@
-%h3 Choose your favorite genres
-#location_info.content-box
-  = form_for(:user, {:url => profile_item_setup_path, :remote => true}) do |ff|
-    = hidden_field_tag :setup_item_type, '1'
-    .content-box
-      .area.form
-        .details
-          Start Typing
-        .content
-          .field
-            %br
-            = text_field_tag :fan_genres,'',{ :size => 40, :class => 'textfield'}
-            %br
-      = ff.submit 'skip this', :class => 'button'
-      = ff.submit 'conitnue', :class => 'button'      
-
-:javascript
-  $("#fan_genres").tokenInput(
-    [#{genre_atuofill}],
-    {
-      preventDuplicates: true,
-      theme: "facebook",
-      prePopulate: [#{genre_prepopullate(@user.genres)}]
-  });
+.header
+  %h1 Step 2
+  %h3 Choose your favourite genres
+.content-custom
+  #location_info.content-box
+    = form_for(:user, {:url => profile_item_setup_path, :remote => true}) do |ff|
+      = hidden_field_tag :setup_item_type, '1'
+      .content-box
+        .area.form
+          .details
+            type out a few genres to start
+          .content
+            .field
+              = text_field_tag :fan_genres,'',{ :size => 40, :class => 'textfield'}
+      .submit-form
+        //= ff.submit 'skip this', :class => 'splash-highlight-button'
+        = ff.submit 'next step', :class => 'splash-highlight-button'

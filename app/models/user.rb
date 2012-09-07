@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
 
   def steps
 #    %w[basic_info tac location artist_venue_suggestion social_media]
-    %w[basic_info toc]
+    %w[basic_info tac]
   end
 
   def next_step

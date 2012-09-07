@@ -36,28 +36,7 @@ function nextFrame(){
 			$('.fan-05').toggle();
 			break;		
 		case 4:
-			$('.fan-05').remove();
-			$('.fan-06').toggle();
-			break;
-		case 5:
-			$('.fan-06').remove();
-			$('.fan-07').toggle();
-			break;
-		case 6:
-			$('.fan-07').remove();
-			$('.fan-08').toggle();
-			break;
-		case 7:
-			$('.fan-08').remove();
-			$('.fan-09').toggle();
-			break;		
-		case 8:
-			$('.fan-09').remove();
-			$('.fan-10').toggle();
-			break;
-		case 9:
 		default: 
-
       $(window).unbind('scroll');
 			$('.tutorial').remove();
 			break;

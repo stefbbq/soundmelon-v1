@@ -1,14 +1,16 @@
-%h3 Create your profile for Artist or Venue
-#location_info.content-box
-  = form_for(:user, {:url => profile_item_setup_path, :remote => true}) do |ff|
-    = hidden_field_tag :setup_item_type, '3'
-    .fields
-      %label{:for => "name"}
-      %hr/
-      %h3
-      = link_to 'create artist profile', new_venue_path, :class => 'ajaxopenwindow'
-      %h3
-      = link_to 'create venue profile', new_venue_path, :class => 'ajaxopenwindow'
-      %br/            
-      = ff.submit 'skip this', :class => 'button'
-    .clear
+.header
+  %h1 Step 3
+  %h3 Additional profiles
+.content-custom
+  #location_info
+    = form_for(:user, {:url => profile_item_setup_path, :remote => true}) do |ff|
+      = hidden_field_tag :setup_item_type, '3'
+      = link_to new_venue_path, :class => 'ajaxopenwindow' do
+        %img{:src => "/assets/profile/setup-venue.jpg"}
+        %h2 create Venue profile
+      = link_to new_artist_path, :class => 'ajaxopenwindow' do
+        %img{:src => "/assets/profile/setup-artist.jpg"}
+        %h2 create Artist profile
+      .submit
+        = ff.submit 'onward!', :class => 'splash-highlight-button'
+      .clear

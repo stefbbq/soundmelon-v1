@@ -1,5 +1,5 @@
 = hidden_field :user, :invitation_token
-.fields
+.registration-tos
   #terms
     %h2 Terms of service
     %p
@@ -124,8 +124,16 @@
         without any express or implied warranties on the function of merchantability, fitness for a particular purpose, non-infringement, or success of your
         career. Understand that website is often attacked, and while we will make our best effort to keep you safe, we cannot guarantee that SoundMelon will always
         be safe, secure, error-free, or function without disruption.
-    
-.fields
-  %label{:for => "t&c"} I agree
-  = check_box :user, :tac
-= submit_tag 'Submit', :size => "100", :id => 'continue', :disable_with =>"submitting"
+  .form
+    .fields
+      %label{:for => "t&c"} I accept
+      = check_box :user, :tac, :id => "accept-checkbox"
+    = submit_tag 'continue', :size => "100", :id => 'continue', :disable_with =>"submitting"
+:javascript 
+  $('#accept-checkbox').change(function() {
+    if($('#accept-checkbox').is(':checked')){
+      $('#continue').removeAttr('disabled').css('opacity', 1).css('cursor', 'pointer');
+    } else {
+      $('#continue').attr('disabled', true).css('opacity', .5).css('cursor', 'default');
+    }
+  });

@@ -1,24 +1,26 @@
 = javascript_include_tag "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"
-%h3
-  Set your location
-#location_info.content-box
-  = form_for(:location, {:url => profile_item_setup_path, :remote => true}) do |ff|
-    = hidden_field_tag :setup_item_type, '0'
-    = ff.hidden_field :name
-    = ff.hidden_field :lat
-    = ff.hidden_field :lng
-    = ff.hidden_field :url
-    .content-box
-      .area.form.artist-basic
-        .details
-          your location
-        .content
-          .field
-            %input{:id =>'location_attributes_place_name', :type =>'text', :name =>'location_attributes[place_name]', :size =>60, :placeholder =>''}
-    %br
-    = ff.submit 'Submit', :class => 'button'
-    = ff.submit 'Next step', :class => 'button' if @user.location
-    .clear
+.header
+  %h1 Step 1
+  %h3 Set your location
+.content-custom
+  #location_info.content-box
+    = form_for(:location, {:url => profile_item_setup_path, :remote => true}) do |ff|
+      = hidden_field_tag :setup_item_type, '0'
+      = ff.hidden_field :name
+      = ff.hidden_field :lat
+      = ff.hidden_field :lng
+      = ff.hidden_field :url
+      .content-box
+        .area.form.artist-basic
+          .details
+            tell us which city you live in
+          .content
+            .field
+              %input{:id =>'location_attributes_place_name', :type =>'text', :name =>'location_attributes[place_name]', :size =>60, :placeholder =>''}
+      .submit-form
+        = ff.submit 'next step', :class => 'splash-highlight-button'
+        //= ff.submit 'next step', :class => 'splash-highlight-button' if @user.location
+      .clear
 
 :javascript  
   var input = document.getElementById('location_attributes_place_name');

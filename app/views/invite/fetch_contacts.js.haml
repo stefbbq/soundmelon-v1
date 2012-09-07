@@ -2,11 +2,9 @@
   $('.popup .error-msg').html('#{@msg}');
 - else
   - contacts_users = capture do
-    .left
-      %span
-        List of users
-      .connections_list
-        - @users.each do |user|
-          = render 'user_connections/item', :user =>user, :connection_item =>nil, :is_user_fan =>false, :hide_link =>true
-  $('.left .user-contact-list').html('#{escape_javascript(contacts_users)}');
+    %h2 hey, we found some:
+    .connections_list
+      - @users.each do |user|
+        = render 'user_connections/item', :user => user, :connection_item => nil, :is_user_fan => false, :hide_link => true
+  $('.live .user-contact-list').toggle().html('#{escape_javascript(contacts_users)}');
   closeFacebox(1);

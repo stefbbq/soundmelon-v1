@@ -24,7 +24,12 @@
         #invitation_form_homepage
           = render '/invitations/form', :from_page => 1
   .bottom
-    .pitch
+    %img{:src => "/assets/splash/splash-collage.jpg", :class => "collage-img"}
+    .note
+      %h2 
+        SoundMelon enables you to connect in ways unlike before and 
+        %span create your music community
+      %a{:href => "#"} learn more
 :javascript
   $('#login-email-input').focus(function() {
    if($(this).val()=='eMail'){

@@ -1,9 +1,6 @@
-.primary-container
-  .primary
-    .left
-      - if @confirmation_thanks
-        %p.center
-          Thanks for confirming!
-      - elsif true
-        .setup-space
-          = render 'fan/setup_location'
+.live.live-rounded.profile-setup
+  - if @confirmation_thanks
+    %p.center
+      Thanks for confirming!
+  - elsif true
+    = render 'fan/setup_location'

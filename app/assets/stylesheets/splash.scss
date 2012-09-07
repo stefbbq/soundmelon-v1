@@ -15,15 +15,11 @@
 
 .splash {
 	width: 800px;
-	height: 580px;
+	height: 575px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	
-	.top { 
-		background: url(splash/splash-home-top-bg.jpg) bottom no-repeat;
-		height: 296px;
-	}
 	.content {
 		position: absolute;
 		top: -50%;
@@ -33,13 +29,43 @@
 	  @include box-shadow(rgba(black, .5), 0px, 2px, 10px, 0px);
 		background: $page-bg-color;	
 		width: 800px;
-		height: 550px;
+		height: 575px;
 		
 		.main {
 			@include border-radius($border-radius $border-radius 0 0);
 			height: 278px;
 			background: url(base-page-bg-shaded-flipped.jpg) center bottom no-repeat;
 			border-bottom: 1px solid #333;
+			
+			.top { 
+				background: url(splash/splash-home-top-bg.jpg) bottom no-repeat;
+				height: 296px;
+			}
+			.bottom {
+				position: relative;
+				
+				//collage image
+				img {
+					position: absolute;
+					left: -22px;
+					top: 12px;
+				}
+				.note { 
+					position: absolute;
+					top: 227px;
+					left: 40px;
+					display: block;
+					
+					> * { float: left; }
+					h2 { font-size: 16px; }
+					span { color: white; }
+					a { 
+						@include splash-highlight-button($generic-active-color);
+						margin: 5px 0 0 7px; 
+						height: 21px;
+					}
+				}
+			}
 		}
 
 		.logo { 
@@ -74,13 +100,6 @@
 			input[type=submit] { margin: 0px; position: relative; top: 1px;}
 		}
 		
-		//collage image
-		.collage-img {
-			position: absolute;
-			left: -26px;
-			top: 307px;
-		}
-		
 		//no login adjustments
 		.no-login {
 			height: 120px;
@@ -91,20 +110,20 @@
 	}
 	
 	.left-decoration, .right-decoration {
-		background: url(container-decoration.png);
+		background: url(splash/splash-decoration.png);
 		height: 522px;
-		width: 200px;
+		width: 250px;
 		position: absolute;
-		top: -261px;
+		top: -254px;
 	}
-	.left-decoration { left: -600px; }
-	.right-decoration { left: 390px; background-position: -210px 0px; }
+	.left-decoration { left: -650px; }
+	.right-decoration { left: 360px; background-position: -210px 0px; }
 	
 	//footer
 	.footer {
 		width: 98%;
     left: -49%;
-    top: 285px;
+    top: 293px;
     position: absolute;
 
 		.links {
@@ -139,6 +158,15 @@
 			}
 		}
 	}
+	
+	//signup activation cta
+	.signup-success {
+		margin-top: 66px;
+		text-align: center; 
+		
+		a { position: relative; margin-top: 20px; display: inline-block; z-index: 100;}
+		img { position: absolute; bottom: 0px; right: 80px; }
+	}
 }
 
 
@@ -147,11 +175,11 @@
 //access area (login and signup)
 .access {
 	margin: 27px auto 0 auto;
-	width: 660px;
+	width: 600px;
 	position: relative;
 	
 	> div, > img { float: left; }
-	> img { margin: 40px 30px 0 30px; }
+	> img { margin: 40px 35px 0 35px; }
 	
 	//
 	//existing user
@@ -195,9 +223,9 @@
 	//
 	//sign-up for invite
 	.sign-up {
-		width: 280px;
+		width: 230px;
 		position: absolute;
-		left: 360px;
+		left: 372px;
 		
 		span { display: block; margin: 10px 0 0 5px; }
 		h2 { 
@@ -207,7 +235,7 @@
 		}
 		
 		.splash-input-box {
-			width: 284px;
+			width: 214px;
 		}
 		
 		//invitation form
@@ -248,20 +276,22 @@
 	left: 310px;
 }
 
+
+
 //
-//registration
+//registration: basic info
 .registration {	
 	.field { position: relative; }
 		
 	.left {
 		background: rgba(white, .025);
 		width: 57%;
-		height: 429px;
+		height: 453px;
 		float: left;
 		
 		.header, .form { margin-right: 15px; float: right; }
 		.header {
-			margin-top: 40px;
+			margin-top: 60px;
 			> span { 
 				display: inline-block; 
 				font-size: $base-button-font-size; 
@@ -272,7 +302,7 @@
 		}
 		
 		.form {
-			margin-top: 30px;
+			margin-top: 33px;
 			
 			label {
 				text-align: right;
@@ -300,7 +330,7 @@
 	.right {
 		width: 43%;
 		float: right;
-		img { float: left; margin: 100px 0 0 15px; }
+		img { float: left; margin: 120px 0 0 15px; }
 	}
 	
 	#continue {
@@ -326,23 +356,53 @@
 		}
 	}
 	.fan-username-popout {
-		right: 295px;
-		width: 190px;
-	}
-	.artist-name-popout {
-		right: 305px;
-		width: 160px;
-	}
-	.artist-username-popout {
-		right: 330px;
-		width: 190px;
+		right: 283px;
+		width: 187px;
 	}
 }
 
+
+
+//
+//registartion: terms of service
+.registration-tos {
+	position: relative;
+	
+	#terms {
+		@include border-radius($border-radius);
+		width: 80%;
+		height: 260px;
+		padding: 8px;
+		margin: 50px auto 0 auto;
+		overflow: scroll;
+		border: 2px solid $text-faded-color;
+		background: black;
+	
+		span { margin-left: 20px; display: inline-block; }
+		h2 { text-align: center; margin-top: 0px; }
+	}
+	.form {
+		width: 170px;
+		margin: 30px auto 0 auto;
+		
+	 	.fields { float: left; }
+		> input { margin: -8px 0 0 0px !important; float: right; }
+		label { text-transform: uppercase; font-family: FuturaBook; }
+		#continue{ opacity: .5; cursor: default; }
+	}
+}
+
+//
+//error states
+.field_with_errors {
+	display: inline-block;
+	color: $text-error-color;
+	input { border-bottom: 1px solid $text-error-color !important; }
+}
 .registration-error {
   @include border-radius($border-radius);
 	position: absolute;
-	top: 520px;
+	top: 545px;
 	left: 175px;
   margin: 0 auto;
   width: 450px;
@@ -370,32 +430,6 @@
 
 .support {
 	padding: 0px !important; 
-}
-
-
-
-//
-//terms of service
-#terms {
-	@include border-radius($border-radius);
-	width: 80%;
-	height: 260px;
-	padding: 8px;
-	margin: 50px auto 0 auto;
-	overflow: scroll;
-	border: 2px solid $text-faded-color;
-	background: black;
-	
-	span { margin-left: 20px; display: inline-block; }
-	h2 { text-align: center; margin-top: 0px;}
-}
-
-//
-//error states
-.field_with_errors {
-	display: inline-block;
-	color: $text-error-color;
-	input { border-bottom: 1px solid $text-error-color !important; }
 }
 
 //

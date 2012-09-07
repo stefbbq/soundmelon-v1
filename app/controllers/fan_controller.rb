@@ -216,7 +216,7 @@ class FanController < ApplicationController
   def profile_setup
     @user       ||= current_user
     @item_type  = params[:tab_id]
-    @firstLogin           = true
+    @firstLogin = true
     case @item_type
     when '2'
       @artists               = Genre.get_artists_for_genres current_user.genres
@@ -237,7 +237,7 @@ class FanController < ApplicationController
       if @location.save
         @status   = true
       else        
-        @status = 'Next step' == params[:commit]
+        @status   = 'Next step' == params[:commit]
       end
     when '1'  # favorites genres
       genre_names   = params[:fan_genres]
