@@ -18,8 +18,14 @@ class ArtistShow < ActiveRecord::Base
   end
 
   def update_venue
-    venue = Venue.find_by_name self.venue_name
-    self.venue_id = venue.id if venue
+    venuename = self.venue_name
+    venue = Venue.find_by_name venuename
+    if venue
+      self.venue_id = venue.id if venue
+    else
+      new_venue     = Venue.new(:name =>venuename, :approved =>false, :city =>self.city)
+      new_venue.save(:validate =>false)
+    end
   end
 
   def create_newsfeed

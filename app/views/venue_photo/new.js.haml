@@ -15,10 +15,11 @@
         = f.label "upload"
         = f.file_field :image
         - f.submit "Upload"
-    #uploaded-images
-    / temporary accept button, needs proper cancel/accept, with no accept option on no data input
-    %a.generic-button{:href => "javascript:void(0);", :onclick=>"closeFacebox();"}
+    #uploaded-images 
+    %a.generic-button1{:href => "javascript:$('#photo_image').uploadifyUpload();", :id =>'acceptbttn', :style =>'display:none;'}
       accept
+    %a.generic-button{:href => "javascript:void(0);", :onclick =>"closeFacebox();" }
+      close
   #notice.error
     = notice
 faceboxContent('#{escape_javascript upload_form}');

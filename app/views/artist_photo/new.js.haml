@@ -7,10 +7,10 @@
   .normal-content.mini-content
     = render :partial => "uploader" 
     = form_for @artist_photo, :url => {:controller => 'artist_photo', :action => 'create'}, :html => {:multipart => true} do |f|
-      = hidden_field_tag :artist_name, @artist.mention_name
+      = hidden_field_tag :artist_name, @artist.mention_name      
       .field 
         - unless @artist_album.new_record?
-          =# text_field_tag :album_name, @artist_album.name, :class => 'overlay-text-field', :disabled => true
+          = hidden_field_tag :album_name, @artist_album.name          
         - else
           = f.label "name"
           = text_field_tag :album_name, nil, :class => 'overlay-text-field'
@@ -22,7 +22,7 @@
     %a.generic-button1{:href => "javascript:$('#photo_image').uploadifyUpload();", :id =>'acceptbttn', :style =>'display:none;'}
       accept
     %a.generic-button{:href => "javascript:void(0);", :onclick=>"closeFacebox();"}
-      cancel
+      close
   #notice.error
     = notice
 faceboxContent('#{escape_javascript upload_form}');

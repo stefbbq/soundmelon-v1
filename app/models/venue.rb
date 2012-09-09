@@ -26,7 +26,7 @@ class Venue < ActiveRecord::Base
   attr_reader :genre_tokens
   attr_writer :current_step
   
-  attr_accessible :genre_tokens, :name, :mention_name, :est_date, :country, :state, :city, :address, :facebook_page, :twitter_page, :info
+  attr_accessible :genre_tokens, :name, :mention_name, :est_date, :country, :state, :city, :address, :facebook_page, :twitter_page, :info, :approved
   accepts_nested_attributes_for :genres
 
   def genre_tokens=(ids)

@@ -242,8 +242,19 @@ module ApplicationHelper
       if post.album_post?
         album_detail  = album_name_and_url(postitem)
         album_name    = album_detail.first
-        album_path    = album_detail.last        
-        content       += " added a new photo album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+        album_path    = album_detail.last
+        photo_count   = postitem.photo_count
+        photos        = postitem.photos.limit(3)
+        useritem      = postitem.useritem
+        content       += " added #{pluralize(photo_count,'photo')} to the album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+        for photo in photos
+          if useritem.is_artist?
+            message       +=  raw (render '/artist_photo/photo', :photo =>photo, :artist_album =>postitem, :artist =>useritem, :in_newsfeed =>true)
+          elsif useritem.is_venue?
+            message       +=  raw (render '/venue_photo/photo', :photo =>photo, :album =>postitem, :venue =>useritem, :in_newsfeed =>true)
+          end
+          message         += "<br/>"
+        end
       elsif post.photo_post?
         album         = postitem.album
         album_detail  = album_name_and_url(album)

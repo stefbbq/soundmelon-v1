@@ -42,8 +42,8 @@ class UserPostsController < ApplicationController
   def destroy
     begin
       @post               = Post.where(:id => params[:id]).includes(:user, :artist).first
-      @parent_post_id     = @post.ancestry
-      actor_has_access    = @actor.is_fan? ? (@post.user_id == @actor.id) : (@post.artist_id == @actor.id)
+      @parent_post_id     = @post.ancestry      
+      actor_has_access    = @post.useritem_id == @actor.id && @post.useritem_type == @actor.class.name
       if actor_has_access
         @post.destroy
       end

@@ -55,6 +55,7 @@ class ArtistPhotoController < ApplicationController
     if @has_admin_access
       @post_url          = '/artist_photo/create'
       @artist_photo      = Photo.new
+      @artist_album      = ArtistAlbum.new
     else      
       render :nothing => true and return
     end

@@ -45,7 +45,7 @@ class Photo < ActiveRecord::Base
   def create_newsfeed
     album             = self.album
     album_useritem    = album.useritem
-    Post.create_newsfeed_for self, nil, album_useritem.class.name, album_useritem.id, " created"
+#    Post.create_newsfeed_for self, nil, album_useritem.class.name, album_useritem.id, " created"
   end
 
   def useritem
