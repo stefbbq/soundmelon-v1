@@ -57,7 +57,7 @@
 					display: block;
 					
 					> * { float: left; }
-					h2 { font-size: 16px; }
+					h2 { font-size: 16px; margin-top: 10px;  }
 					span { color: white; }
 					a { 
 						@include splash-highlight-button($generic-active-color);

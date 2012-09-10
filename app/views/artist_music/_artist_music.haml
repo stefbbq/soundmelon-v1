@@ -44,6 +44,11 @@
             %a{:href => "javascript:void(0);", :class => "toggle-thread", :onclick => "onToggle($(this));$('#artist_music_#{@artist_music.id} .album-details').toggle();"}
               %i
               collapse album
+      - else
+        .controls
+          = link_to artist_songs_path(@artist, artist_music), :remote=>:true, :class=>"ajaxopen toggle-thread", :id =>"expand_link_#{artist_music.id}" do
+            %i
+            expand album
       .album-details
         - if show_all
           - artist_music.songs.each do |song|

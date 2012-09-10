@@ -2,7 +2,7 @@
   #page-bottom-fade
   .content
     %div
-      = link_to page_path('about'), :remote =>:true, :class =>'ajaxopen backable' do
+      %a{:href => "http://about.soundmelon.com", :target => "_blank"}
         = image_tag 'base-footer-link-about.png'
       = link_to page_path('contact'), :remote =>:true, :class =>'ajaxopen backable' do
         = image_tag 'base-footer-link-contact.png'
