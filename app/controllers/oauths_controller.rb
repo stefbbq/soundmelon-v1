@@ -16,39 +16,44 @@ class OauthsController < ApplicationController
   def callback
     provider = params[:provider]
     if params[:error].present? or params[:error_code].present?
-      redirect_to root_path and return
+      redirect_url = root_path      
     else
       user_account_detail = get_user_detail(provider)
       user_detail         = user_account_detail[:user]
       user_email          = user_detail[:email]     
       
       # check if the user is same as intented      
-      unless session[:inv_id].blank?
+      if session[:inv_id].present?
         inv_id               = session[:inv_id]
         invitation           = Invitation.find_by_token(inv_id)
         invited_email        = invitation.recipient_email
         if invited_email == user_email          
           @user              = User.new(user_detail)
           @user.invitation_token = invitation.token
-          @other_user       = false
+          @other_user        = false
+          render :template =>'fan/signup' and return
         else
-          @other_user       = true          
+          redirect_url       = root_path
+          @other_user        = true
         end
         session[:inv_id]     = nil        
-      else
+      else        
         @user                = User.find_by_email(user_email)
         if @user
           auto_login(@user)
-          @existing_user     = true
-#          render :js => "window.location = #{fan_home_path}" and return
-          redirect_to fan_home_path and return
+          @existing_user     = true                    
+          redirect_url       = fan_home_path
         else
           @user              = User.new
           @is_valid_user     = false
           @no_user           = true
-        end
-      end     
-      render :template =>'fan/signup' and return
+          redirect_url       = root_path
+        end        
+      end
+      respond_to do |format|
+        format.js{ redirect_to redirect_url and return}
+        format.html{ redirect_to redirect_url and return}
+      end      
     end
   end
   

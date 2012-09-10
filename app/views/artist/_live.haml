@@ -38,7 +38,7 @@
                     follow
               - elsif is_actor_artist
                 #connect_section
-                  = render 'bricks/artist_connection', :actor => @actor, :artist => @artist
+                  =# render 'bricks/artist_connection', :actor => @actor, :artist => @artist
             - else
               - unless @has_link_access
                 = link_to user_home_path, {:remote => true, :id => "administer", :class => 'text-action ajaxopen backable'} do
