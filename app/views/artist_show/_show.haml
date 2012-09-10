@@ -4,10 +4,10 @@
   .top
     .cover
       %h2
-        Show Date:
+        on 
         = artist_show.show_date.strftime("%b %d, %Y")
         - if artist_show.is_past_show?
-          [ Past Show ]
+          %span past show
     .artist-content-actions
       = link_to artist_show_buzz_path(@artist, artist_show.id), {:remote => true, :class => 'ajaxopen'} do
         .buzz-icon
@@ -17,15 +17,19 @@
       .controls
         = link_to "edit", edit_artist_show_path(@artist, artist_show.id), :remote=>:true, :class=>"ajaxopen"
         = link_to "remove", delete_artist_show_path(@artist, artist_show.id), :remote=>:true, :class=>"ajaxopen"
-    .toggle
-      .toggle-thread
         - unless show_all
           - if @has_link_access
-            = link_to "expand", artist_show_detail_path('home', artist_show.id), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_show.id}"
+            = link_to artist_show_detail_path('home', artist_show.id), :remote=>:true, :class=>"ajaxopen toggle-thread", :id =>"expand_link_#{artist_show.id}" do
+              %i
+              expand details
           - else
-            = link_to "expand", artist_show_detail_path(@artist, artist_show.id), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_show.id}"
+            = link_to artist_show_detail_path(@artist, artist_show.id), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_show.id}" do
+              %i
+              expand details
         - else
-          %a{:href => "javascript:void(0);", :onclick => "$('div#artist_show_#{@artist_show.id} .show_details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
+          %a{:href => "javascript:void(0);", :class => "toggle-thread toggle-thread-collapse", :onclick => "onToggle($(this));$('div#artist_show_#{@artist_show.id} .show_details').toggle();"}
+            %i
+            collapse details
     .show_details
       - if show_all
         %hr/

@@ -4,26 +4,29 @@
       add to '#{@artist_music.album_name}'
     - else
       create an album
-  .normal-content.mini-content
+  .normal-content.mini-content.upload-content
     = render :partial => "uploader"
     = form_for @song, :url => {:controller => 'artist_music', :action => 'create'}, :html => {:multipart => true} do |f|
       = hidden_field_tag :artist_name, @artist.mention_name
-      .field 
-        - unless @artist_music.new_record?          
+      .field-title
+        - unless @artist_music.new_record?
           = hidden_field_tag :album_name, @artist_music.album_name
         - else
-          = f.label "name"
+          = f.label "title"
           = text_field_tag :album_name, nil, :class => 'overlay-text-field'
-      .field
+      .field-extended-label
         - if @artist_music.new_record?
-          = f.label "album cover"
-          = file_field_tag 'album_cover_image'
-        = f.label "songs"
-        = f.file_field :song
+          .add-cover 
+            = f.label "select an album cover image"
+            = file_field_tag 'album_cover_image'
+          %hr
+        .add-songs
+          = f.label "select songs to upload (mp3)"
+          = f.file_field :song
         - f.submit "Upload"
       #uploaded
-    %a.generic-button1{:href => "javascript:$('#song_song').uploadifyUpload();javascript:$('#album_cover_image').uploadifyUpload();", :id =>'acceptbttn', :style =>'display:none;'}
-      accept
+    %a.base-button{:href => "javascript:$('#song_song').uploadifyUpload();javascript:$('#album_cover_image').uploadifyUpload();", :id =>'acceptbttn', :style =>'display:none; margin: 0px auto;'}
+      upload
     %a.generic-button{:href => "javascript:void(0);", :onclick =>"closeFacebox();" }
       close
   #notice.error

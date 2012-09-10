@@ -4,7 +4,7 @@
 - link_class    = @actor ? 'ajaxopen' : 'force-login'
 - unless in_newsfeed
   .photo[photo]
-    =link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), artist_album_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => link_class, :title => photo.caption
+    = link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), artist_album_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => link_class, :title => photo.caption
     - if @has_link_access
       .actions
         - if (photo.id == artist_album.cover_image_id)
@@ -16,9 +16,8 @@
           = link_to 'add caption', edit_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => 'ajaxopen text'
         - else
           = link_to 'edit caption',  edit_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => 'ajaxopen text'
-
         = link_to 'remove', delete_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => 'ajaxopen text'
 - else
-  .photo[photo]
-    =link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), artist_album_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => link_class, :title => photo.caption
+  .newsfeed-photo[photo]
+    = link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), artist_album_photo_path(@artist, artist_album.name, photo.id), :remote => true, :class => link_class, :title => photo.caption
     = photo.caption

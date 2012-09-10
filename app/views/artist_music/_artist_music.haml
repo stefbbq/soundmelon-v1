@@ -36,16 +36,14 @@
           = link_to 'edit', edit_artist_music_path('home', artist_music), :remote => true, :class => 'ajaxopen edit', :title => "edit album"
           = link_to artist_music.disabled? ? 'enable' : 'disable', disable_enable_artist_music_path('home', artist_music), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{artist_music.id}"
           = link_to 'remove', delete_artist_music_path('home', artist_music.id), :remote=>:true, :class=>"ajaxopen"
-      .toggle
-        - unless show_all
-          .toggle-thread
-            - if @has_link_access
-              = link_to "expand", artist_songs_path('home', artist_music), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_music.id}"
-            - else
-              = link_to "expand", artist_songs_path(@artist, artist_music), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{artist_music.id}"
-        - else
-          .toggle-thread
-            %a{:href => "javascript:void(0);", :onclick => "$('#artist_music_#{artist_music.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
+          - unless show_all
+            = link_to artist_songs_path('home', artist_music), :remote => :true, :class => "ajaxopen toggle-thread", :id => "expand_link_#{artist_music.id}" do
+              %i
+              expand album
+          - else
+            %a{:href => "javascript:void(0);", :class => "toggle-thread", :onclick => "onToggle($(this));$('#artist_music_#{@artist_music.id} .album-details').toggle();"}
+              %i
+              collapse album
       .album-details
         - if show_all
           - artist_music.songs.each do |song|

@@ -285,6 +285,7 @@ function closeFacebox(time){
 function faceboxContent(content){
   $('#facebox .content').html(content);
 }
+
 //cursor position jquery
 new function($) {
   $.fn.getCursorPosition = function() {
@@ -304,4 +305,16 @@ new function($) {
 
     return pos;
   }
-} (jQuery);
+}(jQuery);
+
+//toggle
+function onToggle(target){
+  if(target.html().indexOf( "collapse" ) !== -1){
+		console.debug('here');
+    target.removeClass('toggle-thread-collapse');
+    target.html('<i></i> expand album');
+  } else {
+    target.addClass('toggle-thread-collapse');
+    target.html('<i></i> collapse album');
+  }
+}

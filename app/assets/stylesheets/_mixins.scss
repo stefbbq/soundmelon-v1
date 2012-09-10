@@ -96,6 +96,13 @@
 	}
 }
 
+//signature
+@mixin signature-button($color: $generic-active-color) {
+	@include base-highlight-button($color);
+	@extend .big-signature-button-rules;
+}
+
+
 
 
 //

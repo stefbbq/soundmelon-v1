@@ -1,5 +1,5 @@
 - form_post_path = @artist_music ? artist_music_buzz_post_path(@artist_music, @artist_music.id) : song_buzz_post_path(@song)
-- initial_text   = "write a comment..."
+- initial_text   = "share a comment"
 .status-input.buzz-input
   = form_tag(form_post_path, :class=>"ajaxopen", :remote => true, :id => 'buzz_form') do
     = text_area_tag :msg, initial_text, :class => "autosubmit input-box", :maxlength => 240
@@ -7,7 +7,7 @@
       200
       %span characters remaining
     .submit
-      = submit_tag('post', :class => "post-btn")
+      = submit_tag('post', :id => "post-btn", :class => "post-btn")
     .clear
 :javascript
   $('textarea.mention').mentionsInput({

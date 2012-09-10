@@ -253,7 +253,6 @@ module ApplicationHelper
           elsif useritem.is_venue?
             message       +=  raw (render '/venue_photo/photo', :photo =>photo, :album =>postitem, :venue =>useritem, :in_newsfeed =>true)
           end
-          message         += "<br/>"
         end
       elsif post.photo_post?
         album         = postitem.album

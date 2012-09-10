@@ -3,6 +3,6 @@
     = "Buzz : #{@artist_photo_album.name}"
   - else
     = "Buzz : #{@artist_photo.caption}"
-= render 'buzzlisting', :buzzes_by_date =>@buzzes_by_dates
-.normal-content.mini-content
+.normal-content
+  = render 'buzzlisting', :buzzes_by_date =>@buzzes_by_dates
   = render 'photo_album_buzz_form'

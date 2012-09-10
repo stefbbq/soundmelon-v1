@@ -75,8 +75,11 @@ src: url('FuturaLight.ttf')
 .base-button { @include base-button(); }
 .base-highlight-button { @include base-highlight-button(#eee); }
 .base-text-field { @include base-text-field(); }
-.overlay-text-field { @include overlay-text-field(); }
 .base-input-box { @include base-form-input-box(); margin: 0px; }
+.overlay-button { @include base-button(); }
+.overlay-signature-button { @include base-button(); }
+.overlay-text-field { @include overlay-text-field(); }
+.overlay-input-box { @include overlay-form-input-box(); margin: 0px; }
 .splash-input-box { @include splash-form-input-box(); margin: 0px; }
 .splash-highlight-button { @include splash-highlight-button(); }
 
@@ -415,6 +418,88 @@ src: url('FuturaLight.ttf')
   }
 }
 
+
+
+//
+//status input
+.status-input {  
+	@include border-radius($border-radius);
+	display: block;
+	margin-bottom: 20px;
+	position: relative;
+	
+	form {
+		.input-box {
+			@include base-input-box;
+		}
+		.submit {
+			float: right;
+
+			#post-btn {
+		    @include base-highlight-button(#959595);
+				@include border-radius($border-radius);
+				padding: 5px 7px 4px 7px;
+				margin: 4px 0 0 0;
+				font-size: 14px;
+				opacity: .4;
+				display: inline-block;
+				float: right; 
+		  }
+			.pin {
+				margin: 4px 4px 0 0;
+				width: 140px; 
+				display: inline-block;
+				.control-toggle { float: right; }
+				.text { display: inline-block; margin-top: 4px; color: $text-faded-color; }
+			}			
+		}
+
+		//counter
+		> span {
+			display: inline-block;
+			margin: 8px 4px;
+			font-size: 12px;
+			color: $text-faded-color;
+
+			span { opacity: .6; }
+		}
+		.okay {	color: $text-color;	}
+		.warning { color: #f82; }
+		.over {	color: $text-error-color !important; }
+	}	  
+}
+.post-reply-form {
+	margin-bottom: $post-padding*2;
+	.input-box { width: 631px;}
+	img {
+		position: absolute;
+		bottom: -20px;
+		left: -5px;
+	}
+}
+.buzz-input {
+	padding: 10px !important;
+	margin: 10px -10px -10px -10px;
+	background: #d5d5d5;
+	
+	form {
+		margin-bottom: 0px !important; 
+		
+		.input-box { width: 489px !important; }
+		.submit {
+			#post-btn {
+				@include overlay-button;
+			}
+		}
+		> span {
+			color: $text-faded-on-light;
+		}
+		.okay { color: black; }
+	}
+
+}
+
+
 //
 //search results
 #results {
@@ -429,6 +514,8 @@ src: url('FuturaLight.ttf')
 	
 	padding: 10px;
 }
+
+
 
 //
 //collections
@@ -531,6 +618,8 @@ src: url('FuturaLight.ttf')
 		}
 	}
 }
+
+
 
 //
 //footer

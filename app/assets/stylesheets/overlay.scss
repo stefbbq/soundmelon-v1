@@ -79,15 +79,17 @@
 	}
 
   .buzz-window {
-    height: 300px;
-		width: 600px;
+    height: 240px;
+		width: auto;
     overflow: auto; 
 
 		.post {
 			position: relative;
-			margin-left: 15px; 
+			width: auto;
 	    &:not(:last-child) { border-bottom: 1px dashed rgba(black, .25); }
 			&:not(:first-of-type) { padding-top: 15px; }
+			&:not(:last-of-type) { padding-bottom: 15px; }
+			> div, > div:hover { background: none !important; }
 			
 			> div {
 				@include generic-item(black);
@@ -231,12 +233,11 @@
 	}
 
 	.normal-content {
-		padding: 10px 0;
+		padding: 0;
 		width: 500px;
 
 		div { 
 			padding: 0px; 
-			margin: 0 0 10px 0;	
 		}
 		
 		h2 { margin: 0px; padding: 0px; text-align: center; }
@@ -246,18 +247,11 @@
 			height: 100px;
 		}
 		.generic-button {
-			@include overlay-button;
+			@include signature-button;
+			margin-top: 20px;
 			position: absolute;
 			bottom: -8px;
 			right: 16px;
-			padding: 4px 10px;
-		}
-    .generic-button1 {
-			@include overlay-button;
-			position: absolute;
-			bottom: -8px;
-			right: 86px;
-			padding: 4px 10px;
 		}
 		
 		#uploaded {
@@ -275,14 +269,36 @@
 				label {
 					display: inline-block;
 					margin-right: 5px;
-					width: 70px;
-					text-align: right;
 					text-transform: lowercase;
 				}
 				input {
 					width: 255px;
+					margin-right: 0px;	
 				}
 			}
+			.field-extended-label {
+				label { width: 160px !important; text-transform: lowercase; } 
+			}
+			
+			hr {
+				margin: 20px -10px 3px -10px;
+				display: block; 
+				opacity: .5;
+				clear: both;
+			}
+			
+			//spcific settings
+			.field-title label { text-transform: lowercase; }
+			.field-title input { width: 305px; }
+			.field-album-cover label { margin-left: 50px; }
+			.add-cover, .add-songs { 
+				width: 100%; 
+				text-align: right; 
+				
+				object { margin-right: 5px; }
+			}
+			.add-cover { }
+			.add-songs { margin-bottom: 20px; }
 			
 			//field with errors reset margins
 			.field_with_errors {margin: 0px; }
@@ -297,6 +313,7 @@
 	
 	.mini-content {	width: 344px; }
 	.mega-content { width: 600px; }
+	.upload-content { padding-bottom: 20px;}
 	
 	.centered {
 		text-align: center;

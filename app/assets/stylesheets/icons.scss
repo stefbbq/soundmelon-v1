@@ -91,7 +91,6 @@
 .action-buzz { i { @include sprite-img("sprites-16.png", 4, 1, 16px, 16px); }}
 .action-view { i { @include sprite-img("sprites-16.png", 5, 1, 16px, 16px); }}
 .song { i { @include sprite-img("sprites-24.png", 1, 4, 24px, 24px); }}
-.toggle-thread { i { @include sprite-img("sprites-16.png", 6, 1, 16px, 16px); }}
 
 //artist content
 .download-icon { @include sprite-img("sprites-24.png", 1, 2, 24px, 24px); }
@@ -106,3 +105,7 @@
 
 //facebox
 #facebox .close { @include sprite-img("sprites-24.png", 1, 6, 24px, 24px); }
+
+//shared
+.toggle-thread { i { @include sprite-img("sprites-16.png", 6, 1, 16px, 16px); }}
+.toggle-thread-collapse { i { @include sprite-img("sprites-16.png", 7, 1, 16px, 16px); }}
