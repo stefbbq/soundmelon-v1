@@ -12,13 +12,9 @@
     = render '/layouts/analytics'
   - if current_user #user logged in
     %body
-      #base-container
-        #page-container
-          #page.popup
-            #page-header
-              = render :partial=>"/bricks/logo"
-            #page-content
-              = yield
+      #page.popup
+        #page-content
+          = yield
     .globalloading.hide{:id => "globalloading"}
       .center
         %h1

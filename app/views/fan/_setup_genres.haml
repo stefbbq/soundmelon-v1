@@ -15,3 +15,12 @@
       .submit-form
         //= ff.submit 'skip this', :class => 'splash-highlight-button'
         = ff.submit 'next step', :class => 'splash-highlight-button'
+
+:javascript
+  $("#fan_genres").tokenInput(
+    [#{genre_atuofill}],
+    {
+      preventDuplicates: true,
+      theme: "facebook",
+      prePopulate: [#{genre_prepopullate(@user.genres)}]
+  });

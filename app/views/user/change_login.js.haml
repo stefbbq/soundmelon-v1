@@ -23,6 +23,8 @@
   setTimeout('$(document).trigger(\"close.facebox\")',10);
   $('.selection-box').removeClass('active').removeClass('button-fill-artist');
   $('#feed-msg').addClass('active').addClass('button-fill-artist');
+  - if @first_login
+    artistTutorial();
 - elsif @is_venue
   $('.live').replaceWith('#{escape_javascript(render '/venue/live')}');
   $('.primary .left').html('<div class="top"></div>');

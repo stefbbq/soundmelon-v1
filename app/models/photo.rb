@@ -9,7 +9,8 @@ class Photo < ActiveRecord::Base
     :url => "/sm/user/photos/:normalized_file_name.:extension",
     :styles => {
       :large  => ["800x800#", :jpeg],
-      :medium => ["300x300#", :jpeg],
+      :medium => ["100x100#", :jpeg],
+      :header => ["60x60!", :jpeg],
       :thumb  => ["35x35!", :jpeg]
     },
     :processors => [:resizer]

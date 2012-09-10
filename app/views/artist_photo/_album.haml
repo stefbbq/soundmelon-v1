@@ -2,7 +2,7 @@
 .artist-content[artist_album]
   .top
     .cover
-      = link_to get_artist_photo_album_teaser_photo(artist_album, :medium, '60px;', '60px;'), artist_album_photos_path(@artist, artist_album.name), :remote=>:true, :class=>"ajaxopen"
+      = link_to get_artist_photo_album_teaser_photo(artist_album, :header, '60px;', '60px;'), artist_album_photos_path(@artist, artist_album.name), :remote=>:true, :class=>"ajaxopen"
     .info
       - if @has_link_access
         = link_to artist_album_photos_path('home', artist_album.name),{ :remote=>:true, :class=>"ajaxopen"} do

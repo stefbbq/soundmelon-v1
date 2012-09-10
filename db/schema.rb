@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120909050853) do
+ActiveRecord::Schema.define(:version => 20120910055843) do
 
   create_table "additional_infos", :force => true do |t|
     t.integer  "user_id",                           :null => false
@@ -263,13 +263,13 @@ ActiveRecord::Schema.define(:version => 20120909050853) do
     t.integer  "item_id"
     t.string   "name"
     t.string   "fmt_name"
-    t.string   "country"
     t.string   "lat"
     t.string   "lng"
     t.string   "url"
-    t.boolean  "is_valid",   :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_valid",   :default => false
+    t.string   "country"
   end
 
   create_table "mentioned_posts", :force => true do |t|
@@ -301,6 +301,16 @@ ActiveRecord::Schema.define(:version => 20120909050853) do
 
   add_index "messages", ["ancestry"], :name => "index_messages_on_ancestry"
   add_index "messages", ["sent_messageable_id", "received_messageable_id"], :name => "acts_as_messageable_ids"
+
+  create_table "newsfeeds", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "band_id"
+    t.string   "newsitem_type"
+    t.integer  "newsitem_id"
+    t.string   "msg"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "notifications", :force => true do |t|
     t.string   "type"
@@ -439,8 +449,8 @@ ActiveRecord::Schema.define(:version => 20120909050853) do
 
   create_table "users", :force => true do |t|
     t.string   "email",                                              :null => false
-    t.string   "fname",                                              :null => false
-    t.string   "lname",                                              :null => false
+    t.string   "fname"
+    t.string   "lname"
     t.string   "crypted_password"
     t.string   "salt"
     t.boolean  "account_type",                    :default => false
@@ -457,6 +467,7 @@ ActiveRecord::Schema.define(:version => 20120909050853) do
     t.datetime "last_activity_at"
     t.string   "mention_name"
     t.text     "bio"
+    t.string   "user_type"
     t.integer  "invitation_id"
     t.integer  "invitation_limit"
     t.string   "user_account_type"
@@ -468,6 +479,8 @@ ActiveRecord::Schema.define(:version => 20120909050853) do
     t.string   "oauth_type"
     t.string   "oauth_token"
     t.string   "oauth_token_secret"
+    t.datetime "last_artist_login_at"
+    t.datetime "last_venue_login_at"
   end
 
   add_index "users", ["activation_token"], :name => "index_users_on_activation_token"
@@ -489,15 +502,14 @@ ActiveRecord::Schema.define(:version => 20120909050853) do
     t.integer  "user_id"
     t.integer  "venue_id"
     t.integer  "access_level"
-    t.boolean  "notification_on", :default => true
-    t.boolean  "is_suspended",    :default => false
+    t.boolean  "notification_on"
+    t.boolean  "is_suspended"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "venues", :force => true do |t|
     t.string   "name"
-    t.string   "mention_name"
     t.text     "info"
     t.date     "est_date"
     t.string   "country"
@@ -508,11 +520,12 @@ ActiveRecord::Schema.define(:version => 20120909050853) do
     t.integer  "longitude"
     t.string   "mapped_address"
     t.integer  "profile_completeness"
-    t.string   "facebook_page"
-    t.string   "twitter_page"
     t.boolean  "is_private",           :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "mention_name"
+    t.string   "facebook_page"
+    t.string   "twitter_page"
     t.boolean  "approved",             :default => true
   end
 

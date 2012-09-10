@@ -50,6 +50,8 @@ class UserController < ApplicationController
           @actor                      = current_actor          
           @is_artist                  = true
           @has_link_access            = true
+          @first_login                = current_user.last_artist_login_at.blank?
+          current_user.update_attribute(:last_artist_login_at , Time.now)
           get_artist_mentioned_posts(@artist)
           #----------Get Objects------------------------------------------------------------
           get_artist_associated_objects(@artist)
@@ -60,7 +62,7 @@ class UserController < ApplicationController
           set_current_useritem(@venue)
           @actor                      = current_actor          
           @is_venue                   = true
-          @has_link_access            = true
+          @has_link_access            = true          
           messages_and_posts_count
 #          get_artist_mentioned_posts(@artist)
           #----------Get Objects------------------------------------------------------------

@@ -1,5 +1,5 @@
 - content = capture do
-  = image_tag @photo.image.url(:large)
+  = image_tag @photo.image.url, :class =>'fullimage',  :style =>'max-height:600px;max-width:600px;'
   %br
-  = @photo.caption
+  = @photo.caption  
 faceboxContent('#{escape_javascript(content)}')

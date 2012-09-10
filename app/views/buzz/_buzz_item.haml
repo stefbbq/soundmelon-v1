@@ -1,22 +1,33 @@
 - useritem                  = post.useritem_id.blank? ? nil : post.useritem
-- user                      = post.user_id.blank? ? nil : post.user
 - @useritem                 = @artist || @venue
-- is_author_useritem_profile= (@useritem && useritem ) && @useritem.id == useritem.id
-- is_author_fan_profile     = (@user && user ) && @user.id == user.id
+- is_author_useritem_profile= (@useritem && useritem ) && @useritem == useritem
+- is_author_fan_profile     = (@user && useritem ) && @user == useritem
 - hide_thread_link          ||= false
 - divclass                  ||=''
 -if @useritem && @is_admin_of_useritem
   - self_owner = useritem == @useritem ? true : false
 - else
-  - self_owner = post.user == current_user ? true : false
+  - self_owner = post.useritem == current_user ? true : false
 - item_div_class = self_owner ? 'content' : 'content-mentioned'
-= div_for post do
+
+- writer_header = capture do
+  - if useritem
+    - link_detail = actor_detail(useritem)
+    = is_author_useritem_profile ? useritem.name : (link_to link_detail[:name], link_detail[:link], :class => 'ajaxopen backable', :remote => :true, :title => link_detail[:name])
+  -elsif user
+    = is_author_fan_profile ? user.get_full_name : (link_to user.get_full_name, fan_profile_path(post.user), :class => 'ajaxopen backable', :remote => :true, :title => user.get_full_name)
+
+.post.entry
+  .avatar
+    - link_detail = actor_detail(useritem)
+    = link_to get_avatar(useritem), link_detail[:link], :class =>'ajaxopen backable', :remote => :true
   .content
     .buzz-header
       .title
         %strong
-          - if useritem
-            = useritem.name
+          - if useritem            
+            - link_detail = actor_detail(useritem)
+            = is_author_useritem_profile ? useritem.name : (link_to link_detail[:name], link_detail[:link], :class => 'ajaxopen backable', :remote => :true, :title => link_detail[:name])
           - elsif self_owner
             You
           - elsif user

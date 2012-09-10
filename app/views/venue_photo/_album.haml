@@ -2,7 +2,7 @@
 .artist-content[album]
   .top
     .cover
-      = link_to get_photo_album_teaser_photo(album, :medium, '60px;', '60px;'), album_photos_path(@venue, album.name), :remote=>:true, :class=>"ajaxopen"
+      = link_to get_photo_album_teaser_photo(album, :header, '60px;', '60px;'), album_photos_path(@venue, album.name), :remote=>:true, :class=>"ajaxopen"
     .info
       = link_to venue_album_photos_path(@venue, album.name),{ :remote=>:true, :class=>"ajaxopen"} do
         %h2= album.name

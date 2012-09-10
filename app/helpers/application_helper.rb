@@ -298,13 +298,13 @@ module ApplicationHelper
     if post && postitem
       if post.album_post?
         album_detail  = album_name_and_url(postitem)
-        album_path    = album_detail.first
-        album_name    = album_detail.last
+        album_name    = album_detail.first
+        album_path    = album_detail.last        
         content       += " photo album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
       elsif post.photo_post?        
         album_detail  = album_name_and_url(postitem.album)
-        album_path    = album_detail.first
-        album_name    = album_detail.last                
+        album_name    = album_detail.first                
+        album_path    = album_detail.last        
         content       += " photo <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
       elsif post.artist_show_post?
         artist        = postitem.artist
