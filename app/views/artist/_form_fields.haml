@@ -37,7 +37,7 @@
           = f.text_field :name
         - unless @user.is_external?
           .lock-toggle
-        = f.submit 'changes are swell', :class => 'button'
+        = f.submit 'changes are swell', :class => 'button splash-highlight-button'
 .content-box#artist-edit
   .area.form.toggle-replace
     .details
@@ -87,7 +87,7 @@
       - if is_new
         = f.submit 'create profile', :class => 'button'
       - else
-        = f.submit 'save to memory', :class => 'button'
+        = f.submit 'save to memory', :class => 'button splash-highlight-button'
 - unless is_new
   .content-box#artist-edit
     .area.form.toggle-sole

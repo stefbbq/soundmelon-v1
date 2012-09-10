@@ -1,21 +1,26 @@
 - content = capture do
-  %h3 Artist Profiles
-  - if @accessible_artists.blank?
-    You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_artist_path, :class => 'ajaxopenwindow'}
-  - else
-    .artist-list
-      - @accessible_artists.each do |artist|
-        = render '/artist/artist_item', :artist =>artist
-    #{link_to 'create another artist profile?', new_artist_path, :class=>'ajaxopenwindow'} You can add another artist profile to associate with your account!
-  %hr
-  %h3 Venue Profiles
-  - if @accessible_venues.blank?
-    You have no venue profiles associated with your account, would you like to #{link_to 'create one?', new_venue_path, :class => 'ajaxopenwindow'}
-  - else
-    .venue-list
-      - @accessible_venues.each do |venue|
-        = render '/venue/venue_item', :venue =>venue
-    #{link_to 'create another venue profile?', new_venue_path, :class => 'ajaxopenwindow'} You can add another venue profile to associate with your account!
+  .access-profiles
+    .artists
+      - if @accessible_artists.blank?
+        You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_artist_path, :class => 'ajaxopenwindow'}
+      - else
+        %h1 your Artist profiles
+        .artist-list
+          - @accessible_artists.each do |artist|
+            = render '/artist/artist_item', :artist =>artist
+        .create
+          #{link_to 'create another artist profile?', new_artist_path, :class => 'ajaxopenwindow'} You can add another artist profile to associate with your account!
+    .venues
+      - if @accessible_venues.blank?
+        .create
+          You have no venue profiles associated with your account, would you like to #{link_to 'create one?', new_venue_path, :class => 'ajaxopenwindow'}
+      - else
+        %h3 your Venue profiles
+        .venue-list
+          - @accessible_venues.each do |venue|
+            = render '/venue/venue_item', :venue =>venue
+        .create
+          #{link_to 'create another venue profile?', new_venue_path, :class => 'ajaxopenwindow'} You can add another venue profile to associate with your account!
 setUpPage();
 updateLiveSection('#{escape_javascript(render '/fan/live')}');
 updateLeftSection('#{escape_javascript(content)}');

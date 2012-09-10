@@ -29,7 +29,7 @@
         = f.text_field :email
       - unless @user.is_external?
         .lock-toggle
-      = submit_tag 'update it, it\'s legal', :class => 'button', :id =>'basic_form_submit', :disabled =>!@user.is_external
+      = submit_tag 'update it, it\'s legal', :class => 'splash-highlight-button button', :id =>'basic_form_submit', :disabled =>!@user.is_external
 :javascript  
   if(#{!@user.is_external?})
     $('#basic-info input').attr('disabled', true).addClass('input-disabled');  

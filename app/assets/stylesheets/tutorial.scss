@@ -48,7 +48,7 @@
 		}
 	}
 	
-	//fan tutorials
+
 	.items {
 		left: 50%;
 		top: 0px;
@@ -59,6 +59,7 @@
 			display: none;
 		}
 		
+		//fan tutorial
 		.fan-01 {
 			display: block;
 			position: fixed;
@@ -96,6 +97,30 @@
 			left: -416px;
 			top: 53px;
 			background: url(tutorial/fan-05player.png);
+		}
+		
+		//artist tutorial
+		.artist-01 {
+			display: block; 
+			width: 451px;
+			height: 246px;
+			left: -360px;
+			top: 165px;
+			background: url(tutorial/artist-01newsfeed.png);
+		}
+		.artist-02 {
+			width: 451px;
+			height: 230px;
+			left: -102px;
+			top: 184px;
+			background: url(tutorial/artist-02sidebar.png);
+		}
+		.artist-03 {
+			width: 451px;
+			height: 215px;
+			left: -177px;
+			top: -5px;
+			background: url(tutorial/artist-03account.png);
 		}
 	}
 }

@@ -336,6 +336,21 @@
 		position: relative;
 	}
 	
+	//access profiles
+	.access-profiles {
+		.artists {
+			margin-bottom: 30px;
+		}
+		.venues {
+			margin-bottom: 15px;
+		}
+		
+		.create {
+			opacity: .6;
+			&:hover { opacity: 1; }
+		}
+	}
+	
 	//artist content areas
 	.artist-content { 
 		width: 100%; 
@@ -577,27 +592,27 @@
 			background: $content-highlight-color;
 			@include border-radius(0 $border-radius / 2 $border-radius / 2 0);
 			margin-left: 44%;
-			padding: 18px 0 30px 0;
+			padding: 18px 0 33px 0;
       
       .lock-toggle {
-					@include sprite-img("sprites-48.png", 1, 1, 48px, 48px);
-					position: absolute;
-					right: 17px;
-					top: 26px;
-					cursor: pointer;
-				}
-				.lock-toggle-open {
-					@extend .lock-toggle;
-					@include sprite-img("sprites-48.png", 2, 1, 48px, 48px);
-					cursor: auto;
-				}
-			
+				@include sprite-img("sprites-48.png", 1, 1, 48px, 48px);
+				position: absolute;
+				right: 17px;
+				top: 34px;
+				cursor: pointer;
+			}
+			.lock-toggle-open {
+				@extend .lock-toggle;
+				@include sprite-img("sprites-48.png", 2, 1, 48px, 48px);
+				cursor: auto;
+			}
+		
 			> form {				
 				.lock-toggle {
 					@include sprite-img("sprites-48.png", 1, 1, 48px, 48px);
 					position: absolute;
 					right: 17px;
-					top: 26px;
+					top: 36px;
 					cursor: pointer;
 				}
 				.lock-toggle-open {
@@ -605,6 +620,7 @@
 					@include sprite-img("sprites-48.png", 2, 1, 48px, 48px);					
 					cursor: auto;					
 				}
+				.lock-toggle-password{ top: 26px; }
 			}
 
 			.field {
@@ -636,7 +652,6 @@
 			}
 			
 			.button {
-				@include base-highlight-button();
 				position: absolute;
 				right: 20px;
 				bottom: -6px;

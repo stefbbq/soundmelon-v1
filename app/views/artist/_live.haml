@@ -46,6 +46,8 @@
                   %i
                   admin
               - else
+                %a{:onclick => "javascript:artistTutorial();", :class => "text-action-no-img", :id => 'tutorial-link'}
+                  tutorial
                 = link_to show_artist_path(@artist), {:remote => true, :id => "view-public-profile", :class => 'text-action ajaxopen backable'} do
                   .icon-bg
                   %i
