@@ -34,6 +34,7 @@ class OauthsController < ApplicationController
           render :template =>'fan/signup' and return
         else
           redirect_url       = root_path
+          notice             = "Your facebook email is different from the invited email"
           @other_user        = true
         end
         session[:inv_id]     = nil        
@@ -48,11 +49,12 @@ class OauthsController < ApplicationController
           @is_valid_user     = false
           @no_user           = true
           redirect_url       = root_path
+          notice             = "No account exists with your facebook email. Please, get an invitation first."
         end        
       end
       respond_to do |format|
-        format.js{ redirect_to redirect_url and return}
-        format.html{ redirect_to redirect_url and return}
+        format.js{ redirect_to redirect_url, :alert =>notice and return}
+        format.html{ redirect_to redirect_url, :alert =>notice and return}
       end      
     end
   end

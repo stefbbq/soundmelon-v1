@@ -53,7 +53,9 @@
       .loading-img
         = image_tag("loading.gif")
 
-:javascript  
+:javascript
+  if(#{flash[:alert].present?})
+    alert("#{flash[:alert]}");
   if(#{!@firstLogin.blank?})    
     $('#tutorial-link').trigger('click');
   

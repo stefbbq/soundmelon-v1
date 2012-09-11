@@ -142,30 +142,34 @@ module ApplicationHelper
   def user_mention_lists(user)
     auto_mention_list     = ''
     mention_list_arr      = []
-    mention_list_arr << user.following_users.to_a
-    mention_list_arr << user.user_followers.to_a
-    mention_list_arr << user.following_artists.to_a
-    mention_list_arr << user.following_venues.to_a
+    if user
+      mention_list_arr << user.following_users.to_a
+      mention_list_arr << user.user_followers.to_a
+      mention_list_arr << user.following_artists.to_a
+      mention_list_arr << user.following_venues.to_a
     
-    mention_list_arr.flatten.uniq.each do |mentionable_item|
-      mention_name      = "@#{mentionable_item.mention_name}"
-      display_name      = "#{mention_name} - #{mentionable_item.get_name}"
-      object_type       = mentionable_item.class.to_s.downcase
-      # reset object type to fan or artist (needs to be fixed in database)
-      object_type       = (object_type == "user") ? "fan" : object_type
-      auto_mention_list += "{name: \"#{display_name}\", id:\"#{mention_name}\", type:\"#{object_type}\"},"
+      mention_list_arr.flatten.uniq.each do |mentionable_item|
+        mention_name      = "@#{mentionable_item.mention_name}"
+        display_name      = "#{mention_name} - #{mentionable_item.get_name}"
+        object_type       = mentionable_item.class.to_s.downcase
+        # reset object type to fan or artist (needs to be fixed in database)
+        object_type       = (object_type == "user") ? "fan" : object_type
+        auto_mention_list += "{name: \"#{display_name}\", id:\"#{mention_name}\", type:\"#{object_type}\"},"
+      end
     end
     return auto_mention_list.chomp(",")
   end
   
   def artist_follower_mention_lists artist
     auto_mention_list   = ''
-    mention_list_arr    = artist.user_followers.to_a    
-    mention_list_arr.flatten.uniq.each do |mentionable_item|
-      mention_name      = "@#{mentionable_item.mention_name}"
-      display_name      = "#{mentionable_item.get_name}(#{mention_name})"
-      object_type       = mentionable_item.class.to_s.downcase
-      auto_mention_list += "{name: \"#{display_name}\", id:\"#{mention_name}\", type:\"#{object_type}\"},"
+    if artist
+      mention_list_arr    = artist.user_followers.to_a
+      mention_list_arr.flatten.uniq.each do |mentionable_item|
+        mention_name      = "@#{mentionable_item.mention_name}"
+        display_name      = "#{mentionable_item.get_name}(#{mention_name})"
+        object_type       = mentionable_item.class.to_s.downcase
+        auto_mention_list += "{name: \"#{display_name}\", id:\"#{mention_name}\", type:\"#{object_type}\"},"
+      end
     end
     return auto_mention_list
   end
