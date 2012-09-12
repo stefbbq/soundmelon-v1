@@ -1,10 +1,12 @@
 - location = current_user.location
 = javascript_include_tag "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"
-%h3 Artist Location
-.content-box
+.header
+  %h1 Step 2
+  %h3 Artist Location
+.content-custom
   .area.form.artist-basic
     .details
-      Set the location for the Artist
+      pick the central location where you are based
     .content
       .field
         - if location

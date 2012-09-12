@@ -60,12 +60,12 @@ i {
 //
 //fonts
 @font-face {
-font-family: FuturaBook;
-src: url('FuturaBook.ttf')
+	font-family: FuturaBook;
+	src: url('FuturaBook.ttf'), url('FuturaBook.eot');
 }
 @font-face {
-font-family: FuturaLight;
-src: url('FuturaLight.ttf')
+	font-family: FuturaLight;
+	src: url('FuturaLight.ttf'), url('FuturaLight.eot');
 }
 
 
@@ -482,6 +482,8 @@ src: url('FuturaLight.ttf')
 	margin: 10px -10px -10px -10px;
 	background: #d5d5d5;
 	
+	textarea { height: 40px !important; }
+	
 	form {
 		margin-bottom: 0px !important; 
 		
@@ -833,4 +835,22 @@ src: url('FuturaLight.ttf')
 			 }
 	   }
 
+}
+
+#popup { overflow: hidden; }
+.popup-faux-style {
+	position: fixed !important;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+.popup-buttons {
+	position: absolute;
+	right: 122px;
+}
+.popup-error {
+	position: absolute;
+	top: 300px;
+	left: 122px;
 }

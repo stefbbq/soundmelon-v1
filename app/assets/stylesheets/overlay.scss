@@ -82,7 +82,7 @@
   .buzz-window {
     height: 240px;
 		width: auto;
-    overflow: auto; 
+		overflow: scroll;
 
 		.post {
 			position: relative;
@@ -96,10 +96,19 @@
 				@include generic-item(black);
 			}
 			
+			.avatar {
+				float: left;
+				
+				img {
+					height: 50px;
+					width: 50px;
+				}
+			}
+			
 			.content {
 				margin-left: 4px;
 				float: left;
-				width: 100%;
+				width: 433px;
 
 				//post title and actions
 				.buzz-header {
@@ -109,9 +118,11 @@
 
 					.title {
 						float: left;
+						strong a { color: black; }
 					}
 					.actions {
 						display: none;
+						visibility: hidden;
 						position: absolute;
 						right: 4px;
 					}

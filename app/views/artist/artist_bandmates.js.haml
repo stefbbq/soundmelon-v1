@@ -11,7 +11,7 @@
           %input{:type =>'radio',:name =>'solo_band', :id =>'solo_band', :onchange =>"$('.popup .artist_bandmate_invitation').show();"} Band
   .artist_bandmate_invitation{:style =>'display:none;'}
     = render 'invite_artist_member_form'
-  
-  = link_to "continue", add_artist_info_path(@artist.id), :remote =>:true
+  .popup-buttons
+    = link_to "continue", add_artist_info_path(@artist.id), :remote =>:true
 
 $('.popup .left').html('#{escape_javascript(artist_bandmates_content)}');

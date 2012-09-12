@@ -1,8 +1,10 @@
-%h3 Genres for the Artist
-.content-box
+.header
+  %h1 Step 3
+  %h3 Your Genres
+.content-custom
   .area.form.artist-basic
     .details
-      Select genres for Artist
+      pick a few genres that might help other people find you
     .content
       .field 
         = f.text_field :genre_tokens,{ :size => 40, :class => 'textfield'}

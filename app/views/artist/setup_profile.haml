@@ -1,3 +1,7 @@
+.live.profile-setup.popup-faux-style
+  .header
+    %h1 Step 4
+    %h3 Influences
 .primary-container
   .primary
     .left
@@ -21,13 +25,5 @@
                 %label{:for=>"name"}
                   artist name
                 = f.text_field :influencer_list
-              - unless @artist_list.empty?
-                %h3 Or, choose from the list
-                - @artist_list.each do |artist|
-                  = get_artist_avatar(artist)
-                  = check_box_tag 'user_artists[]', artist.id
-                  = artist.name
-                  %br/
-                %br
               .field
-                = f.submit "Continue"
+                = f.submit "Continue", :class => "splash-highlight-button"

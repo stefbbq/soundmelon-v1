@@ -1,6 +1,6 @@
 = form_for @artist, :url => action_url, :html => {:multipart => true, :class => 'artist-form' } do |f|
   - if @artist.errors.any?
-    #error_explanation
+    #error_explanation.popup-error
       %h2
         = pluralize(@artist.errors.count, "error")
         occurred
@@ -9,8 +9,9 @@
           %li
             = msg
   = render "/artist/form_#{@artist.current_step.first}", :f =>f
-  = f.submit "Back", :name => "back_button" unless @artist.first_step?
-  = f.submit "Continue"
+  .popup-buttons
+    = f.submit "go back", :name => "back_button", :class => "splash-highlight-button" unless @artist.first_step?
+    = f.submit "continue", :class => "splash-highlight-button"
   
 :javascript
   $(document).ready(function() {    

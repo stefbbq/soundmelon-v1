@@ -110,7 +110,7 @@ $(document).ready( function(){
   });
   
   $("a.ajaxopenwindow").live('click', function() {
-    newwindow=window.open(this.href, 'soundmelon', 'height=500,width=700,left=45%,resizable=no,toolbar=no,location=no,status=no');
+    newwindow=window.open(this.href, 'soundmelon', 'height=470,width=948,left=45%,resizable=no,toolbar=no,location=no,status=no');
     if (window.focus) {
       newwindow.focus()
     }
