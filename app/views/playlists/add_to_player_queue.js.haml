@@ -1,9 +1,4 @@
-var newPlayList = [#{list_of_play_items(@songs)}];
+var playList = [#{list_of_play_items(@songs)}];
 :plain
-  if(newPlayList.length>0){
-  var current_length = playList.length;
-  if(newPlayList.length>0)
-    addItemsToPlayList(newPlayList, 0);
-  //playListChange(current_length,1);
-  }
-closeFacebox(1000);
+  makePlayList(1,1);
+closeFacebox(1);

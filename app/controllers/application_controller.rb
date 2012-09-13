@@ -181,7 +181,7 @@ class ApplicationController < ActionController::Base
   private
   
   def not_authenticated
-    redirect_to root_url, :alert => "First login to access this page."
+    redirect_to root_url#, :alert => "First login to access this page."
   end
   
   def logged_in_user

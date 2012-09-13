@@ -124,10 +124,10 @@ class UserController < ApplicationController
   def remove_user_profile
     redirect_to user_home_url and return unless request.xhr?
     @actor               = current_actor
-    @is_fan              = @actor.is_fan?
-    @actor.remove_me
+    @is_fan              = @actor.is_fan?    
     if @is_fan
-      logout      
+      logout
+      @actor.remove_me
     else
       reset_current_useritem
       get_current_fan_posts

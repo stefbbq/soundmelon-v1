@@ -7,6 +7,7 @@
         %img{:src => "/assets/tutorial/artist-instruct-photos.png", :class => "instruct-img"}
     - @artist_album_list.each do |artist_album|
       = render '/artist_photo/album', :artist_album =>artist_album, :show_all =>@show_all || false
+updateLiveSection('#{escape_javascript(render '/artist/live')}');
 updateLeftSection('#{escape_javascript artist_albums}');
 updateRightSection('#{escape_javascript(render '/artist_public/right', :current => 'photo')}');
 closeFacebox(1);

@@ -121,7 +121,9 @@ class Artist < ActiveRecord::Base
   end
 
   def limited_artist_featured_songs(n=ARTIST_FEATURED_SONG_LIMIT)
-    songs.featured.order('rand()').limit(n)
+    featured_songs = songs.featured.order('rand()').limit(n)
+    featured_songs = songs.order('rand()').limit(3) if featured_songs.empty?
+    featured_songs
   end
 
   def self.find_artist condition_params
