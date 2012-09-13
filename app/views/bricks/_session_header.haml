@@ -4,6 +4,7 @@
 - is_admin_login        = admin_login?
 - if is_admin_login
   = link_to "admin", admin_home_path, :class => 'header-admin-button button', :target =>'_blank', :title =>"go to admin section"
+= link_to 'c?', artist_setup_path(21), :class => 'ajaxopenwindow'
 - if is_fan_login
   logged in as
   = link_to "#{current_user.fname}".truncate(12), fan_home_path, :class => 'user-info backable ajaxopen', :remote =>true, :title =>"#{current_user.get_full_name}"  

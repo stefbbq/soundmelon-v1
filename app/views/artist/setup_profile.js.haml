@@ -1,0 +1,8 @@
+- setup_step_count = @artist_setup_step.blank? ? 1 : @artist_setup_step
+- if setup_step_count > 3
+  - html_content = capture do
+    %h3 New Artist profile #{@artist.name} has been created successfully.
+  $('.popup #page-content').html('#{escape_javascript(html_content)}');
+  setTimeout("self.close();",5000);
+- else
+  $('.popup#page #page-content').html('#{escape_javascript(render '/artist/setup_profile_form')}');

@@ -68,34 +68,33 @@ class ArtistController < ApplicationController
   
   def setup_profile
     begin
-      @artist       = Artist.find params[:id]
-      @artist_list  = Genre.get_artists_for_genres(@artist.genres)      
+      @artist                         = Artist.find params[:id]
+      @artist_list                    = Genre.get_artists_for_genres(@artist.genres)      
     rescue =>excp
+      logger.error "Error in Artist::SetupProfile :=>#{excp.message}"
     end
     unless request.get?
-     names   = []
-     if params[:user_artists].present?
-       names = Artist.where("id in (?)", params[:user_artists]).map(&:name)
-     end
-     if params[:artist] && params[:artist][:influencer_list].present?
-       names << params[:artist][:influencer_list]
-     end
-     @artist.artist_influencer_tokens=names.join(',')
-     render 'artist_bandmates' and return
+      current_setup_step = params[:setup_step].present? ? params[:setup_step].to_i : 0
+      case current_setup_step
+      when 1        
+        names = []
+        if params[:user_artists].present?
+          names = Artist.where("id in (?)", params[:user_artists]).map(&:name)
+        end
+        if params[:influencer_list].present?
+          names << params[:influencer_list]
+        end
+        @artist.artist_influencer_tokens=names.join(',')        
+        @artist_setup_step  = 2
+      when 2        
+        @artist_setup_step  = 3
+      when 3        
+        @artist_setup_step  = 4
+      end           
     end
   end
 
   def artist_bandmates
-  end
-
-  def add_info
-    begin
-      @artist = Artist.find params[:id]
-    rescue =>excp      
-    end
-    if params[:artist]
-      @status = @artist.update_attributes(params[:artist])
-    end
   end
 
   def edit    
@@ -187,12 +186,16 @@ class ArtistController < ApplicationController
       @artist = Artist.where(:mention_name => params[:artist_name]).first
       if current_user.is_admin_of_artist?(@artist)
         invitation_email_array = []
-        params['artist']['artist_invitations_attributes'].each do |key, value|
-          value['user_id'] = current_user.id unless value.has_key?('id')
-          invitation_email_array << {:type =>params[:invitation_by_type], :name =>value['email'], :level =>value['access_level']}
-        end        
-        number_of_invitation = ArtistInvitation.create_invitation_for_artist current_user, @artist, invitation_email_array
-        @msg = "#{number_of_invitation} invitations has been sent"
+        if params['artist'].present? && params['artist']['artist_invitations_attributes'].present?
+          params['artist']['artist_invitations_attributes'].each do |key, value|
+            value['user_id'] = current_user.id unless value.has_key?('id')
+            invitation_email_array << {:type =>params[:invitation_by_type], :name =>value['email'], :level =>value['access_level']}
+          end
+          number_of_invitation = ArtistInvitation.create_invitation_for_artist current_user, @artist, invitation_email_array
+          @msg = "#{number_of_invitation} invitations has been sent"
+        else
+          @msg = "Please, enter some email/username to invite"
+        end
       else
         logger.error "#User with username:{current_user.get_full_name} and user id #{current_user.id} tried to send invitation for bandmates to join a artist with artist id: #{@artist.id} which he is not a admin" 
         redirect_to fan_home_url, :notice => 'Your action has been reported to admin' and return

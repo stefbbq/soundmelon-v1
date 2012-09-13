@@ -1,0 +1,49 @@
+- setup_step_count = @artist_setup_step.blank? ? 1 : @artist_setup_step
+- header_content = capture do
+  - if setup_step_count == 1
+    %h1 Step 4
+    %h3 Influences
+  - elsif setup_step_count == 2
+    %h1 Step 5
+    %h3 Invite other bandmates for your Artist
+  - elsif  setup_step_count == 3
+    %h1 Step 6
+    %h3 Add some introductory text about the Artist
+
+- form_content = capture do
+  - if setup_step_count == 1
+    = hidden_field_tag :setup_step, 1
+    .details
+      %h3 Influencing Artist
+    .content
+      .field 
+        = text_field_tag  :influencer_list
+  - elsif setup_step_count == 2
+    = hidden_field_tag :setup_step, 2    
+    %input{:type =>'radio',:name =>'solo_band', :id =>'solo_band', :onchange =>"$('.popup .artist_bandmate_invitation').hide();"} Solo Act
+    %br
+    %input{:type =>'radio',:name =>'solo_band', :id =>'solo_band', :onchange =>"$('.popup .artist_bandmate_invitation').show();"} Band
+  - elsif  setup_step_count == 3
+    = hidden_field_tag :setup_step, 3
+    .details
+      %h3 About your Artist
+    .content
+      .field
+        = text_area_tag :bio, @artist.bio
+
+.live.profile-setup.popup-faux-style
+  .header
+    = header_content
+.primary-container
+  .primary
+    .left 
+      = form_for @artist, :url => artist_setup_path(@artist.id), :html => {:multipart => true, :remote =>:true, :class => 'artist-form' } do |f|        
+        .content-box
+          .area.form
+            = form_content
+          .popup-buttons
+            = f.submit "Continue", :class => "splash-highlight-button"
+    - if setup_step_count == 2
+      .artist_bandmate_invitation{:style =>'display:none;'}
+        = render 'invite_artist_member_form'
+          
