@@ -1,22 +1,26 @@
 - upload_form = capture do
   .header
-    create an album
+    - unless @album.new_record?
+      add to '#{@album.name}'
+    - else
+      create an album
   .normal-content.mini-content
     = render :partial => "/artist_photo/uploader"
     = form_for @photo, :url => {:controller => 'venue_photo', :action => 'create'}, :html => {:multipart => true} do |f|
       = hidden_field_tag :venue_name, @venue.mention_name
       .field
-        = f.label "name"
-        - if @album
-          = text_field_tag :album_name, @album.name, :class => 'overlay-text-field', :disabled => true
+        - unless @album.new_record?
+          = hidden_field_tag :album_name, @album.name
         - else
-          = text_field_tag :album_name, nil, :class => 'overlay-text-field'
-      .field 
-        = f.label "upload"
-        = f.file_field :image
-        - f.submit "Upload"
+          = f.label "title"
+          = text_field_tag :album_name, nil, :class => 'overlay-text-field'        
+      .field-extended-label
+        .add-songs
+          = f.label "upload"
+          = f.file_field :image
+          - f.submit "Upload"
     #uploaded-images 
-    %a.generic-button1{:href => "javascript:$('#photo_image').uploadifyUpload();", :id =>'acceptbttn', :style =>'display:none;'}
+    %a.base-button{:href => "javascript:$('#photo_image').uploadifyUpload();", :id =>'acceptbttn', :style =>'display:none;'}
       accept
     %a.generic-button{:href => "javascript:void(0);", :onclick =>"closeFacebox();" }
       close

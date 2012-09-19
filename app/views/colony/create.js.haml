@@ -1,0 +1,5 @@
+- if @colony.new_record?
+  $('.popup #page-content').html('#{escape_javascript(render '/colony/form', :action_url => create_colony_path)}');
+- else
+  $('.popup #page-content').html('New Colony #{@colony.name} has been created successfully');
+  setTimeout("self.close();",5000);

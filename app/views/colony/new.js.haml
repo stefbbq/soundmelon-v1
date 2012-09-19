@@ -1,0 +1,8 @@
+- new_artist_profile_form = capture do
+  %b New Artist Profile
+  = Time.now.to_s
+  = @artist.current_step.first
+  %hr
+  = render 'form', :action_url => create_artist_path  
+faceboxContent('#{escape_javascript(new_artist_profile_form)}');
+//closeFacebox(1);

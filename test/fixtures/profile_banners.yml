@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  profileitem_type: MyString
+  profileitem_id: 1
+  is_current: false
+
+two:
+  profileitem_type: MyString
+  profileitem_id: 1
+  is_current: false

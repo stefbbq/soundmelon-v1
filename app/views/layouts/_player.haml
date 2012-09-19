@@ -222,7 +222,7 @@
   // makes fresh playlist, second parameter is to change playlist or not
   function makePlayList(startPlay, playlistchange){
     if(playList.length >0){
-      var liHtml = getPlayListItemContent(playList, 0)
+      var liHtml = getPlayListItemContent(playList, 0, 1)
       $('.jp-playlist ul').html(liHtml);
       if(playlistchange)
         playListChange(currentTrack, startPlay);
@@ -234,7 +234,7 @@
     }
   }
 
-  function getPlayListItemContent(list, start_counter){
+  function getPlayListItemContent(list, start_counter, is_making){
     liHtml   = '';
     var i    = start_counter;
     for(var j= 0; j < list.length; j++){
@@ -242,6 +242,8 @@
       item_i   = playItem.i;
       playedSIds += item_i + ',';
       li_class = playItem.radio== true ? 'r_item' : 'p_item';
+      if(j == currentTrack && is_making)
+        li_class += ' current';
       liHtml += '<li id="litem_' + i + '" class="' + li_class + '"><a href="javascript:void(0);" id="item_' + i + '" onclick="playListChange(' + i + ',1);">' + playList[i]['title'] + '</a><a class="playlist-delete" href="javascript:void(0);" onclick="removeListItem(' + i + ',' + item_i + ');"></a><a class="playlist-play" href="javascript:void(0);" onclick="playListChange(' + i + ',1);"></a></li>';
       i++;
     }
@@ -256,7 +258,7 @@
       try{
         if(addToLast){            
             playList  = playList.concat(itemsList);
-            var liHtml= getPlayListItemContent(itemsList, currentLength);
+            var liHtml= getPlayListItemContent(itemsList, currentLength, 0);
             $('.jp-playlist ul li').length>0 ? $('.jp-playlist ul').append(liHtml) : $('.jp-playlist ul').html(liHtml);
         }else{
           counter     = currentTrack + 1;          
@@ -264,12 +266,10 @@
           new_2nd_half= itemsList.concat(pl_2nd_half);
           firstHalfLen= playList.length;
           playList    = playList.concat(new_2nd_half);
-          var liHtml  = getPlayListItemContent(new_2nd_half, firstHalfLen);
-          console.log(firstHalfLen + ' : ' + currentLength );
+          var liHtml  = getPlayListItemContent(new_2nd_half, firstHalfLen, 0);
           if($('.jp-playlist ul li').length>0){
             for(var j = firstHalfLen; j < currentLength; j++)
-              $('.jp-playlist ul #litem_' + j).remove();
-              console.log(liHtml);            
+              $('.jp-playlist ul #litem_' + j).remove();              
             $('.jp-playlist ul').append(liHtml);
           }else
             $('.jp-playlist ul').html(liHtml);
@@ -291,11 +291,12 @@
   }
 
   function removeListItem(index, i_id){
-    if(currentUser==1){
+    if(currentUser==1){      
+      currentTrack    = index > currentTrack ? currentTrack : currentTrack - 1;      
       var shouldPlay  = player.data('jPlayer').status.paused ? 0 : 1
       playList.splice(index,1);
       $('.jp-playlist #litem_' + i_id).remove();
-      makePlayList(shouldPlay,0);
+      makePlayList(shouldPlay,0);      
     }
     if(playList.length == 1)
       addRadioSongs();

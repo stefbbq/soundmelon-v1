@@ -4,8 +4,8 @@ class ArtistPhotoController < ApplicationController
   
   def index
     begin      
-      @artist_album_list  = @artist.albums.includes('photos')
-      get_artist_objects_for_right_column(@artist)
+      @artist_album_list  = @has_admin_access ? @artist.albums.includes('photos') : @artist.albums.published.includes('photos')
+      get_artist_objects_for_right_column(@artist, @has_admin_access)
     rescue =>exp
       logger.error "Error in ArtistPhoto::Index :=> #{exp.message}"
       render :nothing => true and return
@@ -18,11 +18,11 @@ class ArtistPhotoController < ApplicationController
 
   def artist_album
     begin
-      @artist_album       = @artist.albums.where(:name =>params[:album_name]).includes('photos').first
+      @artist_album       = @artist.albums.where(:id =>params[:album_id]).includes('photos').first
       @status             = true
       @artist_album_list  = [@artist_album]
       @show_all           = true
-      get_artist_objects_for_right_column(@artist)
+      get_artist_objects_for_right_column(@artist, @has_admin_access)
       render :template =>"/artist_photo/index" and return
     rescue =>exp
       logger.error "Error in ArtistPhoto#ArtistAlbum :=> #{exp.message}"
@@ -38,7 +38,7 @@ class ArtistPhotoController < ApplicationController
   def show
     redirect_to show_artist_path(params[:artist_name]) and return unless request.xhr?    
     begin
-      @artist_album     = @artist.albums.where(:name =>params[:album_name]).first
+      @artist_album     = @artist.albums.where(:id => params[:album_id]).first
       @photo            = Photo.find(params[:id])
     rescue =>exp
       logger.error "Error in ArtistPhoto::Show :#{exp.message}"
@@ -55,7 +55,7 @@ class ArtistPhotoController < ApplicationController
     if @has_admin_access
       @post_url          = '/artist_photo/create'
       @artist_photo      = Photo.new
-      @artist_album      = ArtistAlbum.new
+      @artist_album      = Album.new
     else      
       render :nothing => true and return
     end
@@ -67,7 +67,7 @@ class ArtistPhotoController < ApplicationController
         @has_link_access = true
         newparams = coerce(params)
         if params[:album_name].blank?
-          params[:album_name] = Time.now.strftime("%Y-%m-%d")
+          params[:album_name] = @artist.name + Time.now.strftime("%Y-%m-%d")
         end
         @artist_album         = @artist.albums.where(:name => params[:album_name]).first
         unless @artist_album
@@ -92,10 +92,10 @@ class ArtistPhotoController < ApplicationController
                 :album_name     => @artist_album.name,
                 :image_string   => 'assets/profile/artist-defaults-avatar.jpg',
                 :image_src      => (cover_image = @artist_album.cover_image) ? cover_image.image.url(:thumb) : '/assets/no-image.png',
-                :add_url        => "#{add_photos_to_album_path('home', @artist_album)}",
-                :album_url      => "#{artist_album_path('home', @artist_album)}",
-                :delete_url     => "#{delete_album_path('home', @artist_album)}",
-                :album_photos_url=>"#{artist_album_photos_path('home', @artist_album)}",
+                :add_url        => "#{add_photos_to_album_path('home', @artist_album.id)}",
+                :album_url      => "#{artist_album_path('home', @artist_album.id)}",
+                :delete_url     => "#{delete_album_path('home', @artist_album.id)}",
+                :album_photos_url=>"#{artist_album_photos_path('home', @artist_album.id)}",
                 :album_string   => "#{render_to_string('/artist_photo/_album', :layout =>false, :locals =>{:artist_album =>@artist_album, :has_admin_access=>true})}",
                 :photo_string   => "#{render_to_string('/artist_photo/_photo', :layout =>false, :locals =>{:artist_album =>@artist_album, :photo =>@artist_photo})}"
               }
@@ -116,7 +116,7 @@ class ArtistPhotoController < ApplicationController
   def artist_album_photos
     redirect_to show_artist_path(params[:artist_name]) and return unless request.xhr?
     begin
-      @artist_album       = @artist.albums.where(:name =>params[:album_name]).includes('photos').first
+      @artist_album       = @artist.albums.where(:id => params[:album_id]).includes('photos').first
     rescue =>exp
       logger.error "Error in ArtistPhoto#ArtistAlbumPhotos :=> #{exp.message}"
       render :nothing   => true and return
@@ -130,7 +130,7 @@ class ArtistPhotoController < ApplicationController
   def add
     if request.xhr?
       begin
-        @artist_album       = @artist.albums.where(:name =>params[:album_name]).first
+        @artist_album       = @artist.albums.where(:id => params[:album_id]).first
         if @has_admin_access
           @post_url         = '/artist_photo/create'
           @artist_photo     = Photo.new        
@@ -148,7 +148,7 @@ class ArtistPhotoController < ApplicationController
   def edit
     if request.xhr?
       begin        
-        @artist_album       = @artist.albums.where(:name =>params[:album_name]).first
+        @artist_album       = @artist.albums.where(:id => params[:album_id]).first
         unless @has_admin_access
           render :nothing => true and return
         end
@@ -165,7 +165,7 @@ class ArtistPhotoController < ApplicationController
     if request.xhr?
       begin
         @artist             = Artist.where(:mention_name => params[:artist_name]).first
-        @artist_album       = @artist.albums.where(:name =>params[:album_name]).includes('photos').first
+        @artist_album       = @artist.albums.where(:id => params[:album_id]).includes('photos').first
         unless @has_admin_access
           render :nothing => true and return
         end
@@ -183,7 +183,7 @@ class ArtistPhotoController < ApplicationController
   def destroy_album
     if request.xhr?
       begin
-        @artist_album       = @artist.albums.where(:name =>params[:album_name]).first
+        @artist_album       = @artist.albums.where(:id => params[:album_id]).first
         unless @has_admin_access
           render :nothing => true and return
         end
@@ -201,7 +201,7 @@ class ArtistPhotoController < ApplicationController
   def edit_photo
     if request.xhr?
       begin        
-        @artist_album       = @artist.albums.where(:name =>params[:album_name]).first
+        @artist_album       = @artist.albums.where(:id => params[:album_id]).first
         @artist_photo       = Photo.where(:id => params[:id]).first
         unless @has_admin_access
           render :nothing => true and return
@@ -219,7 +219,7 @@ class ArtistPhotoController < ApplicationController
   def update_photo
     if request.xhr?
       begin
-        @artist_album       = @artist.albums.where(:name =>params[:album_name]).first
+        @artist_album       = @artist.albums.where(:id => params[:album_id]).first
         @artist_photo       = Photo.where(:id => params[:id]).first
         unless @has_admin_access
           render :nothing => true and return
@@ -238,7 +238,7 @@ class ArtistPhotoController < ApplicationController
   def make_cover_image
     if request.xhr?
       begin
-        @artist_album       = @artist.albums.where(:name =>params[:album_name]).first
+        @artist_album       = @artist.albums.where(:id => params[:album_id]).first
         @artist_photo       = Photo.where(:id => params[:id]).first
         unless @has_admin_access
           render :nothing => true and return
@@ -257,7 +257,7 @@ class ArtistPhotoController < ApplicationController
   def destroy
     if request.xhr?
       begin
-        @artist_album       = @artist.albums.where(:name =>params[:album_name]).first
+        @artist_album       = @artist.albums.where(:id => params[:album_id]).first
         @artist_photo       = Photo.where(:id => params[:id]).first
         unless @has_admin_access
           render :nothing => true and return
@@ -278,7 +278,7 @@ class ArtistPhotoController < ApplicationController
     redirect_to show_artist_path(params[:artist_name]) and return unless request.xhr?
     begin
       @is_admin_of_artist = current_user.is_member_of_artist?(@artist)
-      @artist_album       = @artist.albums.where(:name =>params[:album_name]).includes('photos').first
+      @artist_album       = @artist.albums.where(:id => params[:album_id]).includes('photos').first
       @artist_album.update_attribute(:disabled, !@artist_album.disabled)
       @status             = true      
     rescue =>exp
@@ -292,7 +292,7 @@ class ArtistPhotoController < ApplicationController
     redirect_to show_artist_path(params[:artist_name]) and return unless request.xhr?
     begin
       @is_admin_of_artist = current_user.is_member_of_artist?(@artist)
-      @artist_album       = @artist.albums.where(:name =>params[:album_name]).includes('photos').first
+      @artist_album       = @artist.albums.where(:id => params[:album_id]).includes('photos').first
       #      @artist_album.update_attribute(:disabled, !@artist_album.disabled)
       @status = true
     rescue

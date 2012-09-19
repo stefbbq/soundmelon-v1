@@ -122,18 +122,23 @@ class UserController < ApplicationController
   # remove the profile
   # logs out the user and returns to home page
   def remove_user_profile
-    redirect_to user_home_url and return unless request.xhr?
-    @actor               = current_actor
-    @is_fan              = @actor.is_fan?    
-    if @is_fan
+#    redirect_to user_home_url and return unless request.xhr?
+    @actor               = current_actor    
+    if @actor.is_fan?
+      @is_fan            = true
       logout
       @actor.remove_me
+      respond_to do |format|
+        format.html{ redirect_to root_url, :alert =>"Your profile for '#{@actor.get_name}' has been removed." and return}
+        format.js{ redirect_to root_url, :alert =>"Your profile for '#{@actor.get_name}' has been removed." and return}
+      end      
     else
       reset_current_useritem
       get_current_fan_posts
       messages_and_posts_count
       @song_items                 = current_user.find_radio_feature_playlist_songs
-      get_user_associated_objects      
+      get_user_associated_objects
+      @actor.remove_me    
     end   
   end
 

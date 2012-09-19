@@ -14,7 +14,7 @@
         multi : true,
         auto : false,
         fileExt:  '*.mp3;*.wav;*.ogg;*.wma;*.flac',
-        fileDesc: 'Audio Files',
+        fileDesc: 'Audio Files',        
         script : '/artist_music/create',
         onComplete : function(event, queueID, fileObj, response, data) {
          var dat = eval('(' + response + ')');

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  colony_id: 
+  member_id: 
+  is_admin: 
+  suspended: false
+
+two:
+  colony_id: 
+  member_id: 
+  is_admin: 
+  suspended: false

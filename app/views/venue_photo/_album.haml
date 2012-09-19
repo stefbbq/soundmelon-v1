@@ -2,10 +2,14 @@
 .artist-content[album]
   .top
     .cover
-      = link_to get_photo_album_teaser_photo(album, :header, '60px;', '60px;'), album_photos_path(@venue, album.name), :remote=>:true, :class=>"ajaxopen"
+      = link_to get_photo_album_teaser_photo(album, :header, '60px;', '60px;'), venue_album_photos_path(@venue, album.id), :remote=>:true, :class=>"ajaxopen"
     .info
-      = link_to venue_album_photos_path(@venue, album.name),{ :remote=>:true, :class=>"ajaxopen"} do
-        %h2= album.name
+      - if @has_link_access
+        = link_to venue_album_photos_path('home', album.id),{ :remote=>:true, :class=>"ajaxopen"} do
+          %h2= album.name
+      - else
+        = link_to venue_album_photos_path(@venue, album.id),{ :remote=>:true, :class=>"ajaxopen"} do
+          %h2= album.name
       %h4
         added
         = album.created_at.strftime("%b %d, %Y")
@@ -18,19 +22,24 @@
       = pluralize(album.photos.size, 'photo')
     - if @has_link_access
       .controls
-        = link_to "add", add_photos_to_venue_album_path('home', album.name), {:remote=>:true, :class=>"ajaxopen", :title =>"add new photo"}
-        = link_to "edit", edit_venue_album_path('home', album.name), :remote=>:true, :class=>"ajaxopen", :id =>"edit_link_#{album.id}"
-        = link_to album.disabled? ? 'enable' : 'disable', disable_enable_album_path('home', album.name), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{album.id}"
-        = link_to "remove", delete_venue_album_path('home', album.name), :remote=>:true, :class=>"ajaxopen"
-    .toggle
-      .toggle-thread
+        = link_to "add", add_photos_to_venue_album_path('home', album.id), {:remote=>:true, :class=>"ajaxopen", :title =>"add new photo"}
+        = link_to "edit", edit_venue_album_path('home', album.id), :remote=>:true, :class=>"ajaxopen", :id =>"edit_link_#{album.id}"
+        = link_to album.disabled? ? 'enable' : 'disable', disable_enable_album_path('home', album.id), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{album.id}"
+        = link_to "remove", delete_venue_album_path('home', album.id), :remote=>:true, :class=>"ajaxopen"
         - unless show_all
           - if @has_link_access
-            = link_to "expand", venue_album_photos_path('home', album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{album.id}"
-          - else
-            = link_to "expand", venue_album_photos_path(@venue, album.name), :remote=>:true, :class=>"ajaxopen", :id =>"expand_link_#{album.id}"
+            = link_to venue_album_photos_path('home', album.id), :remote => :true, :class => "ajaxopen toggle-thread", :id =>"expand_link_#{album.id}" do
+              %i
+              expand album
         - else
-          %a{:href => "javascript:void(0);", :onclick => "$('#album_#{album.id} .album-details').toggle();$(this).html($.trim($(this).text())=='collapse' ? 'expand' : 'collapse');"}collapse
+          %a{:href => "javascript:void(0);", :class => "toggle-thread", :onclick => "onToggle($(this));$('#album_#{album.id} .album-details').toggle();"}
+            %i
+            collapse album        
+    - else
+      .controls
+        = link_to venue_album_photos_path(@venue, album.id), :remote => :true, :class => "ajaxopen toggle-thread", :id =>"expand_link_#{album.id}" do
+          %i
+          expand album
     .album-details
       - if show_all
         .gallery

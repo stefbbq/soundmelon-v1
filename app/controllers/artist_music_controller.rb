@@ -5,8 +5,8 @@ class ArtistMusicController < ApplicationController
 
   def index
     begin      
-      @artist_music_list  = @artist.artist_musics.includes(:songs)
-      get_artist_objects_for_right_column(@artist)
+      @artist_music_list  = @has_admin_access ? @artist.artist_musics.includes(:songs) : @artist.artist_musics.published.includes(:songs)
+      get_artist_objects_for_right_column(@artist, @has_admin_access)
     rescue =>exp
       logger.error "Error in ArtistArtistMusic#Index :=> #{exp.message}"
       render :nothing => true and return
@@ -19,7 +19,7 @@ class ArtistMusicController < ApplicationController
 
   def artist_music
     begin      
-      @artist_music       = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).includes(:songs).first
+      @artist_music       = ArtistMusic.where('artist_id = ? and id = ?', @artist.id, params[:artist_music_id]).includes(:songs).first
       @artist_music_list  = [@artist_music]
       @show_all           = true
       @highlighted_song_id= params[:h]
@@ -95,8 +95,8 @@ class ArtistMusicController < ApplicationController
                   :artist_music_id  => @artist_music.id,
                   :song_count_str   => @artist_music.songs.size,
                   :image_src        => '/assets/profile/artist-defaults-avatar.jpg',
-                  :add_url          => "#{add_song_path(@artist, @artist_music.album_name)}",
-                  :album_url        => "#{artist_music_path(@artist, @artist_music.album_name)}",
+                  :add_url          => "#{add_song_path(@artist, @artist_music)}",
+                  :album_url        => "#{artist_music_path(@artist, @artist_music)}",
                   :delete_url       => "#{delete_artist_music_path(@artist, @artist_music.id)}",
                   :album_string     => "#{render_to_string('/artist_music/_artist_music',:layout =>false, :locals =>{:artist_music =>@artist_music, :show_all=>true})}",
                   :song_string      => "#{render_to_string('/artist_music/_song_item',:layout =>false, :locals =>{:song =>@song})}"
@@ -119,7 +119,7 @@ class ArtistMusicController < ApplicationController
   def add
     if request.xhr?
       begin
-        @artist_music       = ArtistMusic.where(:album_name => params[:artist_music_name], :artist_id => @artist.id).first
+        @artist_music       = ArtistMusic.where(:id => params[:artist_music_id], :artist_id => @artist.id).first
         if @has_admin_access
           @song             = Song.new
           @has_link_access  = true
@@ -139,7 +139,7 @@ class ArtistMusicController < ApplicationController
   def artist_music_songs
     if request.xhr?
       begin
-        @artist_music = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).includes(:songs).first
+        @artist_music = ArtistMusic.where('artist_id = ? and id = ?', @artist.id, params[:artist_music_id]).includes(:songs).first
       rescue
         render :nothing => true and return
       end
@@ -153,7 +153,7 @@ class ArtistMusicController < ApplicationController
     redirect_to show_artist_path(params[:artist_name]) and return unless request.xhr?
     begin
       if @has_admin_access
-        @artist_music       = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).includes(:songs).first
+        @artist_music       = ArtistMusic.where('artist_id = ? and id = ?', @artist.id, params[:artist_music_id]).first
         @has_link_access    = true
       else
         render :nothing => true and return
@@ -309,7 +309,7 @@ class ArtistMusicController < ApplicationController
   def disable_enable_artist_music
     begin      
       if @has_admin_access
-        @artist_music             = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).first      
+        @artist_music             = ArtistMusic.where('artist_id = ? and id = ?', @artist.id, params[:artist_music_id]).first
       end
       if @artist_music
         @status      = true
@@ -338,7 +338,7 @@ class ArtistMusicController < ApplicationController
   def make_artist_music_featured
     begin
       if @has_admin_access
-        @artist_music       = ArtistMusic.where('artist_id = ? and album_name = ?', @artist.id, params[:artist_music_name]).first
+        @artist_music       = ArtistMusic.where('artist_id = ? and id = ?', @artist.id, params[:artist_music_id]).first
       end
       if @artist_music
         @artist_music.update_attribute(:featured, !@artist_music.featured)
@@ -403,8 +403,7 @@ class ArtistMusicController < ApplicationController
       else
         params_item = params
       end
-    end
-    logger.error "Params : #{params_item}"
+    end    
     params_item
   end
 

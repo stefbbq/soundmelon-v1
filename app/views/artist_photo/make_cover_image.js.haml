@@ -2,9 +2,9 @@
   - @artist_album.photos.each do |photo|
     = render 'photo', :photo => photo, :artist_album =>@artist_album
 - left_list_cover_image = capture do
-  = link_to image_tag(@artist_photo.image.url(:medium), :height => '80px', :width=>'80px'), artist_album_photos_path(@artist, @artist_album.name), :remote=>:true, :class=>"ajaxopen"
+  = link_to image_tag(@artist_photo.image.url(:medium), :height => '80px', :width=>'80px'), artist_album_photos_path(@artist, @artist_album.id), :remote=>:true, :class=>"ajaxopen"
 - album_new_cover_image = capture do
-  = link_to get_artist_photo_album_teaser_photo(@artist_album), artist_album_path(@artist, @artist_album.name), :remote=>:true, :class=>"ajaxopen backable"
+  = link_to get_artist_photo_album_teaser_photo(@artist_album), artist_album_path(@artist, @artist_album.id), :remote=>:true, :class=>"ajaxopen backable"
 if($('.left #photo_album_box #album_#{@artist_album.id}').length>0){$('.left #photo_album_box #album_#{@artist_album.id} .cover').html('#{escape_javascript left_list_cover_image}');}
 if($('.right #photobox #album_#{@artist_album.id}').length>0){$('.right #photobox #album_#{@artist_album.id} .cover').html('#{escape_javascript album_new_cover_image}');}
 $('#album_#{@artist_album.id} .gallery').html('#{escape_javascript all_photos}');

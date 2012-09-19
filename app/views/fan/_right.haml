@@ -6,40 +6,22 @@
               :id                     =>'latest-posts',
               :remote                 =>:true,
               :class                  => 0 == current ? 'ajaxopen selection-box active button-fill-fan backable' : 'ajaxopen selection-box inactive backable'
-  - else
-    = link_to 'news feed & messages',fan_home_path,
-              :id                     =>'feed-msg',
-              :remote                 => true,
-              :class                  => 0 == current ? 'active button-fill-fan selection-box iconactive ajaxload backable' : 'selection-box iconactive ajaxload iconactive backable'
-  = render '/bricks/rb_following_artist',
+    = render '/bricks/rb_following_artist',
               :following_artists      => @following_artists,
               :following_artist_count => @following_artist_count,
               :user                   => @user,
               :selected               => 1 == current
-  = render '/bricks/rb_following_fan',
-              :following_users        => @following_users,
-              :following_fan_count    => @following_count,
-              :user                   => @user,
-              :selected               => 2 == current
-  = render '/bricks/rb_followers',
-              :follower_users         => @followers_users,
-              :follower_count         => @followers_count,
-              :user                   => @user,
-              :selected               => 3 == current
-  - unless @is_public
-    .divider
-    = link_to 'manage your profile', manage_profile_path,
-              :id                       =>'manage-profile',
-              :remote                   => true,
-              :class                    => 4 == current ? 'active button-fill-fan selection-box ajaxopen backable' : 'selection-box ajaxopen backable'
-    = link_to 'access your profiles', associated_profiles_path,
-              :id                       =>'access-profile',
-              :remote                   => true,
-              :class                    => 5 == current ? 'active button-fill-fan selection-box ajaxopen backable' : 'selection-box ajaxopen backable'    
-    /= link_to 'invite friends', new_invitation_path, :id=>'invite-friends', :remote => true, :class => 'selection-box ajaxopen'
-    = link_to 'remove your profile',
-              remove_my_profile_path,
-              :remote             => true,
-              :class              => 'ajaxopen selection-text',
-              :confirm            => "This will remove your profile and delete all the data. And this action cannot be undone. Are you sure to continue?"
+    = render '/bricks/rb_following_fan',
+                :following_users        => @following_users,
+                :following_fan_count    => @following_count,
+                :user                   => @user,
+                :selected               => 2 == current
+    = render '/bricks/rb_followers',
+                :follower_users         => @followers_users,
+                :follower_count         => @followers_count,
+                :user                   => @user,
+                :selected               => 3 == current
+  - else
+    = render 'fan/homepage_sidebar'
+    
 .fader

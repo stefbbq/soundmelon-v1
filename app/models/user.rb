@@ -25,8 +25,7 @@ class User < ActiveRecord::Base
   has_one  :location, :as =>:item, :dependent =>:destroy
   has_one  :payment_info
   has_many :artist_invitations
-  has_many :albums, :dependent =>:destroy
-  has_one  :profile_pic, :dependent =>:destroy
+  has_many :albums, :dependent =>:destroy  
   has_many :artist_albums, :dependent =>:destroy
   has_many :artist_photos, :dependent =>:destroy
   has_many :songs
@@ -37,6 +36,9 @@ class User < ActiveRecord::Base
   has_many :playlists, :dependent =>:destroy
   has_many :genre_users, :dependent =>:destroy
   has_many :favorite_items, :as =>:item, :dependent => :destroy
+  has_many :colony_memberships, :as =>:member
+  has_one  :profile_banner, :as =>:profileitem, :dependent =>:destroy
+  has_one  :profile_pic, :as =>:profileitem, :dependent =>:destroy
   has_and_belongs_to_many :genres
   
 #  has_many :top_genres,

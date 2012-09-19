@@ -50,37 +50,37 @@ class ApplicationController < ActionController::Base
   end
 
   # instantiates all artist objects for rendering in right column
-  def get_artist_objects_for_right_column artist
-    begin
-      @has_admin_access          = @actor == artist
-      @artist_music_count        = artist.artist_musics.size
-      @photo_album_count         = artist.albums.size
-      @show_count                = artist.upcoming_shows_count
-      @artist_member_count       = artist.artist_members.size
-      @artist_fan_count          = artist.followers_count
-      @artist_connection_count   = artist.connections_count
-      @artist_musics             = artist.limited_artist_musics
-      @featured_songs            = artist.limited_artist_featured_songs
-      @photo_albums              = artist.limited_artist_albums(2)
-      @artist_shows              = artist.limited_artist_shows
-      @artist_members            = artist.limited_artist_members
-      @artist_fans               = artist.limited_followers
-      @connected_artists         = artist.connected_artists      
+  def get_artist_objects_for_right_column artist, for_home_page = false
+    begin      
+      @artist_musics               = artist.limited_artist_musics(for_home_page)
+      @photo_albums                = artist.limited_artist_albums(for_home_page, 2)
+      @artist_music_count          = @artist_musics.size
+      @photo_album_count           = @photo_albums.size      
+      @has_admin_access            = @actor == artist
+      @show_count                  = artist.upcoming_shows_count
+      @artist_member_count         = artist.artist_members.size
+      @artist_fan_count            = artist.followers_count
+      @artist_connection_count     = artist.connections_count
+      @featured_songs              = artist.limited_artist_featured_songs
+      @artist_shows                = artist.limited_artist_shows
+      @artist_members              = artist.limited_artist_members
+      @artist_fans                 = artist.limited_followers
+      @connected_artists           = artist.connected_artists     
     rescue =>exp
       logger.error "Error in Application::GetArtistObjectsForRightColumn :=> #{exp.message}"
     end
   end
 
   # instantiates all venue objects for rendering in right column
-  def get_venue_objects_for_right_column venue
+  def get_venue_objects_for_right_column venue, for_home_page = false
     begin
-      @has_admin_access   = @actor == venue
-      @photo_album_count  = venue.albums.size
-      @show_count         = venue.upcoming_shows_count
-      @fan_count          = venue.followers_count      
-      @photo_albums       = venue.limited_albums(2)
-      @shows              = venue.limited_shows
-      @fans               = venue.limited_followers      
+      @has_admin_access     = @actor == venue      
+      @photo_albums         = venue.limited_albums(for_home_page, 2)
+      @photo_album_count    = @photo_albums.size      
+      @show_count           = venue.upcoming_shows_count
+      @fan_count            = venue.followers_count
+      @shows                = venue.limited_shows
+      @fans                 = venue.limited_followers      
     rescue =>exp
       logger.error "Error in Application::GetVenueObjectsForRightColumn :=> #{exp.message}"
     end

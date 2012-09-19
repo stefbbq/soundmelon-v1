@@ -89,7 +89,7 @@ class ArtistMusic < ActiveRecord::Base
   end
 
   def to_param
-    self.album_name
+    "#{self.id}"
   end
   
 end

@@ -47,44 +47,61 @@ module ApplicationHelper
   end
 
   def get_artist_avatar(artist)
-    unless artist.artist_logo(true)    
+    unless artist.profile_pic(true)
       image_tag('profile/artist-defaults-avatar.jpg', :alt=>'')
     else
-      image_tag(artist.artist_logo.logo.url(:small), :alt=>'')
+      image_tag(artist.profile_pic.avatar.url(:small), :alt=>'')
     end  
   end
 
   def get_venue_avatar(venue)
-    unless venue.venue_logo(true)
+    unless venue.profile_pic(true)
       image_tag('profile/artist-defaults-avatar.jpg', :alt=>'')
     else
-      image_tag(venue.venue_logo.logo.url(:small), :alt=>'')
+      image_tag(venue.profile_pic.avatar.url(:small), :alt=>'')
     end
   end
 
   def get_avatar useritem
     useritem.is_fan? ? get_fan_avatar(useritem) : (useritem.is_artist? ? get_artist_avatar(useritem) : get_venue_avatar(useritem))
   end
-  
-  def get_artist_avatar_large(artist)
-    unless artist.artist_logo(true)    
-      image_tag('profile/artist-defaults-avatar-large.jpg', :alt=>'')
-    else
-      image_tag(artist.artist_logo.logo.url(:medium), :alt=>'')
-    end
+
+  def get_profile_banner profile_item, self_banner = false        
+    raw (render :partial => '/bricks/profile_banner', :locals => {:profileitem => profile_item, :self_profile =>self_banner})
   end
-  
-  def get_artist_profile_image(artist, self_logo = false)    
+
+  def get_profile_image profile_item, self_logo = false        
     random_profile_images = ["profile/artist-defaults-photo-profile-a.jpg", "profile/artist-defaults-photo-profile-b.jpg", "profile/artist-defaults-photo-profile-c.jpg", "profile/artist-defaults-photo-profile-d.jpg"]
     if self_logo
-      raw (render :partial => '/bricks/artist_profile_image', :locals => {:artist => artist})
+      raw (render :partial => '/bricks/profile_image', :locals => {:profileitem => profile_item})
     else
-      if artist.artist_logo
-        image_tag(artist.artist_logo.logo.url(:large), :alt=>'')
+      if profile_item.profile_pic
+        image_tag(profile_item.profile_pic.avatar.url(:large), :alt=>'')
       else
         image_tag(random_profile_images.sample, :alt=>'')
       end
     end    
+  end
+  
+  def get_artist_avatar_large(artist)
+    unless artist.profile_pic(true)
+      image_tag('profile/artist-defaults-avatar-large.jpg', :alt=>'')
+    else
+      image_tag(artist.profile_pic.avatar.url(:medium), :alt=>'')
+    end
+  end
+  
+  def get_artist_profile_image(artist, self_logo = false)
+    random_profile_images = ["profile/artist-defaults-photo-profile-a.jpg", "profile/artist-defaults-photo-profile-b.jpg", "profile/artist-defaults-photo-profile-c.jpg", "profile/artist-defaults-photo-profile-d.jpg"]
+    if self_logo
+      raw (render :partial => '/bricks/artist_profile_image', :locals => {:artist => artist})
+    else
+      if artist.profile_pic
+        image_tag(artist.profile_pic.avatar.url(:large), :alt=>'')
+      else
+        image_tag(random_profile_images.sample, :alt=>'')
+      end
+    end
   end
 
   def get_venue_profile_image(venue, self_logo = false)
@@ -92,8 +109,8 @@ module ApplicationHelper
     if self_logo
       raw (render :partial => '/bricks/venue_profile_image', :locals => {:venue => venue})
     else
-      if venue.venue_logo
-        image_tag(venue.venue_logo.logo.url(:large), :alt=>'')
+      if venue.profile_pic
+        image_tag(venue.profile_pic.avatar.url(:large), :alt=>'')
       else
         image_tag(random_profile_images.sample, :alt=>'')
       end
@@ -120,9 +137,9 @@ module ApplicationHelper
   
   def genre_prepopullate genres
     pre_popullate_genre = ''
-    for genre in genres      
+    for genre in genres
       pre_popullate_genre += "{id: '#{genre.id}', name: '#{genre.name}'},"
-    end  
+    end
     return pre_popullate_genre
   end
 
@@ -262,7 +279,7 @@ module ApplicationHelper
         album         = postitem.album
         album_detail  = album_name_and_url(album)
         album_name    = album_detail.first
-        album_path    = album_detail.last        
+        album_path    = album_detail.last
         useritem      = album.useritem
         content       += " added a new photo to the <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a> album"
         if useritem.is_artist?
@@ -279,14 +296,17 @@ module ApplicationHelper
         content       += " has created a new <a href='#{show_path}' class='#{link_class}' data-remote=true>show</a> at #{show_venue} of #{show_city}"
       elsif post.song_post?
         artist        = postitem.artist
-        album_name    = postitem.artist_music.album_name
-        album_path    = "#{artist_music_path(artist, album_name)}"
+        artist_music  = postitem.artist_music
+        album_name    = artist_music.album_name
+        album_id      = artist_music.id
+        album_path    = "#{artist_music_path(artist, album_id)}"
         content       += " added a new song to the <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a> album"
         message       = raw(render '/artist_music/song_item', :song =>postitem, :artist =>artist, :in_newsfeed =>true)
       elsif post.artist_music_post?
         artist        = postitem.artist
         album_name    = postitem.album_name
-        album_path    = "#{artist_music_path(artist, album_name)}"
+        album_id      = postitem.id
+        album_path    = "#{artist_music_path(artist, album_id)}"
         content       += " added a new music album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
       end
     end
@@ -303,12 +323,12 @@ module ApplicationHelper
       if post.album_post?
         album_detail  = album_name_and_url(postitem)
         album_name    = album_detail.first
-        album_path    = album_detail.last        
+        album_path    = album_detail.last
         content       += " photo album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
-      elsif post.photo_post?        
+      elsif post.photo_post?
         album_detail  = album_name_and_url(postitem.album)
-        album_name    = album_detail.first                
-        album_path    = album_detail.last        
+        album_name    = album_detail.first
+        album_path    = album_detail.last
         content       += " photo <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
       elsif post.artist_show_post?
         artist        = postitem.artist
@@ -319,13 +339,16 @@ module ApplicationHelper
         content       += "artist show <a href='#{show_path}' class='#{link_class}' remote='true'>show</a>(at #{show_venue} of #{show_city})"
       elsif post.song_post?
         artist        = postitem.artist
-        album_name    = postitem.artist_music.album_name
-        album_path    = "#{artist_music_path(artist, album_name)}?h=#{postitem.id}"
+        artist_music  = postitem.artist_music
+        album_name    = artist_music.album_name
+        album_id      = artist_music.id
+        album_path    = "#{artist_music_path(artist, album_id)}?h=#{postitem.id}"
         content       += " song <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{postitem.title} </a>"
       elsif post.artist_music_post?
         artist        = postitem.artist
         album_name    = postitem.album_name
-        album_path    = "#{artist_music_path(artist, album_name)}"
+        album_id      = postitem.id
+        album_path    = "#{artist_music_path(artist, album_id)}"
         content       += "<a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
       end
     end
@@ -337,9 +360,9 @@ module ApplicationHelper
     album_name  = album.name
     album_path  = ''
     if useritem.is_artist?
-      album_path    = "#{artist_album_path(useritem, album_name)}"
+      album_path    = "#{artist_album_path(useritem, album.id)}"
     elsif useritem.is_venue?
-      album_path    = "#{venue_album_path(useritem, album_name)}"
+      album_path    = "#{venue_album_path(useritem, album.id)}"
     end
     [album_name, album_path]
   end
@@ -415,7 +438,7 @@ module ApplicationHelper
     when 'Photo'
       type    = 'Photo'
       name    = nil
-      artist  = item.artist    
+      artist  = item.artist
     end
     return {:type =>type, :name =>name, :artist =>artist}
   end

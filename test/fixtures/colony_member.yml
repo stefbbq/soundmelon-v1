@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  colony_id: 1
+  member_type: MyString
+  member_id: 1
+  is_admin: false
+  suspended: false
+
+two:
+  colony_id: 1
+  member_type: MyString
+  member_id: 1
+  is_admin: false
+  suspended: false

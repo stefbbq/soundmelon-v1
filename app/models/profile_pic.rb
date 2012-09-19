@@ -1,5 +1,5 @@
 class ProfilePic < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :profileitem, :polymorphic =>true
   has_attached_file :avatar,
     :styles     => {
           :small    => ['50x50!',:jpg],

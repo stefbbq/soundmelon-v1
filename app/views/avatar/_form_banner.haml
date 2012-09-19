@@ -1,0 +1,15 @@
+- if @profile_banner.errors.any?
+  #error_explanation
+    %h2
+      = pluralize(@profile_banner.errors.count, "error")
+      prohibited this image from being saved:
+    %ul
+      - @profile_banner.errors.full_messages.each do |msg|
+        %li
+          = msg
+.loader
+= form_for @profile_banner, :url => add_banner_path, :html => {:multipart => true, :remote => true } do |f|
+  Upload Banner Image
+  %br
+  = f.file_field :image
+  = f.submit "Upload",:class=>"button blue"

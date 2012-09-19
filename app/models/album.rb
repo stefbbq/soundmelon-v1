@@ -39,7 +39,7 @@ class Album < ActiveRecord::Base
   end
 
   def to_param
-    self.name
+    self.id
   end
   
 end

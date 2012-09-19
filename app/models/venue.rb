@@ -7,15 +7,17 @@ class Venue < ActiveRecord::Base
   has_many :venue_users
   has_many :venue_members, :through => :venue_users, :source => :user
   has_many :venue_admin_users, :through => :venue_users, :source => :user, :conditions =>'access_level = 1'
-  has_many :venue_notified_users, :through => :venue_users, :source => :user, :conditions =>'venue_users.access_level = 1 and venue_users.notification_on is true'
-  has_one :venue_logo, :dependent =>:destroy
+  has_many :venue_notified_users, :through => :venue_users, :source => :user, :conditions =>'venue_users.access_level = 1 and venue_users.notification_on is true'  
   has_many :artist_shows, :order =>'show_date desc', :dependent =>:nullify
   has_many :albums, :as =>:useritem, :dependent =>:destroy
   has_many :posts, :as =>:useritem, :dependent => :destroy
   has_many :mentioned_posts, :as =>:mentionitem, :dependent => :destroy
 
   has_many :favorite_items, :as =>:item, :dependent => :destroy
+  has_many :colony_memberships, :as =>:member
   has_one  :location, :as =>:item, :dependent =>:destroy
+  has_one  :profile_banner, :as =>:profileitem, :dependent =>:destroy
+  has_one  :profile_pic, :as =>:profileitem, :dependent =>:destroy
   has_and_belongs_to_many :genres
   
   validates :name, :presence =>:true, :if => lambda { |o| o.first_step? }
@@ -46,8 +48,8 @@ class Venue < ActiveRecord::Base
     artist_shows.where('show_date >= date(now())').order('created_at desc').limit(n)
   end
     
-  def limited_albums n=2
-    albums.limit(n)
+  def limited_albums own_access = false, n=2
+    own_access ? albums.limit(n) : albums.published.limit(2)
   end
 
   def limited_followers
@@ -120,6 +122,10 @@ class Venue < ActiveRecord::Base
       self.current_step = step
       valid?
     end
+  end
+
+  def related_venues
+    Genre.get_venues_for_genres(self.genres)
   end
   
 end

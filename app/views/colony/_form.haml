@@ -1,0 +1,14 @@
+= form_for @colony, :url => action_url, :html => {:multipart => true, :class => 'colony-form' } do |f|
+  - if @colony.errors.any?
+    #error_explanation.popup-error
+      %h2
+        = pluralize(@colony.errors.count, "error")
+        occurred
+      %ul
+        - @colony.errors.full_messages.each do |msg|
+          %li
+            = msg  
+  = render "/colony/form_#{@colony.current_step.first}", :f =>f
+  .popup-buttons
+    = f.submit "go back", :name => "back_button", :class => "splash-highlight-button" unless @colony.first_step?
+    = f.submit "continue", :class => "splash-highlight-button"

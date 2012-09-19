@@ -2,13 +2,13 @@
 .artist-content[artist_album]
   .top
     .cover
-      = link_to get_artist_photo_album_teaser_photo(artist_album, :header, '60px;', '60px;'), artist_album_photos_path(@artist, artist_album.name), :remote=>:true, :class=>"ajaxopen"
+      = link_to get_artist_photo_album_teaser_photo(artist_album, :header, '60px;', '60px;'), artist_album_photos_path(@artist, artist_album.id), :remote=>:true, :class=>"ajaxopen"
     .info
       - if @has_link_access
-        = link_to artist_album_photos_path('home', artist_album.name),{ :remote=>:true, :class=>"ajaxopen"} do
+        = link_to artist_album_photos_path('home', artist_album.id),{ :remote=>:true, :class=>"ajaxopen"} do
           %h2= artist_album.name
       - else
-        = link_to artist_album_photos_path(@artist, artist_album.name),{ :remote=>:true, :class=>"ajaxopen"} do
+        = link_to artist_album_photos_path(@artist, artist_album.id),{ :remote=>:true, :class=>"ajaxopen"} do
           %h2= artist_album.name
       %h4
         added
@@ -22,14 +22,14 @@
       = pluralize(artist_album.photo_count, 'photo')
     - if @has_link_access
       .controls
-        = link_to "add", add_photos_to_album_path(artist_album.useritem, artist_album.name), {:remote=>:true, :class=>"ajaxopen", :title =>"add new photo"}
-        = link_to "edit", edit_album_path(@artist, artist_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"edit_link_#{artist_album.id}"
-        = link_to artist_album.disabled? ? 'enable' : 'disable', disable_enable_artist_album_path('home', artist_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{artist_album.id}"
-        = link_to "remove", delete_album_path('home', artist_album.name), :remote=>:true, :class=>"ajaxopen"
-        =# link_to "like/dislike", like_artist_album_path(@artist, :album_name => artist_album.name), :remote=>:true, :class=>"ajaxopen", :id =>"like_dislike_link_#{artist_album.id}"
+        = link_to "add", add_photos_to_album_path(artist_album.useritem, artist_album.id), {:remote=>:true, :class=>"ajaxopen", :title =>"add new photo"}
+        = link_to "edit", edit_album_path(@artist, artist_album.id), :remote=>:true, :class=>"ajaxopen", :id =>"edit_link_#{artist_album.id}"
+        = link_to artist_album.disabled? ? 'enable' : 'disable', disable_enable_artist_album_path('home', artist_album.id), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{artist_album.id}"
+        = link_to "remove", delete_album_path('home', artist_album.id), :remote=>:true, :class=>"ajaxopen"
+        =# link_to "like/dislike", like_artist_album_path(@artist, artist_album.id), :remote=>:true, :class=>"ajaxopen", :id =>"like_dislike_link_#{artist_album.id}"
         - unless show_all
           - if @has_link_access
-            = link_to artist_album_photos_path('home', artist_album.name), :remote => :true, :class => "ajaxopen toggle-thread", :id =>"expand_link_#{artist_album.id}" do
+            = link_to artist_album_photos_path('home', artist_album.id), :remote => :true, :class => "ajaxopen toggle-thread", :id =>"expand_link_#{artist_album.id}" do
               %i
               expand album
         - else
@@ -38,7 +38,7 @@
             collapse album
     - else
       .controls
-        = link_to artist_album_photos_path(@artist, artist_album.name), :remote => :true, :class => "ajaxopen toggle-thread", :id =>"expand_link_#{artist_album.id}" do
+        = link_to artist_album_photos_path(@artist, artist_album.id), :remote => :true, :class => "ajaxopen toggle-thread", :id =>"expand_link_#{artist_album.id}" do
           %i
           expand album
     .album-details

@@ -1,0 +1,15 @@
+.header
+  %h1 Step 3
+.content-custom
+  .area.form.artist-basic
+    .content{:id=>'basic-info'}
+      .details
+        Are you looking to connect with others or to promote and share with others?
+      .field
+        %label{:for=>"name"}
+          connect
+          = f.radio_button :colony_type, :connect
+          promote
+          = f.radio_button :colony_type, :promote
+        
+        

@@ -1,9 +1,11 @@
 class AvatarController < ApplicationController
-  before_filter :require_login, :set_actor_and_entities
+  before_filter :require_login
+  before_filter :set_actor_and_entities, :only =>[:new, :create, :crop, :edit, :update, :delete]
+  before_filter :set_actor_and_profile_banner, :only =>[:new_banner, :create_banner, :crop_banner, :edit_banner, :update_banner, :delete_banner]
 
   def new
     begin      
-      @profile_pic = ProfilePic.new(:user_id =>@user.id)
+      @profile_pic = @item.build_profile_pic
     rescue =>exp
       logger.error "Error in Avatar::New :=> #{exp.message}"
       render :nothing =>true and return
@@ -14,11 +16,13 @@ class AvatarController < ApplicationController
   end
 
   def create
-    begin      
-      @profile_pic  = @user.build_profile_pic(params[:profile_pic])
+    begin
+      params[:profile_pic][:profileitem_type] = @item.class.name
+      params[:profile_pic][:profileitem_id]   = @item.id
+      @profile_pic  = @item.build_profile_pic(params[:profile_pic])
     rescue =>exp
       logger.error "Error: #{exp.message}"
-      @user         = nil
+      @item         = nil
     end
     respond_to do |format|
       if @profile_pic.save
@@ -57,60 +61,65 @@ class AvatarController < ApplicationController
     end
   end
 
-  def new_logo
+  # profile banner image
+  def new_banner
     begin
-      @item_logo        = @item.is_artist? ? ArtistLogo.new(:artist_id=>@item.id) : VenueLogo.new(:venue_id=>@item.id)
+      @profile_banner = @item.build_profile_banner
     rescue =>exp
-      logger.error "Error in Avatar::NewLogo :=> #{exp.message}"
+      logger.error "Error in Avatar::NewBanner :=> #{exp.message}"
+      render :nothing =>true and return
     end
     respond_to do |format|
       format.js
     end
   end
 
-  def create_logo
-    begin      
-      @item_logo        = @item.is_artist? ? @item.build_artist_logo(params[:artist_logo]) : @item.build_venue_logo(params[:venue_logo])
+  def create_banner
+    begin
+      params[:profile_banner][:profileitem_type] = @item.class.name
+      params[:profile_banner][:profileitem_id]   = @item.id
+      @profile_banner  = @item.build_profile_banner(params[:profile_banner])
     rescue =>exp
-      logger.error "Error in AvatarCreateLogo :=> #{exp.message}"
-      @item         = nil
+      logger.error "Error: #{exp.message}"
+      @item = nil
     end
     respond_to do |format|
-      if @item_logo.save
-        @original_geometry = @item_logo.logo_geometry(:original)
+      if @profile_banner.save
+        @original_geometry = @profile_banner.image_geometry(:original)
         set_height_and_width @original_geometry
-        format.js { render :action => 'crop_logo' and return }
+        format.js { render :action => 'crop_banner' and return }
       else
-        format.js { render :action => 'new_logo' and return}
+        format.js { render :action => 'new_banner' and return}
       end
     end
   end
 
-  def edit_logo    
+  def edit_banner
   end
 
-  def update_logo
-    status = @item_logo.respond_to?('artist_id') ? @item_logo.update_attributes(params[:artist_logo]) : @item_logo.update_attributes(params[:venue_logo])
-    if status
+  def update_banner
+    if @profile_banner.update_attributes(params[:profile_banner])
       respond_to do |format|
         format.js
       end
     end
   end
 
-  def crop_logo
-    @original_geometry = @artist_logo.logo_geometry(:original)
+  def crop_banner
+    @ratio = @profile_banner.avatar_geometry(:original).width / @profile_banner.avatar_geometry(:original).height
+    @original_geometry = @profile_banner.avatar_geometry(:original)
     set_height_and_width @original_geometry
   end
 
-  def delete_logo    
-    redirect_to fan_home_url and return unless @item_logo
-    if @item_logo.delete
+  def delete_banner
+    redirect_to fan_home_url and return unless @profile_banner
+    if @profile_banner.delete
       respond_to do |format|
         format.js
       end
     end
   end
+
 
   private
 
@@ -118,16 +127,8 @@ class AvatarController < ApplicationController
     if request.xhr?
       begin
         @actor = current_actor
-        if @actor.is_fan?
-          @user           = @actor
-          @profile_pic    = @actor.profile_pic
-        elsif @actor.is_artist?
-          @item           = @actor
-          @item_logo      = @actor.artist_logo
-        elsif @actor.is_venue?
-          @item           = @actor
-          @item_logo      = @actor.venue_logo
-        end
+        @item           = @actor
+        @profile_pic    = @actor.profile_pic
       rescue =>exp
         logger.error "Error in Avatar::SetActorAndEntities :=> #{exp.message}"
       end
@@ -135,6 +136,21 @@ class AvatarController < ApplicationController
       render :template =>'/bricks/page_missing'
     end
   end
+
+  def set_actor_and_profile_banner
+    if request.xhr?
+      begin
+        @actor          = current_actor
+        @item           = @actor
+        @profile_banner = @actor.profile_banner
+      rescue =>exp
+        logger.error "Error in Avatar::SetActorAndBanner :=> #{exp.message}"
+      end
+    else
+      render :template =>'/bricks/page_missing'
+    end
+  end
+
 
   def set_height_and_width geometry    
     img_height      = 400

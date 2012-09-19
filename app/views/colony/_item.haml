@@ -1,0 +1,37 @@
+- hide_link                   ||= false
+- status                      = true
+- if item.instance_of?(Artist)
+  - link                      = show_artist_path(item)
+  - image                     = get_artist_avatar(item)
+  - name                      = "#{item.name} (Artist)"
+  - location                  = nil
+- elsif item.is_venue?
+  - link                      = show_venue_path(item)
+  - image                     = get_venue_avatar(item)
+  - name                      = "#{item.get_full_name} (Venue)"
+  - location                  = nil
+- elsif item.instance_of?(User)
+  - link                      = fan_profile_path(item.id)
+  - image                     = get_fan_avatar(item)
+  - name                      = "#{item.get_full_name} (Fan)"
+  - location                  = item.get_full_address
+- else
+  - status                    = false
+- if status    
+  .1item
+    - unless hide_link
+      = link_to image, link, :remote =>:true, :class => 'ajaxopen backable avatar'
+    - else
+      = image
+    .content1
+      %h4
+        - unless hide_link
+          %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'
+        - else
+          %strong= name
+        - unless location.blank?
+          #{location}  
+  = f.hidden_field :member_type
+  = f.hidden_field :member_id
+  = f.check_box :selected, {:class =>'colony_invite', :checked =>true}
+

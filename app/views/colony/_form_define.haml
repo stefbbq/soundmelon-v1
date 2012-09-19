@@ -1,0 +1,40 @@
+.header
+  %h1 Step 2
+  %h3 Your Neiche
+.content-custom
+  .area.form.artist-basic
+    .content{:id=>'basic-info'}
+      .details
+        how do you define yourself?
+      .field
+        %label{:for=>"name"}
+          by genre
+        %br/
+        %br/
+        .genres{:style =>'display:block;'}
+          = f.text_field :genres
+      .field
+        %label{:for=>"country"}
+          by city          
+        .city{:style =>'display:block;'}
+          = f.text_field :location_city
+      .field
+        %label{:for=>"country"}
+          by age group
+        .agegroup
+          = f.text_field :age_group
+
+
+:javascript
+  $(document).ready(function() {
+    $("#colony_genres").tokenInput(
+      [
+      #{genre_atuofill_artist}
+      ],
+      {
+        theme: "",
+        prePopulate:
+        []
+      }
+    );
+  });

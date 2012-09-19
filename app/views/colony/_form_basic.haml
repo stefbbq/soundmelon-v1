@@ -1,0 +1,16 @@
+.header
+  %h1 Step 1
+  %h3 Basic Info
+.content-custom
+  .area.form.artist-basic
+    .content{:id=>'basic-info'}
+      .details
+        colony name and about
+      .field
+        %label{:for=>"name"}
+          name
+        = f.text_field :name
+      .field
+        %label{:for=>"country"}
+          what's it about
+        = f.text_area :bio    

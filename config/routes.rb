@@ -45,7 +45,7 @@ Soundmelon::Application.routes.draw do
   get 'home/mentions'                           => 'user_posts#mentioned',            :as => :mentioned #mentions
   get 'home/replies'                            => 'user_posts#replies',              :as => :replies #replies
   match 'home/messages'                         => 'messages#inbox',                  :as => :user_inbox #messages
-
+  
   #-------------------------------------------- followings, followers, follower artists, follower fans ---------------
   get ':id/followers(/:page)'                   => 'user_connections#fan_followers',          :as => :fan_followers
   get ':artist_name/fans(/:page)'               => 'user_connections#artist_followers',       :as => :artist_followers
@@ -68,8 +68,13 @@ Soundmelon::Application.routes.draw do
   match 'home/manage/profile'                   => 'user#manage_profile',                   :as => :manage_profile #manage session profile
   match '/home/setup/fan/profile'               => 'fan#profile_setup',                     :as => :profile_setup
   match '/home/setup/fan/location'              => 'fan#update_fan_items',                  :as => :profile_item_setup
+  get 'home/new/colony'                         => 'colony#new',                            :as => :new_colony
+  post 'home/create/colony'                     => 'colony#create',                         :as => :create_colony
+  match 'home/setup/colony/profile/:id'         => 'colony#setup_profile',                  :as => :colony_setup
+  match 'colony/:id'                            => 'colony#show',                           :as => :colony_profile
+  match 'colony/:id/join'                       => 'colony#join',                           :as => :join_colony
+  match 'colony/:id/members'                    => 'colony#members',                        :as => :colony_members
   
-    
   #fan public
   match 'fan/(:id)'                             => 'fan_public#index',                      :as => :fan_profile
   match 'fan/posts/:id'                         => 'fan_public#latest_posts',               :as => :fan_latest_post
@@ -126,20 +131,20 @@ Soundmelon::Application.routes.draw do
   match 'edit/payment/info'                   => 'fan#update_payment_info',                 :as => :edit_payment_info
   match 'update/notification/setting'         => 'fan#update_notification_setting',         :as => :update_notification_setting
   match 'update/artist/notification/:id'      => 'artist#update_notification_setting',      :as => :update_artist_notification_setting
-  match 'update/venue/notification/:id'      => 'venue#update_notification_setting',      :as => :update_venue_notification_setting
+  match 'update/venue/notification/:id'       => 'venue#update_notification_setting',       :as => :update_venue_notification_setting
   
-  #--------------------------------------------------AvatarController[Fan Profile Pic/Artist Logo]----------------------
+  #--------------------------------------------------AvatarController[Fan Profile Pic/Profile Banner]----------------------
   post 'profile/pic/add'                      => 'avatar#create',                           :as => :add_avatar
   get 'profile/pic/new'                       => 'avatar#new',                              :as => :new_avatar
   match 'profile/pic/crop'                    => 'avatar#crop',                             :as => :crop_avatar
   match 'profile/pic/update'                  => 'avatar#update',                           :as => :update_avatar
   get 'profile/pic/delete'                    => 'avatar#delete',                           :as => :delete_avatar
 
-  post 'home/logo/add'                      => 'avatar#create_logo',                      :as => :add_logo
-  get 'home/logo/new'                       => 'avatar#new_logo',                         :as => :new_logo
-  match 'home/logo/crop'                    => 'avatar#crop_logo',                        :as => :crop_logo
-  match 'home/logo/update'                  => 'avatar#update_logo',                      :as => :update_logo
-  get 'home/logo/delete'                    => 'avatar#delete_logo',                      :as => :delete_logo
+  post 'banner/pic/add'                      => 'avatar#create_banner',                    :as => :add_banner
+  get 'banner/pic/new'                       => 'avatar#new_banner',                       :as => :new_banner
+  match 'banner/pic/crop'                    => 'avatar#crop_banner',                      :as => :crop_banner
+  match 'banner/pic/update'                  => 'avatar#update_banner',                    :as => :update_banner
+  get 'banner/pic/delete'                    => 'avatar#delete_banner',                    :as => :delete_banner
   #---------------------------------------------------------------------------------------------------------------------
   
   resources :password_resets
@@ -176,52 +181,52 @@ Soundmelon::Application.routes.draw do
   resources :album_photos
   get ':artist_name/photos/new'                     => 'artist_photo#new',                        :as => :new_artist_album
   get ':artist_name/photos'                         => 'artist_photo#index',                      :as => :artist_albums
-  get ':artist_name/:album_name/photo'              => 'artist_photo#artist_album',               :as => :artist_album
-  get ':artist_name/album/photos/:album_name'       => 'artist_photo#artist_album_photos',        :as => :artist_album_photos
-  get ':artist_name/:album_name/photo/:id'          => 'artist_photo#show',                       :as => :artist_album_photo
-  get ':artist_name/:album_name/photos/add'         => 'artist_photo#add',                        :as => :add_photos_to_album
-  get ':artist_name/edit/:album_name'               => 'artist_photo#edit',                       :as => :edit_album
-  match ':artist_name/delete/:album_name'           => 'artist_photo#destroy_album',              :as => :delete_album
-  get ':artist_name/:album_name/photo/:id/cover'    => 'artist_photo#make_cover_image' ,          :as => :make_cover_image
-  get ':artist_name/:album_name/photo/:id/edit'     => 'artist_photo#edit_photo' ,                :as => :edit_photo
-  get ':artist_name/:album_name/photo/:id/delete'   => 'artist_photo#destroy' ,                   :as => :delete_photo
-  get ':artist_name/:album_name/album/public'       => 'artist_photo#disable_enable_artist_album',:as => :disable_enable_artist_album
-  match ':artist_name/:album_name/photo/:id/update' => 'artist_photo#update_photo',               :as => :update_artist_photo
-  get ':artist_name/:album_name/plike'              => 'artist_photo#like_dislike',               :as => :like_artist_album
+  get ':artist_name/:album_id/photo'                => 'artist_photo#artist_album',               :as => :artist_album
+  get ':artist_name/album/photos/:album_id'         => 'artist_photo#artist_album_photos',        :as => :artist_album_photos
+  get ':artist_name/:album_id/photo/:id'            => 'artist_photo#show',                       :as => :artist_album_photo
+  get ':artist_name/:album_id/photos/add'           => 'artist_photo#add',                        :as => :add_photos_to_album
+  get ':artist_name/edit/:album_id'                 => 'artist_photo#edit',                       :as => :edit_album
+  match ':artist_name/delete/:album_id'             => 'artist_photo#destroy_album',              :as => :delete_album
+  get ':artist_name/:album_id/photo/:id/cover'      => 'artist_photo#make_cover_image' ,          :as => :make_cover_image
+  get ':artist_name/:album_id/photo/:id/edit'       => 'artist_photo#edit_photo' ,                :as => :edit_photo
+  get ':artist_name/:album_id/photo/:id/delete'     => 'artist_photo#destroy' ,                   :as => :delete_photo
+  get ':artist_name/:album_id/album/public'         => 'artist_photo#disable_enable_artist_album',:as => :disable_enable_artist_album
+  match ':artist_name/:album_id/photo/:id/update'   => 'artist_photo#update_photo',               :as => :update_artist_photo
+  get ':artist_name/:album_id/plike'                => 'artist_photo#like_dislike',               :as => :like_artist_album
   
   #artist song albums and songs
-  get ':artist_name/music/new'                      => 'artist_music#new',                        :as => :new_artist_music
-  get ':artist_name/music'                          => 'artist_music#index',                      :as => :artist_musics
-  get ':artist_name/:artist_music_name/music'       => 'artist_music#artist_music',               :as => :artist_music
-  get ':artist_name/music/songs/:artist_music_name' => 'artist_music#artist_music_songs',         :as => :artist_songs
-  get ':artist_name/song/:id/edit'                  => 'artist_music#edit_song',                  :as => :song_edit
-  match ':artist_name/song/:id/update'              => 'artist_music#update_song',                :as => :song_update
-  get ':artist_name/:artist_music_name/songs/add'   => 'artist_music#add',                        :as => :add_song
-  get ':artist_name/artist/music/download/:id'      => 'artist_music#download_artist_music',      :as => :download_artist_music
-  match ':artist_name/music/delete/:artist_music_id'=> 'artist_music#destroy_artist_music',       :as => :delete_artist_music
-  match ':artist_name/song/delete/:song_id'         => 'artist_music#destroy_song',               :as => :delete_song
-  get ':artist_name/:artist_music_name/public'      => 'artist_music#disable_enable_artist_music',:as => :disable_enable_artist_music
-  get ':artist_name/set_featured_songs'             => 'artist_music#songs_for_featured_list',    :as => :popup_for_feature_songs
-  get ':artist_name/:artist_music_name/featured'    => 'artist_music#make_song_album_featured',   :as => :make_artist_music_featured
-  get ':artist_name/:artist_music_name/featured/:id'=> 'artist_music#make_song_featured',         :as => :make_song_featured
-  get ':artist_name/:artist_music_name/edit'        => 'artist_music#edit_artist_music',          :as => :edit_artist_music
-  get ':song_name/:id/like(/:do_like)'              => 'artist_music#do_like_dislike_song',       :as => :like_song
+  get ':artist_name/music/new'                         => 'artist_music#new',                        :as => :new_artist_music
+  get ':artist_name/music'                             => 'artist_music#index',                      :as => :artist_musics
+  get ':artist_name/:artist_music_id/music'            => 'artist_music#artist_music',               :as => :artist_music
+  get ':artist_name/music/songs/:artist_music_id'      => 'artist_music#artist_music_songs',         :as => :artist_songs
+  get ':artist_name/song/:id/edit'                     => 'artist_music#edit_song',                  :as => :song_edit
+  match ':artist_name/song/:id/update'                 => 'artist_music#update_song',                :as => :song_update
+  get ':artist_name/:artist_music_id/songs/add'        => 'artist_music#add',                        :as => :add_song
+  get ':artist_name/artist/music/download/:id'         => 'artist_music#download_artist_music',      :as => :download_artist_music
+  match ':artist_name/music/delete/:artist_music_id'   => 'artist_music#destroy_artist_music',       :as => :delete_artist_music
+  match ':artist_name/song/delete/:song_id'            => 'artist_music#destroy_song',               :as => :delete_song
+  get ':artist_name/:artist_music_id/public'           => 'artist_music#disable_enable_artist_music',:as => :disable_enable_artist_music
+  get ':artist_name/set_featured_songs'                => 'artist_music#songs_for_featured_list',    :as => :popup_for_feature_songs
+  get ':artist_name/:artist_music_id/featured'         => 'artist_music#make_song_album_featured',   :as => :make_artist_music_featured
+  get ':artist_name/:artist_music_id/featured/:id'     => 'artist_music#make_song_featured',         :as => :make_song_featured
+  get ':artist_name/:artist_music_id/edit'             => 'artist_music#edit_artist_music',          :as => :edit_artist_music
+  get ':song_name/:id/like(/:do_like)'                 => 'artist_music#do_like_dislike_song',       :as => :like_song
 
   # venue photos
-  get '/venue/:venue_name/photos/new'                    => 'venue_photo#new',                       :as => :new_venue_album
-  get '/venue/:venue_name/photos'                        => 'venue_photo#index',                     :as => :venue_albums
-  get '/venue/:venue_name/:album_name/photo'             => 'venue_photo#venue_album',               :as => :venue_album
-  get '/venue/:venue_name/album/photos/:album_name'      => 'venue_photo#venue_album_photos',        :as => :venue_album_photos
-  get '/venue/:venue_name/:album_name/photo/:id'         => 'venue_photo#show',                      :as => :venue_album_photo
-  get '/venue/:venue_name/:album_name/photos/add'        => 'venue_photo#add',                       :as => :add_photos_to_venue_album
-  get '/venue/:venue_name/edit/:album_name'              => 'venue_photo#edit',                      :as => :edit_venue_album
-  match '/venue/:venue_name/delete/:album_name'          => 'venue_photo#destroy_album',             :as => :delete_venue_album
-  get '/venue/:venue_name/:album_name/photo/:id/cover'   => 'venue_photo#make_cover_image' ,         :as => :make_cover_image_venue
-  get '/venue/:venue_name/:album_name/photo/:id/edit'    => 'venue_photo#edit_photo' ,               :as => :edit_venue_photo
-  get '/venue/:venue_name/:album_name/photo/:id/delete'  => 'venue_photo#destroy' ,                  :as => :delete_venue_photo
-  get '/venue/:venue_name/:album_name/album/public'      => 'venue_photo#disable_enable_album',      :as => :disable_enable_album
-  match '/venue/:venue_name/:album_name/photo/:id/update'=> 'venue_photo#update_photo',              :as => :update_venue_photo
-  get '/venue/:venue_name/:album_name/plike'             => 'venue_photo#like_dislike',              :as => :like_venue_album
+  get '/venue/:venue_name/photos/new'                  => 'venue_photo#new',                       :as => :new_venue_album
+  get '/venue/:venue_name/photos'                      => 'venue_photo#index',                     :as => :venue_albums
+  get '/venue/:venue_name/:album_id/photo'             => 'venue_photo#venue_album',               :as => :venue_album
+  get '/venue/:venue_name/album/photos/:album_id'      => 'venue_photo#venue_album_photos',        :as => :venue_album_photos
+  get '/venue/:venue_name/:album_id/photo/:id'         => 'venue_photo#show',                      :as => :venue_album_photo
+  get '/venue/:venue_name/:album_id/photos/add'        => 'venue_photo#add',                       :as => :add_photos_to_venue_album
+  get '/venue/:venue_name/edit/:album_id'              => 'venue_photo#edit',                      :as => :edit_venue_album
+  match '/venue/:venue_name/delete/:album_id'          => 'venue_photo#destroy_album',             :as => :delete_venue_album
+  get '/venue/:venue_name/:album_id/photo/:id/cover'   => 'venue_photo#make_cover_image' ,         :as => :make_cover_image_venue
+  get '/venue/:venue_name/:album_id/photo/:id/edit'    => 'venue_photo#edit_photo' ,               :as => :edit_venue_photo
+  get '/venue/:venue_name/:album_id/photo/:id/delete'  => 'venue_photo#destroy' ,                  :as => :delete_venue_photo
+  get '/venue/:venue_name/:album_id/album/public'      => 'venue_photo#disable_enable_album',      :as => :disable_enable_album
+  match '/venue/:venue_name/:album_id/photo/:id/update'=> 'venue_photo#update_photo',              :as => :update_venue_photo
+  get '/venue/:venue_name/:album_id/plike'             => 'venue_photo#like_dislike',              :as => :like_venue_album
 
 
 

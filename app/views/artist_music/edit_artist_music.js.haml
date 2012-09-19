@@ -13,6 +13,7 @@
     = render :partial => "uploader"
     = form_for @artist_music, :url => {:action => 'update_artist_music' , :id => @artist_music.id, :artist_name => @artist_music.artist.mention_name}, :html => {:multipart => true, :remote => true } do |f|
       = hidden_field_tag :artist_name, @artist.mention_name
+      = hidden_field_tag :album_name, @artist_music.album_name
       .field
         = f.label "album name"
         = f.text_field :album_name
@@ -21,10 +22,10 @@
         = f.text_field :price
       .field 
         = f.label "cover image"
-        =file_field_tag 'album_cover_image'
+        = file_field_tag 'album_cover_image'
       = f.submit "Save", :disable_with => 'Saving...', :class => 'generic-button1'
       %a.generic-button{:href => "javascript:void(0);", :onclick =>"closeFacebox();"}
-        cancel
+        close
 
 - if @is_updated
   $('.primary .left #artist_music_#{@artist_music.id}').replaceWith('#{escape_javascript(render 'artist_music', :artist_music => @artist_music)}');

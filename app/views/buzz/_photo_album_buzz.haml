@@ -1,8 +1,8 @@
 .header
   - if @artist_photo_album
-    = "Buzz : #{@artist_photo_album.name}"
+    #{@artist_photo_album.name}
   - else
-    = "Buzz : #{@artist_photo.caption}"
+    #{@artist_photo.caption}
 .normal-content
   = render 'buzzlisting', :buzzes_by_date =>@buzzes_by_dates
   = render 'photo_album_buzz_form'

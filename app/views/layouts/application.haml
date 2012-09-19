@@ -54,8 +54,8 @@
         = image_tag("loading.gif")
 
 :javascript
-  if(#{flash[:alert].present?})
-    alert("#{flash[:alert]}");
+  if(#{flash[:alert].present?})    
+    $.facebox("#{flash[:alert]}");
   if(#{!@firstLogin.blank?})    
     $('#tutorial-link').trigger('click');
   

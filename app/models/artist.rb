@@ -16,6 +16,9 @@ class Artist < ActiveRecord::Base
   has_many :mentioned_posts, :as =>:mentionitem, :dependent => :destroy
   has_many :songs, :through => :artist_musics
   has_many :favorite_items, :as =>:item, :dependent => :destroy
+  has_many :colony_memberships, :as =>:member
+  has_one  :profile_banner, :as =>:profileitem, :dependent =>:destroy
+  has_one  :profile_pic, :as =>:profileitem, :dependent =>:destroy
   has_and_belongs_to_many :genres
   has_one :artist_logo, :dependent =>:destroy
   has_many :artist_influencers
@@ -100,12 +103,12 @@ class Artist < ActiveRecord::Base
     end
   end
 
-  def limited_artist_albums(n=ARTIST_PHOTO_ALBUM_SHOW_LIMIT)
-    albums.limit(n)
+  def limited_artist_albums(own_access = false, n=ARTIST_PHOTO_ALBUM_SHOW_LIMIT)
+    own_access ? albums.limit(n) : albums.published.limit(n)
   end
 
-  def limited_artist_musics(n=ARTIST_MUSIC_SHOW_LIMIT)
-    artist_musics.limit(n)
+  def limited_artist_musics(own_access = false, n=ARTIST_MUSIC_SHOW_LIMIT)
+    own_access ? artist_musics.limit(n) : artist_musics.published.limit(n)
   end
 
   def limited_artist_members(n=ARTIST_MEMBER_SHOW_LIMIT)
@@ -240,6 +243,10 @@ class Artist < ActiveRecord::Base
       self.current_step = step
       valid?
     end
+  end
+
+  def related_artists
+    Genre.get_artists_for_genres(self.genres)
   end
 
 end

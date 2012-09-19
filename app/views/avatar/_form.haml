@@ -11,6 +11,5 @@
 = form_for @profile_pic, :url => add_avatar_path, :html => {:multipart => true, :remote => true } do |f|
   Upload Pic
   %br
-  = f.file_field :avatar
-  = f.hidden_field :user_id
+  = f.file_field :avatar    
   = f.submit "Upload",:class=>"button blue"

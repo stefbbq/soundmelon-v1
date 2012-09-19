@@ -1,4 +1,4 @@
 %h3= "#{@album.name}(#{@album.photos.count})"
 - @album.photos.each do |photo|
   .album_photo
-    = link_to image_tag(photo.image.url(:medium)), venue_album_photo_path(photo.id, @album.name, @venue), :remote => true, :class => 'ajaxopen'
+    = link_to image_tag(photo.image.url(:medium)), venue_album_photo_path(photo.id, @album.id, @venue), :remote => true, :class => 'ajaxopen'

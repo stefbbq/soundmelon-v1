@@ -16,9 +16,9 @@
     - if photo_album_count > 0
       - photo_albums.each do |venue_photo_album|
         - if @has_link_access
-          - album_link = venue_album_path('home', venue_photo_album.name)
+          - album_link = venue_album_path('home', venue_photo_album.id)
         - else
-          - album_link = venue_album_path(user_item, venue_photo_album.name)
+          - album_link = venue_album_path(user_item, venue_photo_album.id)
         .album{:id => "album_#{venue_photo_album.id}"}
           .cover= link_to get_photo_album_teaser_photo(venue_photo_album), album_link, :remote => :true, :class => "ajaxopen backable"
           .title= link_to venue_photo_album.name, album_link, :remote => :true, :class => "ajaxopen backable"

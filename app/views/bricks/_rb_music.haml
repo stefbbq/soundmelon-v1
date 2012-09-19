@@ -18,10 +18,10 @@
         - artist_musics.each do |song_album|
           .album{:id => "song_album_#{song_album.id}"}
             - if @has_link_access
-              = link_to image_tag('add.png'), add_songs_to_album_path(artist, song_album.album_name ), :remote => true, :class => 'ajaxopen backable'
+              = link_to image_tag('add.png'), add_songs_to_album_path(artist, song_album.id ), :remote => true, :class => 'ajaxopen backable'
             %span.album-cover-image
-              = link_to get_album_cover_image(song_album), artist_song_album_path(artist, song_album.album_name), :remote=>:true, :class=>"ajaxopen backable"
-            = link_to song_album.album_name, artist_song_album_path(artist, song_album.album_name), :remote=>:true, :class=>"ajaxopen backable"
+              = link_to get_album_cover_image(song_album), artist_song_album_path(artist, song_album.id), :remote=>:true, :class=>"ajaxopen backable"
+            = link_to song_album.album_name, artist_song_album_path(artist, song_album.id), :remote=>:true, :class=>"ajaxopen backable"
             - if @has_link_access
               = link_to image_tag('remove.png'), delete_song_album_path(artist, song_album.id), :remote=>:true, :confirm => 'Are you sure?', :class=>"ajaxopen"
     - else

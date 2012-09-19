@@ -1,0 +1,7 @@
+$('#error_explanation').html('');
+alert('Artist details successfully updated');
+$('.top-bar .session .summary').html('#{escape_javascript(render '/bricks/session_header')}');
+$('.area .details h3 span#artistname').html('#{@artist.name}');
+$('.live').replaceWith('#{escape_javascript(render 'live')}');
+updateRightContent('#{escape_javascript(render 'right', :current =>'manage_profile')}');
+closeFacebox(1000);

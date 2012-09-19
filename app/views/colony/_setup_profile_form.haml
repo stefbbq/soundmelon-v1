@@ -1,0 +1,52 @@
+- setup_step_count = @colony_setup_step.blank? ? 1 : @colony_setup_step
+- if setup_step_count == 1
+  .live.profile-setup.popup-faux-style
+    .header
+      %h1 Step 4
+      %h3 Your Identity
+  .primary-container
+    .primary
+      .left
+        = form_for @colony, :url => colony_setup_path(@colony.id), :html => {:multipart => true, :remote =>:true, :class => 'artist-form' } do |f|
+          = hidden_field_tag :setup_step, 1
+          .content-box
+            .area.form
+              .details
+                %h3 Pick a few tags that describe you
+                (separated by commas)
+              .content
+                .field
+                  = text_field_tag :'colony[tags]'
+            .popup-buttons
+              = f.submit "Continue", :class => "splash-highlight-button"
+
+- elsif setup_step_count == 2
+  .live.profile-setup.popup-faux-style
+    .header
+      %h1 Step 5
+      %h3 Invite folks from your soundmelon community
+  .primary-container
+    .primary
+      .left
+        = form_for @colony, :url => colony_setup_path(@colony.id), :html => {:multipart => true, :remote =>:true, :class => 'artist-form', :id =>'colony_setup' } do |f|
+          = hidden_field_tag :setup_step, 2
+          .content-box
+            .area.form
+              .details
+                %h3 select items to invite to the colony
+              .content
+                .field
+                  Select/Deselect All 
+                  %input{:type =>"checkbox", :onchange =>"$('input.colony_invite').attr('checked',$('input#select_all').attr('checked')=='checked' ? true : false);", :id =>'select_all', :checked =>:true}
+                  - count = 0
+                  = f.fields_for :colony_memberships do |ff|                    
+                    - membership_object = ff.object                    
+                    - if membership_object.new_record?
+                      - count += 1
+                      - member = membership_object.member                      
+                      - if member
+                        = render 'colony/item', :item =>member, :hide_link =>true, :f =>ff
+                  - if count == 0
+                    You have no items to invite. Start following some and send invitation.
+            .popup-buttons
+              = f.submit "Continue", :class => "splash-highlight-button"             

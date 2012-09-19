@@ -1,0 +1,6 @@
+faceboxContent("Successfully deleted");
+closeFacebox(1000);
+- if @item.is_artist?
+  $('.live .banner-image').html('#{escape_javascript(get_artist_profile_image(@item,true))}');
+- else
+  $('.live .banner-image').html('#{escape_javascript(get_venue_profile_image(@item,true))}');

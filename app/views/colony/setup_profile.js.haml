@@ -1,0 +1,8 @@
+- setup_step_count = @colony_setup_step.blank? ? 1 : @colony_setup_step
+- if setup_step_count > 2
+  - html_content = capture do
+    %h3 New colony profile #{@colony.name} has been created successfully.
+  $('.popup #page-content').html('#{escape_javascript(html_content)}');
+  setTimeout("self.close();",5000);
+- else
+  $('.popup#page #page-content').html('#{escape_javascript(render '/colony/setup_profile_form')}');

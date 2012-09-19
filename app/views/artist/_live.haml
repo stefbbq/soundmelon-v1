@@ -6,11 +6,12 @@
 - is_artist_admin = @actor ? (artist_admin_ids.include? current_user.id) : false
 - location        = @artist.location_name
 .live
-  .profile-image{:title =>"#{@artist.name}"}
-    = get_artist_profile_image(@artist, !@is_public)
+  = get_profile_banner(@artist, !@is_public)
+  .profile-image{:title =>"#{@artist.name}", :style =>"width:160px;height:160px;top:110px;left:20px"}
+    = get_profile_image(@artist, !@is_public)
   .links
     .top
-      = render "bricks/random_artists", :current => @artist
+      =# render "bricks/random_artists", :current => @artist
     .bottom
       .name
         %h1.full-name= @artist.name

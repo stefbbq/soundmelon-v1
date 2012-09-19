@@ -52,21 +52,4 @@
             :artist_fans        => @artist_fans,
             :artist             => @artist,
             :selected           => 5 == current
-  - unless @is_public
-    .divider
-    = link_to 'manage your profile' ,
-              manage_profile_path,
-              :remote             => true,
-              :id                 => 'manage_profile',
-              :class              => 6 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'
-    =# link_to 'manage bandmates' ,
-              bandmates_invitation_path(@artist),
-              :remote             => true,
-              :id                 => 'invite_artist',
-              :class              => 7 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'
-    = link_to 'remove your profile',
-              remove_my_profile_path,
-              :remote             => true,
-              :class              => 'ajaxopen selection-text',
-              :confirm            => "This will remove your artist profile and delete all the data. And this action cannot be undone. Are you sure to continue?"
 .fader

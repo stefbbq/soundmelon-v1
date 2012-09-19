@@ -1,11 +1,12 @@
 - actor       = current_actor
 - is_own_wall = actor == @user
 .live
-  .profile-image{:title =>"#{@user.get_full_name}"}
-    = get_fan_profile_image(@user, !@is_public)
+  = get_profile_banner(@user, !@is_public)
+  .profile-image{:title =>"#{@user.get_full_name}", :style =>"width:160px;height:160px;top:110px;left:20px"}
+    = get_profile_image(@user, !@is_public)
   .links
     .top
-      = render "bricks/random_artists", :current => nil
+      =# render "bricks/random_artists", :current => nil
     .bottom
       .name
         %h1.full-name= @user.get_full_name

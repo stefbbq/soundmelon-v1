@@ -94,6 +94,10 @@ class Post < ActiveRecord::Base
     postitem_type == 'ArtistShow'
   end
 
+  def colony_post?
+    postitem_type == 'Colony'
+  end
+
   def create_notification_email_for_post actor, post_item = self.postitem
     notice_receivers          = []    
     if post_item            

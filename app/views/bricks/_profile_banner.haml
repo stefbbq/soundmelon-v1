@@ -1,0 +1,19 @@
+- random_profile_images = ["profile/artist-defaults-photo-profile-a.jpg", "profile/artist-defaults-photo-profile-b.jpg", "profile/artist-defaults-photo-profile-c.jpg", "profile/artist-defaults-photo-profile-d.jpg"]
+.banner-image{:style =>"width:948px;min-height:262px;"}
+  - if profileitem.profile_banner(true)
+    = image_tag(profileitem.profile_banner.image.url(:large) + "&t=#{Time.now.strftime('%H%m%s')}")
+    - if self_profile
+      .overlay
+        = link_to new_banner_path, {:remote=>:true,:class=>'ajaxopen', :title =>'upload profile banner'} do
+          %h2
+            upload
+        = link_to delete_banner_path, {:remote=>:true, :title =>'remove profile banner'} do
+          %h2
+            remove
+  - else
+    = image_tag(random_profile_images.sample, :alt=>'', :width =>'948px;', :height=>'262px;')
+    - if self_profile
+      .overlay
+        = link_to new_banner_path, {:remote=>:true, :title =>'add profile banner'} do
+          %h2
+            add

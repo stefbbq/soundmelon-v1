@@ -1,5 +1,5 @@
 = image_tag  @artist_photo.image.url(:thumb)
-= form_for @artist_photo, :url => update_artist_photo_path(@artist, @artist_album.name, @artist_photo), :remote => true do |f|
+= form_for @artist_photo, :url => update_artist_photo_path(@artist, @artist_album.id, @artist_photo), :remote => true do |f|
   .field>
     = f.label :caption
     %br

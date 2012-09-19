@@ -6,7 +6,7 @@ class ArtistShowController < ApplicationController
   def index
     begin
       @artist_show_list = @artist.artist_shows.includes('venue')
-      get_artist_objects_for_right_column(@artist)
+      get_artist_objects_for_right_column(@artist, @has_admin_access)
     rescue =>exp
       logger.error "Error in ArtistShow#Index :=> #{exp.message}"
       render :nothing => true and return
@@ -22,7 +22,7 @@ class ArtistShowController < ApplicationController
       @status           = true
       @artist_show_list = [@artist_show]
       @show_all         = true
-      get_artist_objects_for_right_column(@artist)
+      get_artist_objects_for_right_column(@artist, @has_admin_access)
       render :template =>"/artist_show/index" and return
     rescue =>exp      
       logger.error "Error in ArtistShow#ArtistShow :=> #{exp.message}"

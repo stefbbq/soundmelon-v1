@@ -1,3 +1,8 @@
 faceboxContent("Successfully deleted");
+- if @item.is_fan?
+  != "$('.left .profile-image').html('#{escape_javascript(get_fan_profile_image(@item, true))}');"
+- elsif @item.is_artist?
+  != "$('.left .profile-image').html('#{escape_javascript(get_artist_profile_image(@item, true))}');"
+- elsif @item.is_venue?
+  != "$('.left .profile-image').html('#{escape_javascript(get_venue_profile_image(@item, true))}');"
 closeFacebox(1000);
-$('.profile-image').html('#{escape_javascript(get_fan_profile_image(@user,true))}');

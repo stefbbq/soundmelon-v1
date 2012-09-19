@@ -4,8 +4,8 @@ class VenuePhotoController < ApplicationController
 
   def index
     begin
-      @album_list  = @venue.albums.includes('photos')
-      get_venue_objects_for_right_column(@venue)
+      @album_list  = @has_admin_access ? @venue.albums.includes('photos') : @venue.albums.published.includes('photos')
+      get_venue_objects_for_right_column(@venue, @has_admin_access)
     rescue =>exp
       logger.error "Error in VenuePhoto::Index :=> #{exp.message}"
       render :nothing => true and return
@@ -18,11 +18,11 @@ class VenuePhotoController < ApplicationController
 
   def venue_album
     begin
-      @album              = @venue.albums.where('name = ? ', params[:album_name]).includes('photos').first
+      @album              = @venue.albums.where('id  = ?', params[:album_id]).includes('photos').first
       @status             = true
       @album_list         = [@album]
       @show_all           = true
-      get_venue_objects_for_right_column(@venue)
+      get_venue_objects_for_right_column(@venue, @has_admin_access)
       render :template =>"/venue_photo/index" and return
     rescue =>exp
       logger.error "Error in VenuePhoto#Album :=> #{exp.message}"
@@ -38,7 +38,7 @@ class VenuePhotoController < ApplicationController
   def show
     redirect_to show_venue_path(params[:venue_name]) and return unless request.xhr?
     begin
-      @album            = @venue.albums.where(:name =>params[:album_name]).first
+      @album            = @venue.albums.where(:id => params[:album_id]).first
       @photo            = Photo.find(params[:id])
     rescue =>exp
       logger.error "Error in VenuePhoto::Show :#{exp.message}"
@@ -53,8 +53,9 @@ class VenuePhotoController < ApplicationController
   def new
     redirect_to show_venue_path(params[:venue_name]) and return unless request.xhr?
     if @has_admin_access
-      @post_url  = '/venue_photo/create'
-      @photo     = Photo.new
+      @post_url   = '/venue_photo/create'
+      @photo      = Photo.new
+      @album      = Album.new
     else
       render :nothing => true and return
     end
@@ -66,7 +67,7 @@ class VenuePhotoController < ApplicationController
         @has_link_access = true
         newparams = coerce(params)
         if params[:album_name].blank?
-          params[:album_name] = Time.now.strftime("%Y-%m-%d")
+          params[:album_name] = @venue.name + Time.now.strftime("%Y-%m-%d")
         end
         @album         = @venue.albums.where(:name => params[:album_name]).first        
         unless @album
@@ -91,10 +92,10 @@ class VenuePhotoController < ApplicationController
                 :album_name     => @album.name,
                 :image_string   => 'assets/profile/venue-defaults-avatar.jpg',
                 :image_src      => (cover_image = @album.cover_image) ? cover_image.image.url(:thumb) : '/assets/no-image.png',
-                :add_url        => "#{add_photos_to_venue_album_path('home', @album)}",
-                :album_url      => "#{venue_album_path('home', @album)}",
-                :delete_url     => "#{delete_venue_album_path('home', @album)}",
-                :album_photos_url=>"#{venue_album_photos_path('home', @album)}",
+                :add_url        => "#{add_photos_to_venue_album_path('home', @album.id)}",
+                :album_url      => "#{venue_album_path('home', @album.id)}",
+                :delete_url     => "#{delete_venue_album_path('home', @album.id)}",
+                :album_photos_url=>"#{venue_album_photos_path('home', @album.id)}",
                 :album_string   => "#{render_to_string('/venue_photo/_album', :layout =>false, :locals =>{:album =>@album, :has_admin_access=>true})}",
                 :photo_string   => "#{render_to_string('/venue_photo/_photo', :layout =>false, :locals =>{:album =>@album, :photo =>@photo})}"
               }
@@ -115,7 +116,7 @@ class VenuePhotoController < ApplicationController
   def venue_album_photos
     redirect_to show_venue_path(params[:venue_name]) and return unless request.xhr?
     begin
-      @album       = @venue.albums.where(:name => params[:album_name]).includes('photos').first
+      @album       = @venue.albums.where(:id => params[:album_id]).includes('photos').first
     rescue =>exp
       logger.error "Error in VenuePhoto#AlbumPhotos :=> #{exp.message}"
       render :nothing   => true and return
@@ -129,7 +130,7 @@ class VenuePhotoController < ApplicationController
   def add
     if request.xhr?
       begin
-        @album       = @venue.albums.where(:name => params[:album_name]).first
+        @album       = @venue.albums.where(:id => params[:album_id]).first
         if @has_admin_access
           @post_url  = '/venue_photo/create'
           @photo     = Photo.new
@@ -149,7 +150,7 @@ class VenuePhotoController < ApplicationController
   def edit
     if request.xhr?
       begin
-        @album       = @venue.albums.where('name = ? ', params[:album_name]).first
+        @album       = @venue.albums.where('id = ? ', params[:album_id]).first
         unless @has_admin_access
           render :nothing => true and return
         end        
@@ -165,7 +166,7 @@ class VenuePhotoController < ApplicationController
   def update
     if request.xhr?
       begin        
-        @album          = @venue.albums.where('name = ?', params[:album_name]).first
+        @album          = @venue.albums.where('id = ?', params[:album_id]).first
         unless @has_admin_access
           render :nothing => true and return
         end
@@ -183,7 +184,7 @@ class VenuePhotoController < ApplicationController
   def destroy_album
     if request.xhr?
       begin
-        @album       = @venue.albums.where('name = ? ', params[:album_name]).first
+        @album       = @venue.albums.where('id = ? ', params[:album_id]).first
         unless @has_admin_access
           render :nothing => true and return
         end
@@ -201,7 +202,7 @@ class VenuePhotoController < ApplicationController
   def edit_photo
     if request.xhr?
       begin
-        @album       = @venue.albums.where('name = ? ', params[:album_name]).first
+        @album       = @venue.albums.where('id  = ?', params[:album_id]).first
         @photo       = Photo.where(:album_id => @album.id, :id => params[:id]).first
         unless @has_admin_access
           render :nothing => true and return
@@ -219,7 +220,7 @@ class VenuePhotoController < ApplicationController
   def update_photo
     if request.xhr?
       begin
-        @album       = @venue.albums.where('name = ? ', params[:album_name]).first
+        @album       = @venue.albums.where('id  = ?', params[:album_id]).first
         @photo       = Photo.where(:id => params[:id]).first
         unless @has_admin_access
           render :nothing => true and return
@@ -238,7 +239,7 @@ class VenuePhotoController < ApplicationController
   def make_cover_image
     if request.xhr?
       begin
-        @album       = @venue.albums.where('name = ? ', params[:album_name]).first
+        @album       = @venue.albums.where('id  = ?', params[:album_id]).first
         @photo       = Photo.where(:id => params[:id]).first
         unless @has_admin_access
           render :nothing => true and return
@@ -257,7 +258,7 @@ class VenuePhotoController < ApplicationController
   def destroy
     if request.xhr?
       begin        
-        @album       = @venue.albums.where('name = ? ', params[:album_name]).first
+        @album       = @venue.albums.where('id  = ?', params[:album_id]).first
         @photo       = Photo.where(:id => params[:id]).first
         unless @has_admin_access
           render :nothing => true and return
@@ -278,7 +279,7 @@ class VenuePhotoController < ApplicationController
     redirect_to show_venue_path(params[:venue_name]) and return unless request.xhr?
     begin
       @is_admin_of_venue  = current_user.is_member_of_venue?(@venue)
-      @album              = @venue.albums.where('name = ? ', params[:album_name]).first
+      @album              = @venue.albums.where('id  = ?', params[:album_id]).first
       @album.update_attribute(:disabled, !@album.disabled)
       @status             = true
     rescue =>exp
@@ -292,7 +293,7 @@ class VenuePhotoController < ApplicationController
     redirect_to show_venue_path(params[:venue_name]) and return unless request.xhr?
     begin
       @is_admin_of_venue = current_user.is_member_of_venue?(@venue)
-      @album             = @venue.albums.where('name = ? ', params[:album_name]).first
+      @album             = @venue.albums.where('id  = ?', params[:album_id]).first
       @status            = true
     rescue
       @status            = false
