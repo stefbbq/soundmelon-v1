@@ -70,9 +70,12 @@ Soundmelon::Application.routes.draw do
   match '/home/setup/fan/location'              => 'fan#update_fan_items',                  :as => :profile_item_setup
   get 'home/new/colony'                         => 'colony#new',                            :as => :new_colony
   post 'home/create/colony'                     => 'colony#create',                         :as => :create_colony
+  get 'home/edit/colony'                        => 'colony#edit',                           :as => :edit_colony
+  post '/home/update/colony'                    => 'colony#update',                         :as => :update_colony
   match 'home/setup/colony/profile/:id'         => 'colony#setup_profile',                  :as => :colony_setup
   match 'colony/:id'                            => 'colony#show',                           :as => :colony_profile
   match 'colony/:id/join'                       => 'colony#join',                           :as => :join_colony
+  match 'colony/:id/unjoin'                     => 'colony#unjoin',                         :as => :unjoin_colony
   match 'colony/:id/members'                    => 'colony#members',                        :as => :colony_members
   
   #fan public
@@ -124,6 +127,8 @@ Soundmelon::Application.routes.draw do
   match ':artist_name/:type/posts/more/:page'   =>'user_posts#more_posts',                  :as => :artist_more_posts
   match ':venue_name/venue/bulletins/more/:page'     =>'user_posts#more_bulletins',         :as => :venue_more_bulletins
   match ':venue_name/venue/:type/posts/more/:page'   =>'user_posts#more_posts',             :as => :venue_more_posts
+  match '/colony/:id/bulletins/more/:page'           =>'colony#more_bulletins',             :as => :colony_more_bulletins
+  match 'more/posts/colony/:id/:page'         =>'colony#more_posts',                        :as => :colony_more_posts
 
   match 'update/basic/profile'                => 'fan#update_basic_info',                   :as => :update_basic_info
   match 'update/additional/info'              => 'fan#update_additional_info',              :as => :update_additional_info
@@ -134,11 +139,12 @@ Soundmelon::Application.routes.draw do
   match 'update/venue/notification/:id'       => 'venue#update_notification_setting',       :as => :update_venue_notification_setting
   
   #--------------------------------------------------AvatarController[Fan Profile Pic/Profile Banner]----------------------
-  post 'profile/pic/add'                      => 'avatar#create',                           :as => :add_avatar
-  get 'profile/pic/new'                       => 'avatar#new',                              :as => :new_avatar
-  match 'profile/pic/crop'                    => 'avatar#crop',                             :as => :crop_avatar
-  match 'profile/pic/update'                  => 'avatar#update',                           :as => :update_avatar
-  get 'profile/pic/delete'                    => 'avatar#delete',                           :as => :delete_avatar
+  # id is colony id, link without id gives link for current actor item
+  post 'profile/pic/add(/:id)'                => 'avatar#create',                           :as => :add_avatar
+  get 'profile/pic/new(/:id)'                 => 'avatar#new',                              :as => :new_avatar
+  match 'profile/pic/crop(/:id)'              => 'avatar#crop',                             :as => :crop_avatar
+  match 'profile/pic/update(:/id)'            => 'avatar#update',                           :as => :update_avatar
+  get 'profile/pic/delete(/:id)'              => 'avatar#delete',                           :as => :delete_avatar
 
   post 'banner/pic/add'                      => 'avatar#create_banner',                    :as => :add_banner
   get 'banner/pic/new'                       => 'avatar#new_banner',                       :as => :new_banner

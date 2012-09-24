@@ -7,11 +7,6 @@
   != "$('#cropbox').Jcrop({onChange: update_crop, onSelect: update_crop, setSelect: [0, 0, 414, 246], aspectRatio: 1.68});"
   != "$('form').submit(function(){($('.loader').html($('#globalloading').html()));return true; $(':submit').attr('disabled','disabled');});"
 - else
-  - if @item.is_fan?
-    != "$('.left .profile-image').html('#{escape_javascript(get_fan_profile_image(@item, true))}');"
-  - elsif @item.is_artist?
-    != "$('.left .profile-image').html('#{escape_javascript(get_artist_profile_image(@item, true))}');"
-  - elsif @item.is_venue?
-    != "$('.left .profile-image').html('#{escape_javascript(get_venue_profile_image(@item, true))}');"
+  != "$('.live .profile-image').html('#{escape_javascript(get_profile_image(@item, true))}');"
   faceboxContent("Successfully Uploaded");
   closeFacebox(1000);

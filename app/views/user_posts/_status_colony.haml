@@ -11,9 +11,10 @@
       %span characters remaining
     .submit
       = submit_tag('post', :id => "post-btn", :class => "post-btn")
-      .pin
-        .text pin to top
-        = check_box :post, :is_bulletin, :disabled => true
+      - if @is_admin
+        .pin
+          .text pin to top
+          = check_box :post, :is_bulletin, :disabled => true
     .clear
   %span.inputerror
 :javascript
@@ -47,22 +48,22 @@
     $('.status-input form > span').html((maxChar - $(this).val().length) + "<span> characters remaining</span>");
     if($(this).val() == ''){ //0
       $('.status-input form > span').attr('class', '');
-      $('.post-btn').css({ opacity: .5 });	
+      $('.post-btn').css({ opacity: .5 });
       $(".post-btn").attr('disabled','disabled');
       $('.status-input input[type=checkbox]').attr("disabled", "disabled");
-      $('.status-input .pin .text').css('color', '#555');        
+      $('.status-input .pin .text').css('color', '#555');
     } else if ($(this).val().length <= (maxChar - 10)){ //over 0, below 200
       $('.status-input form > span').attr('class', 'okay');
-      $('.post-btn').css({ opacity: 1 });	
+      $('.post-btn').css({ opacity: 1 });
       $(".post-btn").removeAttr('disabled');
-      $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);      
+      $('.mentions-autocomplete-list').css('top', $('.status-input .input-box').height() + 5);
       $('.status-input input[type=checkbox]').removeAttr("disabled");
       $('.status-input .pin .text').css('color', '#bbb');
-    } else if ($(this).val().length > (maxChar - 10) && $(this).val().length < maxChar) { 
+    } else if ($(this).val().length > (maxChar - 10) && $(this).val().length < maxChar) {
       $('.status-input form > span').attr('class', 'warning');
     } else { //over 200
       $('.status-input form > span').html((maxChar - $(this).val().length) + "<span> no more than 200 characters</span>");
-      $('.status-input form > span').attr('class', 'over');			
+      $('.status-input form > span').attr('class', 'over');
       $(".post-btn").attr('disabled','disabled');
     }
   })

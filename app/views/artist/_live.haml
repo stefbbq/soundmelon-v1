@@ -1,64 +1,66 @@
-- is_own_wall     = @actor == @artist
-- is_actor_fan    = @actor ? @actor.is_fan? : false
-- is_actor_artist = @actor ? @actor.is_artist? : false
-- is_actor_venue  = @actor ? @actor.is_venue? : false
-- artist_admin_ids= ArtistUser.for_artist_id(@artist.id).map { |u| u.user_id}
-- is_artist_admin = @actor ? (artist_admin_ids.include? current_user.id) : false
-- location        = @artist.location_name
-.live
-  = get_profile_banner(@artist, !@is_public)
-  .profile-image{:title =>"#{@artist.name}", :style =>"width:160px;height:160px;top:110px;left:20px"}
-    = get_profile_image(@artist, !@is_public)
-  .links
-    .top
-      =# render "bricks/random_artists", :current => @artist
-    .bottom
-      .name
-        %h1.full-name= @artist.name
-        %h1= "@#{@artist.mention_name}"
-      .description
-      .overlay.overlay-info
-        .actions
-          - if @actor
-            - unless is_own_wall
-              - if is_artist_admin
-                = link_to change_login_path(@artist), {:class =>'ajaxopen text-action', :remote => :true, :id => "administer"} do
-                  .icon-bg
-                  %i
-                  admin
-              - if is_actor_fan
-                - if @actor.following?(@artist)
-                  = link_to unfollow_artist_path(@artist, 1), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+- if @is_homepage
+- else
+  - is_own_wall     = @actor == @artist
+  - is_actor_fan    = @actor ? @actor.is_fan? : false
+  - is_actor_artist = @actor ? @actor.is_artist? : false
+  - is_actor_venue  = @actor ? @actor.is_venue? : false
+  - artist_admin_ids= ArtistUser.for_artist_id(@artist.id).map { |u| u.user_id}
+  - is_artist_admin = @actor ? (artist_admin_ids.include? current_user.id) : false
+  - location        = @artist.location_name
+  .live
+    = get_profile_banner(@artist, !@is_public)
+    .profile-image{:title =>"#{@artist.name}", :style =>"width:160px;height:160px;top:110px;left:20px"}
+      = get_profile_image(@artist, !@is_public)
+    .links
+      .top
+        =# render "bricks/random_artists", :current => @artist
+      .bottom
+        .name
+          %h1.full-name= @artist.name
+          %h1= "@#{@artist.mention_name}"
+        .description
+        .overlay.overlay-info
+          .actions
+            - if @actor
+              - unless is_own_wall
+                - if is_artist_admin
+                  = link_to change_login_path(@artist), {:class =>'ajaxopen text-action', :remote => :true, :id => "administer"} do
                     .icon-bg
                     %i
-                    unfollow
-                - else
-                  = link_to follow_artist_path(@artist, 1), {:id =>'follow-artist', :remote => true, :class => 'ajaxopen text-action'} do
-                    .icon-bg
-                    %i
-                    follow
-              - elsif is_actor_artist
-                #connect_section
-                  =# render 'bricks/artist_connection', :actor => @actor, :artist => @artist
-            - else
-              - unless @has_link_access
-                = link_to user_home_path, {:remote => true, :id => "administer", :class => 'text-action ajaxopen backable'} do
-                  .icon-bg
-                  %i
-                  admin
+                    admin
+                - if is_actor_fan
+                  - if @actor.following?(@artist)
+                    = link_to unfollow_artist_path(@artist, 1), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+                      .icon-bg
+                      %i
+                      unfollow
+                  - else
+                    = link_to follow_artist_path(@artist, 1), {:id =>'follow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+                      .icon-bg
+                      %i
+                      follow
+                - elsif is_actor_artist
+                  #connect_section
+                    =# render 'bricks/artist_connection', :actor => @actor, :artist => @artist
               - else
-                %a{:onclick => "javascript:artistTutorial();", :class => "text-action-no-img", :id => 'tutorial-link'}
-                  tutorial
-                = link_to show_artist_path(@artist), {:remote => true, :id => "view-public-profile", :class => 'text-action ajaxopen backable'} do
-                  .icon-bg
-                  %i
-                  view public profile                        
-          = link_to '', "http://facebook.com/#{@artist.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @artist.facebook_page.blank?
-          = link_to '', "http://twitter.com/#{@artist.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @artist.twitter_page.blank?
-        .heading
-          = "#{@artist.genre}"
-          artist
-          - unless location.blank?
-            from
-            %span
-              = "#{location}"
+                - unless @has_link_access
+                  = link_to user_home_path, {:remote => true, :id => "administer", :class => 'text-action ajaxopen backable'} do
+                    .icon-bg
+                    %i
+                    admin
+                - else
+                  %a{:onclick => "javascript:artistTutorial();", :class => "text-action-no-img", :id => 'tutorial-link'}
+                    tutorial
+                  = link_to show_artist_path(@artist), {:remote => true, :id => "view-public-profile", :class => 'text-action ajaxopen backable'} do
+                    .icon-bg
+                    %i
+                    view public profile
+            = link_to '', "http://facebook.com/#{@artist.facebook_page}", :target =>'_blank', :title =>"Visit our Facebook page", :class =>"icon-action facebook-icon" unless @artist.facebook_page.blank?
+            = link_to '', "http://twitter.com/#{@artist.twitter_page}", :target =>'_blank', :title =>"Visit our Twitter", :class =>"icon-action twitter-icon" unless @artist.twitter_page.blank?
+          .heading
+            = "#{@artist.genre}"
+            artist
+            - unless location.blank?
+              from
+              %span
+                = "#{location}"

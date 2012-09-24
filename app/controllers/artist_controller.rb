@@ -25,8 +25,7 @@ class ArtistController < ApplicationController
     session[:artist_params] = {}
     session[:artist_step]   = nil
     @artist                 = Artist.new(session[:artist_params])
-    @artist.current_step    = session[:artist_step]
-    get_user_associated_objects        
+    @artist.current_step    = session[:artist_step]    
   end  
 
   def create

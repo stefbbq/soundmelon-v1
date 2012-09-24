@@ -122,6 +122,7 @@ class UserPostsController < ApplicationController
   def mentioned
     @user                         = @actor
     @has_link_access              = true
+    @is_homepage                  = true
     if @user.is_fan?
       @posts                      = @user.item_mentioned_posts(params[:page])
       @posts_order_by_dates       = @posts.group_by{|t| t.created_at.strftime("%Y-%m-%d")}
@@ -149,6 +150,7 @@ class UserPostsController < ApplicationController
   
   def replies
     @user                         = @actor
+    @is_homepage                  = true
     @has_link_access              = true
     if @user.is_fan?
       @posts                      = @user.replies_post(params[:page])

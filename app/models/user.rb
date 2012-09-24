@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   authenticates_with_sorcery! do |config|
     config.authentications_class = Authentication
   end
+  geocoded_by :address
+  after_validation :geocode, :if => :address_changed?
 
   has_many :authentications, :dependent => :destroy
   accepts_nested_attributes_for :authentications

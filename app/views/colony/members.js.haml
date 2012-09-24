@@ -1,0 +1,5 @@
+- list_content = capture do
+  .connections_list
+    = render "/colony/members_list", :members =>@members
+updateLeftSection('#{escape_javascript(list_content)}');
+closeFacebox(1);

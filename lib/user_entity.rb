@@ -16,7 +16,7 @@ module UserEntity
       items_ids     = input_params[:id]
       self.where("id in (?) or name like '%?%'", items_ids, item_name)
     end
-
+    
   end
       
   def is_fan?
@@ -107,7 +107,31 @@ module UserEntity
       fav_item.favoreditem = g
       fav_item.save
     end
-  end 
+  end
+
+  def related_items limit = 2
+    items  = []
+    if self.is_fan?
+      items = self.all_following(:limit =>limit,:order =>"rand()")
+    elsif self.is_artist?
+      items = Genre.get_artists_for_genres(self.genres)
+    elsif self.is_venue?
+      items = self.nearbys
+    end
+    items
+  end
+
+  def sidebar_suggestion_items limit = 5
+    items  = []
+    if self.is_fan?
+      items = self.all_following(:limit =>limit,:order =>"rand()")
+    elsif self.is_artist?
+      items = Genre.get_artists_for_genres(self.genres)
+    elsif self.is_venue?
+      items = self.nearbys
+    end
+    items
+  end
 
   def inbox page=1
     self.received_messages.paginate(:page => page, :per_page => MESSAGES_PER_PAGE)

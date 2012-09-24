@@ -1,0 +1,35 @@
+- if current
+  - @items  = current.related_items
+  - @itemA  = @items.first
+  - @itemB  = @items.size > 1 ? @items.last : nil
+  - has_logged_user = current_user
+  - if @itemA
+    - item_type = @itemA.is_fan? ? 'fan' : @itemA.is_artist? ? 'artist' : 'venue'
+    - details   = actor_detail(@itemA)
+    .left
+      .photo
+        = get_profile_image(@itemA)
+      .overlay
+        - if has_logged_user
+          = link_to details[:link], {:class =>'ajaxopen backable', :remote =>true} do
+            #{item_type}
+            %h2= details[:name]
+        - else
+          = link_to details[:link] do
+            #{item_type}
+            %h2= details[:name]
+  - if @itemB
+    - item_type = @itemA.is_fan? ? 'fan' : @itemA.is_artist? ? 'artist' : 'venue'
+    - details   = actor_detail(@itemA)
+    .right
+      .photo
+        = get_profile_image(@itemB)
+      .overlay
+        - if has_logged_user
+          = link_to details[:link], {:class =>'ajaxopen backable', :remote =>true} do
+            #{item_type}
+            %h2= details[:name]
+        - else
+          = link_to details[:link] do
+            #{item_type}
+            %h2= details[:name]

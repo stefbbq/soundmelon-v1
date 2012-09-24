@@ -12,6 +12,7 @@ class MessagesController < ApplicationController
       @from_header_link = params[:top].present?
       @user             = current_actor
       messages_and_posts_count
+      @is_homepage      = true
       if @user.is_fan?
         get_user_associated_objects #unless @from_header_link
         #TODO: not get called automatically so calling explicitly. Need to investigate        

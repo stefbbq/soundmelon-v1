@@ -1,0 +1,31 @@
+- items = @actor.sidebar_suggestion_items
+.items
+  - for item in items
+    - status                      = true
+    - if item.is_artist?      
+      - link                      = show_artist_path(item)
+      - image                     = get_artist_avatar(item)
+      - name                      = item.name
+      - location                  = nil
+    - elsif item.is_venue?
+      - link                      = show_venue_path(item)
+      - image                     = get_venue_avatar(item)
+      - name                      = item.get_full_name
+      - location                  = nil
+    - elsif item.is_fan?
+      - link                      = fan_profile_path(item.id)
+      - image                     = get_fan_avatar(item)
+      - name                      = item.get_full_name
+      - location                  = item.get_full_address
+    - else
+      - status                    = false
+    - if status
+      = link_to get_large_avatar(item), link, :remote =>:true, :class =>'ajaxopen backable'
+      %br/
+      %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'
+      %br/
+      - if location
+        from #{location}      
+    %br/
+    %br/
+  

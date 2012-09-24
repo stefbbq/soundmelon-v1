@@ -2,8 +2,9 @@
 .primary-container
   .primary
     .left
-      .top
-        = render '/user_posts/status'
-      = render "/colony/colony_posts"
+      - if @is_admin
+        .top
+          = render '/user_posts/status_colony'
+      = render "/colony/colony_posts"      
     .right
       = render "/colony/right"

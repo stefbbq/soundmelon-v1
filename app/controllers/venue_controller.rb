@@ -8,8 +8,7 @@ class VenueController < ApplicationController
     @user                  = current_user
     session[:venue_params] ||= {}
     @venue                 = Venue.new(session[:venue_params])
-    @venue.current_step    = session[:venue_step]    
-    #    get_user_associated_objects    
+    @venue.current_step    = session[:venue_step]        
   end
 
   def create    

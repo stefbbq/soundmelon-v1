@@ -1,0 +1,8 @@
+= render "colony/live"
+.primary-container
+  .primary
+    .left
+      .connections_list
+        = render "/colony/members_list", :members =>@members
+    .right
+      = render "/colony/right"

@@ -1,0 +1,6 @@
+- members_by_type = members.group_by{|m| m.class.name}
+- members_by_type.each do |member_type, members|
+  = member_type == 'User' ? 'Fans' : member_type == 'Artist' ? 'Artists' : 'Venues'
+  %hr/
+  - members.each do |member|
+    = render '/user_connections/item', :user => member, :connection_item => nil, :is_user_fan => true

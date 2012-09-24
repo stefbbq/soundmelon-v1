@@ -34,7 +34,7 @@ gem 'mailboxer', '0.7.0'
 gem 'user-agent', '~> 1.0.0'
 gem "rinku", "~> 1.7.0"
 gem 'carmen-rails', '~> 1.0.0.beta3'
-
+gem 'geocoder'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

@@ -8,7 +8,7 @@
         %li
           = msg
 .loader
-= form_for @profile_pic, :url => add_avatar_path, :html => {:multipart => true, :remote => true } do |f|
+= form_for @profile_pic, :url => url, :html => {:multipart => true, :remote => true } do |f|
   Upload Pic
   %br
   = f.file_field :avatar    

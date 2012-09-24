@@ -1,17 +1,3 @@
-.live
-  = get_profile_banner(@user, !@is_public)
-  .profile-image{:title =>"#{@user.get_full_name}"}
-    = get_profile_image(@user, !@is_public)
-  .links
-    .top
-      = render "bricks/random_artists", :current => nil
-    .bottom
-      .name
-        %h1 welcome to the beta
-        %h1.full-name= @user.get_full_name
-      .overlay.overlay-info
-        .actions
-          %a{:onclick => "javascript:fanTutorial();", :class => "text-action-no-img", :id=>'tutorial-link'}
-            tutorial
-          = link_to "provide feedback", feedback_start_path, :remote => true, :class => "ajaxopen text-action-no-img"
-        .heading
+- if @is_homepage  
+- else
+  = render '/fan_public/live'

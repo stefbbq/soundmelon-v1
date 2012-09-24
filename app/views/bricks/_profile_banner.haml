@@ -11,7 +11,7 @@
           %h2
             remove
   - else
-    = image_tag(random_profile_images.sample, :alt=>'', :width =>'948px;', :height=>'262px;')
+    =# image_tag(random_profile_images.sample, :alt=>'', :width =>'948px;', :height=>'262px;')
     - if self_profile
       .overlay
         = link_to new_banner_path, {:remote=>:true, :title =>'add profile banner'} do

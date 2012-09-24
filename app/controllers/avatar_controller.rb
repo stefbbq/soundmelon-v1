@@ -126,9 +126,15 @@ class AvatarController < ApplicationController
   def set_actor_and_entities
     if request.xhr?
       begin
-        @actor = current_actor
-        @item           = @actor
-        @profile_pic    = @actor.profile_pic
+        if params[:id].blank?
+          @actor          = current_actor
+          @item           = @actor
+          @profile_pic    = @actor.profile_pic
+        else
+          @actor          = current_actor
+          @item           = Colony.find(params[:id])
+          @profile_pic    = @item.profile_pic
+        end
       rescue =>exp
         logger.error "Error in Avatar::SetActorAndEntities :=> #{exp.message}"
       end

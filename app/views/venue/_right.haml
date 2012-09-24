@@ -29,11 +29,6 @@
             :selected           => 4 == current
   - unless @is_public
     .divider
-    = link_to 'manage your profile' ,
-              manage_profile_path,
-              :remote             => true,
-              :id                 => 'manage_profile',
-              :class              => 5 == current ?  'ajaxopen selection-box backable active button-fill-artist' : 'ajaxopen selection-box backable'    
     = link_to 'remove your profile',
               remove_my_profile_path,
               :remote             => true,

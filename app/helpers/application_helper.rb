@@ -66,6 +66,14 @@ module ApplicationHelper
     useritem.is_fan? ? get_fan_avatar(useritem) : (useritem.is_artist? ? get_artist_avatar(useritem) : get_venue_avatar(useritem))
   end
 
+  def get_large_avatar useritem
+    unless useritem.profile_pic(true)
+      image_tag('profile/artist-defaults-avatar-large.jpg', :alt=>'')
+    else
+      image_tag(useritem.profile_pic.avatar.url(:medium), :alt=>'')
+    end
+  end
+
   def get_profile_banner profile_item, self_banner = false        
     raw (render :partial => '/bricks/profile_banner', :locals => {:profileitem => profile_item, :self_profile =>self_banner})
   end
@@ -317,39 +325,44 @@ module ApplicationHelper
   # linked with corresponding buzzed items
   def post_message post, postitem, link_class = nil
     link_class = 'ajaxopen backable' unless link_class
-    content         = " wrote about "
+    content         = ""
     message         = ""
     if post && postitem
       if post.album_post?
         album_detail  = album_name_and_url(postitem)
         album_name    = album_detail.first
         album_path    = album_detail.last
-        content       += " photo album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+        content       += " wrote about photo album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
       elsif post.photo_post?
         album_detail  = album_name_and_url(postitem.album)
         album_name    = album_detail.first
         album_path    = album_detail.last
-        content       += " photo <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+        content       += " wrote about photo <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
       elsif post.artist_show_post?
         artist        = postitem.artist
         show_id       = postitem.id
         show_venue    = postitem.get_venue_name
         show_city     = postitem.city
         show_path     = artist_show_path(artist, show_id)
-        content       += "artist show <a href='#{show_path}' class='#{link_class}' remote='true'>show</a>(at #{show_venue} of #{show_city})"
+        content       += " wrote about artist show <a href='#{show_path}' class='#{link_class}' remote='true'>show</a>(at #{show_venue} of #{show_city})"
       elsif post.song_post?
         artist        = postitem.artist
         artist_music  = postitem.artist_music
         album_name    = artist_music.album_name
         album_id      = artist_music.id
         album_path    = "#{artist_music_path(artist, album_id)}?h=#{postitem.id}"
-        content       += " song <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{postitem.title} </a>"
+        content       += " wrote about song <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{postitem.title} </a>"
       elsif post.artist_music_post?
         artist        = postitem.artist
         album_name    = postitem.album_name
         album_id      = postitem.id
         album_path    = "#{artist_music_path(artist, album_id)}"
-        content       += "<a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+        content       += " wrote about <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+      elsif post.colony_post?        
+        colony_name   = postitem.name
+        colony_id     = postitem.id
+        colony_path   = "#{colony_profile_path(colony_id)}"
+        content       += " wrote on colony <a href='#{colony_path}' class='#{link_class}' data-remote='true'> #{colony_name}</a>'s wall"
       end
     end
     [content.html_safe, message.html_safe]

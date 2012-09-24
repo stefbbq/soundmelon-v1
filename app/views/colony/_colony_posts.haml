@@ -1,7 +1,3 @@
-- tabs            = [:latest, :reply, :mention, :message]
-- empty_messages  = ["There are no updates!", "No one has replied you!", "No one has mentioned you in their posts!", "No new messages!"]
-- current         = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
-- message         = empty_messages[current]
 .user_posts
   - unless @posts_order_by_dates.size.zero?
     - @posts_order_by_dates.each do |date, posts|

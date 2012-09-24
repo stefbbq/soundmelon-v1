@@ -5,7 +5,8 @@ class UserController < ApplicationController
     begin
       home_actor                    = current_actor
       @song_items                   = current_user.find_radio_feature_playlist_songs unless request.xhr?
-      messages_and_posts_count      
+      messages_and_posts_count
+      @is_homepage                  = true
       if home_actor.is_fan?
         @user                       = home_actor
         @is_fan                     = true
@@ -43,6 +44,7 @@ class UserController < ApplicationController
   def change_login
     if request.xhr?
       begin
+        @is_homepage                  = true
         if params[:artist_name].present?
           @artist                     = Artist.where(:mention_name =>params[:artist_name]).first
           @from_home                  = true

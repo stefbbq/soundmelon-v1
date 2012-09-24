@@ -1,7 +1,7 @@
 - is_member = @colony.has_this_member? @actor
 .live
   .profile-image{:title =>"#{@colony.name}"}
-    = get_profile_image(@colony, @colony.profile_pic)
+    = get_profile_image(@colony, @is_admin)
   .links 
     .bottom
       .name
@@ -12,17 +12,16 @@
       .overlay.overlay-info
         .actions
           - unless is_member
-            = link_to join_colony_path(@colony), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+            = link_to join_colony_path(@colony), {:id =>'join-colony', :remote => true, :class => 'ajaxopen text-action'} do
               .icon-bg
               %i
               join
           - else
-            = link_to join_colony_path(@colony), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
+            = link_to join_colony_path(@colony), {:id =>'unjoin-colony', :remote => true, :class => 'ajaxopen text-action'} do
               .icon-bg
               %i
               unjoin
-          = link_to colony_members_path(@colony), {:id =>'unfollow-artist', :remote => true, :class => 'ajaxopen text-action'} do
-            .icon-bg
+          = link_to colony_members_path(@colony), {:id =>'colony-members', :remote => true, :class => 'ajaxopen backable'} do
             %i
             members
         .heading

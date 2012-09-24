@@ -1,9 +1,9 @@
 
-- unjoin_content = capture do
-  = link_to unjoin_colony_path(@colony), {:id =>'unjoin-colony', :remote => true, :class => 'ajaxopen text-action'} do
+- join_content = capture do
+  = link_to join_colony_path(@colony), {:id =>'join-colony', :remote => true, :class => 'ajaxopen text-action'} do
     .icon-bg
     %i
-    unjoin
+    join
 - main_content = capture do
   .primary-container
     .primary
@@ -14,6 +14,6 @@
         = render "/colony/colony_posts"
       .right
         = render "/colony/right"
-$('.actions #join-colony').replaceWith('#{escape_javascript unjoin_content}');
+$('.actions #unjoin-colony').replaceWith('#{escape_javascript join_content}');
 $('.primary-container').replaceWith('#{escape_javascript main_content}');
 closeFacebox(1);

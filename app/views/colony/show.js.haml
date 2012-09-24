@@ -1,0 +1,15 @@
+$('#page-content').html('#{escape_javascript(render '/colony/live')}');
+$('#page-content').append('<div class="primary-container"></div>');
+$('.primary-container').html('<div class="primary"></div>');
+$('.primary').append('<div class="left"></div>');
+- if @is_member
+  $('.primary .left').append('<div class="top">#{escape_javascript(render '/user_posts/status_colony')}</div>');
+$('.primary .left').append('#{escape_javascript(render '/colony/colony_posts')}');
+$('.primary').append('<div class="right"></div>');
+$('.primary .right').html('#{escape_javascript(render '/colony/right')}');
+closeFacebox(1);
+$('.selection-box').removeClass('active').removeClass('button-fill-fan');
+$('#feed-msg').addClass('active').addClass('button-fill-fan');
+$('.left a').removeClass('active').removeClass('button-fill-fan');
+$('#latest').addClass('active').addClass('button-fill-fan');
+scrollToTop();

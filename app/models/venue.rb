@@ -3,7 +3,9 @@ class Venue < ActiveRecord::Base
   
   acts_as_messageable
   acts_as_followable
-
+  geocoded_by :mapped_address
+  after_validation :geocode#, :if => :mapped_address_changed?
+  
   has_many :venue_users
   has_many :venue_members, :through => :venue_users, :source => :user
   has_many :venue_admin_users, :through => :venue_users, :source => :user, :conditions =>'access_level = 1'
@@ -28,9 +30,16 @@ class Venue < ActiveRecord::Base
   attr_reader :genre_tokens
   attr_writer :current_step
   
-  attr_accessible :genre_tokens, :name, :mention_name, :est_date, :country, :state, :city, :address, :facebook_page, :twitter_page, :info, :approved
+  attr_accessible :genre_tokens, :name, :mention_name, :est_date, :country, :state, :city, :address, :facebook_page, :twitter_page, :info, :approvedattr_accessible, :latitude, :longitude
   accepts_nested_attributes_for :genres
 
+  before_save :set_mapped_address
+
+  def set_mapped_address
+    address_values      = [self.address, self.city, self.state, self.country].uniq!
+#    self.mapped_address = "#{address_values.join(',')}"
+  end
+  
   def genre_tokens=(ids)
 #    self.genre_ids = ids.split(",")
     self.genres = Genre.where(" name in (?)", ids.split(','))
@@ -74,7 +83,7 @@ class Venue < ActiveRecord::Base
   # removes the self,
   # removes every items belonged to it
   def remove_me
-    venue_members       = VenueUser.for_venue(self)
+    venue_members       = VenueUser.for_venue(self).map(&:user)
     venue_name          = self.get_name    
     self.destroy
     

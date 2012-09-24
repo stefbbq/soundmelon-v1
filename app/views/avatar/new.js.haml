@@ -1,2 +1,3 @@
-!= "jQuery.facebox('#{escape_javascript(render 'form')} ' );"
+- item_add_path = params[:id].present? ? add_avatar_path(params[:id]) : add_avatar_path
+!= "jQuery.facebox('#{escape_javascript(render 'form', :url =>item_add_path)} ' );"
 != "$('form').submit(function(){($('.loader').html($('#globalloading').html()));return true; $(':submit').attr('disabled','disabled');});"
