@@ -1,0 +1,5 @@
+= form_for @song, :url =>song_update_path(@artist, @song.id).to_s, :html => {:remote => true, :id =>"song_#{@song.id}_edit_form" } do |f|
+  .form
+    = hidden_field_tag :is_inline, '1'
+    = f.label 'song title'
+    = f.text_field :title, :class => 'overlay-text-field', :onblur =>"$('#song_#{@song.id}_edit_form').submit();"  

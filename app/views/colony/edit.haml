@@ -1,7 +1,7 @@
-= render :partial=>"/artist/live"
+= render :partial=>"/colony/live"
 .primary-container
   .primary
     .left
-      = render '/artist/edit_form', :action_url => update_artist_path(@artist.id)
+      = render '/colony/edit_form', :action_url => update_colony_path(@colony.id)
     .right
-      = render "/artist/right", :current =>'manage_profile'
+      = render "/colony/right", :current =>'manage_profile'

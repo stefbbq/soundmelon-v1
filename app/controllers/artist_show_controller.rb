@@ -122,6 +122,7 @@ class ArtistShowController < ApplicationController
         @artist           = @actor
         @has_admin_access = @artist == @actor
         @has_link_access  = @has_admin_access
+        @is_homepage      = true
       else
         @artist           = Artist.where(:mention_name => params[:artist_name]).first
         @has_admin_access = @artist == @actor

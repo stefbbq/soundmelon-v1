@@ -4,9 +4,9 @@ class Colony < ActiveRecord::Base
   has_many :posts, :as =>:postitem, :dependent => :destroy
   has_one  :profile_pic, :as =>:profileitem, :dependent =>:destroy
   
-  validates :name, :presence =>true, :if => lambda { |o| o.current_step.last == 1 }
-  validate :should_define_neiche, :if => lambda { |o| o.current_step.last == 2 }
-  validates :colony_type, :presence =>true, :if => lambda { |o| o.current_step.last == 3 }
+  validates :name, :presence =>true, :if => lambda { |o| o.current_step.last == 1 || o.id.present? }
+  validate :should_define_neiche, :if => lambda { |o| o.current_step.last == 2 || o.id.present? }
+  validates :colony_type, :presence =>true, :if => lambda { |o| o.current_step.last == 3 || o.id.present? }
 
   acts_as_followable
 

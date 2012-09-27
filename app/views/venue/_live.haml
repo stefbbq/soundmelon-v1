@@ -6,10 +6,10 @@
   - is_venue_admin  = @actor ? (venue_admin_ids.include? current_user.id) : false
   .live
     .profile-image{:title =>"#{@venue.name}"}
-      = get_venue_profile_image(@venue, !@is_public)
+      = get_profile_image(@venue, !@is_public)
     .links
       .top
-        = render "bricks/random_artists", :current => nil
+        =# render "bricks/random_artists", :current => nil
       .bottom
         .name
           %h1.full-name= @venue.name

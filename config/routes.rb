@@ -70,8 +70,8 @@ Soundmelon::Application.routes.draw do
   match '/home/setup/fan/location'              => 'fan#update_fan_items',                  :as => :profile_item_setup
   get 'home/new/colony'                         => 'colony#new',                            :as => :new_colony
   post 'home/create/colony'                     => 'colony#create',                         :as => :create_colony
-  get 'home/edit/colony'                        => 'colony#edit',                           :as => :edit_colony
-  post '/home/update/colony'                    => 'colony#update',                         :as => :update_colony
+  get 'home/edit/colony/:id'                    => 'colony#edit',                           :as => :edit_colony
+  post '/home/update/profile/colony/:id'        => 'colony#update',                         :as => :update_colony
   match 'home/setup/colony/profile/:id'         => 'colony#setup_profile',                  :as => :colony_setup
   match 'colony/:id'                            => 'colony#show',                           :as => :colony_profile
   match 'colony/:id/join'                       => 'colony#join',                           :as => :join_colony

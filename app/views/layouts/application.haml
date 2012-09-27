@@ -10,7 +10,7 @@
     = yield(:head)
     = render '/layouts/analytics'
   - if current_user #user logged in
-    %body{:onload =>"loaded_url='#{request.url}';"}
+    %body
       #base-container
         #page-container
           #page-top-fade
@@ -22,7 +22,7 @@
       = render :partial => "bricks/footer"
   - else #splash
     - @user ||= User.new
-    %body.splash-body{:onload =>"loaded_url='#{request.url}';"}
+    %body.splash-body
       .splash
         .left-decoration
         .right-decoration
@@ -75,3 +75,20 @@
       }
     );
   });
+  // code for back/forward navigation
+  (function(window,undefined){
+    // Prepare
+    var History = window.History;
+    if ( !History.enabled ) {         
+        return false;
+    }
+    // Bind to StateChange Event
+    History.Adapter.bind(window,'statechange',function(){ 
+        var State = History.getState();
+        //History.log(State.data, State.title, State.url);
+        jQuery.facebox($('#globalloading').html());
+        $.getScript(State.url,function(data, textStatus, jqxhr) {
+          $(document).trigger("close.facebox");
+        });
+    });
+  })(window);

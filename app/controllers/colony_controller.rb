@@ -1,6 +1,6 @@
 class ColonyController < ApplicationController
   before_filter :require_login
-  before_filter :setup_colony, :only =>[:show, :join, :unjoin, :members]  
+  before_filter :setup_colony, :only =>[:show, :join, :unjoin, :members, :edit, :update]
   #  layout 'popup', :except =>[:show, :join, :members]
 
   def new
@@ -83,7 +83,16 @@ class ColonyController < ApplicationController
     end
   end
 
-  def update
+  def update    
+    if @colony.update_attributes(params[:colony])
+      respond_to do |format|
+        format.js
+      end
+    else
+      respond_to do |format|
+        format.js {render :action => 'edit' and return}
+      end
+    end
   end
 
   def join

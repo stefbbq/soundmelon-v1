@@ -1,0 +1,25 @@
+= form_for :colony, :url => action_url, :html => {:multipart => true, :remote =>:true, :class => 'artist-form' } do |f|
+  - if @colony.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@colony.errors.count, "error")
+        occurred
+      %ul
+        - @colony.errors.full_messages.each do |msg|
+          %li
+            = msg
+  = render "/colony/form_fields", :f =>f
+  
+:javascript
+  $(document).ready(function() {    
+    $("#artist_genre_tokens").tokenInput(
+      [
+      #{genre_atuofill_artist}
+      ],
+      {
+        theme: "",
+        prePopulate:
+        [#{genre_prepopullate @colony.genres.split(',')}]
+      }
+    );
+  });

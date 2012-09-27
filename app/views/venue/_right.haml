@@ -26,12 +26,6 @@
             :follower_count     => @fan_count,
             :followers          => @fans,
             :user_item          => @venue,
-            :selected           => 4 == current
-  - unless @is_public
-    .divider
-    = link_to 'remove your profile',
-              remove_my_profile_path,
-              :remote             => true,
-              :class              => 'ajaxopen selection-text',
-              :confirm            => "This will remove your artist profile and delete all the data. And this action cannot be undone. Are you sure to continue?"
+            :selected           => 4 == current  
+  .divider
 .fader

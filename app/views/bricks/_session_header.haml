@@ -46,7 +46,19 @@
       = link_to "Colony", new_colony_path, :class => 'ajaxopenwindow'
       = link_to "Artist", new_artist_path, :class => 'ajaxopenwindow'
       or
-      = link_to "Venue", new_venue_path, :class => 'ajaxopenwindow'    
+      = link_to "Venue", new_venue_path, :class => 'ajaxopenwindow'
+    %li
+      - if @actor.is_fan?
+        = link_to 'remove your profile',
+          remove_my_profile_path,          
+          :class              => 'ajaxopen selection-text',
+          :confirm            => "This will remove your artist profile and delete all the data. And this action cannot be undone. Are you sure to continue?"
+      - else
+        = link_to 'remove your profile',
+          remove_my_profile_path,
+          :remote             => true,
+          :class              => 'ajaxopen selection-text',
+          :confirm            => "This will remove your artist profile and delete all the data. And this action cannot be undone. Are you sure to continue?"
     %li
       = link_to "logout", logout_path
 

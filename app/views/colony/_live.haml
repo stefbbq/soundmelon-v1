@@ -1,4 +1,5 @@
-- is_member = @colony.has_this_member? @actor
+- is_member = @is_member
+- is_admin  = @is_admin
 .live
   .profile-image{:title =>"#{@colony.name}"}
     = get_profile_image(@colony, @is_admin)
@@ -24,4 +25,8 @@
           = link_to colony_members_path(@colony), {:id =>'colony-members', :remote => true, :class => 'ajaxopen backable'} do
             %i
             members
+          - if is_admin
+            = link_to edit_colony_path(@colony), {:id =>'colony-members', :remote => true, :class => 'ajaxopen backable'} do
+              %i
+              edit
         .heading

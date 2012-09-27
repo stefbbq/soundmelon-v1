@@ -1,0 +1,43 @@
+.content-box#artist-edit
+  .area.form.artist-basic
+    #update-msg
+    .details
+      %h3
+        your
+        %span name, bio, location, genres,
+        %span target age group
+        and
+        %span words to define
+    .content{:id=>'basic-info'}      
+      .field
+        %label{:for=>"name"}
+          name
+        = f.text_field :name
+      .field
+        %label{:for=>"name"}
+          type        
+        = f.radio_button :colony_type, :connect
+        connect
+        = f.radio_button :colony_type, :promote
+        promote
+      .field
+        %label{:for=>"bio"}
+          bio
+        = f.text_area :bio, :rows => 5, :cols => 50, :class => 'text-area-field long'
+      .field
+        %label{:for=>"location"}
+          location city
+        = f.text_field :location_city, :class => 'textfield long'
+      .field
+        %label{:for=>"genres"}
+          genre(s)
+        = f.text_field :genres, :class => 'textfield long'            
+      .field
+        %label{:for=>"website"}
+          age group
+        = f.text_field :age_group, :class => 'textfield long'
+      .field
+        %label{:for=>"facebook"}
+          tag words
+        = f.text_field :tags, :class => 'textfield long'
+      = f.submit 'save to memory', :class => 'button splash-highlight-button'

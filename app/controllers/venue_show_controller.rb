@@ -26,6 +26,7 @@ class VenueShowController < ApplicationController
         @venue            = @actor
         @has_admin_access = @venue == @actor
         @has_link_access  = @has_admin_access
+        @is_homepage      = true
       else
         @venue            = Venue.where(:mention_name => params[:venue_name]).first
         @has_admin_access = @venue == @actor

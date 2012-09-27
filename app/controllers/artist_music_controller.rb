@@ -99,7 +99,8 @@ class ArtistMusicController < ApplicationController
                   :album_url        => "#{artist_music_path(@artist, @artist_music)}",
                   :delete_url       => "#{delete_artist_music_path(@artist, @artist_music.id)}",
                   :album_string     => "#{render_to_string('/artist_music/_artist_music',:layout =>false, :locals =>{:artist_music =>@artist_music, :show_all=>true})}",
-                  :song_string      => "#{render_to_string('/artist_music/_song_item',:layout =>false, :locals =>{:song =>@song})}"
+                  :song_string      => "#{render_to_string('/artist_music/_song_item',:layout =>false, :locals =>{:song =>@song})}",
+                  :song_edit_string => "#{render_to_string('/artist_music/_song_edit_form',:layout =>false, :locals =>{:song =>@song})}",
                 }
               }
             end
@@ -228,7 +229,7 @@ class ArtistMusicController < ApplicationController
   def edit_song
     if request.xhr?
       begin
-        @song             = Song.find(params[:id])
+        @song             = Song.find(params[:id])        
         @is_updated       = false
         unless @has_admin_access
           render :nothing => true and return
@@ -253,6 +254,7 @@ class ArtistMusicController < ApplicationController
           @song.delay.update_metadata_to_file
           @is_updated           = true
           @has_link_access      = true
+          @is_inline            = params[:is_inline].present?
           render :action => 'edit_song' and return
         end
       rescue =>exp
@@ -414,7 +416,8 @@ class ArtistMusicController < ApplicationController
       if params[:artist_name] == 'home'
         @artist           = @actor
         @has_admin_access = @artist == @actor
-        @has_link_access  = @has_admin_access        
+        @has_link_access  = @has_admin_access
+        @is_homepage      = true
       else
         @artist           = Artist.where(:mention_name => params[:artist_name]).first
         @has_admin_access = @artist == @actor

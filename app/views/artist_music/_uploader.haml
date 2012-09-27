@@ -21,6 +21,7 @@
          var upload_type = dat.type
          if(upload_type == 'song'){
          $('#uploaded').append(song_counter + "  " + dat.upload+'<br />');
+         $('#uploaded').append(dat.song_edit_string +'<br />');
          $('#album_name').val(dat.album_name);
          $('#album_name').attr("disabled", true);
          song_counter++;

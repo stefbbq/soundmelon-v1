@@ -84,7 +84,8 @@ class ArtistPublicController < ApplicationController
       if params[:artist_name] == 'home'
         @artist           = @actor
         @has_admin_access = @artist == @actor
-        @has_link_access  = @has_admin_access        
+        @has_link_access  = @has_admin_access
+        @is_homepage      = true
       else        
         @artist           = Artist.where(:mention_name => params[:artist_name]).includes(:artist_members).first
         @is_public        = true

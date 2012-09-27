@@ -1,5 +1,5 @@
-updateLiveSection('#{escape_javascript(render '/artist/live')}');
-updateLeftSection('#{escape_javascript(render '/artist/edit_form', :action_url => update_artist_path(@artist.id))}');
-updateRightSection('#{escape_javascript(render '/artist/right', :current =>'manage_profile')}');
-closeFacebox(10);
+updateLiveSection('#{escape_javascript(render '/colony/live')}');
+updateLeftSection('#{escape_javascript(render '/colony/edit_form', :action_url => update_colony_path(@colony.id))}');
+updateRightSection('#{escape_javascript(render '/colony/right', :current =>'manage_profile')}');
+closeFacebox(1);
 scrollToTop();
