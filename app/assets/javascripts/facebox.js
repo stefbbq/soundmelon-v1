@@ -111,8 +111,8 @@
         append('<div class="loading"><img src="'+$.facebox.settings.loadingImage+'"/></div>')
 
       $('#facebox').css({
-        //top:	getPageScroll()[1] + (getPageHeight() / 10)+140,
-       // left:	$(window).width() / 2 - 205
+        top:	getPageScroll()[1] + (getPageHeight() / 10)+100,
+        left:	$(window).width() / 2 - 100
       }).show()
 
       $(document).bind('keydown.facebox', function(e) {
@@ -129,7 +129,7 @@
 			$('#facebox .close').show();
       $('#facebox .loading').remove()
       $('#facebox .body').children().fadeIn('normal')
-      //$('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').width() / 2))
+      $('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').width() / 2))
       $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
     },
 
