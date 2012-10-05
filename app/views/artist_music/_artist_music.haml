@@ -23,7 +23,7 @@
         = link_to add_album_to_playlist_path(artist_music.id), {:remote => true, :class => 'ajaxopen'} do
           %div{:class =>"queue-icon"}
           queue
-        = link_to album_buzz_path(artist_music.album_name, artist_music.id), {:remote => true, :class => 'ajaxopen'} do
+        = link_to album_buzz_path(artist_music.album_name, artist_music.id), {:remote => true, :class => 'ajaxload'} do
           %div{:class =>"buzz-icon"}
           buzz
     .bottom
@@ -32,8 +32,8 @@
         %span{:id =>'song_count'}= pluralize(artist_music.song_count, 'song')
       - if @has_link_access
         .controls
-          = link_to "add", add_song_path('home', artist_music ), :remote => true, :class => 'ajaxopen', :title => "add song"
-          = link_to 'edit', edit_artist_music_path('home', artist_music), :remote => true, :class => 'ajaxopen edit', :title => "edit album"
+          = link_to "add", add_song_path('home', artist_music ), :remote => true, :class => 'ajaxload', :title => "add song"
+          = link_to 'edit', edit_artist_music_path('home', artist_music), :remote => true, :class => 'ajaxload edit', :title => "edit album"
           = link_to artist_music.disabled? ? 'enable' : 'disable', disable_enable_artist_music_path('home', artist_music), :remote=>:true, :class=>"ajaxopen", :id =>"public_view_link_#{artist_music.id}"
           = link_to 'remove', delete_artist_music_path('home', artist_music.id), :remote=>:true, :class=>"ajaxopen"
           - unless show_all
@@ -54,6 +54,6 @@
           - artist_music.songs.each do |song|
             = render '/artist_music/song_item', :song =>song
   - if @has_link_access
-    = link_to "", add_song_path('home', artist_music), :remote => true, :class => 'ajaxopen'
+    = link_to "", add_song_path('home', artist_music), :remote => true, :class => 'ajaxload'
     .clear
   .clear

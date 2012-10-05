@@ -6,9 +6,9 @@
   - header_link = artist_shows_path(artist)
 %div
   - if @has_link_access || show_count > 0
-    = link_to header_link, {:remote=>:true, :id=>'shows', :class=>link_class} do
+    = link_to header_link, {:id=>'shows', :class=>link_class} do
       shows
-    = link_to "", new_artist_show_path('home'), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_link_access
+    = link_to "", new_artist_show_path('home'), :remote =>:true, :class=>"ajaxload right-icon-item icon-add" if @has_link_access
   - else
     .selection-box-nohref
       shows
@@ -21,6 +21,6 @@
           - else
             - show_link = artist_show_path(artist, show.id)
           %div{:id =>"artist_show_#{show.id}"}
-            = link_to show.show_date.strftime('%b %d') + " @#{show.get_venue_name}", show_link, :remote=>:true, :class=>"ajaxopen backable"
+            = link_to show.show_date.strftime('%b %d') + " @#{show.get_venue_name}", show_link, :class=>"ajaxopen backable"
     - else
       .message= NO_SHOW_DATE_MESSAGE

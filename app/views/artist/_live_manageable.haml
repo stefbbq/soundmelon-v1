@@ -1,4 +1,4 @@
 .live
-  = get_profile_banner(@artist, !@is_public)
+  = get_profile_banner(@artist, true)
   .profile-image{:title =>"#{@artist.name}"}
-    = get_profile_image(@artist, !@is_public)  
+    = get_profile_image(@artist, true)

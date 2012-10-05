@@ -2,27 +2,39 @@
 .primary-container
   .primary
     .left
-      .access-profiles
-        .artists
-          - if @accessible_artists.blank?
-            You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_artist_path, :class => 'ajaxopenwindow'}
-          - else
-            %h1 your Artist profiles
-            .artist-list
-              - @accessible_artists.each do |artist|
-                = render '/artist/artist_item', :artist =>artist
-            .create
-              #{link_to 'create another artist profile?', new_artist_path, :class => 'ajaxopenwindow'} You can add another artist profile to associate with your account!
-        .venues
-          - if @accessible_venues.blank?
-            .create
-              You have no venue profiles associated with your account, would you like to #{link_to 'create one?', new_venue_path, :class => 'ajaxopenwindow'}
-          - else
-            %h3 your Venue profiles
-            .venue-list
-              - @accessible_venues.each do |venue|
-                = render '/venue/venue_item', :venue =>venue
-            .create
-              #{link_to 'create another venue profile?', new_venue_path, :class => 'ajaxopenwindow'} You can add another venue profile to associate with your account!
+      - if true
+        %h3 Create profiles
+        = link_to new_colony_path, :class => 'ajaxopenwindow' do
+          %h2 Create Colony Profile
+        %br/
+        = link_to new_venue_path(:source =>'1'), :class => 'ajaxopenwindow' do
+          %img{:src => "/assets/profile/setup-venue.jpg"}
+          %h2 create Venue profile
+        = link_to new_artist_path(:source =>'1'), :class => 'ajaxopenwindow' do
+          %img{:src => "/assets/profile/setup-artist.jpg"}
+          %h2 create Artist profile
+      - else
+        .access-profiles
+          .artists
+            - if @accessible_artists.blank?
+              You have no artist profiles associated with your account, would you like to #{link_to 'create one?', new_artist_path, :class => 'ajaxopenwindow'}
+            - else
+              %h1 your Artist profiles
+              .artist-list
+                - @accessible_artists.each do |artist|
+                  = render '/artist/artist_item', :artist =>artist
+              .create
+                #{link_to 'create another artist profile?', new_artist_path, :class => 'ajaxopenwindow'} You can add another artist profile to associate with your account!
+          .venues
+            - if @accessible_venues.blank?
+              .create
+                You have no venue profiles associated with your account, would you like to #{link_to 'create one?', new_venue_path, :class => 'ajaxopenwindow'}
+            - else
+              %h3 your Venue profiles
+              .venue-list
+                - @accessible_venues.each do |venue|
+                  = render '/venue/venue_item', :venue =>venue
+              .create
+                #{link_to 'create another venue profile?', new_venue_path, :class => 'ajaxopenwindow'} You can add another venue profile to associate with your account!
     .right
       = render "/fan/right", :current =>'access_profile'

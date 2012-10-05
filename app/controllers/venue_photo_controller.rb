@@ -279,8 +279,8 @@ class VenuePhotoController < ApplicationController
     redirect_to show_venue_path(params[:venue_name]) and return unless request.xhr?
     begin
       @is_admin_of_venue  = current_user.is_member_of_venue?(@venue)
-      @album              = @venue.albums.where('id  = ?', params[:album_id]).first
-      @album.update_attribute(:disabled, !@album.disabled)
+      @album              = @venue.albums.where('id  = ?', params[:album_id]).first      
+      @album.disabled ? @album.enable : @album.disable
       @status             = true
     rescue =>exp
       logger.error "Error in VenuePhoto::DisableEnableAlbum :#{exp.message}"

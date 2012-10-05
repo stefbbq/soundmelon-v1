@@ -1,4 +1,6 @@
 class ArtistMusic < ActiveRecord::Base
+  include UserContent
+  
   require 'zip/zip'
   require 'zip/zipfilesystem'
 
@@ -17,10 +19,10 @@ class ArtistMusic < ActiveRecord::Base
 
   has_attached_file :cover_img,
     :styles => {
-    :small =>   ['35x35#',:jpg],
+    :small =>   ['50x50#',:jpg],
     :medium =>  ['100x100>',:jpg],
     :large =>   ['300x180#',:jpg]
-    },
+  },
     :path   => ":rails_root/public/sm/artist/song/photos/:normalized_file_name.:extension",
     :url    => "/sm/artist/song/photos/:normalized_file_name.:extension",
     :processors => [:resizer]
@@ -82,6 +84,22 @@ class ArtistMusic < ActiveRecord::Base
 
   def create_newsfeed
     Post.create_newsfeed_for self, nil, 'Artist', self.artist_id, " created"
+  end
+
+  def newsfeed
+    self.posts.where("is_newsfeed is true")
+  end
+
+  def disable
+    self.update_attribute(:disabled, true)
+    newsfeeds = self.newsfeed
+    newsfeeds.each{|p| p.update_attribute(:is_deleted, true)}
+  end
+
+  def enable
+    self.update_attribute(:disabled, false)
+    newsfeeds = self.newsfeed
+    newsfeeds.each{|p| p.update_attribute(:is_deleted, false)}
   end
 
   def useritem

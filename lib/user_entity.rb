@@ -35,6 +35,16 @@ module UserEntity
     self.get_full_name
   end
 
+  def get_location
+    location    = ''
+    if self.is_fan? or self.is_artist?
+       location  = self.address
+    elsif self.is_venue?
+      location  = self.location
+    end
+    location
+  end
+
   # artist connections
   # has made request to connect with artist
   def connection_requested_for? item
@@ -128,7 +138,7 @@ module UserEntity
     elsif self.is_artist?
       items = Genre.get_artists_for_genres(self.genres)
     elsif self.is_venue?
-      items = self.nearbys
+      items = self.nearbys(30)    # other venues within 30 miles
     end
     items
   end
@@ -149,7 +159,7 @@ module UserEntity
     post_ids                            = []
     #    posts           = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id').where('mentioned_posts.user_id = :current_user_id or (posts.user_id in (:current_user_as_well_as_following_users_id) or posts.artist_id in (:user_following_artist_ids))  and posts.is_deleted = :is_deleted and is_bulletin = false', :current_user_id => self.id, :current_user_as_well_as_following_users_id =>  user_as_well_as_following_users_id, :user_following_artist_ids => user_following_artist_ids, :is_deleted => false).order('posts.created_at DESC').uniq.paginate(:page => page, :per_page => POST_PER_PAGE).each{|post| post_ids << post.id}    
     posts      = Post.joins('LEFT OUTER JOIN mentioned_posts ON posts.id = mentioned_posts.post_id')
-                  .where('(mentioned_posts.mentionitem_type = ? and mentioned_posts.mentionitem_id = ?) or (posts.useritem_type = ? and posts.useritem_id in (?)) or (posts.useritem_type = ? and posts.useritem_id in (?)) or (posts.useritem_type = ? and posts.useritem_id in (?))', self.class.name, self.id, 'User', f_u_ids, 'Artist', f_a_ids, 'Venue', f_v_ids)
+                  .where('((mentioned_posts.mentionitem_type = ? and mentioned_posts.mentionitem_id = ?) or (posts.useritem_type = ? and posts.useritem_id in (?)) or (posts.useritem_type = ? and posts.useritem_id in (?)) or (posts.useritem_type = ? and posts.useritem_id in (?))) and is_deleted is false', self.class.name, self.id, 'User', f_u_ids, 'Artist', f_a_ids, 'Venue', f_v_ids)
                   .order('posts.created_at DESC')
                   .uniq.paginate(:page => page, :per_page => POST_PER_PAGE)
                   .each{|post| post_ids << post.id}
@@ -187,7 +197,7 @@ module UserEntity
   def item_mentioned_posts page = 1
     post_ids          = []
     posts             = Post.joins(:mentioned_posts)
-                            .where('mentioned_posts.mentionitem_id = ? and mentioned_posts.mentionitem_type = ?',  self.id, self.class.name)
+                            .where('mentioned_posts.mentionitem_id = ? and mentioned_posts.mentionitem_type = ? and is_deleted is false',  self.id, self.class.name)
                             .order('posts.created_at DESC').uniq
                             .paginate(:page => page, :per_page => POST_PER_PAGE)
                             .each{|post| post_ids << post.id}
@@ -204,8 +214,8 @@ module UserEntity
   end
 
   def replies_post page=1
-    item_post_ids   = self.posts.where('is_newsfeed is false').map{|post| post.id}
-    posts           = Post.where('reply_to_id in (?)', item_post_ids).order('created_at desc')
+    item_post_ids   = self.posts.where('is_newsfeed is false and is_deleted is false').map{|post| post.id}
+    posts           = Post.where('reply_to_id in (?) and is_deleted is false', item_post_ids).order('created_at desc')
                           .paginate(:page => page, :per_page => POST_PER_PAGE)
     post_ids        = posts.map{|post| post.id}
     mark_replies_post_as_read post_ids
@@ -225,8 +235,8 @@ module UserEntity
   end
 
   def unread_post_replies
-    user_post_ids = self.posts.where('is_newsfeed is false').map{|post| post.id}
-    Post.where('reply_to_id in (?) and is_read = ?', user_post_ids, UNREAD)
+    user_post_ids = self.posts.where('is_newsfeed is false and is_deleted is false').map{|post| post.id}
+    Post.where('reply_to_id in (?) and is_read = ? and is_deleted is false', user_post_ids, UNREAD)
   end  
   
 end

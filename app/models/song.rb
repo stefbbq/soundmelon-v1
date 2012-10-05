@@ -1,4 +1,6 @@
 class Song < ActiveRecord::Base
+  include UserContent
+  
   require 'mp3info'
   acts_as_votable
   belongs_to  :user
@@ -78,23 +80,23 @@ class Song < ActiveRecord::Base
   end
 
   def do_like_by user
-#    artist_music      = self.artist_music(:include =>:artist)
-#    artist            = artist_music.artist
-#    genres            = artist ? artist.genre : []
-#    genres            = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
-#    GenreUser.add_genre_and_users genres, user
+    #    artist_music      = self.artist_music(:include =>:artist)
+    #    artist            = artist_music.artist
+    #    genres            = artist ? artist.genre : []
+    #    genres            = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
+    #    GenreUser.add_genre_and_users genres, user
   end
 
   def do_dislike_by user
-#    artist_music      = self.artist_music(:include =>:artist)
-#    artist            = artist_music.artist
-#    genres            = artist ? artist.genre : []
-#    genres            = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
-#    GenreUser.remove_genre_and_users genres, user
+    #    artist_music      = self.artist_music(:include =>:artist)
+    #    artist            = artist_music.artist
+    #    genres            = artist ? artist.genre : []
+    #    genres            = genres.blank? ? [] : genres.split(',').map{|g| Genre.find_by_name(g)}
+    #    GenreUser.remove_genre_and_users genres, user
   end
 
   def song_mp3
-#    self.song
+    #    self.song
     base_file_path  = self.song.url.split('/')
     file_name       = base_file_path.pop
     mp3_file_url    = (base_file_path + ["#{file_name.split('.').first}.mp3"]).join('/')
@@ -209,7 +211,13 @@ class Song < ActiveRecord::Base
   
   def create_newsfeed    
     if self.processed?
-      Post.create_newsfeed_for self, nil, 'Artist', self.artist_music.artist_id, " added"
+      newsfeed = Post.create_newsfeed_for self, nil, 'Artist', self.artist_music.artist_id, " added"
+      begin
+        if self.artist_music.disabled?
+          newsfeed.update_attribute(:is_deleted, true)
+        end
+      rescue
+      end
     end    
   end
 

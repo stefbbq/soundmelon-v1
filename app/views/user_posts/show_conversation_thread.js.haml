@@ -1,14 +1,27 @@
+- deleted_post_msg = capture do
+  %div
+    this post has been deleted
+
 - unless @posts.blank?
   - last_post  = @posts.pop
   - first_post = @posts.shift
   - all_posts  = capture do
-    = render 'user_posts/post', :post => last_post, :hide_thread_link => false, :hide_reply_link =>false, :post_div_id =>"reply_post_#{last_post.id}", :divclass =>"last-post-#{last_post.id}", :postclass => "no-border"
+    - if last_post.deleted?
+      = deleted_post_msg
+    - else
+      = render 'user_posts/post', :post => last_post, :hide_thread_link => false, :hide_reply_link =>false, :post_div_id =>"reply_post_#{last_post.id}", :divclass =>"last-post-#{last_post.id}", :postclass => "no-border", :is_thread_post =>true
     .conversation-thread{:id =>"post_thread_#{last_post.id}"}
       .conversation-thread-top-border
       .conversation-thread-container
         - @posts.reverse_each do |post|
-          = render 'user_posts/post', :post => post, :hide_thread_link => true, :hide_reply_link =>true, :post_div_id =>"reply_post_#{last_post.id}"
-        = render 'user_posts/post', :post => first_post, :hide_thread_link => true, :hide_reply_link =>true,:post_div_id =>"reply_post_#{first_post.id}", :id =>"first_post_#{first_post.id}", :divclass =>'first-post' if first_post
+          - if post.deleted?
+            = deleted_post_msg
+          - else
+            = render 'user_posts/post', :post => post, :hide_thread_link => true, :hide_reply_link =>true, :post_div_id =>"reply_post_#{post.id}", :is_thread_post =>true
+        - if first_post.deleted?
+          = deleted_post_msg
+        - else
+          = render 'user_posts/post', :post => first_post, :hide_thread_link => true, :hide_reply_link =>true,:post_div_id =>"reply_post_#{first_post.id}", :id =>"first_post_#{first_post.id}", :divclass =>'first-post', :is_thread_post =>true if first_post
       .conversation-thread-bottom-border
 
   - hide_show_conversation = capture do

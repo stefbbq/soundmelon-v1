@@ -1,5 +1,6 @@
 class Photo < ActiveRecord::Base
-
+  include UserContent
+  
   belongs_to :album
   belongs_to :user
   has_many  :posts, :as =>:postitem, :dependent => :destroy

@@ -24,7 +24,7 @@
           %div{:class =>"play-sm-icon"}
         = link_to add_to_playlist_path(song.song_name_without_extension, song.id), {:remote => true, :class => 'ajaxopen', :title => "queue"} do
           %div{:class =>"queue-sm-icon"}
-        = link_to song_buzz_path(song), {:remote => true, :class => 'ajaxopen', :title => "buzz"} do
+        = link_to song_buzz_path(song), {:remote => true, :class => 'ajaxload', :title => "buzz"} do
           %div{:class =>"buzz-sm-icon"}
       - else
         (processing)

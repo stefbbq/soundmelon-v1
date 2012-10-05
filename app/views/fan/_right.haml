@@ -3,8 +3,7 @@
 .items
   - if @is_public
     = link_to 'latest posts', fan_latest_post_path(@user),
-              :id                     =>'latest-posts',
-              :remote                 =>:true,
+              :id                     =>'latest-posts',              
               :class                  => 0 == current ? 'ajaxopen selection-box active button-fill-fan backable' : 'ajaxopen selection-box inactive backable'
     = render '/bricks/rb_following_artist',
               :following_artists      => @following_artists,

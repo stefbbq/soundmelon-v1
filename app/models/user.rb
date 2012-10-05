@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   authenticates_with_sorcery! do |config|
     config.authentications_class = Authentication
   end
+  
   geocoded_by :address
   after_validation :geocode, :if => :address_changed?
 
@@ -49,8 +50,8 @@ class User < ActiveRecord::Base
 #    :limit      => 3
 
   attr_writer :current_step
-  attr_accessor :email_confirmation, :password_confirmation
-  attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :authentications_attributes, :tac, :mention_name, :invitation_token, :is_external
+  attr_accessor :email_confirmation, :password_confirmation, :genre_tokens, :street_address, :city, :state, :country
+  attr_accessible :email, :fname, :lname, :email_confirmation, :password, :password_confirmation, :authentications_attributes, :tac, :mention_name, :invitation_token, :is_external, :dob, :gender, :genre_tokens
   attr_accessible :additional_info_attributes
   accepts_nested_attributes_for :additional_info
   attr_accessible :location_attributes
@@ -69,6 +70,7 @@ class User < ActiveRecord::Base
   
   before_validation :sanitize_mention_name
   before_create :generate_remember_token
+  before_save :set_address
   
   searchable :auto_index => true, :auto_remove =>true do
     text    :fname
@@ -81,6 +83,15 @@ class User < ActiveRecord::Base
     :lname => 'Last Name',
     :tac   => 'Terms and Condition'
   }
+
+  # for the first time, sets the address from different attributes
+  def set_address
+    self.address = [self.street_address, self.city, self.state, self.country].compact.join(',') unless self.address
+  end
+
+  def genre_tokens=(tokens)
+    self.genres = Genre.where('name in (?) ', tokens.split(","))
+  end
 
   def current_step
     @current_step || steps.first
@@ -133,9 +144,12 @@ class User < ActiveRecord::Base
     "#{self.fname} #{self.lname}"
   end
 
+  def has_address?
+    !get_full_address.blank?
+  end
+
   def get_full_address
-    info = self.additional_info
-    info ? info.location : ''
+    self.address
   end
     
   def is_admin_of_artist?(artist) 

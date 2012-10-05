@@ -7,7 +7,7 @@
 
 %div
   - if fan_count >0 || @has_link_access
-    = link_to header_link, {:remote =>:true, :id =>'fanbox', :class =>link_class} do
+    = link_to header_link, {:id =>'fanbox', :class =>link_class} do
       %span.count{:id=>'followercount'}
         = fan_count
       - if fan_count > 1 || fan_count == 0

@@ -84,7 +84,7 @@ module ApplicationHelper
       raw (render :partial => '/bricks/profile_image', :locals => {:profileitem => profile_item})
     else
       if profile_item.profile_pic
-        image_tag(profile_item.profile_pic.avatar.url(:large), :alt=>'')
+        image_tag(profile_item.profile_pic.avatar.url(:medium), :alt=>'')
       else
         image_tag(random_profile_images.sample, :alt=>'')
       end
@@ -248,13 +248,13 @@ module ApplicationHelper
         mention_type = mention_item.mentionitem_type
         mention_name = mention_item.mentionitem_name
         if mention_type == 'User'
-          fan_profile_link_html = "<a href='#{fan_profile_path(mention_id)}' class='#{link_class}' data-remote='true'>@#{mention_name}</a>"
+          fan_profile_link_html = "<a href='#{fan_profile_path(mention_id)}' class='#{link_class}'>@#{mention_name}</a>"
           post_msg = post_msg.gsub("@#{mention_name}", fan_profile_link_html)
         elsif mention_type == 'Artist'
-          artist_profile_link_html = "<a href='#{show_artist_path(mention_name)}' class='#{link_class}' data-remote='true'>@#{mention_name}</a>"
+          artist_profile_link_html = "<a href='#{show_artist_path(mention_name)}' class='#{link_class}'>@#{mention_name}</a>"
           post_msg = post_msg.gsub("@#{mention_name}", artist_profile_link_html)
         elsif mention_type == 'Venue'
-          artist_profile_link_html = "<a href='#{show_venue_path(mention_name)}' class='#{link_class}' data-remote='true'>@#{mention_name}</a>"
+          artist_profile_link_html = "<a href='#{show_venue_path(mention_name)}' class='#{link_class}'>@#{mention_name}</a>"
           post_msg = post_msg.gsub("@#{mention_name}", artist_profile_link_html)
         end
       end
@@ -275,7 +275,7 @@ module ApplicationHelper
         photo_count   = postitem.photo_count
         photos        = postitem.photos.limit(3)
         useritem      = postitem.useritem
-        content       += " added #{pluralize(photo_count,'photo')} to the album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+        content       += " added #{pluralize(photo_count,'photo')} to the album <a href='#{album_path}' class='#{link_class}'> #{album_name} </a>"
         for photo in photos
           if useritem.is_artist?
             message       +=  raw (render '/artist_photo/photo', :photo =>photo, :artist_album =>postitem, :artist =>useritem, :in_newsfeed =>true)
@@ -289,7 +289,7 @@ module ApplicationHelper
         album_name    = album_detail.first
         album_path    = album_detail.last
         useritem      = album.useritem
-        content       += " added a new photo to the <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a> album"
+        content       += " added a new photo to the <a href='#{album_path}' class='#{link_class}'> #{album_name} </a> album"
         if useritem.is_artist?
           message       =  raw (render '/artist_photo/photo', :photo =>postitem, :artist_album =>album, :artist =>useritem, :in_newsfeed =>true)
         elsif useritem.is_venue?
@@ -301,21 +301,21 @@ module ApplicationHelper
         show_venue    = postitem.get_venue_name
         show_city     = postitem.city
         show_path     = artist_show_path(artist, show_id)
-        content       += " has created a new <a href='#{show_path}' class='#{link_class}' data-remote=true>show</a> at #{show_venue} of #{show_city}"
+        content       += " has created a new <a href='#{show_path}' class='#{link_class}'>show</a> at #{show_venue} of #{show_city}"
       elsif post.song_post?
         artist        = postitem.artist
         artist_music  = postitem.artist_music
         album_name    = artist_music.album_name
         album_id      = artist_music.id
         album_path    = "#{artist_music_path(artist, album_id)}"
-        content       += " added a new song to the <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a> album"
+        content       += " added a new song to the <a href='#{album_path}' class='#{link_class}'> #{album_name} </a> album"
         message       = raw(render '/artist_music/song_item', :song =>postitem, :artist =>artist, :in_newsfeed =>true)
       elsif post.artist_music_post?
         artist        = postitem.artist
         album_name    = postitem.album_name
         album_id      = postitem.id
         album_path    = "#{artist_music_path(artist, album_id)}"
-        content       += " added a new music album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+        content       += " added a new music album <a href='#{album_path}' class='#{link_class}'> #{album_name} </a>"
       end
     end
     [content.html_safe, message.html_safe]
@@ -332,37 +332,37 @@ module ApplicationHelper
         album_detail  = album_name_and_url(postitem)
         album_name    = album_detail.first
         album_path    = album_detail.last
-        content       += " wrote about photo album <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+        content       += " wrote about photo album <a href='#{album_path}' class='#{link_class}'> #{album_name} </a>"
       elsif post.photo_post?
         album_detail  = album_name_and_url(postitem.album)
         album_name    = album_detail.first
         album_path    = album_detail.last
-        content       += " wrote about photo <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+        content       += " wrote about photo <a href='#{album_path}' class='#{link_class}'> #{album_name} </a>"
       elsif post.artist_show_post?
         artist        = postitem.artist
         show_id       = postitem.id
         show_venue    = postitem.get_venue_name
         show_city     = postitem.city
         show_path     = artist_show_path(artist, show_id)
-        content       += " wrote about artist show <a href='#{show_path}' class='#{link_class}' remote='true'>show</a>(at #{show_venue} of #{show_city})"
+        content       += " wrote about artist show <a href='#{show_path}' class='#{link_class}'>show</a>(at #{show_venue} of #{show_city})"
       elsif post.song_post?
         artist        = postitem.artist
         artist_music  = postitem.artist_music
         album_name    = artist_music.album_name
         album_id      = artist_music.id
         album_path    = "#{artist_music_path(artist, album_id)}?h=#{postitem.id}"
-        content       += " wrote about song <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{postitem.title} </a>"
+        content       += " wrote about song <a href='#{album_path}' class='#{link_class}'> #{postitem.title} </a>"
       elsif post.artist_music_post?
         artist        = postitem.artist
         album_name    = postitem.album_name
         album_id      = postitem.id
         album_path    = "#{artist_music_path(artist, album_id)}"
-        content       += " wrote about <a href='#{album_path}' class='#{link_class}' data-remote='true'> #{album_name} </a>"
+        content       += " wrote about <a href='#{album_path}' class='#{link_class}'> #{album_name} </a>"
       elsif post.colony_post?        
         colony_name   = postitem.name
         colony_id     = postitem.id
         colony_path   = "#{colony_profile_path(colony_id)}"
-        content       += " wrote on colony <a href='#{colony_path}' class='#{link_class}' data-remote='true'> #{colony_name}</a>'s wall"
+        content       += " wrote on colony <a href='#{colony_path}' class='#{link_class}'> #{colony_name}</a>'s wall"
       end
     end
     [content.html_safe, message.html_safe]

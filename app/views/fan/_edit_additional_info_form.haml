@@ -1,24 +1,26 @@
 .area.form
   #additional-info-msg.msg
   .details
-    %h3
-      change your        
-      or
+    %h3 
+      %span gender,
+      %span date of birth, 
+      and
       %span favourite genre
       picks
   .content
-    = form_for(:additional_info, {:url => create_additional_info_path, :remote => true, :class => 'ajaxopen'}) do |f|
+    = form_for(:user, {:url => create_additional_info_path, :remote => true, :class => 'ajaxopen'}) do |f|
       .field.f
         %label{:for => "name"} gender
-        = f.select :gender, [['male',1],['female', '0']]
+        = f.select :gender, [['male',1],['female', 0]], :selected =>@user.gender? ? 1 : 0
       .field.set-age
-        %label{:for => "name"} age
-        = f.text_field :age, :size => 5, :class => 'textfield long'      
+        %label{:for => "name"} date of birth
+        = f.text_field :dob, :size => 30, :class => 'textfield long'
       .field
-        %label{:for => "name"} favourite genres
-        = f.text_field :favourite_genre, :size => 30, :class => 'textfield long'
+        %label{:for => "name"} favourite genres        
+        = f.text_field :genre_tokens, :size => 30, :class => 'textfield long'
       = f.submit 'make it so', :class => 'button splash-highlight-button'
 :javascript
+  $('#user_dob').datepicker({dateFormat:'yy-mm-dd', minDate: new Date(1995, 1 - 1, 1) });
   $('.location-auto-search-complete').autocomplete({
     minLength: 3,
     delay: 600,
@@ -37,7 +39,7 @@
       $('ul.ui-autocomplete').removeClass('ui-menu ui-widget ui-widget-content ui-corner-all');
     }
   });
-  $("#additional_info_favourite_genre").tokenInput(
+  $("#user_genre_tokens").tokenInput(
     [#{genre_atuofill}],
     {
       preventDuplicates: true,

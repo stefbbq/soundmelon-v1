@@ -12,7 +12,7 @@
       = render 'user_posts/post_aggregate', :posts => @bulletins
     -if !@load_more_bulletins_path.nil?
       .read-more#bulletin-readmore
-        =link_to("read more", @load_more_bulletins_path ,:remote => true,:class=>"ajaxload")
+        =link_to("read more", @load_more_bulletins_path , :remote => true, :class=>"ajaxopen")
   .user_posts{:id =>"#{@artist.class.name}_post_wall_#{@artist.id}"}
     - @posts_order_by_dates.each do |date, posts|
       - date      = posts.first ? posts.first.created_at : date

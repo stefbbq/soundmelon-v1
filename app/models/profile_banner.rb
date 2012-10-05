@@ -5,7 +5,8 @@ class ProfileBanner < ActiveRecord::Base
 
   has_attached_file :image,
     :styles     => {          
-          :large    => ['948x262#',:jpg]
+          :large    => ['963x320#',:jpg],
+          :medium   => ['300x300#', :jpg]
         },
     :path => ":rails_root/public/sm/banners/:normalized_file_name.:extension",
     :url => "/sm/banners/:normalized_file_name.:extension",

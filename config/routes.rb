@@ -10,6 +10,12 @@ Soundmelon::Application.routes.draw do
 
   get "venue/update"
 
+  #global
+  get 'search'                                  => 'search#index',                    :as => :search
+  get 'search/index'                            => 'search#index',                    :as => :search
+  get 'logout'                                  => 'sessions#destroy',                :as => :logout
+  match 'login'                                 => 'sessions#create',                 :as => :login
+
   # oauth login routes
   match "oauth/callback" => "oauths#callback", :as => :oauth_callback
   match "oauth/:provider" => "oauths#oauth", :as => :auth_at_provider
@@ -23,11 +29,7 @@ Soundmelon::Application.routes.draw do
   # pages and feedback
   get "feedbacks"                               => "user#feedback_page",              :as => :feedback_start
   match "/feedback/send"                        => "user#give_feedback",              :as => :send_feedback
-  get 'page/:page_name'                         => 'page#show',                       :as => :page
-  #global
-  get "search/index"
-  get 'logout'                                  => 'sessions#destroy',                :as => :logout
-  match 'login'                                 => 'sessions#create',                 :as => :login
+  get 'page/:page_name'                         => 'page#show',                       :as => :page  
 
   get 'ChangeLogin(/:artist_name)'              => 'user#change_login',               :as => :change_login
   get 'ChangeLogin(/:venue_name)/venue'         => 'user#change_login',               :as => :change_login_venue

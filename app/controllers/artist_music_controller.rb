@@ -315,7 +315,7 @@ class ArtistMusicController < ApplicationController
       end
       if @artist_music
         @status      = true
-        @artist_music.update_attribute(:disabled, !@artist_music.disabled)
+        @artist_music.disabled ? @artist_music.enable : @artist_music.disable
       else
         @status      = false
       end

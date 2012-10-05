@@ -6,9 +6,9 @@
   - header_link = artist_musics_path(artist)
 %div
   - if @has_link_access || artist_music_count > 0
-    = link_to header_link, {:remote=>:true, :id=>'music', :class=>link_class} do
+    = link_to header_link, {:id=>'music', :class=>link_class} do
       music
-    = link_to "", new_artist_music_path('home'), :remote=>:true, :class=>"ajaxopen right-icon-item icon-add" if @has_link_access
+    = link_to "", new_artist_music_path('home'), :remote =>:true, :class=>"ajaxload right-icon-item icon-add" if @has_link_access
   - else
     .selection-box-nohref
       music

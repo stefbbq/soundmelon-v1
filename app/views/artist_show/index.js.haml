@@ -2,7 +2,7 @@
   .show-list
     - if @has_link_access
       .content-actions
-        = link_to "add show", new_artist_show_path('home'), :remote=>:true, :class=>"ajaxopen add-new", :title => "add new show"
+        = link_to "add show", new_artist_show_path('home'), :remote=>:true, :class=>"ajaxload add-new", :title => "add new show"
       - if @artist_show_list.blank?
         %img{:src => "/assets/tutorial/artist-instruct-shows.png", :class => "instruct-img"}
     - @artist_show_list.each do |artist_show|

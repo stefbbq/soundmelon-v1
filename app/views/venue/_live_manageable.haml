@@ -1,4 +1,4 @@
 .live
-  = get_profile_banner(@venue, !@is_public)
+  = get_profile_banner(@venue, true)
   .profile-image{:title =>"#{@venue.name}"}
-    = get_profile_image(@venue, !@is_public)
+    = get_profile_image(@venue, true)

@@ -6,7 +6,7 @@
   - header_link = artist_connections_path(artist)
 %div
   - if connection_count > 0 || @has_link_access
-    = link_to header_link, {:id=>'connections', :class=>link_class, :remote => true} do
+    = link_to header_link, {:id=>'connections', :class=>link_class} do
       %span.count
         = connection_count
       - if connection_count > 1 || connection_count == 0
@@ -33,7 +33,7 @@
         - from_artist = request.connected_useritem
         - unless from_artist.blank?
           %div{:id =>"connection_request_#{from_artist.id}"}
-            = link_to from_artist.name, show_artist_path(from_artist), :class =>'ajaxopen backable', :remote => :true
+            = link_to from_artist.name, show_artist_path(from_artist), :class =>'ajaxopen backable'
             %div{:style =>'float:right;padding-right:3px;'}
               = link_to "accept", accept_artist_connection_path(from_artist, :self => 1), :class =>'ajaxopen', :remote => :true
               = link_to "ignore", reject_artist_connection_path(from_artist, :self => 1), :class =>'ajaxopen', :remote => :true

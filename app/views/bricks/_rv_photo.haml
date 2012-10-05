@@ -8,7 +8,7 @@
   - if @has_link_access || photo_album_count > 0
     = link_to header_link, {:remote => :true, :id => 'photos', :class => link_class} do
       photos
-    = link_to "", new_venue_album_path('home'), :remote => :true, :class => "ajaxopen right-icon-item icon-add" if @has_link_access
+    = link_to "", new_venue_album_path('home'), :remote =>:true, :class => "ajaxload right-icon-item icon-add" if @has_link_access
   - else
     .selection-box-nohref
       photos
@@ -20,8 +20,8 @@
         - else
           - album_link = venue_album_path(user_item, venue_photo_album.id)
         .album{:id => "album_#{venue_photo_album.id}"}
-          .cover= link_to get_photo_album_teaser_photo(venue_photo_album), album_link, :remote => :true, :class => "ajaxopen backable"
-          .title= link_to venue_photo_album.name, album_link, :remote => :true, :class => "ajaxopen backable"
+          .cover= link_to get_photo_album_teaser_photo(venue_photo_album), album_link, :class => "ajaxopen backable"
+          .title= link_to venue_photo_album.name, album_link, :class => "ajaxopen backable"
     - else
       .message= NO_PHOTO_ALBUM_MESSAGE
 - if @has_link_access

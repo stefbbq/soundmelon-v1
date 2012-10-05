@@ -1,8 +1,22 @@
-- data = []
+- data        = []
 - @users.each do |user|
-  - data << {"label" => "#{user.get_full_name}", "value" => "#{user.get_full_name}" }
-- @artist_names.each do |artist_name|
-  - data << {"label" => "#{artist_name}", "value" => "#{artist_name}" }
+  - url       = fan_profile_path(user.id)  
+  - name      = user.get_full_name
+  - location  = user.get_location
+  - location  = "(#{location})" unless location.blank?
+  - data << {"label" => "<a class='ajaxopen backable' href='#{url}'>#{get_avatar(user)}#{name}#{location}</a>", "value" => "#{name}", "category" =>"Fans"}
+- @artists.each do |artist|
+  - url       = show_artist_path(artist)
+  - name      = artist.name
+  - location  = artist.get_location
+  - location  = "(#{location})" unless location.blank?
+  - data << {"label" => "<a class='ajaxopen backable' href='#{url}'>#{get_avatar(artist)}#{name}#{location}</a>", "value" => "#{name}", "category" =>"Artists" }
+- @venues.each do |venue|
+  - url       = show_venue_path(venue)
+  - name      = venue.name
+  - location  = venue.get_location
+  - location  = "(#{location})" unless location.blank?
+  - data << {"label" => "<a class='ajaxopen backable' href='#{url}'>#{get_avatar(venue)}#{name}#{location}</a>", "value" => "#{name}", "category" =>"Venues" }
 - @artist_genres.each do |artist_genre|
-  - data << {"label" => "#{artist_genre}", "value" => "#{artist_genre}" }
+  - data << {"label" => "#{artist_genre}", "value" => "#{artist_genre}" }  
 = raw data.to_json

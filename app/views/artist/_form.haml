@@ -8,6 +8,7 @@
         - @artist.errors.full_messages.each do |msg|
           %li
             = msg
+  = hidden_field_tag :source, params[:source]
   = render "/artist/setup_#{@artist.current_step.first}", :f =>f
   .popup-buttons
     = f.submit "go back", :name => "back_button", :class => "splash-highlight-button" unless @artist.first_step?

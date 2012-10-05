@@ -80,15 +80,8 @@ class FanController < ApplicationController
 
   def add_additional_info
     if request.xhr?
-      #redirect_to root_url and return unless current_user.additional_info.nil?
-      if current_user.additional_info.nil?
-        @additional_info = current_user.build_additional_info(params[:additional_info])
-        @additional_info.save
-      else
-        @additional_info_update = true
-        @additional_info = current_user.additional_info
-        @additional_info.update_attributes(params[:additional_info])
-      end
+      @user       = current_user
+      @success    = @user.update_attributes(params[:user])
       respond_to do |format|
         format.js
       end
@@ -218,6 +211,7 @@ class FanController < ApplicationController
     @item_type  = params[:tab_id]
     @firstLogin = true
     case @item_type
+    when '1'      
     when '2'
       @artists               = Genre.get_artists_for_genres current_user.genres
     when '3'
@@ -229,17 +223,19 @@ class FanController < ApplicationController
   end
 
   def update_fan_items
-    @user         = current_user
-    @item_type    = params[:setup_item_type]
+    @user           = current_user
+    @item_type      = params[:setup_item_type]
     case @item_type
     when '0'  # location
-      @location   = @user.build_location(params[:location_attributes])
+      @location     = @user.build_location(params[:location_attributes])
       if @location.save
-        @status   = true
+        @status     = true
       else        
-        @status   = 'Next step' == params[:commit]
+        @status     = 'Next step' == params[:commit]
       end
-    when '1'  # favorites genres
+    when '1'
+      @status       = @user.update_attributes(params[:user])
+    when '2'  # favorites genres
       genre_names   = params[:fan_genres]
       genre_names   = genre_names.present? ? genre_names.split(',') : []
       genres        = Genre.where('name in (?)', genre_names)
@@ -248,7 +244,7 @@ class FanController < ApplicationController
       
       #setup for another tab
       @artists      = Genre.get_artists_for_genres current_user.genres
-    when '2'  # favorite artists
+    when '3'  # favorite artists
 #      artist_ids    = params[:user_artists].present? ? params[:user_artists] : []
 #      artists       = Artist.where('id in (?)', artist_ids)
 #      @user.add_favorite_artists artists
@@ -257,12 +253,14 @@ class FanController < ApplicationController
 #      setup for another tab
 #      @venues      = Venue.find_venues_from_location @user.location
       #setup for another tab
-      @suggested_artists     = Artist.suggested_items({:id =>@user.favorite_items.for_artists.map(&:favoreditem_id)})
-      @suggested_venues      = Venue.suggested_items({:id =>@user.favorite_items.for_venues.map(&:favoreditem_id)})
-      if @suggested_artists.empty? && @suggested_venues.empty?
-        @item_type = '3'
-      end
-    when '3'  # favorite venues
+#      @suggested_artists     = Artist.suggested_items({:id =>@user.favorite_items.for_artists.map(&:favoreditem_id)})
+#      @suggested_venues      = Venue.suggested_items({:id =>@user.favorite_items.for_venues.map(&:favoreditem_id)})
+#      if @suggested_artists.empty? && @suggested_venues.empty?
+#        @item_type           = '4'
+#      end
+      @status                 = true
+      @item_type              = '4'
+    when '4'  # favorite venues
 #      venue_ids    = params[:user_venues].present? ? params[:user_venues] : []
 #      venues       = Venue.where('id in (?)', venue_ids)
 #      @user.add_favorite_venues venues

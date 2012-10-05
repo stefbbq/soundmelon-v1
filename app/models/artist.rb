@@ -4,6 +4,9 @@ class Artist < ActiveRecord::Base
   acts_as_messageable
   acts_as_followable
   
+  geocoded_by :address
+  after_validation :geocode, :if => :address_changed?
+
   has_many :artist_users, :dependent => :destroy
   has_many :artist_members, :through => :artist_users, :source => :user
   has_many :artist_admin_users, :through => :artist_users, :source => :user, :conditions =>'access_level = 1'
@@ -22,7 +25,7 @@ class Artist < ActiveRecord::Base
   has_and_belongs_to_many :genres
   has_one :artist_logo, :dependent =>:destroy
   has_many :artist_influencers
-  attr_reader :genre_tokens,:artist_influencer_tokens, :influencer_list
+  attr_reader :genre_tokens, :artist_influencer_tokens, :influencer_list
   attr_writer :current_step
 
   has_one  :location, :as =>:item, :dependent =>:destroy
@@ -32,19 +35,27 @@ class Artist < ActiveRecord::Base
 
   accepts_nested_attributes_for :artist_invitations , :reject_if => proc { |attributes| attributes['email'].blank? }
   accepts_nested_attributes_for :genres
-  attr_accessible :name, :mention_name, :facebook_page, :genre_tokens, :artist_influencer_tokens, :bio, :website, :twitter_page, :location_attributes, :est_date, :influencer_list
+  attr_accessible :name, :mention_name, :facebook_page, :genre_tokens, :artist_influencer_tokens, :bio, :website, :twitter_page, :location_attributes, :est_date, :influencer_list, :is_member_public
   accepts_nested_attributes_for :location
-  
+
+  attr_accessor :street_address, :city, :state, :country
+
   validates :name, :presence => true
   validates :name, :uniqueness => true
   validates :mention_name, :presence => true
   validates :mention_name, :uniqueness => true
 
   before_validation :sanitize_mention_name
+  before_save :set_address
 
   searchable :auto_index => true, :auto_remove =>true do
     text :genres_name
     text :name
+  end 
+
+  # for the first time, sets the address from different attributes
+  def set_address
+    self.address = [self.street_address, self.city, self.state, self.country].compact.join(',') unless self.address
   end
 
   def genres_name
@@ -206,6 +217,14 @@ class Artist < ActiveRecord::Base
 
   def get_full_name
     self.name
+  end
+
+  def has_address?
+    !get_full_address.blank?
+  end
+
+  def get_full_address
+    self.address
   end
 
   def to_param

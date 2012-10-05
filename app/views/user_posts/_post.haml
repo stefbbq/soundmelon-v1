@@ -4,7 +4,7 @@
 - is_newsfeed     = post.is_newsfeed
 - buzz_content    = ""
 - user            = nil
-
+- is_thread_post ||= nil
 - @useritem       = @useritem || @venue
 
 - is_author_useritem_profile= (@useritem && useritem) && @useritem == useritem
@@ -27,11 +27,11 @@
     - buzz_content = capture do
       - if actor
         - if post.album_post?
-          = link_to photo_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'action-buzz ajaxopen'} do
+          = link_to photo_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'action-buzz ajaxload'} do
             %i
             %span buzz
         - elsif post.artist_show_post?
-          = link_to artist_show_buzz_path(post_item.artist, post_item.id), {:remote => true, :class => 'action-buzz ajaxopen'} do
+          = link_to artist_show_buzz_path(post_item.artist, post_item.id), {:remote => true, :class => 'action-buzz ajaxload'} do
             %i
             %span buzz
         - elsif post.song_post?
@@ -39,23 +39,29 @@
             %i
             %span buzz
         - elsif post.artist_music_post?
-          = link_to album_buzz_path(post_item.album_name, post_item.id), {:remote => true, :class => 'action-buzz ajaxopen'} do
+          = link_to album_buzz_path(post_item.album_name, post_item.id), {:remote => true, :class => 'action-buzz ajaxload'} do
             %i
             %span buzz
-  
+- else
+  - if post_item && post.album_post? && actor
+    - buzz_content = capture do
+      = link_to photo_album_buzz_path(post_item.id, :album_name => post_item.name), {:remote => true, :class => 'action-buzz ajaxload'} do
+        %i
+        %span buzz
+
 - writer_header = capture do
   - if useritem
     - link_detail = actor_detail(useritem)
-    = is_author_useritem_profile ? useritem.name : (link_to link_detail[:name], link_detail[:link], :class => 'ajaxopen backable', :remote => :true, :title => link_detail[:name])
+    = is_author_useritem_profile ? useritem.name : (link_to link_detail[:name], link_detail[:link], :class => 'ajaxopen backable', :title => link_detail[:name])
   -elsif user
-    = is_author_fan_profile ? user.get_full_name : (link_to user.get_full_name, fan_profile_path(post.user), :class => 'ajaxopen backable', :remote => :true, :title => user.get_full_name)
+    = is_author_fan_profile ? user.get_full_name : (link_to user.get_full_name, fan_profile_path(post.user), :class => 'ajaxopen backable', :title => user.get_full_name)
 
 - content_header = capture do
   - if post.is_newsfeed?
     - if actor
       #{newsfeed_message(post, post_item).first}
     - else
-      #{newsfeed_message(post, post_item, 'force-login').first}  
+      #{newsfeed_message(post, post_item, 'force-login').first}
   - elsif post_item
     - if actor
       #{post_message(post, post_item).first}
@@ -64,23 +70,24 @@
   - elsif post.is_bulletin
     has pinned this to their profile
   - else
-    wrote this  
+    wrote this
   #{timeago(post.created_at)}
 - action_section = ''
-- unless is_newsfeed
-  - action_section = capture do
-    - if actor
-      - unless buzz_content.blank?
-        #{buzz_content}
-      - if self_actor
-        = link_to user_post_path(post), :method=> :delete, :class => 'action-delete', :remote => true do
+- action_section = capture do
+  - if actor
+    - unless buzz_content.blank?
+      #{buzz_content}
+  - unless is_newsfeed
+    - if self_actor
+      - delete_url = is_thread_post ? user_post_path(post, :source =>1) : user_post_path(post)
+      = link_to delete_url, :method=> :delete, :class => 'action-delete', :remote => true do
+        %i
+        %span delete
+    - else
+      - if can_have_reply
+        = link_to "javascript:void(0);", :class=>'action-reply', :onclick =>"$('##{reply_form_div}').toggle();" do
           %i
-          %span delete
-      - else
-        - if can_have_reply
-          = link_to "javascript:void(0);", :class=>'action-reply', :onclick =>"$('##{reply_form_div}').toggle();" do
-            %i
-            %span reply
+          %span reply
 
 .post.entry{:class => "#{postclass}", :id => post_div_id}
   %div{:class=>"#{divclass}"}
@@ -92,13 +99,13 @@
         - if is_author_fan_profile
           = get_fan_avatar(user)
         - else
-          = link_to get_fan_avatar(user), (self_owner ? fan_home_url : fan_profile_path(user) ), :class =>'ajaxopen backable', :remote => :true
+          = link_to get_fan_avatar(user), (self_owner ? fan_home_url : fan_profile_path(user) ), :class =>'ajaxopen backable'
       - elsif useritem
         - if is_author_useritem_profile
           = get_avatar(useritem)
         - else
           - link_detail = actor_detail(useritem)
-          = link_to get_avatar(useritem), link_detail[:link], :class =>'ajaxopen backable', :remote => :true
+          = link_to get_avatar(useritem), link_detail[:link], :class =>'ajaxopen backable'
     .content
       .header
         .title
@@ -107,7 +114,7 @@
           %span
             #{content_header}
           - if post.ancestry && !hide_thread_link && actor
-            = link_to get_show_conversation_thread_path(post), :remote => true, :class => 'ajaxload thread-expand toggle-thread', :id =>"expand_link_#{post.id}" do
+            = link_to get_show_conversation_thread_path(post), :remote => true, :class => 'ajaxopen thread-expand toggle-thread', :id =>"expand_link_#{post.id}" do
               %i
               see conversation
         .actions

@@ -1,30 +1,26 @@
 - tabs      = [:latest_post, :mention, :reply, :message]
 - current   = current.blank? ? 0 : (tabs.index(current.to_sym) || 0)
 .social-header
-  = link_to "latest", fan_home_path, 
-    :remote   => true,
+  = link_to "latest", fan_home_path,     
     :class    => "backable iconactive highlight ajaxload active button-fill-fan",
     :id       => 'latest',
     :class    => 0 == current ? "backable iconactive highlight ajaxopen active button-fill-fan start" : "backable iconactive highlight ajaxopen start"
   = link_to mentioned_path,
-      {:remote => true, 
-       :class=> 1 == current ? "backable iconactive ajaxopen highlight active button-fill-fan middle" : "backable iconactive ajaxopen middle",
+      {:class=> 1 == current ? "backable iconactive ajaxopen highlight active button-fill-fan middle" : "backable iconactive ajaxopen middle",
        :id => 'mentions' } do
     - if @unread_mentioned_count > 0
       = pluralize(@unread_mentioned_count,'new mention')
     - else
       mentions
   = link_to replies_path,
-      {:remote => true, 
-       :class=> 2 == current ? "backable iconactive ajaxopen highlight active button-fill-fan end" : "backable iconactive ajaxopen end",
+      {:class=> 2 == current ? "backable iconactive ajaxopen highlight active button-fill-fan end" : "backable iconactive ajaxopen end",
        :id => 'replies' } do
     - if @unread_post_replies_count > 0
       = pluralize(@unread_post_replies_count, 'new reply')
     - else
       replies
   = link_to user_inbox_path,
-      {:remote => true, 
-       :class=> 3 == current ? "backable inbox iconactive ajaxopen highlight active button-fill-fan" : "backable inbox iconactive ajaxopen",
+      {:class=> 3 == current ? "backable inbox iconactive ajaxopen highlight active button-fill-fan" : "backable inbox iconactive ajaxopen",
        :id => 'messages' } do
     - if @unread_messages_count > 0
       = pluralize(@unread_messages_count, 'new message')

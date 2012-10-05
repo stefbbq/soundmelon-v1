@@ -9,12 +9,12 @@ module Paperclip
       crop_command
     end
 
-    # logic : resize the image to 414x size and
+    # logic : resize the image to 160x size and
     # chop of the top and bottom part for profile image
     # chop of the top/bottom and left/right part for avatar
     def crop_command
-      pi_height       = 246
-      pi_width        = 414
+      pi_height       = 160
+      pi_width        = 160
       command_array   = []
       # target geometry
       t_height        = target_geometry.height.to_i

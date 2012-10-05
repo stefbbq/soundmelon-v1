@@ -8,7 +8,7 @@
 %div
   - if artist.is_member_public? || is_admin
     - if artist_count > 0
-      = link_to header_link, {:remote=>:true, :id=> "members", :class => link_class} do
+      = link_to header_link, {:id=> "members", :class => link_class} do
         members
     - else
       .selection-box-nohref

@@ -4,7 +4,7 @@ class Venue < ActiveRecord::Base
   acts_as_messageable
   acts_as_followable
   geocoded_by :mapped_address
-  after_validation :geocode#, :if => :mapped_address_changed?
+  after_validation :geocode, :if => :mapped_address_changed?
   
   has_many :venue_users
   has_many :venue_members, :through => :venue_users, :source => :user
@@ -36,17 +36,15 @@ class Venue < ActiveRecord::Base
   before_save :set_mapped_address
 
   def set_mapped_address
-    address_values      = [self.address, self.city, self.state, self.country].uniq!
-#    self.mapped_address = "#{address_values.join(',')}"
+    self.mapped_address = [self.address, self.city, self.state, self.country].compact.join(',')     
   end
   
-  def genre_tokens=(ids)
-#    self.genre_ids = ids.split(",")
-    self.genres = Genre.where(" name in (?)", ids.split(','))
+  def genre_tokens=(tokens)
+    self.genres = Genre.where(" name in (?)", tokens.split(','))
   end
 
   def location
-    [self.address,self.city, self.state, self.country].compact.join(',')
+    self.mapped_address
   end
 
   def upcoming_shows_count

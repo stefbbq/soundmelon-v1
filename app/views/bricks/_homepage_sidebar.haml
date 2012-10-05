@@ -20,9 +20,9 @@
     - else
       - status                    = false
     - if status
-      = link_to get_large_avatar(item), link, :remote =>:true, :class =>'ajaxopen backable'
+      = link_to get_large_avatar(item), link, :class =>'ajaxopen backable'
       %br/
-      %strong= link_to name, link, :remote =>:true, :class =>'ajaxopen backable'
+      %strong= link_to name, link, :class =>'ajaxopen backable'
       %br/
       - if location
         from #{location}      

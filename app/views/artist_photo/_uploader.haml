@@ -47,13 +47,11 @@
       onSelect : function(event,data) {
         $("#photo_image").uploadifySettings('scriptData', { 'album_name' : $('#album_name').val(), 'artist_name' : $('#artist_name').val(), 'venue_name' : $('#venue_name').val()});        
         changeUploadCount(1);
-        setAcceptButton();
-        console.log(uploadQueueSize);
+        setAcceptButton();        
       },
       onCancel : function(event, data){
         changeUploadCount(-1);
-        setAcceptButton();
-        console.log(uploadQueueSize);
+        setAcceptButton();        
       },
       scriptData : {
         '_http_accept': 'application/javascript',

@@ -3,14 +3,15 @@
   .album-list
     - if @has_link_access
       .content-actions
-        = link_to "add album", new_artist_music_path('home'), :remote=>:true, :class=>"ajaxopen add-new", :title =>'add new album'
+        = link_to "add album", new_artist_music_path('home'), :remote=>:true, :class=>"ajaxload add-new", :title =>'add new album'
       - if @artist_music_list.empty?
         %img{:src => "/assets/tutorial/artist-instruct-music.png", :class => "instruct-img"}
       - else
         = render 'featured_songs', :featured_songs =>@artist.featured_songs
     - @artist_music_list.each do |music|
       = render 'artist_music', :artist_music =>music, :show_all =>@show_all || false
-$('.primary .left').html('#{escape_javascript song_albums}'); 
-$('.primary .right').html('#{escape_javascript(render "/artist_public/right", :current =>'music')}');
-closeFacebox(100);
+updateLiveSection('#{escape_javascript(render '/artist/live')}');
+updateLeftSection('#{escape_javascript song_albums}');
+updateRightSection('#{escape_javascript(render "/artist_public/right", :current =>'music')}');
+closeFacebox(1);
 scrollToTop();

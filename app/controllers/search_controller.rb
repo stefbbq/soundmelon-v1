@@ -25,9 +25,10 @@ class SearchController < ApplicationController
     end
   end
   
-  def autocomplete_suggestions
-    @users            = User.where("activation_state = 'active' and (fname like :search_word or lname like :search_word)", :search_word => "#{params[:term]}%").select('Distinct fname, lname').limit(10)
-    @artist_names     = Artist.where("name like :search_word", :search_word => "#{params[:term]}%").select('Distinct name').limit(10).map{|artist| artist.name}
+  def autocomplete_suggestions    
+    @users            = User.where("activation_state = 'active' and (fname like :search_word or lname like :search_word)", :search_word => "#{params[:term]}%").limit(10)
+    @artists          = Artist.where("name like :search_word", :search_word => "#{params[:term]}%").limit(10)
+    @venues           = Venue.where("name like :search_word", :search_word => "#{params[:term]}%").limit(10)
     @artist_genres    = Artist.where("genre like :search_word", :search_word => "#{params[:term]}%").select('Distinct genre').limit(10).map{|artist| artist.genre}
     respond_to do |format|
       format.js

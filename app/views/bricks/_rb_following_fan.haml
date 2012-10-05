@@ -7,7 +7,7 @@
 
 %div
   - if following_fan_count > 0
-    = link_to header_link, {:id=>'following-fan', :class=>link_class, :remote => true} do
+    = link_to header_link, {:id=>'following-fan', :class=>link_class} do
       following
       %span.count{:id=>'followingfancount'}
         = pluralize(following_fan_count,'fan')

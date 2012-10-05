@@ -10,22 +10,34 @@
 	width: $page-width - 8px;
 	margin: 0 auto;
 	display: block;
-	min-height: 262px;
-	position: relative;
-	
+	min-height: 320px;
+	position: relative;	
 	.profile-image { 
 		position: absolute;
-		left: -11px;
-		top: 8px;
-    width: 414px;
-		height: 246px;
+		left: 20px;
+		top: 110px;
+    width: 160px;
+		height: 160px;
 		background: #222;
     overflow: hidden;
     text-align: center;
     
     img {
-      width: 414px;
-      height: 246px;
+      width: 160px;
+      height: 160px;
+    }
+  }
+  .banner-image {
+		position: absolute;
+    left: -7px;
+    width: 963px;		
+		background: grey;
+    overflow: hidden;
+    text-align: center;
+
+    img {
+      width: 963px;
+      height: 320px;
     }
   }
 	
@@ -36,7 +48,7 @@
 		
 		.bottom {
 			position: relative;
-			margin-top: 8px; 
+			margin-top: 220px;
 			display: block;
 			width: 549px;
 			height: 87px;
@@ -204,6 +216,7 @@
 			display: inline-block;
 			color: white;
 			font-family: FuturaBook;
+      font-size:14px;
 		}
 	}
 	

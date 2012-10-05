@@ -1,10 +1,10 @@
 .header
-  %h1 Step 2
+  %h1 Step 3
   %h3 Choose your favourite genres
 .content-custom
   #location_info.content-box
     = form_for(:user, {:url => profile_item_setup_path, :remote => true}) do |ff|
-      = hidden_field_tag :setup_item_type, '1'
+      = hidden_field_tag :setup_item_type, '2'
       .content-box
         .area.form
           .details

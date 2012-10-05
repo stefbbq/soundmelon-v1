@@ -7,20 +7,20 @@
       = form_for(:user, {:url => profile_item_setup_path, :remote => true}) do |ff|
         = hidden_field_tag :setup_item_type, '5'
         %h2
-          = link_to fetch_contacts_form_path('yahoo'), :class =>"ajaxopen", :remote =>:true do
+          = link_to fetch_contacts_form_path('yahoo'), :class =>"ajaxload", :remote =>:true do
             try your
             %b{:class => "yahoo"} Yahoo! 
             contacts
         %h2
-          = link_to fetch_contacts_form_path('msn'), :class =>"ajaxopen", :remote =>:true do
+          = link_to fetch_contacts_form_path('msn'), :class =>"ajaxload", :remote =>:true do
             how about your
             %b{:class => "hotmail"} Hotmail
             contacts
         %h2
-          = link_to fetch_contacts_form_path('gmail'), :class =>"ajaxopen", :remote =>:true do
+          = link_to fetch_contacts_form_path('gmail'), :class =>"ajaxload", :remote =>:true do
             maybe your
             %b{:class => "gmail"} gMail
             contacts
     .user-contact-list{:style => "display: none;"}
     .submit
-      = link_to "mush on", user_home_path, :class => 'user-info backable ajaxopen splash-highlight-button', :remote => true
+      = link_to "mush on", user_home_path, :class => 'user-info backable ajaxopen splash-highlight-button'

@@ -40,10 +40,10 @@
               = link_to "javascript:void(0);", :class=>'action-reply', :remote => true, :onclick => "$('#reply_form_div_#{conv_id}').toggle();" do
                 %i
                 %span reply
-            = link_to message_path(message), :method => :delete, :class => 'action-delete ajaxload', :remote => true do
+            = link_to message_path(message), :method => :delete, :class => 'action-delete ajaxopen', :remote => true do
               %i
               %span delete
-            = link_to message_path(message), :class=>'action-view ajaxload', :remote => true do
+            = link_to message_path(message), :class=>'action-view ajaxopen', :remote => true do
               %i
               %span read
         .body{:id =>"msg_content_#{message.id}"}          

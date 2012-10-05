@@ -8,6 +8,7 @@
         - @venue.errors.full_messages.each do |msg|
           %li
             = msg
+  = hidden_field_tag :source, params[:source]
   = render "/venue/form_#{@venue.current_step.first}", :f => f
   = f.submit "Back", :name => "back_button" unless @venue.first_step?
   = f.submit "Continue"  

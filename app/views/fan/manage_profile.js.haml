@@ -13,7 +13,7 @@ setUpPage();
 updateLeftSection('#{escape_javascript(manage_profile_forms)}');
 updateRightSection('#{escape_javascript(render '/fan/right', :current =>'manage_profile')}');
 scrollToTop();
-closeFacebox(10);
+closeFacebox(1);
 :plain
 if(#{!@user.is_external?}){
   $('.lock-toggle').bind('click',function(event){

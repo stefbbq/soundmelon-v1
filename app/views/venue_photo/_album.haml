@@ -14,7 +14,7 @@
         added
         = album.created_at.strftime("%b %d, %Y")
     .artist-content-actions
-      = link_to photo_album_buzz_path(album.name, album.id), {:remote => true, :class => 'ajaxopen'} do
+      = link_to photo_album_buzz_path(album.name, album.id), {:remote => true, :class => 'ajaxload'} do
         .buzz-icon
         buzz
   .bottom

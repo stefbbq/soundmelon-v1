@@ -5,7 +5,7 @@
       .album-list
         - if @has_link_access
           .content-actions
-            = link_to "add album", new_artist_music_path('home'), :remote=>:true, :class=>"ajaxopen add-new", :title =>'add new album'
+            = link_to "add album", new_artist_music_path('home'), :remote=>:true, :class=>"ajaxload add-new", :title =>'add new album'
           - if @artist_music_list.empty?
             %img{:src => "/assets/tutorial/artist-instruct-music.png", :class => "instruct-img"}
           - else

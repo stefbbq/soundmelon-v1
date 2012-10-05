@@ -2,7 +2,7 @@
   #photo_album_box
     - if @has_link_access
       .content-actions
-        = link_to "add album", new_artist_album_path('home'), :remote=>:true, :class=>"ajaxopen add-new"
+        = link_to "add album", new_artist_album_path('home'), :remote=>:true, :class=>"ajaxload add-new"
       - if @artist_album_list.empty?
         %img{:src => "/assets/tutorial/artist-instruct-photos.png", :class => "instruct-img"}
     - @artist_album_list.each do |artist_album|

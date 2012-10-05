@@ -1,9 +1,10 @@
-- if @is_homepage
-- else
-  - is_own_wall     = @actor == @venue
-  - is_actor_fan    = @actor ? @actor.is_fan? : false
-  - venue_admin_ids = VenueUser.for_venue_id(@venue.id).map { |u| u.user_id}
-  - is_venue_admin  = @actor ? (venue_admin_ids.include? current_user.id) : false
+- is_own_wall     = @actor == @venue
+- is_actor_fan    = @actor ? @actor.is_fan? : false
+- venue_admin_ids = VenueUser.for_venue_id(@venue.id).map { |u| u.user_id}
+- is_venue_admin  = @actor ? (venue_admin_ids.include? current_user.id) : false
+- show_live_wall  = is_own_wall ? !@is_homepage : true # for other user and when not homepage
+
+- if show_live_wall
   .live
     .profile-image{:title =>"#{@venue.name}"}
       = get_profile_image(@venue, !@is_public)

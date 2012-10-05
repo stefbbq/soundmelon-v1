@@ -1,23 +1,18 @@
 - if @item_type == '0'
   - if @status
-    $('.live').html('#{escape_javascript(render '/fan/setup_genres')}');
+    $('.live').html('#{escape_javascript(render '/fan/setup_dob')}');
   - else
-    alert('Your city can't be blank!');
-- elsif  @item_type == '1'
-  //- if @status
-  //  $('.left').html('#{escape_javascript(render '/fan/setup_favorite_artists')}');
+    alert("Your city can't be blank!");
+- elsif @item_type == '1'
+  - if @status
+    $('.live').html('#{escape_javascript(render '/fan/setup_genres')}');
+- elsif  @item_type == '2'  
   - if @status
     $('.live').html('#{escape_javascript(render '/fan/setup_profiles')}');
-- elsif  @item_type == '2'
-  //- if @status
-  //  $('.left').html('#{escape_javascript(render '/fan/setup_favorite_venues')}');
+- elsif  @item_type == '3'  
   - if @status
     $('.live').html('#{escape_javascript(render '/fan/setup_item_suggestions')}');
-- elsif  @item_type == '3'
-  //- if @status
-  //  $('.left').html('#{escape_javascript(render '/fan/setup_item_suggestions')}');
+- elsif  @item_type == '4'  
   $('.live').html('#{escape_javascript(render '/fan/setup_social')}');
-- elsif  @item_type == '4'
+- elsif  @item_type == '5'
   $('.live').html('#{escape_javascript(render '/fan/setup_social')}');
-$('.right a.active').removeClass('active button-fill-fan');
-$(".right a#tab_link_#{@item_type.to_i+2}").addClass('active button-fill-fan');

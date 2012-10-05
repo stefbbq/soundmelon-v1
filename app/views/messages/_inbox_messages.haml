@@ -4,6 +4,6 @@
     = render "messages/message_conversation", :messages => messages, :artist => artist
   - unless @load_more_path.nil?
     .read-more
-      = link_to "read more", @load_more_path, :remote => true, :class=>"ajaxload"
+      = link_to "read more", @load_more_path, :remote => true, :class=>"ajaxopen"
 - else
   you currently have no messages

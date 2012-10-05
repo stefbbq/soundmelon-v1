@@ -6,7 +6,7 @@
   - header_link = venue_shows_path(user_item)
 %div
   - if @has_link_access || show_count > 0
-    = link_to header_link, {:remote=>:true, :id=>'shows', :class=>link_class} do
+    = link_to header_link, {:id=>'shows', :class=>link_class} do
       shows    
   - else
     .selection-box-nohref
@@ -21,6 +21,6 @@
             on
             = show.show_date.strftime('%b %d')
             by
-            = link_to artist.name, artist_link, :remote=>:true, :class=>"ajaxopen backable"
+            = link_to artist.name, artist_link, :class=>"ajaxopen backable"
     - else
       .message= NO_SHOW_DATE_MESSAGE

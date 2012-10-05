@@ -25,7 +25,7 @@ class UserPostsController < ApplicationController
         @load_more_path   =  next_page ?  more_post_path(:page => next_page) : nil
       end
     end
-    @has_link_access      = true
+#    @has_link_access      = true
   end
   
   def create
@@ -33,7 +33,7 @@ class UserPostsController < ApplicationController
     @new_post = actor.posts.build(params[:post])
     if @new_post.save
       respond_to do |format|
-        format.html { redirect_to fan_home_path, notice: 'Successfully Posted.' }
+        format.html { redirect_to user_home_path, notice: 'Successfully Posted.' }
         format.js {render :layout => false }
       end
     end
@@ -44,15 +44,15 @@ class UserPostsController < ApplicationController
       @post               = Post.where(:id => params[:id]).includes(:user, :artist).first
       @parent_post_id     = @post.ancestry      
       actor_has_access    = @post.useritem_id == @actor.id && @post.useritem_type == @actor.class.name
-      if actor_has_access
-        @post.destroy
+      if actor_has_access        
+        @post.delete_me
       end
     rescue =>exp
       logger.error "Error in UserPosts::Destroy :=>#{exp.message}"
       @post = nil
     end
     respond_to do |format|
-      format.html { redirect_to fan_home_path }
+      format.html { redirect_to user_home_path }
       format.js {render :layout => false }
     end
   end

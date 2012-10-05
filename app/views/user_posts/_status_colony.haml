@@ -1,5 +1,5 @@
 .status-input
-  = form_tag(user_posts_path, :class=>"ajaxload",:remote => true, :id => 'user_post_form') do
+  = form_tag(user_posts_path, :class=>"ajaxopen",:remote => true, :id => 'user_post_form') do
     - if @artist
       = hidden_field_tag :artist_id, @artist.id
     - if @colony
@@ -10,7 +10,7 @@
       200
       %span characters remaining
     .submit
-      = submit_tag('post', :id => "post-btn", :class => "post-btn")
+      = submit_tag('post', :id => "post-btn", :class => "post-btn", :disable_with =>"posting")
       - if @is_admin
         .pin
           .text pin to top

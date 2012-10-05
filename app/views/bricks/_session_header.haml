@@ -10,23 +10,24 @@
 - current_fan_user    = current_user
 - other_admin_artists = current_fan_user.admin_artists_list(actor)
 - other_admin_venues  = current_fan_user.admin_venues_list(actor)
-
+= link_to "A", artist_setup_path(Artist.last.id), :class =>'ajaxopenwindow'
+= link_to "V", venue_setup_path(Venue.last.id), :class =>'ajaxopenwindow'
 - if is_fan_login
   welcome to the beta
-  = link_to "#{current_user.fname}".truncate(12), fan_home_path, :class => 'user-info backable ajaxopen', :remote =>true, :title =>"#{current_user.get_full_name}"  
+  = link_to "#{current_user.fname}".truncate(12), fan_home_path, :class => 'user-info backable ajaxopen', :title =>"#{current_user.get_full_name}"
 - else    
-  = link_to "#{current_fan_user.fname}".truncate(10), fan_profile_path(current_fan_user), :class => 'user-info backable', :remote =>true, :title =>"#{current_fan_user.get_full_name}"
+  = link_to "#{current_fan_user.fname}".truncate(10), fan_profile_path(current_fan_user), :class => 'user-info backable', :title =>"#{current_fan_user.get_full_name}"
   administrating
-  = link_to actor.name.truncate(14), user_home_path, :class => 'user-info backable ajaxopen', :remote =>true, :title =>"#{actor.name}"
+  = link_to actor.name.truncate(14), user_home_path, :class => 'user-info backable ajaxopen', :title =>"#{actor.name}"
 = get_fan_avatar(current_fan_user)
-= link_to "switch", 'javascript:void(0);', :id =>'switch', :remote => true, :class => "button"
+= link_to "switch", 'javascript:void(0);', :id =>'switch', :class => "button"
 .switch-popout{:style=>'display:none'}
   .pointer
   %ul
     %li
-      = link_to "Manage My Profile", manage_profile_path, :id =>'manage-profile', :remote => true, :class =>'backable'
+      = link_to "Manage My Profile", manage_profile_path, :id =>'manage-profile', :class =>'backable ajaxopen'
     %li
-      = link_to "View Public Profile", actor_details[:link], :id =>'view-public-profile backable', :remote => true, :class =>'backable'
+      = link_to "View Public Profile", actor_details[:link], :id =>'view-public-profile backable', :class =>'backable'
     - unless is_fan_login
       = link_to change_login_path, {:class =>'button1 ajaxopen', :remote =>true} do
         %li
@@ -42,11 +43,8 @@
           %li
             access #{venue.name}(Venue)
     %li
-      Create
-      = link_to "Colony", new_colony_path, :class => 'ajaxopenwindow'
-      = link_to "Artist", new_artist_path, :class => 'ajaxopenwindow'
-      or
-      = link_to "Venue", new_venue_path, :class => 'ajaxopenwindow'
+      = link_to associated_profiles_path, {:class =>'ajaxopen backable'} do
+        Create Colony, Artist, Venue      
     %li
       - if @actor.is_fan?
         = link_to 'remove your profile',

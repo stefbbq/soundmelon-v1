@@ -3,15 +3,13 @@
 .items
   - if @is_public
     = link_to 'latest posts', show_artist_path(@artist),
-            :id                 =>'latest-posts',
-            :remote             => 'true',
+            :id                 =>'latest-posts',            
             :class              => 0 == current ? 'ajaxopen backable iconactive selection-box active button-fill-artist' : 'ajaxopen backable iconactive selection-box'
   - else
     = link_to 'news feed & messages',
             mentioned_path,
-            :id                 => 'feed-msg',
-            :remote             => true,
-            :class              => 0 == current ? "iconactive selection-box active button-fill-artist" : "iconactive selection-box"
+            :id                 => 'feed-msg',            
+            :class              => 0 == current ? "iconactive selection-box active button-fill-artist backable" : "iconactive selection-box backable"
   = render '/bricks/rb_music_featured',
             :songs              => @featured_songs,
             :artist_music_count => @artist_music_count,            

@@ -1,4 +1,6 @@
 class ArtistShow < ActiveRecord::Base
+  include UserContent
+  
   acts_as_votable
 
   belongs_to :artist

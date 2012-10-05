@@ -68,6 +68,7 @@ class Post < ActiveRecord::Base
       :useritem_id    => actor_id,
       :msg            => msg
     )
+    last_post
   end
 
   def has_post_item?
@@ -121,6 +122,15 @@ class Post < ActiveRecord::Base
   # who wrote this post
   def writer_actor    
     self.useritem
+  end
+
+  def deleted?
+    self.is_deleted
+  end
+
+  # soft deletion
+  def delete_me
+    self.update_attribute(:is_deleted, true)
   end
 
 #  protected

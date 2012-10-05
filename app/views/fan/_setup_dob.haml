@@ -1,0 +1,22 @@
+.header
+  %h1 Step 2
+  %h3 Enter your date of birth
+.content-custom
+  #dob_info.content-box
+    = form_for(:user, {:url => profile_item_setup_path, :remote => true}) do |ff|
+      = hidden_field_tag :setup_item_type, '1'
+      .content-box
+        .area.form
+          .details
+            enter your date of birth and gender
+          .content
+            .field
+              = ff.text_field :dob
+            .field
+              = ff.select :gender, [['male',1],['female', '0']]
+
+      .submit-form
+        = ff.submit 'next step', :class => 'splash-highlight-button'
+
+:javascript
+  $('.content #user_dob').datepicker({dateFormat:'yy-mm-dd', minDate: new Date(1995, 1 - 1, 1) });

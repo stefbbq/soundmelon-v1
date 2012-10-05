@@ -321,6 +321,7 @@ class UserConnectionsController < ApplicationController
         @user             = @actor
         @has_admin_access = @artist == @actor
         @has_link_access  = @has_admin_access
+        @is_homepage      = true
       else
         @user             = User.find(params[:id])
         @is_public        = true
@@ -342,6 +343,7 @@ class UserConnectionsController < ApplicationController
           @artist           = @actor
           @has_admin_access = true
           @has_link_access  = @has_admin_access
+          @is_homepage      = true
         else
           @artist           = Artist.where(:mention_name => params[:artist_name]).first
           @is_public        = true

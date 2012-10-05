@@ -6,9 +6,9 @@
   - header_link = artist_albums_path(artist)
 %div
   - if @has_link_access || photo_album_count > 0
-    = link_to header_link, {:remote => :true, :id => 'photos', :class => link_class} do
+    = link_to header_link, {:id => 'photos', :class => link_class} do
       photos
-    = link_to "", new_artist_album_path('home'), :remote => :true, :class => "ajaxopen right-icon-item icon-add" if @has_link_access
+    = link_to "", new_artist_album_path('home'), :remote => :true, :class => "ajaxload right-icon-item icon-add" if @has_link_access
   - else
     .selection-box-nohref
       photos
@@ -21,7 +21,7 @@
           - album_link = artist_album_path(artist, artist_photo_album.id)
         .album{:id => "album_#{artist_photo_album.id}"}
           .cover= link_to get_artist_photo_album_teaser_photo(artist_photo_album), album_link, :remote => :true, :class => "ajaxopen backable"
-          .title= link_to artist_photo_album.name, album_link, :remote => :true, :class => "ajaxopen backable"
+          .title= link_to artist_photo_album.name, album_link, :class => "ajaxopen backable"
     - else
       .message= NO_PHOTO_ALBUM_MESSAGE
 - if @has_link_access

@@ -279,7 +279,7 @@ class ArtistPhotoController < ApplicationController
     begin
       @is_admin_of_artist = current_user.is_member_of_artist?(@artist)
       @artist_album       = @artist.albums.where(:id => params[:album_id]).includes('photos').first
-      @artist_album.update_attribute(:disabled, !@artist_album.disabled)
+      @artist_album.disabled ? @artist_album.enable : @artist_album.disable
       @status             = true      
     rescue =>exp
       logger.error "Error in ArtistPhoto::DisableEnableArtistAlbum :#{exp.message}"

@@ -8,9 +8,9 @@
     = stylesheet_link_tag    "application"
     = csrf_meta_tags
     = yield(:head)
-    = render '/layouts/analytics'
+    = render '/layouts/analytics' if Rails.env.production?
   - if current_user #user logged in
-    %body
+    %body 
       #base-container
         #page-container
           #page-top-fade
@@ -46,7 +46,7 @@
           .social
             %a.facebook-icon{:href => "http://www.facebook.com/soundmelon", :target => "_blank", :title => "visit our Facebook page"}
             %a.twitter-icon{:href => "http://www.twitter.com/soundmelon", :target => "_blank", :title => "visit our Twitter"}
-  .globalloading.hide{:id => "globalloading"}
+  .globalloading.hide{:id => "globalloading", :style =>"width:850px;height:440px;"}
     .center
       %h1
         loading
@@ -54,15 +54,15 @@
         = image_tag("loading.gif")
 
 :javascript
+  
   if(#{flash[:alert].present?})    
     $.facebox("#{flash[:alert]}");
   if(#{!@firstLogin.blank?})    
-    $('#tutorial-link').trigger('click');
-  
-  var first_login = #{!@firstLogin.blank?};
+    fanTutorial();
 
   $('a').ajaxComplete(function() {
-    $("abbr.timeago").timeago();
+    //$("abbr.timeago").timeago();
+    setLoading(0);
   });
   $(document).ready(function() {
     $("abbr.timeago").timeago();
@@ -75,6 +75,11 @@
       }
     );
   });
+
+  function setLoading(loading){
+    loading ? $('img#loading_status').show() : $('img#loading_status').hide();
+  }
+  
   // code for back/forward navigation
   (function(window,undefined){
     // Prepare
@@ -84,11 +89,13 @@
     }
     // Bind to StateChange Event
     History.Adapter.bind(window,'statechange',function(){ 
-        var State = History.getState();
-        //History.log(State.data, State.title, State.url);
-        jQuery.facebox($('#globalloading').html());
-        $.getScript(State.url,function(data, textStatus, jqxhr) {
-          $(document).trigger("close.facebox");
+        var State = History.getState();        
+        $('img#loading_status').toggle();
+        $.getScript(State.url,function(data, textStatus, jqxhr){          
+          $('img#loading_status').toggle();
         });
+        if(#{Rails.env.production?})
+          try{_gaq.push(['_trackPageview', State.url]);}catch(err){}
+        //History.log(State.data, State.title, State.url);               
     });
   })(window);

@@ -1,15 +1,16 @@
-- if @is_homepage
-- else
-  - is_own_wall     = @actor == @artist
-  - is_actor_fan    = @actor ? @actor.is_fan? : false
-  - is_actor_artist = @actor ? @actor.is_artist? : false
-  - is_actor_venue  = @actor ? @actor.is_venue? : false
-  - artist_admin_ids= ArtistUser.for_artist_id(@artist.id).map { |u| u.user_id}
-  - is_artist_admin = @actor ? (artist_admin_ids.include? current_user.id) : false
-  - location        = @artist.location_name
+- is_own_wall     = @actor == @artist
+- is_actor_fan    = @actor ? @actor.is_fan? : false
+- is_actor_artist = @actor ? @actor.is_artist? : false
+- is_actor_venue  = @actor ? @actor.is_venue? : false
+- artist_admin_ids= ArtistUser.for_artist_id(@artist.id).map { |u| u.user_id}
+- is_artist_admin = @actor ? (artist_admin_ids.include? current_user.id) : false
+- location        = @artist.location_name
+- show_live_wall  = is_own_wall ? !@is_homepage : true # for other user and when not homepage
+
+- if show_live_wall
   .live
     = get_profile_banner(@artist, !@is_public)
-    .profile-image{:title =>"#{@artist.name}", :style =>"width:160px;height:160px;top:110px;left:20px"}
+    .profile-image{:title =>"#{@artist.name}"}
       = get_profile_image(@artist, !@is_public)
     .links
       .top
