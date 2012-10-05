@@ -10,8 +10,6 @@
 - current_fan_user    = current_user
 - other_admin_artists = current_fan_user.admin_artists_list(actor)
 - other_admin_venues  = current_fan_user.admin_venues_list(actor)
-= link_to "A", artist_setup_path(Artist.last.id), :class =>'ajaxopenwindow'
-= link_to "V", venue_setup_path(Venue.last.id), :class =>'ajaxopenwindow'
 - if is_fan_login
   welcome to the beta
   = link_to "#{current_user.fname}".truncate(12), fan_home_path, :class => 'user-info backable ajaxopen', :title =>"#{current_user.get_full_name}"
