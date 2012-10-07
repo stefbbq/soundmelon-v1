@@ -1,7 +1,7 @@
 - artist        ||=nil
 - @artist       = artist || @artist
 - in_newsfeed   ||=false
-- link_class    = @actor ? 'ajaxopen' : 'force-login'
+- link_class    = @actor ? 'ajaxload' : 'force-login'
 - unless in_newsfeed
   .photo[photo]
     = link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), artist_album_photo_path(@artist, artist_album.id, photo.id), :remote => true, :class => link_class, :title => photo.caption

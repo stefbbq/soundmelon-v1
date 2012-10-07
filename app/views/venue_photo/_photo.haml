@@ -1,7 +1,7 @@
 - venue        ||=nil
 - @venue       = venue || @venue
 - in_newsfeed   ||=false
-- link_class    = @actor ? 'ajaxopen' : 'force-login'
+- link_class    = @actor ? 'ajaxload' : 'force-login'
 - unless in_newsfeed
   .photo[photo]
     =link_to image_tag(photo.image.url(:medium), :width => '100px', :height =>'100px'), venue_album_photo_path(@venue, album.id, photo.id), :remote => true, :class => link_class, :title => photo.caption

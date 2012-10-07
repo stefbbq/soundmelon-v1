@@ -79,8 +79,7 @@ class ArtistPhotoController < ApplicationController
         @artist_photo         = @artist_album.photos.build(newparams[:artist_photo])
         @artist_photo.user_id = current_user.id
         if @artist_photo.save
-          @artist_album.save
-          flash[:notice]    = "Successfully created upload."          
+          @artist_album.save          
           respond_to do |format|
             format.html {redirect_to user_home_url and return}
             format.json {render :json =>

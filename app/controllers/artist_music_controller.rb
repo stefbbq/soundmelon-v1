@@ -82,8 +82,7 @@ class ArtistMusicController < ApplicationController
         else
           @song                 = @artist_music.songs.build(newparams[:song])
           @song.user_id         = current_user.id
-          if @song.save
-            flash[:notice] = "Song successfully uploaded."
+          if @song.save            
             respond_to do |format|
               format.html {redirect_to user_home_url and return}
               format.json {

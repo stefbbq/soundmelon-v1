@@ -79,8 +79,7 @@ class VenuePhotoController < ApplicationController
         @photo         = @album.photos.build(newparams[:photo])
         @photo.user_id = current_user.id
         if @photo.save
-          @album.save
-          flash[:notice]    = "Successfully created upload."
+          @album.save          
           respond_to do |format|
             format.html {redirect_to user_home_url and return}
             format.json {render :json =>

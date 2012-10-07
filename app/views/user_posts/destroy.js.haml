@@ -1,27 +1,31 @@
+- deleted_post_msg = capture do
+  .post.entry
+    .body
+      post has been deleted
 - if @post
-  - date  = @post.created_at.strftime("%Y%m%d")
-  != "$('#post_#{@post.id}').remove();"
-  - if @post.is_bulletin
-    != "if($('.pinned-posts div.post').length==0){$('date#pin-board').remove();}"
-  - else @post.is_bulletin
-    != "if($('.user_posts #date_#{date}').nextUntil('date').length==0){$('.user_posts #date_#{date}').remove();}"
-  :plain
-    var post_div1 = '#post_#{@post.id}';
-    var post_div2 = '#reply_post_#{@post.id}';
-    if($(post_div1).length > 0){
-      $(post_div1).remove();
-    }
-    else{
+  - if params[:source].present? && params[:source] == '1' # middle post in thread
+    :plain      
+      var post_div2 = '#reply_post_#{@post.id}';      
       if($(post_div2).length>0){
-        if($(post_div2).closest('.conversation-thread-container').children('.post').length==1){
-          $(post_div2).closest('.conversation-thread').remove();
-        }
-        else{
-          $(post_div2).remove();
-        }
+        $(post_div2).replaceWith('#{escape_javascript(deleted_post_msg)}');
+      }      
+  - else
+    - date  = @post.created_at.strftime("%Y%m%d")
+    != "$('#post_#{@post.id}').remove();"
+    - if @post.is_bulletin
+      != "if($('.pinned-posts div.post').length==0){$('date#pin-board').remove();}"
+    - else @post.is_bulletin
+      != "if($('.user_posts #date_#{date}').nextUntil('date').length==0){$('.user_posts #date_#{date}').remove();}"
+    
+    :plain
+      var post_div1       = '#post_#{@post.id}';      
+      var post_thread_div = '#post_thread_#{@post.id}';
+      if($(post_div1).length > 0){
+        $(post_div1).remove();
       }
-    }
+      if($(post_thread_div).length > 0){
+        $(post_thread_div).remove();
+      }
 - else
   faceboxContent('requested post has already been removed');
   closeFacebox(1000);
-
